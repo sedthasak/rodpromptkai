@@ -44,7 +44,7 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 });
 
 // Route::get('/login-page', [AuthController::class, 'loginView']);
-Route::get('/login-page', [\App\Http\Controllers\Backend\AuthController::class, 'loginView'])->name('login-page');
+Route::get('login-system', [\App\Http\Controllers\Backend\AuthController::class, 'loginView'])->name('loginsystem');
 // Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth')->group(function() {
