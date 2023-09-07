@@ -44,7 +44,7 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 });
 
 // Route::get('/login-page', [AuthController::class, 'loginView']);
-// Route::get('/login-page', [\App\Http\Controllers\Backend\AuthController::class, 'loginView']);
+Route::get('/login-page', [\App\Http\Controllers\Backend\AuthController::class, 'loginView']);
 // Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth')->group(function() {
@@ -81,7 +81,7 @@ Route::middleware('auth')->group(function() {
         Route::get('faq-layout-1-page', 'faqLayout1')->name('faq-layout-1');
         Route::get('faq-layout-2-page', 'faqLayout2')->name('faq-layout-2');
         Route::get('faq-layout-3-page', 'faqLayout3')->name('faq-layout-3');
-        Route::get('login-page', 'login')->name('login');
+        // Route::get('login-page', 'login')->name('login');
         Route::get('register-page', 'register')->name('register');
         Route::get('error-page-page', 'errorPage')->name('error-page');
         Route::get('update-profile-page', 'updateProfile')->name('update-profile');
