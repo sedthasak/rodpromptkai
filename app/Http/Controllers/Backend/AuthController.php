@@ -8,7 +8,7 @@ use App\Http\Requests\LoginRequest;
 class AuthController extends Controller
 {
     
-    public function loginView()
+    public function backendLogin()
     {
         return view('backend.login.main', [
             'layout' => 'login'
@@ -35,6 +35,6 @@ class AuthController extends Controller
     public function logout()
     {
         \Auth::logout();
-        return redirect('login');
+        return redirect(route('backendLogin'));
     }
 }

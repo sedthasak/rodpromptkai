@@ -1,18 +1,18 @@
-@extends('../layout/main')
+@extends('../backend/layout/main')
 
 @section('head')
     @yield('subhead')
 @endsection
 
 @section('content')
-    @include('../layout/components/mobile-menu')
+    @include('../backend/layout/components/mobile-menu')
     <div class="flex overflow-hidden">
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
             <a href="" class="intro-x flex items-center pl-5 pt-4 mt-3">
                 <img alt="Midone - HTML Admin Template" class="w-6" src="{{ asset('dist/images/logo.svg') }}">
                 <span class="hidden xl:block text-white text-lg ml-3">
-                    Tinker
+                    รถพร้อมขาย
                 </span>
             </a>
             <div class="side-nav__devider my-6"></div>
@@ -78,7 +78,7 @@
         <!-- END: Side Menu -->
         <!-- BEGIN: Content -->
         <div class="content">
-            @include('../layout/components/top-bar')
+            @include('../backend/layout/components/top-bar')
             @yield('subcontent')
         </div>
         <!-- END: Content -->

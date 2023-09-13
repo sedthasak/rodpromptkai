@@ -3,13 +3,13 @@
     <!-- BEGIN: Breadcrumb -->
     <nav aria-label="breadcrumb" class="-intro-x mr-auto hidden sm:flex">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Application</a></li>
+            <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
             <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
         </ol>
     </nav>
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Search -->
-    <div class="intro-x relative mr-3 sm:mr-6">
+    <!-- <div class="intro-x relative mr-3 sm:mr-6">
         <div class="search hidden sm:block">
             <input type="text" class="search__input form-control border-transparent" placeholder="Search...">
             <i data-lucide="search" class="search__icon dark:text-slate-500"></i>
@@ -64,7 +64,7 @@
                 @endforeach
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- END: Search -->
     <!-- BEGIN: Notifications -->
     <div class="intro-x dropdown mr-auto sm:mr-6">

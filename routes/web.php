@@ -44,15 +44,31 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 });
 
 // Route::get('/login-page', [AuthController::class, 'loginView']);
-Route::get('login-system', [\App\Http\Controllers\Backend\AuthController::class, 'loginView'])->name('loginsystem');
 // Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('login-system', [\App\Http\Controllers\Backend\AuthController::class, 'backendLogin'])->name('backendLogin');
+
+
+
+
+
 
 Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+    
+    
     Route::controller(PageController::class)->group(function() {
+
+        Route::get('/backend', 'backendDashboard')->name('backendDashboard');
+        // Route::get('/', 'backendDashboard')->name('backendDashboard');
+        Route::get('login-page', 'login')->name('login');
+
+
         Route::get('dashboard-overview-1-page', 'dashboardOverview1')->name('dashboard-overview-1');
         Route::get('dashboard-overview-2-page', 'dashboardOverview2')->name('dashboard-overview-2');
-        Route::get('/', 'dashboardOverview3')->name('dashboard-overview-3');
+        Route::get('dashboard-overview-3-page', 'dashboardOverview3')->name('dashboard-overview-3');
         Route::get('dashboard-overview-4-page', 'dashboardOverview4')->name('dashboard-overview-4');
         Route::get('inbox-page', 'inbox')->name('inbox');
         Route::get('file-manager-page', 'fileManager')->name('file-manager');
@@ -81,7 +97,6 @@ Route::middleware('auth')->group(function() {
         Route::get('faq-layout-1-page', 'faqLayout1')->name('faq-layout-1');
         Route::get('faq-layout-2-page', 'faqLayout2')->name('faq-layout-2');
         Route::get('faq-layout-3-page', 'faqLayout3')->name('faq-layout-3');
-        Route::get('login-page', 'login')->name('login');
         Route::get('register-page', 'register')->name('register');
         Route::get('error-page-page', 'errorPage')->name('error-page');
         Route::get('update-profile-page', 'updateProfile')->name('update-profile');

@@ -12,6 +12,23 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     public function backendDashboard()
+     {
+         return view('backend/pages/backend-dashboard', [
+             // Specify the base layout.
+             // Eg: 'side-menu', 'simple-menu', 'top-menu', 'login'
+             // The default value is 'side-menu'
+ 
+            //  'layout' => 'side-menu'
+         ]);
+     }
+
+
+
+
+
+
     public function dashboardOverview1()
     {
         return view('backend/pages/dashboard-overview-1', [
@@ -19,7 +36,7 @@ class PageController extends Controller
             // Eg: 'side-menu', 'simple-menu', 'top-menu', 'login'
             // The default value is 'side-menu'
 
-            // 'layout' => 'side-menu'
+            'layout' => 'side-menu'
         ]);
     }
 

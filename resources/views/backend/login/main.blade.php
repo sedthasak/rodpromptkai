@@ -5,6 +5,14 @@
 @endsection
 
 @section('content')
+
+
+<?php
+// $tttt = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+// echo "<pre>";
+// print_r($fakers);
+// echo "</pre>";
+?>
     <div class="container sm:px-10">
         <div class="block xl:grid grid-cols-2 gap-4">
             <!-- BEGIN: Login Info -->
@@ -78,7 +86,7 @@
                     password: password
                 }).then(res => {
                     // console.log(res);
-                    location.href = '/'
+                    location.href = '/backend'
                 }).catch(err => {
                     $('#btn-login').html('Login')
                     if (err.response.data.message != 'Wrong email or password.') {
