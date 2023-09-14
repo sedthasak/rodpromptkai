@@ -7,16 +7,16 @@
                 <div class="row">
                     <div class="col-6 col-md-5 col-lg-6">
                         <div class="logo">
-                            <a href="index.php">
-                                <img src="images/logo.svg" alt="" class="svg">
+                            <a href="{{route('indexPage')}}">
+                                <img src="{{asset('frontend/images/logo.svg')}}" alt="" class="svg">
                             </a>
                         </div>
                     </div>
                     <div class="col-6 col-md-7 col-lg-6">
                         <div class="topbar-right">
-                            <a href="login.php" class="btn-login"><i class="bi bi-person-circle"></i> เข้าสู่ระบบ</a>
-                            <a href="notification.php" class="btn-noti"><i class="bi bi-bell"></i> <div>55</div></a>
-                            <a href="postcar.php" class="btn-postcar"><img src="images/icon-car.svg" alt=""> ลงขายรถของคุณ <span>ฟรี!</span></a>
+                            <a href="{{route('loginPage')}}" class="btn-login"><i class="bi bi-person-circle"></i> เข้าสู่ระบบ</a>
+                            <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> <div>55</div></a>
+                            <a href="postcar.php" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ <span>ฟรี!</span></a>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                             <li class="logo_menuopen">
                                 <div class="logo-mb">
                                     <a href="index.php">
-                                        <img src="images/logo.svg" alt="" class="svg">
+                                        <img src="{{asset('frontend/images/logo.svg')}}" alt="" class="svg">
                                     </a>
                                 </div>
                                 <div class="close_menu"><i class="bi bi-x-circle-fill"></i></div>

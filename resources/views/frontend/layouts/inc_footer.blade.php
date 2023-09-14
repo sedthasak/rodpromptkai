@@ -1,16 +1,16 @@
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery-ui.min.js"></script> 
-<script src="js/bootstrap.min.js"></script>
-<script src="js/owl.carousel.js"></script>
-<script src="js/wow.min.js"></script>
-<script src="js/fancybox.umd.js"></script>
-<script src="js/bootstrap-datepicker.min.js"></script>
-<script src="js/bootstrap-datepicker.th.min.js"></script>
-<script src="js/modernizr.custom.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/wNumb.min.js"></script>
-<script src="js/sweetalert.min.js"></script>
-<script src="js/script.js"></script>
+<script src="{{asset('frontend/js/jquery.min.js')}}"></script>
+<script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script> 
+<script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('frontend/js/owl.carousel.js')}}"></script>
+<script src="{{asset('frontend/js/wow.min.js')}}"></script>
+<script src="{{asset('frontend/js/fancybox.umd.js')}}"></script>
+<script src="{{asset('frontend/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('frontend/js/bootstrap-datepicker.th.min.js')}}"></script>
+<script src="{{asset('frontend/js/modernizr.custom.js')}}"></script>
+<script src="{{asset('frontend/js/nouislider.min.js')}}"></script>
+<script src="{{asset('frontend/js/wNumb.min.js')}}"></script>
+<script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
+<script src="{{asset('frontend/js/script.js')}}"></script>
 
 <section class="row">
     <div class="col-12 wrap-footer">
@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-12 footer-pad">
                     <div class="footer-logo">
-                        <img src="images/logo.svg" alt="">
+                        <img src="{{asset('frontend/images/logo.svg')}}" alt="">
                     </div>
                     <p>RodPromptKai ช่องทางที่ดีที่สุดในการซื้อและขายรถยนต์</p>
                     <div class="link-footer">
@@ -44,23 +44,23 @@
 <section>
     <nav class="menu-mobile">
         <a href="index.php">
-            <img src="images/menu-home.svg" alt="">
+            <img src="{{asset('frontend/images/menu-home.svg')}}" alt="">
             <div>หน้าแรก</div>
         </a>
         <a href="#" target="_blank">
-            <img src="images/menu-contact.svg" alt="">
+            <img src="{{asset('frontend/images/menu-contact.svg')}}" alt="">
             <div>ติดต่อเรา</div>
         </a>
         <a href="postcar.php">
-            <img src="images/menu-post.svg" alt="">
+            <img src="{{asset('frontend/images/menu-post.svg')}}" alt="">
             <div>ลงขาย</div>
         </a>
         <button class="show-menucarsearch">
-            <img src="images/menu-search.svg" alt="">
+            <img src="{{asset('frontend/images/menu-search.svg')}}" alt="">
             <div>ค้นหารถ</div>
         </button>
         <a href="profile.php">
-            <img src="images/menu-account.svg" alt="">
+            <img src="{{asset('frontend/images/menu-account.svg')}}" alt="">
             <div>บัญชีของฉัน</div>
         </a>
     </nav>
@@ -68,13 +68,13 @@
         <div class="wrap-left-boxsearch">
         <div class="close-menucarsearch"><i class="bi bi-x-circle-fill"></i></div>
         <div class="left-boxsearch">
-            <div class="left-boxsearch-topic"><img src="images/carred.svg" alt=""> ค้นหารถยนต์</div> 
+            <div class="left-boxsearch-topic"><img src="{{asset('frontend/images/carred.svg')}}" alt=""> ค้นหารถยนต์</div> 
             
             <div class="left-boxsearch-desc">
                 <div class="hide-carsearch left-boxsearch-topic2">รายละเอียดรถยนต์</div>
                 <div class="row box-ecocar">
                     <div class="col-9">
-                        <div class="topic-careco"><img src="images/icon-careco.svg" alt=""> รถยนต์ไฟฟ้า</div>
+                        <div class="topic-careco"><img src="{{asset('frontend/images/icon-careco.svg')}}" alt=""> รถยนต์ไฟฟ้า</div>
                     </div>
                     <div class="col-3 text-end">
                         <label class="switch">
@@ -135,7 +135,7 @@
                 </div>
                 <div class="wrap-advancesearch">
                     <div class="item_advancesearch">
-                        <div class="left-boxsearch-topic2">ค้นหารถยนต์แบบละเอียด <img src="images/chevron-red.svg" alt=""></div>
+                        <div class="left-boxsearch-topic2">ค้นหารถยนต์แบบละเอียด <img src="{{asset('frontend/images/chevron-red.svg')}}" alt=""></div>
                         <div class="content_advancesearch">
                             <div class="boxfrm-advancesearch">
                                 <label>สี</label>
@@ -194,7 +194,7 @@
     </div> 
 </section>
 
-<a id="button-top"><img src="images/totop.svg" alt=""></a>
+<a id="button-top"><img src="{{asset('frontend/images/totop.svg')}}" alt=""></a>
 
 <script>
     $( document ).ready(function() {

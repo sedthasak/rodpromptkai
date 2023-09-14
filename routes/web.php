@@ -53,6 +53,8 @@ Route::get('login-system', [\App\Http\Controllers\Backend\AuthController::class,
 
 Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/', 'indexPage')->name('indexPage');
+    Route::get('/login', 'loginPage')->name('loginPage');
+    Route::get('/notification', 'notificationPage')->name('notificationPage');
 });
 
 Route::middleware('auth')->group(function() {

@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 
 class FrontendPageController extends Controller
 {
+
+    public function notificationPage()
+    {
+        return view('frontend/notification', [
+
+        ]);
+    }
+    public function loginPage()
+    {
+        return view('frontend/login', [
+
+        ]);
+    }
     public function indexPage()
     {
         return view('frontend/index-page', [
