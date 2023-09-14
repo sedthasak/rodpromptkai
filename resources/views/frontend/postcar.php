@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+<head>
+	<?php require('inc_head.php'); ?>
+</head>
+
+<body>
+
+<div class="container-fluid">
+	
+<?php require('inc_menu.php'); ?>
+
+<section class="row">
+    <div class="col-12 wrap-postcar">
+        <div class="container">
+            <div class="row wow fadeInDown">
+                <div class="col-12 text-center">
+                    <div class="topic-postcar-mt topic-postcar">
+                        <div class="topic-imgcar"><img src="images/Isolation_Mode.svg" alt=""></div>
+                        <h1>ลงขายรถของคุณ<span>ฟรี!</span></h1>
+                        <p class="hide-txtmb">กรุณาเลือกประเภท</p>
+                    </div>
+                    <div class="wrap-itempost">
+                        <a href="postcar-welcome.php" class="item-postcar item-homecar">
+                            <img src="images/icon-post01.svg" alt="">
+                            <h2>รถบ้าน<br>เจ้าของขายเอง</h2>
+                            <div class="btn-select-post">เลือก</div>
+                        </a>
+                        <a href="postcar-welcome-dealer.php" class="item-postcar item-dealer">
+                            <img src="images/icon-post02.svg" alt="">
+                            <h2>ดีลเลอร์/<br>ลงแบบฝากขาย</h2>
+                            <div class="btn-select-post">เลือก</div>
+                        </a>
+                        <a href="postcar-welcome-lady.php" class="item-postcar item-lady">
+                            <img src="images/icon-post03.svg" alt="">
+                            <h2>คุณผู้หญิงลงขายรถ</h2>
+                            <div class="btn-select-post">เลือก</div>
+                        </a>
+                    </div>
+                    <div class="txt-postcontact">สอบถามข้อมูลเพิ่มเติม ติดต่อ 02-123-4567</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+	
+<?php require('inc_footer.php'); ?>
+
+</div>
+
+</body>
+
+</html>

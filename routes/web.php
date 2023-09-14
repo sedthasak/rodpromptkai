@@ -7,6 +7,8 @@ use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\DarkModeController;
 use App\Http\Controllers\Backend\ColorSchemeController;
 
+use App\Http\Controllers\Frontend\FrontendPageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,9 +51,9 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 Route::get('login-system', [\App\Http\Controllers\Backend\AuthController::class, 'backendLogin'])->name('backendLogin');
 
 
-
-
-
+Route::controller(FrontendPageController::class)->group(function() {
+    Route::get('/', 'indexPage')->name('indexPage');
+});
 
 Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
