@@ -6,7 +6,7 @@
 
 @section('content')
 
-
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <section class="row">
     <div class="col-12 wrap-login">
         <div class="container">
@@ -54,6 +54,30 @@
             </div>
         </div>
     </div>
+    <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
+    <script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script> 
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        </script>
+    <script>
+        $(document).ready(function() {
+            setInterval(function () {
+                var jqxhr = $.get("{{route('loopidentity')}}", function(data, index) {
+                    console.log(data.text);
+                    if (data.text == "success") {
+                        window.location.href = "{{route('indexPage')}}";
+                    }
+                })
+                .fail(function() {
+                    console.log('failed');
+                });
+            }, 5000);
+        }); 
+    </script>
 </section>
 
 

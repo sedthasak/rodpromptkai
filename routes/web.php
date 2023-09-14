@@ -49,7 +49,7 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 // Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('login-system', [\App\Http\Controllers\Backend\AuthController::class, 'backendLogin'])->name('backendLogin');
-
+Route::get('loopidentity', [\App\Http\Controllers\Frontend\FrontendPageController::class, 'loopidentity'])->name('loopidentity');
 
 Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/', 'indexPage')->name('indexPage');

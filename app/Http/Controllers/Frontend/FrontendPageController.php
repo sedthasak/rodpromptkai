@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Customer;
 
 class FrontendPageController extends Controller
 {
@@ -34,6 +35,15 @@ class FrontendPageController extends Controller
             $request->session()->put('browser_fingerprint', $browserFingerprint);
         }
         $browserFingerprint = $request->session()->get('browser_fingerprint');
+        $qry = Customer::where("browserFingerprint", $browserFingerprint)->first();
+        if (isset($qry)) {
+
+        }
+        else {
+            $data = ['browserFingerprint' => $browserFingerprint];
+            Customer::create($data);
+        }
+        
         return view('frontend/index-page', [
              // Specify the base layout.
              // Eg: 'side-menu', 'simple-menu', 'top-menu', 'login'
@@ -43,5 +53,14 @@ class FrontendPageController extends Controller
 
             'browserFingerprint' => $browserFingerprint
         ]);
+    }
+    public function loopidentity(Request $request) {
+        $browserFingerprint = $request->session()->get('browser_fingerprint');
+        $qry = Customer::where("browserFingerprint", $browserFingerprint)->first();
+        if (isset($qry))
+            $data = ["text" => "success"];
+        else
+            $data = ["text" => "failed"];
+        return response()->json($data);
     }
 }
