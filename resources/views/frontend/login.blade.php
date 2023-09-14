@@ -1,15 +1,11 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - Login</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
 
 <section class="row">
     <div class="col-12 wrap-login">
@@ -20,10 +16,10 @@
                         <h1>ยินดีต้อนรับสู่ <span>RodPromptkai</span></h1>
                         <div class="txt-login01">เข้าสู่ระบบเพื่อรับสิทธิพิเศษ</div>
                         <div class="list-txtlogin">
-                            <div><img src="images/icon-tick.svg" alt=""> ลงขายฟรี สำหรับรถบ้านและรถคุณผู้หญิง</div>
-                            <div><img src="images/icon-tick.svg" alt=""> ลงขายฟรี สำหรับดีลเลอร์คุณภาพ</div>
-                            <div><img src="images/icon-tick.svg" alt=""> บันทึกรถยนต์ที่คุณสนใจ</div>
-                            <div><img src="images/icon-tick.svg" alt=""> สิทธิพิเศษจากบริการของ RodPromptkai</div>
+                            <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> ลงขายฟรี สำหรับรถบ้านและรถคุณผู้หญิง</div>
+                            <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> ลงขายฟรี สำหรับดีลเลอร์คุณภาพ</div>
+                            <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> บันทึกรถยนต์ที่คุณสนใจ</div>
+                            <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> สิทธิพิเศษจากบริการของ RodPromptkai</div>
                         </div>
                     </div>
                 </div>
@@ -41,7 +37,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <div class="qrcode-login"><img src="images/qrcode.png" alt=""></div>
+                                    <div class="qrcode-login"><img src="{{asset('frontend/images/qrcode.png')}}" alt=""></div>
                                 </div>
                             </div>
                         </div>
@@ -60,11 +56,5 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
 
-</div>
-
-</body>
-
-</html>
+@endsection
