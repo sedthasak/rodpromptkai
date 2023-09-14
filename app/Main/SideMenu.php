@@ -21,28 +21,28 @@ class SideMenu
                 ],
                 'title' => 'Dashboard'
             ],
-            'crud' => [
-                'icon' => 'edit',
-                'title' => 'Crud',
-                'sub_menu' => [
-                    'crud-data-list' => [
-                        'icon' => '',
-                        'route_name' => 'crud-data-list',
-                        'params' => [
-                            'layout' => 'side-menu'
-                        ],
-                        'title' => 'Data List'
-                    ],
-                    'crud-form' => [
-                        'icon' => '',
-                        'route_name' => 'crud-form',
-                        'params' => [
-                            'layout' => 'side-menu'
-                        ],
-                        'title' => 'Form'
-                    ]
-                ]
-            ],
+            // 'crud' => [
+            //     'icon' => 'edit',
+            //     'title' => 'Crud',
+            //     'sub_menu' => [
+            //         'crud-data-list' => [
+            //             'icon' => '',
+            //             'route_name' => 'crud-data-list',
+            //             'params' => [
+            //                 'layout' => 'side-menu'
+            //             ],
+            //             'title' => 'Data List'
+            //         ],
+            //         'crud-form' => [
+            //             'icon' => '',
+            //             'route_name' => 'crud-form',
+            //             'params' => [
+            //                 'layout' => 'side-menu'
+            //             ],
+            //             'title' => 'Form'
+            //         ]
+            //     ]
+            // ],
             'devider',
             'chat' => [
                 'icon' => 'message-square',
