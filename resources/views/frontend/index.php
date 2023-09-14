@@ -11,7 +11,6 @@
 	
 <?php require('inc_menu.php'); ?>
 
-
 <section class="row">
     <div class="col-12 col-xl-9 wrapbanner wow fadeInDown"">
         <div class="owl-bannerslide owl-carousel owl-theme">
