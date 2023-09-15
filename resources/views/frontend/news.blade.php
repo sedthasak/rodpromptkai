@@ -1,15 +1,11 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - News</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
 
 <section class="row">
     <div class="col-12 wrap-page wow fadeInDown">
@@ -18,9 +14,9 @@
                 <div class="col-12">
                     <h1 class="topic-insidepage"><i class="bi bi-circle-fill"></i> อัพเดทข่าวยานยนต์</h1>
                     <div class="box-latestupdate">
-                        <a href="news-detail.php" class="row news-latest">
+                        <a href="{{route('newsdetailPage')}}" class="row news-latest">
                             <div class="col-12 col-md-7">
-                                <figure><img src="images/Rectangle 2251.png" alt=""></figure>
+                                <figure><img src="{{asset('frontend/images/Rectangle 2251.png')}}" alt=""></figure>
                             </div>
                             <div class="col-12 col-md-5">
                                 <div class="desc-latestnews">
@@ -35,7 +31,7 @@
                         </a>
                         <a href="news-detail.php" class="row news-latest">
                             <div class="col-12 col-md-7">
-                                <figure><img src="images/Rectangle 2252.png" alt=""></figure>
+                                <figure><img src="{{asset('frontend/images/Rectangle 2252.png')}}" alt=""></figure>
                             </div>
                             <div class="col-12 col-md-5">
                                 <div class="desc-latestnews">
@@ -56,7 +52,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 145.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 145.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -69,7 +65,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 149.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 149.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -82,7 +78,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 151.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 151.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -95,7 +91,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 144-1.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 144-1.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -108,7 +104,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 144-2.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 144-2.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -121,7 +117,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 144-3.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 144-3.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -134,7 +130,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 144-4.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 144-4.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -147,7 +143,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 144.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 144.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -160,7 +156,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 148.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 148.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -173,7 +169,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 148-1.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 148-1.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -186,7 +182,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 150.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 150.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -199,7 +195,7 @@
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="images/Rectangle 150-1.png" alt="">
+                                <img src="{{asset('frontend/images/Rectangle 150-1.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">รวมรถยนต์ไฟฟ้า EV มือสอง ราคาถูก น่าซื้อที่สุดในปี 2023</div>
@@ -231,11 +227,19 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
 
-</div>
+@endsection
 
-</body>
 
-</html>
+
+
+
+
+
+
+
+
+
+
+
+

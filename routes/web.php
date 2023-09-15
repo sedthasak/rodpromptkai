@@ -55,6 +55,12 @@ Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/', 'indexPage')->name('indexPage');
     Route::get('/login', 'loginPage')->name('loginPage');
     Route::get('/notification', 'notificationPage')->name('notificationPage');
+    Route::get('/news', 'newsPage')->name('newsPage');
+    Route::get('/news-detail', 'newsdetailPage')->name('newsdetailPage');
+    Route::get('/postcar', 'postcarPage')->name('postcarPage');
+    Route::get('/car', 'carPage')->name('carPage');
+    Route::get('/car-detail', 'cardetailPage')->name('cardetailPage');
+    Route::get('/postcar-welcome', 'postcarwelcomePage')->name('postcarwelcomePage');
 });
 
 Route::middleware('auth')->group(function() {
