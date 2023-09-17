@@ -61,6 +61,13 @@ Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/car', 'carPage')->name('carPage');
     Route::get('/car-detail', 'cardetailPage')->name('cardetailPage');
     Route::get('/postcar-welcome', 'postcarwelcomePage')->name('postcarwelcomePage');
+    Route::get('/postcar-welcome-dealer', 'postcarwelcomedealerPage')->name('postcarwelcomedealerPage');
+    Route::get('/postcar-welcome-lady', 'postcarwelcomeladyPage')->name('postcarwelcomeladyPage');
+    Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
+    Route::get('/carpost-step2', 'carpoststep2Page')->name('carpoststep2Page');
+    Route::get('/carpost-step3', 'carpoststep3Page')->name('carpoststep3Page');
+    Route::get('/carpost-step4', 'carpoststep4Page')->name('carpoststep4Page');
+    Route::get('/profile', 'profilePage')->name('profilePage');
 });
 
 Route::middleware('auth')->group(function() {

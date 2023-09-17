@@ -9,6 +9,48 @@ use App\Models\Customer;
 class FrontendPageController extends Controller
 {
 
+    public function profilePage()
+    {
+        return view('frontend/profile', [
+
+        ]);
+    }
+    public function carpoststep4Page()
+    {
+        return view('frontend/carpost-step4', [
+
+        ]);
+    }
+    public function carpoststep3Page()
+    {
+        return view('frontend/carpost-step3', [
+
+        ]);
+    }
+    public function carpoststep2Page()
+    {
+        return view('frontend/carpost-step2', [
+
+        ]);
+    }
+    public function carpoststep1Page()
+    {
+        return view('frontend/carpost-step1', [
+
+        ]);
+    }
+    public function postcarwelcomeladyPage()
+    {
+        return view('frontend/postcar-welcome-lady', [
+
+        ]);
+    }
+    public function postcarwelcomedealerPage()
+    {
+        return view('frontend/postcar-welcome-dealer', [
+
+        ]);
+    }
     public function postcarwelcomePage()
     {
         return view('frontend/postcar-welcome', [

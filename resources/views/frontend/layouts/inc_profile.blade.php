@@ -9,7 +9,10 @@
                             <label for="imageUpload"></label>
                         </div>
                         <div class="avatar-preview">
-                            <div id="imagePreview" style="background-image: url('images/avatar.jpeg');">
+                            <?php
+                            $avatar = asset('frontend/images/avatar.jpeg');
+                            ?>
+                            <div id="imagePreview" style="background-image: url('{{$avatar}}');">
                             </div>
                         </div>
                     </div>
@@ -23,8 +26,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-3 col-lg-5 profile-boxbtn text-end">
-                    <a href="profile.php" class="btn-postcar"><img src="images/icon-car.svg" alt=""> รถที่ลงขาย</a>
-                    <a href="performance.php" class="btn-performance"><img src="images/icon-performance.svg" alt=""> Performance</a>
+                    <a href="profile.php" class="btn-postcar"><img src="{{asset('frontend/images/images/icon-car.svg')}}" alt=""> รถที่ลงขาย</a>
+                    <a href="performance.php" class="btn-performance"><img src="{{asset('frontend/images/images/icon-performance.svg')}}" alt=""> Performance</a>
                     <a href="customer-contact.php" class="btn-cuscontact">รอติดต่อ <div>3</div></a>
                 </div>
             </div>

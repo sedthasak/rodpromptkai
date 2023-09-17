@@ -1,15 +1,11 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - carpost-step1</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
 
 <section class="row">
     <div class="col-12 wrap-bgstep">
@@ -18,13 +14,13 @@
                 <div class="col-12 text-center">
                     <h1>ลงขายรถยนต์</h1>
                     <div class="box-iconstep">
-                        <a href="carpost-step1.php"><img src="images/icon-step1-active.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="carpost-step2.php"><img src="images/icon-step2.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="carpost-step3.php"><img src="images/icon-step3.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="carpost-step4.php"><img src="images/icon-step4.svg" alt=""></a>
+                        <a href="carpost-step1.php"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="carpost-step2.php"><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="carpost-step3.php"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="carpost-step4.php"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -145,11 +141,5 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
 
-</div>
-
-</body>
-
-</html>
+@endsection
