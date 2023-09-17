@@ -18,17 +18,17 @@
                         <p class="hide-txtmb">กรุณาเลือกประเภท</p>
                     </div>
                     <div class="wrap-itempost">
-                        <a href="postcar-welcome.php" class="item-postcar item-homecar">
+                        <a href="{{route('postcarwelcomePage')}}" class="item-postcar item-homecar">
                             <img src="{{asset('frontend/images/icon-post01.svg')}}" alt="">
                             <h2>รถบ้าน<br>เจ้าของขายเอง</h2>
                             <div class="btn-select-post">เลือก</div>
                         </a>
-                        <a href="postcar-welcome-dealer.php" class="item-postcar item-dealer">
+                        <a href="{{route('postcarwelcomedealerPage')}}" class="item-postcar item-dealer">
                             <img src="{{asset('frontend/images/icon-post02.svg')}}" alt="">
                             <h2>ดีลเลอร์/<br>ลงแบบฝากขาย</h2>
                             <div class="btn-select-post">เลือก</div>
                         </a>
-                        <a href="postcar-welcome-lady.php" class="item-postcar item-lady">
+                        <a href="{{route('postcarwelcomeladyPage')}}" class="item-postcar item-lady">
                             <img src="{{asset('frontend/images/icon-post03.svg')}}" alt="">
                             <h2>คุณผู้หญิงลงขายรถ</h2>
                             <div class="btn-select-post">เลือก</div>

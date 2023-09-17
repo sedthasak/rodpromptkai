@@ -9,6 +9,42 @@ use App\Models\Customer;
 class FrontendPageController extends Controller
 {
 
+    public function performanceviewPage()
+    {
+        return view('frontend/performance-view', [
+
+        ]);
+    }
+    public function performanceviewpostPage()
+    {
+        return view('frontend/performance-viewpost', [
+
+        ]);
+    }
+    public function performancePage()
+    {
+        return view('frontend/performance', [
+
+        ]);
+    }
+    public function profileexpirePage()
+    {
+        return view('frontend/profile-expire', [
+
+        ]);
+    }
+    public function profileeditcarinfoPage()
+    {
+        return view('frontend/profile-editcarinfo', [
+
+        ]);
+    }
+    public function profilecheckPage()
+    {
+        return view('frontend/profile-check', [
+
+        ]);
+    }
     public function profilePage()
     {
         return view('frontend/profile', [

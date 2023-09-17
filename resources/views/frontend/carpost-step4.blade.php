@@ -14,13 +14,13 @@
                 <div class="col-12 text-center">
                     <h1>ลงขายรถยนต์</h1>
                     <div class="box-iconstep">
-                        <a href="carpost-step1.php"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                        <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
                         <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                        <a href="carpost-step2.php"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
+                        <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
                         <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                        <a href="carpost-step3.php"><img src="{{asset('frontend/images/icon-step3-active.svg')}}" alt=""></a>
+                        <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3-active.svg')}}" alt=""></a>
                         <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                        <a href="carpost-step4.php"><img src="{{asset('frontend/images/icon-step4-active.svg')}}" alt=""></a>
+                        <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4-active.svg')}}" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                         <h3>โปรดรอเจ้าหน้าที่ตรวจสอบข้อมูล</h3>
                         <p>หมายเลขอ้างอิง 12345678</p>
                     </div>
-                    <a href="profile.php" class="btn-backpage">กลับสู่หน้าประกาศ</a>
+                    <a href="{{route('profilePage')}}" class="btn-backpage">กลับสู่หน้าประกาศ</a>
                 </div>
             </div>
         </div>

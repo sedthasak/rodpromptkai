@@ -68,6 +68,13 @@ Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/carpost-step3', 'carpoststep3Page')->name('carpoststep3Page');
     Route::get('/carpost-step4', 'carpoststep4Page')->name('carpoststep4Page');
     Route::get('/profile', 'profilePage')->name('profilePage');
+    Route::get('/profile-check', 'profilecheckPage')->name('profilecheckPage');
+    Route::get('/profile-editcarinfo', 'profileeditcarinfoPage')->name('profileeditcarinfoPage');
+    Route::get('/profile-expire', 'profileexpirePage')->name('profileexpirePage');
+    Route::get('/performance', 'performancePage')->name('performancePage');
+    Route::get('/performance-viewpost', 'performanceviewpostPage')->name('performanceviewpostPage');
+    Route::get('/performance-view', 'performanceviewPage')->name('performanceviewPage');
+
 });
 
 Route::middleware('auth')->group(function() {

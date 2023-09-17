@@ -18,13 +18,13 @@
                 <div class="col-12 text-center">
                     <h1>ลงขายรถยนต์</h1>
                     <div class="box-iconstep">
-                        <a href="dealer-carpost-step1.php"><img src="images/icon-step1-active.svg" alt=""></a>
+                        <a href="{{route('carpoststep1Page')}}"><img src="images/icon-step1-active.svg" alt=""></a>
                         <div class="active"><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="dealer-carpost-step2.php"><img src="images/icon-step2-active.svg" alt=""></a>
+                        <a href="{{route('carpoststep2Page')}}"><img src="images/icon-step2-active.svg" alt=""></a>
                         <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="dealer-carpost-step3.php"><img src="images/icon-step3-active.svg" alt=""></a>
+                        <a href="{{route('carpoststep3Page')}}"><img src="images/icon-step3-active.svg" alt=""></a>
                         <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="dealer-carpost-step4.php"><img src="images/icon-step4.svg" alt=""></a>
+                        <a href="{{route('carpoststep4Page')}}"><img src="images/icon-step4.svg" alt=""></a>
                     </div>
                 </div>
             </div>

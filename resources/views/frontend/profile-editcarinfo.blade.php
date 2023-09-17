@@ -1,36 +1,31 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - profile-editcarinfo</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
-<?php require('inc_profile.php'); ?>
 
+@include('frontend.layouts.inc_profile')	
 <section class="row">
     <div class="col-12 page-profile">
         <div class="container">
             <div class="row">
-                <?php require('inc-menuprofile-search.php'); ?>
+                @include('frontend.layouts.inc-menuprofile-search')
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="item-mycar-edit desc-pageprofile">
                         <div class="wraptopic-pageprofile">
                             <div class="topic-profilepage"><i class="bi bi-circle-fill"></i> รถที่ลงขาย</div>
                             <button class="show-menuprofile"><i class="bi bi-search"></i>ค้นหารถในบัญชี</button>
                         </div>
-                        <?php require('inc_menu-mycar.php'); ?>
-
+                        @include('frontend.layouts.inc_menu-mycar')
                         <div class="note-expire">กรุณาแก้ไขภายใน 3 วัน ไม่เช่นนั้นโพสของคุณจะถูกลบ</div>
 
                         <div class="txt-editnote">กรุณาแก้ไข: Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
                         <div class="item-mycar">
                             <div class="item-mycar-cover">
-                                <a href="car-detail.php"><figure><img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt=""></figure></a>
+                                <a href="car-detail.php"><figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure></a>
                             </div>
                             <div class="mycar-detail-mb">
                                 <a href="car-detail.php">
@@ -72,7 +67,7 @@
                         <div class="txt-editnote">กรุณาแก้ไข: Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
                         <div class="item-mycar">
                             <div class="item-mycar-cover">
-                                <a href="car-detail.php"><figure><img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt=""></figure></a>
+                                <a href="car-detail.php"><figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure></a>
                             </div>
                             <div class="mycar-detail-mb">
                                 <a href="car-detail.php">
@@ -118,9 +113,12 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
 
+
+
+@endsection
+
+@section('script')
 <script>
     $( ".box-menuprofile > ul > li:nth-child(3) > a" ).addClass( "here" );
     $( ".menu-mycar > ul > li:nth-child(3) > a" ).addClass( "here" );
@@ -148,9 +146,4 @@
         })
   });
 </script>
-
-</div>
-
-</body>
-
-</html>
+@endsection

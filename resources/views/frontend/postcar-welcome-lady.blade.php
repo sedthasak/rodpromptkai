@@ -21,7 +21,7 @@
                             <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> หรือสามารถลงขายแทนสมาชิกในครอบครัวได้ (นามสกุลเดียวกัน)</div>
                             <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> เบอร์ที่ลงขายต้องเป็นเบอร์ promptpay</div>
                         </div>
-                        <a href="carpost-step1.php" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ</a>
+                        <a href="{{route('carpoststep1Page')}}" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ</a>
                     </div>
                 </div>
             </div>

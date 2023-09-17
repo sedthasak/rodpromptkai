@@ -155,11 +155,12 @@
     </div>
 </section>
 
-	
-<?php 
-// require('inc_footer.php'); 
-?>
 
+
+
+@endsection
+
+@section('script')
 <script>
     $( ".box-menuprofile > ul > li:nth-child(1) > a" ).addClass( "here" );
     $( ".menu-mycar > ul > li:nth-child(1) > a" ).addClass( "here" );
@@ -188,6 +189,4 @@
   });
 </script>
 
-
 @endsection
-

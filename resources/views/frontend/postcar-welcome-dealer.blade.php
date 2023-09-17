@@ -21,7 +21,7 @@
                             <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> รูปถ่ายหน้าโชว์รูม/รูปถ่ายของผู้ขาย</div>
                             <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> ที่อยู่เพื่อปักหมุด</div>
                         </div>
-                        <a href="dealer-carpost-step1.php" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ</a>
+                        <a href="{{route('carpoststep1Page')}}" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ</a>
                     </div>
                 </div>
             </div>

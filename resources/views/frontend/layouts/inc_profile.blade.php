@@ -26,8 +26,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-3 col-lg-5 profile-boxbtn text-end">
-                    <a href="profile.php" class="btn-postcar"><img src="{{asset('frontend/images/images/icon-car.svg')}}" alt=""> รถที่ลงขาย</a>
-                    <a href="performance.php" class="btn-performance"><img src="{{asset('frontend/images/images/icon-performance.svg')}}" alt=""> Performance</a>
+                    <a href="{{route('profilePage')}}" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> รถที่ลงขาย</a>
+                    <a href="{{route('performancePage')}}" class="btn-performance"><img src="{{asset('frontend/images/icon-performance.svg')}}" alt=""> Performance</a>
                     <a href="customer-contact.php" class="btn-cuscontact">รอติดต่อ <div>3</div></a>
                 </div>
             </div>

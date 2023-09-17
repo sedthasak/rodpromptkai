@@ -7,10 +7,10 @@
     <div class="box-menuprofile box-menuprofile-hide">
         <div class="topic-menuprofile">รถที่ลงขาย</div>
         <ul>
-            <li><a href="profile.php">ออนไลน์ <span>(5)</span></a></li>
-            <li><a href="profile-check.php">รอตรวจสอบ <span>(2)</span></a></li>
-            <li><a href="profile-editcarinfo.php">รอแก้ไข <span>(3)</span></a></li>
-            <li><a href="profile-expire.php">หมดอายุ <span>(5)</span></a></li>
+            <li><a href="{{route('profilePage')}}">ออนไลน์ <span>(5)</span></a></li>
+            <li><a href="{{route('profilecheckPage')}}">รอตรวจสอบ <span>(2)</span></a></li>
+            <li><a href="{{route('profileeditcarinfoPage')}}">รอแก้ไข <span>(3)</span></a></li>
+            <li><a href="{{route('profileexpirePage')}}">หมดอายุ <span>(5)</span></a></li>
         </ul>
     </div>
     <div class="box-menuprofile">
