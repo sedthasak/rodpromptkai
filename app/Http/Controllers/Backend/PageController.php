@@ -13,16 +13,19 @@ class PageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function backendDashboard()
-     {
-         return view('backend/pages/backend-dashboard', [
-             // Specify the base layout.
-             // Eg: 'side-menu', 'simple-menu', 'top-menu', 'login'
-             // The default value is 'side-menu'
- 
-            //  'layout' => 'side-menu'
-         ]);
-     }
+    public function BNdev()
+    {
+        return view('backend/dev', [ 
+
+            // 'layout' => 'side-menu',
+        ]);
+    }
+    public function backendDashboard()
+    {
+        return view('backend/backend-dashboard', [
+
+        ]);
+    }
 
 
 
