@@ -55,6 +55,26 @@ Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/', 'indexPage')->name('indexPage');
     Route::get('/login', 'loginPage')->name('loginPage');
     Route::get('/notification', 'notificationPage')->name('notificationPage');
+    Route::get('/news', 'newsPage')->name('newsPage');
+    Route::get('/news-detail', 'newsdetailPage')->name('newsdetailPage');
+    Route::get('/postcar', 'postcarPage')->name('postcarPage');
+    Route::get('/car', 'carPage')->name('carPage');
+    Route::get('/car-detail', 'cardetailPage')->name('cardetailPage');
+    Route::get('/postcar-welcome', 'postcarwelcomePage')->name('postcarwelcomePage');
+    Route::get('/postcar-welcome-dealer', 'postcarwelcomedealerPage')->name('postcarwelcomedealerPage');
+    Route::get('/postcar-welcome-lady', 'postcarwelcomeladyPage')->name('postcarwelcomeladyPage');
+    Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
+    Route::get('/carpost-step2', 'carpoststep2Page')->name('carpoststep2Page');
+    Route::get('/carpost-step3', 'carpoststep3Page')->name('carpoststep3Page');
+    Route::get('/carpost-step4', 'carpoststep4Page')->name('carpoststep4Page');
+    Route::get('/profile', 'profilePage')->name('profilePage');
+    Route::get('/profile-check', 'profilecheckPage')->name('profilecheckPage');
+    Route::get('/profile-editcarinfo', 'profileeditcarinfoPage')->name('profileeditcarinfoPage');
+    Route::get('/profile-expire', 'profileexpirePage')->name('profileexpirePage');
+    Route::get('/performance', 'performancePage')->name('performancePage');
+    Route::get('/performance-viewpost', 'performanceviewpostPage')->name('performanceviewpostPage');
+    Route::get('/performance-view', 'performanceviewPage')->name('performanceviewPage');
+
 });
 
 Route::middleware('auth')->group(function() {

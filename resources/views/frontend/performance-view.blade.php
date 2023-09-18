@@ -1,33 +1,28 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - performance-view</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
-<div class="bg-profile-performance"><?php require('inc_profile.php'); ?></div>
 
+<div class="bg-profile-performance">@include('frontend.layouts.inc_profile')</div>
 <section class="row">
     <div class="col-12 page-performance">
         <div class="container">
             <div class="row">
-                <?php require('inc-menuprofile-search.php'); ?>
+                @include('frontend.layouts.inc-menuprofile-search')
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="desc-pageprofile">
                         <div class="wraptopic-pageprofile">
                             <div class="topic-profilepage"><i class="bi bi-circle-fill"></i> Performance</div>
                             <button class="show-menuprofile"><i class="bi bi-search"></i>ค้นหารถในบัญชี</button>
                         </div>
-                        <?php require('inc_menu-performance.php'); ?>
-
+                        @include('frontend.layouts.inc_menu-performance')
                         <a href="car-detail.php" class="item-mycar">
                             <div class="item-mycar-cover">
-                                <figure><img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt=""></figure>
+                                <figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure>
                             </div>
                             <div class="mycar-detail-mb">
                                 <div class="mycar-name">2023 BMW X1</div>
@@ -42,7 +37,7 @@
                                         <div class="mycar-idcar">4กข 8113</div>
                                     </div>
                                     <div class="col-12 col-md-6 text-end">
-                                        <div class="score-performance">จำนวนคลิกติดต่อ : 5</div>
+                                        <div class="score-performance"><i class="bi bi-eye"></i> จำนวนคนมองเห็น :  4,900</div>
                                         <div class="mycar-price-mb mycar-price">599,000.-</div>
                                     </div>
                                 </div>
@@ -60,7 +55,7 @@
 
                         <a href="car-detail.php" class="item-mycar">
                             <div class="item-mycar-cover">
-                                <figure><img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt=""></figure>
+                                <figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure>
                             </div>
                             <div class="mycar-detail-mb">
                                 <div class="mycar-name">2023 BMW X1</div>
@@ -75,7 +70,7 @@
                                         <div class="mycar-idcar">4กข 8113</div>
                                     </div>
                                     <div class="col-12 col-md-6 text-end">
-                                        <div class="score-performance">จำนวนคลิกติดต่อ : 5</div>
+                                        <div class="score-performance"><i class="bi bi-eye"></i> จำนวนคนมองเห็น :  4,900</div>
                                         <div class="mycar-price-mb mycar-price">599,000.-</div>
                                     </div>
                                 </div>
@@ -93,7 +88,7 @@
 
                         <a href="car-detail.php" class="item-mycar">
                             <div class="item-mycar-cover">
-                                <figure><img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt=""></figure>
+                                <figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure>
                             </div>
                             <div class="mycar-detail-mb">
                                 <div class="mycar-name">2023 BMW X1</div>
@@ -108,7 +103,7 @@
                                         <div class="mycar-idcar">4กข 8113</div>
                                     </div>
                                     <div class="col-12 col-md-6 text-end">
-                                        <div class="score-performance">จำนวนคลิกติดต่อ : 5</div>
+                                        <div class="score-performance"><i class="bi bi-eye"></i> จำนวนคนมองเห็น :  4,900</div>
                                         <div class="mycar-price-mb mycar-price">599,000.-</div>
                                     </div>
                                 </div>
@@ -131,15 +126,11 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
+@endsection
+
+@section('script')
 
 <script>
-    $( ".menu-performane.menu-mycar > ul > li:nth-child(1) > a" ).addClass( "here" );
+    $( ".menu-performane.menu-mycar > ul > li:nth-child(3) > a" ).addClass( "here" );
 </script>
-
-</div>
-
-</body>
-
-</html>
+@endsection

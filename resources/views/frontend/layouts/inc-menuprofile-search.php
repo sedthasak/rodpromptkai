@@ -7,14 +7,14 @@
     <div class="box-menuprofile box-menuprofile-hide">
         <div class="topic-menuprofile">รถที่ลงขาย</div>
         <ul>
-            <li><a href="profile.php">ออนไลน์ <span>(5)</span></a></li>
-            <li><a href="profile-check.php">รอตรวจสอบ <span>(2)</span></a></li>
-            <li><a href="profile-editcarinfo.php">รอแก้ไข <span>(3)</span></a></li>
-            <li><a href="profile-expire.php">หมดอายุ <span>(5)</span></a></li>
+            <li><a href="{{route('profilePage')}}">ออนไลน์ <span>(5)</span></a></li>
+            <li><a href="{{route('profilecheckPage')}}">รอตรวจสอบ <span>(2)</span></a></li>
+            <li><a href="{{route('profileeditcarinfoPage')}}">รอแก้ไข <span>(3)</span></a></li>
+            <li><a href="{{route('profileexpirePage')}}">หมดอายุ <span>(5)</span></a></li>
         </ul>
     </div>
     <div class="box-menuprofile">
-        <div class="topic-menuprofile"><img src="images/carred2.svg" alt="" class="svg"> ค้นหารถในบัญชี</div>
+        <div class="topic-menuprofile"><img src="{{asset('frontend/images/carred2.svg')}}" alt="" class="svg"> ค้นหารถในบัญชี</div>
         <div class="wrap-mycarsearch">
             <div class="item_mycarsearch">
                 <div class="topicmycarsearch"> ยี่ห้อรถ</div>
@@ -22,35 +22,35 @@
                     <input type="text" class="form-control" placeholder="ค้นหา...">
                     <div class="mycarsearch-type">
                         <button class="list-mycarsearch">
-                            <div><img src="images/logo-bmw.png" alt=""> Toyota</div>
+                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
                             <div class="num-mycarsearch">(5)</div>
                         </button>
                         <button class="list-mycarsearch">
-                            <div><img src="images/logo-bmw.png" alt=""> Toyota</div>
+                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
                             <div class="num-mycarsearch">(5)</div>
                         </button> 
                         <button class="list-mycarsearch">
-                            <div><img src="images/logo-bmw.png" alt=""> Toyota</div>
+                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
                             <div class="num-mycarsearch">(5)</div>
                         </button>
                         <button class="list-mycarsearch">
-                            <div><img src="images/logo-bmw.png" alt=""> Toyota</div>
+                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
                             <div class="num-mycarsearch">(5)</div>
                         </button>
                         <button class="list-mycarsearch">
-                            <div><img src="images/logo-bmw.png" alt=""> Toyota</div>
+                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
                             <div class="num-mycarsearch">(5)</div>
                         </button>
                         <button class="list-mycarsearch">
-                            <div><img src="images/logo-bmw.png" alt=""> Toyota</div>
+                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
                             <div class="num-mycarsearch">(5)</div>
                         </button>
                         <button class="list-mycarsearch">
-                            <div><img src="images/logo-bmw.png" alt=""> Toyota</div>
+                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
                             <div class="num-mycarsearch">(5)</div>
                         </button>
                         <button class="list-mycarsearch">
-                            <div><img src="images/logo-bmw.png" alt=""> Toyota</div>
+                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
                             <div class="num-mycarsearch">(5)</div>
                         </button>
                     </div>

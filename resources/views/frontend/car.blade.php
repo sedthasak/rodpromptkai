@@ -1,30 +1,26 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - car</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
 
 <section class="row">
     <div class="col-12 banner-slidecar">
         <div class="owl-bannercar owl-carousel owl-theme">
             <div class="items">
-                <figure><img src="images/banner-car.jpg" alt=""></figure>
+                <figure><img src="{{asset('frontend/images/banner-car.jpg')}}" alt=""></figure>
             </div>
             <div class="items">
-                <figure><img src="images/banner-car.jpg" alt=""></figure>
+                <figure><img src="{{asset('frontend/images/banner-car.jpg')}}" alt=""></figure>
             </div>
             <div class="items">
-                <figure><img src="images/banner-car.jpg" alt=""></figure>
+                <figure><img src="{{asset('frontend/images/banner-car.jpg')}}" alt=""></figure>
             </div>
             <div class="items">
-                <figure><img src="images/banner-car.jpg" alt=""></figure>
+                <figure><img src="{{asset('frontend/images/banner-car.jpg')}}" alt=""></figure>
             </div>
         </div>
     </div>
@@ -35,13 +31,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-4 col-xl-3 hide-search-mb">
-                    <?php require('inc-carsearch.php'); ?>
+                    <?php 
+                    // require('inc-carsearch.php'); 
+                    ?>
                 </div>
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="wrap-allitem-car">
                         <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย</div>
                         <div class="result-btn-search">
-                            <button class="btn-refresh"><img src="images/icon-clear.svg" alt="">ล้างข้อมูล</button>
+                            <button class="btn-refresh"><img src="{{asset('frontend/images/icon-clear.svg')}}" alt="">ล้างข้อมูล</button>
                             <button>BMW <i class="bi bi-x"></i></button>
                             <button>X1 <i class="bi bi-x"></i></button>
                         </div>
@@ -68,7 +66,7 @@
                             <div class="row">
                                 <div class="col-4 col-md-4">
                                     <div class="item-filter">
-                                        <div><img src="images/icon-filter.svg" alt=""> <span class="filter-hidetxt">เรียงตาม</span></div>
+                                        <div><img src="{{asset('frontend/images/icon-filter.svg')}}" alt=""> <span class="filter-hidetxt">เรียงตาม</span></div>
                                         <div>
                                             <select class="form-select">
                                                 <option value="">ปีล่าสุด</option>
@@ -89,8 +87,8 @@
                                     <div class="item-filter">
                                         <div class="filter-hidetxt">เปลี่ยนมุมมอง</div>
                                         <div class="box-changelayout">
-                                            <button class="btn-list-item"><img src="images/icon-list.svg" class="svg" alt=""></button>
-                                            <button class="btn-grid-item active"><img src="images/icon-grid.svg" class="svg" alt=""></button>
+                                            <button class="btn-list-item"><img src="{{asset('frontend/images/icon-list.svg')}}" class="svg" alt=""></button>
+                                            <button class="btn-grid-item active"><img src="{{asset('frontend/images/icon-grid.svg')}}" class="svg" alt=""></button>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +104,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -125,7 +123,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -139,7 +137,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -158,7 +156,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -172,7 +170,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -191,7 +189,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -205,7 +203,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -224,7 +222,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -244,7 +242,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -263,7 +261,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -277,7 +275,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -296,7 +294,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -310,7 +308,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -329,7 +327,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -344,7 +342,7 @@
 
                         <div class="box-frmhelpcar">
                             <div class="topic-frmhelpcar">
-                                <img src="images/carred.svg" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
+                                <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
                             </div>
                             <form action="">
                                 <div>
@@ -364,7 +362,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -383,7 +381,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -397,7 +395,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -416,7 +414,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -430,7 +428,7 @@
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
-                                                <img src="images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png" alt="">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
@@ -449,7 +447,7 @@
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price">599,000.-</div>
@@ -471,12 +469,12 @@
                             <p>
                             Mercedes-Benz ประเทศไทย มีให้เลือกหลายรุ่นและหลากหลายประเภทรถ โดยมีทั้งกลุ่มรถสมรรถนะสูง Mercedes-AMG, กลุ่มไฟฟ้า Mercedes-EQ และอัลตร้าลักชัวรี่ Mercedes-Maybach ส่วนประเภทรถได้แบ่งเป็นไลน์ คูเป้, เปิดประทุน, เอสยูวี, รถตู้ และซาลูน
                             </p>
-                            <p style="text-align:center;"><img src="images/image 7.jpg" alt=""></p>
+                            <p style="text-align:center;"><img src="{{asset('frontend/images/image 7.jpg')}}" alt=""></p>
                             <p>
                             Mercedes-Benz เป็นแบรนด์พรีเมียมที่มียอดขายสูงสุดในไทย และ Mercedes-Benz มือสอง ก็ได้รับความนิยมมากเช่นกัน สามารถสังเกตได้ในเว็บไซต์ RodPromptkai.com มีรถ Mercedes-Benz มือสองจำนวนมากที่ผ่านการตรวจสอบแล้วให้คุณเลือกและเปรียบเทียบก่อนตัดสินใจ
                             </p>
                             <h5 style="color: #000;">Mercedes-Benz รุ่นไหนน่าซื่อที่สุดปี 2023?</h5>
-                            <p style="text-align:center;"><img src="images/Group 410.jpg" alt=""></p>
+                            <p style="text-align:center;"><img src="{{asset('frontend/images/Group 410.jpg')}}" alt=""></p>
                             <p>
                             Mercedes-Benz SLC คือที่สุดของรถยนต์สายสปอร์ต Roadster ที่มีความคลาสสิกผสมผสานกับความทันสมัยได้อย่างลงตัวราคาเริ่มตั้งแต่ 4,090,000 บาท ถึง 4,990,000 บาทสำหรับใครที่ต้องการตรวจสอบราคารถเบนซ์มือสอง, อยากซื้อรถเบนซ์มือสอง, ซื้อขายเบนซ์ มือสองรถบ้านสภาพดี และรถเบนซ์มือสอง ราคาถูก สามารถเข้าไปดูเพิ่มเติมได้ที่ RodPromptkai.com ตลาดรถให้ข้อมูลที่ดีที่สุดสำหรับการซื้อขายรถยนต์ สำหรับใครที่สนใจอยากตรวจสอบราคารถเบนซ์ มือสอง, ซื้อรถเบนซ์มือสอง, รถเบนซ์ มือ สอง เจ้าของขายเอง สภาพดี, ซื้อขายเบนซ์มือสองรถบ้าน และรถเบนซ์ มือสองราคาถูก สามารถเข้าไปที่ RodPromptkai.com ตลาดรถให้ข้อมูลที่ดีที่สุดสำหรับการซื้อขายรถยนต์มือสองในไทย และใครที่สนใจจะขายรถเบนซ์มือสอง RodPromptkai ก็สามารถช่วยคุณ ได้ ด้วยจำนวนผู้เข้าชมเว็บไซต์กว่า 2 ล้านคน/เดือน คุณจึงมั่นใจได้ว่ารถของคุณที่ลงประกาศขายในเว็บไซต์ RodPromptkai.com จะสามารถเข้าถึงผู้ซื้อได้ง่าย กว่า และโอกาสที่รถของคุณจะขายได้สูงกว่าในราคาที่คุณกำหนดเอง
                             </p>
@@ -488,8 +486,6 @@
         </div>
     </div>
 </section>
-
-<?php require('inc_footer.php'); ?>
 
 <script>
     $( document ).ready(function() {
@@ -610,8 +606,12 @@ $('.btn-grid-item').click(function (event) {
     });
 </script>
 
-</div>
 
-</body>
 
-</html>
+
+@endsection
+
+
+
+
+

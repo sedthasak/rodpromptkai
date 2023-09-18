@@ -1,15 +1,11 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - carpost-step3</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
 
 <section class="row">
     <div class="col-12 wrap-bgstep">
@@ -18,13 +14,13 @@
                 <div class="col-12 text-center">
                     <h1>ลงขายรถยนต์</h1>
                     <div class="box-iconstep">
-                        <a href="carpost-step1.php"><img src="images/icon-step1-active.svg" alt=""></a>
-                        <div class="active"><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="carpost-step2.php"><img src="images/icon-step2-active.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="carpost-step3.php"><img src="images/icon-step3-active.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="carpost-step4.php"><img src="images/icon-step4.svg" alt=""></a>
+                        <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                        <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3-active.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -55,43 +51,43 @@
                                         </div>
                                         <div>
                                             <div class="box-uploadphoto">
-                                                <div class="topic-uploadphoto"><img src="images/icon-upload1.svg" alt=""> รูปภายนอกรถ</div>
+                                                <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
                                                 <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
                                                 <div class="row row-photoupload">
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2330.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2330.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2331.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2331.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2332.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2332.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2333.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2333.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2334.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2334.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2335.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2335.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -101,31 +97,31 @@
                                                 </div>
                                             </div>
                                             <div class="box-uploadphoto">
-                                                <div class="topic-uploadphoto"><img src="images/icon-upload2.svg" alt=""> รูปห้องโดยสาร</div>
+                                                <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
                                                 <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
                                                 <div class="row row-photoupload">
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2338.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2339.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2339.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2340.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2340.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                         <div class="item-photoupload">
                                                             <button><i class="bi bi-trash3-fill"></i></button>
-                                                            <img src="images/Rectangle 2341.jpg" alt="">
+                                                            <img src="{{asset('frontend/images/Rectangle 2341.jpg')}}" alt="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -135,7 +131,7 @@
                                                 </div>
                                             </div>
                                             <div class="box-uploadphoto">
-                                                <div class="topic-uploadphoto"><img src="images/icon-upload3.svg" alt=""> เล่มทะเบียนรถ</div>
+                                                <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
                                                 <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
                                                 <div class="btn-uploadimg">
                                                     <input type="file">
@@ -166,11 +162,5 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
 
-</div>
-
-</body>
-
-</html>
+@endsection

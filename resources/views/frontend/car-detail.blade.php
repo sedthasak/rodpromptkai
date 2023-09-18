@@ -1,15 +1,12 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - car detail</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
+
 
 <section class="row">
     <div class="col-12 wrap-pagecardetail wrap-page wow fadeInDown">
@@ -21,22 +18,22 @@
                             <div class="car-booked"><div>จองแล้ว</div></div>
                             <div class="owl-carousel owl-theme slider">
                                 <div class="item">
-                                    <a href="images/c01.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c01.webp"></a>
+                                    <a href="{{asset('frontend/images/c01.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c01.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c02.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c02.webp"></a>
+                                    <a href="{{asset('frontend/images/c02.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c02.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c03.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c03.webp"></a>
+                                    <a href="{{asset('frontend/images/c03.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c03.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c04.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c04.webp"></a>
+                                    <a href="{{asset('frontend/images/c04.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c04.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c05.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c05.webp"></a>
+                                    <a href="{{asset('frontend/images/c05.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c05.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c06.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c06.webp"></a>
+                                    <a href="{{asset('frontend/images/c06.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c06.webp')}}"></a>
                                 </div>
                             </div>
                         </div>
@@ -45,22 +42,22 @@
                             <div class="car-booked"><div>จองแล้ว</div></div>
                             <div class="owl-carousel owl-theme slider">
                                 <div class="item">
-                                    <a href="images/c07.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c07.webp"></a>
+                                    <a href="{{asset('frontend/images/c07.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c07.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c08.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c08.webp"></a>
+                                    <a href="{{asset('frontend/images/c08.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c08.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c09.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c09.webp"></a>
+                                    <a href="{{asset('frontend/images/c09.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c09.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c10.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c10.webp"></a>
+                                    <a href="{{asset('frontend/images/c10.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c10.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c11.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c11.webp"></a>
+                                    <a href="{{asset('frontend/images/c11.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c11.webp')}}"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="images/c12.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c12.webp"></a>
+                                    <a href="{{asset('frontend/images/c12.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c12.webp')}}"></a>
                                 </div>
                             </div>
                         </div>
@@ -75,22 +72,22 @@
                             <div class="tab_pdetail_thumb slide_load">
                                 <div id="sync2" class="owl-carousel owl-theme navigation-thumbs">
                                     <div class="item cover-carthumb">
-                                        <img src="images/c01.webp">
+                                        <img src="{{asset('frontend/images/c01.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c02.webp">
+                                        <img src="{{asset('frontend/images/c02.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c03.webp">
+                                        <img src="{{asset('frontend/images/c03.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c04.webp">
+                                        <img src="{{asset('frontend/images/c04.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c05.webp">
+                                        <img src="{{asset('frontend/images/c05.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c06.webp">
+                                        <img src="{{asset('frontend/images/c06.webp')}}">
                                     </div>
                                 </div>
                             </div>
@@ -98,22 +95,22 @@
                             <div class="tab_pdetail_thumb slide_load">
                                 <div id="sync2" class="owl-carousel owl-theme navigation-thumbs">
                                     <div class="item cover-carthumb">
-                                        <img src="images/c07.webp">
+                                        <img src="{{asset('frontend/images/c07.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c08.webp">
+                                        <img src="{{asset('frontend/images/c08.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c09.webp">
+                                        <img src="{{asset('frontend/images/c09.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c10.webp">
+                                        <img src="{{asset('frontend/images/c10.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c11.webp">
+                                        <img src="{{asset('frontend/images/c11.webp')}}">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="images/c12.webp">
+                                        <img src="{{asset('frontend/images/c12.webp')}}">
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +158,7 @@
                                 <div class="col-12 col-md-9 listdesc-location text-end">
                                    <div class="car-location"><i class="bi bi-geo-alt"></i> กรุงเทพฯ, Bmw Nailson ชลบุรี อ เมือง ถ สุขุมวิท</div>
                                    <div class="car-linkmap">
-                                       <a data-fancybox data-src="images/city-location-map.png" href="#" target="_blank">View Location Map</a>
+                                       <a data-fancybox data-src="{{asset('frontend/images/city-location-map.png')}}" href="#" target="_blank">View Location Map</a>
                                        <a href="#" target="_blank">Google Map</a>
                                    </div>
                                 </div>
@@ -221,7 +218,7 @@
                                     </div>
                                 </div>
                                 <div class="col-3 col-md-3 desc-btnshare text-end">
-                                   <a data-fancybox data-src="#popup-share" href="javascript:;" class="btn-sharepost"><img src="images/icon-share2.svg" alt=""> แชร์</a>
+                                   <a data-fancybox data-src="#popup-share" href="javascript:;" class="btn-sharepost"><img src="{{asset('frontend/images/icon-share2.svg')}}" alt=""> แชร์</a>
                                    <div style="display: none;" id="popup-share">
                                         <div class="frm-popupshare frm-contactback">
                                             <div class="topic-popupshare topic-helpcar"><span>แชร์รถยนต์</span><br>2019 Mercedes-Benz S560e</div>
@@ -271,8 +268,8 @@
                         </div>
                     </div>
                     <button class="more-info">
-                        <span class="more">รายละเอียดโปรโมชั่น... ดูเพิ่มเติม <img src="images/icon-arrow-blue.svg" alt=""></span>
-                        <span class="less">ซ่อนรายละเอียด <img src="images/icon-arrow-blue.svg" alt=""></span>
+                        <span class="more">รายละเอียดโปรโมชั่น... ดูเพิ่มเติม <img src="{{asset('frontend/images/icon-arrow-blue.svg')}}" alt=""></span>
+                        <span class="less">ซ่อนรายละเอียด <img src="{{asset('frontend/images/icon-arrow-blue.svg')}}" alt=""></span>
                     </button>
 
                     <div class="recent-carlist">
@@ -281,7 +278,7 @@
                             <div class="col-6 col-lg-3 mb-recentlist">
                                 <a href="car-detail.php" class="item-recentlist">
                                     <figure>
-                                        <div class="cover-recentlist"><img src="images/67_1.jpeg" alt=""></div>
+                                        <div class="cover-recentlist"><img src="{{asset('frontend/images/67_1.jpeg')}}" alt=""></div>
                                         <figcaption>
                                             <div class="price-recentlist">1,290,000.-</div>
                                             <span>2023</span>
@@ -292,7 +289,7 @@
                             <div class="col-6 col-lg-3 mb-recentlist">
                                 <a href="car-detail.php" class="item-recentlist">
                                     <figure>
-                                        <div class="cover-recentlist"><img src="images/CAR202306290015_Mercedes-Benz_GLA250_20230629_102211629_WATERMARK.png" alt=""></div>
+                                        <div class="cover-recentlist"><img src="{{asset('frontend/images/CAR202306290015_Mercedes-Benz_GLA250_20230629_102211629_WATERMARK.png')}}" alt=""></div>
                                         <figcaption>
                                             <div class="price-recentlist">1,290,000.-</div>
                                             <span>2023</span>
@@ -303,7 +300,7 @@
                             <div class="col-6 col-lg-3 mb-recentlist">
                                 <a href="car-detail.php" class="item-recentlist">
                                     <figure>
-                                        <div class="cover-recentlist"><img src="images/14_1.jpeg" alt=""></div>
+                                        <div class="cover-recentlist"><img src="{{asset('frontend/images/14_1.jpeg')}}" alt=""></div>
                                         <figcaption>
                                             <div class="price-recentlist">1,290,000.-</div>
                                             <span>2023</span>
@@ -315,7 +312,7 @@
                                 <a href="car.php" class="item-recentlist">
                                     <div class="recent-clickall">+55</div>
                                     <figure>
-                                        <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                                        <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                                         <figcaption>
                                             <div class="price-recentlist">1,290,000.-</div>
                                             <span>2023</span>
@@ -336,7 +333,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="topic-average"><img src="images/icon-average.svg" alt=""> Average</div>
+                    <div class="topic-average"><img src="{{asset('frontend/images/icon-average.svg')}}" alt=""> Average</div>
                 </div>
             </div>
             <div class="row wrap-average">
@@ -345,7 +342,7 @@
                         <div class="row">
                             <div class="col-9">
                                 <div class="brandcar-average">
-                                    <img src="images/logo-bmw.png" alt="">
+                                    <img src="{{asset('frontend/images/logo-bmw.png')}}" alt="">
                                     <span>BMW X1</span> โฉม F48 ปี16-ปัจจุบัน
                                 </div>
                             </div>
@@ -383,7 +380,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-5 photo-average">
-                    <figure><img src="images/c01.webp" alt=""></figure>
+                    <figure><img src="{{asset('frontend/images/c01.webp')}}" alt=""></figure>
                 </div>
             </div>
         </div>
@@ -402,7 +399,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="car-detail.php" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/67_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/67_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -413,7 +410,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="car-detail.php" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/CAR202306290015_Mercedes-Benz_GLA250_20230629_102211629_WATERMARK.png" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/CAR202306290015_Mercedes-Benz_GLA250_20230629_102211629_WATERMARK.png')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -424,7 +421,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="car-detail.php" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/14_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/14_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -435,7 +432,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -446,7 +443,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -457,7 +454,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -468,7 +465,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -479,7 +476,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -490,7 +487,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -501,7 +498,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -512,7 +509,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -523,7 +520,7 @@
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="#" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">1,290,000.-</div>
                                 <span>2023</span>
@@ -549,7 +546,7 @@
                     <a href="car-detail.php" class="item-car">
                         <figure>
                             <div class="cover-car">
-                                <img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt="">
+                                <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="car-name">2016 Honda CR-V </div>
@@ -566,7 +563,7 @@
                                 <div class="linecontent"></div>
                                 <div class="row caritem-price">
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
                                         <div class="car-price">599,000.-</div>
@@ -580,7 +577,7 @@
                     <a href="car-detail.php" class="item-car">
                         <figure>
                             <div class="cover-car">
-                                <img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt="">
+                                <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="car-name">2016 Honda CR-V </div>
@@ -597,7 +594,7 @@
                                 <div class="linecontent"></div>
                                 <div class="row caritem-price">
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
                                         <div class="car-price">599,000.-</div>
@@ -611,7 +608,7 @@
                     <a href="car-detail.php" class="item-car">
                         <figure>
                             <div class="cover-car">
-                                <img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt="">
+                                <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="car-name">2016 Honda CR-V </div>
@@ -628,7 +625,7 @@
                                 <div class="linecontent"></div>
                                 <div class="row caritem-price">
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
                                         <div class="car-price">599,000.-</div>
@@ -642,7 +639,7 @@
                     <a href="car-detail.php" class="item-car">
                         <figure>
                             <div class="cover-car">
-                                <img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt="">
+                                <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
                             </div>
                             <figcaption>
                                 <div class="car-name">2016 Honda CR-V </div>
@@ -659,7 +656,7 @@
                                 <div class="linecontent"></div>
                                 <div class="row caritem-price">
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
                                         <div class="car-price">599,000.-</div>
@@ -679,8 +676,6 @@
     </div>
 </section>
 
-<?php require('inc_carseo.php'); ?>
-<?php require('inc_footer.php'); ?>
 
 <script>
 $(document).ready(function(){
@@ -865,8 +860,6 @@ $(window).scroll(testScroll);
 });
 </script>
 
-</div>
 
-</body>
 
-</html>
+@endsection
