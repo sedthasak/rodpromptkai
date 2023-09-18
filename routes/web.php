@@ -89,6 +89,8 @@ Route::middleware('auth')->group(function() {
         // Route::get('/', 'backendDashboard')->name('backendDashboard');
         Route::get('login-page', 'login')->name('login');
 
+        Route::get('/dev', 'BNdev')->name('BNdev');
+
 
         Route::get('dashboard-overview-1-page', 'dashboardOverview1')->name('dashboard-overview-1');
         Route::get('dashboard-overview-2-page', 'dashboardOverview2')->name('dashboard-overview-2');

@@ -21,6 +21,31 @@ class SideMenu
                 ],
                 'title' => 'Dashboard'
             ],
+            'devider',
+            'dev' => [
+                'icon' => 'message-square',
+                'route_name' => 'BNdev',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'Dev'
+            ],
+            // 'chat' => [
+            //     'icon' => 'message-square',
+            //     'route_name' => 'chat',
+            //     'params' => [
+            //         'layout' => 'side-menu'
+            //     ],
+            //     'title' => 'Chat'
+            // ],
+            // 'post' => [
+            //     'icon' => 'file-text',
+            //     'route_name' => 'post',
+            //     'params' => [
+            //         'layout' => 'side-menu'
+            //     ],
+            //     'title' => 'Post'
+            // ],
             // 'crud' => [
             //     'icon' => 'edit',
             //     'title' => 'Crud',
@@ -43,23 +68,6 @@ class SideMenu
             //         ]
             //     ]
             // ],
-            'devider',
-            'chat' => [
-                'icon' => 'message-square',
-                'route_name' => 'chat',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Chat'
-            ],
-            'post' => [
-                'icon' => 'file-text',
-                'route_name' => 'post',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Post'
-            ],
             // 'dashboard' => [
             //     'icon' => 'home',
             //     'title' => 'Dashboard',
