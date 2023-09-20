@@ -1,15 +1,11 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - update-carprice</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
 
 <section class="row">
     <div class="col-12 wrap-page wow fadeInDown">
@@ -31,7 +27,7 @@
 
                                 <div style="display: none;" id="popup-searchcar">
                                     <div class="popup-carprice frm-contactback">
-                                        <?php require('inc-popup-updateprice.php'); ?>
+                                        @include('frontend.layouts.inc-popup-updateprice')
                                     </div>
                                 </div>
                             </div>
@@ -46,20 +42,20 @@
                     <div class="news-boxshare">
                         <div class="news-date"><i class="bi bi-calendar3"></i> 30 MAY 2566 15:38</div>
                         <div class="news-share">
-                            <span><img src="images/icon-share.svg" alt=""> แชร์</span>
-                            <a href="#" target="_blank"><img src="images/facebook.svg" alt=""></a>
-                            <a href="#" target="_blank"><img src="images/twitter.svg" alt=""></a>
-                            <a href="#" target="_blank"><img src="images/line.svg" alt=""></a>
+                            <span><img src="{{asset('frontend/images/icon-share.svg')}}" alt=""> แชร์</span>
+                            <a href="#" target="_blank"><img src="{{asset('frontend/images/facebook.svg')}}" alt=""></a>
+                            <a href="#" target="_blank"><img src="{{asset('frontend/images/twitter.svg')}}" alt=""></a>
+                            <a href="#" target="_blank"><img src="{{asset('frontend/images/line.svg')}}" alt=""></a>
                         </div>
                     </div>
                     <div class="content-editor">
-                        <img src="images/image 27.png" alt="" style="width: 100%;">
+                        <img src="{{asset('frontend/images/image 27.png')}}" alt="" style="width: 100%;">
                         <p>
                         Mercedes-Benz A 200 AMG Dynamic เปิดตัวเมื่อวันที่ 22 สิงหาคม 2019 ทั้งนี้ยังมาพร้อมกับเครื่องยนต์ 1.3 ลิตร สามารถเลือกชมรายละเอียด ราคา ผ่อน ดาวน์ ราคาและตารางผ่อน 
 ดาวน์ของ Mercedes-Benz A 200 AMG Dynamic 2021 ( Mercedes Benz A200 ประกอบไทย ตารางผ่อน ) รุ่นล่าสุดอย่างเป็นทางการ และสามารถหารุ่นอื่น ๆ ที่ท่านต้องการได้ 
 Mercedes Benz A200 ราคา 2,490,000 บาท Mercedes Benz A Class 2021 ราคา และตารางผ่อน เริ่มต้นประมาณ 30,000 บาท ต่องวด
                         </p>
-                        <p style="text-align: center;"><img src="images/Group 408.png" alt=""></p>
+                        <p style="text-align: center;"><img src="{{asset('frontend/images/Group 408.png')}}" alt=""></p>
                         <p style="font-size: 1.2rem; color: #333; font-weight: 500;">Mercedes-Benz A 200 AMG Dynamic สีตัวถัง</p>
                         <ul>
                             <li>สีขาว Polar White</li>
@@ -70,14 +66,14 @@ Mercedes Benz A200 ราคา 2,490,000 บาท Mercedes Benz A Class 2021 �
                             <li>สีเทา Mountain Grey</li>
                         </ul>
                         <br>
-                        <p><img src="images/Group 406.png" alt="" style="width: 100%;"></p>
+                        <p><img src="{{asset('frontend/images/Group 406.png')}}" alt="" style="width: 100%;"></p>
                         <p style="font-size: 1.1rem; color: #333; font-weight: 500;">รีวิว ภายนอก Mercedes Benz A Class</p>
                         <p>
                         ในส่วนของภายนอกของ Mercedes-Benz A 200 AMG Dynamic นั้นจะถูกตกแต่งพร้อมใส่ชุด AMG Body Style ทั้งคันเพื่อความสปอร์ตดุดัน ไฟหน้าเป็นโคมไฟแบบ LED High Performance 
 ที่มีทรงที่สวยงาม พร้อมกับไฟ LED แบบ Day time Running Light กระจังหน้าเป็นแบบ Diamond Grille สีเงินพร้อมกับโลโก้ดาวสามแฉก ด้านหลังไฟเบรก, ไฟท้าย และ ไฟเบรกดาวที่ 3 แบบ 
 LED กระจกมองข้างด้านผู้ขับเป็นกระจกตัดแสง และปรับไฟฟ้า ล้ออัลลอยหรูหราสไตล์ AMG 5 ก้านคู่ ขนาด 18 นิ้ว พร้อมยางซีรี่ย์ 224/45 R18
                         </p>
-                        <p><img src="images/Group 407.png" alt="" style="width: 100%;"></p>
+                        <p><img src="{{asset('frontend/images/Group 407.png')}}" alt="" style="width: 100%;"></p>
                         <p style="font-size: 1.1rem; color: #333; font-weight: 500;">รีวิว ภายใน Mercedes Benz A Class</p>
                         <p>
                         เมื่อเปิดตูเข้ามายังภายในห้องโดยสารของ Mercedes-Benz A 200 AMG Dynamic ความรู้สึกแรกที่สัมผัสได้คือ ความหรูหราที่ขนาดมากับความเป็นสปอร์ตตามแบบฉบับ AMG Design เริ่มไล่
@@ -103,9 +99,11 @@ Touchpad ที่อยู่คอนโซลกลางอีกด้ว�
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
 
+@endsection
+
+
+@section('script')
 <script>
     $( document ).ready(function() {
         $('.carsearch-input input').click(function (event) {
@@ -189,9 +187,5 @@ Touchpad ที่อยู่คอนโซลกลางอีกด้ว�
         
     });
 </script>
+@endsection
 
-</div>
-
-</body>
-
-</html>

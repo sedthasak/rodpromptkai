@@ -19,7 +19,10 @@
     <link type="image/ico" rel="shortcut icon" href="{{asset('frontend/images/favicon.ico')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/layout.css')}}" />
 
-    
+
+    @if(1==2)
+        <meta http-equiv="refresh" content="3;url={{route('editprofilePage')}}">
+    @endif
     
    
     

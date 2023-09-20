@@ -1,6 +1,6 @@
 <div class="col-12 col-lg-4 col-xl-3 menuprofile-mb">
     <div class="close-menuprofile"><i class="bi bi-x-circle-fill"></i></div>
-    <a href="customer-contact.php" class="btn-customer">
+    <a href="{{route('customercontactPage')}}" class="btn-customer">
         <div><i class="bi bi-person"></i> ลูกค้ารอติดต่อกลับ</div>
         <div class="num-contactcus">3</div>
     </a>

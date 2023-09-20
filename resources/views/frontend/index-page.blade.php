@@ -9,7 +9,7 @@
 
 
 <section class="row">
-    <div class="col-12 col-xl-9 wrapbanner wow fadeInDown"">
+    <div class="col-12 col-xl-9 wrapbanner wow fadeInDown">
         <div class="owl-bannerslide owl-carousel owl-theme">
             <div class="items">
                 <figure><img src="{{asset('frontend/images/banner02.png')}}" alt=""></figure>
@@ -155,19 +155,19 @@
         <div class="box-carslide">
             <div class="owl-carslide owl-carousel owl-theme">
                 <div class="items">
-                    <a href="car.php"><figure><img src="{{asset('frontend/images/car01.png')}}" alt=""></figure></a> 
+                    <a href="{{route('carPage')}}"><figure><img src="{{asset('frontend/images/car01.png')}}" alt=""></figure></a> 
                 </div>
                 <div class="items">
-                    <a href="car.php"><figure><img src="{{asset('frontend/images/car02.png')}}" alt=""></figure></a> 
+                    <a href="{{route('carPage')}}"><figure><img src="{{asset('frontend/images/car02.png')}}" alt=""></figure></a> 
                 </div>
                 <div class="items">
-                    <a href="car.php"><figure><img src="{{asset('frontend/images/car03.png')}}" alt=""></figure></a> 
+                    <a href="{{route('carPage')}}"><figure><img src="{{asset('frontend/images/car03.png')}}" alt=""></figure></a> 
                 </div>
                 <div class="items">
-                    <a href="car.php"><figure><img src="{{asset('frontend/images/car04.png')}}" alt=""></figure></a> 
+                    <a href="{{route('carPage')}}"><figure><img src="{{asset('frontend/images/car04.png')}}" alt=""></figure></a> 
                 </div>
                 <div class="items">
-                    <a href="car.php"><figure><img src="{{asset('frontend/images/car05.png')}}" alt=""></figure></a> 
+                    <a href="{{route('carPage')}}"><figure><img src="{{asset('frontend/images/car05.png')}}" alt=""></figure></a> 
                 </div>
             </div>
         </div>
@@ -180,11 +180,11 @@
             <div class="row">
                 <div class="col-12 box-topichome">
                     <h3 class="topic-home"><i class="bi bi-circle-fill"></i> รถที่ถูกค้นหามากที่สุด</h3>
-                    <a href="car.php" class="btn-red">ดูทั้งหมด</a>
+                    <a href="{{route('carPage')}}" class="btn-red">ดูทั้งหมด</a>
                 </div>
                 <div class="col-12">
                     <div class="owl-bestsearch owl-carousel owl-theme">
-                        <a href="car-detail.php" class="item-car">
+                        <a href="{{route('cardetailPage')}}" class="item-car">
                             <figure>
                                 <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                                 <figcaption>
@@ -211,7 +211,7 @@
                                 </figcaption>
                             </figure>
                         </a>
-                        <a href="car-detail.php" class="item-car">
+                        <a href="{{route('cardetailPage')}}" class="item-car">
                             <figure>
                                 <div class="cover-car"><img src="{{asset('frontend/images/CAR202305230062_MG_MG3_20230523_112434898_WATERMARK.png')}}" alt=""></div>
                                 <figcaption>
@@ -238,7 +238,7 @@
                                 </figcaption>
                             </figure>
                         </a>
-                        <a href="car-detail.php" class="item-car">
+                        <a href="{{route('cardetailPage')}}" class="item-car">
                             <figure>
                                 <div class="cover-car"><img src="{{asset('frontend/images/CAR202304290032_Mini_Cooper_20230429_133309985_WATERMARK.png')}}" alt=""></div>
                                 <figcaption>
@@ -265,7 +265,7 @@
                                 </figcaption>
                             </figure>
                         </a>
-                        <a href="car-detail.php" class="item-car">
+                        <a href="{{route('cardetailPage')}}" class="item-car">
                             <figure>
                                 <div class="cover-car"><img src="{{asset('frontend/images/CAR202304210377_BMW_X3_20230421_120846741_WATERMARK.png')}}" alt=""></div>
                                 <figcaption>
@@ -292,7 +292,7 @@
                                 </figcaption>
                             </figure>
                         </a>
-                        <a href="car-detail.php" class="item-car">
+                        <a href="{{route('cardetailPage')}}" class="item-car">
                             <figure>
                                 <div class="cover-car"><img src="{{asset('frontend/images/CAR202305300181_Mazda_3_20230530_234137900_WATERMARK.png')}}" alt=""></div>
                                 <figcaption>
@@ -357,7 +357,7 @@
                     </div>
                     <div class="row row-item-postcar wow fadeInDown">
                         <div class="col-12 col-lg-4 item-postcar">
-                            <a href="postcar-welcome.php">
+                            <a href="{{route('postcarwelcomePage')}}">
                                 <figure>
                                     <div class="cover-itempost"><img src="{{asset('frontend/images/banner-carhome.webp')}}" alt=""></div>
                                     <figcaption>
@@ -369,7 +369,7 @@
                             </a>
                         </div>
                         <div class="col-12 col-lg-4 item-postcar">
-                            <a href="postcar-welcome-dealer.php">
+                            <a href="{{route('postcarwelcomedealerPage')}}">
                                 <figure>
                                     <div class="cover-itempost"><img src="{{asset('frontend/images/banner-cardealer.webp')}}" alt=""></div>
                                     <figcaption>
@@ -381,7 +381,7 @@
                             </a>
                         </div>
                         <div class="col-12 col-lg-4 item-postcar">
-                            <a href="postcar-welcome-lady.php">
+                            <a href="{{route('postcarwelcomeladyPage')}}">
                                 <figure>
                                     <div class="cover-itempost"><img src="{{asset('frontend/images/banner-carlady.webp')}}" alt=""></div>
                                     <figcaption>
@@ -426,7 +426,7 @@
                     </div>
                     <div class="row row-itemcar">
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="car-detail.php" class="item-car">
+                            <a href="{{route('cardetailPage')}}" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -458,7 +458,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="car-detail.php" class="item-car">
+                            <a href="{{route('cardetailPage')}}" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -490,7 +490,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="car-detail.php" class="item-car">
+                            <a href="{{route('cardetailPage')}}" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -522,7 +522,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="car-detail.php" class="item-car">
+                            <a href="{{route('cardetailPage')}}" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -554,7 +554,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="car-detail.php" class="item-car">
+                            <a href="{{route('cardetailPage')}}" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -586,7 +586,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="car-detail.php" class="item-car">
+                            <a href="{{route('cardetailPage')}}" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -630,12 +630,12 @@
             <div class="row">
                 <div class="col-12 box-topichome">
                     <h3 class="topic-home"><i class="bi bi-circle-fill"></i> อัพเดทข่าวยานยนต์</h3>
-                    <a href="news.php" class="btn-red">ดูทั้งหมด</a>
+                    <a href="{{route('newsPage')}}" class="btn-red">ดูทั้งหมด</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-xl-6 home-news-lg">
-                    <a href="news-detail.php" class="home-itemnews">
+                    <a href="{{route('newsdetailPage')}}" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
                                 <img src="{{asset('frontend/images/Rectangle 149.png')}}" alt="">
@@ -650,7 +650,7 @@
                 <div class="col-12 col-xl-6">
                     <div class="row">
                         <div class="col-6">
-                            <a href="news-detail.php" class="home-itemnews">
+                            <a href="{{route('newsdetailPage')}}" class="home-itemnews">
                                 <figure>
                                     <div class="cover-news">
                                         <img src="{{asset('frontend/images/Rectangle 2251.png')}}" alt="">
@@ -663,7 +663,7 @@
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="news-detail.php" class="home-itemnews">
+                            <a href="{{route('newsdetailPage')}}" class="home-itemnews">
                                 <figure>
                                     <div class="cover-news">
                                         <img src="{{asset('frontend/images/Rectangle 2252.png')}}" alt="">
@@ -676,7 +676,7 @@
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="news-detail.php" class="home-itemnews">
+                            <a href="{{route('newsdetailPage')}}" class="home-itemnews">
                                 <figure>
                                     <div class="cover-news">
                                         <img src="{{asset('frontend/images/Rectangle 151.png')}}" alt="">
@@ -689,7 +689,7 @@
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="news-detail.php" class="home-itemnews">
+                            <a href="{{route('newsdetailPage')}}" class="home-itemnews">
                                 <figure>
                                     <div class="cover-news">
                                         <img src="{{asset('frontend/images/Rectangle 145.png')}}" alt="">

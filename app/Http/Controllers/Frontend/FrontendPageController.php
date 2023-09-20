@@ -9,6 +9,114 @@ use App\Models\Customer;
 class FrontendPageController extends Controller
 {
 
+    public function editdealercarpoststep4Page()
+    {
+        return view('frontend/edit-dealer-carpost-step4', [
+
+        ]);
+    }
+    public function editdealercarpoststep3Page()
+    {
+        return view('frontend/edit-dealer-carpost-step3', [
+
+        ]);
+    }
+    public function editdealercarpoststep2Page()
+    {
+        return view('frontend/edit-dealer-carpost-step2', [
+
+        ]);
+    }
+    public function editdealercarpoststep1Page()
+    {
+        return view('frontend/edit-dealer-carpost-step1', [
+
+        ]);
+    }
+    public function editcarpoststep4Page()
+    {
+        return view('frontend/edit-carpost-step4', [
+
+        ]);
+    }
+    public function editcarpoststep3Page()
+    {
+        return view('frontend/edit-carpost-step3', [
+
+        ]);
+    }
+    public function editcarpoststep2Page()
+    {
+        return view('frontend/edit-carpost-step2', [
+
+        ]);
+    }
+    public function editcarpoststep1Page()
+    {
+        return view('frontend/edit-carpost-step1', [
+
+        ]);
+    }
+    public function dealercarpoststep4Page()
+    {
+        return view('frontend/dealer-carpost-step4', [
+
+        ]);
+    }
+    public function dealercarpoststep3Page()
+    {
+        return view('frontend/dealer-carpost-step3', [
+
+        ]);
+    }
+    public function dealercarpoststep2Page()
+    {
+        return view('frontend/dealer-carpost-step2', [
+
+        ]);
+    }
+    public function dealercarpoststep1Page()
+    {
+        return view('frontend/dealer-carpost-step1', [
+
+        ]);
+    }
+    public function editprofile2Page()
+    {
+        return view('frontend/edit-profile2', [
+
+        ]);
+    }
+    public function editprofilePage()
+    {
+        return view('frontend/edit-profile', [
+
+        ]);
+    }
+    public function loginwelcomePage()
+    {
+        return view('frontend/login-welcome', [
+
+        ]);
+    }
+    public function updatecarpricePage()
+    {
+        return view('frontend/update-carprice', [
+
+        ]);
+    }
+    public function customercontactPage()
+    {
+        return view('frontend/customer-contact', [
+
+        ]);
+    }
+    public function checkpricePage()
+    {
+        return view('frontend/check-price', [
+
+        ]);
+    }
     public function performanceviewPage()
     {
         return view('frontend/performance-view', [

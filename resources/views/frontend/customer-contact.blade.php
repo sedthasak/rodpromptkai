@@ -1,22 +1,18 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - customer-contact</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
-<?php require('inc_profile.php'); ?>
 
+@include('frontend.layouts.inc_profile')	
 <section class="row">
     <div class="col-12 page-profile">
         <div class="container">
             <div class="row">
-                <?php require('inc-menuprofile-search.php'); ?>
+                @include('frontend.layouts.inc-menuprofile-search')
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="desc-pageprofile">
                         <div class="wraptopic-pageprofile">
@@ -53,7 +49,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="btn-contactcus"><img src="images/icon-chev-grey.svg" alt=""></div>
+                                <div class="btn-contactcus"><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></div>
                                 <div class="detail-contactcus">
                                     <p>ชื่อ - นามสกุล :  <span>สมชาย ใจดี</span> </p> 
                                     <p>เบอร์โทรติดต่อ : <span><a href="tel:0812345678" target="_blank">0812345678</a></span> </p> 
@@ -91,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="btn-contactcus"><img src="images/icon-chev-grey.svg" alt=""></div>
+                                <div class="btn-contactcus"><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></div>
                                 <div class="detail-contactcus">
                                     <p>ชื่อ - นามสกุล :  <span>สมชาย ใจดี</span> </p> 
                                     <p>เบอร์โทรติดต่อ : <span><a href="tel:0812345678" target="_blank">0812345678</a></span> </p> 
@@ -129,7 +125,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="btn-contactcus"><img src="images/icon-chev-grey.svg" alt=""></div>
+                                <div class="btn-contactcus"><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></div>
                                 <div class="detail-contactcus">
                                     <p>ชื่อ - นามสกุล :  <span>สมชาย ใจดี</span> </p> 
                                     <p>เบอร์โทรติดต่อ : <span><a href="tel:0812345678" target="_blank">0812345678</a></span> </p> 
@@ -157,9 +153,9 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
+@endsection
 
+@section('script')
 <script>
     $('.input-daterange').datepicker({
         format: "dd/mm/yyyy",
@@ -197,9 +193,5 @@
         })
   });
 </script>
+@endsection
 
-</div>
-
-</body>
-
-</html>

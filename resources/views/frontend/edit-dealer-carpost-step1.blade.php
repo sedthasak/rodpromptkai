@@ -1,15 +1,10 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - edit-dealer-carpost-step1</title>
+@endsection
 
-<body>
-
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
+@section('content')
 
 <section class="row">
     <div class="col-12 wrap-bgstep-edit wrap-bgstep">
@@ -18,18 +13,18 @@
                 <div class="col-12 text-center">
                     <h1>แก้ไขประกาศ</h1>
                     <div class="box-iconstep">
-                        <a href="edit-carpost-step1.php"><img src="images/icon-step1-active.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="edit-carpost-step2.php"><img src="images/icon-step2.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="edit-carpost-step3.php"><img src="images/icon-step3.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="edit-carpost-step4.php"><img src="images/icon-step4.svg" alt=""></a>
+                        <a href="{{route('editdealercarpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('editdealercarpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('editdealercarpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('editdealercarpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
                     </div>
                 </div>
             </div>
         </div>
-        <?php require('inc_edittotal.php'); ?>
+        @include('frontend.layouts.inc_edittotal')
     </div>
 </section>
 <section class="row">
@@ -51,7 +46,7 @@
                                     <div class="col-12 col-md-6 frm-step">
                                         <label>2. รุ่น<span>*</span></label>
                                         <select class="form-select">
-                                            <option value="">C-CLASS </option>
+                                            <option value="">C-CLASS</option>
                                         </select>
                                     </div>
                                     <div class="col-12 col-md-6 frm-step">
@@ -124,7 +119,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 frm-step">
-                                        <label>ทะเบียนรถ<span>*</span></label>
+                                        <label>ทะเบียนรถ / รหัสรถ</label>
                                         <input type="text" class="form-control" value="กข 123">
                                     </div>
                                     <div class="col-12 col-md-6 frm-step">
@@ -137,7 +132,7 @@
                             </form>
                         </div>
                         <div class="frm-step-button text-center">
-                            <a href="edit-carpost-step2.php" class="btn-step btn-nextstep">ถัดไป</a>
+                            <a href="edit-dealer-carpost-step2.php" class="btn-step btn-nextstep">ถัดไป</a>
                         </div>
                     </div>
                 </div>
@@ -146,11 +141,11 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
 
-</div>
+@endsection
 
-</body>
+@section('script')
 
-</html>
+@endsection
+
+

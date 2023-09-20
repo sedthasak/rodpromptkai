@@ -31,3 +31,7 @@
 
 
 @endsection
+
+@section('script')
+
+@endsection

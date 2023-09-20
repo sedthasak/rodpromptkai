@@ -54,6 +54,10 @@ Route::get('loopidentity', [\App\Http\Controllers\Frontend\FrontendPageControlle
 Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/', 'indexPage')->name('indexPage');
     Route::get('/login', 'loginPage')->name('loginPage');
+    Route::get('/login-welcome', 'loginwelcomePage')->name('loginwelcomePage');
+    Route::get('/edit-profile', 'editprofilePage')->name('editprofilePage');
+    Route::get('/edit-profile2', 'editprofile2Page')->name('editprofile2Page');
+
     Route::get('/notification', 'notificationPage')->name('notificationPage');
     Route::get('/news', 'newsPage')->name('newsPage');
     Route::get('/news-detail', 'newsdetailPage')->name('newsdetailPage');
@@ -74,6 +78,22 @@ Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/performance', 'performancePage')->name('performancePage');
     Route::get('/performance-viewpost', 'performanceviewpostPage')->name('performanceviewpostPage');
     Route::get('/performance-view', 'performanceviewPage')->name('performanceviewPage');
+    Route::get('/check-price', 'checkpricePage')->name('checkpricePage');
+    Route::get('/customer-contact', 'customercontactPage')->name('customercontactPage');
+    Route::get('/update-carprice', 'updatecarpricePage')->name('updatecarpricePage');
+
+    Route::get('/dealer-carpost-step1', 'dealercarpoststep1Page')->name('dealercarpoststep1Page');
+    Route::get('/dealer-carpost-step2', 'dealercarpoststep2Page')->name('dealercarpoststep2Page');
+    Route::get('/dealer-carpost-step3', 'dealercarpoststep3Page')->name('dealercarpoststep3Page');
+    Route::get('/dealer-carpost-step4', 'dealercarpoststep4Page')->name('dealercarpoststep4Page');
+    Route::get('/edit-carpost-step1', 'editcarpoststep1Page')->name('editcarpoststep1Page');
+    Route::get('/edit-carpost-step2', 'editcarpoststep2Page')->name('editcarpoststep2Page');
+    Route::get('/edit-carpost-step3', 'editcarpoststep3Page')->name('editcarpoststep3Page');
+    Route::get('/edit-carpost-step4', 'editcarpoststep4Page')->name('editcarpoststep4Page');
+    Route::get('/edit-dealer-carpost-step1', 'editdealercarpoststep1Page')->name('editdealercarpoststep1Page');
+    Route::get('/edit-dealer-carpost-step2', 'editdealercarpoststep2Page')->name('editdealercarpoststep2Page');
+    Route::get('/edit-dealer-carpost-step3', 'editdealercarpoststep3Page')->name('editdealercarpoststep3Page');
+    Route::get('/edit-dealer-carpost-step4', 'editdealercarpoststep4Page')->name('editdealercarpoststep4Page');
 
 });
 

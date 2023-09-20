@@ -1,15 +1,11 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - check-price</title>
+@endsection
 
-<body>
+@section('content')
 
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
 
 <section class="row">
     <div class="col-12 bgpage-average wow fadeInDown">
@@ -17,14 +13,14 @@
             <div class="row">
                 <div class="col-12 average-nopad">
                     <div class="page-average">
-                        <div class="topic-average"><img src="images/icon-average.svg" alt=""> Average</div>
+                        <div class="topic-average"><img src="{{asset('frontend/images/icon-average.svg')}}" alt=""> Average</div>
                         <div>
                             <div class="wrap-average">
                                 <div class="box-average">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="brandcar-average">
-                                                <img src="images/logo-bmw.png" alt="">
+                                                <img src="{{asset('frontend/images/logo-bmw.png')}}" alt="">
                                                 <span>BMW X1</span> โฉม F48 ปี16-ปัจจุบัน
                                             </div>
                                         </div>
@@ -93,7 +89,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="brandcar-average">
-                                                <img src="images/logo-bmw.png" alt="">
+                                                <img src="{{asset('frontend/images/logo-bmw.png')}}" alt="">
                                                 <span>BMW X1</span> โฉม E84 ปี09-16
                                             </div>
                                         </div>
@@ -168,9 +164,10 @@
     </div>
 </section>
 
-<?php require('inc_carseo.php'); ?>
-<?php require('inc_footer.php'); ?>
 
+@endsection
+
+@section('script')
 <script>
 $(document).ready(function() {
     $(".animated-progress span").each(function () {
@@ -183,9 +180,4 @@ $(document).ready(function() {
     });
 });
 </script>
-
-</div>
-
-</body>
-
-</html>
+@endsection

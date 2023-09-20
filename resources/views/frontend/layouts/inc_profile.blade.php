@@ -22,13 +22,13 @@
                         <div class="profile-name">สมชาย ใจดี</div>
                         <div class="level-member">Member</div>
                         <div class="profile-phone"><i class="bi bi-phone"></i> 081-234-5678</div>
-                        <a href="edit-profile2.php" class="btn-editprofile"><i class="bi bi-pencil-square"></i> แก้ไขโปรไฟล์</a>
+                        <a href="{{route('editprofile2Page')}}" class="btn-editprofile"><i class="bi bi-pencil-square"></i> แก้ไขโปรไฟล์</a>
                     </div>
                 </div>
                 <div class="col-12 col-md-3 col-lg-5 profile-boxbtn text-end">
                     <a href="{{route('profilePage')}}" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> รถที่ลงขาย</a>
                     <a href="{{route('performancePage')}}" class="btn-performance"><img src="{{asset('frontend/images/icon-performance.svg')}}" alt=""> Performance</a>
-                    <a href="customer-contact.php" class="btn-cuscontact">รอติดต่อ <div>3</div></a>
+                    <a href="{{route('customercontactPage')}}" class="btn-cuscontact">รอติดต่อ <div>3</div></a>
                 </div>
             </div>
         </div>

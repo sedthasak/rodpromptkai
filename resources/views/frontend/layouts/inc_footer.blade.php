@@ -45,15 +45,15 @@
 
 <section>
     <nav class="menu-mobile">
-        <a href="index.php">
+        <a href="{{route('indexPage')}}">
             <img src="{{asset('frontend/images/menu-home.svg')}}" alt="">
             <div>หน้าแรก</div>
         </a>
-        <a href="#" target="_blank">
+        <a href="{{route('indexPage')}}" target="_blank">
             <img src="{{asset('frontend/images/menu-contact.svg')}}" alt="">
             <div>ติดต่อเรา</div>
         </a>
-        <a href="postcar.php">
+        <a href="{{route('postcarPage')}}">
             <img src="{{asset('frontend/images/menu-post.svg')}}" alt="">
             <div>ลงขาย</div>
         </a>
@@ -61,7 +61,7 @@
             <img src="{{asset('frontend/images/menu-search.svg')}}" alt="">
             <div>ค้นหารถ</div>
         </button>
-        <a href="profile.php">
+        <a href="{{route('profilePage')}}">
             <img src="{{asset('frontend/images/menu-account.svg')}}" alt="">
             <div>บัญชีของฉัน</div>
         </a>

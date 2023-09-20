@@ -1,15 +1,10 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - dealer-carpost-step1</title>
+@endsection
 
-<body>
-
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
+@section('content')
 
 <section class="row">
     <div class="col-12 wrap-bgstep">
@@ -18,13 +13,13 @@
                 <div class="col-12 text-center">
                     <h1>ลงขายรถยนต์</h1>
                     <div class="box-iconstep">
-                        <a href="{{route('carpoststep1Page')}}"><img src="images/icon-step1-active.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="{{route('carpoststep2Page')}}"><img src="images/icon-step2.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="{{route('carpoststep3Page')}}"><img src="images/icon-step3.svg" alt=""></a>
-                        <div><img src="images/step-arrow.svg" alt=""></div>
-                        <a href="{{route('carpoststep4Page')}}"><img src="images/icon-step4.svg" alt=""></a>
+                        <a href="{{route('dealercarpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('dealercarpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('dealercarpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></a>
+                        <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                        <a href="{{route('dealercarpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -145,11 +140,10 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
 
-</div>
+@endsection
 
-</body>
+@section('script')
 
-</html>
+@endsection
+

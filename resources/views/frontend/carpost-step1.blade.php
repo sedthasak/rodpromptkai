@@ -143,3 +143,7 @@
 
 
 @endsection
+
+@section('script')
+
+@endsection

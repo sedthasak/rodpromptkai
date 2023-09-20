@@ -1,12 +1,12 @@
 <div class="wrap-left-boxsearch">
     <div class="left-boxsearch">
-        <div class="left-boxsearch-topic"><img src="images/carred.svg" alt=""> ค้นหารถยนต์</div> 
+        <div class="left-boxsearch-topic"><img src="{{asset('frontend/images/carred.svg')}}" alt=""> ค้นหารถยนต์</div> 
         
         <div class="left-boxsearch-desc">
             <div class="left-boxsearch-topic2">รายละเอียดรถยนต์</div>
             <div class="row box-ecocar">
                 <div class="col-9">
-                    <div class="topic-careco"><img src="images/icon-careco.svg" alt=""> รถยนต์ไฟฟ้า</div>
+                    <div class="topic-careco"><img src="{{asset('frontend/images/icon-careco.svg')}}" alt=""> รถยนต์ไฟฟ้า</div>
                 </div>
                 <div class="col-3 text-end">
                     <label class="switch">
@@ -22,7 +22,7 @@
                 
                 <div style="display: none;" id="popup-searchcar">
                     <div class="cardesc-frmcontact frm-contactback">
-                        <?php require('inc-popup-carsearch.php'); ?>
+                        @include('frontend.layouts.inc-popup-carsearch')
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
             </div>
             <div class="wrap-advancesearch">
                 <div class="item_advancesearch">
-                    <div class="left-boxsearch-topic2">ค้นหารถยนต์แบบละเอียด <img src="images/chevron-red.svg" alt=""></div>
+                    <div class="left-boxsearch-topic2">ค้นหารถยนต์แบบละเอียด <img src="{{asset('frontend/images/chevron-red.svg')}}" alt=""></div>
                     <div class="content_advancesearch">
                         <div class="boxfrm-advancesearch">
                             <label>สี</label>
@@ -124,33 +124,33 @@
             <div class="left-boxsearch-topic2">รถมือสอง ประเภทอื่นๆ</div>
             <div class="row">
                 <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="car.php">
-                        <img src="images/car-type01.svg" alt="">
+                    <a href="{{route('carPage')}}">
+                        <img src="{{asset('frontend/images/car-type01.svg')}}" alt="">
                     </a>
                 </div>
                 <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="car.php">
-                        <img src="images/car-type02.svg" alt="">
+                    <a href="{{route('carPage')}}">
+                        <img src="{{asset('frontend/images/car-type02.svg')}}" alt="">
                     </a>
                 </div>
                 <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="car.php">
-                        <img src="images/car-type03.svg" alt=""">
+                    <a href="{{route('carPage')}}">
+                        <img src="{{asset('frontend/images/car-type03.svg')}}" alt="">
                     </a>
                 </div>
                 <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="car.php">
-                        <img src="images/car-type04.svg" alt="">
+                    <a href="{{route('carPage')}}">
+                        <img src="{{asset('frontend/images/car-type04.svg')}}" alt="">
                     </a>
                 </div>
                 <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="car.php">
-                        <img src="images/car-type05.svg" alt="">
+                    <a href="{{route('carPage')}}">
+                        <img src="{{asset('frontend/images/car-type05.svg')}}" alt="">
                     </a>
                 </div>
                 <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="car.php">
-                        <img src="images/car-type06.svg" alt="">
+                    <a href="{{route('carPage')}}">
+                        <img src="{{asset('frontend/images/car-type06.svg')}}" alt="">
                     </a>
                 </div>
             </div>
@@ -159,9 +159,9 @@
         <div class="left-boxsearch-item search-carview">
             <div class="left-boxsearch-topic2">รถที่คุณดูล่าสุด</div>
             <div>
-                <a href="car-detail.php" class="item-car">
+                <a href="{{route('cardetailPage')}}" class="item-car">
                     <figure>
-                        <div class="cover-car"><img src="images/cover-car.jpg" alt=""></div>
+                        <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
                             <div class="car-name">2016 Honda CR-V </div>
                             <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
@@ -170,9 +170,9 @@
                         </figcaption>
                     </figure>
                 </a>
-                <a href="car-detail.php" class="item-car">
+                <a href="{{route('cardetailPage')}}" class="item-car">
                     <figure>
-                        <div class="cover-car"><img src="images/cover-car.jpg" alt=""></div>
+                        <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
                             <div class="car-name">2016 Honda CR-V </div>
                             <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
@@ -181,9 +181,9 @@
                         </figcaption>
                     </figure>
                 </a>
-                <a href="car-detail.php" class="item-car">
+                <a href="{{route('cardetailPage')}}" class="item-car">
                     <figure>
-                        <div class="cover-car"><img src="images/cover-car.jpg" alt=""></div>
+                        <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
                             <div class="car-name">2016 Honda CR-V </div>
                             <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
@@ -192,9 +192,9 @@
                         </figcaption>
                     </figure>
                 </a>
-                <a href="car-detail.php" class="item-car">
+                <a href="{{route('cardetailPage')}}" class="item-car">
                     <figure>
-                        <div class="cover-car"><img src="images/cover-car.jpg" alt=""></div>
+                        <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
                             <div class="car-name">2016 Honda CR-V </div>
                             <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
@@ -203,9 +203,9 @@
                         </figcaption>
                     </figure>
                 </a>
-                <a href="car-detail.php" class="item-car">
+                <a href="{{route('cardetailPage')}}" class="item-car">
                     <figure>
-                        <div class="cover-car"><img src="images/cover-car.jpg" alt=""></div>
+                        <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
                             <div class="car-name">2016 Honda CR-V </div>
                             <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
@@ -218,5 +218,5 @@
         </div>  
 
     </div>
-    <a href="#" target="_blank" class="banner-adv"><img src="images/bannera.jpg" alt=""></a>
+    <a href="#" target="_blank" class="banner-adv"><img src="{{asset('frontend/images/bannera.jpg')}}" alt=""></a>
 </div>

@@ -49,44 +49,4 @@
             <button rel="BENZ ทุกรุ่น">เลือกรุ่นทั้งหมด.. คลิก <img src="{{asset('frontend/images/chev-circle-white.svg')}}" alt=""></button>
         </div>
     </div>
-    <div class="carsearch-menu carsearch-lv3">
-        <div class="carsearch-top">
-            <button class="carsearch-head"><i class="bi bi-arrow-left"></i> เลือกโฉม</button><button class="carsearch-exit">ยกเลิก</button>
-        </div>
-        <input type="text" class="car-inputsearch" placeholder="ค้นหา...">
-        <ul class="carsearch-ul">
-            <li><button rel="BENZ C-CLASS ทุกโฉม" class="carsearch-select-all">โฉมทั้งหมด</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00">W202 ปี93-00</button></li>
-            <li><button rel="BENZ C-CLASS W203 ปี00-08">W203 ปี00-08</button></li>
-            <li><button rel="BENZ C-CLASS W204 07-14">W204 07-14</button></li>
-            <li><button rel="BENZ C-CLASS W205 ปี14-22">W205 ปี14-22</button></li>
-            <li><button rel="BENZ C-CLASS W206 ปี22-ปัจจุบัน">W206 ปี22-ปัจจุบัน</button></li>
-        </ul>
-        <div class="btn-selectall-car">
-            <button rel="BENZ C-CLASS ทุกโฉม">เลือกโฉมทั้งหมด.. คลิก <img src="{{asset('frontend/images/chev-circle-white.svg')}}" alt=""></button>
-        </div>
-    </div>
-    <div class="carsearch-menu carsearch-lv4">
-        <div class="carsearch-top">
-            <button class="carsearch-head"><i class="bi bi-arrow-left"></i> เลือกรุ่นย่อย</button><button class="carsearch-exit">ยกเลิก</button>
-        </div>
-        <input type="text" class="car-inputsearch" placeholder="ค้นหา...">
-        <ul class="carsearch-ul">
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 ทุกรุ่นย่อย" class="carsearch-select-all">รุ่นย่อยทั้งหมด</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C180 1.8">C180 1.8</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C180 1.9 ELEGANCE">C180 1.9 ELEGANCE</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C180 2.0">C180 2.0</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C180 CLASSIC">C180 CLASSIC</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C180 ELEGANCE">C180 ELEGANCE</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C180 ESPRIT">C180 ESPRIT</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C200">C200</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C200 AVANTGARDE">C200 AVANTGARDE</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C200 CLASSIC">C200 CLASSIC</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C200 ELEGANCE">C200 ELEGANCE</button></li>
-            <li><button rel="BENZ C-CLASS W202 ปี93-00 C200 ESPRIT">C200 ESPRIT</button></li>
-        </ul>
-        <div class="btn-selectall-car">
-            <button rel="BENZ C-CLASS W202 ปี93-00 ทุกรุ่นย่อย">เลือกรุ่นย่อยทั้งหมด.. คลิก <img src="{{asset('frontend/images/chev-circle-white.svg')}}" alt=""></button>
-        </div>
-    </div>
 </div>

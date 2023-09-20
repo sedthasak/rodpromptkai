@@ -1,15 +1,13 @@
-<!doctype html>
-<html>
+@extends('../frontend/layouts/layout')
 
-<head>
-	<?php require('inc_head.php'); ?>
-</head>
+@section('subhead')
+    <title>รถพร้อมขาย - edit-profile2</title>
+@endsection
 
-<body>
-
-<div class="container-fluid">
-	
-<?php require('inc_menu.php'); ?>
+@section('content')
+@php
+$bg = asset('frontend/images/avatar.jpeg');
+@endphp
 
 <section class="row">
     <div class="col-12 wrap-page wow fadeInDown">
@@ -26,7 +24,7 @@
                                         <label for="imageUpload"></label>
                                     </div>
                                     <div class="avatar-preview">
-                                        <div id="imagePreview" style="background-image: url('images/avatar.jpeg');">
+                                        <div id="imagePreview" style="background-image: url('{{$bg}}');">
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +71,7 @@
                                                 <input type="text" class="form-control">
                                             </div>
                                             <div class="col-12 text-end">
-                                                <a href="profile.php" class="btn-profile btn-red">บันทึก</a>
+                                                <a href="{{route('profilePage')}}" class="btn-profile btn-red">บันทึก</a>
                                             </div>
                                         </div>
                                     </div>  
@@ -87,12 +85,9 @@
     </div>
 </section>
 
-	
-<?php require('inc_footer.php'); ?>
+@endsection
 
+@section('script')
 
-</div>
+@endsection
 
-</body>
-
-</html>
