@@ -111,7 +111,11 @@ Route::middleware('auth')->group(function() {
         // Route::get('/', 'backendDashboard')->name('backendDashboard');
         Route::get('login-page', 'login')->name('login');
 
-        Route::get('/dev', 'BNdev')->name('BNdev');
+        Route::get('/backend/dev', 'BN_dev')->name('BN_dev');
+        Route::get('/backend/users', 'BN_user')->name('BN_user');
+        Route::get('/backend/news', 'BN_news')->name('BN_news');
+        Route::get('/backend/setting', 'BN_setting')->name('BN_setting');
+        Route::get('/backend/posts', 'BN_posts')->name('BN_posts');
 
 
         Route::get('dashboard-overview-1-page', 'dashboardOverview1')->name('dashboard-overview-1');

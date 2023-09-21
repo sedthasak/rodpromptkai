@@ -13,13 +13,38 @@ class PageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function BNdev()
+    public function BN_posts()
     {
-        return view('backend/dev', [ 
-
+        return view('backend/users', [ 
             // 'layout' => 'side-menu',
         ]);
     }
+    public function BN_setting()
+    {
+        return view('backend/users', [ 
+            // 'layout' => 'side-menu',
+        ]);
+    }
+    public function BN_news()
+    {
+        return view('backend/users', [ 
+            // 'layout' => 'side-menu',
+        ]);
+    }
+    public function BN_user()
+    {
+        return view('backend/users', [ 
+            // 'layout' => 'side-menu',
+        ]);
+    }
+    public function BN_dev()
+    {
+        return view('backend/dev', [ 
+            // 'layout' => 'side-menu',
+        ]);
+    }
+    
+
     public function backendDashboard()
     {
         return view('backend/backend-dashboard', [

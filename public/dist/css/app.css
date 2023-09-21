@@ -4123,7 +4123,9 @@ select {
    */
 /* Default colors */
 :root {
-    --color-primary: 6 78 59;
+    --color-rodpromtkai: 0 31 62;
+    --color-primary: 0 31 62;
+    --color-primarybk: 6 78 59;
     --color-secondary: 226 232 240;
     --color-success: 5 150 105;
     --color-info: 6 182 212;
