@@ -22,9 +22,41 @@ class SideMenu
                 'title' => 'Dashboard'
             ],
             'devider',
+            'posts' => [
+                'icon' => 'File',
+                'route_name' => 'BN_posts',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'Posts'
+            ],
+            'news' => [
+                'icon' => 'File-Text',
+                'route_name' => 'BN_news',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'News'
+            ],
+            'setting' => [
+                'icon' => 'Settings',
+                'route_name' => 'BN_setting',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'Setting'
+            ],
+            'users' => [
+                'icon' => 'Users',
+                'route_name' => 'BN_user',
+                'params' => [
+                    'layout' => 'side-menu'
+                ],
+                'title' => 'Users'
+            ],
             'dev' => [
-                'icon' => 'message-square',
-                'route_name' => 'BNdev',
+                'icon' => 'Cloud-Lightning',
+                'route_name' => 'BN_dev',
                 'params' => [
                     'layout' => 'side-menu'
                 ],
