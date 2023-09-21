@@ -45,7 +45,8 @@
                                             </div>
                                             <div class="card-body"> --}}
                                                 {{-- {{ QrCode::size(100)->generate('<a href="sms:+66998741070?&amp;body="'.Session::get('browser_fingerprint').'>Goto Website</a>') }} --}}
-                                                {{ QrCode::size(100)->generate('sms://+66998741070;?&body='.Session::get('browser_fingerprint')) }}
+                                                {{-- {{ QrCode::size(100)->generate('sms://+66998741070;?&body='.Session::get('browser_fingerprint')) }} --}}
+                                                {{QrCode::size(100)->generate(url('/api/sendsms?phone=+66998741070&text='.Session::get('browser_fingerprint')))}}
                                             {{-- </div>
                                         </div>
                                     </div> --}}
