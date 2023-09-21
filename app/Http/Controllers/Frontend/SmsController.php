@@ -13,7 +13,7 @@ class SmsController extends Controller
         $data = ['messages' => $request->phone.'-'.$request->text.'-'.$request->sim.'--'.'-'];
         Sms::create($data);
         $data2 = ['messages' => $messages];
-        Customer::create($data2);
+        Customer::where("browserFingerprint", $messages)->update(["messages" => $messages]);
         return "OK";
     }
 }

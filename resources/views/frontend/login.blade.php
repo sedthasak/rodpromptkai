@@ -31,13 +31,25 @@
                                 <div class="col-12 col-md-8">
                                     <div class="box-descsms">
                                         <div class="box-descsms-topic1">กรุณาส่ง SMS พิมพ์ <span>123456</span></div>
-                                        <div class="box-descsms-topic2">มาที่ <span>081-234-5678</span></div>
+                                        <div class="box-descsms-topic2">มาที่ <span>099-874-1070</span></div>
                                         <div class="box-descsms-topic3">หรือใช้โทรศัพท์มือถือสแกน QR Code</div>
                                         เบอร์โทร Rodpromptkai.com
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <div class="qrcode-login"><img src="{{asset('frontend/images/qrcode.png')}}" alt=""></div>
+                                    {{-- <div class="qrcode-login"><img src="{{asset('frontend/images/qrcode.png')}}" alt=""></div> --}}
+                                    {{-- <div class="container mt-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h2>Simple QR Code</h2>
+                                            </div>
+                                            <div class="card-body"> --}}
+                                                {{Session::get('browser_fingerprint')}}
+                                                {{-- {{ QrCode::size(100)->generate('<a href="sms:+66998741070?&amp;body="'.Session::get('browser_fingerprint').'>Goto Website</a>') }} --}}
+                                                {{ QrCode::size(100)->generate('sms://+66998741070;?&body='.Session::get('browser_fingerprint')) }}
+                                            {{-- </div>
+                                        </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -64,6 +76,9 @@
         });
         </script>
     <script>
+        function randomInterval() {
+            return Math.random() < 0.5 ? 1000 : 3000;
+        }
         $(document).ready(function() {
             setInterval(function () {
                 var jqxhr = $.get("{{route('loopidentity')}}", function(data, index) {
@@ -75,7 +90,7 @@
                 .fail(function() {
                     console.log('failed');
                 });
-            }, 5000);
+            }, randomInterval());
         }); 
     </script>
 </section>

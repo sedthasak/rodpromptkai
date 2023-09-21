@@ -6,7 +6,7 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\DarkModeController;
 use App\Http\Controllers\Backend\ColorSchemeController;
-
+use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
 
 /*
@@ -50,6 +50,8 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 
 Route::get('login-system', [\App\Http\Controllers\Backend\AuthController::class, 'backendLogin'])->name('backendLogin');
 Route::get('loopidentity', [\App\Http\Controllers\Frontend\FrontendPageController::class, 'loopidentity'])->name('loopidentity');
+Route::get('/generate-qrcode', [QrCodeController::class, 'index']);
+
 
 Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/', 'indexPage')->name('indexPage');
