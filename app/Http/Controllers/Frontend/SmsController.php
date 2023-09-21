@@ -22,11 +22,11 @@ class SmsController extends Controller
 
     public function sendsms(Request $request)
     {
-        $phone = $request->phone; // เบอร์โทรศัพท์ที่ต้องการส่ง SMS
+        $phone = '+'.$request->phone; // เบอร์โทรศัพท์ที่ต้องการส่ง SMS
         $message = $request->text; // ข้อความที่ต้องการส่ง
 
         // ส่ง SMS
-        $url = "sms:{$phone}?body=".urlencode($message);
+        $url = "sms:{$phone}?&body=".urlencode($message);
         return Redirect::to($url);
     }
 }
