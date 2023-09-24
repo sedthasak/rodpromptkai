@@ -9,11 +9,11 @@
     <div class="flex overflow-hidden">
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
-            <a href="" class="intro-x flex items-center pl-5 pt-4 mt-3">
-                <img alt="Midone - HTML Admin Template" class="w-6" src="{{ asset('dist/images/logo.svg') }}">
-                <span class="hidden xl:block text-white text-lg ml-3">
+            <a href="{{route('backendDashboard')}}" class="intro-x flex items-center pl-5 pt-4 mt-3">
+                <img alt="รถพร้อมขาย" class="" src="{{asset('frontend/images/logo.svg')}}">
+                <!-- <span class="hidden xl:block text-white text-lg ml-3">
                     รถพร้อมขาย
-                </span>
+                </span> -->
             </a>
             <div class="side-nav__devider my-6"></div>
             <ul>

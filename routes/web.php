@@ -6,6 +6,11 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\DarkModeController;
 use App\Http\Controllers\Backend\ColorSchemeController;
+
+use App\Http\Controllers\Backend\BackendPageController;
+use App\Http\Controllers\Backend\LogsController;
+use App\Http\Controllers\Backend\UsersController;
+
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
 
@@ -47,10 +52,6 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 
 // Route::get('/login-page', [AuthController::class, 'loginView']);
 // Route::post('/login', [AuthController::class, 'login']);
-
-Route::get('login-system', [\App\Http\Controllers\Backend\AuthController::class, 'backendLogin'])->name('backendLogin');
-Route::get('loopidentity', [\App\Http\Controllers\Frontend\FrontendPageController::class, 'loopidentity'])->name('loopidentity');
-Route::get('/generate-qrcode', [QrCodeController::class, 'index']);
 
 
 Route::controller(FrontendPageController::class)->group(function() {
@@ -99,25 +100,45 @@ Route::controller(FrontendPageController::class)->group(function() {
 
 });
 
+
+Route::get('login-system', [AuthController::class, 'backendLogin'])->name('backendLogin');
+Route::get('loopidentity', [\App\Http\Controllers\Frontend\FrontendPageController::class, 'loopidentity'])->name('loopidentity');
+Route::get('/generate-qrcode', [QrCodeController::class, 'index']);
+
+
+
+
 Route::middleware('auth')->group(function() {
-    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');        
 
-
-    
-    
-    Route::controller(PageController::class)->group(function() {
+    Route::controller(BackendPageController::class)->group(function() {
 
         Route::get('/backend', 'backendDashboard')->name('backendDashboard');
-        // Route::get('/', 'backendDashboard')->name('backendDashboard');
-        Route::get('login-page', 'login')->name('login');
 
-        Route::get('/backend/dev', 'BN_dev')->name('BN_dev');
-        Route::get('/backend/users', 'BN_user')->name('BN_user');
+        // Route::get('/backend/dev', 'BN_dev')->name('BN_dev');
+        // Route::get('/backend/logs', 'BN_logs')->name('BN_logs');
+        // Route::get('/backend/users', 'BN_user')->name('BN_user');
         Route::get('/backend/news', 'BN_news')->name('BN_news');
         Route::get('/backend/setting', 'BN_setting')->name('BN_setting');
         Route::get('/backend/posts', 'BN_posts')->name('BN_posts');
+        Route::get('/backend/categories', 'BN_categories')->name('BN_categories');
+        Route::get('/backend/tags', 'BN_tags')->name('BN_tags');
+        
+    });
+    
+    Route::get('/backend/dev', [BackendPageController::class, 'BN_dev'])->name('BN_dev');
+
+    Route::get('/backend/logs', [LogsController::class, 'BN_logs'])->name('BN_logs');
+    Route::get('/backend/logsfetch', [LogsController::class, 'BN_logsFetch'])->name('BN_logsFetch');
+    Route::get('/backend/users', [UsersController::class, 'BN_user'])->name('BN_user');
+    Route::get('/backend/usersfetch', [UsersController::class, 'BN_usersFetch'])->name('BN_usersFetch');
+    Route::get('/backend/users-add', [UsersController::class, 'BN_user_add'])->name('BN_user_add');
+    Route::post('/backend/users-add-action', [UsersController::class, 'BN_user_add_action'])->name('BN_user_add_action');
 
 
+    Route::controller(PageController::class)->group(function() {
+        // Route::get('/', 'backendDashboard')->name('backendDashboard');
+        // Route::get('login-page', 'login')->name('login');
         Route::get('dashboard-overview-1-page', 'dashboardOverview1')->name('dashboard-overview-1');
         Route::get('dashboard-overview-2-page', 'dashboardOverview2')->name('dashboard-overview-2');
         Route::get('dashboard-overview-3-page', 'dashboardOverview3')->name('dashboard-overview-3');

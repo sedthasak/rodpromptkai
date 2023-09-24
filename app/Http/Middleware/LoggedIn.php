@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+
 use Closure;
 
 class LoggedIn
@@ -15,6 +16,9 @@ class LoggedIn
     public function handle($request, Closure $next)
     {
         if (!is_null(request()->user())) {
+
+            
+
             return redirect(route('backendDashboard'));
         } else {
             return $next($request);

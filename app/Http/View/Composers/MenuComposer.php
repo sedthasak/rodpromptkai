@@ -20,6 +20,7 @@ class MenuComposer
         if (!is_null(request()->route())) {
             $pageName = request()->route()->getName();
             $layout = $this->layout($view);
+            $default_pagename = $this->default_pagename($view);
             $activeMenu = $this->activeMenu($pageName, $layout);
 
             $view->with('top_menu', TopMenu::menu());
@@ -30,6 +31,8 @@ class MenuComposer
             $view->with('third_level_active_index', $activeMenu['third_level_active_index']);
             $view->with('page_name', $pageName);
             $view->with('layout', $layout);
+            $view->with('default_pagename', $default_pagename);
+            // $view->with('pagename', 'page');
         }
     }
 
@@ -48,6 +51,22 @@ class MenuComposer
         }
 
         return 'side-menu';
+    }
+    /**
+     * Specify used layout.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function default_pagename($view)
+    {
+        if (isset($view->default_pagename)) {
+            return $view->default_pagename;
+        } else if (request()->has('default_pagename')) {
+            return request()->query('default_pagename');
+        }
+
+        return 'Page';
     }
 
     /**

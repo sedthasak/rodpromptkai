@@ -16,51 +16,59 @@ class SideMenu
             'dashboard' => [
                 'icon' => 'home',
                 'route_name' => 'backendDashboard',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Dashboard'
+                'params' => [],
+                'title' => 'แดชบอร์ด'
             ],
-            'devider',
+            
             'posts' => [
                 'icon' => 'File',
                 'route_name' => 'BN_posts',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Posts'
+                'params' => [],
+                'title' => 'โพสท์ขายรถ'
             ],
             'news' => [
                 'icon' => 'File-Text',
                 'route_name' => 'BN_news',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'News'
+                'params' => [],
+                'title' => 'ข่าว'
             ],
-            'setting' => [
-                'icon' => 'Settings',
-                'route_name' => 'BN_setting',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Setting'
+            'cat' => [
+                'icon' => 'Grid',
+                'route_name' => 'BN_categories',
+                'params' => [],
+                'title' => 'หมวดหมู่'
+            ],
+            'tag' => [
+                'icon' => 'Tag',
+                'route_name' => 'BN_tags',
+                'params' => [],
+                'title' => 'แท็ก'
             ],
             'users' => [
                 'icon' => 'Users',
                 'route_name' => 'BN_user',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Users'
+                'params' => [],
+                'title' => 'ยูสเซอร์'
             ],
+            'setting' => [
+                'icon' => 'Settings',
+                'route_name' => 'BN_setting',
+                'params' => [],
+                'title' => 'ตั้งค่าระบบ'
+            ],
+            'devider',
+            'logs' => [
+                'icon' => 'Book',
+                'route_name' => 'BN_logs',
+                'params' => [],
+                'title' => 'Log'
+            ],
+            
             'dev' => [
                 'icon' => 'Cloud-Lightning',
                 'route_name' => 'BN_dev',
-                'params' => [
-                    'layout' => 'side-menu'
-                ],
-                'title' => 'Dev'
+                'params' => [],
+                'title' => 'ผู้พัฒนาระบบ'
             ],
             // 'chat' => [
             //     'icon' => 'message-square',
