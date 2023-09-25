@@ -26,11 +26,17 @@ class SideMenu
                 'params' => [],
                 'title' => 'โพสท์ขายรถ'
             ],
-            'news' => [
-                'icon' => 'File-Text',
-                'route_name' => 'BN_news',
+            'brand' => [
+                'icon' => 'Sidebar',
+                'route_name' => 'BN_categories',
                 'params' => [],
-                'title' => 'ข่าว'
+                'title' => 'ยี่ห้อรถ'
+            ],
+            'model' => [
+                'icon' => 'Package',
+                'route_name' => 'BN_categories',
+                'params' => [],
+                'title' => 'โมเดลรถ'
             ],
             'cat' => [
                 'icon' => 'Grid',
@@ -43,6 +49,12 @@ class SideMenu
                 'route_name' => 'BN_tags',
                 'params' => [],
                 'title' => 'แท็ก'
+            ],
+            'news' => [
+                'icon' => 'File-Text',
+                'route_name' => 'BN_news',
+                'params' => [],
+                'title' => 'ข่าว'
             ],
             'users' => [
                 'icon' => 'Users',
