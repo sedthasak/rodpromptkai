@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsSaveController;
 
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\categoriesModel;
 
 class BackendPageController extends Controller
 {
@@ -23,13 +26,7 @@ class BackendPageController extends Controller
             
         ]);
     }
-    public function BN_categories()
-    {
-        return view('backend/users', [ 
-            'default_pagename' => 'หมวดหมู่',
-            
-        ]);
-    }
+    
     public function BN_posts()
     {
         return view('backend/users', [ 
@@ -60,17 +57,10 @@ class BackendPageController extends Controller
 
     public function backendDashboard()
     {
-        // $para = array(
-        //     'part' => 'backend',
-        //     'user' => 6,
-        //     'ref' => 11,
-        //     'event' => 'ทดสอบ Log',
-        // );
-        // $result = (new LogsController)->create_log($para);
-
         return view('backend/backend-dashboard', [
             // 'layout' => 'side-menu',
             'default_pagename' => 'แดชบอร์ด',
         ]);
     }
+    
 }

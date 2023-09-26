@@ -101,7 +101,7 @@
     <!-- BEGIN: Account Menu -->
     <div class="intro-x dropdown w-8 h-8">
         <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in" role="button" aria-expanded="false" data-tw-toggle="dropdown">
-            <img alt="Midone - HTML Admin Template" src="{{ asset('dist/images/' . $fakers[9]['photos'][0]) }}">
+            <img alt="profile{{ auth()->user()->name }}" src="{{ asset(auth()->user()->photo) }}">
         </div>
         <div class="dropdown-menu w-56">
             <ul class="dropdown-content bg-primary text-white">
@@ -111,7 +111,7 @@
                 </li>
                 <li><hr class="dropdown-divider border-white/[0.08]"></li>
                 <li>
-                    <a href="" class="dropdown-item hover:bg-white/5">
+                    <a href="{{route('BN_profile')}}" class="dropdown-item hover:bg-white/5">
                         <i data-lucide="user" class="w-4 h-4 mr-2"></i> Profile
                     </a>
                 </li>

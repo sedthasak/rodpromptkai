@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\ColorSchemeController;
 use App\Http\Controllers\Backend\BackendPageController;
 use App\Http\Controllers\Backend\LogsController;
 use App\Http\Controllers\Backend\UsersController;
+use App\Http\Controllers\Backend\CategoriesController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -121,7 +122,7 @@ Route::middleware('auth')->group(function() {
         Route::get('/backend/news', 'BN_news')->name('BN_news');
         Route::get('/backend/setting', 'BN_setting')->name('BN_setting');
         Route::get('/backend/posts', 'BN_posts')->name('BN_posts');
-        Route::get('/backend/categories', 'BN_categories')->name('BN_categories');
+        
         Route::get('/backend/tags', 'BN_tags')->name('BN_tags');
         
     });
@@ -134,6 +135,16 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/usersfetch', [UsersController::class, 'BN_usersFetch'])->name('BN_usersFetch');
     Route::get('/backend/users-add', [UsersController::class, 'BN_user_add'])->name('BN_user_add');
     Route::post('/backend/users-add-action', [UsersController::class, 'BN_user_add_action'])->name('BN_user_add_action');
+    Route::get('/backend/profile', [UsersController::class, 'BN_profile'])->name('BN_profile');
+    Route::get('/backend/profile-edit', [UsersController::class, 'BN_profile_edit'])->name('BN_profile_edit');
+    Route::post('/backend/profile-edit-action', [UsersController::class, 'BN_profile_edit_action'])->name('BN_profile_edit_action');
+
+    Route::get('/backend/categories', [CategoriesController::class, 'BN_categories'])->name('BN_categories');
+    Route::get('/backend/categories-add', [CategoriesController::class, 'BN_categories_add'])->name('BN_categories_add');
+    Route::get('/backend/categories-edit/{id}', [CategoriesController::class, 'BN_categories_edit'])->name('BN_categories_edit');
+    Route::post('/backend/categories-add-action', [CategoriesController::class, 'BN_categories_add_action'])->name('BN_categories_add_action');
+    Route::post('/backend/categories-edit-action', [CategoriesController::class, 'BN_categories_edit_action'])->name('BN_categories_edit_action');
+    Route::get('/backend/categoriesfetch', [CategoriesController::class, 'BN_categoriesFetch'])->name('BN_categoriesFetch');
 
 
     Route::controller(PageController::class)->group(function() {
