@@ -52,4 +52,16 @@ class SmsController extends Controller
         $url = "sms:{$phone}?&body=".urlencode($message);
         return Redirect::to($url);
     }
+
+    public function destroy(Request $request) {
+        $browserFingerprint = $request->browserFingerprint;
+        Sms_session::where('browserFingerprint', $browserFingerprint)->delete();
+        return redirect('/');
+    }
+
+    public function destoryall(Request $request) {
+        $customer_id = $request->customer_id;
+        Sms_session::where('customer_id', $customer_id)->delete();
+        return redirect('/');
+    }
 }
