@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Sms_session extends Model
 {
     //
-    protected $table = 'customer';
+    protected $table = 'sms_session';
     // protected $primaryKey = 'position_id';
     // public $incrementing = false;
     // protected $keyType = 'string';

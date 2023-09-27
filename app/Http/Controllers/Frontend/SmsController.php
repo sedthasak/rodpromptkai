@@ -5,17 +5,40 @@ namespace App\Http\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
-use App\Models\Sms;
 use App\Models\Customer;
+use App\Models\Sms_session;
 
 class SmsController extends Controller
 {
     public function store($messages, Request $request) {
-        $data = ['messages' => $request->phone.'-'.$request->text.'-'.$request->sim.'--'.'-'];
-        Sms::create($data);
+        // $data = ['messages' => $request->phone.'-'.$request->text.'-'.$request->sim.'--'.'-'];
+        // Sms::create($data);
         if (strlen($request->text) == 6 && is_numeric($request->text)) {
-            $data2 = ['messages' => $request->text];
-            Customer::where("browserFingerprint", $request->text)->update(["messages" => $request->text]);
+            // insert phone to customer
+            $phone = $request->phone;
+            $qry = Customer::where("phone", $phone)->first();
+            if (isset($qry->phone)) {
+                $customer_id = $qry->id; 
+            }
+            else {
+                $customer = Customer::create(['phone' => $phone]);
+                $customer_id = $customer->id;
+            }
+
+            // insert customer_id and browserFingerprint to sms_session
+            $browserFingerprint = $request->text;
+            $qry2 = Sms_session::where("browserFingerprint", $browserFingerprint)->first();
+            if (isset($qry2->browserFingerprint)) {
+
+            }
+            else {
+                $data2 = [
+                    'customer_id'           => $customer_id,
+                    'browserFingerprint'    => $browserFingerprint,
+                    'messages'              => $browserFingerprint
+                ];
+                Sms_session::create($data2);
+            }
         }
         return "OK";
     }

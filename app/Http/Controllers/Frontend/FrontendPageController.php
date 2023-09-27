@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Sms_session;
 
 class FrontendPageController extends Controller
 {
@@ -248,24 +249,24 @@ class FrontendPageController extends Controller
     {
         $browserFingerprint = $request->session()->get('browser_fingerprint');
         if ($browserFingerprint == "") {
-            // สร้างตัวเลขสุ่ม 6 หลัก
-            $randomNumber = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
 
-            // สร้าง Browser Fingerprint
-            $browserFingerprint = $randomNumber;
+            $currentDateTime = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
+            $browserFingerprint = strtotime($currentDateTime) % 1000000; // เข้ารหัสเป็นตัวเลข 6 หลัก
 
             // เก็บลงใน Session
             $request->session()->put('browser_fingerprint', $browserFingerprint);
-        }
-        $browserFingerprint = $request->session()->get('browser_fingerprint');
-        $qry = Customer::where("browserFingerprint", $browserFingerprint)->first();
-        if (isset($qry)) {
 
+            $browserFingerprint = $request->session()->get('browser_fingerprint');
         }
-        else {
-            $data = ['browserFingerprint' => $browserFingerprint];
-            Customer::create($data);
-        }
+        
+        // $qry = Customer::where("browserFingerprint", $browserFingerprint)->first();
+        // if (isset($qry)) {
+
+        // }
+        // else {
+        //     $data = ['browserFingerprint' => $browserFingerprint];
+        //     Customer::create($data);
+        // }
         
         return view('frontend/index-page', [
              // Specify the base layout.
@@ -279,7 +280,7 @@ class FrontendPageController extends Controller
     }
     public function loopidentity(Request $request) {
         $browserFingerprint = $request->session()->get('browser_fingerprint');
-        $qry = Customer::where("browserFingerprint", $browserFingerprint)->where("messages", $browserFingerprint)->first();
+        $qry = Sms_session::where("browserFingerprint", $browserFingerprint)->where("messages", $browserFingerprint)->first();
         if (isset($qry))
             $data = ["text" => "success"];
         else
