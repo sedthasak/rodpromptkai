@@ -11,4 +11,9 @@ class Sms_session extends Model
     // protected $primaryKey = 'position_id';
     // public $incrementing = false;
     // protected $keyType = 'string';
+    protected $fillable = [
+        'customer_id',
+        'browserFingerprint',
+        'messages'
+    ];
 }
