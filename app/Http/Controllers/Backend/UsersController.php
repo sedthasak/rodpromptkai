@@ -50,6 +50,7 @@ class UsersController extends Controller
                                     <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">#</td>
                                     <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">ชื่อ</td>
                                     <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">อีเมล</td>
+                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">**</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,6 +63,7 @@ class UsersController extends Controller
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $count ?></td>
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->name ?></td>
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->email ?></td>
+                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><a href="#">แก้ไข</a></td>
                                 </tr>
                                 <?php
                                 }

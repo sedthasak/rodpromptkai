@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\BackendPageController;
 use App\Http\Controllers\Backend\LogsController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\CategoriesController;
+use App\Http\Controllers\Backend\NewsController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -119,7 +120,7 @@ Route::middleware('auth')->group(function() {
         // Route::get('/backend/dev', 'BN_dev')->name('BN_dev');
         // Route::get('/backend/logs', 'BN_logs')->name('BN_logs');
         // Route::get('/backend/users', 'BN_user')->name('BN_user');
-        Route::get('/backend/news', 'BN_news')->name('BN_news');
+        // Route::get('/backend/news', 'BN_news')->name('BN_news');
         Route::get('/backend/setting', 'BN_setting')->name('BN_setting');
         Route::get('/backend/posts', 'BN_posts')->name('BN_posts');
         
@@ -145,6 +146,10 @@ Route::middleware('auth')->group(function() {
     Route::post('/backend/categories-add-action', [CategoriesController::class, 'BN_categories_add_action'])->name('BN_categories_add_action');
     Route::post('/backend/categories-edit-action', [CategoriesController::class, 'BN_categories_edit_action'])->name('BN_categories_edit_action');
     Route::get('/backend/categoriesfetch', [CategoriesController::class, 'BN_categoriesFetch'])->name('BN_categoriesFetch');
+
+    Route::get('/backend/news', [NewsController::class, 'BN_news'])->name('BN_news');
+    Route::get('/backend/news-add', [NewsController::class, 'BN_news_add'])->name('BN_news_add');
+    Route::get('/backend/newsfetch', [NewsController::class, 'BN_newsFetch'])->name('BN_newsFetch');
 
 
     Route::controller(PageController::class)->group(function() {

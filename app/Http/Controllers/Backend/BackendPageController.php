@@ -21,7 +21,7 @@ class BackendPageController extends Controller
     
     public function BN_tags()
     {
-        return view('backend/users', [ 
+        return view('backend/backend-dashboard', [ 
             'default_pagename' => 'แท็ก',
             
         ]);
@@ -29,23 +29,18 @@ class BackendPageController extends Controller
     
     public function BN_posts()
     {
-        return view('backend/users', [ 
+        return view('backend/backend-dashboard', [ 
             'default_pagename' => 'Post',
             
         ]);
     }
     public function BN_setting()
     {
-        return view('backend/users', [ 
-            'default_pagename' => 'Settings',
+        return view('backend/backend-dashboard', [ 
+            'default_pagename' => 'ตั้งค่าระบบ',
         ]);
     }
-    public function BN_news()
-    {
-        return view('backend/users', [ 
-            'default_pagename' => 'News',
-        ]);
-    }
+    
     
     public function BN_dev()
     {
