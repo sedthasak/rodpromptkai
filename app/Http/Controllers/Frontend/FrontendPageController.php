@@ -267,6 +267,9 @@ class FrontendPageController extends Controller
         //     $data = ['browserFingerprint' => $browserFingerprint];
         //     Customer::create($data);
         // }
+
+        $customer = Customer::join("sms_session", "customer.id", "sms_session.customer_id")
+        ->where('sms_session.browserFingerprint', $browserFingerprint)->where('sms_session.messages', $browserFingerprint)->first();
         
         return view('frontend/index-page', [
              // Specify the base layout.
@@ -275,7 +278,8 @@ class FrontendPageController extends Controller
  
             'layout' => 'side-menu',
 
-            'browserFingerprint' => $browserFingerprint
+            'browserFingerprint' => $browserFingerprint,
+            'customer' => $customer
         ]);
     }
     public function loopidentity(Request $request) {
