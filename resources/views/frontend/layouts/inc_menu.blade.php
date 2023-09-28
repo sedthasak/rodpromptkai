@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-6 col-md-7 col-lg-6">
                         <div class="topbar-right">
-                            <a href="{{route('loginPage')}}" class="btn-login"><i class="bi bi-person-circle"></i> เข้าสู่ระบบ</a>
+                            <a href="{{route('loginPage')}}" class="btn-login"><i class="bi bi-person-circle">@if(isset($customer->firstname))</i> {{$customer->firstname}}</a> @else</i> เข้าสู่ระบบ</a>@endif
                             <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> <div>55</div></a>
                             <a href="{{route('postcarPage')}}" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ <span>ฟรี!</span></a>
                         </div>
