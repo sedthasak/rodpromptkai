@@ -22,6 +22,8 @@
         <script src="{{asset('frontend/js/wNumb.min.js')}}"></script>
         <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
 
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
         <script src="{{ mix('dist/js/app.js') }}"></script>
         <!-- END: JS Assets-->
 
