@@ -33,5 +33,6 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('*', 'App\Http\View\Composers\DarkModeComposer');
         View::composer('*', 'App\Http\View\Composers\LoggedInUserComposer');
         View::composer('*', 'App\Http\View\Composers\ColorSchemeComposer');
+        View::composer('*', 'App\Http\View\Composers\SessionLoginComposer');
     }
 }

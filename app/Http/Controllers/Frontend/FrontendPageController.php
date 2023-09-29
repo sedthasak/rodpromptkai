@@ -245,6 +245,12 @@ class FrontendPageController extends Controller
 
         ]);
     }
+    public function DevelopPage()
+    {
+        return view('frontend/develop', [
+
+        ]);
+    }
     public function indexPage(Request $request)
     {
         $browserFingerprint = $request->session()->get('browser_fingerprint');
@@ -258,19 +264,21 @@ class FrontendPageController extends Controller
 
             $browserFingerprint = $request->session()->get('browser_fingerprint');
         }
-        
-        // $qry = Customer::where("browserFingerprint", $browserFingerprint)->first();
-        // if (isset($qry)) {
-
-        // }
-        // else {
-        //     $data = ['browserFingerprint' => $browserFingerprint];
-        //     Customer::create($data);
-        // }
 
         $customer = Customer::join("sms_session", "customer.id", "sms_session.customer_id")
         ->where('sms_session.browserFingerprint', $browserFingerprint)->where('sms_session.messages', $browserFingerprint)->first();
         
+
+        $currentDateTimess = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
+        // $tel = '0998741070';
+        // $codetosend = rand(100000,999999);
+        // $message = $SixDigitRandomNumber.$tel;
+        $para1 = '892001';
+        // $getsmssession = Sms_session::where("messages", $para1)->first();
+        $getsmssession = Sms_session::where([
+            ['messages', '=', $para1],
+        ])->first();
+
         return view('frontend/index-page', [
              // Specify the base layout.
              // Eg: 'side-menu', 'simple-menu', 'top-menu', 'login'
@@ -279,6 +287,7 @@ class FrontendPageController extends Controller
             'layout' => 'side-menu',
 
             'browserFingerprint' => $browserFingerprint,
+            'getsmssession' => $getsmssession,
             'customer' => $customer
         ]);
     }

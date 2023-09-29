@@ -1,5 +1,12 @@
 
 
+<?php
+
+// $data = session()->all();
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
+?>
 <header class="row">
     <div class="col-12 wrap_menu">
 

@@ -7,7 +7,21 @@
 @section('content')
 
 
+<?php
+// $tel = '0998741070';
+// $SixDigitRandomNumber = rand(100000,999999);
+// $message = $SixDigitRandomNumber.$tel;
 
+// echo "<pre>";
+// print_r($tel);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($SixDigitRandomNumber);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($getsmssession);
+// echo "</pre>";
+?>
 <section class="row">
     <div class="col-12 col-xl-9 wrapbanner wow fadeInDown">
         <div class="owl-bannerslide owl-carousel owl-theme">

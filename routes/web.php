@@ -62,6 +62,7 @@ Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/login-welcome', 'loginwelcomePage')->name('loginwelcomePage');
     Route::get('/edit-profile', 'editprofilePage')->name('editprofilePage');
     Route::get('/edit-profile2', 'editprofile2Page')->name('editprofile2Page');
+    // Route::get('/dev', 'DevelopPage')->name('DevelopPage');
 
     Route::get('/notification', 'notificationPage')->name('notificationPage');
     Route::get('/news', 'newsPage')->name('newsPage');
@@ -100,6 +101,12 @@ Route::controller(FrontendPageController::class)->group(function() {
     Route::get('/edit-dealer-carpost-step3', 'editdealercarpoststep3Page')->name('editdealercarpoststep3Page');
     Route::get('/edit-dealer-carpost-step4', 'editdealercarpoststep4Page')->name('editdealercarpoststep4Page');
 
+});
+
+Route::middleware('sessionlogin')->group(function() {
+    Route::controller(FrontendPageController::class)->group(function() {
+        Route::get('/dev', 'DevelopPage')->name('DevelopPage');
+    });
 });
 
 
