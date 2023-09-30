@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Sms_session;
+
 
 class FrontendPageController extends Controller
 {
@@ -247,37 +249,51 @@ class FrontendPageController extends Controller
     }
     public function DevelopPage()
     {
-        return view('frontend/develop', [
+        // Session::put('customer_session', '2413320998887778');
+        // dd('fd');
+        function ranInt(){
+            $codetosend = random_int(0,9);
+            return $codetosend;
+        }
+        // $codetosend = ranInt();
 
+        do {
+            $codetosend = ranInt();
+            $exists = Sms_session::where("customer_session", $codetosend)->exists();
+
+        } while ($exists);
+
+        return view('frontend/develop', [
+            'test' => $codetosend,
         ]);
     }
     public function indexPage(Request $request)
     {
-        $browserFingerprint = $request->session()->get('browser_fingerprint');
-        if ($browserFingerprint == "") {
+        // $browserFingerprint = $request->session()->get('browser_fingerprint');
+        // if ($browserFingerprint == "") {
 
-            $currentDateTime = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
-            $browserFingerprint = strtotime($currentDateTime) % 1000000; // เข้ารหัสเป็นตัวเลข 6 หลัก
+        //     $currentDateTime = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
+        //     $browserFingerprint = strtotime($currentDateTime) % 1000000; // เข้ารหัสเป็นตัวเลข 6 หลัก
 
-            // เก็บลงใน Session
-            $request->session()->put('browser_fingerprint', $browserFingerprint);
+        //     // เก็บลงใน Session
+        //     $request->session()->put('browser_fingerprint', $browserFingerprint);
 
-            $browserFingerprint = $request->session()->get('browser_fingerprint');
-        }
+        //     $browserFingerprint = $request->session()->get('browser_fingerprint');
+        // }
 
-        $customer = Customer::join("sms_session", "customer.id", "sms_session.customer_id")
-        ->where('sms_session.browserFingerprint', $browserFingerprint)->where('sms_session.messages', $browserFingerprint)->first();
+        // $customer = Customer::join("sms_session", "customer.id", "sms_session.customer_id")
+        // ->where('sms_session.browserFingerprint', $browserFingerprint)->where('sms_session.messages', $browserFingerprint)->first();
         
 
-        $currentDateTimess = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
+        // $currentDateTimess = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
         // $tel = '0998741070';
         // $codetosend = rand(100000,999999);
         // $message = $SixDigitRandomNumber.$tel;
-        $para1 = '892001';
+        // $para1 = '892001';
         // $getsmssession = Sms_session::where("messages", $para1)->first();
-        $getsmssession = Sms_session::where([
-            ['messages', '=', $para1],
-        ])->first();
+        // $getsmssession = Sms_session::where([
+        //     ['messages', '=', $para1],
+        // ])->first();
 
         return view('frontend/index-page', [
              // Specify the base layout.
@@ -286,13 +302,13 @@ class FrontendPageController extends Controller
  
             'layout' => 'side-menu',
 
-            'browserFingerprint' => $browserFingerprint,
-            'getsmssession' => $getsmssession,
-            'customer' => $customer
+            // 'browserFingerprint' => $browserFingerprint,
+            // 'getsmssession' => $getsmssession,
+            // 'customer' => $customer
         ]);
     }
     public function loopidentity(Request $request) {
-        $browserFingerprint = $request->session()->get('browser_fingerprint');
+        $browserFingerprint = $request->session()->get('browserFingerprint');
         $qry = Sms_session::where("browserFingerprint", $browserFingerprint)->where("messages", $browserFingerprint)->first();
         if (isset($qry))
             $data = ["text" => "success"];

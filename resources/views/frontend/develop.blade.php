@@ -8,7 +8,7 @@
 
 <?php
 // $tel = '0998741070';
-// $SixDigitRandomNumber = rand(100000,999999);
+// $SixDigitRandomNumber = random_int(100000,999999);
 // $message = $SixDigitRandomNumber.$tel;
 
 // echo "<pre>";
@@ -24,12 +24,23 @@
 // echo "</pre>";
 // session()->put('codetosend', $codetosend);
 // session()->flush();
+// $currentDateTime = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
+// $browserFingerprint = strtotime($currentDateTime) % 1000500; // เข้ารหัสเป็นตัวเลข 6 หลัก
+// $sevenDigitRandomNumber = random_int(1000000,9999999);
 
+// function ranInt(){
+//     $codetosend = random_int(1000000,9999999);
+//     return $codetosend;
+// }
 
-$data = session()->all();
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($test);
+// echo "</pre>";
+
+// $data = session()->all();
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
 ?>
 <section class="row">
     <div class="col-12 wrap-login">

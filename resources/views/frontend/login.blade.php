@@ -30,7 +30,7 @@
                             <div class="row">
                                 <div class="col-12 col-md-8">
                                     <div class="box-descsms">
-                                        <div class="box-descsms-topic1">กรุณาส่ง SMS พิมพ์ <span>{{Session::get('messages')}}</span></div>
+                                        <div class="box-descsms-topic1">กรุณาส่ง SMS พิมพ์ <span>{{Session::get('browserFingerprint')}}</span></div>
                                         <div class="box-descsms-topic2">มาที่ <span>099-874-1070</span></div>
                                         <div class="box-descsms-topic3">หรือใช้โทรศัพท์มือถือสแกน QR Code</div>
                                         เบอร์โทร Rodpromptkai.com
@@ -44,7 +44,7 @@
                                                 <h2>Simple QR Code</h2>
                                             </div>
                                             <div class="card-body"> --}}
-                                                {{-- {{ QrCode::size(100)->generate('<a href="sms:+66998741070?&amp;body="'.Session::get('browser_fingerprint').'>Goto Website</a>') }} --}}
+                                                {{-- {{ QrCode::size(100)->generate('<a href="sms:+66998741070?&amp;body="'.Session::get('browserFingerprint').'>Goto Website</a>') }} --}}
                                                 {{-- {{ QrCode::size(100)->generate('sms://+66998741070;?&body='.Session::get('browser_fingerprint')) }} --}}
                                                 {{QrCode::size(100)->generate(url('/api/sendsms?phone=+66998741070&text='.Session::get('browser_fingerprint')))}}
                                             {{-- </div>

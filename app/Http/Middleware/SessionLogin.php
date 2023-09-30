@@ -10,6 +10,8 @@ use App\Models\Customer;
 
 class SessionLogin
 {
+
+    
     /**
      * Handle an incoming request.
      *
@@ -17,18 +19,29 @@ class SessionLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $messages = $request->session()->get('messages');
-        $customer_session = $request->session()->get('customer_session');
-        if (!$messages) {
-            $codetosend = rand(100000,999999);
-            $request->session()->put('messages', $codetosend);
+
+        function ranInt(){
+            $codetosend = random_int(1000000,9999999);
+            return $codetosend;
         }
-        if ($customer_session) {
-            $gets = Sms_session::where("customer_session", $customer_session)->first();
-            $customer_id = $gets->customer_id;
-            $getsCUs = Customer::where("id", $customer_id)->first();
-            if(isset($getsCUs)){
-                $request->session()->put('customer', $getsCUs);
+
+        $browserFingerprint = $request->session()->get('browserFingerprint');
+        // $request->session()->put('customer', 'Error');
+        if (!$browserFingerprint) {
+            do {
+                $codetosend = ranInt();
+                $exists = Sms_session::where("browserFingerprint", $codetosend)->exists();
+            } while ($exists);
+            $request->session()->put('browserFingerprint', $codetosend);
+            // $request->session()->put('customer', 'empty');
+        }
+        else{
+            $getcustomersession = Sms_session::where([
+                ['browserFingerprint', '=', $browserFingerprint],
+            ])->first();
+            if(isset($getcustomersession->id)){
+                $customer = Customer::where("id", $getcustomersession->customer_id)->first();
+                $request->session()->put('customer', $customer);
             }
             
         }

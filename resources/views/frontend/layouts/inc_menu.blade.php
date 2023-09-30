@@ -3,8 +3,9 @@
 <?php
 
 // $data = session()->all();
+$customerdata = session('customer');
 // echo "<pre>";
-// print_r($data);
+// print_r($customerdata->phone);
 // echo "</pre>";
 ?>
 <header class="row">
@@ -22,9 +23,9 @@
                     </div>
                     <div class="col-6 col-md-7 col-lg-6">
                         <div class="topbar-right">
-                            @if(isset($customer->firstname))
+                            @if(isset($customerdata))
                             
-                            <a href="{{route('profilePage')}}" class="btn-login"><i class="bi bi-person-circle"></i> {{$customer->firstname}}</a>
+                            <a href="{{route('profilePage')}}" class="btn-login"><i class="bi bi-person-circle"></i> {{$customerdata->phone}}</a>
                             @else
                             <a href="{{route('loginPage')}}" class="btn-login"><i class="bi bi-person-circle"></i> เข้าสู่ระบบ</a>
                             @endif

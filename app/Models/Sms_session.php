@@ -13,6 +13,7 @@ class Sms_session extends Model
     // protected $keyType = 'string';
     protected $fillable = [
         'customer_id',
+        'customer_session',
         'browserFingerprint',
         'messages'
     ];
