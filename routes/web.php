@@ -68,8 +68,8 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/', 'indexPage')->name('indexPage');
         Route::get('/login', 'loginPage')->name('loginPage');
         Route::get('/login-welcome', 'loginwelcomePage')->name('loginwelcomePage');
+        Route::get('/edit-profile-first', 'editprofilePage_afterregis')->name('editprofilePage_afterregis');
         Route::get('/edit-profile', 'editprofilePage')->name('editprofilePage');
-        Route::get('/edit-profile2', 'editprofile2Page')->name('editprofile2Page');
 
         Route::get('/notification', 'notificationPage')->name('notificationPage');
         Route::get('/news', 'newsPage')->name('newsPage');

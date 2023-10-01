@@ -2,10 +2,10 @@
 
 <?php
 
-// $data = session()->all();
+$data = session()->all();
 $customerdata = session('customer');
 // echo "<pre>";
-// print_r($customerdata->phone);
+// print_r($customerdata);
 // echo "</pre>";
 ?>
 <header class="row">

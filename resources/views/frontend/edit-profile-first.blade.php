@@ -1,7 +1,7 @@
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
-    <title>รถพร้อมขาย - edit-profile2</title>
+    <title>รถพร้อมขาย - edit-profile</title>
 @endsection
 
 @section('content')
@@ -71,7 +71,7 @@ $bg = asset('frontend/images/avatar.jpeg');
                                                 <input type="text" class="form-control">
                                             </div>
                                             <div class="col-12 text-end">
-                                                <a href="{{route('profilePage')}}" class="btn-profile btn-red">บันทึก</a>
+                                                <a href="{{route('postcarPage')}}" class="btn-profile btn-red">บันทึก</a>
                                             </div>
                                         </div>
                                     </div>  
@@ -90,4 +90,5 @@ $bg = asset('frontend/images/avatar.jpeg');
 @section('script')
 
 @endsection
+
 

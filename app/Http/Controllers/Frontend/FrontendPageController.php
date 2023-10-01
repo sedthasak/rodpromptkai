@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Sms_session;
+use App\Models\provincesModel;
 
 
 class FrontendPageController extends Controller
@@ -84,15 +85,18 @@ class FrontendPageController extends Controller
 
         ]);
     }
-    public function editprofile2Page()
-    {
-        return view('frontend/edit-profile2', [
-
-        ]);
-    }
     public function editprofilePage()
     {
+        // $provinces = provincesModel::all()->sort();
+        $provinces = provincesModel::all();
+
         return view('frontend/edit-profile', [
+            'provinces' => $provinces,
+        ]);
+    }
+    public function editprofilePage_afterregis()
+    {
+        return view('frontend/edit-profile-first', [
 
         ]);
     }

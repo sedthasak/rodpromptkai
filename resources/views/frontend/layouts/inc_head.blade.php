@@ -21,7 +21,7 @@
 
 
     @if(1==2)
-        <meta http-equiv="refresh" content="3;url={{route('editprofilePage')}}">
+        <meta http-equiv="refresh" content="3;url={{route('editprofilePage_afterregis')}}">
     @endif
     
    

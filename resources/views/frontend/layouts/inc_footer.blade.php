@@ -198,6 +198,7 @@
 
 <a id="button-top"><img src="{{asset('frontend/images/totop.svg')}}" alt=""></a>
 
+@include('frontend.layouts.inc_javascript')
 @include('frontend.layouts.footer_script')
 
 

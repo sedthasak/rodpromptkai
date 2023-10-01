@@ -1,14 +1,34 @@
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
-    <title>รถพร้อมขาย - edit-profile</title>
+    <title>รถพร้อมขาย - edit-profile2</title>
 @endsection
 
 @section('content')
 @php
 $bg = asset('frontend/images/avatar.jpeg');
 @endphp
+<?php
 
+$data = session()->all();
+$customerdata = session('customer');
+$phone = $customerdata->phone??'';
+$username = $customerdata->username??'';
+$email = $customerdata->email??'';
+$image = $customerdata->image??asset('frontend/images/avatar.jpeg');
+$firstname = $customerdata->firstname??'';
+$lastname = $customerdata->lastname??'';
+$place = $customerdata->place??'';
+$province = $customerdata->province??'';
+$map = $customerdata->map??'';
+$google_map = $customerdata->google_map??'';
+$facebook = $customerdata->facebook??'';
+$line = $customerdata->line??'';
+
+// echo "<pre>";
+// print_r($provinces);
+// echo "</pre>";
+?>
 <section class="row">
     <div class="col-12 wrap-page wow fadeInDown">
         <div class="container">
@@ -24,7 +44,7 @@ $bg = asset('frontend/images/avatar.jpeg');
                                         <label for="imageUpload"></label>
                                     </div>
                                     <div class="avatar-preview">
-                                        <div id="imagePreview" style="background-image: url('{{$bg}}');">
+                                        <div id="imagePreview" style="background-image: url('{{$image}}');">
                                         </div>
                                     </div>
                                 </div>
@@ -37,15 +57,15 @@ $bg = asset('frontend/images/avatar.jpeg');
                                         <div class="row">
                                             <div class="col-12 boxfrm-profile">
                                                 <label>เบอร์โทรศัพท์</label>
-                                                <input type="text" class="form-control" value="0812345678" disabled>
+                                                <input type="text" class="form-control" value="{{$phone}}" disabled>
                                             </div>
                                             <div class="col-12 col-md-6 boxfrm-profile">
                                                 <label>ชื่อผู้ขาย<span>*</span></label>
-                                                <input type="text" class="form-control" placeholder="สมชาย">
+                                                <input type="text" class="form-control" value="{{$firstname}}">
                                             </div>
                                             <div class="col-12 col-md-6 boxfrm-profile">
                                                 <label>นามสกุล</label>
-                                                <input type="text" class="form-control" placeholder="ใจดี">
+                                                <input type="text" class="form-control" value="{{$lastname}}">
                                             </div>
                                         </div>
                                     </div>
@@ -60,6 +80,10 @@ $bg = asset('frontend/images/avatar.jpeg');
                                                 <label>จังหวัด<span>*</span></label>
                                                 <select name="" id="" class="form-select">
                                                     <option value="">เลือกจังหวัด</option>
+                                                    @foreach($provinces as $keypv => $pv)
+                                                    
+                                                    <option value="{{$pv->id}}">{{$pv->name_th}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-12 col-xl-6 boxfrm-profile">
@@ -71,7 +95,7 @@ $bg = asset('frontend/images/avatar.jpeg');
                                                 <input type="text" class="form-control">
                                             </div>
                                             <div class="col-12 text-end">
-                                                <a href="{{route('postcarPage')}}" class="btn-profile btn-red">บันทึก</a>
+                                                <a href="{{route('profilePage')}}" class="btn-profile btn-red">บันทึก</a>
                                             </div>
                                         </div>
                                     </div>  
@@ -90,5 +114,4 @@ $bg = asset('frontend/images/avatar.jpeg');
 @section('script')
 
 @endsection
-
 

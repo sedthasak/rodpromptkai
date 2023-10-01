@@ -13,7 +13,7 @@
 
 @yield('content')
 
-@include('frontend.layouts.inc_carseo')		
+<!-- @include('frontend.layouts.inc_carseo')		 -->
 @include('frontend.layouts.inc_help-carsearch')		
 @include('frontend.layouts.inc_footer')		
 @yield('script')

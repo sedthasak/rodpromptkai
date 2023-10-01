@@ -46,7 +46,7 @@
             <div class="carsearch-input">
                 <input type="text" readonly value="ยี่ห้อรถ">
             </div>
-            <div class="home-popup-search"></div> 
+            <div class="home-popup-search">@include('frontend.layouts.inc-popup-carsearch')</div> 
             <div class="carsearch-radio">
                 <label class="car-radio">ซื้อสด
                     <input type="radio" name="radio">
@@ -722,7 +722,7 @@
     </div>
 </section>
 
-
+@include('frontend.layouts.inc_carseo')	
 
 
 <div style="display: none;" id="help-carsearch">
