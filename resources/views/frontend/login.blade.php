@@ -66,6 +66,14 @@
             </div>
         </div>
     </div>
+    
+    
+</section>
+
+
+@endsection
+
+@section('script')
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
     <script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script> 
     <script type="text/javascript">
@@ -93,7 +101,4 @@
             }, randomInterval());
         }); 
     </script>
-</section>
-
-
 @endsection

@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\NewsController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
+use App\Http\Controllers\Frontend\SmsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,7 +113,7 @@ Route::middleware('sessionlogin')->group(function() {
 
 
 Route::get('login-system', [AuthController::class, 'backendLogin'])->name('backendLogin');
-Route::get('loopidentity', [\App\Http\Controllers\Frontend\FrontendPageController::class, 'loopidentity'])->name('loopidentity');
+Route::get('loopidentity', [FrontendPageController::class, 'loopidentity'])->name('loopidentity');
 Route::get('/generate-qrcode', [QrCodeController::class, 'index']);
 
 

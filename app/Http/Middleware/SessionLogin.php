@@ -21,7 +21,7 @@ class SessionLogin
     {
 
         function ranInt(){
-            $codetosend = random_int(1000000,9999999);
+            $codetosend = random_int(100000,999999);
             return $codetosend;
         }
 
@@ -35,16 +35,29 @@ class SessionLogin
             $request->session()->put('browserFingerprint', $codetosend);
             // $request->session()->put('customer', 'empty');
         }
-        else{
-            $getcustomersession = Sms_session::where([
-                ['browserFingerprint', '=', $browserFingerprint],
-            ])->first();
-            if(isset($getcustomersession->id)){
-                $customer = Customer::where("id", $getcustomersession->customer_id)->first();
-                $request->session()->put('customer', $customer);
+        // else{
+            // $getcustomersession = Sms_session::where([
+            //     ['browserFingerprint', '=', $browserFingerprint],
+            // ])->first();
+            // if(isset($getcustomersession->id)){
+            //     $customer = Customer::where("id", $getcustomersession->customer_id)->first();
+            //     $request->session()->put('customer', $customer);
+            // }
+            
+        // }
+
+        $customer_session = $request->session()->get('customer_session');
+        if(isset($customer_session)){
+            $session = Sms_session::where("customer_session", $customer_session)->first();
+            if(isset($session)){
+                $customerdata = Customer::where("id", $session->customer_id)->first();
+                if(isset($customerdata)){
+                    $request->session()->put('customer', $customerdata);
+                }
             }
             
         }
+
         return $next($request);
     }
 }

@@ -15,7 +15,7 @@ class SmsController extends Controller
         // $data = ['messages' => $request->phone.'-'.$request->text.'-'.$request->sim.'--'.'-'];
         // Sms::create($data);
         $return = 'Empty!';
-        if (strlen($request->text) == 7 && is_numeric($request->text)) {
+        if (strlen($request->text) == 6 && is_numeric($request->text)) {
             // insert phone to customer
             $phone = $request->phone;
             $qry = Customer::where("phone", $phone)->first();

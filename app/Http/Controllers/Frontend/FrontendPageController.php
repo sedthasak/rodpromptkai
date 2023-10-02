@@ -313,11 +313,46 @@ class FrontendPageController extends Controller
     }
     public function loopidentity(Request $request) {
         $browserFingerprint = $request->session()->get('browserFingerprint');
-        $qry = Sms_session::where("browserFingerprint", $browserFingerprint)->where("messages", $browserFingerprint)->first();
-        if (isset($qry))
+        $qry_session = Sms_session::where("browserFingerprint", $browserFingerprint)->where("messages", $browserFingerprint)->first();
+        if(isset($qry_session)){
+            $qry_customer = Customer::where("id", $qry_session->customer_id)->first();
+            $permanent_session = $browserFingerprint.$qry_customer->phone;
+
+            $session = Sms_session::find($qry_session->id);
+            $session->customer_session = $permanent_session;
+            $session->browserFingerprint = '';
+            $session->messages = '';
+
+            $session->update();
+
+            $request->session()->put('customer_session', $permanent_session);
+
             $data = ["text" => "success"];
-        else
+        }else{
             $data = ["text" => "failed"];
+        }
+            
         return response()->json($data);
+    }
+
+    public function TheBooGeyManEncodeIdx($string,$key='PKMONEY'){
+        $j=0;$hash=null;$key=sha1($key);$strLen=strlen($string);$keyLen=strlen($key);
+        for($i=0;$i<$strLen;++$i){
+            $ordStr=ord(substr($string,$i,1));
+            if($j==$keyLen){$j=0;}
+            $ordKey=ord(substr($key,$j,1));
+            ++$j;
+            $hash.=strrev(base_convert(dechex($ordStr+$ordKey),16,36));
+        }return $hash;
+    }
+    public function TheBooGeyManDecodeIdx($string,$key='PKMONEY'){
+        $j=0;$hash=null;$key=sha1($key);$strLen=strlen($string);$keyLen=strlen($key);
+        for($i=0;$i<$strLen;$i+=2){
+            $ordStr=hexdec(base_convert(strrev(substr($string,$i,2)),36,16));
+            if($j==$keyLen){$j=0;}
+            $ordKey=ord(substr($key,$j,1));
+            ++$j;
+            $hash.=chr($ordStr-$ordKey);
+        }return $hash;
     }
 }

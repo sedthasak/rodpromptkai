@@ -37,9 +37,18 @@
 // print_r($test);
 // echo "</pre>";
 
-// $data = session()->all();
+$data = session()->all();
+$currentDateTime = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
+$date = '20231002013059';
+$browserFingerprint = strtotime($date) % 1000000; // เข้ารหัสเป็นตัวเลข 6 หลัก
+
+
+
 // echo "<pre>";
 // print_r($data);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($dec);
 // echo "</pre>";
 ?>
 <section class="row">
