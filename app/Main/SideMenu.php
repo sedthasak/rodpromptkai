@@ -26,13 +26,13 @@ class SideMenu
                 'params' => [],
                 'title' => 'โพสท์ขายรถ'
             ],
-            'brand' => [
+            'brands' => [
                 'icon' => 'Sidebar',
-                'route_name' => 'BN_categories',
+                'route_name' => 'BN_brands',
                 'params' => [],
                 'title' => 'ยี่ห้อรถ'
             ],
-            'model' => [
+            'models' => [
                 'icon' => 'Package',
                 'route_name' => 'BN_categories',
                 'params' => [],

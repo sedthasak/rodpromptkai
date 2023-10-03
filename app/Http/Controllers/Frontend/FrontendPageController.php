@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsSaveController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Sms_session;
 use App\Models\provincesModel;
+use Illuminate\Support\Facades\Storage;
+use File;
 
 
 class FrontendPageController extends Controller
@@ -93,6 +96,73 @@ class FrontendPageController extends Controller
         return view('frontend/edit-profile', [
             'provinces' => $provinces,
         ]);
+    }
+    public function editprofileactionPage(Request $request)
+    {
+        $Customer = Customer::find($request->id);
+        
+        if($request->hasFile('image')){
+
+            $oldPath = public_path($Customer->image);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('image');
+            $destinationPath = public_path('/uploads');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'profile'.time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/'.$newfilenam;
+
+            $Customer->image = $filepath;
+        }
+        if($request->hasFile('map')){
+
+            $oldPath = public_path($Customer->map);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('map');
+            $destinationPath = public_path('/uploads');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'map'.time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/'.$newfilenam;
+
+            $Customer->map = $filepath;
+        }
+
+        $Customer->email = $request->email;
+        $Customer->firstname = $request->firstname;
+        $Customer->lastname = $request->lastname;
+        $Customer->facebook = $request->facebook;
+        $Customer->line = $request->line;
+        $Customer->place = $request->place;
+        $Customer->province = $request->province;
+        $Customer->google_map = $request->google_map;
+        $Customer->update();
+
+        // dd($request);
+        if(isset($Customer->id)){
+            // $usersavelog = auth()->user();
+            $idsavelog = $request->id; 
+            $phonesavelog = $request->phone; 
+            $para = array(
+                'part' => 'frontend',
+                'user' => $idsavelog,
+                'ref' => $phonesavelog,
+                'remark' => 'User '.$idsavelog.' Update Profile!',
+                'event' => 'update profile',
+            );
+            $result = (new LogsSaveController)->create_log($para);
+        }
+        return redirect(route('editprofilePage'))->with('success', 'แก้ไขข้อมูลสำเร็จ !');
     }
     public function editprofilePage_afterregis()
     {

@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\LogsController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\CategoriesController;
 use App\Http\Controllers\Backend\NewsController;
+use App\Http\Controllers\Backend\BrandsController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -71,6 +72,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/login-welcome', 'loginwelcomePage')->name('loginwelcomePage');
         Route::get('/edit-profile-first', 'editprofilePage_afterregis')->name('editprofilePage_afterregis');
         Route::get('/edit-profile', 'editprofilePage')->name('editprofilePage');
+        Route::post('/edit-profile-action', 'editprofileactionPage')->name('editprofileactionPage');
 
         Route::get('/notification', 'notificationPage')->name('notificationPage');
         Route::get('/news', 'newsPage')->name('newsPage');
@@ -159,6 +161,13 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/news', [NewsController::class, 'BN_news'])->name('BN_news');
     Route::get('/backend/news-add', [NewsController::class, 'BN_news_add'])->name('BN_news_add');
     Route::get('/backend/newsfetch', [NewsController::class, 'BN_newsFetch'])->name('BN_newsFetch');
+
+    Route::get('/backend/brands', [BrandsController::class, 'BN_brands'])->name('BN_brands');
+    Route::get('/backend/brands-add', [BrandsController::class, 'BN_brands_add'])->name('BN_brands_add');
+    Route::get('/backend/brands-edit/{id}', [BrandsController::class, 'BN_brands_edit'])->name('BN_brands_edit');
+    Route::post('/backend/brands-add-action', [BrandsController::class, 'BN_brands_add_action'])->name('BN_brands_add_action');
+    Route::post('/backend/brands-edit-action', [BrandsController::class, 'BN_brands_edit_action'])->name('BN_brands_edit_action');
+    Route::get('/backend/brandsfetch', [BrandsController::class, 'BN_brandsFetch'])->name('BN_brandsFetch');
 
 
     Route::controller(PageController::class)->group(function() {
