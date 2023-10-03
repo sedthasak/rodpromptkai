@@ -159,6 +159,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/news', [NewsController::class, 'BN_news'])->name('BN_news');
     Route::get('/backend/news-add', [NewsController::class, 'BN_news_add'])->name('BN_news_add');
     Route::get('/backend/newsfetch', [NewsController::class, 'BN_newsFetch'])->name('BN_newsFetch');
+    Route::get('/backend/newsuser', [NewsController::class, 'index'])->name('BN_newsuser');
 
 
     Route::controller(PageController::class)->group(function() {

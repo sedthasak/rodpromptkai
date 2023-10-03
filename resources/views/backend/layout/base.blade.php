@@ -23,6 +23,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <!-- BEGIN: CSS Assets-->
     <link rel="stylesheet" href="{{ mix('dist/css/app.css') }}" />
+    <link rel="stylesheet" href="{{asset('frontend/css/datatables.min.css')}}" />
     <!-- END: CSS Assets-->
 </head>
 <!-- END: Head -->

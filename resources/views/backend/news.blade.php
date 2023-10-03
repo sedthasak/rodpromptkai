@@ -2,14 +2,11 @@
 
 @section('subhead')
     <title>Backend - {{$default_pagename}}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 @endsection
 
 @section('subcontent')
-<?php
-// echo "<pre>";
-// print_r($page_name);
-// echo "</pre>";
-?>
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
         <h2 class="mr-auto text-lg font-medium">{{$default_pagename}}</h2>
         <div class="mt-4 flex w-full sm:mt-0 sm:w-auto">
@@ -18,21 +15,65 @@
     </div>
     <div id="fetchNews"></div>
 
+    <h2>Laravel DataTables Tutorial Example</h2>
+    <table class="table table-bordered" id="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Phone</th>
+                {{-- <th>Email</th> --}}
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
 @endsection
 
 @section('script')
 <script>
-    jQuery(function() {
-        fetchNews();
-        function fetchNews(){
-            jQuery.ajax({
-                url: '{{route('BN_newsFetch')}}',
-                method: 'get',
-                success: function(response){
-                    jQuery('#fetchNews').html(response);
-                }
+    // jQuery(function() {
+    //     fetchNews();
+    //     function fetchNews(){
+    //         jQuery.ajax({
+    //             url: '{{route('BN_newsFetch')}}',
+    //             method: 'get',
+    //             success: function(response){
+    //                 jQuery('#fetchNews').html(response);
+    //             }
+    //         });
+    //     }
+    // });
+    jQuery(document).ready(function() {
+        // jQuery.ajax({
+        //     url: "{{ route('BN_newsuser') }}",
+        //     type: 'GET',
+        //     success: function(data, textStatus, jqXHR)
+        //     {
+        //         console.log(data); //*** returns correct json data
+        //     }
+        // });
+        jQuery(function () {
+            jQuery('#table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    "url": "{{ route('BN_newsuser') }}",
+                    "type": "GET",
+                    "dataSrc":"",
+                    "complete": function(xhr, responseText){
+                        console.log(xhr);
+                        console.log(responseText); //*** responseJSON: Array[0]
+                    }
+                },
+                columns: [
+                        { data: 'id', name: 'id' },
+                        { data: 'phone', name: 'phone' }
+                        ]
             });
-        }
+        });
+        
     });
 </script>
 @endsection

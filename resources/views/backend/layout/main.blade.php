@@ -21,6 +21,7 @@
         <script src="{{asset('frontend/js/nouislider.min.js')}}"></script>
         <script src="{{asset('frontend/js/wNumb.min.js')}}"></script>
         <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
+        <script src="{{asset('frontend/js/datatables.min.js')}}"></script>
 
         <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 

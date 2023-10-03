@@ -5,9 +5,17 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\newsModel;
+use Datatables;
+use App\Models\Customer;
 
 class NewsController extends Controller
 {
+    public function index(Request $request)
+    {
+        return Datatables::of(Customer::query())->make(true);
+        // $data["data"] = "hello world";
+        // return response(json_encode($data));
+    }
     public function BN_news()
     {
         return view('backend/news', [ 
