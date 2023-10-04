@@ -14,7 +14,13 @@ use App\Models\categoriesModel;
 class BackendPageController extends Controller
 {
 
-    
+    public function BN_modelsss()
+    {
+        return view('backend/backend-dashboard', [ 
+            'default_pagename' => 'แท็ก',
+            
+        ]);
+    }
 
 
 

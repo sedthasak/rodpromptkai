@@ -3,9 +3,73 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogsSaveController;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Models\modelsModel;
+use App\Models\brandsModel;
 
 class ModelsController extends Controller
 {
-    //
+    public function BN_carmd()
+    {
+        return view('backend/models', [ 
+            'default_pagename' => 'รุ่นรถ',
+        ]);
+    }
+    public function BN_carmd_add(Request $request)
+    {
+        $brands = brandsModel::all();
+        return view('backend/models-add', [ 
+            'default_pagename' => 'เพิ่มรุ่นรถ',
+            'brands' => $brands,
+        ]);
+    }
+    public function BN_carmd_add_action(Request $request)
+    {
+
+    }
+    public function BN_carmd_edit(Request $request, $id)
+    {
+
+    }
+    public function BN_carmd_edit_action(Request $request)
+    {
+
+    }
+    public function BN_carmdFetch()
+    {
+        $query = modelsModel::all()->sort();
+        $output = '';
+        if($query->count() > 0){
+            ?>
+                <div class="grid gap-6 mt-5 p-5 box">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="">
+                                <tr class="">
+                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">#</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $count = 0;
+                                foreach($query as $key => $res){
+                                $count++;
+                                ?>
+                                <tr class="">
+                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $count ?></td>
+                                </tr>
+                                <?php
+                                }
+                                ?>                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php
+        }else{
+            echo "Not Found!!!";
+        }
+    }
 }

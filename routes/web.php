@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\CategoriesController;
 use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\BrandsController;
+use App\Http\Controllers\Backend\ModelsController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -169,6 +170,15 @@ Route::middleware('auth')->group(function() {
     Route::post('/backend/brands-add-action', [BrandsController::class, 'BN_brands_add_action'])->name('BN_brands_add_action');
     Route::post('/backend/brands-edit-action', [BrandsController::class, 'BN_brands_edit_action'])->name('BN_brands_edit_action');
     Route::get('/backend/brandsfetch', [BrandsController::class, 'BN_brandsFetch'])->name('BN_brandsFetch');
+
+    // Route::get('/backend/brands-a', [BrandsController::class, 'BN_carmd'])->name('BN_carmd');
+
+    Route::get('/backend/models', [ModelsController::class, 'BN_carmd'])->name('BN_carmd');
+    Route::get('/backend/models-add', [ModelsController::class, 'BN_carmd_add'])->name('BN_carmd_add');
+    Route::get('/backend/models-edit/{id}', [ModelsController::class, 'BN_carmd_edit'])->name('BN_carmd_edit');
+    Route::post('/backend/models-add-action', [ModelsController::class, 'BN_carmd_add_action'])->name('BN_carmd_add_action');
+    Route::post('/backend/models-edit-action', [ModelsController::class, 'BN_carmd_edit_action'])->name('BN_carmd_edit_action');
+    Route::get('/backend/modelsfetch', [ModelsController::class, 'BN_carmdFetch'])->name('BN_carmdFetch');
 
 
     Route::controller(PageController::class)->group(function() {

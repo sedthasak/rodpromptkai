@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class modelsModel extends Model
 {
     use HasFactory;
+
+    protected $table = 'models';
+
+    protected $fillable = [
+        'brand_id',
+        'model',
+        'modelyear',
+        'submodel',
+        'description',
+        'feature'
+    ];
 }

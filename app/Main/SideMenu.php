@@ -34,9 +34,9 @@ class SideMenu
             ],
             'models' => [
                 'icon' => 'Package',
-                'route_name' => 'BN_categories',
+                'route_name' => 'BN_carmd',
                 'params' => [],
-                'title' => 'โมเดลรถ'
+                'title' => 'รุ่นรถ'
             ],
             'cat' => [
                 'icon' => 'Grid',
