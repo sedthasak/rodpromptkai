@@ -8,9 +8,9 @@
 <?php
 $data = session()->all();
 $browserFingerprint = session('browserFingerprint');
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
 ?>
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <section class="row">
