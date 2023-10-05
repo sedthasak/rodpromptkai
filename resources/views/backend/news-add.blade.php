@@ -46,7 +46,7 @@
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div class="">
                                 <label for="" class="form-label">เนื้อหา</label>
-                                <input type="text" class="form-control w-full" id="" name="content"  autocomplete="on" />
+                                <textarea class="form-control" id="content" placeholder="Enter the Description" rows="5" name="content"></textarea>
                             </div>
                         </div>
                         
@@ -69,8 +69,10 @@
 
 @section('script')
 <script>
-
+    ClassicEditor
+        .create( document.querySelector( '#content' ) )
+        .catch( error => {
+            console.error( error );
+        } );
 </script>
-
-
 @endsection
