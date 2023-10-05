@@ -31,7 +31,8 @@
                                 <div class="col-12 col-md-8">
                                     <div class="box-descsms">
                                         <div class="box-descsms-topic1">กรุณาส่ง SMS พิมพ์ <span>{{Session::get('browserFingerprint')}}</span></div>
-                                        <div class="box-descsms-topic2">มาที่ <span>099-874-1070</span></div>
+                                        <div class="box-descsms-topic2">มาที่ <span>091-879-2476</span></div>
+                                        <div class="box-descsms-topic2">หรือ <span>098-969-1120</span></div>
                                         <div class="box-descsms-topic3">หรือใช้โทรศัพท์มือถือสแกน QR Code</div>
                                         เบอร์โทร Rodpromptkai.com
                                     </div>

@@ -35,9 +35,9 @@
                                 <div class="">
                                     <label for="update-profile-form-8" class="form-label">ยี่ห้อ</label>
                                     <select id="update-profile-form-8" class="form-select" name="brand_id">
-                                        <option>IC</option>
-                                        <option>FIN</option>
-                                        <option>Passport</option>
+                                        @foreach($brands as $keybrands => $brand)
+                                        <option value="{{$brand->id}}">{{$brand->title}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mt-3">
