@@ -170,6 +170,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/backend/brands-add-action', [BrandsController::class, 'BN_brands_add_action'])->name('BN_brands_add_action');
     Route::post('/backend/brands-edit-action', [BrandsController::class, 'BN_brands_edit_action'])->name('BN_brands_edit_action');
     Route::get('/backend/brandsfetch', [BrandsController::class, 'BN_brandsFetch'])->name('BN_brandsFetch');
+    Route::get('/backend/brands-preview/{id}', [BrandsController::class, 'BN_brands_preview'])->name('BN_brands_preview');
 
     // Route::get('/backend/brands-a', [BrandsController::class, 'BN_carmd'])->name('BN_carmd');
 

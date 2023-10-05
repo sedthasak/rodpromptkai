@@ -48,7 +48,7 @@
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div class="">
                                 <label for="" class="form-label">บทความ</label>
-                                <input type="text" class="form-control w-full" id="" name="content"  autocomplete="off" />
+                                <textarea class="form-control" id="content" rows="5" name="content"></textarea>
                             </div>
                         </div>
                     </div>
@@ -70,8 +70,10 @@
 
 @section('script')
 <script>
-
+    ClassicEditor
+        .create( document.querySelector( '#content' ) )
+        .catch( error => {
+            console.error( error );
+        } );
 </script>
-
-
 @endsection

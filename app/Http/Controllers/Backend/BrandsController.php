@@ -102,7 +102,7 @@ class BrandsController extends Controller
                         </div>
                         
                         <div class="flex items-center justify-center border-t border-slate-200/60 p-5 dark:border-darkmode-400 lg:justify-end">
-                            <a class="mr-auto flex items-center text-primary" href="{{route('BN_brands_edit', ['id' => $res->id])}}">
+                            <a class="mr-auto flex items-center text-primary" href="<?php echo route('BN_brands_preview', ['id' => $res->id]); ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="eye" data-lucide="eye" class="lucide lucide-eye stroke-1.5 mr-1 h-4 w-4"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> 
                             </a>
                             <a class="mr-3 flex items-center" href="<?php echo route('BN_brands_edit', ['id' => $res->id]); ?>">
@@ -119,5 +119,13 @@ class BrandsController extends Controller
         }else{
             echo "Not Found!!!";
         }
+    }
+    public function BN_brands_preview(Request $request, $id)
+    {
+        $brands = brandsModel::find($id);
+        return view('backend/brands-preview', [ 
+            'default_pagename' => 'ตัวอย่างบทความ',
+            'brands' => $brands,
+        ]);
     }
 }
