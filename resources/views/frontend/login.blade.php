@@ -5,7 +5,13 @@
 @endsection
 
 @section('content')
-
+<?php
+$data = session()->all();
+$browserFingerprint = session('browserFingerprint');
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+?>
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <section class="row">
     <div class="col-12 wrap-login">
@@ -46,7 +52,7 @@
                                             <div class="card-body"> --}}
                                                 {{-- {{ QrCode::size(100)->generate('<a href="sms:+66998741070?&amp;body="'.Session::get('browserFingerprint').'>Goto Website</a>') }} --}}
                                                 {{-- {{ QrCode::size(100)->generate('sms://+66998741070;?&body='.Session::get('browser_fingerprint')) }} --}}
-                                                {{QrCode::size(100)->generate(url('/api/sendsms?phone=+66918792476&text='.Session::get('browser_fingerprint')))}}
+                                                {{QrCode::size(100)->generate(url('/api/sendsms?phone=+66918792476&text='.$browserFingerprint))}}
                                             {{-- </div>
                                         </div>
                                     </div> --}}
@@ -59,7 +65,7 @@
                                 <span class="checkmark"></span>
                             </label>
                         </div>
-                        <a href="{{url('/api/sendsms?phone=+66918792476&text='.Session::get('browser_fingerprint'))}}" class="btn-sendsms">ส่ง SMS เพื่อเข้าสู่ระบบ</a>
+                        <a href="{{url('/api/sendsms?phone=+66918792476&text='.$browserFingerprint)}}" class="btn-sendsms">ส่ง SMS เพื่อเข้าสู่ระบบ</a>
                         <div class="login-txtnote">หลังจากส่ง SMS กรุณารอสักครู่เพื่อเข้าสู่ระบบโดยอัตโนมัติ</div>
                     </div>
                 </div>
