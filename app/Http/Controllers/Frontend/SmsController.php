@@ -48,7 +48,6 @@ class SmsController extends Controller
 
     public function sendsms(Request $request)
     {
-        return dd($request);
         $phone = '+'.$request->phone; // เบอร์โทรศัพท์ที่ต้องการส่ง SMS
         $message = $request->text; // ข้อความที่ต้องการส่ง
 
