@@ -33,7 +33,6 @@
                                         <div class="box-descsms-topic1">กรุณาส่ง SMS พิมพ์ <span>{{Session::get('browserFingerprint')}}</span></div>
                                         <div class="box-descsms-topic2">มาที่ <span>091-879-2476</span></div>
                                         <div class="box-descsms-topic2">หรือ <span>098-969-1120</span></div>
-                                        <div class="box-descsms-topic3">หรือใช้โทรศัพท์มือถือสแกน QR Code</div>
                                         เบอร์โทร Rodpromptkai.com
                                     </div>
                                 </div>
@@ -47,7 +46,7 @@
                                             <div class="card-body"> --}}
                                                 {{-- {{ QrCode::size(100)->generate('<a href="sms:+66998741070?&amp;body="'.Session::get('browserFingerprint').'>Goto Website</a>') }} --}}
                                                 {{-- {{ QrCode::size(100)->generate('sms://+66998741070;?&body='.Session::get('browser_fingerprint')) }} --}}
-                                                {{QrCode::size(100)->generate(url('/api/sendsms?phone=+66998741070&text='.Session::get('browser_fingerprint')))}}
+                                                {{QrCode::size(100)->generate(url('/api/sendsms?phone=+66918792476&text='.Session::get('browser_fingerprint')))}}
                                             {{-- </div>
                                         </div>
                                     </div> --}}
@@ -60,7 +59,7 @@
                                 <span class="checkmark"></span>
                             </label>
                         </div>
-                        <a href="login-welcome.php" class="btn-sendsms">ส่ง SMS เพื่อเข้าสู่ระบบ</a>
+                        <a href="{{url('/api/sendsms?phone=+66918792476&text='.Session::get('browser_fingerprint'))}}" class="btn-sendsms">ส่ง SMS เพื่อเข้าสู่ระบบ</a>
                         <div class="login-txtnote">หลังจากส่ง SMS กรุณารอสักครู่เพื่อเข้าสู่ระบบโดยอัตโนมัติ</div>
                     </div>
                 </div>

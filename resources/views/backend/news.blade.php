@@ -15,7 +15,7 @@
     </div>
     <div id="fetchNews"></div>
 
-    <h2>Laravel DataTables Tutorial Example</h2>
+    <h2>Table</h2>
     <table class="table table-bordered" id="table">
         <thead>
             <tr>
@@ -58,15 +58,16 @@
             jQuery('#table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: {
-                    "url": "{{ route('BN_newsuser') }}",
-                    "type": "GET",
-                    "dataSrc":"",
-                    "complete": function(xhr, responseText){
-                        console.log(xhr);
-                        console.log(responseText); //*** responseJSON: Array[0]
-                    }
-                },
+                // ajax: {
+                //     "url": "{{ route('BN_newsuser') }}",
+                //     "type": "GET",
+                //     "dataSrc":"",
+                //     "complete": function(xhr, responseText){
+                //         console.log(xhr);
+                //         console.log(responseText); //*** responseJSON: Array[0]
+                //     }
+                // },
+                ajax: "{{ route('BN_newsuser') }}",
                 columns: [
                         { data: 'id', name: 'id' },
                         { data: 'phone', name: 'phone' }
