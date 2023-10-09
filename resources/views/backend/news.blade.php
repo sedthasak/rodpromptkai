@@ -14,67 +14,17 @@
         </div>
     </div>
     <div id="fetchNews"></div>
-
+    
     <h2>Table</h2>
-    <table class="table table-bordered" id="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Phone</th>
-                {{-- <th>Email</th> --}}
-            </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table>
+    {{ $dataTable->table() }}
 
 @endsection
 
 @section('script')
 <script>
-    // jQuery(function() {
-    //     fetchNews();
-    //     function fetchNews(){
-    //         jQuery.ajax({
-    //             url: '{{route('BN_newsFetch')}}',
-    //             method: 'get',
-    //             success: function(response){
-    //                 jQuery('#fetchNews').html(response);
-    //             }
-    //         });
-    //     }
-    // });
+    
     jQuery(document).ready(function() {
-        // jQuery.ajax({
-        //     url: "{{ route('BN_newsuser') }}",
-        //     type: 'GET',
-        //     success: function(data, textStatus, jqXHR)
-        //     {
-        //         console.log(data); //*** returns correct json data
-        //     }
-        // });
-        jQuery(function () {
-            jQuery('#table').DataTable({
-                processing: true,
-                serverSide: true,
-                // ajax: {
-                //     "url": "{{ route('BN_newsuser') }}",
-                //     "type": "GET",
-                //     "dataSrc":"",
-                //     "complete": function(xhr, responseText){
-                //         console.log(xhr);
-                //         console.log(responseText); //*** responseJSON: Array[0]
-                //     }
-                // },
-                ajax: "{{ route('BN_newsuser') }}",
-                columns: [
-                        { data: 'id', name: 'id' },
-                        { data: 'phone', name: 'phone' }
-                        ]
-            });
-        });
-        
+        {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     });
 </script>
 @endsection

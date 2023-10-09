@@ -162,7 +162,8 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/news', [NewsController::class, 'BN_news'])->name('BN_news');
     Route::get('/backend/news-add', [NewsController::class, 'BN_news_add'])->name('BN_news_add');
     Route::get('/backend/newsfetch', [NewsController::class, 'BN_newsFetch'])->name('BN_newsFetch');
-    Route::get('/backend/newsuser', [NewsController::class, 'index'])->name('BN_newsuser');
+    Route::get('/backend/newsindex', [NewsController::class, 'index'])->name('BN_newsIndex');
+    Route::post('/backend/news-store', [NewsController::class, 'BN_news_store'])->name('BN_news_store');
 
     Route::get('/backend/brands', [BrandsController::class, 'BN_brands'])->name('BN_brands');
     Route::get('/backend/brands-add', [BrandsController::class, 'BN_brands_add'])->name('BN_brands_add');

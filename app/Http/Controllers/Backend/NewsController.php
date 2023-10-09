@@ -4,20 +4,23 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Models\newsModel;
-use Datatables;
-use App\Models\Customer;
+use App\DataTables\newsModelDataTable;
+use Auth;
 
 class NewsController extends Controller
 {
-    public function index(Request $request)
+    public function index(newsModelDataTable $dataTable)
     {
-        return Datatables::of(Customer::query())->make(true);
+        return $dataTable->render('backend.news');
+        // return Datatables::of(Customer::query())->make(true);
         // $data["data"] = "hello world";
         // return response(json_encode($data));
     }
     public function BN_news()
     {
+        // return $dataTable->render('backend.news');
         return view('backend/news', [ 
             'default_pagename' => 'ข่าวรถยนต์',
         ]);
@@ -73,6 +76,37 @@ class NewsController extends Controller
             echo "Not Found!!!";
         }
     }
+    public function BN_news_store(Request $request, newsModelDataTable $dataTable): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title'     => 'required',
+            'feature'   => 'required',
+            'excerpt'   => 'required',
+            'content'   => 'required',
+        ]);
+        // return dd($request);
 
+        $filepath = null;
+        if($request->hasFile('feature')){
+            $file = $request->file('feature');
+            $destinationPath = public_path('/uploads');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/'.$newfilenam;
+        }
+
+        $news_store = [
+            "title"     => $request->title,
+            "feature"   => $filepath,
+            "excerpt"   => $request->excerpt,
+            "content"   => $request->content
+        ];
+        newsModel::create($news_store);
+
+        return redirect($this->index($dataTable));
+    }
 
 }
