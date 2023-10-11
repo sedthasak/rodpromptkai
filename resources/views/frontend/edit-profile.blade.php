@@ -74,14 +74,14 @@ $line = $customerdata->line??'';
                                                     <label>นามสกุล</label>
                                                     <input type="text" name="lastname" class="form-control" value="{{$lastname}}">
                                                 </div>
-                                                <div class="col-12 col-md-6 boxfrm-profile">
+                                                <!-- <div class="col-12 col-md-6 boxfrm-profile">
                                                     <label>เฟสบุ๊ค</label>
                                                     <input type="text" name="facebook" class="form-control" value="{{$facebook}}">
                                                 </div>
                                                 <div class="col-12 col-md-6 boxfrm-profile">
                                                     <label>ไลน์</label>
                                                     <input type="text" name="line" class="form-control" value="{{$line}}">
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="wrap-frmprofile">

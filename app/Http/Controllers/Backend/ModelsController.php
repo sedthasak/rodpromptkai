@@ -27,6 +27,28 @@ class ModelsController extends Controller
     }
     public function BN_carmd_add_action(Request $request)
     {
+        $models = new modelsModel;
+
+        if($request->hasFile('feature')){
+            $file = $request->file('feature');
+            $destinationPath = public_path('/uploads');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'model-'.time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/'.$newfilenam;
+            $models->feature = $filepath;
+        }
+
+        $models->brand_id = $request->brand_id;
+        $models->model = $request->model;
+        $models->modelyear = $request->modelyear;
+        $models->submodel = $request->submodel;
+        $models->description = $request->description;
+        $models->save();
+
+        return redirect(route('BN_carmd'))->with('success', 'เพิ่มสำเร็จ !');
 
     }
     public function BN_carmd_edit(Request $request, $id)

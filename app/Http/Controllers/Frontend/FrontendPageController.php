@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Sms_session;
 use App\Models\provincesModel;
+use App\Models\brandsModel;
+use App\Models\modelsModel;
 use Illuminate\Support\Facades\Storage;
 use File;
 
@@ -256,8 +258,14 @@ class FrontendPageController extends Controller
     }
     public function carpoststep1Page()
     {
+        $provinces = provincesModel::all();
+        $brands = brandsModel::all();
+        $models = modelsModel::all();
         return view('frontend/carpost-step1', [
-
+            'provinces' => $provinces,
+            'brands' => $brands,
+            'models' => $models,
+            'a' => 'test',
         ]);
     }
     public function postcarwelcomeladyPage()

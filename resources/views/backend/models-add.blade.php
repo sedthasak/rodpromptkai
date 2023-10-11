@@ -16,7 +16,7 @@
             <a href="{{route('BN_brands')}}" class="transition duration-200 border inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary mr-2 shadow-md" >ย้อนกลับ</a>    
         </div>
     </div>
-    <form method="post" action="{{route('BN_brands_add_action')}}" enctype="multipart/form-data" >
+    <form method="post" action="{{route('BN_carmd_add_action')}}" enctype="multipart/form-data" >
         @csrf
         <input type="hidden" name="user_id" value="{{auth()->user()->id}}" />
         <div class="grid grid-cols-12 gap-6 mt-5">
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="flex justify-end mt-4">
-                            <button type="button" class="btn btn-primary w-20 mr-auto">Save</button>
+                            <button type="submit" class="btn btn-primary w-20 mr-auto">บันทึก</button>
                             <a href="" class="text-danger flex items-center">
                                 <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
                             </a>
