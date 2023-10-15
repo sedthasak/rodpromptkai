@@ -186,6 +186,7 @@ Route::middleware('auth')->group(function() {
     Route::controller(PageController::class)->group(function() {
         // Route::get('/', 'backendDashboard')->name('backendDashboard');
         // Route::get('login-page', 'login')->name('login');
+        
         Route::get('dashboard-overview-1-page', 'dashboardOverview1')->name('dashboard-overview-1');
         Route::get('dashboard-overview-2-page', 'dashboardOverview2')->name('dashboard-overview-2');
         Route::get('dashboard-overview-3-page', 'dashboardOverview3')->name('dashboard-overview-3');
