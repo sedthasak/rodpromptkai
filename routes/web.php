@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\ModelsController;
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
 use App\Http\Controllers\Frontend\SmsController;
+use App\Http\Controllers\Frontend\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,12 @@ Route::controller(FrontendPageController::class)->group(function() {
 });
 
 Route::middleware('sessionlogin')->group(function() {
+    Route::controller(PostController::class)->group(function() {
+        Route::post('/carpost-select-brand', 'carpostSelectBrand')->name('carpostSelectBrand');
+
+        Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
+    });
+
     Route::controller(FrontendPageController::class)->group(function() {
         Route::get('/dev', 'DevelopPage')->name('DevelopPage');
         
@@ -84,7 +91,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/postcar-welcome', 'postcarwelcomePage')->name('postcarwelcomePage');
         Route::get('/postcar-welcome-dealer', 'postcarwelcomedealerPage')->name('postcarwelcomedealerPage');
         Route::get('/postcar-welcome-lady', 'postcarwelcomeladyPage')->name('postcarwelcomeladyPage');
-        Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
+        
         Route::get('/carpost-step2', 'carpoststep2Page')->name('carpoststep2Page');
         Route::get('/carpost-step3', 'carpoststep3Page')->name('carpoststep3Page');
         Route::get('/carpost-step4', 'carpoststep4Page')->name('carpoststep4Page');

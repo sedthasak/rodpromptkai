@@ -23,7 +23,7 @@
             </div>
         </div>
     </div> -->
-    <div class=" mt-5 grid grid-cols-12 gap-6" id="fetchModels">
+    <div class=" " id="fetchModels">
         
     </div>
 

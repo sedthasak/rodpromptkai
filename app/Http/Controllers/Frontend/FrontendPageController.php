@@ -256,18 +256,12 @@ class FrontendPageController extends Controller
 
         ]);
     }
-    public function carpoststep1Page()
-    {
-        $provinces = provincesModel::all();
-        $brands = brandsModel::all();
-        $models = modelsModel::all();
-        return view('frontend/carpost-step1', [
-            'provinces' => $provinces,
-            'brands' => $brands,
-            'models' => $models,
-            'a' => 'test',
-        ]);
-    }
+    
+
+
+
+
+    
     public function postcarwelcomeladyPage()
     {
         return view('frontend/postcar-welcome-lady', [

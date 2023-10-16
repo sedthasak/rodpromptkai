@@ -63,7 +63,7 @@ $line = $customerdata->line??'';
                                 <div class="col-12 col-md-6 frm-step">
                                     <label>ประเภทการลงทะเบียน</label>
                                     <select class="form-select" disabled>
-                                        <option value="home">รถบ้าน</option>
+                                        <option value="home">รถทั่วไป</option>
                                         <option value="dealer">ดีลเลอร์</option>
                                         <option value="lady">รถคุณผู้หญิง</option>
                                     </select>
@@ -86,7 +86,7 @@ $line = $customerdata->line??'';
                             <div class="row">
                                 <div class="col-12 col-md-6 frm-step">
                                     <label>1. ยี่ห้อ<span>*</span></label>
-                                    <select class="form-select">
+                                    <select class="form-select" name="" id="brand">
                                         <option value="">เลือกยี่ห้อ</option>
                                         @foreach($brands as $keybn => $bn)
                                         <option value="{{$bn->id}}">{{$bn->title}}</option>
@@ -95,7 +95,7 @@ $line = $customerdata->line??'';
                                 </div>
                                 <div class="col-12 col-md-6 frm-step">
                                     <label>2. รุ่น<span>*</span></label>
-                                    <select class="form-select">
+                                    <select class="form-select" name="" id="">
                                         <option value="">เลือกรุ่น</option>
                                         @foreach($brands as $keybn => $bn)
                                         <option value="{{$bn->id}}">{{$bn->title}}</option>
@@ -104,13 +104,13 @@ $line = $customerdata->line??'';
                                 </div>
                                 <div class="col-12 col-md-6 frm-step">
                                     <label>3. โฉม<span>*</span></label>
-                                    <select class="form-select">
+                                    <select class="form-select" name="" id="">
                                         <option value="">เลือกโฉม</option>
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-6 frm-step">
                                     <label>4. รุ่นย่อย<span>*</span></label>
-                                    <select class="form-select">
+                                    <select class="form-select" name="" id="">
                                         <option value="">เลือกรุ่นย่อย</option>
                                     </select>
                                 </div>
@@ -200,5 +200,64 @@ $line = $customerdata->line??'';
 @endsection
 
 @section('script')
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
+</script>
+<script>
+    $(document).ready(function() {
+        // console.log("FD");
+
+        $("#brand").on( "change", function() {
+            var valyu = $(this).val();
+            if(valyu){
+                console.log(valyu);
+                $.ajax({
+                    url: "{{route('carpostSelectBrand')}}",
+                    type: "post",
+                    data: { 
+                        valyu: valyu, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    // You will get response from your PHP page (what you echo or print)
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // console.log(textStatus, errorThrown);
+                    }
+                });
+                // $.ajax({
+                //     type:'POST',
+                //     url: {{route('carpostSelectBrand')}},
+                //     data: [
+                //         'a' => 4,
+                //         'b' => 24,
+                //     ],
+                //     success: function(response){
+                //         console.log(response);
+                //     },
+                //     error: function(response){
+
+                //     }
+                // });
+
+
+            }
+        } );
+        // var jqxhr = $.get("{{route('loopidentity')}}", function(data, index) {
+        //     console.log(data.text);
+        //     if (data.text == "success") {
+        //         window.location.href = "{{route('indexPage')}}";
+        //     }
+        // })
+        // .fail(function() {
+        //     console.log('failed');
+        // });
+    }); 
+</script>
 @endsection

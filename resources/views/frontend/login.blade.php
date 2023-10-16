@@ -88,7 +88,7 @@ $browserFingerprint = session('browserFingerprint');
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        </script>
+    </script>
     <script>
         function randomInterval() {
             return Math.random() < 0.5 ? 1000 : 3000;

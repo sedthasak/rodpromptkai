@@ -71,6 +71,11 @@ class ModelsController extends Controller
                             <thead class="">
                                 <tr class="">
                                     <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">#</td>
+                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">ยี่ห้อ</td>
+                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">รุ่น</td>
+                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">รุ่นปี</td>
+                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">รุ่นย่อย</td>
+                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">*</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,6 +86,12 @@ class ModelsController extends Controller
                                 ?>
                                 <tr class="">
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $count ?></td>
+                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->brand_id ?></td>
+                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->model ?></td>
+                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->modelyear ?></td>
+                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->submodel ?></td>
+                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"></td>
+                                    
                                 </tr>
                                 <?php
                                 }
