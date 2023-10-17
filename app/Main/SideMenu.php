@@ -26,17 +26,41 @@ class SideMenu
                 'params' => [],
                 'title' => 'โพสท์ขายรถ'
             ],
-            'brands' => [
-                'icon' => 'Sidebar',
-                'route_name' => 'BN_brands',
-                'params' => [],
-                'title' => 'ยี่ห้อรถ'
-            ],
-            'models' => [
-                'icon' => 'Package',
-                'route_name' => 'BN_carmd',
-                'params' => [],
-                'title' => 'รุ่นรถ'
+            'car' => [
+                'icon' => 'Box',
+                'title' => 'ข้อมูลรถ',
+                'sub_menu' => [
+                    'caroverall' => [
+                        'icon' => 'Sidebar',
+                        'route_name' => 'BN_brands',
+                        'params' => [],
+                        'title' => 'ภาพรวม'
+                    ],
+                    'brands' => [
+                        'icon' => 'Sidebar',
+                        'route_name' => 'BN_brands',
+                        'params' => [],
+                        'title' => 'ยี่ห้อรถ'
+                    ],
+                    'models' => [
+                        'icon' => 'Package',
+                        'route_name' => 'BN_carmd',
+                        'params' => [],
+                        'title' => 'รุ่นรถ'
+                    ],
+                    'look' => [
+                        'icon' => 'Package',
+                        'route_name' => 'BN_carmd',
+                        'params' => [],
+                        'title' => 'โฉม'
+                    ],
+                    'sub-model' => [
+                        'icon' => 'Box',
+                        'route_name' => 'BN_carmd',
+                        'params' => [],
+                        'title' => 'รุ่นย่อย'
+                    ],
+                ]
             ],
             'cat' => [
                 'icon' => 'Grid',
