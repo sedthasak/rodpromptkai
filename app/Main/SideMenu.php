@@ -32,7 +32,7 @@ class SideMenu
                 'sub_menu' => [
                     'caroverall' => [
                         'icon' => 'Sidebar',
-                        'route_name' => 'BN_brands',
+                        'route_name' => 'BN_car',
                         'params' => [],
                         'title' => 'ภาพรวม'
                     ],
@@ -48,15 +48,15 @@ class SideMenu
                         'params' => [],
                         'title' => 'รุ่นรถ'
                     ],
-                    'look' => [
+                    'generations' => [
                         'icon' => 'Package',
-                        'route_name' => 'BN_carmd',
+                        'route_name' => 'BN_generations',
                         'params' => [],
                         'title' => 'โฉม'
                     ],
-                    'sub-model' => [
+                    'sub_model' => [
                         'icon' => 'Box',
-                        'route_name' => 'BN_carmd',
+                        'route_name' => 'BN_sub_models',
                         'params' => [],
                         'title' => 'รุ่นย่อย'
                     ],

@@ -14,6 +14,8 @@ use App\Http\Controllers\Backend\CategoriesController;
 use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\BrandsController;
 use App\Http\Controllers\Backend\ModelsController;
+use App\Http\Controllers\Backend\GenerationsController;
+use App\Http\Controllers\Backend\Sub_modelsController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -66,10 +68,15 @@ Route::controller(FrontendPageController::class)->group(function() {
 });
 
 Route::middleware('sessionlogin')->group(function() {
+
     Route::controller(PostController::class)->group(function() {
         Route::post('/carpost-select-brand', 'carpostSelectBrand')->name('carpostSelectBrand');
+        Route::post('/carpost-select-model', 'carpostSelectModel')->name('carpostSelectModel');
+        Route::post('/carpost-select-generations', 'carpostSelectGenerations')->name('carpostSelectGenerations');
+        Route::post('/carpost-select-sub_models', 'carpostSelectSub_model')->name('carpostSelectSub_model');
 
         Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
+        Route::get('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
     });
 
     Route::controller(FrontendPageController::class)->group(function() {
@@ -149,6 +156,11 @@ Route::middleware('auth')->group(function() {
     
     Route::get('/backend/dev', [BackendPageController::class, 'BN_dev'])->name('BN_dev');
 
+    Route::get('/backend/car', [BackendPageController::class, 'BN_car'])->name('BN_car');
+
+    Route::get('/backend/generations', [BackendPageController::class, 'BN_generations'])->name('BN_generations');
+    Route::get('/backend/sub_models', [BackendPageController::class, 'BN_sub_models'])->name('BN_sub_models');
+
     Route::get('/backend/logs', [LogsController::class, 'BN_logs'])->name('BN_logs');
     Route::get('/backend/logsfetch', [LogsController::class, 'BN_logsFetch'])->name('BN_logsFetch');
     Route::get('/backend/users', [UsersController::class, 'BN_user'])->name('BN_user');
@@ -180,14 +192,26 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/brandsfetch', [BrandsController::class, 'BN_brandsFetch'])->name('BN_brandsFetch');
     Route::get('/backend/brands-preview/{id}', [BrandsController::class, 'BN_brands_preview'])->name('BN_brands_preview');
 
-    // Route::get('/backend/brands-a', [BrandsController::class, 'BN_carmd'])->name('BN_carmd');
-
     Route::get('/backend/models', [ModelsController::class, 'BN_carmd'])->name('BN_carmd');
     Route::get('/backend/models-add', [ModelsController::class, 'BN_carmd_add'])->name('BN_carmd_add');
     Route::get('/backend/models-edit/{id}', [ModelsController::class, 'BN_carmd_edit'])->name('BN_carmd_edit');
     Route::post('/backend/models-add-action', [ModelsController::class, 'BN_carmd_add_action'])->name('BN_carmd_add_action');
     Route::post('/backend/models-edit-action', [ModelsController::class, 'BN_carmd_edit_action'])->name('BN_carmd_edit_action');
     Route::get('/backend/modelsfetch', [ModelsController::class, 'BN_carmdFetch'])->name('BN_carmdFetch');
+
+    Route::get('/backend/generations', [GenerationsController::class, 'BN_generations'])->name('BN_generations');
+    Route::get('/backend/generations-add', [GenerationsController::class, 'BN_generations_add'])->name('BN_generations_add');
+    // Route::get('/backend/generations-edit/{id}', [GenerationsController::class, 'BN_generations_edit'])->name('BN_generations_edit');
+    Route::post('/backend/generations-add-action', [GenerationsController::class, 'BN_generations_add_action'])->name('BN_generations_add_action');
+    // Route::post('/backend/generations-edit-action', [GenerationsController::class, 'BN_generations_edit_action'])->name('BN_generations_edit_action');
+    Route::get('/backend/generationsfetch', [GenerationsController::class, 'BN_generationsFetch'])->name('BN_generationsFetch');
+
+    Route::get('/backend/sub_models', [Sub_modelsController::class, 'BN_sub_models'])->name('BN_sub_models');
+    Route::get('/backend/sub_models-add', [Sub_modelsController::class, 'BN_sub_models_add'])->name('BN_sub_models_add');
+    // Route::get('/backend/sub_models-edit/{id}', [Sub_modelsController::class, 'BN_sub_models_edit'])->name('BN_sub_models_edit');
+    Route::post('/backend/sub_models-add-action', [Sub_modelsController::class, 'BN_sub_models_add_action'])->name('BN_sub_models_add_action');
+    // Route::post('/backend/sub_models-edit-action', [Sub_modelsController::class, 'BN_sub_models_edit_action'])->name('BN_sub_models_edit_action');
+    Route::get('/backend/sub_modelsfetch', [Sub_modelsController::class, 'BN_sub_modelsFetch'])->name('BN_sub_modelsFetch');
 
 
     Route::controller(PageController::class)->group(function() {

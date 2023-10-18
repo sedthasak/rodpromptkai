@@ -8,11 +8,29 @@ use App\Http\Controllers\LogsSaveController;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
-use App\Models\Customer;
-use App\Models\categoriesModel;
+use App\Models\modelsModel;
+use App\Models\brandsModel;
+use App\Models\generationsModel;
+use App\Models\sub_modelsModel;
 
 class BackendPageController extends Controller
 {
+
+    // public function BN_generations()
+    // {
+    //     return view('backend/models', [ 
+    //         'default_pagename' => 'โฉมรถ',
+    //     ]);
+    // }
+    public function BN_car()
+    {
+        return view('backend/car', [ 
+            'default_pagename' => 'ข้อมูลรถ',
+            
+        ]);
+    }
+
+    
 
     public function BN_modelsss()
     {

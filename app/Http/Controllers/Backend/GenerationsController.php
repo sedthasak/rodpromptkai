@@ -12,30 +12,25 @@ use App\Models\brandsModel;
 use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 
-class ModelsController extends Controller
+class GenerationsController extends Controller
 {
-    public function BN_carmd()
+    public function BN_generations()
     {
-
-        // $query = DB::table('models')
-        //     ->join('brands', 'models.brand_id', '=', 'brands.id')
-        //     ->get();
-        return view('backend/models', [ 
-            'default_pagename' => 'รุ่นรถ',
-            // 'query' => $query,
+        return view('backend/generations', [ 
+            'default_pagename' => 'โฉมรถ',
         ]);
     }
-    public function BN_carmd_add(Request $request)
+    public function BN_generations_add(Request $request)
     {
-        $brands = brandsModel::all();
-        return view('backend/models-add', [ 
-            'default_pagename' => 'เพิ่มรุ่นรถ',
-            'brands' => $brands,
+        $models = modelsModel::all();
+        return view('backend/generations-add', [ 
+            'default_pagename' => 'เพิ่มโฉมรถ',
+            'models' => $models,
         ]);
     }
-    public function BN_carmd_add_action(Request $request)
+    public function BN_generations_add_action(Request $request)
     {
-        $models = new modelsModel;
+        $generationsModel = new generationsModel;
 
         if($request->hasFile('feature')){
             $file = $request->file('feature');
@@ -43,40 +38,36 @@ class ModelsController extends Controller
             $filename = $file->getClientOriginalName();
 
             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = 'model-'.time() . '.' .$ext;
+            $newfilenam = 'generations-'.time() . '.' .$ext;
             $file->move($destinationPath, $newfilenam);
             $filepath = 'uploads/'.$newfilenam;
-            $models->feature = $filepath;
+            $generationsModel->feature = $filepath;
         }
 
-        $models->brand_id = $request->brand_id;
-        $models->model = $request->model;
-        $models->modelyear = $request->modelyear;
-        $models->submodel = $request->submodel;
-        $models->description = $request->description;
-        $models->save();
+        $generationsModel->models_id = $request->models_id;
+        $generationsModel->generations = $request->generations;
+        $generationsModel->yearfirst = $request->yearfirst;
+        $generationsModel->yearlast = $request->yearlast;
+        $generationsModel->description = $request->description;
+        $generationsModel->save();
 
-        return redirect(route('BN_carmd'))->with('success', 'เพิ่มสำเร็จ !');
+        return redirect(route('BN_generations'))->with('success', 'เพิ่มสำเร็จ !');
 
     }
-    public function BN_carmd_edit(Request $request, $id)
+    public function BN_generations_edit(Request $request, $id)
     {
 
     }
-    public function BN_carmd_edit_action(Request $request)
+    public function BN_generations_edit_action(Request $request)
     {
 
     }
-    public function BN_carmdFetch()
+    public function BN_generationsFetch()
     {
-        // $query = modelsModel::all()->sort();
-        $query = DB::table('models')
-            ->join('brands', 'models.brand_id', '=', 'brands.id')
+        $query = DB::table('generations')
+            ->join('models', 'generations.models_id', '=', 'models.id')
             ->get();
 
-        // echo "<pre>";
-        // print_r($query);
-        // echo "</pre>";
         $output = '';
         if($query->count() > 0){
             ?>
@@ -86,8 +77,8 @@ class ModelsController extends Controller
                             <thead class="">
                                 <tr class="">
                                     <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">#</td>
-                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">ยี่ห้อ</td>
                                     <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">รุ่น</td>
+                                    <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">โฉม</td>
                                     <td class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 whitespace-nowrap">*</td>
                                 </tr>
                             </thead>
@@ -99,8 +90,8 @@ class ModelsController extends Controller
                                 ?>
                                 <tr class="">
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $count ?></td>
-                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->title ?></td>
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->model ?></td>
+                                    <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->generations ?></td>
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"></td>
                                     
                                 </tr>
