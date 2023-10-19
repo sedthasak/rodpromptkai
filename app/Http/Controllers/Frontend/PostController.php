@@ -53,16 +53,29 @@ class PostController extends Controller
         }
         return response()->json($ech);
     }
+    public function carpostSelectGenerationsYear(Request $request) {
+
+        $ech = '';
+        $query = DB::table('generations')->where('id', $request->generations_id)->first();
+        if($query){
+            $ech = '<option value="">เลือกรุ่นปี</option>';
+            for($y=$query->yearlast;$y>=$query->yearfirst;$y--){
+                $ech .= '<option value="'.$y.'">'.$y.'</option>';
+            }
+        }
+        return response()->json($ech);
+    }
 
     public function carpostregisterPage()
     {
         $provinces = provincesModel::all();
         $brands = brandsModel::all();
         // $models = modelsModel::all();
+        // $query = DB::table('generations')->where('id', 1)->first();
         return view('frontend/carpost-register', [
             'provinces' => $provinces,
             'brands' => $brands,
-            // 'models' => $models,
+            // 'query' => $query,
             // 'a' => 'test',
         ]);
     }

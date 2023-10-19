@@ -73,6 +73,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/carpost-select-brand', 'carpostSelectBrand')->name('carpostSelectBrand');
         Route::post('/carpost-select-model', 'carpostSelectModel')->name('carpostSelectModel');
         Route::post('/carpost-select-generations', 'carpostSelectGenerations')->name('carpostSelectGenerations');
+        Route::post('/carpost-select-generations-year', 'carpostSelectGenerationsYear')->name('carpostSelectGenerationsYear');
         Route::post('/carpost-select-sub_models', 'carpostSelectSub_model')->name('carpostSelectSub_model');
 
         Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');

@@ -23,9 +23,34 @@ $google_map = $customerdata->google_map??'';
 $facebook = $customerdata->facebook??'';
 $line = $customerdata->line??'';
 
+$arr_color = array(
+    'white' => 'ขาว',
+    'เขียว' => 'เขียว',
+    'แดง' => 'แดง',
+    'ดำ' => 'ดำ',
+    'ชมพู' => 'ชมพู',
+    'ครีม' => 'ครีม',
+    'เทา' => 'เทา',
+    'เทา-เขียว' => 'เทา-เขียว',
+    'เทา-ดำ' => 'เทา-ดำ',
+    'เทา-น้ำเงิน' => 'เทา-น้ำเงิน',
+    'น้ำเงิน' => 'น้ำเงิน',
+    'น้ำตาล' => 'น้ำตาล',
+    'บรอนซ์เงิน' => 'บรอนซ์เงิน',
+    'บรอนซ์ทอง' => 'บรอนซ์ทอง',
+    'ฟ้า' => 'ฟ้า',
+    'ม่วง' => 'ม่วง',
+    'ส้ม' => 'ส้ม',
+    'เหลือง' => 'เหลือง',
+);
+
 // echo "<pre>";
-// print_r($customerdata);
+// print_r($query);
 // echo "</pre>";
+// for ($x = $query->yearlast; $x <= $query->yearfirst; $x++) {
+//     echo "The number is: $x <br>";
+// }
+
 ?>
 <section class="row">
     <div class="col-12 wrap-bgstep">
@@ -34,13 +59,13 @@ $line = $customerdata->line??'';
                 <div class="col-12 text-center">
                     <h1>ลงขายรถยนต์</h1>
                     <div class="box-iconstep">
-                        <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                        <div href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></div>
                         <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                        <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></a>
+                        <div href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></div>
                         <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                        <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></a>
+                        <div href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></div>
                         <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                        <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
+                        <div href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></div>
                     </div>
                 </div>
             </div>
@@ -48,8 +73,8 @@ $line = $customerdata->line??'';
     </div>
 </section>
 
-<section class="row" id="step1">
-<div class="col-12 wrap-page-step wow fadeInDown">
+<section class="row" id="step1" >
+    <div class="col-12 wrap-page-step wow fadeInDown">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -118,6 +143,9 @@ $line = $customerdata->line??'';
                                         <div class="col-12 col-md-6">
                                             <select class="form-select" name="color" >
                                                 <option value="">เลือกสี</option>
+                                                @foreach($arr_color as $keycolor => $color)
+                                                <option value="{{$color}}">{{$color}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6">
@@ -127,7 +155,7 @@ $line = $customerdata->line??'';
                                 </div>
                                 <div class="col-12 col-md-6 frm-step">
                                     <label>รุ่นปี<span>*</span></label>
-                                    <select class="form-select">
+                                    <select class="form-select" name="years" id="years">
                                         <option value="">เลือกรุ่นปี</option>
                                     </select>
                                 </div>
@@ -232,6 +260,21 @@ $line = $customerdata->line??'';
                     success: function (response) {
                         // console.log(response);
                         $('#sub_models').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+                $.ajax({
+                    url: "{{route('carpostSelectGenerationsYear')}}",
+                    type: "post",
+                    data: { 
+                        generations_id: generations_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#years').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(textStatus, errorThrown);
