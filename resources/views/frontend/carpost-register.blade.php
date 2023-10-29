@@ -225,6 +225,7 @@ $arr_color = array(
         </div>
     </section>
 </div>
+
 <div id="step2" style="display:none;">
     <section class="row">
         <div class="col-12 wrap-bgstep">
@@ -254,34 +255,32 @@ $arr_color = array(
                         <div class="wrap-boxstep">
                             <div class="topic-step"><span>2</span> ข้อมูลผู้ขาย</div>
                             <div class="box-frm-step">
-                                <form>
-                                    <div class="row">
-                                        <div class="col-12 frm-step">
-                                            <label>หัวข้อโฆษณา<span>*</span></label>
-                                            <input type="text" class="form-control" placeholder="ข้อความโฆษณาของคุณ">
-                                            <div class="box-introtext">
-                                                <div class="topic-introtext">ข้อความแนะนำ</div>
-                                                <div class="btn-introtext">
-                                                    <button>มีประวัติการเข้าศูนย์</button>
-                                                    <button>ไม่มีชนหนัก</button>
-                                                    <button>รถสภาพดี</button>
-                                                    <button>มีประกัน</button>
-                                                    <button>ดูแลอย่างดี</button>
-                                                    <button>รถบ้าน</button>
-                                                </div>
+                                <div class="row">
+                                    <div class="col-12 frm-step">
+                                        <label>หัวข้อโฆษณา<span>*</span></label>
+                                        <input type="text" class="form-control" placeholder="ข้อความโฆษณาของคุณ">
+                                        <div class="box-introtext">
+                                            <div class="topic-introtext">ข้อความแนะนำ</div>
+                                            <div class="btn-introtext">
+                                                <div class="btn button">มีประวัติการเข้าศูนย์</div>
+                                                <button>ไม่มีชนหนัก</button>
+                                                <button>รถสภาพดี</button>
+                                                <button>มีประกัน</button>
+                                                <button>ดูแลอย่างดี</button>
+                                                <button>รถบ้าน</button>
                                             </div>
                                         </div>
-                                        <div class="col-12 frm-step">
-                                            <label>รายละเอียดรถ<span>*</span></label>
-                                            <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt="">
-                                        </div>
-                                        <div class="col-12 frm-step">
-                                            <label>ตั้งราคาขาย<span>*</span></label>
-                                            <div class="txt-noteedit">หลังจากลงขายแล้ว สามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
-                                            <input type="text" class="form-control">
-                                        </div>
                                     </div>
-                                </form>
+                                    <div class="col-12 frm-step">
+                                        <label>รายละเอียดรถ<span>*</span></label>
+                                        <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt="">
+                                    </div>
+                                    <div class="col-12 frm-step">
+                                        <label>ตั้งราคาขาย<span>*</span></label>
+                                        <div class="txt-noteedit">หลังจากลงขายแล้ว สามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
+                                        <input type="number" class="form-control" name="price">
+                                    </div>
+                                </div>
                             </div>
                             <div class="frm-step-button text-center">
                                 <div class="btn btn-step btn-backstep btn_to_step1">ย้อนกลับ</div>
@@ -294,6 +293,7 @@ $arr_color = array(
         </div>
     </section>
 </div>
+
 <div id="step3" style="display:none;">
     <section class="row">
         <div class="col-12 wrap-bgstep">
@@ -422,7 +422,7 @@ $arr_color = array(
                                                     <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
                                                     <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
                                                     <div class="btn-uploadimg">
-                                                        <input type="file">
+                                                        <input type="file" accept="image/*" name="licenseplate" />
                                                         <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
                                                     </div>
                                                 </div>
@@ -450,6 +450,7 @@ $arr_color = array(
         </div>
     </section>
 </div>
+
 <div id="step4" style="display:none;">
     <section class="row">
         <div class="col-12 wrap-bgstep">
