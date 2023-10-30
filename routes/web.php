@@ -78,6 +78,8 @@ Route::middleware('sessionlogin')->group(function() {
 
         Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
         Route::get('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
+        Route::get('/carpost-register-success', 'carpostregistersuccessPage')->name('carpostregistersuccessPage');
+        Route::post('/carpost-register-submit', 'carpostregisterSubmitPage')->name('carpostregisterSubmitPage');
     });
 
     Route::controller(FrontendPageController::class)->group(function() {

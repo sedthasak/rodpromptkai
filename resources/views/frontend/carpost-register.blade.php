@@ -10,6 +10,7 @@
 
 $data = session()->all();
 $customerdata = session('customer');
+$customerid = $customerdata->id;
 $phone = $customerdata->phone??'';
 $username = $customerdata->username??'';
 $email = $customerdata->email??'';
@@ -45,7 +46,7 @@ $arr_color = array(
 );
 
 // echo "<pre>";
-// print_r($query);
+// print_r($customerid);
 // echo "</pre>";
 // for ($x = $query->yearlast; $x <= $query->yearfirst; $x++) {
 //     echo "The number is: $x <br>";
@@ -54,442 +55,446 @@ $arr_color = array(
 ?>
     
 
-
-<div id="step1">
-    <section class="row">
-        <div class="col-12 wrap-bgstep">
-            <div class="container">
-                <div class="row wow fadeInDown">
-                    <div class="col-12 text-center">
-                        <h1>ลงขายรถยนต์</h1>
-                        <div class="box-iconstep">
-                            <div href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></div>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <div href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></div>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <div href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></div>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <div href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></div>
+<form method="POST" action="{{route('carpostregisterSubmitPage')}}">
+@csrf
+    <div id="step1">
+        <section class="row">
+            <div class="col-12 wrap-bgstep">
+                <div class="container">
+                    <div class="row wow fadeInDown">
+                        <div class="col-12 text-center">
+                            <h1>ลงขายรถยนต์</h1>
+                            <div class="box-iconstep">
+                                <div href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></div>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <div href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></div>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <div href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></div>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <div href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="row">
-        <div class="col-12 wrap-page-step wow fadeInDown">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                    <div class="wrap-boxstep">
-                            <div class="topic-step"><span>1.1</span> ข้อมูลทั่วไป</div>
-                            <div class="box-frm-step">
-                                <div class="row">
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>ชื่่อผู้ลงทะเบียน</label>
-                                        <input type="text" class="form-control" value="{{$firstname.' '.$lastname}}" readonly />
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>ประเภทการลงทะเบียน</label>
-                                        <select class="form-select" disabled>
-                                            <option value="home">รถทั่วไป</option>
-                                            <option value="dealer">ดีลเลอร์</option>
-                                            <option value="lady">รถคุณผู้หญิง</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>อีเมล</label>
-                                        <input type="text" class="form-control" value="{{$email}}" readonly />
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>เบอร์โทรศัพท์</label>
-                                        <input type="text" class="form-control" value="{{$phone}}" readonly />
+        </section>
+        <section class="row">
+            <div class="col-12 wrap-page-step wow fadeInDown">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                        <div class="wrap-boxstep">
+                                <div class="topic-step"><span>1.1</span> ข้อมูลทั่วไป</div>
+                                <input type="hidden" name="customer_id" value="{{$customerid}}" />
+                                <div class="box-frm-step">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>ชื่่อผู้ลงทะเบียน</label>
+                                            <input type="text" name="name" class="form-control" value="{{$firstname.' '.$lastname}}" readonly />
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>ประเภทการลงทะเบียน</label>
+                                            <select class="form-select" name="type">
+                                                <option value="home">รถทั่วไป</option>
+                                                <option value="dealer">ดีลเลอร์</option>
+                                                <option value="lady">รถคุณผู้หญิง</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>อีเมล</label>
+                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly />
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>เบอร์โทรศัพท์</label>
+                                            <input type="text" name="phone" class="form-control" value="{{$phone}}" readonly />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <br>
-                        <div class="wrap-boxstep">
-                            <div class="topic-step"><span>1.2</span> รายละเอียดรถยนต์</div>
-                            <div class="box-frm-step">
-                                <div class="row">
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>1. ยี่ห้อ<span>*</span></label>
-                                        <select class="form-select" name="brands" id="brands">
-                                            <option value="">เลือกยี่ห้อ</option>
-                                            @foreach($brands as $keybn => $bn)
-                                            <option value="{{$bn->id}}">{{$bn->title}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>2. รุ่น<span>*</span></label>
-                                        <select class="form-select" name="models" id="models">
-                                            <option value="">เลือกรุ่น</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>3. โฉม<span>*</span></label>
-                                        <select class="form-select" name="generations" id="generations">
-                                            <option value="">เลือกโฉม</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>4. รุ่นย่อย<span>*</span></label>
-                                        <select class="form-select" name="sub_models" id="sub_models">
-                                            <option value="">เลือกรุ่นย่อย</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 frm-step frm-step-inline">
-                                        <label>สี<span>*</span></label>
-                                        <div class="row">
-                                            <div class="col-12 col-md-6">
-                                                <select class="form-select" name="color" >
-                                                    <option value="">เลือกสี</option>
-                                                    @foreach($arr_color as $keycolor => $color)
-                                                    <option value="{{$color}}">{{$color}}</option>
-                                                    @endforeach
-                                                </select>
+                            <br>
+                            <div class="wrap-boxstep">
+                                <div class="topic-step"><span>1.2</span> รายละเอียดรถยนต์</div>
+                                <div class="box-frm-step">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>1. ยี่ห้อ<span>*</span></label>
+                                            <select class="form-select" name="brands" id="brands">
+                                                <option value="">เลือกยี่ห้อ</option>
+                                                @foreach($brands as $keybn => $bn)
+                                                <option value="{{$bn->id}}">{{$bn->title}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>2. รุ่น<span>*</span></label>
+                                            <select class="form-select" name="models" id="models">
+                                                <option value="">เลือกรุ่น</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>3. โฉม<span>*</span></label>
+                                            <select class="form-select" name="generations" id="generations">
+                                                <option value="">เลือกโฉม</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>4. รุ่นย่อย<span>*</span></label>
+                                            <select class="form-select" name="sub_models" id="sub_models">
+                                                <option value="">เลือกรุ่นย่อย</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 frm-step frm-step-inline">
+                                            <label>สี<span>*</span></label>
+                                            <div class="row">
+                                                <div class="col-12 col-md-6">
+                                                    <select class="form-select" name="color" >
+                                                        <option value="">เลือกสี</option>
+                                                        @foreach($arr_color as $keycolor => $color)
+                                                        <option value="{{$color}}">{{$color}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input type="text" name="other_color" class="form-control" placeholder="สีอื่นๆ โปรดระบุ">
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-md-6">
-                                                <input type="text" class="form-control" placeholder="สีอื่นๆ โปรดระบุ">
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>รุ่นปี<span>*</span></label>
+                                            <select class="form-select" name="years" id="years">
+                                                <option value="">เลือกรุ่นปี</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>เลขไมล์<span>*</span></label>
+                                            <input type="text" name="mileage" class="form-control">
+                                        </div>
+                                        <div class="col-12 col-lg-6 frm-step">
+                                            <label>เกียร์<span>*</span></label>
+                                            <div class="carsearch-radio">
+                                                <label class="car-radio">ออโต้
+                                                    <input type="radio" name="gear" value="auto" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="car-radio">ธรรมดา
+                                                    <input type="radio" name="gear" value="manual" />
+                                                    <span class="checkmark"></span>
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>รุ่นปี<span>*</span></label>
-                                        <select class="form-select" name="years" id="years">
-                                            <option value="">เลือกรุ่นปี</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>เลขไมล์<span>*</span></label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                    <div class="col-12 col-lg-6 frm-step">
-                                        <label>เกียร์<span>*</span></label>
-                                        <div class="carsearch-radio">
-                                            <label class="car-radio">ออโต้
-                                                <input type="radio" name="gear">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                            <label class="car-radio">ธรรมดา
-                                                <input type="radio" name="gear">
-                                                <span class="checkmark"></span>
-                                            </label>
+                                        <div class="col-12 col-lg-6 frm-step">
+                                            <label>แก๊ส<span>*</span></label>
+                                            <div class="carsearch-radio">
+                                                <label class="car-radio">ไม่ติดแก๊ส
+                                                    <input type="radio" name="gashas" value="no" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="car-radio">NGV
+                                                    <input type="radio" name="gashas" value="ngv" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="car-radio">LPG
+                                                    <input type="radio" name="gashas" value="lpg" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="car-radio">รถไฟฟ้า
+                                                    <input type="radio" name="gashas" value="ev" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-lg-6 frm-step">
-                                        <label>แก๊ส<span>*</span></label>
-                                        <div class="carsearch-radio">
-                                            <label class="car-radio">ไม่ติดแก๊ส
-                                                <input type="radio" name="gas">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                            <label class="car-radio">NGV
-                                                <input type="radio" name="gas">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                            <label class="car-radio">LPG
-                                                <input type="radio" name="gas">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                            <label class="car-radio">รถไฟฟ้า
-                                                <input type="radio" name="gas">
-                                                <span class="checkmark"></span>
-                                            </label>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>ทะเบียนรถ<span>*</span></label>
+                                            <input type="text" name="vehicle_code" class="form-control">
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>ทะเบียนรถ<span>*</span></label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                    <div class="col-12 col-md-6 frm-step">
-                                        <label>จังหวัด<span>*</span></label>
-                                        <select class="form-select">
-                                            <option value="">เลือกจังหวัด</option>
-                                            @foreach($provinces as $keypv => $pv)
-                                            <option value="{{$pv->name_th}}">{{$pv->name_th}}</option>
-                                            @endforeach
-                                        </select>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label>จังหวัด<span>*</span></label>
+                                            <select class="form-select" name="province" >
+                                                <option value="">เลือกจังหวัด</option>
+                                                @foreach($provinces as $keypv => $pv)
+                                                <option value="{{$pv->name_th}}">{{$pv->name_th}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="frm-step-button text-center">
-                                <div class="btn btn-step btn-nextstep btn_to_step2">ถัดไป</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-<div id="step2" style="display:none;">
-    <section class="row">
-        <div class="col-12 wrap-bgstep">
-            <div class="container">
-                <div class="row wow fadeInDown">
-                    <div class="col-12 text-center">
-                        <h1>ลงขายรถยนต์</h1>
-                        <div class="box-iconstep">
-                            <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
-                            <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></a>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="row">
-        <div class="col-12 wrap-page-step wow fadeInDown">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="wrap-boxstep">
-                            <div class="topic-step"><span>2</span> ข้อมูลผู้ขาย</div>
-                            <div class="box-frm-step">
-                                <div class="row">
-                                    <div class="col-12 frm-step">
-                                        <label>หัวข้อโฆษณา<span>*</span></label>
-                                        <input type="text" class="form-control" placeholder="ข้อความโฆษณาของคุณ">
-                                        <div class="box-introtext">
-                                            <div class="topic-introtext">ข้อความแนะนำ</div>
-                                            <div class="btn-introtext">
-                                                <div class="btn button">มีประวัติการเข้าศูนย์</div>
-                                                <button>ไม่มีชนหนัก</button>
-                                                <button>รถสภาพดี</button>
-                                                <button>มีประกัน</button>
-                                                <button>ดูแลอย่างดี</button>
-                                                <button>รถบ้าน</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 frm-step">
-                                        <label>รายละเอียดรถ<span>*</span></label>
-                                        <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt="">
-                                    </div>
-                                    <div class="col-12 frm-step">
-                                        <label>ตั้งราคาขาย<span>*</span></label>
-                                        <div class="txt-noteedit">หลังจากลงขายแล้ว สามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
-                                        <input type="number" class="form-control" name="price">
-                                    </div>
+                                <div class="frm-step-button text-center">
+                                    <div class="btn btn-step btn-nextstep btn_to_step2">ถัดไป</div>
                                 </div>
                             </div>
-                            <div class="frm-step-button text-center">
-                                <div class="btn btn-step btn-backstep btn_to_step1">ย้อนกลับ</div>
-                                <div class="btn btn-step btn-nextstep btn_to_step3">ถัดไป</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="step2" style="display:none;">
+        <section class="row">
+            <div class="col-12 wrap-bgstep">
+                <div class="container">
+                    <div class="row wow fadeInDown">
+                        <div class="col-12 text-center">
+                            <h1>ลงขายรถยนต์</h1>
+                            <div class="box-iconstep">
+                                <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                                <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></a>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
-
-<div id="step3" style="display:none;">
-    <section class="row">
-        <div class="col-12 wrap-bgstep">
-            <div class="container">
-                <div class="row wow fadeInDown">
-                    <div class="col-12 text-center">
-                        <h1>ลงขายรถยนต์</h1>
-                        <div class="box-iconstep">
-                            <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
-                            <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3-active.svg')}}" alt=""></a>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="row">
-        <div class="col-12 wrap-page-step wow fadeInDown">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="wrap-boxstep">
-                            <div class="topic-step"><span>3</span> อัพโหลดรูปภาพ</div>
-                            <div class="box-frm-step">
-                                <form>
+        </section>
+        <section class="row">
+            <div class="col-12 wrap-page-step wow fadeInDown">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="wrap-boxstep">
+                                <div class="topic-step"><span>2</span> ข้อมูลผู้ขาย</div>
+                                <div class="box-frm-step">
                                     <div class="row">
                                         <div class="col-12 frm-step">
-                                            <div class="topic-notephoto">อัพโหลดรูปรถ</div>
+                                            <label>หัวข้อโฆษณา<span>*</span></label>
+                                            <input type="text" class="form-control" name="title" placeholder="ข้อความโฆษณาของคุณ">
                                             <div class="box-introtext">
+                                                <div class="topic-introtext">ข้อความแนะนำ</div>
                                                 <div class="btn-introtext">
-                                                    <ul>
-                                                        <li>ไม่อนุญาตให้มีรายละเอียดช่องทางการติดต่อ หรือโปรโมชั่นต่างๆ ภายในรูปภาพ</li>
-                                                        <li>สามารถอัพโหลดรูปภาพทั้งภายนอกและห้องโดยสารรวม 5-25 รูป</li>
-                                                        <li>ขนาดรูปภาพจะต้องมีขนาดระหว่าง 10Kb แต่ไม่เกิน 12Mb</li>
-                                                        <li>นามสกุลไฟล์รูปภาพที่รองรับคือ .jpg และ .jpeg เท่านั้น</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="box-uploadphoto">
-                                                    <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
-                                                    <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
-                                                    <div class="row row-photoupload">
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2330.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2331.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2332.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2333.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2334.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2335.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="btn-uploadimg">
-                                                        <input type="file">
-                                                        <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
-                                                    </div>
-                                                </div>
-                                                <div class="box-uploadphoto">
-                                                    <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
-                                                    <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
-                                                    <div class="row row-photoupload">
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2339.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2340.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                            <div class="item-photoupload">
-                                                                <button><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{asset('frontend/images/Rectangle 2341.jpg')}}" alt="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="btn-uploadimg">
-                                                        <input type="file">
-                                                        <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
-                                                    </div>
-                                                </div>
-                                                <div class="box-uploadphoto">
-                                                    <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
-                                                    <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
-                                                    <div class="btn-uploadimg">
-                                                        <input type="file" accept="image/*" name="licenseplate" />
-                                                        <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="step-chceckbox">
-                                                <div class="login-checkbox">
-                                                    <label class="list-checkbox"><a href="#" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="#" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
-                                                        <input type="checkbox" checked="checked">
-                                                        <span class="checkmark"></span>
-                                                    </label>
+                                                    <div class="btn button">มีประวัติการเข้าศูนย์</div>
+                                                    <button>ไม่มีชนหนัก</button>
+                                                    <button>รถสภาพดี</button>
+                                                    <button>มีประกัน</button>
+                                                    <button>ดูแลอย่างดี</button>
+                                                    <button>รถบ้าน</button>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-12 frm-step">
+                                            <label>รายละเอียดรถ<span>*</span></label>
+                                            <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt="">
+                                        </div>
+                                        <div class="col-12 frm-step">
+                                            <label>ตั้งราคาขาย<span>*</span></label>
+                                            <div class="txt-noteedit">หลังจากลงขายแล้ว สามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
+                                            <input type="number" class="form-control" name="price">
+                                        </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="frm-step-button text-center">
-                                <div class="btn btn-step btn-backstep btn_to_step2">ย้อนกลับ</div>
-                                <div class="btn btn-step btn-nextstep btn_to_step4">ถัดไป</div>
+                                </div>
+                                <div class="frm-step-button text-center">
+                                    <div class="btn btn-step btn-backstep btn_to_step1">ย้อนกลับ</div>
+                                    <div class="btn btn-step btn-nextstep btn_to_step3">ถัดไป</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 
-<div id="step4" style="display:none;">
-    <section class="row">
-        <div class="col-12 wrap-bgstep">
-            <div class="container">
-                <div class="row wow fadeInDown">
-                    <div class="col-12 text-center">
-                        <h1>ลงขายรถยนต์</h1>
-                        <div class="box-iconstep">
-                            <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
-                            <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3-active.svg')}}" alt=""></a>
-                            <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                            <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4-active.svg')}}" alt=""></a>
+    <div id="step3" style="display:none;">
+        <section class="row">
+            <div class="col-12 wrap-bgstep">
+                <div class="container">
+                    <div class="row wow fadeInDown">
+                        <div class="col-12 text-center">
+                            <h1>ลงขายรถยนต์</h1>
+                            <div class="box-iconstep">
+                                <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                                <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3-active.svg')}}" alt=""></a>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="row">
-        <div class="col-12 wrap-page-step wow fadeInDown">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <div class="post-success">
-                            <img src="{{asset('frontend/images/icon-success.svg')}}" alt="">
-                            <h2>ส่งข้อมูลสำเร็จ</h2>
-                            <h3>โปรดรอเจ้าหน้าที่ตรวจสอบข้อมูล</h3>
-                            <p>หมายเลขอ้างอิง 12345678</p>
+        </section>
+        <section class="row">
+            <div class="col-12 wrap-page-step wow fadeInDown">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="wrap-boxstep">
+                                <div class="topic-step"><span>3</span> อัพโหลดรูปภาพ</div>
+                                <div class="box-frm-step">
+                                    
+                                        <div class="row">
+                                            <div class="col-12 frm-step">
+                                                <div class="topic-notephoto">อัพโหลดรูปรถ</div>
+                                                <div class="box-introtext">
+                                                    <div class="btn-introtext">
+                                                        <ul>
+                                                            <li>ไม่อนุญาตให้มีรายละเอียดช่องทางการติดต่อ หรือโปรโมชั่นต่างๆ ภายในรูปภาพ</li>
+                                                            <li>สามารถอัพโหลดรูปภาพทั้งภายนอกและห้องโดยสารรวม 5-25 รูป</li>
+                                                            <li>ขนาดรูปภาพจะต้องมีขนาดระหว่าง 10Kb แต่ไม่เกิน 12Mb</li>
+                                                            <li>นามสกุลไฟล์รูปภาพที่รองรับคือ .jpg และ .jpeg เท่านั้น</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="box-uploadphoto">
+                                                        <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
+                                                        <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
+                                                        <div class="row row-photoupload">
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2330.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2331.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2332.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2333.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2334.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2335.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="btn-uploadimg">
+                                                            <input type="file">
+                                                            <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-uploadphoto">
+                                                        <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
+                                                        <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
+                                                        <div class="row row-photoupload">
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2339.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2340.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2341.jpg')}}" alt="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="btn-uploadimg">
+                                                            <input type="file">
+                                                            <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-uploadphoto">
+                                                        <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
+                                                        <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
+                                                        <div class="btn-uploadimg">
+                                                            <input type="file" accept="image/*" name="licenseplate" />
+                                                            <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="step-chceckbox">
+                                                    <div class="login-checkbox">
+                                                        <label class="list-checkbox"><a href="#" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="#" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
+                                                            <input type="checkbox" checked="checked">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                                <div class="frm-step-button text-center">
+                                    <div class="btn btn-step btn-backstep btn_to_step2">ย้อนกลับ</div>
+                                    <button type="submit" class="btn btn-step btn-nextstep">สร้าง</button>
+                                </div>
+                            </div>
                         </div>
-                        <a href="{{route('profilePage')}}" class="btn-backpage">กลับสู่หน้าประกาศ</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
+
+    <div id="step4" style="display:none;">
+        <section class="row">
+            <div class="col-12 wrap-bgstep">
+                <div class="container">
+                    <div class="row wow fadeInDown">
+                        <div class="col-12 text-center">
+                            <h1>ลงขายรถยนต์</h1>
+                            <div class="box-iconstep">
+                                <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
+                                <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3-active.svg')}}" alt=""></a>
+                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
+                                <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4-active.svg')}}" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="row">
+            <div class="col-12 wrap-page-step wow fadeInDown">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <div class="post-success">
+                                <img src="{{asset('frontend/images/icon-success.svg')}}" alt="">
+                                <h2>ส่งข้อมูลสำเร็จ</h2>
+                                <h3>โปรดรอเจ้าหน้าที่ตรวจสอบข้อมูล</h3>
+                                <p>หมายเลขอ้างอิง 12345678</p>
+                            </div>
+                            <a href="{{route('profilePage')}}" class="btn-backpage">กลับสู่หน้าประกาศ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</form>
 
 
 
@@ -529,12 +534,12 @@ $arr_color = array(
             $('#step3').show();
             $('#step4').hide();
         } );
-        $(".btn_to_step4").on( "click", function() {
-            $('#step1').hide();
-            $('#step2').hide();
-            $('#step3').hide();
-            $('#step4').show();
-        } );
+        // $(".btn_to_step4").on( "click", function() {
+        //     $('#step1').hide();
+        //     $('#step2').hide();
+        //     $('#step3').hide();
+        //     $('#step4').show();
+        // } );
 
         $("#generations").on( "change", function() {
             var generations_id = $(this).val();

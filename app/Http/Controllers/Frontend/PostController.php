@@ -11,12 +11,44 @@ use App\Models\Sms_session;
 use App\Models\provincesModel;
 use App\Models\brandsModel;
 use App\Models\modelsModel;
+use App\Models\carsModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
 
 class PostController extends Controller
 {
+
+    public function carpostregisterSubmitPage(Request $request) {
+
+ 
+        $cars = new carsModel;
+
+        $cars->type = $request->type;
+        $cars->customer_id = $request->customer_id;
+        $cars->brand_id = $request->brands;
+        $cars->model_id = $request->models;
+        $cars->generations_id = $request->generations;
+        $cars->sub_models_id = $request->sub_models;
+        $cars->modelyear = $request->years;
+        $cars->mileage = $request->mileage;
+        $cars->vehicle_code = $request->vehicle_code;
+        $cars->title = $request->title;
+        $cars->price = $request->price;
+        $cars->licenseplate = $request->licenseplate;
+        $cars->status = 'created';
+        $cars->save();
+
+        $cars2 = carsModel::find($cars->id);
+        $strtotime = strtotime($cars2->created_at);
+
+        $cars2->ref_code = $strtotime.$cars2->customer_id;
+        $cars2->update();
+
+        return redirect(route('carpostregistersuccessPage'));
+    }
+
+
     public function carpostSelectBrand(Request $request) {
 
         $ech = '';
@@ -66,6 +98,19 @@ class PostController extends Controller
         return response()->json($ech);
     }
 
+    public function carpostregistersuccessPage()
+    {
+        $provinces = provincesModel::all();
+        $brands = brandsModel::all();
+        // $models = modelsModel::all();
+        // $query = DB::table('generations')->where('id', 1)->first();
+        return view('frontend/carpost-register-success', [
+            'provinces' => $provinces,
+            'brands' => $brands,
+            // 'query' => $query,
+            // 'a' => 'test',
+        ]);
+    }
     public function carpostregisterPage()
     {
         $provinces = provincesModel::all();
