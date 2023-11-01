@@ -11,6 +11,7 @@
 <script src="{{asset('frontend/js/wNumb.min.js')}}"></script>
 <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('frontend/js/script.js')}}"></script>
+<script src="{{asset('frontend/js/dropzone-min.js')}}"></script>
 
 <section class="row">
     <div class="col-12 wrap-footer">

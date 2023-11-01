@@ -57,7 +57,7 @@ $arr_color = array(
 
 <form method="POST" action="{{route('carpostregisterSubmitPage')}}">
 @csrf
-    <div id="step1">
+    <div id="step1" style="display:none;">
         <section class="row">
             <div class="col-12 wrap-bgstep">
                 <div class="container">
@@ -297,7 +297,7 @@ $arr_color = array(
         </section>
     </div>
 
-    <div id="step3" style="display:none;">
+    <div id="step3">
         <section class="row">
             <div class="col-12 wrap-bgstep">
                 <div class="container">
@@ -344,7 +344,20 @@ $arr_color = array(
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
                                                         <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
-                                                        <div class="row row-photoupload">
+
+                                                        <div class="dropzone" id="exteriorDropzone"></div>
+
+
+                                                        <!-- <div class="exterior-dropzone dropzone svelte-12uhhij dz-clickable">
+                                                            <div class="dz-message svelte-12uhhij">
+                                                                <h1 class="svelte-12uhhij">อัพโหลดรูปภายนอกรถยนต์!</h1> 
+                                                                <p>Drag and drop files here</p> 
+                                                            </div>
+                                                        </div> -->
+
+
+
+                                                        <!-- <div class="row row-photoupload">
                                                             <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button><i class="bi bi-trash3-fill"></i></button>
@@ -381,16 +394,22 @@ $arr_color = array(
                                                                     <img src="{{asset('frontend/images/Rectangle 2335.jpg')}}" alt="">
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="btn-uploadimg">
+                                                        </div> -->
+                                                        <!-- <div class="btn-uploadimg">
                                                             <input type="file">
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
                                                         <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
-                                                        <div class="row row-photoupload">
+                                                        <div class="interior-dropzone dropzone svelte-12uhhij dz-clickable">
+                                                            <div class="dz-message svelte-12uhhij">
+                                                                <h1 class="svelte-12uhhij">อัพโหลดรูปห้องโดยสาร!</h1> 
+                                                                <p>Drag and drop files here</p> 
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="row row-photoupload">
                                                             <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button><i class="bi bi-trash3-fill"></i></button>
@@ -415,19 +434,25 @@ $arr_color = array(
                                                                     <img src="{{asset('frontend/images/Rectangle 2341.jpg')}}" alt="">
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="btn-uploadimg">
+                                                        </div> -->
+                                                        <!-- <div class="btn-uploadimg">
                                                             <input type="file">
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
                                                         <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
-                                                        <div class="btn-uploadimg">
+                                                        <div class="licence-dropzone dropzone svelte-12uhhij dz-clickable">
+                                                            <div class="dz-message svelte-12uhhij">
+                                                                <h1 class="svelte-12uhhij">เล่มทะเบียนรถ!</h1> 
+                                                                <p>Drag and drop files here</p> 
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="btn-uploadimg">
                                                             <input type="file" accept="image/*" name="licenseplate" />
                                                             <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="step-chceckbox">
@@ -454,45 +479,7 @@ $arr_color = array(
         </section>
     </div>
 
-    <div id="step4" style="display:none;">
-        <section class="row">
-            <div class="col-12 wrap-bgstep">
-                <div class="container">
-                    <div class="row wow fadeInDown">
-                        <div class="col-12 text-center">
-                            <h1>ลงขายรถยนต์</h1>
-                            <div class="box-iconstep">
-                                <a href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></a>
-                                <div class="active"><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                                <a href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2-active.svg')}}" alt=""></a>
-                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                                <a href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3-active.svg')}}" alt=""></a>
-                                <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                                <a href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4-active.svg')}}" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="row">
-            <div class="col-12 wrap-page-step wow fadeInDown">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <div class="post-success">
-                                <img src="{{asset('frontend/images/icon-success.svg')}}" alt="">
-                                <h2>ส่งข้อมูลสำเร็จ</h2>
-                                <h3>โปรดรอเจ้าหน้าที่ตรวจสอบข้อมูล</h3>
-                                <p>หมายเลขอ้างอิง 12345678</p>
-                            </div>
-                            <a href="{{route('profilePage')}}" class="btn-backpage">กลับสู่หน้าประกาศ</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+
 
 </form>
 
@@ -513,6 +500,35 @@ $arr_color = array(
 
 </script>
 <script>
+
+    // const exterior = new Dropzone("div.exterior-dropzone", { url: "/file/post" });
+    // const interior = new Dropzone("div.interior-dropzone", { url: "/file/post" });
+    // const licence = new Dropzone("div.licence-dropzone", { url: "/file/post" });
+
+    Dropzone.options.exteriorDropzone = {
+        url: "/fake/location",
+        autoProcessQueue: false,
+        paramName: "file",
+        clickable: true,
+        maxFilesize: 5, //in mb
+        addRemoveLinks: true,
+        acceptedFiles: '.png,.jpg,.jpeg',
+        dictDefaultMessage: "อัพโหลดรูปภายนอกรถยนต์",
+        init: function() {
+            this.on("sending", function(file, xhr, formData) {
+            console.log("sending file");
+            });
+            this.on("success", function(file, responseText) {
+            console.log('great success');
+            });
+            this.on("addedfile", function(file){
+                console.log('file added');
+            });
+        }
+    };
+
+    
+
     $(document).ready(function() {
 
         $(".btn_to_step1").on( "click", function() {
