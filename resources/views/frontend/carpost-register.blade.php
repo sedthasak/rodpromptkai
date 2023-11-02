@@ -55,7 +55,7 @@ $arr_color = array(
 ?>
     
 
-<form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}">
+<form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
 @csrf
     <div id="step1" style="display:none;">
         <section class="row">
@@ -345,6 +345,7 @@ $arr_color = array(
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
                                                         <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
 
+                                                        <input type="file" name="exterior" multiple />
                                                         <div class="dropzone" id="exteriorDropzone"></div>
 
 
@@ -357,44 +358,7 @@ $arr_color = array(
 
 
 
-                                                        <!-- <div class="row row-photoupload">
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2330.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2331.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2332.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2333.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2334.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2335.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
+                                                        
                                                         <!-- <div class="btn-uploadimg">
                                                             <input type="file">
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
@@ -426,10 +390,10 @@ $arr_color = array(
                                                                 <p>Drag and drop files here</p> 
                                                             </div>
                                                         </div>
-                                                        <!-- <div class="btn-uploadimg">
+                                                        <div class="btn-uploadimg">
                                                             <input type="file" accept="image/*" name="licenseplate" />
                                                             <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
-                                                        </div> -->
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="step-chceckbox">
@@ -485,7 +449,7 @@ $arr_color = array(
     Dropzone.options.exteriorDropzone = {
         url: "/fake/location",
         autoProcessQueue: false,
-        paramName: "file",
+        paramName: "exteriorDropzone",
         clickable: true,
         maxFilesize: 5, //in mb
         addRemoveLinks: true,

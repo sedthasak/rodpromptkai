@@ -21,7 +21,13 @@ class PostController extends Controller
 
     public function carpostregisterSubmitPage(Request $request) {
 
- 
+        // $exterior = $request->file('exterior');
+        // $exteriorDropzone = $request->file('exteriorDropzone');
+        // foreach(){
+
+        // }
+        // dd($exterior);
+
         $cars = new carsModel;
 
         $cars->type = $request->type;

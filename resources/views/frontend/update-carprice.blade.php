@@ -17,7 +17,7 @@
                             <h1>อัพเดทราคารถยนต์</h1>
                         </div>
                         <div class="col-12 col-md-7 text-end">
-                            <div class="updateprice-select">
+                            <!-- <div class="updateprice-select">
                                 <span>ยี่ห้อรถยนต์</span>
                                 <div class="carsearch-input">
                                     <a data-fancybox data-src="#popup-searchcar" href="javascript:;">
@@ -30,7 +30,7 @@
                                         @include('frontend.layouts.inc-popup-updateprice')
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <nav class="updateprice-nav">
