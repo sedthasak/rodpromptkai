@@ -108,5 +108,8 @@ class NewsController extends Controller
 
         return redirect($this->index($dataTable));
     }
-
+    public function BN_news_ajaxlist(Request $request) {
+        $data = [];
+        return redirect(json_encode($data));
+    }
 }

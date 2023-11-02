@@ -55,7 +55,7 @@ $arr_color = array(
 ?>
     
 
-<form method="POST" action="{{route('carpostregisterSubmitPage')}}">
+<form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}">
 @csrf
     <div id="step1" style="display:none;">
         <section class="row">
@@ -403,42 +403,19 @@ $arr_color = array(
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
                                                         <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
-                                                        <div class="interior-dropzone dropzone svelte-12uhhij dz-clickable">
-                                                            <div class="dz-message svelte-12uhhij">
-                                                                <h1 class="svelte-12uhhij">อัพโหลดรูปห้องโดยสาร!</h1> 
-                                                                <p>Drag and drop files here</p> 
-                                                            </div>
-                                                        </div>
-                                                        <!-- <div class="row row-photoupload">
+                                                        
+                                                        <div class="row row-photoupload">
                                                             <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button><i class="bi bi-trash3-fill"></i></button>
                                                                     <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2339.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2340.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2341.jpg')}}" alt="">
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
-                                                        <!-- <div class="btn-uploadimg">
-                                                            <input type="file">
+                                                        </div>
+                                                        <div class="btn-uploadimg">
+                                                            <input type="file" id="interior_upload" onchange="previewImage(this)" multiple>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
-                                                        </div> -->
+                                                        </div>
                                                     </div>
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
@@ -635,5 +612,27 @@ $arr_color = array(
             }
         } );
     }); 
+</script>
+<script>
+function previewImage(input) {
+    var file = input.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+        var base64 = e.target.result;
+        var imgElement = document.createElement('img');
+        imgElement.src = base64;
+
+        var hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'picture_interior[]';
+        hiddenInput.value = base64;
+
+        document.getElementById('preview-container').appendChild(imgElement);
+        document.getElementById('hidden-input-container').appendChild(hiddenInput);
+    }
+
+    reader.readAsDataURL(file);
+}
 </script>
 @endsection
