@@ -97,7 +97,7 @@ $browserFingerprint = session('browserFingerprint');
                 var jqxhr = $.get("{{route('loopidentity')}}", function(data, index) {
                     console.log(data.text);
                     if (data.text == "success") {
-                        window.location.href = "{{route('indexPage')}}";
+                        window.location.href = "{{route('loginwelcomePage')}}";
                     }
                 })
                 .fail(function() {

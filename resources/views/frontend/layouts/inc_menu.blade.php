@@ -25,11 +25,11 @@ $customerdata = session('customer');
                         <div class="topbar-right">
                             @if(isset($customerdata))
                             
-                            <a href="{{route('profilePage')}}" class="btn-login"><i class="bi bi-person-circle"></i> {{$customerdata->phone}}</a>
+                            <a href="{{route('profilePage')}}" class="btn-login"><i class="bi bi-person-circle"></i> {{$customerdata->firstname??$customerdata->phone}}</a>
                             @else
                             <a href="{{route('loginPage')}}" class="btn-login"><i class="bi bi-person-circle"></i> เข้าสู่ระบบ</a>
                             @endif
-                            <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> <div>55</div></a>
+                            <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> <div>10</div></a>
                             <a href="{{route('postcarPage')}}" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ <span>ฟรี!</span></a>
                         </div>
                     </div>

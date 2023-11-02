@@ -11,6 +11,7 @@ use App\Models\Sms_session;
 use App\Models\provincesModel;
 use App\Models\brandsModel;
 use App\Models\modelsModel;
+use App\Models\carsModel;
 use Illuminate\Support\Facades\Storage;
 use File;
 
@@ -168,14 +169,17 @@ class FrontendPageController extends Controller
     }
     public function editprofilePage_afterregis()
     {
+        $provinces = provincesModel::all();
         return view('frontend/edit-profile-first', [
-
+            'provinces' => $provinces,
         ]);
     }
     public function loginwelcomePage()
     {
+        $data = session()->all();
+        $customerdata = session('customer');
         return view('frontend/login-welcome', [
-
+            'customerdata' => $customerdata,
         ]);
     }
     public function updatecarpricePage()
@@ -234,8 +238,9 @@ class FrontendPageController extends Controller
     }
     public function profilePage()
     {
+        $carsModel = carsModel::all();
         return view('frontend/profile', [
-
+            'carsModel' => $carsModel,
         ]);
     }
     public function carpoststep4Page()

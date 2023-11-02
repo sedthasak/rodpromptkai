@@ -83,6 +83,9 @@ Route::middleware('sessionlogin')->group(function() {
     });
 
     Route::controller(FrontendPageController::class)->group(function() {
+
+        Route::get('/profile', 'profilePage')->name('profilePage');
+
         Route::get('/dev', 'DevelopPage')->name('DevelopPage');
         
         Route::get('/', 'indexPage')->name('indexPage');
@@ -105,7 +108,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/carpost-step2', 'carpoststep2Page')->name('carpoststep2Page');
         Route::get('/carpost-step3', 'carpoststep3Page')->name('carpoststep3Page');
         Route::get('/carpost-step4', 'carpoststep4Page')->name('carpoststep4Page');
-        Route::get('/profile', 'profilePage')->name('profilePage');
+        
         Route::get('/profile-check', 'profilecheckPage')->name('profilecheckPage');
         Route::get('/profile-editcarinfo', 'profileeditcarinfoPage')->name('profileeditcarinfoPage');
         Route::get('/profile-expire', 'profileexpirePage')->name('profileexpirePage');
