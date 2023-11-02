@@ -368,16 +368,17 @@ $arr_color = array(
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
                                                         <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
                                                         
-                                                        <div class="row row-photoupload">
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                        <div class="row row-photoupload" id="image-preview">
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload" draggable="true" ondragstart="drag(event)">
                                                                 <div class="item-photoupload">
-                                                                    <button><i class="bi bi-trash3-fill"></i></button>
+                                                                    <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                                                     <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div id="hidden-inputs"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" id="interior_upload" onchange="previewImage(this)" multiple>
+                                                            <input type="file" name="interior_pictures[]" id="interior_pictures" multiple>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>
@@ -578,25 +579,48 @@ $arr_color = array(
     }); 
 </script>
 <script>
-function previewImage(input) {
-    var file = input.files[0];
-    var reader = new FileReader();
+    var interior_count = 0;
+    $(document).ready(function() {
+        $('#interior_pictures').change(function(event){
+            let files = event.target.files;
+            let hiddenInputs = $('#hidden-inputs');
+            let imagePreview = $('#image-preview');
+            hiddenInputs.empty(); // เคลียร์ค่าที่เก่าออก
 
-    reader.onload = function(e) {
-        var base64 = e.target.result;
-        var imgElement = document.createElement('img');
-        imgElement.src = base64;
+            $.each(files, function(index, file){
+                let reader = new FileReader();
 
-        var hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'picture_interior[]';
-        hiddenInput.value = base64;
+                reader.onload = function(){
+                    // console.log(reader.result);
+                    let base64String = reader.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
+                    
+                    // สร้าง input hidden
+                    interior_count++;
+                    let hiddenInput = '<input type="hidden" name="picture_interior[]" id="hidden_interior_'+interior_count+'" value="'+base64String+'">';
+                    hiddenInputs.append(hiddenInput);
 
-        document.getElementById('preview-container').appendChild(imgElement);
-        document.getElementById('hidden-input-container').appendChild(hiddenInput);
+                    // สร้าง image tag
+                    // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
+                    // imagePreview.append(imageTag);
+
+                    let imageTag = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_interior_'+interior_count+'"><div class="item-photoupload"><button type="button" id="picture_interior_'+interior_count+'" onClick="del(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="data:image/jpeg;base64,'+base64String+'" alt=""></div></div>';
+                    imagePreview.append(imageTag);
+                }
+
+                reader.readAsDataURL(file);
+            });
+        });
+    });
+    $(function() {
+        $("#image-preview").sortable({
+            
+        });
+    });
+    function del(e) {
+        id = e.replace("picture_interior_", "");
+        $("#hidden_interior_"+id).remove();
+        $("#border_interior_"+id).remove();
+        interior_count--;
     }
-
-    reader.readAsDataURL(file);
-}
 </script>
 @endsection
