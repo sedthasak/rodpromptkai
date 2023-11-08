@@ -51,13 +51,7 @@ class BackendPageController extends Controller
         ]);
     }
     
-    public function BN_posts()
-    {
-        return view('backend/backend-dashboard', [ 
-            'default_pagename' => 'Post',
-            
-        ]);
-    }
+    
     public function BN_setting()
     {
         return view('backend/backend-dashboard', [ 

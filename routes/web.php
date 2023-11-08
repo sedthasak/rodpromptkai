@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\BrandsController;
 use App\Http\Controllers\Backend\ModelsController;
 use App\Http\Controllers\Backend\GenerationsController;
 use App\Http\Controllers\Backend\Sub_modelsController;
+use App\Http\Controllers\Backend\PostsController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -153,13 +154,19 @@ Route::middleware('auth')->group(function() {
         // Route::get('/backend/logs', 'BN_logs')->name('BN_logs');
         // Route::get('/backend/users', 'BN_user')->name('BN_user');
         // Route::get('/backend/news', 'BN_news')->name('BN_news');
+        // Route::get('/backend/posts', 'BN_posts')->name('BN_posts');
         Route::get('/backend/setting', 'BN_setting')->name('BN_setting');
-        Route::get('/backend/posts', 'BN_posts')->name('BN_posts');
+       
         
         Route::get('/backend/tags', 'BN_tags')->name('BN_tags');
         
     });
     
+    Route::get('/backend/posts', [PostsController::class, 'BN_posts'])->name('BN_posts');
+    Route::get('/backend/posts-add', [PostsController::class, 'BN_posts_add'])->name('BN_posts_add');
+    Route::get('/backend/postsfetch', [PostsController::class, 'BN_postsFetch'])->name('BN_postsFetch');
+
+
     Route::get('/backend/dev', [BackendPageController::class, 'BN_dev'])->name('BN_dev');
 
     Route::get('/backend/car', [BackendPageController::class, 'BN_car'])->name('BN_car');
