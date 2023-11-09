@@ -26,8 +26,9 @@ $arr_color = array(
     'ส้ม' => 'ส้ม',
     'เหลือง' => 'เหลือง',
 );
+
 // echo "<pre>";
-// print_r($provinces);
+// print_r($generations);
 // echo "</pre>";
 ?>
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
@@ -50,7 +51,7 @@ $arr_color = array(
             <form method="post" action="{{route('BN_posts_add_action')}}" enctype="multipart/form-data" >
             @csrf
                 <input type="hidden" name="user_id" value="{{auth()->user()->id}}" />
-                <input type="hidden" name="customer_id" value="999" />
+                <input type="hidden" name="customer_id" value="22" />
                 <div class="intro-y box p-5">
 
                     <div class="p-5">
@@ -74,13 +75,7 @@ $arr_color = array(
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-span-12 xl:col-span-3">
-                                <div class="mt-3 ">
-                                    <label for="" class="form-label">เบอร์โทรศัพท์ลูกค้า</label>
-                                    <input type="text" name="customer_phone" id="" class="form-control" value="0999999999" readonly >
-                                </div>
-                            </div>
-                            <div class="col-span-12 xl:col-span-3">
+                            <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3 ">
                                     <label for="" class="form-label">ประเภทลูกค้า</label>
                                     <input type="text" name="type" id="" class="form-control" value="ลูกค้าทั่วไป" readonly >
@@ -102,11 +97,14 @@ $arr_color = array(
                                     <label for="" class="form-label">โฉม</label>
                                     <select name="generations_id" id="generations_id" data-search="true" class="tom-select w-full">
                                         <option value="999">เลือกโฉม</option>
+                                        @foreach($generations as $keygenerations => $generation)
+                                        <option value="{{$generation->id}}">{{$generation->generations}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">สี</label>
-                                    <select name="color" id="color" class="form-select">
+                                    <select name="color" id="color_sel" class="form-select">
                                         <option value="">เลือกสี</option>
                                         @foreach($arr_color as $keycolor => $color)
                                         <option value="{{$color}}">{{$color}}</option>
@@ -118,6 +116,7 @@ $arr_color = array(
                                     <label for="" class="form-label">รุ่นปี</label>
                                     <select name="modelyear" id="modelyear" data-search="true" class="tom-select w-full">
                                         <option value="999">เลือกรุ่นปี</option>
+                                        
                                     </select>
                                 </div>
                                 <div class="mt-3">
@@ -137,12 +136,18 @@ $arr_color = array(
                                     <label for="" class="form-label">รุ่น</label>
                                     <select name="model_id" id="model_id" data-search="true" class="tom-select w-full">
                                         <option value="999">เลือกรุ่น</option>
+                                        @foreach($models as $keymodels => $model)
+                                        <option value="{{$model->id}}">{{$model->model}}</option>
+                                        @endforeach
                                     </select>
                                 </div> 
                                 <div class="mt-3">
                                     <label for="" class="form-label">รุ่นย่อย</label>
                                     <select name="sub_models_id" id="sub_models_id" data-search="true" class="tom-select w-full">
                                         <option value="999">เลือกรุ่นย่อย</option>
+                                        @foreach($sub_models as $keysub_models => $sub_model)
+                                        <option value="{{$sub_model->id}}">{{$sub_model->sub_models}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mt-3 ">
@@ -223,4 +228,41 @@ $arr_color = array(
 
 @section('script')
 
+
+<script>
+    // jQuery("#brand_id").on( "change", function() {
+    //     var brands_id = $("#brand_id option:selected").text();
+        // console.log(brands_id);
+        // if(brands_id){
+        //     $.ajax({
+        //         url: "{{route('carpostSelectBrand')}}",
+        //         type: "post",
+        //         data: { 
+        //             brands_id: brands_id, 
+        //             _token: '{{csrf_token()}}'
+        //         },
+        //         success: function (response) {
+        //             $('#models').html(response);
+        //         },
+        //         error: function(jqXHR, textStatus, errorThrown) {
+        //             console.log(textStatus, errorThrown);
+        //         }
+        //     });
+        // }
+    // } );
+
+
+    // jQuery(function() {
+    //     fetchPosts();
+    //     function fetchPosts(){
+    //         jQuery.ajax({
+    //             url: '{{route('BN_postsFetch')}}',
+    //             method: 'get',
+    //             success: function(response){
+    //                 jQuery('#fetchPosts').html(response);
+    //             }
+    //         });
+    //     }
+    // });
+</script>
 @endsection

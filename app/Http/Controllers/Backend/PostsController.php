@@ -29,12 +29,18 @@ class PostsController extends Controller
     {
         $provinces = provincesModel::all();
         $brands = brandsModel::all();
+        $models = modelsModel::all();
+        $generations = generationsModel::all();
+        $sub_models = sub_modelsModel::all();
         $customer = Customer::all();
 
         return view('backend/post-add', [ 
             'default_pagename' => 'เพิ่มโพสท์ลงขายรถ',
             'provinces' => $provinces,
             'brands' => $brands,
+            'models' => $models,
+            'generations' => $generations,
+            'sub_models' => $sub_models,
             'customer' => $customer,
         ]);
     }
@@ -133,8 +139,21 @@ class PostsController extends Controller
     }
     public function BN_postsFetch()
     {
-        $query = carsModel::all()->sortDesc();
+        // $query = carsModel::all()->sortDesc();
+        // $query = DB::table('cars')->get();
+        $query = DB::table('cars')
+            ->join('customer', 'cars.customer_id', '=', 'customer.id')
+            ->join('brands', 'cars.brand_id', '=', 'brands.id')
+            ->join('models', 'cars.model_id', '=', 'models.id')
+            ->join('generations', 'cars.generations_id', '=', 'generations.id')
+            ->join('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->select('cars.*', 'customer.*', 'brands.title as brands_title', 'models.model', 'generations.generations', 'sub_models.sub_models')
+            ->get();
         $output = '';
+
+        // echo "<pre>";
+        // print_r($query);
+        // echo "</pre>";
         if($query->count() > 0){
             foreach($query as $key => $res){
                 ?>
@@ -144,24 +163,24 @@ class PostsController extends Controller
                         <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"><?php echo date('H:i:s', strtotime($res->created_at)) ?> น.</div>
                     </td>
                     <td>
-                        <a href="" class="font-medium whitespace-nowrap">ชนะพล สายนิพนธ์</a>
-                        <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">ดีลเลอร์</div>
+                        <a href="" class="font-medium whitespace-nowrap"><?php echo $res->firstname." ".$res->lastname ?></a>
+                        <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"><?php echo $res->sp_role ?></div>
                     </td>
                     <td>
-                        <a href="" class="font-medium whitespace-nowrap">2016 Honda CR-V</a>
-                        <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">CR-V 2.0 E (MY12) (MNC)</div>
+                        <a href="" class="font-medium whitespace-nowrap"><?php echo $res->modelyear." ".$res->brands_title." ".$res->model ?></a>
+                        <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"><?php echo $res->generations." ".$res->sub_models ?></div>
                     </td>
-                    <td class="text-center"><?php echo $res->price ?> ฿</td>
+                    <td class="text-center"><?php echo  number_format($res->price, 2, '.', ',') ?> ฿</td>
                     <td class="w-40">
-                        <div class="flex items-center justify-center text-success">
-                            <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> อนุมัติ
+                        <div class="flex items-center justify-center text-default">
+                            <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> รออนุมัติ
                         </div>
                     </td>
                     <td class="table-report__action w-56">
                         <div class="flex justify-center items-center">
-                            <a class="flex items-center mr-3" href="#">
+                            <!-- <a class="flex items-center mr-3" href="#">
                                 <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> แก้ไข
-                            </a>
+                            </a> -->
                             <a class="flex items-center mr-3" href="#">
                                 <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> ดูโพสท์
                             </a>
