@@ -346,14 +346,15 @@ $arr_color = array(
                                                         <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
 
                                                         <div class="row row-photoupload" id="image-preview-exterior">
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                            {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                                                     <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                         <div id="hidden-inputs-exterior"></div>
+                                                        <div id="hidden-inputs-feature"></div>
                                                         <div class="btn-uploadimg">
                                                             <input type="file" name="exterior_pictures[]" id="exterior_pictures" multiple>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
@@ -364,12 +365,12 @@ $arr_color = array(
                                                         <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
                                                         
                                                         <div class="row row-photoupload" id="image-preview">
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                            {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                                                     <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                         <div id="hidden-inputs"></div>
                                                         <div class="btn-uploadimg">
@@ -382,10 +383,10 @@ $arr_color = array(
                                                         <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
                                                         <div class="row row-photoupload" id="image-preview-licenseplate">
                                                             <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
+                                                                {{-- <div class="item-photoupload">
                                                                     <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                                                     <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                         <div class="btn-uploadimg">
@@ -590,7 +591,8 @@ $arr_color = array(
 
                 reader.onload = function(){
                     // console.log(reader.result);
-                    let base64String = reader.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
+                    // let base64String = reader.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
+                    let base64String = reader.result; // เอาเฉพาะส่วนที่เป็น base64
                     
                     // สร้าง input hidden
                     interior_count++;
@@ -601,7 +603,7 @@ $arr_color = array(
                     // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
                     // imagePreview.append(imageTag);
 
-                    let imageTag = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_interior_'+interior_count+'"><div class="item-photoupload"><button type="button" id="picture_interior_'+interior_count+'" onClick="del(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="data:image/jpeg;base64,'+base64String+'" alt=""></div></div>';
+                    let imageTag = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_interior_'+interior_count+'"><div class="item-photoupload"><button type="button" id="picture_interior_'+interior_count+'" onClick="del(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="'+base64String+'" alt=""></div></div>';
                     imagePreview.append(imageTag);
                 }
 
@@ -612,6 +614,7 @@ $arr_color = array(
             let filesExterior = event.target.files;
             let hiddenInputsExterior = $('#hidden-inputs-exterior');
             let imagePreviewExterior = $('#image-preview-exterior');
+            let hiddenInputsFeature = $('#hidden-inputs-feature');
             hiddenInputsExterior.empty(); // เคลียร์ค่าที่เก่าออก
 
             $.each(filesExterior, function(index, file){
@@ -619,18 +622,23 @@ $arr_color = array(
 
                 readerExterior.onload = function(){
                     // console.log(reader.result);
-                    let base64StringExterior = readerExterior.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
+                    let base64StringExterior = readerExterior.result; // เอาเฉพาะส่วนที่เป็น base64
                     
                     // สร้าง input hidden
                     exterior_count++;
                     let hiddenInputExterior = '<input type="hidden" name="picture_exterior[]" id="hidden_exterior_'+exterior_count+'" value="'+base64StringExterior+'">';
                     hiddenInputsExterior.append(hiddenInputExterior);
 
+                    if (exterior_count == 1) {
+                        let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature_'+exterior_count+'" value="'+base64StringExterior+'">';
+                        hiddenInputsFeature.append(hiddenInputFeature);
+                    }
+
                     // สร้าง image tag
                     // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
                     // imagePreview.append(imageTag);
 
-                    let imageTagExterior = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_exterior_'+exterior_count+'"><div class="item-photoupload"><button type="button" id="picture_exterior_'+exterior_count+'" onClick="delexterior(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="data:image/jpeg;base64,'+base64StringExterior+'" alt=""></div></div>';
+                    let imageTagExterior = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_exterior_'+exterior_count+'"><div class="item-photoupload"><button type="button" id="picture_exterior_'+exterior_count+'" onClick="delexterior(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="'+base64StringExterior+'" alt=""></div></div>';
                     imagePreviewExterior.append(imageTagExterior);
                 }
 
@@ -644,10 +652,10 @@ $arr_color = array(
             let readerlicenseplate = new FileReader();
 
             readerlicenseplate.onload = function(){
-                let base64Stringlicenseplate = readerlicenseplate.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
+                let base64Stringlicenseplate = readerlicenseplate.result; // เอาเฉพาะส่วนที่เป็น base64
 
                 // สร้าง image tag
-                let imageTaglicenseplate = '<div class="col-4 col-md-3 col-lg-2 col-photoupload"><div class="item-photoupload"><img src="data:image/jpeg;base64,'+base64Stringlicenseplate+'" alt=""></div></div>';
+                let imageTaglicenseplate = '<div class="col-4 col-md-3 col-lg-2 col-photoupload"><div class="item-photoupload"><img src="'+base64Stringlicenseplate+'" alt=""></div></div>';
                 imagePreviewlicenseplate.empty().append(imageTaglicenseplate); // เพิ่มรูปใหม่เข้าไปแทนที่รูปเดิม (ถ้ามี)
             }
 

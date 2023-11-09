@@ -12,6 +12,7 @@ use App\Models\provincesModel;
 use App\Models\brandsModel;
 use App\Models\modelsModel;
 use App\Models\carsModel;
+use App\Models\galleryModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -45,16 +46,108 @@ class PostController extends Controller
         $cars->status = 'created';
         $cars->save();
 
-        if($request->hasFile('feature')){
-            $file = $request->file('feature');
-            $destinationPath = public_path('/uploads');
-            $filename = $file->getClientOriginalName();
+        if($request->picture_feature){
+            // $feature = $request->file('picture_feature');
+            // $destinationPath = public_path('/uploads/feature');
+            // $filename = $feature->getClientOriginalName();
+
+            // $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            // $newfilenam = 'feature-'.time() . '.' .$ext;
+            // $feature->move($destinationPath, $newfilenam);
+            // $filepath1 = 'uploads/feature/'.$newfilenam;
+
+            $string_pieces = explode( ";base64,", $request->picture_feature);
+         
+            $image_type_pieces = explode( "image/", $string_pieces[0] );
+         
+            $image_type = $image_type_pieces[1];
+
+            // Decode the base64 string and save the image
+            $imageData = base64_decode($string_pieces[1]);
+            
+            // Generate a unique filename
+            $filename = 'feature-'.time() . '.' .$image_type;
+
+            // Define the path where you want to save the image
+            $path = public_path('uploads/feature/' . $filename);
+            $filepath1 = 'uploads/feature/' . $filename;
+
+            // Save the image to the defined path
+            file_put_contents($path, $imageData);
+            carsModel::where("id", $cars->id)->update(["feature" => $filepath1]);
+        }
+        if($request->hasFile('licenseplate')){
+            $licenseplate = $request->file('licenseplate');
+            $destinationPath = public_path('/uploads/licenseplate');
+            $filename = $licenseplate->getClientOriginalName();
 
             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = 'logo-'.time() . '.' .$ext;
-            $file->move($destinationPath, $newfilenam);
-            $filepath = 'uploads/'.$newfilenam;
-            $brands->feature = $filepath;
+            $newfilenam = 'licenseplate-'.time() . '.' .$ext;
+            $licenseplate->move($destinationPath, $newfilenam);
+            $filepath2 = 'uploads/licenseplate/'.$newfilenam;
+            carsModel::where("id", $cars->id)->update(["licenseplate" => $filepath2]);
+        }
+        
+
+        if($request->picture_exterior){
+            $exterior_image = $request->picture_exterior;
+            foreach($request->picture_exterior as $keyex => $extr){
+                // Decode the base64 string and save the image
+                
+                $string_pieces = explode( ";base64,", $extr);
+            
+                $image_type_pieces = explode( "image/", $string_pieces[0] );
+            
+                $image_type = $image_type_pieces[1];
+
+                $imageData = base64_decode($string_pieces[1]);
+
+                // Generate a unique filename
+                $filename = 'exterior-'.time() . '.' .$image_type;
+
+                // Define the path where you want to save the image
+                $path = public_path('uploads/exterior/' . $filename);
+                $filepath = 'uploads/exterior/' . $filename;
+
+                // Save the image to the defined path
+                file_put_contents($path, $imageData);
+
+                $gallery = new galleryModel;
+                $gallery->cars_id = $cars->id;
+                $gallery->gallery = $filepath;
+                $gallery->type = 'exterior';
+                $gallery->save();
+            }
+        }
+        if($request->picture_interior){
+            $interior_image = $request->picture_interior;
+            foreach($request->picture_interior as $keyin => $intr){
+
+                $string_pieces = explode( ";base64,", $intr);
+            
+                $image_type_pieces = explode( "image/", $string_pieces[0] );
+            
+                $image_type = $image_type_pieces[1];
+
+                // Decode the base64 string and save the image
+                $imageData = base64_decode($string_pieces[1]);
+
+                // Generate a unique filename
+                $filename = 'interior-'.time() . '.' .$image_type;
+
+                // Define the path where you want to save the image
+                $path = public_path('uploads/interior/' . $filename);
+                $filepath = 'uploads/interior/' . $filename;
+
+                // Save the image to the defined path
+                file_put_contents($path, $imageData);
+                
+                $gallery = new galleryModel;
+                $gallery->cars_id = $cars->id;
+                $gallery->gallery = $filepath;
+                $gallery->type = 'interior';
+                $gallery->save();
+            }
         }
 
         $cars2 = carsModel::find($cars->id);
