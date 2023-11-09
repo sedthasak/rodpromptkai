@@ -57,7 +57,7 @@ $arr_color = array(
 
 <form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
 @csrf
-    <div id="step1" style="display:none;">
+    <div id="step1">
         <section class="row">
             <div class="col-12 wrap-bgstep">
                 <div class="container">
@@ -297,7 +297,7 @@ $arr_color = array(
         </section>
     </div>
 
-    <div id="step3">
+    <div id="step3" style="display:none;">
         <section class="row">
             <div class="col-12 wrap-bgstep">
                 <div class="container">

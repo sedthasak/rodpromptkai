@@ -165,6 +165,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/posts', [PostsController::class, 'BN_posts'])->name('BN_posts');
     Route::get('/backend/posts-add', [PostsController::class, 'BN_posts_add'])->name('BN_posts_add');
     Route::get('/backend/postsfetch', [PostsController::class, 'BN_postsFetch'])->name('BN_postsFetch');
+    Route::post('/backend/posts-add-action', [PostsController::class, 'BN_posts_add_action'])->name('BN_posts_add_action');
 
 
     Route::get('/backend/dev', [BackendPageController::class, 'BN_dev'])->name('BN_dev');
