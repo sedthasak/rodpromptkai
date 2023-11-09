@@ -14,6 +14,7 @@ use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 use App\Models\carsModel;
 use App\Models\Customer;
+use App\Models\galleryModel;
 
 class PostsController extends Controller
 {
@@ -80,6 +81,9 @@ class PostsController extends Controller
             $filepath = 'uploads/licenseplate/'.$newfilenam;
             $cars->licenseplate = $filepath;
         }
+        $cars->save();
+        $carpost_id = $cars->id;
+
         if($request->hasFile('exterior')){
             $exterior_image = $request->file('exterior');
             foreach($exterior_image as $keyex => $extr){
@@ -91,7 +95,12 @@ class PostsController extends Controller
                 $newfilenam = 'exterior-'.time().'-'.$keyex.'.' .$ext;
                 $exterior->move($destinationPath, $newfilenam);
                 $filepath = 'uploads/exterior/'.$newfilenam;
-                // $cars->licenseplate = $filepath;
+
+                $gallery = new galleryModel;
+                $gallery->cars_id = $carpost_id;
+                $gallery->gallery = $filepath;
+                $gallery->type = 'exterior';
+                $gallery->save();
             }
         }
         if($request->hasFile('interior')){
@@ -105,15 +114,20 @@ class PostsController extends Controller
                 $newfilenam = 'interior-'.time().'-'.$keyex.'.' .$ext;
                 $interior->move($destinationPath, $newfilenam);
                 $filepath = 'uploads/interior/'.$newfilenam;
-                // $cars->licenseplate = $filepath;
+                
+                $gallery = new galleryModel;
+                $gallery->cars_id = $carpost_id;
+                $gallery->gallery = $filepath;
+                $gallery->type = 'interior';
+                $gallery->save();
             }
         }
 
-        $cars->save();
+        
 
         // $cars2 = carsModel::find($cars->id);
         // $cars2->update();
-        $carpost_id = $cars->id;
+        
        
         return redirect(route('BN_posts'))->with('success', 'บันทึกสำเร็จ !');
     }
