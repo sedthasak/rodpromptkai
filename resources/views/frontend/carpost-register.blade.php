@@ -345,31 +345,26 @@ $arr_color = array(
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
                                                         <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
 
-                                                        <input type="file" name="exterior" multiple />
-                                                        <div class="dropzone" id="exteriorDropzone"></div>
-
-
-                                                        <!-- <div class="exterior-dropzone dropzone svelte-12uhhij dz-clickable">
-                                                            <div class="dz-message svelte-12uhhij">
-                                                                <h1 class="svelte-12uhhij">อัพโหลดรูปภายนอกรถยนต์!</h1> 
-                                                                <p>Drag and drop files here</p> 
+                                                        <div class="row row-photoupload" id="image-preview-exterior">
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button type="button"><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
+                                                                </div>
                                                             </div>
-                                                        </div> -->
-
-
-
-                                                        
-                                                        <!-- <div class="btn-uploadimg">
-                                                            <input type="file">
+                                                        </div>
+                                                        <div id="hidden-inputs-exterior"></div>
+                                                        <div class="btn-uploadimg">
+                                                            <input type="file" name="exterior_pictures[]" id="exterior_pictures" multiple>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
-                                                        </div> -->
+                                                        </div>
                                                     </div>
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
                                                         <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
                                                         
                                                         <div class="row row-photoupload" id="image-preview">
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload" draggable="true" ondragstart="drag(event)">
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                                                     <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
@@ -385,14 +380,16 @@ $arr_color = array(
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
                                                         <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
-                                                        <div class="licence-dropzone dropzone svelte-12uhhij dz-clickable">
-                                                            <div class="dz-message svelte-12uhhij">
-                                                                <h1 class="svelte-12uhhij">เล่มทะเบียนรถ!</h1> 
-                                                                <p>Drag and drop files here</p> 
+                                                        <div class="row row-photoupload" id="image-preview-licenseplate">
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                                <div class="item-photoupload">
+                                                                    <button type="button"><i class="bi bi-trash3-fill"></i></button>
+                                                                    <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" accept="image/*" name="licenseplate" />
+                                                            <input type="file" accept="image/*" name="licenseplate" id="licenseplate">
                                                             <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
                                                         </div>
                                                     </div>
@@ -580,6 +577,7 @@ $arr_color = array(
 </script>
 <script>
     var interior_count = 0;
+    var exterior_count = 0;
     $(document).ready(function() {
         $('#interior_pictures').change(function(event){
             let files = event.target.files;
@@ -610,10 +608,59 @@ $arr_color = array(
                 reader.readAsDataURL(file);
             });
         });
+        $('#exterior_pictures').change(function(event){
+            let filesExterior = event.target.files;
+            let hiddenInputsExterior = $('#hidden-inputs-exterior');
+            let imagePreviewExterior = $('#image-preview-exterior');
+            hiddenInputsExterior.empty(); // เคลียร์ค่าที่เก่าออก
+
+            $.each(filesExterior, function(index, file){
+                let readerExterior = new FileReader();
+
+                readerExterior.onload = function(){
+                    // console.log(reader.result);
+                    let base64StringExterior = readerExterior.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
+                    
+                    // สร้าง input hidden
+                    exterior_count++;
+                    let hiddenInputExterior = '<input type="hidden" name="picture_exterior[]" id="hidden_exterior_'+exterior_count+'" value="'+base64StringExterior+'">';
+                    hiddenInputsExterior.append(hiddenInputExterior);
+
+                    // สร้าง image tag
+                    // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
+                    // imagePreview.append(imageTag);
+
+                    let imageTagExterior = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_exterior_'+exterior_count+'"><div class="item-photoupload"><button type="button" id="picture_exterior_'+exterior_count+'" onClick="delexterior(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="data:image/jpeg;base64,'+base64StringExterior+'" alt=""></div></div>';
+                    imagePreviewExterior.append(imageTagExterior);
+                }
+
+                readerExterior.readAsDataURL(file);
+            });
+        });
+        $('#licenseplate').change(function(event){
+            let filelicenseplate = event.target.files[0];
+            let imagePreviewlicenseplate = $('#image-preview-licenseplate');
+
+            let readerlicenseplate = new FileReader();
+
+            readerlicenseplate.onload = function(){
+                let base64Stringlicenseplate = readerlicenseplate.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
+
+                // สร้าง image tag
+                let imageTaglicenseplate = '<div class="col-4 col-md-3 col-lg-2 col-photoupload"><div class="item-photoupload"><img src="data:image/jpeg;base64,'+base64Stringlicenseplate+'" alt=""></div></div>';
+                imagePreviewlicenseplate.empty().append(imageTaglicenseplate); // เพิ่มรูปใหม่เข้าไปแทนที่รูปเดิม (ถ้ามี)
+            }
+
+            readerlicenseplate.readAsDataURL(filelicenseplate);
+        });
+
     });
     $(function() {
         $("#image-preview").sortable({
-            
+            animation: 200,
+        });
+        $("#image-preview-exterior").sortable({
+            animation: 200,
         });
     });
     function del(e) {
@@ -621,6 +668,12 @@ $arr_color = array(
         $("#hidden_interior_"+id).remove();
         $("#border_interior_"+id).remove();
         interior_count--;
+    }
+    function delexterior(e) {
+        id = e.replace("picture_exterior_", "");
+        $("#hidden_exterior_"+id).remove();
+        $("#border_exterior_"+id).remove();
+        exterior_count--;
     }
 </script>
 @endsection

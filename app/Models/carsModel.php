@@ -13,6 +13,7 @@ class carsModel extends Model
 
     protected $fillable = [
         'title',
+        'feature',
         'brand_id',
         'model_id',
         'generations_id',
@@ -26,6 +27,7 @@ class carsModel extends Model
         'gashas',
         'gasname',
         'evtype',
+        'user_id',
         'customer_id',
         'mileage',
         'mappicture',
