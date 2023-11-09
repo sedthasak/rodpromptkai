@@ -45,6 +45,18 @@ class PostController extends Controller
         $cars->status = 'created';
         $cars->save();
 
+        if($request->hasFile('feature')){
+            $file = $request->file('feature');
+            $destinationPath = public_path('/uploads');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'logo-'.time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/'.$newfilenam;
+            $brands->feature = $filepath;
+        }
+
         $cars2 = carsModel::find($cars->id);
         $strtotime = strtotime($cars2->created_at);
 
