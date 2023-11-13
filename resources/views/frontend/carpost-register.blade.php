@@ -630,8 +630,8 @@ $arr_color = array(
                     hiddenInputsExterior.append(hiddenInputExterior);
 
                     if (exterior_count == 1) {
-                        let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature_'+exterior_count+'" value="'+base64StringExterior+'">';
-                        hiddenInputsFeature.append(hiddenInputFeature);
+                        let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
+                        hiddenInputsFeature.empty().append(hiddenInputFeature);
                     }
 
                     // สร้าง image tag
@@ -664,9 +664,36 @@ $arr_color = array(
 
     });
     $(function() {
-        $("#image-preview").sortable();
+        $("#image-preview").sortable({
+            update: function(event, ui) {
+                // Get the id of the leftmost item after sorting
+                var leftmostItemId = $("#image-preview .col-photoupload:first").attr("id");
+                
+                // Display the result
+                console.log("Leftmost item id:", leftmostItemId);
+
+                // var base64StringExterior = $('#image-preview img').attr('src');
+                // let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
+                // hiddenInputsFeature.empty().append(hiddenInputFeature);
+                // console.log(base64StringExterior);
+            }
+        });
         $('#image-preview').disableSelection();
-        $("#image-preview-exterior").sortable();
+        $("#image-preview-exterior").sortable({
+            update: function(event, ui) {
+                // Get the id of the leftmost item after sorting
+                var leftmostItemId = $("#image-preview-exterior .col-photoupload:first").attr("id");
+                
+                // Display the result
+                console.log("Leftmost item id:", leftmostItemId);
+                
+                let hiddenInputsFeature = $('#hidden-inputs-feature');
+                var base64StringExterior = $('#image-preview-exterior .col-photoupload:first img').attr('src');
+                let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
+                hiddenInputsFeature.empty().append(hiddenInputFeature);
+                console.log(base64StringExterior);
+            }
+        });
         $('#image-preview-exterior').disableSelection();
     });
     function del(e) {
