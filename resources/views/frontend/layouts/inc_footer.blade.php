@@ -1,5 +1,6 @@
 <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
 <script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script> 
+<script src="{{asset('frontend/js/jquery.ui.touch-punch.min.js')}}"></script> 
 <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('frontend/js/owl.carousel.js')}}"></script>
 <script src="{{asset('frontend/js/wow.min.js')}}"></script>

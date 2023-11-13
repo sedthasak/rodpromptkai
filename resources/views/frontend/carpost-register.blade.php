@@ -664,12 +664,10 @@ $arr_color = array(
 
     });
     $(function() {
-        $("#image-preview").sortable({
-            animation: 200,
-        });
-        $("#image-preview-exterior").sortable({
-            animation: 200,
-        });
+        $("#image-preview").sortable();
+        $('#image-preview').disableSelection();
+        $("#image-preview-exterior").sortable();
+        $('#image-preview-exterior').disableSelection();
     });
     function del(e) {
         id = e.replace("picture_interior_", "");
