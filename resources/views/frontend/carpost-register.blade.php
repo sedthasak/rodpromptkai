@@ -667,10 +667,10 @@ $arr_color = array(
         $("#image-preview").sortable({
             update: function(event, ui) {
                 // Get the id of the leftmost item after sorting
-                var leftmostItemId = $("#image-preview .col-photoupload:first").attr("id");
+                // var leftmostItemId = $("#image-preview .col-photoupload:first").attr("id");
                 
                 // Display the result
-                console.log("Leftmost item id:", leftmostItemId);
+                // console.log("Leftmost item id:", leftmostItemId);
 
                 // var base64StringExterior = $('#image-preview img').attr('src');
                 // let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
@@ -682,16 +682,16 @@ $arr_color = array(
         $("#image-preview-exterior").sortable({
             update: function(event, ui) {
                 // Get the id of the leftmost item after sorting
-                var leftmostItemId = $("#image-preview-exterior .col-photoupload:first").attr("id");
+                // var leftmostItemId = $("#image-preview-exterior .col-photoupload:first").attr("id");
                 
                 // Display the result
-                console.log("Leftmost item id:", leftmostItemId);
-                
+                // console.log("Leftmost item id:", leftmostItemId);
+
                 let hiddenInputsFeature = $('#hidden-inputs-feature');
                 var base64StringExterior = $('#image-preview-exterior .col-photoupload:first img').attr('src');
                 let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
                 hiddenInputsFeature.empty().append(hiddenInputFeature);
-                console.log(base64StringExterior);
+                // console.log(base64StringExterior);
             }
         });
         $('#image-preview-exterior').disableSelection();
