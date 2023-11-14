@@ -46,7 +46,7 @@ class PostsController extends Controller
     }
     public function BN_posts_add_action(Request $request)
     {
-        // dd($request);
+        dd($request);
 
         $cars = new carsModel;
 

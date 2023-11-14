@@ -82,8 +82,14 @@ $arr_color = array(
                             </div>
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3 ">
-                                    <label for="" class="form-label">ประเภทลูกค้า</label>
-                                    <input type="text" name="type" id="" class="form-control" value="" readonly required  >
+                                    <!-- <label for="" class="form-label">ประเภทลูกค้า</label>
+                                    <input type="text" name="cusrole" id="cusrole" class="form-control" value="" readonly required  > -->
+                                    <label for="" class="form-label">ประเภทรถที่ลงขาย</label>
+                                    <select name="type" id="type" class="form-select" required >
+                                        <option value="home">รถบ้าน / เจ้าของรถขายเอง</option>
+                                        <option value="dealer">ดีลเลอร์ / ลงแบบฝากขาย</option>
+                                        <option value="lady">รถคุณผู้หญิง</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +181,7 @@ $arr_color = array(
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">จังหวัด</label>
-                                    <select name="" id="" data-search="true" class="tom-select w-full" required >
+                                    <select name="province" id="province" data-search="true" class="tom-select w-full" required >
                                         <option value="">เลือกจังหวัด</option>
                                         @foreach($provinces as $keypv => $pv)
                                         <option value="{{$pv->name_th}}">{{$pv->name_th}}</option>
@@ -237,27 +243,20 @@ $arr_color = array(
 
 <script>
 
-    $("#customer_id").on( "change", function() {
-        // var cus = $(this[]).attr('data-role');
-        var cus = $(this).val();
-        console.log(cus);
-        // if(brands_id[0]){
-        //     jQuery.ajax({
-        //         url: "{{route('carpostSelectBrand')}}",
-        //         type: "post",
-        //         data: { 
-        //             brands_id: brands_id[0], 
-        //             _token: '{{csrf_token()}}'
-        //         },
-        //         success: function (response) {
-        //             $('#model_id').html(response);
-        //         },
-        //         error: function(jqXHR, textStatus, errorThrown) {
-        //             console.log(textStatus, errorThrown);
-        //         }
-        //     });
-        // }
-    } );
+    // var roles = [];
+    //     @foreach ($customer as $keycustomer => $tomer)
+    //     roles[{{$tomer->id}}] = '{{$tomer->sp_role}}';
+    //     @endforeach
+
+    // jQuery("#customer_id").on( "change", function() {
+
+    //     var roletype = ['']
+    //     roletype['home'] = 'ลูกค้าทั่วไป';
+    //     roletype['dealer'] = 'นายหน้า';
+    //     var rorororor = $(this).val();
+    //     $("#cusrole").val(roletype[roles[rorororor[0]]]);
+
+    // } );
 
     $("#brand_id").on( "change", function() {
         var brands_id = $(this).val();
@@ -348,4 +347,6 @@ $arr_color = array(
     //     }
     // });
 </script>
+
+
 @endsection

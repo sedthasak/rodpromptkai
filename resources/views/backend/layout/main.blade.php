@@ -23,6 +23,7 @@
         <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
         <script src="{{asset('frontend/js/datatables.min.js')}}"></script>
         <script src="{{asset('frontend/js/ckeditor.js')}}"></script>
+        <script src="{{asset('frontend/js/select2.min.js')}}"></script>
 
         <script src="{{ mix('dist/js/app.js') }}"></script>
         <!-- END: JS Assets-->
