@@ -151,6 +151,12 @@ class PostsController extends Controller
             ->get();
         $output = '';
 
+        $arrrole = array(
+            'home' => 'ลูกค้าทั่วไป',
+            'dealer' => 'นายหน้า',
+            'lady' => '',
+        );
+
         // echo "<pre>";
         // print_r($query);
         // echo "</pre>";
@@ -164,7 +170,7 @@ class PostsController extends Controller
                     </td>
                     <td>
                         <a href="" class="font-medium whitespace-nowrap"><?php echo $res->firstname." ".$res->lastname ?></a>
-                        <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"><?php echo $res->sp_role ?></div>
+                        <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"><?php echo $arrrole[$res->sp_role] ?></div>
                     </td>
                     <td>
                         <a href="" class="font-medium whitespace-nowrap"><?php echo $res->modelyear." ".$res->brands_title." ".$res->model ?></a>

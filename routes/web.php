@@ -78,7 +78,8 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/carpost-select-sub_models', 'carpostSelectSub_model')->name('carpostSelectSub_model');
 
         Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
-        Route::get('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
+        // Route::get('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
+        Route::post('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
         Route::get('/carpost-register-success', 'carpostregistersuccessPage')->name('carpostregistersuccessPage');
         Route::post('/carpost-register-submit', 'carpostregisterSubmitPage')->name('carpostregisterSubmitPage');
     });

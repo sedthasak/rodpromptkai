@@ -22,13 +22,11 @@ class PostController extends Controller
 
     public function carpostregisterSubmitPage(Request $request) {
 
-        // $exterior = $request->file('exterior');
-        // $exteriorDropzone = $request->file('exteriorDropzone');
-        // foreach(){
-
-        // }
-        // dd($exterior);
-
+        // dd($request);
+        // $validatedData = $request->validate([
+        //     'title' => ['required', 'unique:posts', 'max:255'],
+        //     'body' => ['required'],
+        // ]);
         $cars = new carsModel;
 
         $cars->type = $request->type;
@@ -47,14 +45,6 @@ class PostController extends Controller
         $cars->save();
 
         if($request->picture_feature){
-            // $feature = $request->file('picture_feature');
-            // $destinationPath = public_path('/uploads/feature');
-            // $filename = $feature->getClientOriginalName();
-
-            // $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            // $newfilenam = 'feature-'.time() . '.' .$ext;
-            // $feature->move($destinationPath, $newfilenam);
-            // $filepath1 = 'uploads/feature/'.$newfilenam;
 
             $string_pieces = explode( ";base64,", $request->picture_feature);
          

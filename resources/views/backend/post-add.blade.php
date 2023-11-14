@@ -26,6 +26,11 @@ $arr_color = array(
     'ส้ม' => 'ส้ม',
     'เหลือง' => 'เหลือง',
 );
+// $arr_cartype = array(
+//     'home' => 'รถบ้าน / เจ้าของรถขายเอง',
+//     'dealer' => 'ดีลเลอร์ / ลงแบบฝากขาย',
+//     'lady' => 'รถคุณผู้หญิง',
+// );
 
 // echo "<pre>";
 // print_r($generations);
@@ -50,8 +55,8 @@ $arr_color = array(
             <!-- BEGIN: Form Layout -->
             <form method="post" action="{{route('BN_posts_add_action')}}" enctype="multipart/form-data" >
             @csrf
-                <input type="hidden" name="user_id" value="{{auth()->user()->id}}" />
-                <input type="hidden" name="customer_id" value="22" />
+                <input type="hidden" name="user_id" value="{{auth()->user()->id}}" required />
+                <!-- <input type="hidden" name="customer_id" value="22" /> -->
                 <div class="intro-y box p-5">
 
                     <div class="p-5">
@@ -59,7 +64,7 @@ $arr_color = array(
                             <div class="col-span-12 xl:col-span-12">
                                 <div>
                                     <label for="" class="form-label">ยูสเซอร์</label>
-                                    <input type="text" name="user_name" id="" class="form-control" value="{{auth()->user()->name}}" readonly >
+                                    <input type="text" name="user_name" class="form-control" value="{{auth()->user()->name}}" readonly required  >
                                 </div>
                             </div>
                         </div>
@@ -67,10 +72,10 @@ $arr_color = array(
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="" class="form-label">ลูกค้าเจ้าของรถ</label>
-                                    <select name="customer" id="" data-search="true" class="tom-select w-full">
-                                        <option value="999">ลูกค้าเจ้าของรถ</option>
+                                    <select name="customer_id" id="customer_id" data-search="true" class="tom-select w-full" required >
+                                        <option value="">ลูกค้าเจ้าของรถ</option>
                                         @foreach($customer as $keycustomer => $cus)
-                                        <option value="{{$cus->id}}">{{$cus->firstname}} {{$cus->lastname}} - {{$cus->phone}}</option>
+                                        <option value="{{$cus->id}}" data-role="{{$cus->sp_role}}">{{$cus->firstname}} {{$cus->lastname}} - {{$cus->phone}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -78,16 +83,17 @@ $arr_color = array(
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3 ">
                                     <label for="" class="form-label">ประเภทลูกค้า</label>
-                                    <input type="text" name="type" id="" class="form-control" value="ลูกค้าทั่วไป" readonly >
+                                    <input type="text" name="type" id="" class="form-control" value="" readonly required  >
                                 </div>
                             </div>
                         </div>
+                        <hr class="mt-10">
                         <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="" class="form-label">ยี่ห้อ</label>
-                                    <select name="brand_id" id="brand_id" data-search="true" class="tom-select w-full">
-                                        <option value="999">เลือกยี่ห้อ</option>
+                                    <select name="brand_id" id="brand_id" data-search="true" class="tom-select w-full" required >
+                                        <option value="">เลือกยี่ห้อ</option>
                                         @foreach($brands as $keybrands => $brand)
                                         <option value="{{$brand->id}}">{{$brand->title}}</option>
                                         @endforeach
@@ -95,16 +101,16 @@ $arr_color = array(
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">โฉม</label>
-                                    <select name="generations_id" id="generations_id" data-search="true" class="tom-select w-full">
-                                        <option value="999">เลือกโฉม</option>
-                                        @foreach($generations as $keygenerations => $generation)
+                                    <select name="generations_id" id="generations_id"  class=" w-full" required >
+                                        <option value="">เลือกโฉม</option>
+                                        <!-- @foreach($generations as $keygenerations => $generation)
                                         <option value="{{$generation->id}}">{{$generation->generations}}</option>
-                                        @endforeach
+                                        @endforeach -->
                                     </select>
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">สี</label>
-                                    <select name="color" id="color_sel" class="form-select">
+                                    <select name="color" id="color_sel" class="form-select" required >
                                         <option value="">เลือกสี</option>
                                         @foreach($arr_color as $keycolor => $color)
                                         <option value="{{$color}}">{{$color}}</option>
@@ -114,40 +120,40 @@ $arr_color = array(
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">รุ่นปี</label>
-                                    <select name="modelyear" id="modelyear" data-search="true" class="tom-select w-full">
-                                        <option value="999">เลือกรุ่นปี</option>
+                                    <select name="modelyear" id="modelyear" class=" w-full" required >
+                                        <option value="">เลือกรุ่นปี</option>
                                         
                                     </select>
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">เกียร์</label>
-                                    <select name="gear" id="gear" class="form-select">
+                                    <select name="gear" id="gear" class="form-select" required >
                                         <option value="auto">ออโต้</option>
                                         <option value="manual">ธรรมดา</option>
                                     </select>
                                 </div>
                                 <div class="mt-3 ">
                                     <label for="" class="form-label">เลขทะเบียนรถ</label>
-                                    <input type="text" name="vehicle_code" id="" class="form-control" value="กก-1111"  >
+                                    <input type="text" name="vehicle_code" id="" class="form-control" value="" required  >
                                 </div>
                             </div>
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="" class="form-label">รุ่น</label>
-                                    <select name="model_id" id="model_id" data-search="true" class="tom-select w-full">
-                                        <option value="999">เลือกรุ่น</option>
-                                        @foreach($models as $keymodels => $model)
+                                    <select name="model_id" id="model_id" class=" w-full" required >
+                                        <option value="">เลือกรุ่น</option>
+                                        <!-- @foreach($models as $keymodels => $model)
                                         <option value="{{$model->id}}">{{$model->model}}</option>
-                                        @endforeach
+                                        @endforeach -->
                                     </select>
                                 </div> 
                                 <div class="mt-3">
                                     <label for="" class="form-label">รุ่นย่อย</label>
-                                    <select name="sub_models_id" id="sub_models_id" data-search="true" class="tom-select w-full">
-                                        <option value="999">เลือกรุ่นย่อย</option>
-                                        @foreach($sub_models as $keysub_models => $sub_model)
+                                    <select name="sub_models_id" id="sub_models_id" class=" w-full" required >
+                                        <option value="">เลือกรุ่นย่อย</option>
+                                        <!-- @foreach($sub_models as $keysub_models => $sub_model)
                                         <option value="{{$sub_model->id}}">{{$sub_model->sub_models}}</option>
-                                        @endforeach
+                                        @endforeach -->
                                     </select>
                                 </div>
                                 <div class="mt-3 ">
@@ -156,11 +162,11 @@ $arr_color = array(
                                 </div>
                                 <div class="mt-3 ">
                                     <label for="" class="form-label">เลขไมล์</label>
-                                    <input type="text" name="mileage" id="mileage" class="form-control" value=""  >
+                                    <input type="text" name="mileage" id="mileage" class="form-control" value=""  required  >
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">แก๊ส</label>
-                                    <select id="gas" id="gas" class="form-select">
+                                    <select id="gas" id="gas" class="form-select" required >
                                         <option value="no">ไม่ติดแก๊ส</option>
                                         <option value="ngv">NGV</option>
                                         <option value="lpg">LPG</option>
@@ -169,7 +175,7 @@ $arr_color = array(
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">จังหวัด</label>
-                                    <select name="" id="" data-search="true" class="tom-select w-full">
+                                    <select name="" id="" data-search="true" class="tom-select w-full" required >
                                         <option value="">เลือกจังหวัด</option>
                                         @foreach($provinces as $keypv => $pv)
                                         <option value="{{$pv->name_th}}">{{$pv->name_th}}</option>
@@ -182,15 +188,15 @@ $arr_color = array(
                             <div class="col-span-12 xl:col-span-12">
                                 <div class="mt-3">
                                     <label for="" class="form-label">หัวข้อโฆษณา</label>
-                                    <input type="text" name="title" id="title" class="form-control" value="หัวข้อโฆษณา" >
+                                    <input type="text" name="title" id="title" class="form-control" value="" required  >
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">รายละเอียดรถ</label>
-                                    <textarea name="detail" id="detail" class="form-control" >รายละเอียดรถ</textarea>
+                                    <textarea name="detail" id="detail" class="form-control" required ></textarea>
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">ราคา</label>
-                                    <input type="text" name="price" id="price" class="form-control" value="1000000" >
+                                    <input type="text" name="price" id="price" class="form-control" value=""  required >
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">รูปปก</label>
@@ -230,26 +236,103 @@ $arr_color = array(
 
 
 <script>
-    // jQuery("#brand_id").on( "change", function() {
-    //     var brands_id = $("#brand_id option:selected").text();
-        // console.log(brands_id);
-        // if(brands_id){
-        //     $.ajax({
+
+    $("#customer_id").on( "change", function() {
+        // var cus = $(this[]).attr('data-role');
+        var cus = $(this).val();
+        console.log(cus);
+        // if(brands_id[0]){
+        //     jQuery.ajax({
         //         url: "{{route('carpostSelectBrand')}}",
         //         type: "post",
         //         data: { 
-        //             brands_id: brands_id, 
+        //             brands_id: brands_id[0], 
         //             _token: '{{csrf_token()}}'
         //         },
         //         success: function (response) {
-        //             $('#models').html(response);
+        //             $('#model_id').html(response);
         //         },
         //         error: function(jqXHR, textStatus, errorThrown) {
         //             console.log(textStatus, errorThrown);
         //         }
         //     });
         // }
-    // } );
+    } );
+
+    $("#brand_id").on( "change", function() {
+        var brands_id = $(this).val();
+        if(brands_id[0]){
+            jQuery.ajax({
+                url: "{{route('carpostSelectBrand')}}",
+                type: "post",
+                data: { 
+                    brands_id: brands_id[0], 
+                    _token: '{{csrf_token()}}'
+                },
+                success: function (response) {
+                    $('#model_id').html(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    } );
+    $("#model_id").on( "change", function() {
+        var model_id = $(this).val();
+        if(model_id[0]){
+            jQuery.ajax({
+                url: "{{route('carpostSelectModel')}}",
+                type: "post",
+                data: { 
+                    models_id: model_id[0], 
+                    _token: '{{csrf_token()}}'
+                },
+                success: function (response) {
+                    $('#generations_id').html(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    } );
+    $("#generations_id").on( "change", function() {
+        var generations_id = $(this).val();
+        if(generations_id[0]){
+            jQuery.ajax({
+                url: "{{route('carpostSelectGenerations')}}",
+                type: "post",
+                data: { 
+                    generations_id: generations_id[0], 
+                    _token: '{{csrf_token()}}'
+                },
+                success: function (response) {
+                    $('#sub_models_id').html(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+
+            jQuery.ajax({
+                url: "{{route('carpostSelectGenerationsYear')}}",
+                type: "post",
+                data: { 
+                    generations_id: generations_id[0],
+                    _token: '{{csrf_token()}}'
+                },
+                success: function (response) {
+                    $('#modelyear').html(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+
+        }
+    } );
+
 
 
     // jQuery(function() {

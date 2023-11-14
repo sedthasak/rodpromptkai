@@ -44,19 +44,26 @@ $arr_color = array(
     'ส้ม' => 'ส้ม',
     'เหลือง' => 'เหลือง',
 );
+$arr_cartype = array(
+    'home' => 'รถบ้าน / เจ้าของรถขายเอง',
+    'dealer' => 'ดีลเลอร์ / ลงแบบฝากขาย',
+    'lady' => 'รถคุณผู้หญิง',
+);
 
 // echo "<pre>";
-// print_r($customerid);
+// print_r($_POST);
 // echo "</pre>";
 // for ($x = $query->yearlast; $x <= $query->yearfirst; $x++) {
 //     echo "The number is: $x <br>";
 // }
+
 
 ?>
     
 
 <form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
 @csrf
+    <div id="topontop"></div>
     <div id="step1">
         <section class="row">
             <div class="col-12 wrap-bgstep">
@@ -94,19 +101,20 @@ $arr_color = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>ประเภทการลงทะเบียน</label>
-                                            <select class="form-select" name="type">
-                                                <option value="home">รถทั่วไป</option>
-                                                <option value="dealer">ดีลเลอร์</option>
-                                                <option value="lady">รถคุณผู้หญิง</option>
+                                            <input type="hidden" name="type" value='{{$_POST["type"]}}' />
+                                            <select class="form-select" name="typeshow" disabled>
+                                                @foreach($arr_cartype as $keyarr_cartype => $cartype)
+                                                <option value="{{$keyarr_cartype}}" {{($keyarr_cartype==$_POST["type"])?"selected":""}}>{{$cartype}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>อีเมล</label>
-                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly />
+                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly  required />
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>เบอร์โทรศัพท์</label>
-                                            <input type="text" name="phone" class="form-control" value="{{$phone}}" readonly />
+                                            <input type="text" name="phone" class="form-control" value="{{$phone}}" readonly  required />
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +126,7 @@ $arr_color = array(
                                     <div class="row">
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>1. ยี่ห้อ<span>*</span></label>
-                                            <select class="form-select" name="brands" id="brands">
+                                            <select class="form-select" name="brands" id="brands"  required>
                                                 <option value="">เลือกยี่ห้อ</option>
                                                 @foreach($brands as $keybn => $bn)
                                                 <option value="{{$bn->id}}">{{$bn->title}}</option>
@@ -127,19 +135,19 @@ $arr_color = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>2. รุ่น<span>*</span></label>
-                                            <select class="form-select" name="models" id="models">
+                                            <select class="form-select" name="models" id="models"  required>
                                                 <option value="">เลือกรุ่น</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>3. โฉม<span>*</span></label>
-                                            <select class="form-select" name="generations" id="generations">
+                                            <select class="form-select" name="generations" id="generations" required>
                                                 <option value="">เลือกโฉม</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>4. รุ่นย่อย<span>*</span></label>
-                                            <select class="form-select" name="sub_models" id="sub_models">
+                                            <select class="form-select" name="sub_models" id="sub_models" required>
                                                 <option value="">เลือกรุ่นย่อย</option>
                                             </select>
                                         </div>
@@ -147,7 +155,7 @@ $arr_color = array(
                                             <label>สี<span>*</span></label>
                                             <div class="row">
                                                 <div class="col-12 col-md-6">
-                                                    <select class="form-select" name="color" >
+                                                    <select class="form-select" name="color"  required>
                                                         <option value="">เลือกสี</option>
                                                         @foreach($arr_color as $keycolor => $color)
                                                         <option value="{{$color}}">{{$color}}</option>
@@ -161,19 +169,19 @@ $arr_color = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>รุ่นปี<span>*</span></label>
-                                            <select class="form-select" name="years" id="years">
+                                            <select class="form-select" name="years" id="years" required>
                                                 <option value="">เลือกรุ่นปี</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>เลขไมล์<span>*</span></label>
-                                            <input type="text" name="mileage" class="form-control">
+                                            <input type="text" name="mileage" class="form-control" required>
                                         </div>
                                         <div class="col-12 col-lg-6 frm-step">
                                             <label>เกียร์<span>*</span></label>
                                             <div class="carsearch-radio">
                                                 <label class="car-radio">ออโต้
-                                                    <input type="radio" name="gear" value="auto" />
+                                                    <input type="radio" name="gear" value="auto"  required />
                                                     <span class="checkmark"></span>
                                                 </label>
                                                 <label class="car-radio">ธรรมดา
@@ -186,7 +194,7 @@ $arr_color = array(
                                             <label>แก๊ส<span>*</span></label>
                                             <div class="carsearch-radio">
                                                 <label class="car-radio">ไม่ติดแก๊ส
-                                                    <input type="radio" name="gashas" value="no" />
+                                                    <input type="radio" name="gashas" value="no"  required />
                                                     <span class="checkmark"></span>
                                                 </label>
                                                 <label class="car-radio">NGV
@@ -205,11 +213,11 @@ $arr_color = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>ทะเบียนรถ<span>*</span></label>
-                                            <input type="text" name="vehicle_code" class="form-control">
+                                            <input type="text" name="vehicle_code" class="form-control" required>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>จังหวัด<span>*</span></label>
-                                            <select class="form-select" name="province" >
+                                            <select class="form-select" name="province" required >
                                                 <option value="">เลือกจังหวัด</option>
                                                 @foreach($provinces as $keypv => $pv)
                                                 <option value="{{$pv->name_th}}">{{$pv->name_th}}</option>
@@ -261,27 +269,28 @@ $arr_color = array(
                                     <div class="row">
                                         <div class="col-12 frm-step">
                                             <label>หัวข้อโฆษณา<span>*</span></label>
-                                            <input type="text" class="form-control" name="title" placeholder="ข้อความโฆษณาของคุณ">
+                                            <input type="text" class="form-control" name="title" id="title_txt1" required >
                                             <div class="box-introtext">
                                                 <div class="topic-introtext">ข้อความแนะนำ</div>
                                                 <div class="btn-introtext">
-                                                    <div class="btn button">มีประวัติการเข้าศูนย์</div>
-                                                    <button>ไม่มีชนหนัก</button>
-                                                    <button>รถสภาพดี</button>
-                                                    <button>มีประกัน</button>
-                                                    <button>ดูแลอย่างดี</button>
-                                                    <button>รถบ้าน</button>
+                                                    <div  class="clckads btn btn-default button">มีประวัติการเข้าศูนย์</div>
+                                                    <div  class="clckads btn btn-default button">ไม่มีชนหนัก</div>
+                                                    <div  class="clckads btn btn-default button">รถสภาพดี</div>
+                                                    <div  class="clckads btn btn-default button">มีประกัน</div>
+                                                    <div  class="clckads btn btn-default button">ดูแลอย่างดี</div>
+                                                    <div  class="clckads btn btn-default button">รถบ้าน</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12 frm-step">
                                             <label>รายละเอียดรถ<span>*</span></label>
-                                            <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt="">
+                                            <!-- <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt=""> -->
+                                            <textarea class="form-control" id="car_detail"  rows="5" name="detail" required></textarea>
                                         </div>
                                         <div class="col-12 frm-step">
                                             <label>ตั้งราคาขาย<span>*</span></label>
                                             <div class="txt-noteedit">หลังจากลงขายแล้ว สามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
-                                            <input type="number" class="form-control" name="price">
+                                            <input type="number" class="form-control" name="price" required>
                                         </div>
                                     </div>
                                 </div>
@@ -398,7 +407,7 @@ $arr_color = array(
                                                 <div class="step-chceckbox">
                                                     <div class="login-checkbox">
                                                         <label class="list-checkbox"><a href="#" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="#" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
-                                                            <input type="checkbox" checked="checked">
+                                                            <input type="checkbox" name="submit" value="1" required >
                                                             <span class="checkmark"></span>
                                                         </label>
                                                     </div>
@@ -445,6 +454,8 @@ $arr_color = array(
     // const interior = new Dropzone("div.interior-dropzone", { url: "/file/post" });
     // const licence = new Dropzone("div.licence-dropzone", { url: "/file/post" });
 
+    
+
     Dropzone.options.exteriorDropzone = {
         url: "/fake/location",
         autoProcessQueue: false,
@@ -471,20 +482,52 @@ $arr_color = array(
 
     $(document).ready(function() {
 
+
+        $(".clckads").on( "click", function() {
+            var oldtext = $("#title_txt1").val();
+            var thistext = $(this).text();
+            var newtext = oldtext+thistext;
+            
+
+            console.log(oldtext);
+            console.log(thistext);
+            console.log(newtext);
+
+            add_text(newtext);
+        } );
+
+
+        function add_text(newtext){ 
+            document.getElementById("title_txt1").value = newtext;
+        }
+
+
+
+
+
+
         $(".btn_to_step1").on( "click", function() {
+            $('html, body').animate({
+                scrollTop: $("#topontop").offset().top
+            }, 100);
             $('#step1').show();
             $('#step2').hide();
             $('#step3').hide();
             $('#step4').hide();
         } );
         $(".btn_to_step2").on( "click", function() {
-            console.log("JJJJJJJJJJJJJ");
+            $('html, body').animate({
+                scrollTop: $("#topontop").offset().top
+            }, 100);
             $('#step1').hide();
             $('#step2').show();
             $('#step3').hide();
             $('#step4').hide();
         } );
         $(".btn_to_step3").on( "click", function() {
+            $('html, body').animate({
+                scrollTop: $("#topontop").offset().top
+            }, 100);
             $('#step1').hide();
             $('#step2').hide();
             $('#step3').show();
@@ -575,6 +618,12 @@ $arr_color = array(
             }
         } );
     }); 
+
+    ClassicEditor
+        .create( document.querySelector( '#car_detail' ))
+        .catch( error => {
+        console.error( error );
+    } );
 </script>
 <script>
     var interior_count = 0;
