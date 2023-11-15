@@ -20,6 +20,13 @@ class SideMenu
                 'title' => 'แดชบอร์ด'
             ],
             
+            'customers' => [
+                'icon' => 'Users',
+                'route_name' => 'BN_customers',
+                'params' => [],
+                'title' => 'ลูกค้า'
+            ],
+
             'posts' => [
                 'icon' => 'File',
                 'route_name' => 'BN_posts',

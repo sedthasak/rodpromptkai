@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\ModelsController;
 use App\Http\Controllers\Backend\GenerationsController;
 use App\Http\Controllers\Backend\Sub_modelsController;
 use App\Http\Controllers\Backend\PostsController;
+use App\Http\Controllers\Backend\CustomersController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -167,6 +168,16 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/posts-add', [PostsController::class, 'BN_posts_add'])->name('BN_posts_add');
     Route::get('/backend/postsfetch', [PostsController::class, 'BN_postsFetch'])->name('BN_postsFetch');
     Route::post('/backend/posts-add-action', [PostsController::class, 'BN_posts_add_action'])->name('BN_posts_add_action');
+    Route::get('/backend/posts-detail/{id}', [PostsController::class, 'BN_posts_detail'])->name('BN_posts_detail');
+    Route::get('/backend/posts-edit/{id}', [CustomersController::class, 'BN_posts_edit'])->name('BN_posts_edit');
+    Route::post('/backend/posts-edit-action', [CustomersController::class, 'BN_posts_edit_action'])->name('BN_posts_edit_action');
+
+    Route::get('/backend/customers', [CustomersController::class, 'BN_customers'])->name('BN_customers');
+    Route::get('/backend/customersfetch', [CustomersController::class, 'BN_customersFetch'])->name('BN_customersFetch');
+    Route::get('/backend/customers-add', [CustomersController::class, 'BN_customers_add'])->name('BN_customers_add');
+    Route::post('/backend/customers-add-action', [CustomersController::class, 'BN_customers_add_action'])->name('BN_customers_add_action');
+    Route::get('/backend/customers-edit/{id}', [CustomersController::class, 'BN_customers_edit'])->name('BN_customers_edit');
+    Route::post('/backend/customers-edit-action', [CustomersController::class, 'BN_customers_edit_action'])->name('BN_customers_edit_action');
 
 
     Route::get('/backend/dev', [BackendPageController::class, 'BN_dev'])->name('BN_dev');
@@ -196,7 +207,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/news', [NewsController::class, 'BN_news'])->name('BN_news');
     Route::get('/backend/news-add', [NewsController::class, 'BN_news_add'])->name('BN_news_add');
     Route::get('/backend/newsfetch', [NewsController::class, 'BN_newsFetch'])->name('BN_newsFetch');
-    Route::get('/backend/newsindex', [NewsController::class, 'index'])->name('BN_newsIndex');
+    Route::get('/backend/newsindex', [NewsController::class, 'BN_newsIndex'])->name('BN_newsIndex');
     Route::post('/backend/news-store', [NewsController::class, 'BN_news_store'])->name('BN_news_store');
 
     Route::get('/backend/brands', [BrandsController::class, 'BN_brands'])->name('BN_brands');
