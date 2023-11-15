@@ -211,6 +211,8 @@ Route::middleware('auth')->group(function() {
     Route::post('/backend/news-store', [NewsController::class, 'BN_news_store'])->name('BN_news_store');
 
     Route::get('/backend/brands', [BrandsController::class, 'BN_brands'])->name('BN_brands');
+    Route::get('/backend/excelcars-add', [BrandsController::class, 'BN_excelcars_add'])->name('BN_excelcars_add');
+    Route::post('/backend/excelcars-store', [BrandsController::class, 'BN_excelcars_store'])->name('BN_excelcars_store');
     Route::get('/backend/brands-add', [BrandsController::class, 'BN_brands_add'])->name('BN_brands_add');
     Route::get('/backend/brands-edit/{id}', [BrandsController::class, 'BN_brands_edit'])->name('BN_brands_edit');
     Route::post('/backend/brands-add-action', [BrandsController::class, 'BN_brands_add_action'])->name('BN_brands_add_action');
