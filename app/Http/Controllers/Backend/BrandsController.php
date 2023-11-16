@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\brandsModel;
 use App\Models\modelsModel;
+use App\Models\generationsModel;
+use App\Models\sub_modelsModel;
+use Auth;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BrandsController extends Controller
 {
@@ -137,12 +142,12 @@ class BrandsController extends Controller
     public function BN_excelcars_store(Request $request)
     {
         if ($request->hasFile('excel_file')) {
-            $fileName = uniqid() . '_' . $request->file('new_police')->getClientOriginalName();
-            $request->file('new_police')->move(public_path('assets/addPoliceFile'), $fileName);
-            $path = public_path('assets/addPoliceFile/' . $fileName);
+            $fileName = uniqid() . '_' . $request->file('excel_file')->getClientOriginalName();
+            $request->file('excel_file')->move(public_path('uploads/temp'), $fileName);
+            $path = public_path('uploads/temp/' . $fileName);
             $spreadsheet = IOFactory::load($path);
     
-            $worksheetName = 'Sheet1';
+            $worksheetName = 'ยี่ห้อรถ';
             $worksheet = $spreadsheet->getSheetByName($worksheetName);
             $missingIDcard = [];
             
@@ -153,118 +158,111 @@ class BrandsController extends Controller
                 return redirect()->back()->with('error', 'No data found in the Excel file.');
             }
             
+            $brand_title = "";
+            $model_name = "";
+            $generations = "";
+            $yearfirst = 2004;
+            $yearlast = 2012;
+            $sub_models = "";
+
             $highestRow = $worksheet->getHighestRow() + 3;
             for ($row = 2; $row <= $highestRow; $row++) {
-                $cellValueC = $worksheet->getCell('C' . $row)->getValue();
-                $cellValueC1 = $worksheet->getCell('C' . ($row + 1))->getValue();
-                $cellValueC2 = $worksheet->getCell('C' . ($row + 2))->getValue();
                 $cellValueA = $worksheet->getCell('A' . $row)->getValue();
+                if (empty($cellValueA)) {
+                    $brand_title = $brand_title;
+                }
+                else {
+                    $brand_title = strtolower($cellValueA);
+                }
+                $qrybrand = brandsModel::where("title", $brand_title)->first();
+                if (empty($qrybrand)) {
+                    $brand_data = [
+                        "title"     => $qrybrand,
+                        "user_id"   => Auth::user()->id
+                    ];
+                    $brand = brandsModel::create($brand_data);
+                    $brand_id = $brand->id;
+                }
+                else {
+                    $brand_id = $qrybrand->id;
+                }
                 $cellValueB = $worksheet->getCell('B' . $row)->getValue();
-                $cellValueD = $worksheet->getCell('D' . $row)->getValue();
-                $cellValueE = $worksheet->getCell('E' . $row)->getValue();
-                $cellValueF = $worksheet->getCell('F' . $row)->getValue();
-                $cellValueG = $worksheet->getCell('G' . $row)->getValue();
-                $cellValueH = $worksheet->getCell('H' . $row)->getValue();
-                $cellValueI = $worksheet->getCell('I' . $row)->getValue();
-                $cellValueJ = $worksheet->getCell('J' . $row)->getValue();
-                $cellValueK = $worksheet->getCell('K' . $row)->getValue();
-                $cellValueL = $worksheet->getCell('L' . $row)->getValue();
-                $cellValueM = $worksheet->getCell('M' . $row)->getValue();
-                $cellValueN = $worksheet->getCell('N' . $row)->getValue();
-                $cellValueO = $worksheet->getCell('O' . $row)->getValue();
-                $cellValueP = $worksheet->getCell('P' . $row)->getValue();
-                $RankTable = Rank::where('rank_name', $cellValueI)->first();
-                $PositionTable = Position::where('position_number', $cellValueO)->first();
-                $existedPP = Users2::where('id_card', $cellValueC)->first();
-                $max_num_rows_rank = Users2_rank::max("num_rows");
-                $max_num_rows_users = Users2::max("num_rows");
-                $max_num_rows_salary = Users2_salary_promote::max("num_rows");
-                $max_num_rows_position = Users2_position::max("num_rows");
+                if (empty($cellValueB)) {
+                    $model_name = $model_name;
+                }
+                else {
+                    $model_name = $cellValueB;
+                }
+                $qrymodel = modelsModel::where("model", $model_name)->first();
+                if (empty($qrymodel)) {
+                    $model_data = [
+                        "brand_id"      => $brand_id,
+                        "model"         => $model_name
+                    ];
+                    $model = modelsModel::create($model_data);
+                    $model_id = $model->id;
+                }
+                else {
+                    $model_id = $qrymodel->id;
+                }
+                $cellValueC = $worksheet->getCell('C' . $row)->getValue();
                 
-                if (!empty($cellValueC)) {
-                    
-                    if (!empty($existedPP)) {
-                        $missingIDcard[] = 'This ' . $cellValueC . ' already existed in database. Did not add to database.';
-                    } else {
-                        // เช็คคนคอย
-                        $position_id = $PositionTable->id;
-                        $users2_qry = Users2::where("position_id", $position_id)->where("special_status", 0)->get();
-                        if ($users2_qry->count() > 0) {
-                            // คนลอย
-                            Users2::where('position_id', $position_id)->update(['special_status' => '1']);
-                            Users2::where('position_id', $position_id)->update(['special_status_comment' => 'คนลอย']);
-                            // Users2::where('position_id', $position_id)->update(['position_id' => 9999]);
-                            
-                            
-                        }
-                        else {
-                            // $missingIDcard[] = 'This ' . $cellValueO . ' already existed in database. Did not add to database.';
-                        }
-                        $Users2add = new Users2();
-                        $Users2add->first_name = $cellValueA;
-                        $Users2add->last_name = $cellValueB;
-                        $Users2add->id_card = $cellValueC;
-                        $Users2add->birth_date = $this->datepicker_format($cellValueD);
-                        $Users2add->pratuan_qualification = $cellValueE;
-                        $Users2add->pratuan_school = $cellValueF;
-                        $Users2add->commision_qualification = $cellValueG;
-                        $Users2add->commission_school = $cellValueH;
-                        $Users2add->rank_id = $RankTable->id;
-                        $Users2add->position_id = $PositionTable->id;
-                        $Users2add->num_rows = $max_num_rows_users + 1;
-                        $Users2add->save();
-                        
-                        $SalaryAdd = new Users2_salary_promote();
-                        $SalaryAdd->users2_id = $Users2add->id;
-                        $SalaryAdd->salary = $cellValueK;
-                        $SalaryAdd->step = $cellValueL;
-                        $SalaryAdd->level = $cellValueM;
-                        $SalaryAdd->num_rows = $max_num_rows_salary + 1;
-                        $SalaryAdd->save();
-                        
-                        $RankAdd = new Users2_rank();
-                        $RankAdd->users2_id = $Users2add->id;
-                        $RankAdd->rank_id = $Users2add->rank_id;
-                        $RankAdd->appointment_date = $this->datepicker_format($cellValueN);
-                        $RankAdd->num_rows = $max_num_rows_rank + 1;
-                        $RankAdd->save();
-                        
-                        $positionAdd = new Users2_position();
-                        $positionAdd->users2_id = $Users2add->id;
-                        $positionAdd->position_id = $Users2add->position_id;
-                        $positionAdd->appointment_date = $this->datepicker_format($cellValueP);
-                        $positionAdd->num_rows = $max_num_rows_position + 1;
-                        
-                        $nameAdd = new users2_name();
-                        $nameAdd->first_name = $cellValueA;
-                        $nameAdd->last_name = $cellValueB;
-                        $nameAdd->users2_id = $Users2add->id;
-                        $nameAdd->num_rows = 1;
-                        $nameAdd->save();
-                        
-                    }
-                    
-                    // if ($row == $highestRow) {
-                    //         if (!empty($missingIDcard)) {
-                    //             return redirect()->back()->with('success', 'Police data added successfully.');
-                    //         }
-                    //         else {
-                    //             $errorID = implode(',' , $missingIDcard) . 'The rest is added.';
-                    //             return redirect()->back()->with('error', $errorID);
-                    //         }
-                    // }
-                    
-                } elseif ( 
-                    ($cellValueC == null) && ($cellValueC1 != null) && ($cellValueC2 != null) ||
-                    ($cellValueC == null) && ($cellValueC1 == null) && ($cellValueC2 != null) ||
-                    ($cellValueC == null) && ($cellValueC1 != null) && ($cellValueC2 == null)
-                ) {
-                    $missingIDcard[] = 'Missing ID card in row ' . $row;
-                } elseif ( (empty($missingIDcard)) && ($cellValueC == null) && ($cellValueC1 == null) && ($cellValueC2 == null) ) {
-                    return redirect()->back()->with('success', 'Police data added successfully.');
-                } else {
-                    $errorID = implode('.\n' , $missingIDcard) . '.\nThe rest is added.';
-                    return redirect()->back()->with('error', $errorID);
+                if (empty($cellValueC)) {
+                    // $generations = $generations;
+                }
+                else {
+                    $generations = strval($cellValueC);
+                }
+                
+                $cellValueD = $worksheet->getCell('D' . $row)->getValue();
+                if (empty($cellValueD)) {
+                    $yearfirst = $yearfirst;
+                }
+                else {
+                    $yearfirst = $cellValueD;
+                }
+                
+                $cellValueE = $worksheet->getCell('E' . $row)->getValue();
+                if (empty($cellValueE)) {
+                    $yearlast = $yearlast;
+                }
+                else {
+                    $yearlast = $cellValueE;
+                }
+                $qrygenerations = generationsModel::where("generations", $generations)->first();
+                // if (empty($qrygenerations) && $row == 3) return dd($qrygenerations);
+                if (empty($qrygenerations)) {
+                    // if ($row == 3) return dd($qrygenerations);
+                    $generations_data = [
+                        "models_id"     => $model_id,
+                        "generations"   => $generations,
+                        "yearfirst"     => $yearfirst,
+                        "yearlast"      => $yearlast
+                    ];
+                    $generations = generationsModel::create($generations_data);
+                    $generations_id = $generations->id;
+                }
+                else {
+                    $generations_id = $qrygenerations->id;
+                }
+                $cellValueF = $worksheet->getCell('F' . $row)->getValue();
+                if (empty($cellValueF)) {
+                    $sub_models = $sub_models;
+                }
+                else {
+                    $sub_models = $cellValueF;
+                }
+                $qrysubmodel = sub_modelsModel::where("sub_models", $sub_models)->first();
+                if (empty($qrysubmodel)) {
+                    $submodel_data = [
+                        "generations_id"    => $generations_id,
+                        "sub_models"        => $sub_models
+                    ];
+                    $submodel = sub_modelsModel::create($submodel_data);
+                    $submodel_id = $submodel->id;
+                }
+                else {
+                    $submodel_id = $qrysubmodel->id;
                 }
             }
         } else {
