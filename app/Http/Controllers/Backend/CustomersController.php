@@ -90,7 +90,7 @@ class CustomersController extends Controller
         $Customer = new Customer;
 
         $file = $request->file('image');
-        $destinationPath = public_path('/uploads/profile');
+        $destinationPath = public_path('/uploads/profile/');
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
