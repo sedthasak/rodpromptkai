@@ -14,8 +14,6 @@ class modelsModel extends Model
     protected $fillable = [
         'brand_id',
         'model',
-        'modelyear',
-        'submodel',
         'description',
         'feature'
     ];
