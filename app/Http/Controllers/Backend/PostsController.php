@@ -62,6 +62,9 @@ class PostsController extends Controller
         $cars->title = $request->title;
         $cars->price = $request->price;
         $cars->licenseplate = $request->licenseplate;
+        $cars->detail = $request->detail;
+        $cars->province = $request->province;
+        $cars->color = $request->color;
         $cars->status = 'created';
         
 
@@ -240,14 +243,121 @@ class PostsController extends Controller
 
     public function BN_posts_edit(Request $request, $id)
     {
-        // $categories = categoriesModel::find($id);
-        // return view('backend/categories-edit', [ 
-        //     'default_pagename' => 'แก้ไขหมวดหมู่',
-        //     'categories' => $categories,
-        // ]);
+        $postcar = carsModel::find($id);
+        $provinces = provincesModel::all();
+        $brands = brandsModel::all();
+        $models = modelsModel::all();
+        $generations = generationsModel::all();
+        $sub_models = sub_modelsModel::all();
+        $customer = Customer::all();
+
+        return view('backend/post-edit', [ 
+            'default_pagename' => 'แก้ไขโพสท์ลงขายรถ',
+            'postcar' => $postcar,
+            'provinces' => $provinces,
+            'brands' => $brands,
+            'models' => $models,
+            'generations' => $generations,
+            'sub_models' => $sub_models,
+            'customer' => $customer,
+        ]);
     }
     public function BN_posts_edit_action(Request $request)
     {
+        // dd($request);
+        $cars = carsModel::find($request->id);
+
+        $cars->type = $request->type;
+        $cars->customer_id = $request->customer_id;
+        $cars->brand_id = $request->brand_id;
+        $cars->model_id = $request->model_id;
+        $cars->generations_id = $request->generations_id;
+        $cars->sub_models_id = $request->sub_models_id;
+        $cars->modelyear = $request->modelyear;
+        $cars->mileage = $request->mileage;
+        $cars->vehicle_code = $request->vehicle_code;
+        $cars->title = $request->title;
+        $cars->price = $request->price;
+        $cars->licenseplate = $request->licenseplate;
+        $cars->detail = $request->detail;
+        $cars->province = $request->province;
+        $cars->color = $request->color;
+        $cars->status = 'update';
+        
+
+        if($request->hasFile('feature')){
+            $feature = $request->file('feature');
+            $destinationPath = public_path('/uploads/feature');
+            $filename = $feature->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'feature-'.time() . '.' .$ext;
+            $feature->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/feature/'.$newfilenam;
+            $cars->feature = $filepath;
+        }
+        if($request->hasFile('licenseplate')){
+            $licenseplate = $request->file('licenseplate');
+            $destinationPath = public_path('/uploads/licenseplate');
+            $filename = $licenseplate->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'licenseplate-'.time() . '.' .$ext;
+            $licenseplate->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/licenseplate/'.$newfilenam;
+            $cars->licenseplate = $filepath;
+        }
+        $cars->save();
+        $carpost_id = $request->id;
+
+        if($request->hasFile('exterior')){
+            $exterior_image = $request->file('exterior');
+            foreach($exterior_image as $keyex => $extr){
+                $exterior = $extr;
+                $destinationPath = public_path('/uploads/exterior');
+                $filename = $exterior->getClientOriginalName();
+
+                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                $newfilenam = 'exterior-'.time().'-'.$keyex.'.' .$ext;
+                $exterior->move($destinationPath, $newfilenam);
+                $filepath = 'uploads/exterior/'.$newfilenam;
+
+                $gallery = new galleryModel;
+                $gallery->cars_id = $carpost_id;
+                $gallery->gallery = $filepath;
+                $gallery->type = 'exterior';
+                $gallery->save();
+            }
+        }
+        if($request->hasFile('interior')){
+            $interior_image = $request->file('interior');
+            foreach($interior_image as $keyex => $extr){
+                $interior = $extr;
+                $destinationPath = public_path('/uploads/interior');
+                $filename = $interior->getClientOriginalName();
+
+                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                $newfilenam = 'interior-'.time().'-'.$keyex.'.' .$ext;
+                $interior->move($destinationPath, $newfilenam);
+                $filepath = 'uploads/interior/'.$newfilenam;
+                
+                $gallery = new galleryModel;
+                $gallery->cars_id = $carpost_id;
+                $gallery->gallery = $filepath;
+                $gallery->type = 'interior';
+                $gallery->save();
+            }
+        }
+
+        
+
+        // $cars2 = carsModel::find($cars->id);
+        // $cars2->update();
+        
+       
+        return redirect(route('BN_posts'))->with('success', 'บันทึกสำเร็จ !');
+
+
         // $categories = categoriesModel::find($request->id);
         // if($request->hasFile('feature')){
 

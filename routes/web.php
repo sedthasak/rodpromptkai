@@ -169,8 +169,8 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/postsfetch', [PostsController::class, 'BN_postsFetch'])->name('BN_postsFetch');
     Route::post('/backend/posts-add-action', [PostsController::class, 'BN_posts_add_action'])->name('BN_posts_add_action');
     Route::get('/backend/posts-detail/{id}', [PostsController::class, 'BN_posts_detail'])->name('BN_posts_detail');
-    Route::get('/backend/posts-edit/{id}', [CustomersController::class, 'BN_posts_edit'])->name('BN_posts_edit');
-    Route::post('/backend/posts-edit-action', [CustomersController::class, 'BN_posts_edit_action'])->name('BN_posts_edit_action');
+    Route::get('/backend/posts-edit/{id}', [PostsController::class, 'BN_posts_edit'])->name('BN_posts_edit');
+    Route::post('/backend/posts-edit-action', [PostsController::class, 'BN_posts_edit_action'])->name('BN_posts_edit_action');
 
     Route::get('/backend/customers', [CustomersController::class, 'BN_customers'])->name('BN_customers');
     Route::get('/backend/customersfetch', [CustomersController::class, 'BN_customersFetch'])->name('BN_customersFetch');
