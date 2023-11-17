@@ -15,6 +15,9 @@ use App\Models\sub_modelsModel;
 use App\Models\carsModel;
 use App\Models\Customer;
 use App\Models\galleryModel;
+use Auth;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PostsController extends Controller
 {
@@ -399,5 +402,308 @@ class PostsController extends Controller
 
         // return redirect(route('BN_categories', ['id' => $categories->id]));
 
+    }
+
+    public function BN_posts_excelpostsell()
+    {
+        return view('backend/posts-excelpostsell-add');
+    }
+
+    public function BN_posts_excelpostsell_store(Request $request)
+    {
+        if ($request->hasFile('excel_file')) {
+            $fileName = uniqid() . '_' . $request->file('excel_file')->getClientOriginalName();
+            $request->file('excel_file')->move(public_path('uploads/temp'), $fileName);
+            $path = public_path('uploads/temp/' . $fileName);
+            $spreadsheet = IOFactory::load($path);
+    
+            $worksheetName = 'input';
+            $worksheet = $spreadsheet->getSheetByName($worksheetName);
+            
+            ini_set ( 'max_execution_time', 1200); 
+            $row = 3;
+            $error = [];
+            while (
+                $worksheet->getCell('A' . $row)->getValue() != "" ||
+                $worksheet->getCell('A' . $row+1)->getValue() != "" ||
+                $worksheet->getCell('A' . $row+2)->getValue() != "" ||
+                $worksheet->getCell('A' . $row+3)->getValue() != "" ||
+                $worksheet->getCell('A' . $row+4)->getValue() != "" ||
+                $worksheet->getCell('A' . $row+5)->getValue() != ""
+                ) {
+                $cellValueA = $worksheet->getCell('A' . $row)->getValue();
+                if (empty($cellValueA)) {
+                    array_push($error, 'A' . $row);
+                }
+                else {
+                    $qrycustomer = Customer::where("phone", $cellValueA)->first();
+                    if (empty($qrycustomer)) {
+                        array_push($error, 'A' . $row);
+                    }
+                    else {
+                        $customer_id = $qrycustomer->id;
+                        $cellValueB = $worksheet->getCell('B' . $row)->getValue();
+                        if (empty($cellValueB)) {
+                            array_push($error, 'B' . $row);
+                        }
+                        else {
+                            $qrybrand = brandsModel::where("title", $cellValueB)->first();
+                            if (empty($qrybrand)) {
+                                array_push($error, 'B' . $row);
+                            }
+                            else {
+                                $brand_id = $qrybrand->id;
+                                $cellValueC = $worksheet->getCell('C' . $row)->getValue();
+                                if (empty($cellValueC)) {
+                                    array_push($error, 'C' . $row);
+                                }
+                                else {
+                                    $qrymodel = modelsModel::where("brand_id", $brand_id)->where("model", $cellValueC)->first();
+                                    if (empty($qrymodel)) {
+                                        array_push($error, 'C' . $row);
+                                    }
+                                    else {
+                                        $model_id = $qrymodel->id;
+                                        $cellValueD = $worksheet->getCell('D' . $row)->getValue();
+                                        if (empty($cellValueD)) {
+                                            array_push($error, 'D' . $row);
+                                        }
+                                        else {
+                                            $qrygenerations = generationsModel::where("models_id", $model_id)->where("generations", $cellValueD)->first();
+                                            if (empty($qrygenerations)) {
+                                                array_push($error, 'D' . $row);
+                                            }
+                                            else {
+                                                $generations_id = $qrygenerations->id;
+                                                $cellValueE = $worksheet->getCell('E' . $row)->getValue();
+                                                if (empty($cellValueE)) {
+                                                    array_push($error, 'E' . $row);
+                                                }
+                                                else {
+                                                    $qrysubmodel = sub_modelsModel::where("generations_id", $generations_id)->where("sub_models", $cellValueE)->first();
+                                                    if (empty($qrysubmodel)) {
+                                                        array_push($error, 'E' . $row);
+                                                    }
+                                                    else {
+                                                        $sub_models_id = $qrysubmodel->id;
+                                                        $cellValueF = $worksheet->getCell('F' . $row)->getValue();
+                                                        if (empty($cellValueF)) {
+                                                            $cellValueG = $worksheet->getCell('G' . $row)->getValue();
+                                                            if (empty($cellValueG)) {
+                                                                array_push($error, 'F' . $row);
+                                                            }
+                                                            else {
+                                                                $color = $cellValueG;
+                                                                $cellValueH = $worksheet->getCell('H' . $row)->getValue();
+                                                                if (empty($cellValueH)) {
+                                                                    array_push($error, 'H' . $row);
+                                                                }
+                                                                else {
+                                                                    $modelyear = $cellValueH;
+                                                                    $cellValueI = $worksheet->getCell('I' . $row)->getValue();
+                                                                    if (empty($cellValueI)) {
+                                                                        array_push($error, 'I' . $row);
+                                                                    }
+                                                                    else {
+                                                                        $mileage = $cellValueI;
+                                                                        $cellValueJ = $worksheet->getCell('J' . $row)->getValue();
+                                                                        if ($cellValueJ == "ออโต้") {
+                                                                            $gear = "auto";
+                                                                        }
+                                                                        else {
+                                                                            $gear = "manual";
+                                                                        }
+                                                                        $cellValueK = $worksheet->getCell('K' . $row)->getValue();
+                                                                        if (empty($cellValueK)) {
+                                                                            array_push($error, 'K' . $row);
+                                                                        }
+                                                                        else {
+                                                                            $gasname = $cellValueK;
+                                                                            $cellValueL = $worksheet->getCell('L' . $row)->getValue();
+                                                                            if (empty($cellValueL)) {
+                                                                                array_push($error, 'L' . $row);
+                                                                            }
+                                                                            else {
+                                                                                $vehicle_code = $cellValueL;
+                                                                                $cellValueM = $worksheet->getCell('M' . $row)->getValue();
+                                                                                if (empty($cellValueM)) {
+                                                                                    array_push($error, 'M' . $row);
+                                                                                }
+                                                                                else {
+                                                                                    $province = $cellValueM;
+                                                                                    $cellValueN = $worksheet->getCell('N' . $row)->getValue();
+                                                                                    if (empty($cellValueN)) {
+                                                                                        array_push($error, 'N' . $row);
+                                                                                    }
+                                                                                    else {
+                                                                                        $title = $cellValueN;
+                                                                                        $cellValueO = $worksheet->getCell('O' . $row)->getValue();
+                                                                                        $detail = $cellValueO;
+                                                                                        $cellValueP = $worksheet->getCell('P' . $row)->getValue();
+                                                                                        if (empty($cellValueP)) {
+                                                                                            array_push($error, 'N' . $row);
+                                                                                        }
+                                                                                        else {
+                                                                                            $price = $cellValueP;
+                                                                                            $cellValueQ = $worksheet->getCell('Q' . $row)->getValue();
+                                                                                            if (empty($cellValueQ)) {
+                                                                                                array_push($error, 'Q' . $row);
+                                                                                            }
+                                                                                            else {
+                                                                                                if ($cellValueQ == "รถบ้าน / เจ้าของรถขายเอง") {
+                                                                                                    $type_name = "home";
+                                                                                                }
+                                                                                                else if ($cellValueQ == "ดีลเลอร์ / ลงแบบฝากขาย") {
+                                                                                                    $type_name = "dealer";
+                                                                                                }
+                                                                                                else {
+                                                                                                    $type_name = "lady";
+                                                                                                }
+                                                                                                $cars_data = [
+                                                                                                    "customer_id"       => $customer_id,
+                                                                                                    "user_id"           => Auth::user()->id,
+                                                                                                    "type"              => $type_name,
+                                                                                                    "title"             => $title,
+                                                                                                    "brand_id"          => $brand_id,
+                                                                                                    "model_id"          => $model_id,
+                                                                                                    "generations_id"    => $generations_id,
+                                                                                                    "sub_models_id"     => $sub_models_id,
+                                                                                                    "modelyear"         => $modelyear,
+                                                                                                    "vehicle_code"      => $vehicle_code,
+                                                                                                    "gear"              => $gear,
+                                                                                                    "color"             => $color,
+                                                                                                    "price"             => $price,
+                                                                                                    "province"          => $province,
+                                                                                                    "gasname"           => $gasname,
+                                                                                                    "mileage"           => $mileage,
+                                                                                                    "status"            => "created",
+                                                                                                    "detail"            => $detail,
+                                                                                                    "ref_code"          => null,
+                                                                                                ];
+                                                                                                carsModel::create($cars_data);
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else {
+                                                            $color = $cellValueF;
+                                                            $cellValueH = $worksheet->getCell('H' . $row)->getValue();
+                                                            if (empty($cellValueH)) {
+                                                                array_push($error, 'H' . $row);
+                                                            }
+                                                            else {
+                                                                $modelyear = $cellValueH;
+                                                                $cellValueI = $worksheet->getCell('I' . $row)->getValue();
+                                                                if (empty($cellValueI)) {
+                                                                    array_push($error, 'I' . $row);
+                                                                }
+                                                                else {
+                                                                    $mileage = $cellValueI;
+                                                                    $cellValueJ = $worksheet->getCell('J' . $row)->getValue();
+                                                                    if ($cellValueJ == "ออโต้") {
+                                                                        $gear = "auto";
+                                                                    }
+                                                                    else {
+                                                                        $gear = "manual";
+                                                                    }
+                                                                    $cellValueK = $worksheet->getCell('K' . $row)->getValue();
+                                                                    if (empty($cellValueK)) {
+                                                                        array_push($error, 'K' . $row);
+                                                                    }
+                                                                    else {
+                                                                        $gasname = $cellValueK;
+                                                                        $cellValueL = $worksheet->getCell('L' . $row)->getValue();
+                                                                        if (empty($cellValueL)) {
+                                                                            array_push($error, 'L' . $row);
+                                                                        }
+                                                                        else {
+                                                                            $vehicle_code = $cellValueL;
+                                                                            $cellValueM = $worksheet->getCell('M' . $row)->getValue();
+                                                                            if (empty($cellValueM)) {
+                                                                                array_push($error, 'M' . $row);
+                                                                            }
+                                                                            else {
+                                                                                $province = $cellValueM;
+                                                                                $cellValueN = $worksheet->getCell('N' . $row)->getValue();
+                                                                                if (empty($cellValueN)) {
+                                                                                    array_push($error, 'N' . $row);
+                                                                                }
+                                                                                else {
+                                                                                    $title = $cellValueN;
+                                                                                    $cellValueO = $worksheet->getCell('O' . $row)->getValue();
+                                                                                    $detail = $cellValueO;
+                                                                                    $cellValueP = $worksheet->getCell('P' . $row)->getValue();
+                                                                                    if (empty($cellValueP)) {
+                                                                                        array_push($error, 'N' . $row);
+                                                                                    }
+                                                                                    else {
+                                                                                        $price = $cellValueP;
+                                                                                        $cellValueQ = $worksheet->getCell('Q' . $row)->getValue();
+                                                                                        if (empty($cellValueQ)) {
+                                                                                            array_push($error, 'Q' . $row);
+                                                                                        }
+                                                                                        else {
+                                                                                            if ($cellValueQ == "รถบ้าน / เจ้าของรถขายเอง") {
+                                                                                                $type_name = "home";
+                                                                                            }
+                                                                                            else if ($cellValueQ == "ดีลเลอร์ / ลงแบบฝากขาย") {
+                                                                                                $type_name = "dealer";
+                                                                                            }
+                                                                                            else {
+                                                                                                $type_name = "lady";
+                                                                                            }
+                                                                                            $cars_data = [
+                                                                                                "customer_id"       => $customer_id,
+                                                                                                "user_id"           => Auth::user()->id,
+                                                                                                "type"              => $type_name,
+                                                                                                "title"             => $title,
+                                                                                                "brand_id"          => $brand_id,
+                                                                                                "model_id"          => $model_id,
+                                                                                                "generations_id"    => $generations_id,
+                                                                                                "sub_models_id"     => $sub_models_id,
+                                                                                                "modelyear"         => $modelyear,
+                                                                                                "vehicle_code"      => $vehicle_code,
+                                                                                                "gear"              => $gear,
+                                                                                                "color"             => $color,
+                                                                                                "price"             => $price,
+                                                                                                "province"          => $province,
+                                                                                                "gasname"           => $gasname,
+                                                                                                "mileage"           => $mileage,
+                                                                                                "status"            => "created",
+                                                                                                "detail"            => $detail,
+                                                                                                "ref_code"          => null,
+                                                                                            ];
+                                                                                            carsModel::create($cars_data);
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $row++;
+            }
+            return redirect(route('BN_posts'))>with('failed', $error);
+        } else {
+            return redirect()->back()->with('error', 'Please select file to update');
+        }
     }
 }

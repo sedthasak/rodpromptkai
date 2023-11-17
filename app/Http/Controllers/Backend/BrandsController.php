@@ -149,7 +149,6 @@ class BrandsController extends Controller
     
             $worksheetName = 'ยี่ห้อรถ';
             $worksheet = $spreadsheet->getSheetByName($worksheetName);
-            $missingIDcard = [];
             
             $brand_title = "";
             $model_name = "";
@@ -161,12 +160,12 @@ class BrandsController extends Controller
             ini_set ( 'max_execution_time', 1200); 
             $row = 2;
             while (
+                $worksheet->getCell('F' . $row)->getValue() != "" ||
                 $worksheet->getCell('F' . $row+1)->getValue() != "" ||
                 $worksheet->getCell('F' . $row+2)->getValue() != "" ||
                 $worksheet->getCell('F' . $row+3)->getValue() != "" ||
                 $worksheet->getCell('F' . $row+4)->getValue() != "" ||
-                $worksheet->getCell('F' . $row+5)->getValue() != "" ||
-                $worksheet->getCell('F' . $row+6)->getValue() != ""
+                $worksheet->getCell('F' . $row+5)->getValue() != ""
                 ) {
                 $cellValueA = $worksheet->getCell('A' . $row)->getValue();
                 if (empty($cellValueA)) {
@@ -192,9 +191,9 @@ class BrandsController extends Controller
                     $model_name = $model_name;
                 }
                 else {
-                    $model_name = $cellValueB;
+                    $model_name = strtolower($cellValueB);
                 }
-                $qrymodel = modelsModel::where("model", $model_name)->first();
+                $qrymodel = modelsModel::where("brand_id", $brand_id)->where("model", $model_name)->first();
                 if (empty($qrymodel)) {
                     $model_data = [
                         "brand_id"      => $brand_id,
@@ -212,7 +211,7 @@ class BrandsController extends Controller
                     $generations_name = $generations_name;
                 }
                 else {
-                    $generations_name = $cellValueC;
+                    $generations_name = strtolower($cellValueC);
                 }
                 
                 $cellValueD = $worksheet->getCell('D' . $row)->getValue();
@@ -230,11 +229,11 @@ class BrandsController extends Controller
                 else {
                     $yearlast = $cellValueE;
                 }
-                $qrygenerations = generationsModel::where("generations", $generations_name)->first();
+                $qrygenerations = generationsModel::where("models_id", $model_id)->where("generations", $generations_name)->where("yearfirst", $yearfirst)->where("yearlast", $yearlast)->first();
                 if (empty($qrygenerations)) {
                     $generations_data = [
                         "models_id"     => $model_id,
-                        "generations"   => $generations_name,
+                        "generations"   => strtolower($generations_name),
                         "yearfirst"     => $yearfirst,
                         "yearlast"      => $yearlast
                     ];
@@ -251,11 +250,11 @@ class BrandsController extends Controller
                 else {
                     $sub_models_name = $cellValueF;
                 }
-                $qrysubmodel = sub_modelsModel::where("sub_models", $sub_models_name)->first();
+                $qrysubmodel = sub_modelsModel::where("generations_id", $generations_id)->where("sub_models", $sub_models_name)->first();
                 if (empty($qrysubmodel)) {
                     $submodel_data = [
                         "generations_id"    => $generations_id,
-                        "sub_models"        => $sub_models_name
+                        "sub_models"        => strtolower($sub_models_name)
                     ];
                     $submodel = sub_modelsModel::create($submodel_data);
                     $submodel_id = $submodel->id;
