@@ -151,22 +151,23 @@ class BrandsController extends Controller
             $worksheet = $spreadsheet->getSheetByName($worksheetName);
             $missingIDcard = [];
             
-            if ((empty($worksheet->getCell('C2')->getValue()) && empty($worksheet->getCell('A2')->getValue())) &&
-                (empty($worksheet->getCell('C3')->getValue()) && empty($worksheet->getCell('A3')->getValue())) &&
-                (empty($worksheet->getCell('C4')->getValue()) && empty($worksheet->getCell('A4')->getValue()))
-            ) {
-                return redirect()->back()->with('error', 'No data found in the Excel file.');
-            }
-            
             $brand_title = "";
             $model_name = "";
-            $generations = "";
+            $generations_name = "";
             $yearfirst = 2004;
             $yearlast = 2012;
-            $sub_models = "";
+            $sub_models_name = "";
 
-            $highestRow = $worksheet->getHighestRow() + 3;
-            for ($row = 2; $row <= $highestRow; $row++) {
+            ini_set ( 'max_execution_time', 1200); 
+            $row = 2;
+            while (
+                $worksheet->getCell('F' . $row+1)->getValue() != "" ||
+                $worksheet->getCell('F' . $row+2)->getValue() != "" ||
+                $worksheet->getCell('F' . $row+3)->getValue() != "" ||
+                $worksheet->getCell('F' . $row+4)->getValue() != "" ||
+                $worksheet->getCell('F' . $row+5)->getValue() != "" ||
+                $worksheet->getCell('F' . $row+6)->getValue() != ""
+                ) {
                 $cellValueA = $worksheet->getCell('A' . $row)->getValue();
                 if (empty($cellValueA)) {
                     $brand_title = $brand_title;
@@ -177,7 +178,7 @@ class BrandsController extends Controller
                 $qrybrand = brandsModel::where("title", $brand_title)->first();
                 if (empty($qrybrand)) {
                     $brand_data = [
-                        "title"     => $qrybrand,
+                        "title"     => $brand_title,
                         "user_id"   => Auth::user()->id
                     ];
                     $brand = brandsModel::create($brand_data);
@@ -208,10 +209,10 @@ class BrandsController extends Controller
                 $cellValueC = $worksheet->getCell('C' . $row)->getValue();
                 
                 if (empty($cellValueC)) {
-                    // $generations = $generations;
+                    $generations_name = $generations_name;
                 }
                 else {
-                    $generations = strval($cellValueC);
+                    $generations_name = $cellValueC;
                 }
                 
                 $cellValueD = $worksheet->getCell('D' . $row)->getValue();
@@ -229,13 +230,11 @@ class BrandsController extends Controller
                 else {
                     $yearlast = $cellValueE;
                 }
-                $qrygenerations = generationsModel::where("generations", $generations)->first();
-                // if (empty($qrygenerations) && $row == 3) return dd($qrygenerations);
+                $qrygenerations = generationsModel::where("generations", $generations_name)->first();
                 if (empty($qrygenerations)) {
-                    // if ($row == 3) return dd($qrygenerations);
                     $generations_data = [
                         "models_id"     => $model_id,
-                        "generations"   => $generations,
+                        "generations"   => $generations_name,
                         "yearfirst"     => $yearfirst,
                         "yearlast"      => $yearlast
                     ];
@@ -247,16 +246,16 @@ class BrandsController extends Controller
                 }
                 $cellValueF = $worksheet->getCell('F' . $row)->getValue();
                 if (empty($cellValueF)) {
-                    $sub_models = $sub_models;
+                    $sub_models_name = $sub_models_name;
                 }
                 else {
-                    $sub_models = $cellValueF;
+                    $sub_models_name = $cellValueF;
                 }
-                $qrysubmodel = sub_modelsModel::where("sub_models", $sub_models)->first();
+                $qrysubmodel = sub_modelsModel::where("sub_models", $sub_models_name)->first();
                 if (empty($qrysubmodel)) {
                     $submodel_data = [
                         "generations_id"    => $generations_id,
-                        "sub_models"        => $sub_models
+                        "sub_models"        => $sub_models_name
                     ];
                     $submodel = sub_modelsModel::create($submodel_data);
                     $submodel_id = $submodel->id;
@@ -264,7 +263,9 @@ class BrandsController extends Controller
                 else {
                     $submodel_id = $qrysubmodel->id;
                 }
+                $row++;
             }
+            return redirect(route('BN_car'));
         } else {
             return redirect()->back()->with('error', 'Please select file to update');
         }
