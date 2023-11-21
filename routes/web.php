@@ -134,6 +134,10 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/edit-dealer-carpost-step2', 'editdealercarpoststep2Page')->name('editdealercarpoststep2Page');
         Route::get('/edit-dealer-carpost-step3', 'editdealercarpoststep3Page')->name('editdealercarpoststep3Page');
         Route::get('/edit-dealer-carpost-step4', 'editdealercarpoststep4Page')->name('editdealercarpoststep4Page');
+
+        Route::get('/popup-carsearch-model/{id}', 'popupcarsearchmodel')->name('popupcarsearchmodel');
+        Route::get('/popup-carsearch-generation/{id}', 'popupcarsearchgeneration')->name('popupcarsearchgeneration');
+        Route::get('/popup-carsearch-submodel/{id}', 'popupcarsearchsubmodel')->name('popupcarsearchsubmodel');
     });
 });
 

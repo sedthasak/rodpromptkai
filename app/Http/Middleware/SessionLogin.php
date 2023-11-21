@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\LogsSaveController;
 use App\Models\Sms_session;
 use App\Models\Customer;
+use App\Models\brandsModel;
+use Illuminate\Support\Facades\View;
 
 class SessionLogin
 {
@@ -58,6 +60,9 @@ class SessionLogin
             }
             
         }
+
+        $qrybrand = brandsModel::get();
+        View::share('brand', $qrybrand);
 
         return $next($request);
     }

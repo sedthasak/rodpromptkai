@@ -11,6 +11,8 @@ use App\Models\Sms_session;
 use App\Models\provincesModel;
 use App\Models\brandsModel;
 use App\Models\modelsModel;
+use App\Models\generationsModel;
+use App\Models\sub_modelsModel;
 use App\Models\carsModel;
 use Illuminate\Support\Facades\Storage;
 use File;
@@ -350,42 +352,8 @@ class FrontendPageController extends Controller
     }
     public function indexPage(Request $request)
     {
-        // $browserFingerprint = $request->session()->get('browser_fingerprint');
-        // if ($browserFingerprint == "") {
-
-        //     $currentDateTime = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
-        //     $browserFingerprint = strtotime($currentDateTime) % 1000000; // เข้ารหัสเป็นตัวเลข 6 หลัก
-
-        //     // เก็บลงใน Session
-        //     $request->session()->put('browser_fingerprint', $browserFingerprint);
-
-        //     $browserFingerprint = $request->session()->get('browser_fingerprint');
-        // }
-
-        // $customer = Customer::join("sms_session", "customer.id", "sms_session.customer_id")
-        // ->where('sms_session.browserFingerprint', $browserFingerprint)->where('sms_session.messages', $browserFingerprint)->first();
-        
-
-        // $currentDateTimess = now()->format('YmdHis'); // ดึงวันที่และเวลาปัจจุบันในรูปแบบ YmdHis
-        // $tel = '0998741070';
-        // $codetosend = rand(100000,999999);
-        // $message = $SixDigitRandomNumber.$tel;
-        // $para1 = '892001';
-        // $getsmssession = Sms_session::where("messages", $para1)->first();
-        // $getsmssession = Sms_session::where([
-        //     ['messages', '=', $para1],
-        // ])->first();
-
         return view('frontend/index-page', [
-             // Specify the base layout.
-             // Eg: 'side-menu', 'simple-menu', 'top-menu', 'login'
-             // The default value is 'side-menu'
- 
             'layout' => 'side-menu',
-
-            // 'browserFingerprint' => $browserFingerprint,
-            // 'getsmssession' => $getsmssession,
-            // 'customer' => $customer
         ]);
     }
     public function loopidentity(Request $request) {
@@ -431,5 +399,20 @@ class FrontendPageController extends Controller
             ++$j;
             $hash.=chr($ordStr-$ordKey);
         }return $hash;
+    }
+
+    public function popupcarsearchmodel(Request $request, $id) {
+        $qrymodel = modelsModel::where("brand_id", $id)->get();
+        return response()->json($qrymodel);
+    }
+
+    public function popupcarsearchgeneration(Request $request, $id) {
+        $qrygenertion = generationsModel::where("models_id", $request->models_id)->get();
+        return response()->json($qrygenertion);
+    }
+
+    public function popupcarsearchsubmodel(Request $request, $id) {
+        $qrysubmodel = sub_modelsModel::where("generations_id", $request->generations_id)->get();
+        return response()->json($qrysubmodel);
     }
 }
