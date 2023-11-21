@@ -12,21 +12,21 @@ $bg = asset('frontend/images/avatar.jpeg');
 
 $data = session()->all();
 $customerdata = session('customer');
-$phone = $customerdata->phone??'';
-$username = $customerdata->username??'';
-$email = $customerdata->email??'';
-$image = $customerdata->image??asset('frontend/images/avatar.jpeg');
-$firstname = $customerdata->firstname??'';
-$lastname = $customerdata->lastname??'';
-$place = $customerdata->place??'';
-$province = $customerdata->province??'';
-$map = $customerdata->map??'';
-$google_map = $customerdata->google_map??'';
-$facebook = $customerdata->facebook??'';
-$line = $customerdata->line??'';
+$phone = $Customer->phone??'';
+$username = $Customer->username??'';
+$email = $Customer->email??'';
+$image = $Customer->image??asset('frontend/images/avatar.jpeg');
+$firstname = $Customer->firstname??'';
+$lastname = $Customer->lastname??'';
+$place = $Customer->place??'';
+$province = $Customer->province??'';
+$map = $Customer->map??'';
+$google_map = $Customer->google_map??'';
+$facebook = $Customer->facebook??'';
+$line = $Customer->line??'';
 
 // echo "<pre>";
-// print_r($provinces);
+// print_r($Customer);
 // echo "</pre>";
 ?>
 <section class="row">

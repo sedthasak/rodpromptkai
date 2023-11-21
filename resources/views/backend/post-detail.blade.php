@@ -6,8 +6,11 @@
 
 @section('subcontent')
 <?php
+$customerimage = $customer->image;
+$img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.png');
+// $img_profile = $customer->image??asset('img/user-default.png')
 // echo "<pre>";
-// print_r($users);
+// print_r($img_profile);
 // echo "</pre>";
 // echo "<pre>";
 // print_r($customer);
@@ -51,7 +54,7 @@
                 <div class="flex flex-col lg:flex-row border-b border-slate-200/60 dark:border-darkmode-400 px-5 py-5 -mx-5">
                     <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
                         <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
-                            <img alt="" class="rounded-full" src="{{asset($customer->image)}}">
+                            <img alt="" class="rounded-full" src="{{asset($img_profile)}}">
                         </div>
                         <div class="ml-5">
                             <div class="w-24 sm:w-40 truncate sm:whitespace-normal font-medium text-lg">{{$customer->firstname." ".$customer->lastname}}</div>
@@ -68,7 +71,7 @@
                                 <i data-lucide="Map Pin" class="w-4 h-4 mr-2"></i> {{$customer->place}}
                             </div>
                             <div class="truncate sm:whitespace-normal flex items-center">
-                                <i data-lucide="Map" class="w-4 h-4 mr-2"></i> <a href="{{$customer->google_map}}">Google Map</a>
+                                <i data-lucide="Map" class="w-4 h-4 mr-2"></i> {{($customer->google_map)?'<a href="'.$customer->google_map.'" target="_blank">Google Map </a>':''}}
                             </div>
 
                         </div>
@@ -76,7 +79,14 @@
                     <div class="mt-6 lg:mt-0 flex-1 px-5 border-t lg:border-0 border-slate-200/60 dark:border-darkmode-400 pt-5 lg:pt-0">
                         <div class="font-medium text-center lg:text-left lg:mt-5">MAP</div>
                         <div class="">
+                            <!-- {{($customer->map)?'<img alt="" data-action="zoom" class="rounded-md" width="100" height="60" src="#">':''}} -->
+                            <?php
+                            if($customer->map){
+                            ?>
                             <img alt="" data-action="zoom" class="rounded-md" width="100" height="60" src="{{asset($customer->map)}}">
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
