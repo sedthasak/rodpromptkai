@@ -26,6 +26,14 @@ class CustomersController extends Controller
             'default_pagename' => 'ลูกค้า',
         ]);
     }
+    public function BN_customers_detail(Request $request, $id)
+    {
+        $Customer = Customer::find($request->id);
+        return view('backend/customer-detail', [ 
+            'default_pagename' => 'ลูกค้า',
+            'Customer' => $Customer,
+        ]);
+    }
     public function BN_customersFetch()
     {
         $queryy = Customer::all()->sortDesc();
@@ -63,7 +71,7 @@ class CustomersController extends Controller
                                     
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap"><?php echo $res->email ?></td>
                                     <td class="px-5 py-3 border-b dark:border-darkmode-300 whitespace-nowrap">
-                                        <a href="#">ดูข้อมูล</a>
+                                        <a href="<?php echo route('BN_customers_detail', ['id' => $res->id]); ?>">ดูข้อมูล</a>
                                         &emsp;&emsp;<a href="<?php echo route('BN_customers_edit', ['id' => $res->id]); ?>">แก้ไข</a></td>
                                 </tr>
                                 <?php
@@ -94,7 +102,7 @@ class CustomersController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = time() . '.' .$ext;
+        $newfilenam = time() . '.time().' .$ext;
         $file->move($destinationPath, $newfilenam);
         $filepath = 'uploads/profile/'.$newfilenam;
         
@@ -174,7 +182,7 @@ class CustomersController extends Controller
         //     $result = (new LogsSaveController)->create_log($para);
         // }
 
-        return redirect(route('BN_customers'));
+        return redirect(route('BN_customers'))->with('success', 'บันทึกข้อมูลสำเร็จ !!!');
 
     }
 

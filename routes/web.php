@@ -184,6 +184,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/backend/customers-add-action', [CustomersController::class, 'BN_customers_add_action'])->name('BN_customers_add_action');
     Route::get('/backend/customers-edit/{id}', [CustomersController::class, 'BN_customers_edit'])->name('BN_customers_edit');
     Route::post('/backend/customers-edit-action', [CustomersController::class, 'BN_customers_edit_action'])->name('BN_customers_edit_action');
+    Route::get('/backend/customers-detail/{id}', [CustomersController::class, 'BN_customers_detail'])->name('BN_customers_detail');
 
 
     Route::get('/backend/dev', [BackendPageController::class, 'BN_dev'])->name('BN_dev');

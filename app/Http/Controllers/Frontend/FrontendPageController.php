@@ -96,10 +96,13 @@ class FrontendPageController extends Controller
     public function editprofilePage()
     {
         // $provinces = provincesModel::all()->sort();
+        $data = session('customer');
         $provinces = provincesModel::all();
-
+        $Customer = Customer::find($data->id);
+        
         return view('frontend/edit-profile', [
             'provinces' => $provinces,
+            'Customer' => $Customer,
         ]);
     }
     public function editprofileactionPage(Request $request)
@@ -114,13 +117,13 @@ class FrontendPageController extends Controller
             }
 
             $file = $request->file('image');
-            $destinationPath = public_path('/uploads');
+            $destinationPath = public_path('/uploads/profile/');
             $filename = $file->getClientOriginalName();
 
             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = 'profile'.time() . '.' .$ext;
+            $newfilenam = 'profile-'.time() . '.' .$ext;
             $file->move($destinationPath, $newfilenam);
-            $filepath = 'uploads/'.$newfilenam;
+            $filepath = 'uploads/profile/'.$newfilenam;
 
             $Customer->image = $filepath;
         }
@@ -132,13 +135,13 @@ class FrontendPageController extends Controller
             }
 
             $file = $request->file('map');
-            $destinationPath = public_path('/uploads');
+            $destinationPath = public_path('/uploads/map/');
             $filename = $file->getClientOriginalName();
 
             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = 'map'.time() . '.' .$ext;
+            $newfilenam = 'map-'.time() . '.' .$ext;
             $file->move($destinationPath, $newfilenam);
-            $filepath = 'uploads/'.$newfilenam;
+            $filepath = 'uploads/map/'.$newfilenam;
 
             $Customer->map = $filepath;
         }

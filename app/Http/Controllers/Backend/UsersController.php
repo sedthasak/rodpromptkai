@@ -186,7 +186,8 @@ class UsersController extends Controller
             $result = (new LogsSaveController)->create_log($para);
         }
 
-        return redirect(route('BN_profile'));
+        // return redirect(route('BN_profile')->with('success', 'บันทึกข้อมูลสำเร็จ !!!'));
+        return redirect(route('BN_profile'))->with('success', 'บันทึกข้อมูลสำเร็จ !!!');
 
     }
 }
