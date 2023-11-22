@@ -32,8 +32,9 @@
             <div class="row">
                 <div class="col-12 col-lg-4 col-xl-3 hide-search-mb">
                     <?php 
-                    // require('inc-carsearch.php'); 
+                    // require('inc-carsearch.php');
                     ?>
+                    @include('frontend.layouts.inc-carsearch')
                 </div>
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="wrap-allitem-car">
@@ -100,7 +101,7 @@
                         <div class="box-itemcar">
                             <div class="car-year">2023</div>
                             <div class="row row-itemcar">
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -133,7 +134,7 @@
                                         </figure>
                                     </a>
                                 </div>
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -166,7 +167,7 @@
                                         </figure>
                                     </a>
                                 </div>
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -199,7 +200,7 @@
                                         </figure>
                                     </a>
                                 </div>
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -238,7 +239,7 @@
                         <div class="box-itemcar">
                             <div class="car-year">2021</div>
                             <div class="row row-itemcar">
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -271,7 +272,7 @@
                                         </figure>
                                     </a>
                                 </div>
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -304,7 +305,7 @@
                                         </figure>
                                     </a>
                                 </div>
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -358,7 +359,7 @@
                         <div class="box-itemcar">
                             <div class="car-year">2021</div>
                             <div class="row row-itemcar">
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -391,7 +392,7 @@
                                         </figure>
                                     </a>
                                 </div>
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -424,7 +425,7 @@
                                         </figure>
                                     </a>
                                 </div>
-                                <div class="col-6 col-xl-4 col-itemcar">
+                                <div class="col-itemcar col-6 col-xl-4">
                                     <a href="car-detail.php" class="item-car">
                                         <figure>
                                             <div class="cover-car">
@@ -486,7 +487,50 @@
         </div>
     </div>
 </section>
+<script src="{{asset('frontend/js/jquery.min.js')}}"></script>
+<script>
+    $(document).on("click", ".btn-grid-item", function () {
+    //    if ( !$( this ).hasClass( "active" ) ) {
+    //         $('.btn-list-item').removeClass('active');
+    //         $(this).addClass('active');
+    //         $('.col-itemcar').removeClass('col-12 list-item').addClass('col-6 col-xl-4');
+    //       }
+        if ($(".btn-list-item").hasClass("active")) {
+            $(".btn-list-item").removeClass('active');
+        }
+        else {
+            
+        }
+        if ($(".btn-grid-item").hasClass("active")) {
+            // console.log("has class");
+        }
+        else {
+            $(".btn-grid-item").addClass('active');
+            $(".list-item").addClass('col-6 col-xl-4').removeClass('col-12 list-item');
+        }
+    });
+    $('.btn-list-item').click(function (event) {
+        // if ( !$( this ).hasClass( "active" ) ) {
+        //         $('.btn-grid-item').removeClass('active');
+        //         $(this).addClass('active');
+        //         $('.col-itemcar').removeClass('col-6 col-xl-4').addClass('col-12 list-item');
+        //     }
+        if ($(".btn-grid-item").hasClass("active")) {
+            $(".btn-grid-item").removeClass('active');
+        }
+        else {
+            
+        }
+        if ($(".btn-list-item").hasClass("active")) {
+            
+        }
+        else {
+            $(".btn-list-item").addClass('active');
+            $(".col-xl-4").addClass('col-12 list-item').removeClass('col-6 col-xl-4');
+        }
+    });
 
+</script>
 <script>
     $( document ).ready(function() {
             // range price
@@ -587,27 +631,9 @@ yearslider.noUiSlider.on('update', function (values, handle) {
     }
 });
 
-$('.btn-grid-item').click(function (event) {
-   if ( !$( this ).hasClass( "active" ) ) {
-        $('.btn-list-item').removeClass('active');
-        $(this).addClass('active');
-        $('.col-itemcar').removeClass('col-12 list-item').addClass('col-6 col-xl-4');
-      }
-    });
-
-    $('.btn-list-item').click(function (event) {
-   if ( !$( this ).hasClass( "active" ) ) {
-        $('.btn-grid-item').removeClass('active');
-        $(this).addClass('active');
-        $('.col-itemcar').removeClass('col-6 col-xl-4').addClass('col-12 list-item');
-      }
-    });
     
-    });
+});
 </script>
-
-
-
 
 @endsection
 

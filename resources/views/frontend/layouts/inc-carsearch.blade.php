@@ -10,21 +10,17 @@
                 </div>
                 <div class="col-3 text-end">
                     <label class="switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" checked id="searchev">
                         <span class="slider"></span>
                     </label>
                 </div>
             </div>
             <div class="carsearch-input">
                 <a data-fancybox data-src="#popup-searchcar" href="javascript:;">
-                    <input type="text" readonly disabled value="ยี่ห้อรถ">
+                    <input type="text" readonly value="ยี่ห้อรถ">
                 </a>
                 
-                <div style="display: none;" id="popup-searchcar">
-                    <div class="cardesc-frmcontact frm-contactback">
-                        @include('frontend.layouts.inc-popup-carsearch')
-                    </div>
-                </div>
+                
             </div>
 
             <div class="carsearch-radio">

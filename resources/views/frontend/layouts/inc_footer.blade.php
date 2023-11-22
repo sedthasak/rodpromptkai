@@ -204,4 +204,76 @@
 @include('frontend.layouts.footer_script')
 
 
+<script type="text/javascript">
+    function brand(param, param2) {
+        $.get('/popup-carsearch-model/'+param, function(data, status) {
+            // console.log(data);
+            var html='<li><button rel="'+param2+' ทุกรุ่น" onclick="model(0, \''+param2+' ทุกรุ่น\')">รุ่นทั้งหมด</button></li>';
+            $.each(data, function(index, value){
+                html+='<li><button rel="'+param2+' '+value.model.toUpperCase()+'" onclick="model('+value.id+', \''+param2+' '+value.model.toUpperCase()+'\')">'+value.model.toUpperCase()+'</button></li>';
+            });
+            $('.carsearch-lv2 .carsearch-ul').empty().append(html);
+        });
+    }
+
+    function model(param, param2) {
+        $('.box-search-car .carsearch-input input').val(param2);
+        $.get('/popup-carsearch-generation/'+param+'?models_id='+param, function(data, status) {
+            // console.log(data);
+            var html='<li><button rel="'+param2+' ทุกโฉม" onclick="generation(0, \''+param2+' ทุกโฉม\')">โฉมทั้งหมด</button></li>';
+            $.each(data, function(index, value){
+                html+='<li><button rel="'+param2+' '+value.generations.toUpperCase()+'" onclick="generation('+value.id+', \''+param2+' '+value.generations.toUpperCase()+'\')">'+value.generations.toUpperCase()+'</button></li>';
+            });
+            $('.carsearch-lv3 .carsearch-ul').empty().append(html);
+        });
+        // resources\views\frontend\layouts\inc_javascript.blade.php
+        if (param == 0){
+            $('.box-search-car .carsearch-lv2, .box-search-car .carsearch-lv3, .box-search-car .carsearch-lv4').hide();
+            $('.box-search-car .carsearch-lv1').show();
+            $( ".box-search-car .carsearch-popup" ).effect('slide', { direction: 'right', mode: 'hide' }, 500);
+        }
+        else {
+            $('.carsearch-lv3').fadeIn();
+            $('.carsearch-lv2').hide();
+        }
+    }
+
+    function generation(param, param2) {
+        $('.box-search-car .carsearch-input input').val(param2);
+        $.get('/popup-carsearch-submodel/'+param+'?generations_id='+param, function(data, status) {
+            // console.log(data);
+            var html='<li><button rel="'+param2+' ทุกรุ่นย่อย" onclick="submodel(0, \''+param2+' ทุกรุ่นย่อย\')">รุ่นย่อยทั้งหมด</button></li>';
+            $.each(data, function(index, value){
+                html+='<li><button rel="'+param2+' '+value.sub_models.toUpperCase()+'" onclick="submodel('+value.id+', \''+param2+' '+value.sub_models.toUpperCase()+'\')">'+value.sub_models.toUpperCase()+'</button></li>';
+            });
+            $('.carsearch-lv4 .carsearch-ul').empty().append(html);
+        });
+        // resources\views\frontend\layouts\inc_javascript.blade.php
+        if (param == 0){
+            $('.box-search-car .carsearch-lv2, .box-search-car .carsearch-lv3, .box-search-car .carsearch-lv4').hide();
+            $('.box-search-car .carsearch-lv1').show();
+            $( ".box-search-car .carsearch-popup" ).effect('slide', { direction: 'right', mode: 'hide' }, 500);
+        }
+        else {
+            $('.carsearch-lv4').fadeIn();
+            $('.carsearch-lv3').hide();
+        }
+    }
+
+    function submodel(param, param2) {
+        $('.box-search-car .carsearch-input input').val(param2);
+        if (param == 0){
+            $('.box-search-car .carsearch-lv2, .box-search-car .carsearch-lv3, .box-search-car .carsearch-lv4').hide();
+            $('.box-search-car .carsearch-lv1').show();
+            $( ".box-search-car .carsearch-popup" ).effect('slide', { direction: 'right', mode: 'hide' }, 500);
+        }
+        else {
+            $('.box-search-car .carsearch-lv2, .box-search-car .carsearch-lv3, .box-search-car .carsearch-lv4').hide();
+            $('.box-search-car .carsearch-lv1').show();
+            $( ".box-search-car .carsearch-popup" ).effect('slide', { direction: 'right', mode: 'hide' }, 500);
+        }
+    }
+</script>
+
+
 
