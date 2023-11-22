@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Customer extends Model
 {
@@ -29,4 +30,13 @@ class Customer extends Model
         'last_action',
         'history'
     ];
+
+    // public function index()
+    // {
+    //     $Customer = Customer::query()->paginate(4);
+
+    //     if (Input::has('s')){
+    //         $Customer->where('phone',Input::get('s'));
+    //     }
+    // }
 }

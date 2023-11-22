@@ -68,7 +68,15 @@ class PostsController extends Controller
         $cars->detail = $request->detail;
         $cars->province = $request->province;
         $cars->color = $request->color;
-        $cars->status = 'created';
+        $cars->gas = $request->gas;
+        $cars->ev = $request->ev;
+
+        if($request->user_id){
+            $cars->status = 'approved';
+        }else{
+            $cars->status = 'created';
+        }
+        
         
 
         if($request->hasFile('feature')){
@@ -219,13 +227,26 @@ class PostsController extends Controller
         // $postcar = sub_modelsModel::find($id);
         // $postcar = Customer::find($id);
         // $postcar = galleryModel::find($id);
+        // galleryModel
         $postcar = carsModel::find($id);
         $customer = DB::table('customer')->where('id', $postcar->customer_id)->first();
+        $gallery = DB::table('gallery')->where('cars_id', $id)->get();
         $brands = DB::table('brands')->where('id', $postcar->brand_id)->first();
         $models = DB::table('models')->where('id', $postcar->model_id)->first();
         $generations = DB::table('generations')->where('id', $postcar->generations_id)->first();
         $sub_models = DB::table('sub_models')->where('id', $postcar->sub_models_id)->first();
         $users = DB::table('users')->where('id', $postcar->user_id)->first();
+
+        $interior = [];
+        $exterior = [];
+        foreach($gallery as $gal){
+            if($gal->type=='interior'){
+                $interior[] = $gal;
+            }
+            if($gal->type=='exterior'){
+                $exterior[] = $gal;
+            }
+        }
 
             
         return view('backend/post-detail', [ 
@@ -237,6 +258,9 @@ class PostsController extends Controller
             'generations' => $generations,
             'sub_models' => $sub_models,
             'users' => $users,
+            'gallery' => $gallery,
+            'interior' => $interior,
+            'exterior' => $exterior,
         ]);
     }
 

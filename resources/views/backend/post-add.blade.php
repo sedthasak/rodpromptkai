@@ -134,7 +134,7 @@ $arr_color = array(
                                 <div class="mt-3">
                                     <label for="" class="form-label">เกียร์</label>
                                     <select name="gear" id="gear" class="form-select" required >
-                                        <option value="auto">ออโต้</option>
+                                        <option value="auto" selected >ออโต้</option>
                                         <option value="manual">ธรรมดา</option>
                                     </select>
                                 </div>
@@ -173,10 +173,17 @@ $arr_color = array(
                                 <div class="mt-3">
                                     <label for="" class="form-label">แก๊ส</label>
                                     <select id="gas" id="gas" class="form-select" required >
-                                        <option value="no">ไม่ติดแก๊ส</option>
+                                        <option value="no" selected >ไม่ติดแก๊ส</option>
                                         <option value="ngv">NGV</option>
                                         <option value="lpg">LPG</option>
-                                        <option value="ev">รถไฟฟ้า</option>
+                                    </select>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">รถ EV</label>
+                                    <select id="ev" id="ev" class="form-select" required >
+                                        <option value="yes" selected>ไม่ใช่</option>
+                                        <option value="no">ใช่</option>
+                                        
                                     </select>
                                 </div>
                                 <div class="mt-3">
@@ -198,7 +205,7 @@ $arr_color = array(
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">รายละเอียดรถ</label>
-                                    <textarea name="detail" id="detail" class="form-control" required ></textarea>
+                                    <textarea name="detail" id="detail" class="form-control" ></textarea>
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">ราคา</label>
@@ -242,7 +249,11 @@ $arr_color = array(
 
 
 <script>
-
+    ClassicEditor
+        .create( document.querySelector( '#detail' ))
+        .catch( error => {
+        console.error( error );
+    } );
     // var roles = [];
     //     @foreach ($customer as $keycustomer => $tomer)
     //     roles[{{$tomer->id}}] = '{{$tomer->sp_role}}';

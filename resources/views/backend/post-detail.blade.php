@@ -100,11 +100,13 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                         
                     </div>
                     <div class="mt-6 lg:mt-0 flex-1 px-5 border-l border-r border-slate-200/60 dark:border-darkmode-400 border-t lg:border-t-0 pt-5 lg:pt-0">
-                        <div class="flex flex-col justify-center items-center lg:items-start mt-4">
+                        <!-- <div class="flex flex-col justify-center items-center lg:items-start mt-4">
                             <div class="truncate sm:whitespace-normal flex items-center">
-                                <i data-lucide="Map Pin" class="w-4 h-4 mr-2"></i> รออนุมัติ
-                            </div>
-
+        
+                            </div>               
+                        </div> -->
+                        <div role="alert" class="alert relative border rounded-md px-5 py-4 bg-warning border-warning text-slate-900 dark:border-warning mb-2 flex items-center"><i data-lucide="alert-circle" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                            รออนุมัติ
                         </div>
                     </div>
                     <div class="mt-6 lg:mt-0 flex-1 px-5 border-t lg:border-0 border-slate-200/60 dark:border-darkmode-400 pt-5 lg:pt-0">
@@ -184,10 +186,11 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
 
         <div class="intro-y text-justify leading-relaxed">
             <br><br>
-            {{$postcar->detail}}
+            <h3 class="mb-5">{{$postcar->title}}</h3>
+            
+            {!!$postcar->detail!!}
             <br><br>
         </div>
-
 
         <div class="intro-y text-justify leading-relaxed">
             <div class="box sm:flex">
@@ -197,21 +200,14 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                         <div class="preview">
                             <div class="mx-6 pb-8">
                                 <div class="fade-mode">
+                                    @foreach($interior as $keyint => $int)
                                     <div class="h-64 px-2">
                                         <div class="h-full image-fit rounded-md overflow-hidden">
-                                            <img alt="Midone - HTML Admin Template" data-action="zoom" src="{{ asset('dist/images/' . $fakers[0]['images'][0]) }}" />
+                                            <img data-action="zoom" src="{{asset($int->gallery)}}" />
                                         </div>
                                     </div>
-                                    <div class="h-64 px-2">
-                                        <div class="h-full image-fit rounded-md overflow-hidden">
-                                            <img alt="Midone - HTML Admin Template" data-action="zoom" src="{{ asset('dist/images/' . $fakers[1]['images'][1]) }}" />
-                                        </div>
-                                    </div>
-                                    <div class="h-64 px-2">
-                                        <div class="h-full image-fit rounded-md overflow-hidden">
-                                            <img alt="Midone - HTML Admin Template" data-action="zoom" src="{{ asset('dist/images/' . $fakers[2]['images'][2]) }}" />
-                                        </div>
-                                    </div>
+                                    @endforeach
+
                                 </div>
                             </div>
                         </div>
@@ -224,21 +220,14 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                         <div class="preview">
                             <div class="mx-6 pb-8">
                                 <div class="fade-mode">
+                                    @foreach($exterior as $keyext => $ext)
                                     <div class="h-64 px-2">
                                         <div class="h-full image-fit rounded-md overflow-hidden">
-                                            <img alt="Midone - HTML Admin Template" src="{{ asset('dist/images/' . $fakers[0]['images'][0]) }}" />
+                                            <img data-action="zoom" src="{{asset($ext->gallery)}}" />
                                         </div>
                                     </div>
-                                    <div class="h-64 px-2">
-                                        <div class="h-full image-fit rounded-md overflow-hidden">
-                                            <img alt="Midone - HTML Admin Template" src="{{ asset('dist/images/' . $fakers[1]['images'][1]) }}" />
-                                        </div>
-                                    </div>
-                                    <div class="h-64 px-2">
-                                        <div class="h-full image-fit rounded-md overflow-hidden">
-                                            <img alt="Midone - HTML Admin Template" src="{{ asset('dist/images/' . $fakers[2]['images'][2]) }}" />
-                                        </div>
-                                    </div>
+                                    @endforeach
+
                                 </div>
                             </div>
                         </div>

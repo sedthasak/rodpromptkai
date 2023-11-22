@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsSaveController;
+// use App\Http\Controllers\Backend\Input;
+
+// use Illuminate\Support\Facades\Input;
 
 use App\Providers\RouteServiceProvider;
 
@@ -13,17 +16,32 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Input;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Customer;
+use App\Models\provincesModel;
 
 class CustomersController extends Controller
 {
     
-    public function BN_customers()
+    public function BN_customers(Request $request)
     {
+        // dd($request->s);
+        // $Customer = Customer::latest()->paginate(12);
+        $Customer = Customer::query()
+        // ->where('phone',$request->s)
+        ->orderBy('id', 'desc')
+        ->paginate(16);
+        // if ($request->s){
+            
+        // }
+        // return view('post',compact('post'));
+
         return view('backend/customer', [ 
             'default_pagename' => 'ลูกค้า',
+            'Customer' => $Customer,
         ]);
     }
     public function BN_customers_detail(Request $request, $id)
@@ -88,8 +106,10 @@ class CustomersController extends Controller
     }
     public function BN_customers_add(Request $request)
     {
+        $provinces = provincesModel::all();
         return view('backend/customer-add', [ 
             'default_pagename' => 'เพิ่มรายชื่อลูกค้า',
+            'provinces' => $provinces,
         ]);
     }
     public function BN_customers_add_action(Request $request)
@@ -97,20 +117,71 @@ class CustomersController extends Controller
         // dd($request);
         $Customer = new Customer;
 
-        $file = $request->file('image');
-        $destinationPath = public_path('/uploads/profile/');
-        $filename = $file->getClientOriginalName();
+        if($request->hasFile('image')){
 
-        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = time() . '.time().' .$ext;
-        $file->move($destinationPath, $newfilenam);
-        $filepath = 'uploads/profile/'.$newfilenam;
-        
+            $oldPath = public_path($Customer->image);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('image');
+            $destinationPath = public_path('/uploads/profile');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/profile/'.$newfilenam;
+
+            $Customer->image = $filepath;
+        }
+
+        if($request->hasFile('map')){
+
+            $oldPath = public_path($Customer->map);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('map');
+            $destinationPath = public_path('/uploads/map');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/map/'.$newfilenam;
+
+            $Customer->map = $filepath;
+        }
+
         $Customer->phone = $request->phone;
         $Customer->firstname = $request->firstname;
         $Customer->lastname = $request->lastname;
         $Customer->email = $request->email;
-        $Customer->image = $filepath;
+        $Customer->google_map = $request->google_map;
+        $Customer->province = $request->province;
+        $Customer->line = $request->line;
+        $Customer->place = $request->place;
+
+        // $file = $request->file('image');
+        // $destinationPath = public_path('/uploads/profile/');
+        // $filename = $file->getClientOriginalName();
+
+        // $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        // $newfilenam = time() . '.time().' .$ext;
+        // $file->move($destinationPath, $newfilenam);
+        // $filepath = 'uploads/profile/'.$newfilenam;
+
+        
+        
+        // $Customer->phone = $request->phone;
+        // $Customer->firstname = $request->firstname;
+        // $Customer->lastname = $request->lastname;
+        // $Customer->email = $request->email;
+        // $Customer->image = $filepath;
+
+
         $Customer->save();
 
         // if(isset($Customer->id)){
@@ -127,15 +198,17 @@ class CustomersController extends Controller
         //     $result = (new LogsSaveController)->create_log($para);
         // }
 
-        return redirect(route('BN_customers'));
+        return redirect(route('BN_customers'))->with('success', 'บันทึกข้อมูลสำเร็จ !!!');
 
     }
     public function BN_customers_edit(Request $request, $id)
     {
+        $provinces = provincesModel::all();
         $Customer = Customer::find($id);
         return view('backend/customer-edit', [ 
             'default_pagename' => 'แก้ไขรายชื่อลูกค้า',
             'Customer' => $Customer,
+            'provinces' => $provinces,
         ]);
     }
     public function BN_customers_edit_action(Request $request)
@@ -161,10 +234,33 @@ class CustomersController extends Controller
             $Customer->image = $filepath;
         }
 
+        if($request->hasFile('map')){
+
+            $oldPath = public_path($Customer->map);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('map');
+            $destinationPath = public_path('/uploads/map');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/map/'.$newfilenam;
+
+            $Customer->map = $filepath;
+        }
+
         $Customer->phone = $request->phone;
         $Customer->firstname = $request->firstname;
         $Customer->lastname = $request->lastname;
         $Customer->email = $request->email;
+        $Customer->google_map = $request->google_map;
+        $Customer->province = $request->province;
+        $Customer->line = $request->line;
+        $Customer->place = $request->place;
         
         $Customer->update();
 

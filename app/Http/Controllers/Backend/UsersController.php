@@ -31,8 +31,14 @@ class UsersController extends Controller
 
     public function BN_user()
     {
+        $User = User::query()
+        // ->where('phone',$request->s)
+        ->orderBy('id', 'desc')
+        ->paginate(16);
+
         return view('backend/users', [ 
             'default_pagename' => 'ยูสเซอร์',
+            'User' => $User,
         ]);
     }
 
@@ -86,6 +92,8 @@ class UsersController extends Controller
      */
     public function BN_user_add_action(Request $request)
     {
+
+        // dd($request);
         
         $request->validate([
             // 'name' => ['required', 'string', 'max:255'],
@@ -101,11 +109,30 @@ class UsersController extends Controller
 
         $User = new User;
 
+        if($request->hasFile('photo')){
+
+            $oldPath = public_path($User->photo);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('photo');
+            $destinationPath = public_path('/uploads/photo');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/photo/'.$newfilenam;
+
+            $User->photo = $filepath;
+        }
+
         $User->name = $request->name;
         $User->email = $request->email;
         $User->password = Hash::make($request->password);
-        $User->gender = 'male';
-        $User->active = '1';
+        $User->role = $request->role;;
+        $User->active = $request->active;;
 
         $User->save();
         
@@ -125,7 +152,7 @@ class UsersController extends Controller
             $result = (new LogsSaveController)->create_log($para);
         }   
 
-        return redirect(route('BN_user'));
+        return redirect(route('BN_user'))->with('success', 'บันทึกข้อมูลสำเร็จ !!!');
     }
 
     public function BN_profile()

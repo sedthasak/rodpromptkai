@@ -24,37 +24,82 @@
                 <!-- BEGIN: Form Layout -->
                 <div class="intro-y box p-5">
                     
-                    <div class="mt-3">
-                        <div class="sm:grid grid-cols-1 gap-1">
-                            <div class="">
-                                <label for="" class="form-label">เบอร์โทร</label>
-                                <input type="text" class="form-control w-full" id="" name="phone" autocomplete="off" required />
+                    
+                    <div class="p-5">
+                        <div class="grid grid-cols-12 gap-x-5">
+                            <div class="col-span-12 xl:col-span-6">
+                                
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">เบอร์โทร</label>
+                                    <input type="text" class="form-control w-full" value="" name="phone" autocomplete="off" required />
+                                </div>
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">ชื่อ</label>
+                                    <input type="text" class="form-control w-full" value="" name="firstname" autocomplete="off" required />
+                                </div>
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">สถานที่นัดดูรถ</label>
+                                    <input type="text" class="form-control w-full" value="" name="place" autocomplete="off" />
+                                </div>
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">ไลน์ไอดี</label>
+                                    <input type="text" class="form-control w-full" value="" name="line" autocomplete="off" />
+                                </div>
+                                
+                                
+         
+
+
+                            </div>
+                            <div class="col-span-12 xl:col-span-6">
+                                
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">อีเมล</label>
+                                    <input type="text" class="form-control w-full" value="" name="email"  autocomplete="off" />
+                                </div>
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">นามสกุล</label>
+                                    <input type="text" class="form-control w-full" value="" name="lastname" autocomplete="off" />
+                                </div>
+                                
+
+                                <div class="mt-3">
+                                    <label for="" class="form-label">จังหวัด</label>
+                                    <select name="province" id="province" data-search="true" class="tom-select w-full" required >
+                                        <option value="">เลือกจังหวัด</option>
+                                        @foreach($provinces as $keypv => $pv)
+                                        <option value="{{$pv->name_th}}" >{{$pv->name_th}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">Google Map</label>
+                                    <input type="text" class="form-control w-full" value="" name="google_map" autocomplete="off" />
+                                </div>
+                                
+
                             </div>
                         </div>
-                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">ชื่อ</label>
-                                <input type="text" class="form-control w-full" id="" name="firstname" autocomplete="off" required />
+
+                        <div class="grid grid-cols-12 gap-x-5">
+                            <div class="col-span-12 xl:col-span-6">
+                                
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">รูปโปรไฟล์</label>
+                                    <input type="file" class="form-control w-full" id="" name="image"  autocomplete="off" accept="image/*" />
+                                </div>
+
+                            </div>
+                            <div class="col-span-12 xl:col-span-6">
+                                
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">แผนที่</label>
+                                    <input type="file" class="form-control w-full" id="" name="map"  autocomplete="off" accept="image/*" />
+                                </div>
+
                             </div>
                         </div>
-                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">นามสกุล</label>
-                                <input type="text" class="form-control w-full" id="" name="lastname" autocomplete="off" />
-                            </div>
-                        </div>
-                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">อีเมล</label>
-                                <input type="text" class="form-control w-full" id="" name="email"  autocomplete="off" />
-                            </div>
-                        </div>
-                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">รูปภาพ</label>
-                                <input type="file" class="form-control w-full" id="" name="image"  autocomplete="off" accept="image/*" />
-                            </div>
-                        </div>
+
                     </div>
 
 
