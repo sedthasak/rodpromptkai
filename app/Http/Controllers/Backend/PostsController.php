@@ -54,6 +54,7 @@ class PostsController extends Controller
         $cars = new carsModel;
 
         $cars->type = $request->type;
+        $cars->user_id = $request->user_id;
         $cars->customer_id = $request->customer_id;
         $cars->brand_id = $request->brand_id;
         $cars->model_id = $request->model_id;
@@ -70,6 +71,10 @@ class PostsController extends Controller
         $cars->color = $request->color;
         $cars->gas = $request->gas;
         $cars->ev = $request->ev;
+        $cars->warranty_1 = $request->warranty_1;
+        $cars->warranty_2 = $request->warranty_2;
+        $cars->warranty_3 = $request->warranty_3;
+        $cars->warranty_2_input = $request->warranty_2_input;
 
         if($request->user_id){
             $cars->status = 'approved';
@@ -294,7 +299,10 @@ class PostsController extends Controller
         // dd($request);
         $cars = carsModel::find($request->id);
 
+        
+
         $cars->type = $request->type;
+        $cars->user_id = $request->user_id;
         $cars->customer_id = $request->customer_id;
         $cars->brand_id = $request->brand_id;
         $cars->model_id = $request->model_id;
@@ -309,7 +317,13 @@ class PostsController extends Controller
         $cars->detail = $request->detail;
         $cars->province = $request->province;
         $cars->color = $request->color;
-        $cars->status = 'update';
+        $cars->gas = $request->gas;
+        $cars->ev = $request->ev;
+        $cars->warranty_1 = $request->warranty_1;
+        $cars->warranty_2 = $request->warranty_2;
+        $cars->warranty_3 = $request->warranty_3;
+        $cars->warranty_2_input = $request->warranty_2_input;
+        $cars->status = 'approved';
         
 
         if($request->hasFile('feature')){

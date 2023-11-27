@@ -101,7 +101,7 @@ $arr_color = array(
                                     <select name="brand_id" id="brand_id" data-search="true" class="tom-select w-full" required >
                                         <option value="">เลือกยี่ห้อ</option>
                                         @foreach($brands as $keybrands => $brand)
-                                        <option value="{{$brand->id}}">{{$brand->title}}</option>
+                                        <option value="{{$brand->id}}">{{strtoupper($brand->title)}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -227,6 +227,38 @@ $arr_color = array(
                                     <label for="" class="form-label">รูปเล่มทะเบียนรถ</label>
                                     <input type="file" name="licenseplate" id="licenseplate" class="form-control"  accept="image/*" >
                                 </div>
+
+                                <div class="mt-5">
+                                    <label>การรับประกันหลังการขาย</label>
+                                    <div class="mt-2">
+                                        <div data-tw-merge class="flex items-center">
+                                            <input type="checkbox" id="warranty_1" name="warranty_1" value="1" class="transition-all duration-100 ease-in-out shadow-sm border-slate-200 cursor-pointer rounded focus:ring-4 focus:ring-offset-0 focus:ring-primary focus:ring-opacity-20 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;[type=&#039;radio&#039;]]:checked:bg-primary [&amp;[type=&#039;radio&#039;]]:checked:border-primary [&amp;[type=&#039;radio&#039;]]:checked:border-opacity-10 [&amp;[type=&#039;checkbox&#039;]]:checked:bg-primary [&amp;[type=&#039;checkbox&#039;]]:checked:border-primary [&amp;[type=&#039;checkbox&#039;]]:checked:border-opacity-10 [&amp;:disabled:not(:checked)]:bg-slate-100 [&amp;:disabled:not(:checked)]:cursor-not-allowed [&amp;:disabled:not(:checked)]:dark:bg-darkmode-800/50 [&amp;:disabled:checked]:opacity-70 [&amp;:disabled:checked]:cursor-not-allowed [&amp;:disabled:checked]:dark:bg-darkmode-800/50 w-[38px] h-[24px] p-px rounded-full relative before:w-[20px] before:h-[20px] before:shadow-[1px_1px_3px_rgba(0,0,0,0.25)] before:transition-[margin-left] before:duration-200 before:ease-in-out before:absolute before:inset-y-0 before:my-auto before:rounded-full before:dark:bg-darkmode-600 checked:bg-primary checked:border-primary checked:bg-none before:checked:ml-[14px] before:checked:bg-white w-[38px] h-[24px] p-px rounded-full relative before:w-[20px] before:h-[20px] before:shadow-[1px_1px_3px_rgba(0,0,0,0.25)] before:transition-[margin-left] before:duration-200 before:ease-in-out before:absolute before:inset-y-0 before:my-auto before:rounded-full before:dark:bg-darkmode-600 checked:bg-primary checked:border-primary checked:bg-none before:checked:ml-[14px] before:checked:bg-white" />
+                                            <label for="warranty_1" class="cursor-pointer ml-2">รถได้รับการตรวจสภาพโดยผู้เชี่ยวชาญ	</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-5">
+                                    <div class="mt-2">
+                                        <div data-tw-merge class="flex items-center">
+                                            <input type="checkbox" id="warranty_2" name="warranty_2" value="1" class="transition-all duration-100 ease-in-out shadow-sm border-slate-200 cursor-pointer rounded focus:ring-4 focus:ring-offset-0 focus:ring-primary focus:ring-opacity-20 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;[type=&#039;radio&#039;]]:checked:bg-primary [&amp;[type=&#039;radio&#039;]]:checked:border-primary [&amp;[type=&#039;radio&#039;]]:checked:border-opacity-10 [&amp;[type=&#039;checkbox&#039;]]:checked:bg-primary [&amp;[type=&#039;checkbox&#039;]]:checked:border-primary [&amp;[type=&#039;checkbox&#039;]]:checked:border-opacity-10 [&amp;:disabled:not(:checked)]:bg-slate-100 [&amp;:disabled:not(:checked)]:cursor-not-allowed [&amp;:disabled:not(:checked)]:dark:bg-darkmode-800/50 [&amp;:disabled:checked]:opacity-70 [&amp;:disabled:checked]:cursor-not-allowed [&amp;:disabled:checked]:dark:bg-darkmode-800/50 w-[38px] h-[24px] p-px rounded-full relative before:w-[20px] before:h-[20px] before:shadow-[1px_1px_3px_rgba(0,0,0,0.25)] before:transition-[margin-left] before:duration-200 before:ease-in-out before:absolute before:inset-y-0 before:my-auto before:rounded-full before:dark:bg-darkmode-600 checked:bg-primary checked:border-primary checked:bg-none before:checked:ml-[14px] before:checked:bg-white w-[38px] h-[24px] p-px rounded-full relative before:w-[20px] before:h-[20px] before:shadow-[1px_1px_3px_rgba(0,0,0,0.25)] before:transition-[margin-left] before:duration-200 before:ease-in-out before:absolute before:inset-y-0 before:my-auto before:rounded-full before:dark:bg-darkmode-600 checked:bg-primary checked:border-primary checked:bg-none before:checked:ml-[14px] before:checked:bg-white" />
+                                            <label for="warranty_2" class="cursor-pointer ml-2">มีการรับประกัน กรุณาระบุระยะเวลา</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <input class="form-control" type="text" name="warranty_2_input" value="" placeholder="เช่น 1 ปี / 10,000 กม." />
+                                </div>
+                                <div class="mt-5">
+                                    <div class="mt-2">
+                                        <div data-tw-merge class="flex items-center">
+                                            <input type="checkbox" id="warranty_3" name="warranty_3" value="1" class="transition-all duration-100 ease-in-out shadow-sm border-slate-200 cursor-pointer rounded focus:ring-4 focus:ring-offset-0 focus:ring-primary focus:ring-opacity-20 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;[type=&#039;radio&#039;]]:checked:bg-primary [&amp;[type=&#039;radio&#039;]]:checked:border-primary [&amp;[type=&#039;radio&#039;]]:checked:border-opacity-10 [&amp;[type=&#039;checkbox&#039;]]:checked:bg-primary [&amp;[type=&#039;checkbox&#039;]]:checked:border-primary [&amp;[type=&#039;checkbox&#039;]]:checked:border-opacity-10 [&amp;:disabled:not(:checked)]:bg-slate-100 [&amp;:disabled:not(:checked)]:cursor-not-allowed [&amp;:disabled:not(:checked)]:dark:bg-darkmode-800/50 [&amp;:disabled:checked]:opacity-70 [&amp;:disabled:checked]:cursor-not-allowed [&amp;:disabled:checked]:dark:bg-darkmode-800/50 w-[38px] h-[24px] p-px rounded-full relative before:w-[20px] before:h-[20px] before:shadow-[1px_1px_3px_rgba(0,0,0,0.25)] before:transition-[margin-left] before:duration-200 before:ease-in-out before:absolute before:inset-y-0 before:my-auto before:rounded-full before:dark:bg-darkmode-600 checked:bg-primary checked:border-primary checked:bg-none before:checked:ml-[14px] before:checked:bg-white w-[38px] h-[24px] p-px rounded-full relative before:w-[20px] before:h-[20px] before:shadow-[1px_1px_3px_rgba(0,0,0,0.25)] before:transition-[margin-left] before:duration-200 before:ease-in-out before:absolute before:inset-y-0 before:my-auto before:rounded-full before:dark:bg-darkmode-600 checked:bg-primary checked:border-primary checked:bg-none before:checked:ml-[14px] before:checked:bg-white" />
+                                            <label for="warranty_3" class="cursor-pointer ml-2">มีบริการช่วยเหลือฉุกเฉิน 24 ชม.</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
                             </div>
                         </div>
                         <div class="flex justify-end mt-4">
@@ -249,11 +281,11 @@ $arr_color = array(
 
 
 <script>
-    ClassicEditor
-        .create( document.querySelector( '#detail' ))
-        .catch( error => {
-        console.error( error );
-    } );
+    // ClassicEditor
+    //     .create( document.querySelector( '#detail' ))
+    //     .catch( error => {
+    //     console.error( error );
+    // } );
     // var roles = [];
     //     @foreach ($customer as $keycustomer => $tomer)
     //     roles[{{$tomer->id}}] = '{{$tomer->sp_role}}';
