@@ -22,7 +22,6 @@ use File;
 
 class FrontendPageController extends Controller
 {
-
     public function indexPage(Request $request)
     {
         $categories = categoriesModel::all();
@@ -53,7 +52,7 @@ class FrontendPageController extends Controller
             ->orderBy('id', 'desc')
             ->take(6)
             ->get();
-        
+        $qrybrand = brandsModel::get();
 
         return view('frontend/index-page', [
             'layout' => 'side-menu',
@@ -61,6 +60,7 @@ class FrontendPageController extends Controller
             'cars' => $cars,
             'allcarcount' => $allcarcount,
             'allcars6' => $allcars6,
+            'brand' => $qrybrand
         ]);
     }
     public function profilePage()
@@ -623,18 +623,7 @@ class FrontendPageController extends Controller
             'test' => $codetosend,
         ]);
     }
-<<<<<<< HEAD
-    public function indexPage(Request $request)
-    {
-        $qrybrand = brandsModel::get();
-        return view('frontend/index-page', [
-            'layout' => 'side-menu',
-            'brand' => $qrybrand
-        ]);
-    }
-=======
     
->>>>>>> 12d7956adad24265d684343de681c863ab14a7e9
     public function loopidentity(Request $request) {
         $browserFingerprint = $request->session()->get('browserFingerprint');
         $qry_session = Sms_session::where("browserFingerprint", $browserFingerprint)->where("messages", $browserFingerprint)->first();
