@@ -132,7 +132,7 @@ class PostController extends Controller
                 $imageData = base64_decode($string_pieces[1]);
 
                 // Generate a unique filename
-                $filename = 'exterior-'.time() . '.' .$image_type;
+                $filename = 'exterior-'.$keyex.'-'.time() . '.' .$image_type;
 
                 // Define the path where you want to save the image
                 $path = public_path('uploads/exterior/' . $filename);
@@ -162,7 +162,7 @@ class PostController extends Controller
                 $imageData = base64_decode($string_pieces[1]);
 
                 // Generate a unique filename
-                $filename = 'interior-'.time() . '.' .$image_type;
+                $filename = 'interior-'.$keyin.'-'.time() . '.' .$image_type;
 
                 // Define the path where you want to save the image
                 $path = public_path('uploads/interior/' . $filename);
