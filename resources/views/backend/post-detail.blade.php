@@ -124,7 +124,7 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                         <?php
                         if(isset($postcar->status) && ($postcar->status == 'created')){
                         ?>
-                        <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="pointer alert relative border rounded-md px-5 py-4 bg-warning border-warning text-slate-900 dark:border-warning mb-2 flex items-center"><i data-lucide="alert-circle" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                        <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="cursor-pointer alert relative border rounded-md px-5 py-4 bg-warning border-warning text-slate-900 dark:border-warning mb-2 flex items-center"><i data-lucide="alert-circle" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
                             รออนุมัติ
                         </div>
 
@@ -136,7 +136,10 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                                         <h3>ปรับสถานะ</h3>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" action="" id="form_change_status">
+                                        <form method="post" action="{{route('BN_posts_status_action')}}" id="form_change_status">
+                                        @csrf
+                                            <input type="hidden" name="post_id" value="{{$postcar->id}}" />
+                                            <input type="hidden" name="user_id" value="{{auth()->user()->id}}" />
                                             <div class="p-5 grid grid-cols-12 gap-4 gap-y-3">
                                                 <div class="col-span-12 sm:col-span-6">
                                                     <label for="modal-form-6" class="inline-block mb-2"> สถานะ</label>
@@ -146,7 +149,7 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                                                         <option value="rejected">ปฏิเสธ</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-span-12 sm:col-span-6">
+                                                <div class="col-span-12 sm:col-span-6" id="reason_box" style="display:none;">
                                                     <label data-tw-merge for="modal-form-5" class="inline-block mb-2"> เหตุผล </label>
                                                     <!-- <input data-tw-merge id="modal-form-5" type="text" placeholder="เหตุผล" class="disabled:bg-slate-100 disabled:cursor-not-allowed dark:disabled:bg-darkmode-800/50 dark:disabled:border-transparent [&amp;[readonly]]:bg-slate-100 [&amp;[readonly]]:cursor-not-allowed [&amp;[readonly]]:dark:bg-darkmode-800/50 [&amp;[readonly]]:dark:border-transparent transition duration-200 ease-in-out w-full text-sm border-slate-200 shadow-sm rounded-md placeholder:text-slate-400/90 focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus:border-primary focus:border-opacity-40 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50 dark:placeholder:text-slate-500/80" /> -->
                                                     <textarea id="reason" class="form-control" name="reason" placeholder="เหตุผล"></textarea>
@@ -412,7 +415,12 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
 
     $("#select_status").on( "change", function() {
         var _status = $("#select_status").val();
-        console.log(_status);
+        if(_status[0] == 'rejected'){
+            $('#reason_box').show();
+        }else{
+            $('#reason_box').hide();
+        }
+        // console.log(_status);
     } );
 </script>
 @endsection

@@ -8,6 +8,10 @@
 
 
 <?php
+$arr_gear = array(
+    'auto' => 'เกียร์อัตโนมัติ',
+    'manual' => 'เกียร์ธรรมดา',
+);
 // $tel = '0998741070';
 // $SixDigitRandomNumber = rand(100000,999999);
 // $message = $SixDigitRandomNumber.$tel;
@@ -19,7 +23,10 @@
 // print_r($SixDigitRandomNumber);
 // echo "</pre>";
 // echo "<pre>";
-// print_r($getsmssession);
+// print_r($allcarcount);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($cars);
 // echo "</pre>";
 ?>
 <section class="row">
@@ -168,7 +175,12 @@
     <div class="col-12 col-lg-8 col-xl-9 bg-carslide">
         <div class="box-carslide">
             <div class="owl-carslide owl-carousel owl-theme">
+                @foreach($categories as $keycate => $cate)
                 <div class="items">
+                    <a href="#"><figure><img src="{{asset($cate->feature)}}" alt=""></figure></a> 
+                </div>
+                @endforeach
+                <!-- <div class="items">
                     <a href="{{route('carPage')}}"><figure><img src="{{asset('frontend/images/car01.png')}}" alt=""></figure></a> 
                 </div>
                 <div class="items">
@@ -182,7 +194,7 @@
                 </div>
                 <div class="items">
                     <a href="{{route('carPage')}}"><figure><img src="{{asset('frontend/images/car05.png')}}" alt=""></figure></a> 
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -198,16 +210,25 @@
                 </div>
                 <div class="col-12">
                     <div class="owl-bestsearch owl-carousel owl-theme">
-                        <a href="{{route('cardetailPage')}}" class="item-car">
+                        @php
+                        $car1count = 0;
+                        @endphp
+                        @foreach($cars as $keycar1 => $car1)
+                        @php
+                        $car1count++;
+                        if($car1count <= 5){
+                        $profilecar_img = ($car1->feature)?asset($car1->feature):asset('public/uploads/default-car.jpg');
+                        @endphp
+                        <a href="{{route('cardetailPage', ['post' => $car1->id])}}" class="item-car">
                             <figure>
-                                <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
+                                <div class="cover-car"><img src="{{$profilecar_img}}" alt=""></div>
                                 <figcaption>
-                                    <div class="car-name">2016 Honda CR-V </div>
-                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                    <div class="car-province">กรุงเทพมหานคร</div>
+                                    <div class="car-name">{{$car1->modelyear." ".$car1->brands_title." ".$car1->model_name}} </div>
+                                    <div class="car-series">{{$car1->generations_name." ".$car1->sub_models_name}}</div>
+                                    <div class="car-province">{{$car1->customer_proveince}}</div>
                                     <div class="row">
                                         <div class="col-8 col-xl-9">
-                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
+                                            <div class="descpro-car">{{$car1->title}}</div>
                                         </div>
                                         <div class="col-4 col-xl-3 text-end">
                                             <div class="txt-readmore">ดูเพิ่มเติม</div>
@@ -216,123 +237,20 @@
                                     <div class="linecontent"></div>
                                     <div class="row caritem-price">
                                         <div class="col-6">
-                                            <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
+                                            <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$car1->gear]}}</div>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <div class="car-price">599,000.-</div>
+                                            <div class="car-price">{{number_format($car1->price, 0, '.', ',')}}.-</div>
                                         </div>
                                     </div>
                                 </figcaption>
                             </figure>
                         </a>
-                        <a href="{{route('cardetailPage')}}" class="item-car">
-                            <figure>
-                                <div class="cover-car"><img src="{{asset('frontend/images/CAR202305230062_MG_MG3_20230523_112434898_WATERMARK.png')}}" alt=""></div>
-                                <figcaption>
-                                    <div class="car-name">2016 Honda CR-V </div>
-                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                    <div class="row">
-                                        <div class="col-8 col-xl-9">
-                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                        </div>
-                                        <div class="col-4 col-xl-3 text-end">
-                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                        </div>
-                                    </div>
-                                    <div class="linecontent"></div>
-                                    <div class="row caritem-price">
-                                        <div class="col-6">
-                                            <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <div class="car-price">599,000.-</div>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <a href="{{route('cardetailPage')}}" class="item-car">
-                            <figure>
-                                <div class="cover-car"><img src="{{asset('frontend/images/CAR202304290032_Mini_Cooper_20230429_133309985_WATERMARK.png')}}" alt=""></div>
-                                <figcaption>
-                                    <div class="car-name">2016 Honda CR-V </div>
-                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                    <div class="row">
-                                        <div class="col-8 col-xl-9">
-                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                        </div>
-                                        <div class="col-4 col-xl-3 text-end">
-                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                        </div>
-                                    </div>
-                                    <div class="linecontent"></div>
-                                    <div class="row caritem-price">
-                                        <div class="col-6">
-                                            <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <div class="car-price">599,000.-</div>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <a href="{{route('cardetailPage')}}" class="item-car">
-                            <figure>
-                                <div class="cover-car"><img src="{{asset('frontend/images/CAR202304210377_BMW_X3_20230421_120846741_WATERMARK.png')}}" alt=""></div>
-                                <figcaption>
-                                    <div class="car-name">2016 Honda CR-V </div>
-                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                    <div class="row">
-                                        <div class="col-8 col-xl-9">
-                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                        </div>
-                                        <div class="col-4 col-xl-3 text-end">
-                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                        </div>
-                                    </div>
-                                    <div class="linecontent"></div>
-                                    <div class="row caritem-price">
-                                        <div class="col-6">
-                                            <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <div class="car-price">599,000.-</div>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <a href="{{route('cardetailPage')}}" class="item-car">
-                            <figure>
-                                <div class="cover-car"><img src="{{asset('frontend/images/CAR202305300181_Mazda_3_20230530_234137900_WATERMARK.png')}}" alt=""></div>
-                                <figcaption>
-                                    <div class="car-name">2016 Honda CR-V </div>
-                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                    <div class="row">
-                                        <div class="col-8 col-xl-9">
-                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                        </div>
-                                        <div class="col-4 col-xl-3 text-end">
-                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                        </div>
-                                    </div>
-                                    <div class="linecontent"></div>
-                                    <div class="row caritem-price">
-                                        <div class="col-6">
-                                            <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <div class="car-price">599,000.-</div>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </a>
+                        @php
+                        }
+                        @endphp
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -353,10 +271,10 @@
                                 </div>
                                 <div class="box-itemnum">
                                     <div class="item-num">
-                                        จำนวนรถมาใหม่ <div class="txt-num">412</div>
+                                        จำนวนรถมาใหม่ <div class="txt-num">0</div>
                                     </div>
                                     <div class="item-num">
-                                        จำนวนรถทั้งหมด <div class="txt-num">15879</div>
+                                        จำนวนรถทั้งหมด <div class="txt-num">{{$allcarcount}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -423,10 +341,10 @@
                                 </div>
                                 <div class="box-itemnum">
                                     <div class="item-num">
-                                        จำนวนรถมาใหม่ <div class="txt-num">412</div>
+                                        จำนวนรถมาใหม่ <div class="txt-num">0</div>
                                     </div>
                                     <div class="item-num">
-                                        จำนวนรถทั้งหมด <div class="txt-num">15879</div>
+                                        จำนวนรถทั้งหมด <div class="txt-num">{{$allcarcount}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -439,20 +357,25 @@
                         </div>
                     </div>
                     <div class="row row-itemcar">
+
+                        @foreach($allcars6 as $post6post)
+                        @php
+                        $post6post_img = ($post6post->feature)?asset($post6post->feature):asset('public/uploads/default-car.jpg');
+                        @endphp
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="{{route('cardetailPage')}}" class="item-car">
+                            <a href="{{route('cardetailPage', ['post' => $post6post->id])}}" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
-                                        <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
+                                        <img src="{{$post6post_img}}" alt="">
                                     </div>
                                     <figcaption>
-                                        <div class="car-name">2016 Honda CR-V </div>
-                                        <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                        <div class="car-province">กรุงเทพมหานคร</div>
+                                        <div class="car-name">{{$post6post->modelyear." ".$post6post->brands_title." ".$post6post->model_name}} </div>
+                                        <div class="car-series">{{$post6post->generations_name." ".$post6post->sub_models_name}}</div>
+                                        <div class="car-province">{{$post6post->customer_proveince}}</div>
                                         <div class="row">
                                             <div class="col-12 col-md-8 col-xl-9">
-                                                <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
+                                                <div class="descpro-car">{{$post6post->title}}</div>
                                             </div>
                                             <div class="col-12 col-md-4 col-xl-3 text-end">
                                                 <div class="txt-readmore">ดูเพิ่มเติม</div>
@@ -461,18 +384,20 @@
                                         <div class="linecontent"></div>
                                         <div class="row caritem-price">
                                             <div class="col-12 col-md-6">
-                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
+                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$post6post->gear]}}</div>
                                             </div>
                                             <div class="col-12 col-md-6 text-end">
-                                                <div class="car-price">599,000.-</div>
+                                                <div class="car-price">{{number_format($post6post->price, 0, '.', ',')}}.-</div>
                                             </div>
                                         </div>
                                     </figcaption>
                                 </figure>
                             </a>
                         </div>
-                        <div class="col-6 col-md-4 col-itemcar">
-                            <a href="{{route('cardetailPage')}}" class="item-car">
+                        @endforeach
+                        
+                        <!-- <div class="col-6 col-md-4 col-itemcar">
+                            <a href="#" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -504,7 +429,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="{{route('cardetailPage')}}" class="item-car">
+                            <a href="#" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -536,7 +461,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="{{route('cardetailPage')}}" class="item-car">
+                            <a href="#" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -568,7 +493,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="{{route('cardetailPage')}}" class="item-car">
+                            <a href="#" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -600,7 +525,7 @@
                             </a>
                         </div>
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="{{route('cardetailPage')}}" class="item-car">
+                            <a href="#" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -630,7 +555,8 @@
                                     </figcaption>
                                 </figure>
                             </a>
-                        </div>
+                        </div> -->
+
                     </div>
                 </div>
             </div>

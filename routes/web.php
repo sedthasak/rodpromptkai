@@ -103,7 +103,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/news-detail', 'newsdetailPage')->name('newsdetailPage');
         Route::get('/postcar', 'postcarPage')->name('postcarPage');
         Route::get('/car', 'carPage')->name('carPage');
-        Route::get('/car-detail', 'cardetailPage')->name('cardetailPage');
+        Route::get('/car-detail/{post}', 'cardetailPage')->name('cardetailPage');
         Route::get('/postcar-welcome', 'postcarwelcomePage')->name('postcarwelcomePage');
         Route::get('/postcar-welcome-dealer', 'postcarwelcomedealerPage')->name('postcarwelcomedealerPage');
         Route::get('/postcar-welcome-lady', 'postcarwelcomeladyPage')->name('postcarwelcomeladyPage');
@@ -177,6 +177,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/posts-detail/{id}', [PostsController::class, 'BN_posts_detail'])->name('BN_posts_detail');
     Route::get('/backend/posts-edit/{id}', [PostsController::class, 'BN_posts_edit'])->name('BN_posts_edit');
     Route::post('/backend/posts-edit-action', [PostsController::class, 'BN_posts_edit_action'])->name('BN_posts_edit_action');
+    Route::post('/backend/posts-status-action', [PostsController::class, 'BN_posts_status_action'])->name('BN_posts_status_action');
 
     Route::get('/backend/customers', [CustomersController::class, 'BN_customers'])->name('BN_customers');
     Route::get('/backend/customersfetch', [CustomersController::class, 'BN_customersFetch'])->name('BN_customersFetch');
@@ -200,6 +201,8 @@ Route::middleware('auth')->group(function() {
     Route::get('/backend/usersfetch', [UsersController::class, 'BN_usersFetch'])->name('BN_usersFetch');
     Route::get('/backend/users-add', [UsersController::class, 'BN_user_add'])->name('BN_user_add');
     Route::post('/backend/users-add-action', [UsersController::class, 'BN_user_add_action'])->name('BN_user_add_action');
+    Route::get('/backend/users-edit/{id}', [UsersController::class, 'BN_user_edit'])->name('BN_user_edit');
+    Route::post('/backend/users-edit-action', [UsersController::class, 'BN_user_edit_action'])->name('BN_user_edit_action');
     Route::get('/backend/profile', [UsersController::class, 'BN_profile'])->name('BN_profile');
     Route::get('/backend/profile-edit', [UsersController::class, 'BN_profile_edit'])->name('BN_profile_edit');
     Route::post('/backend/profile-edit-action', [UsersController::class, 'BN_profile_edit_action'])->name('BN_profile_edit_action');

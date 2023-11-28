@@ -28,6 +28,14 @@ class UsersController extends Controller
             'default_pagename' => 'เพิ่มยูสเซอร์',
         ]);
     }
+    public function BN_user_edit(Request $request, $id)
+    {
+        $user = User::find($id);
+        return view('backend/users-edit', [ 
+            'default_pagename' => 'แก้ไขยูสเซอร์',
+            'user' => $user,
+        ]);
+    }
 
     public function BN_user()
     {
@@ -154,6 +162,12 @@ class UsersController extends Controller
 
         return redirect(route('BN_user'))->with('success', 'บันทึกข้อมูลสำเร็จ !!!');
     }
+    public function BN_user_edit_action(Request $request)
+    {
+        dd($request);
+    }
+
+    
 
     public function BN_profile()
     {

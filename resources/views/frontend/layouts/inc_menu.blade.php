@@ -58,7 +58,7 @@ $customerdata = session('customer');
                             </li>
                             <li><a href="{{route('carPage')}}"><i class="bi bi-car-front-fill"></i> ซื้อรถยนต์</a></li>
                             <li><a href="{{route('carPage')}}"><i class="bi bi-car-front"></i> ดูรถพร้อมขาย</a></li>
-                            <li><a href="{{route('carPage')}}"><i class="bi bi-stars"></i> รถใหม่</a></li>
+                            <!-- <li><a href="{{route('carPage')}}"><i class="bi bi-stars"></i> รถใหม่</a></li> -->
                             <li class="hassub">
                                 <a><i class="bi bi-newspaper"></i> ข่าวรถ</a>
                                 <ul class="submenu">

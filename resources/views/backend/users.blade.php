@@ -97,7 +97,7 @@
                                     <a class="flex items-center text-success mr-3" href="#" >
                                         <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> ดูข้อมูล
                                     </a>
-                                    <a class="flex items-center" href="#">
+                                    <a class="flex items-center" href="{{route('BN_user_edit', ['id' => $res->id])}}">
                                         <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> แก้ไข
                                     </a>
                                 </div>

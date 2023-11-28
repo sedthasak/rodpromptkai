@@ -2,18 +2,18 @@
     <div class="close-menuprofile"><i class="bi bi-x-circle-fill"></i></div>
     <a href="{{route('customercontactPage')}}" class="btn-customer">
         <div><i class="bi bi-person"></i> ลูกค้ารอติดต่อกลับ</div>
-        <div class="num-contactcus">3</div>
+        <div class="num-contactcus">0</div>
     </a>
     <div class="box-menuprofile box-menuprofile-hide">
         <div class="topic-menuprofile">รถที่ลงขาย</div>
         <ul>
-            <li><a href="{{route('profilePage')}}">ออนไลน์ <span>(5)</span></a></li>
-            <li><a href="{{route('profilecheckPage')}}">รอตรวจสอบ <span>(2)</span></a></li>
-            <li><a href="{{route('profileeditcarinfoPage')}}">รอแก้ไข <span>(3)</span></a></li>
-            <li><a href="{{route('profileexpirePage')}}">หมดอายุ <span>(5)</span></a></li>
+            <li><a href="{{route('profilePage')}}">ออนไลน์ <span>({{count($carfromstatus['approved'])??0}})</span></a></li>
+            <li><a href="{{route('profilecheckPage')}}">รอตรวจสอบ <span>({{count($carfromstatus['created'])??0}})</span></a></li>
+            <li><a href="{{route('profileeditcarinfoPage')}}">รอแก้ไข <span>({{count($carfromstatus['rejected'])??0}})</span></a></li>
+            <li><a href="{{route('profileexpirePage')}}">หมดอายุ <span>({{count($carfromstatus['expired'])??0}})</span></a></li>
         </ul>
     </div>
-    <div class="box-menuprofile">
+    <!-- <div class="box-menuprofile">
         <div class="topic-menuprofile"><img src="{{asset('frontend/images/carred2.svg')}}" alt="" class="svg"> ค้นหารถในบัญชี</div>
         <div class="wrap-mycarsearch">
             <div class="item_mycarsearch">
@@ -88,5 +88,5 @@
             <input type="text" class="form-control">
         </div>
         <button class="btn-red">ค้นหารถยนต์</button>
-    </div>
+    </div> -->
 </div>

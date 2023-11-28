@@ -5,7 +5,19 @@
 @endsection
 
 @section('content')
+<?php
+$arr_gear = array(
+    'auto' => 'เกียร์อัตโนมัติ',
+    'manual' => 'เกียร์ธรรมดา',
+);
 
+// echo "<pre>";
+// print_r($interior);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($exterior);
+// echo "</pre>";
+?>
 
 
 <section class="row">
@@ -15,50 +27,60 @@
                 <div class="col-12 col-lg-6 detail_slide">
                     <div class="slide-wrapper">
                         <div class="tab_pdetail slide_load cover-radius">
-                            <div class="car-booked"><div>จองแล้ว</div></div>
+                            <!-- <div class="car-booked"><div>จองแล้ว</div></div> -->
                             <div class="owl-carousel owl-theme slider">
+                                @foreach($exterior as $ext)
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c01.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c01.webp')}}"></a>
+                                    <a href="{{asset($ext->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($ext->gallery)}}"></a>
+                                </div>
+                                @endforeach
+                                <!-- <div class="item">
+                                    <a href="images/c01.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c01.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c02.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c02.webp')}}"></a>
+                                    <a href="images/c02.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c02.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c03.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c03.webp')}}"></a>
+                                    <a href="images/c03.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c03.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c04.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c04.webp')}}"></a>
+                                    <a href="images/c04.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c04.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c05.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c05.webp')}}"></a>
+                                    <a href="images/c05.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c05.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c06.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c06.webp')}}"></a>
-                                </div>
+                                    <a href="images/c06.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c06.webp"></a>
+                                </div> -->
                             </div>
                         </div>
                         <!-- รูปภายนอก -->
                         <div class="tab_pdetail slide_load cover-radius">
-                            <div class="car-booked"><div>จองแล้ว</div></div>
+                            <!-- <div class="car-booked"><div>จองแล้ว</div></div> -->
                             <div class="owl-carousel owl-theme slider">
+                                @foreach($interior as $int)
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c07.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c07.webp')}}"></a>
+                                    <a href="{{asset($int->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($int->gallery)}}"></a>
+                                </div>
+                                @endforeach
+                                <!-- <div class="item">
+                                    <a href="images/c07.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c07.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c08.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c08.webp')}}"></a>
+                                    <a href="images/c08.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c08.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c09.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c09.webp')}}"></a>
+                                    <a href="images/c09.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c09.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c10.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c10.webp')}}"></a>
+                                    <a href="images/c10.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c10.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c11.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c11.webp')}}"></a>
+                                    <a href="images/c11.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c11.webp"></a>
                                 </div>
                                 <div class="item">
-                                    <a href="{{asset('frontend/images/c12.webp')}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('frontend/images/c12.webp')}}"></a>
-                                </div>
+                                    <a href="images/c12.webp" data-fancybox="gallery" class="cover-carthumb"><img src="images/c12.webp"></a>
+                                </div> -->
                             </div>
                         </div>
                          <!-- รูปห้องโดยสาร -->
@@ -71,47 +93,57 @@
                         <div class="slide-wrapper">
                             <div class="tab_pdetail_thumb slide_load">
                                 <div id="sync2" class="owl-carousel owl-theme navigation-thumbs">
+                                    @foreach($exterior as $ext)
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c01.webp')}}">
+                                        <img src="{{asset($ext->gallery)}}">
+                                    </div>
+                                    @endforeach
+                                    <!-- <div class="item cover-carthumb">
+                                        <img src="images/c01.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c02.webp')}}">
+                                        <img src="images/c02.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c03.webp')}}">
+                                        <img src="images/c03.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c04.webp')}}">
+                                        <img src="images/c04.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c05.webp')}}">
+                                        <img src="images/c05.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c06.webp')}}">
-                                    </div>
+                                        <img src="images/c06.webp">
+                                    </div> -->
                                 </div>
                             </div>
                             <!-- thumb รูปภายนอก -->
                             <div class="tab_pdetail_thumb slide_load">
                                 <div id="sync2" class="owl-carousel owl-theme navigation-thumbs">
+                                    @foreach($interior as $int)
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c07.webp')}}">
+                                        <img src="{{asset($int->gallery)}}">
+                                    </div>
+                                    @endforeach
+                                    <!-- <div class="item cover-carthumb">
+                                        <img src="images/c07.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c08.webp')}}">
+                                        <img src="images/c08.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c09.webp')}}">
+                                        <img src="images/c09.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c10.webp')}}">
+                                        <img src="images/c10.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c11.webp')}}">
+                                        <img src="images/c11.webp">
                                     </div>
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset('frontend/images/c12.webp')}}">
-                                    </div>
+                                        <img src="images/c12.webp">
+                                    </div> -->
                                 </div>
                             </div>
                             <!-- thumb รูปห้องโดยสาร -->
@@ -122,21 +154,21 @@
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="desc-cardetail">
-                        <h1>2019 Mercedes-Benz S560e</h1>
+                        <h1>{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</h1>
                         <div class="car-spectype">
-                            <div class="car-type01">S560e 3.0 AMG Premium (CKD)</div>
+                            <div class="car-type01">{{$cars->model_name." ".$cars->sub_models_name}}</div>
                             <span>|</span>
-                            <div>เกียร์อัตโนมัติ</div>
+                            <div>{{$arr_gear[$cars->gear]}}</div>
                         </div>
-                        <div class="car-type02">โฉม F48 ปี21-ปัจจุบัน</div>
-                        <div class="car-timelogin">เข้าสู่ระบบ 1 วันที่ผ่านมา</div>
+                        <div class="car-type02">โฉม {{$cars->generations_name}} </div>
+                        <!-- <div class="car-timelogin">เข้าสู่ระบบ 1 วันที่ผ่านมา</div> -->
                         <div class="box-listdesc">
                             <div class="row">
                                 <div class="col-3">
                                     <span class="topic-listdesc">ราคา</span>
                                 </div>
                                 <div class="col-9 text-end">
-                                    <span class="car-listprice">3,850,000.-</span>
+                                    <span class="car-listprice">{{number_format($cars->price, 0, '.', ',')}}.-</span>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +178,7 @@
                                     <span class="topic-listdesc">เลขไมล์</span>
                                 </div>
                                 <div class="col-9 text-end">
-                                    <span class="topic-listdesc">47,304 กม.</span>
+                                    <span class="topic-listdesc">{{number_format($cars->mileage, 0, '.', ',')}} กม.</span>
                                 </div>
                             </div>
                         </div>
@@ -156,10 +188,10 @@
                                     <span class="topic-listdesc">ดูรถได้ที่</span>
                                 </div>
                                 <div class="col-12 col-md-9 listdesc-location text-end">
-                                   <div class="car-location"><i class="bi bi-geo-alt"></i> กรุงเทพฯ, Bmw Nailson ชลบุรี อ เมือง ถ สุขุมวิท</div>
+                                   <div class="car-location"><i class="bi bi-geo-alt"></i> {{$cars->customer_proveince.','.$cars->customer_place}}</div>
                                    <div class="car-linkmap">
-                                       <a data-fancybox data-src="{{asset('frontend/images/city-location-map.png')}}" href="#" target="_blank">View Location Map</a>
-                                       <a href="#" target="_blank">Google Map</a>
+                                       <a data-fancybox data-src="{{asset($cars->customer_map)}}" href="#" target="_blank">View Location Map</a>
+                                       <a href="{{$cars->customer_google_map}}" target="_blank">Google Map</a>
                                    </div>
                                 </div>
                             </div>
@@ -170,7 +202,7 @@
                                     <span class="topic-listdesc"><i class="bi bi-person-circle"></i> ติดต่อผู้ขาย</span>
                                 </div>
                                 <div class="col-7 text-end">
-                                   <a href="tel:+812345678" target="_blank" class="btn-red"><i class="bi bi-telephone-fill"></i> ธนารักษ์</a>
+                                   <a href="tel:{{$cars->customer_phone}}" target="_blank" class="btn-red"><i class="bi bi-telephone-fill"></i> {{$cars->firstname}}</a>
                                 </div>
                             </div>
                         </div>
@@ -218,7 +250,7 @@
                                     </div>
                                 </div>
                                 <div class="col-3 col-md-3 desc-btnshare text-end">
-                                   <a data-fancybox data-src="#popup-share" href="javascript:;" class="btn-sharepost"><img src="{{asset('frontend/images/icon-share2.svg')}}" alt=""> แชร์</a>
+                                   <!-- <a data-fancybox data-src="#popup-share" href="javascript:;" class="btn-sharepost"><img src="{{asset('frontend/images/icon-share2.svg')}}" alt=""> แชร์</a> -->
                                    <div style="display: none;" id="popup-share">
                                         <div class="frm-popupshare frm-contactback">
                                             <div class="topic-popupshare topic-helpcar"><span>แชร์รถยนต์</span><br>2019 Mercedes-Benz S560e</div>
@@ -235,9 +267,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-9 col-md-12">
+                                <!-- <div class="col-9 col-md-12">
                                     <div class="carprice-open">เปิดตัวในราคา 2,559,000</div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -252,10 +284,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="topic-descpromotion">ฟรีดาว,ดบ0% รถผู้บริหารป้ายแดงไมลน้อย รถยังไม่ผ่านการจดทะเบียน รถใหม่ป้ายแดง ราคานี้รวมVat7%แล้ว</div>
+                    <div class="topic-descpromotion">{{$cars->title}}</div>
                     <div class="desc-wrapper">
                         <div class="desc content-editor">
-                            <ul>
+                            {{$cars->detail}}
+                            <!-- <ul>
                                 <li>รถบ้านใช้เอง รุ่นท็อป ไมล์แท้ เจ้าของขายเอง รถเข้าศูนย์ตลอด BSI 10 ปี</li>
                                 <li>โฉมล่าสุด LCI, BSI/warranty-2026</li>
                                 <li>paddle shift, ชุดแต่ง+แมกซ์+พ.ฟังก์ชั่นM</li>
@@ -264,7 +297,7 @@
                             </ul>
                             <p>
                             Lorem ipsum dolor sit amet, ante dignissim, varius elit urna erat odio lectus. Aenean laoreet pellentesque justo maecenas nec, viverra diam cras, lorem at vitae vestibulum, arcu lobortis ac. Netus vitae wisi odio vitae sagittis tortor, cras mauris accumsan sed ornare phasellus pellentesque, tellus morbi non in lectus vel volutpat, arcu eu a, et at urna donec integer suscipit orci. Elit nisl hendrerit mus dui. Commodo eget odio, in nulla eget, curabitur enim sed semper. At malesuada pharetra felis commodo facilisi egestas, in praesent in neque lorem libero nostrud, turpis ac, blandit fringilla vestibulum odio nullam, sit etiam ut. Lectus integer facilisis in fusce erat amet. 
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                     <button class="more-info">
@@ -272,7 +305,7 @@
                         <span class="less">ซ่อนรายละเอียด <img src="{{asset('frontend/images/icon-arrow-blue.svg')}}" alt=""></span>
                     </button>
 
-                    <div class="recent-carlist">
+                    <!-- <div class="recent-carlist">
                         <h2 class="topic-cardesc"><i class="bi bi-circle-fill"></i> รถ S560e โฉมF48 ปี21-ปัจจุบัน ทั้งหมด</h2>
                         <div class="row">
                             <div class="col-6 col-lg-3 mb-recentlist">
@@ -321,7 +354,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -396,138 +429,21 @@
                 </div>
             </div>
             <div class="row">
+                @foreach($allcars as $allcar)
                 <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="car-detail.php" class="item-recentlist">
+                    <a href="{{route('cardetailPage', ['post' => $allcar->id])}}" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/67_1.jpeg')}}" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset($allcar->feature)}}" alt=""></div>
                             <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
+                                <div class="price-recentlist">{{number_format($allcar->price, 0, '.', ',')}}.-</div>
+                                <span>{{$allcar->modelyear}}</span>
                             </figcaption>
                         </figure>
                     </a>
                 </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="car-detail.php" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/CAR202306290015_Mercedes-Benz_GLA250_20230629_102211629_WATERMARK.png')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="car-detail.php" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/14_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
+                @endforeach
+                
+
             </div>
         </div>
     </div>
@@ -542,19 +458,23 @@
                 </div>
             </div>
             <div class="row">
+                @foreach($allcars2 as $allcar2)
+                @php
+                $profilecar2_img = ($allcar2->feature)?asset($allcar2->feature):asset('public/uploads/default-car.jpg');
+                @endphp
                 <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="car-detail.php" class="item-car">
+                    <a href="{{route('cardetailPage', ['post' => $allcar2->id])}}" class="item-car">
                         <figure>
                             <div class="cover-car">
-                                <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
+                                <img src="{{$profilecar2_img}}" alt="">
                             </div>
                             <figcaption>
-                                <div class="car-name">2016 Honda CR-V </div>
-                                <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                <div class="car-province">กรุงเทพมหานคร</div>
+                                <div class="car-name">{{$allcar2->modelyear." ".$allcar2->brands_title." ".$allcar2->model_name}} </div>
+                                <div class="car-series">{{$allcar2->generations_name." ".$allcar2->sub_models_name}}</div>
+                                <div class="car-province">{{$allcar2->customer_proveince}}</div>
                                 <div class="row">
                                     <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
+                                        <div class="descpro-car">{{$allcar2->title}}</div>
                                     </div>
                                     <div class="col-12 col-xl-3 text-end">
                                         <div class="txt-readmore">ดูเพิ่มเติม</div>
@@ -563,109 +483,19 @@
                                 <div class="linecontent"></div>
                                 <div class="row caritem-price">
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
+                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$allcar2->gear]}}</div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">599,000.-</div>
+                                        <div class="car-price">{{number_format($allcar2->price, 0, '.', ',')}}.-</div>
                                     </div>
                                 </div>
                             </figcaption>
                         </figure>
                     </a>
                 </div>
-                <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="car-detail.php" class="item-car">
-                        <figure>
-                            <div class="cover-car">
-                                <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
-                            </div>
-                            <figcaption>
-                                <div class="car-name">2016 Honda CR-V </div>
-                                <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                <div class="car-province">กรุงเทพมหานคร</div>
-                                <div class="row">
-                                    <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                    </div>
-                                    <div class="col-12 col-xl-3 text-end">
-                                        <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                    </div>
-                                </div>
-                                <div class="linecontent"></div>
-                                <div class="row caritem-price">
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">599,000.-</div>
-                                    </div>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="car-detail.php" class="item-car">
-                        <figure>
-                            <div class="cover-car">
-                                <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
-                            </div>
-                            <figcaption>
-                                <div class="car-name">2016 Honda CR-V </div>
-                                <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                <div class="car-province">กรุงเทพมหานคร</div>
-                                <div class="row">
-                                    <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                    </div>
-                                    <div class="col-12 col-xl-3 text-end">
-                                        <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                    </div>
-                                </div>
-                                <div class="linecontent"></div>
-                                <div class="row caritem-price">
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">599,000.-</div>
-                                    </div>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="car-detail.php" class="item-car">
-                        <figure>
-                            <div class="cover-car">
-                                <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
-                            </div>
-                            <figcaption>
-                                <div class="car-name">2016 Honda CR-V </div>
-                                <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                <div class="car-province">กรุงเทพมหานคร</div>
-                                <div class="row">
-                                    <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                    </div>
-                                    <div class="col-12 col-xl-3 text-end">
-                                        <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                    </div>
-                                </div>
-                                <div class="linecontent"></div>
-                                <div class="row caritem-price">
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">599,000.-</div>
-                                    </div>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
+                @endforeach
+                
+
             </div>
             <div class="row">
                 <div class="col-12">
@@ -677,6 +507,13 @@
 </section>
 
 
+
+
+
+
+@endsection
+
+@section('script')
 <script>
 $(document).ready(function(){
     $( '.tab_article_btn > div' ).click(function (event) {
@@ -859,7 +696,4 @@ $(window).scroll(testScroll);
 
 });
 </script>
-
-
-
 @endsection
