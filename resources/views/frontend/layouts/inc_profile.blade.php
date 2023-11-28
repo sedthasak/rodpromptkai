@@ -39,11 +39,7 @@ $line = $customerdata->line??'-';
                         <div class="level-member">Member</div>
                         <div class="profile-phone"><i class="bi bi-phone"></i> {{$phone}}</div>
                         <a href="{{route('editprofilePage')}}" class="btn-editprofile"><i class="bi bi-pencil-square"></i> แก้ไขโปรไฟล์</a>
-<<<<<<< HEAD
                         <a href="/clearsessioncustomer" class="btn-editprofile"><i class="bi bi-pencil-square"></i> ออกจากระบบ</a>
-=======
-                        <a href="#" class="btn-editprofile"><i class="bi bi-box-arrow-right"></i> ออกจากระบบ</a>
->>>>>>> 12d7956adad24265d684343de681c863ab14a7e9
                     </div>
                 </div>
                 <div class="col-12 col-md-3 col-lg-5 profile-boxbtn text-end">
