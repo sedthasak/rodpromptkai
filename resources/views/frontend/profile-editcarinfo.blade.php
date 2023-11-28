@@ -29,10 +29,10 @@
                         <div class="txt-editnote">กรุณาแก้ไข: {{$cars->reason}}</div>
                         <div class="item-mycar">
                             <div class="item-mycar-cover">
-                                <a href="car-detail.php"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
+                                <a href="{{route('cardetailPage', ['post' => $cars->id])}}"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
                             </div>
                             <div class="mycar-detail-mb">
-                                <a href="car-detail.php">
+                                <a href="{{route('cardetailPage', ['post' => $cars->id])}}">
                                     <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
                                     <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
                                     <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
@@ -41,7 +41,7 @@
                             <div class="item-mycar-detail">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
-                                        <a href="car-detail.php">
+                                        <a href="{{route('cardetailPage', ['post' => $cars->id])}}">
                                             <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
                                             <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
                                             <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
