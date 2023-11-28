@@ -71,6 +71,7 @@ class PostsController extends Controller
         $cars->color = $request->color;
         $cars->gas = $request->gas;
         $cars->ev = $request->ev;
+        $cars->gear = $request->gear;
         $cars->warranty_1 = $request->warranty_1;
         $cars->warranty_2 = $request->warranty_2;
         $cars->warranty_3 = $request->warranty_3;
@@ -181,6 +182,21 @@ class PostsController extends Controller
         // echo "</pre>";
         if($query->count() > 0){
             foreach($query as $key => $res){
+                $classset = '';
+                $nameset = '';
+                if($res->status == 'created'){
+                    $classset = 'cursor-pointer rounded-full bg-pending px-2 py-1 text-xs font-medium text-white';
+                    $nameset = 'รออนุมัติ';
+                }elseif($res->status == 'approved'){
+                    $classset = 'cursor-pointer rounded-full bg-success px-2 py-1 text-xs font-medium text-white';
+                    $nameset = 'ออนไลน์';
+                }elseif($res->status == 'rejected'){
+                    $classset = 'cursor-pointer rounded-full bg-primary px-2 py-1 text-xs font-medium text-white';
+                    $nameset = 'รอแก้ไข';
+                }elseif($res->status == 'expired'){
+                    $classset = 'cursor-pointer rounded-full bg-danger px-2 py-1 text-xs font-medium text-white';
+                    $nameset = 'หมดอายุ';
+                }
                 ?>
                 <tr class="intro-x">
                     <td>
@@ -198,7 +214,7 @@ class PostsController extends Controller
                     <td class="text-center"><?php echo  number_format($res->price, 2, '.', ',') ?> ฿</td>
                     <td class="w-40">
                         <div class="flex items-center justify-center text-default">
-                            <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> รออนุมัติ
+                            <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> <span class="<?php echo $classset ?>"> <?php echo $nameset ?> </span>
                         </div>
                     </td>
                     <td class="table-report__action w-56">
@@ -319,6 +335,7 @@ class PostsController extends Controller
         $cars->color = $request->color;
         $cars->gas = $request->gas;
         $cars->ev = $request->ev;
+        $cars->gear = $request->gear;
         $cars->warranty_1 = $request->warranty_1;
         $cars->warranty_2 = $request->warranty_2;
         $cars->warranty_3 = $request->warranty_3;
@@ -440,6 +457,23 @@ class PostsController extends Controller
 
         // return redirect(route('BN_categories', ['id' => $categories->id]));
 
+    }
+
+    public function BN_posts_status_action(Request $request)
+    {
+        // dd($request);
+        $cars = carsModel::find($request->post_id);
+
+        
+        $cars->status = $request->change_status;
+        $cars->reason = $request->reason;
+
+        // $cars->user_id = $request->user_id;
+        // $cars->customer_id = $request->customer_id;
+        $cars->update();
+    
+        return redirect(route('BN_posts_detail', ['id' => $request->post_id]))->with('success', 'สำเร็จ !');
+        // return redirect(route('BN_posts_detail', ['id' => $request->id]));
     }
 
     public function BN_posts_excelpostsell()

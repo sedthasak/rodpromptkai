@@ -29,7 +29,8 @@
                         </div>
 
                         <div class="wrap-detailcustomer">
-                            <div class="item_customer">
+
+                            <!-- <div class="item_customer">
                                 <div class="box-topiccustomer">
                                     <div class="row">
                                         <div class="col-12 col-md-5 col-xl-6">
@@ -141,7 +142,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
+
 
                         </div>
                     </div>

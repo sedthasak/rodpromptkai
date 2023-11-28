@@ -14,12 +14,288 @@ use App\Models\modelsModel;
 use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 use App\Models\carsModel;
+use App\Models\categoriesModel;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use File;
 
 
 class FrontendPageController extends Controller
 {
+
+    public function indexPage(Request $request)
+    {
+        $categories = categoriesModel::all();
+        $cars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $allcarcount = DB::table('cars')->count();
+        $allcars6 = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 
+                'customer.province as customer_proveince', 'customer.place as customer_place', 
+                'customer.map as customer_map', 'customer.google_map as customer_google_map', 
+                'customer.phone as customer_phone', 'customer.line as customer_line', 
+                'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->take(6)
+            ->get();
+        
+
+        return view('frontend/index-page', [
+            'layout' => 'side-menu',
+            'categories' => $categories,
+            'cars' => $cars,
+            'allcarcount' => $allcarcount,
+            'allcars6' => $allcars6,
+        ]);
+    }
+    public function profilePage()
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+        return view('frontend/profile', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+        ]);
+    }
+    public function profilecheckPage()
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+        return view('frontend/profile-check', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+        ]);
+    }
+    public function profileeditcarinfoPage()
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+        return view('frontend/profile-editcarinfo', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+        ]);
+    }
+    public function profileexpirePage()
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+        return view('frontend/profile-expire', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+        ]);
+    }
+    public function customercontactPage()
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+        return view('frontend/customer-contact', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+        ]);
+    }
+    /****************************************************************/
+    /****************************************************************/
+    /****************************************************************/
+
+    public function cardetailPage(Request $request, $post)
+    {
+        $allcars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            // ->orderBy('id', 'desc')
+            ->take(12)
+            ->get();
+
+        $allcars2 = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            // ->random()
+            ->take(4)
+            ->get();
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('cars.id', $post)
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 
+                'customer.province as customer_proveince', 'customer.place as customer_place', 
+                'customer.map as customer_map', 'customer.google_map as customer_google_map', 
+                'customer.phone as customer_phone', 'customer.line as customer_line', 
+                'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $gallery = DB::table('gallery')->where('cars_id', $post)->get();
+        $interior = [];
+        $exterior = [];
+        foreach($gallery as $gal){
+            if($gal->type=='interior'){
+                $interior[] = $gal;
+            }
+            if($gal->type=='exterior'){
+                $exterior[] = $gal;
+            }
+        }
+
+        return view('frontend/car-detail', [
+            'cars' => $mycars,
+            'allcars' => $allcars,
+            'allcars2' => $allcars2,
+            'interior' => $interior,
+            'exterior' => $exterior,
+            'gallery' => $gallery,
+        ]);
+    }
 
     public function editdealercarpoststep4Page()
     {
@@ -193,12 +469,7 @@ class FrontendPageController extends Controller
 
         ]);
     }
-    public function customercontactPage()
-    {
-        return view('frontend/customer-contact', [
-
-        ]);
-    }
+    
     public function checkpricePage()
     {
         return view('frontend/check-price', [
@@ -223,31 +494,10 @@ class FrontendPageController extends Controller
 
         ]);
     }
-    public function profileexpirePage()
-    {
-        return view('frontend/profile-expire', [
-
-        ]);
-    }
-    public function profileeditcarinfoPage()
-    {
-        return view('frontend/profile-editcarinfo', [
-
-        ]);
-    }
-    public function profilecheckPage()
-    {
-        return view('frontend/profile-check', [
-
-        ]);
-    }
-    public function profilePage()
-    {
-        $carsModel = carsModel::all();
-        return view('frontend/profile', [
-            'carsModel' => $carsModel,
-        ]);
-    }
+    
+    
+    
+    
     public function carpoststep4Page()
     {
         return view('frontend/carpost-step4', [
@@ -290,12 +540,7 @@ class FrontendPageController extends Controller
 
         ]);
     }
-    public function cardetailPage()
-    {
-        return view('frontend/car-detail', [
-
-        ]);
-    }
+    
     public function carPage()
     {
         return view('frontend/car', [
@@ -378,6 +623,7 @@ class FrontendPageController extends Controller
             'test' => $codetosend,
         ]);
     }
+<<<<<<< HEAD
     public function indexPage(Request $request)
     {
         $qrybrand = brandsModel::get();
@@ -386,6 +632,9 @@ class FrontendPageController extends Controller
             'brand' => $qrybrand
         ]);
     }
+=======
+    
+>>>>>>> 12d7956adad24265d684343de681c863ab14a7e9
     public function loopidentity(Request $request) {
         $browserFingerprint = $request->session()->get('browserFingerprint');
         $qry_session = Sms_session::where("browserFingerprint", $browserFingerprint)->where("messages", $browserFingerprint)->first();

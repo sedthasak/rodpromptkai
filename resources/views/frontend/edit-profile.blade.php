@@ -26,7 +26,7 @@ $facebook = $Customer->facebook??'';
 $line = $Customer->line??'';
 
 // echo "<pre>";
-// print_r($Customer);
+// print_r($customer_id);
 // echo "</pre>";
 ?>
 <section class="row">
