@@ -13,6 +13,7 @@
 <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('frontend/js/script.js')}}"></script>
 <script src="{{asset('frontend/js/dropzone-min.js')}}"></script>
+<script src="{{asset('frontend/js/select2.min.js')}}"></script>
 
 <section class="row">
     <div class="col-12 wrap-footer">
@@ -20,9 +21,7 @@
             <div class="row">
                 <div class="col-12 footer-pad">
                     <div class="footer-logo">
-                        <a href="{{route('backendDashboard')}}" target="_blank">
-                            <img src="{{asset('frontend/images/logo.svg')}}" alt="">
-                        </a>
+                        <img src="{{asset('frontend/images/logo.svg')}}" alt="">
                     </div>
                     <p>RodPromptKai ช่องทางที่ดีที่สุดในการซื้อและขายรถยนต์</p>
                     <div class="link-footer">

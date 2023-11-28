@@ -67,7 +67,7 @@ $customerdata = session('customer');
                                 </ul>
                             </li>
                             <!-- <li><a href="#"><i class="bi bi-line"></i> ติดต่อเรา</a></li> -->
-                            <li class="m-logout"><a href="#"><i class="bi bi-box-arrow-right"></i> ออกจากระบบ</a></li>
+                            <li class="m-logout"><a href="/clearsessioncustomer"><i class="bi bi-box-arrow-right"></i> ออกจากระบบ</a></li>
                         </ul>
                     </nav>
                 </div>

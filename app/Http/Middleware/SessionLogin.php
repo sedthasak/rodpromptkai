@@ -22,33 +22,6 @@ class SessionLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-        function ranInt(){
-            $codetosend = random_int(100000,999999);
-            return $codetosend;
-        }
-
-        $browserFingerprint = $request->session()->get('browserFingerprint');
-        // $request->session()->put('customer', 'Error');
-        if (!$browserFingerprint) {
-            do {
-                $codetosend = ranInt();
-                $exists = Sms_session::where("browserFingerprint", $codetosend)->exists();
-            } while ($exists);
-            $request->session()->put('browserFingerprint', $codetosend);
-            // $request->session()->put('customer', 'empty');
-        }
-        // else{
-            // $getcustomersession = Sms_session::where([
-            //     ['browserFingerprint', '=', $browserFingerprint],
-            // ])->first();
-            // if(isset($getcustomersession->id)){
-            //     $customer = Customer::where("id", $getcustomersession->customer_id)->first();
-            //     $request->session()->put('customer', $customer);
-            // }
-            
-        // }
-
         $customer_session = $request->session()->get('customer_session');
         if(isset($customer_session)){
             $session = Sms_session::where("customer_session", $customer_session)->first();
@@ -58,7 +31,14 @@ class SessionLogin
                     $request->session()->put('customer', $customerdata);
                 }
             }
-            
+            else {
+                session()->forget('customer_session');
+                session()->flush();
+                return redirect('/login');
+            }
+        }
+        else {
+            return redirect('/login');
         }
 
         $qrybrand = brandsModel::get();

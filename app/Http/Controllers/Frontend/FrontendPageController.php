@@ -327,8 +327,33 @@ class FrontendPageController extends Controller
 
         ]);
     }
-    public function loginPage()
+    public function loginPage(Request $request)
     {
+        function ranInt(){
+            $codetosend = random_int(100000,999999);
+            return $codetosend;
+        }
+
+        $browserFingerprint = $request->session()->get('browserFingerprint');
+        // $request->session()->put('customer', 'Error');
+        if (!$browserFingerprint) {
+            do {
+                $codetosend = ranInt();
+                $exists = Sms_session::where("browserFingerprint", $codetosend)->exists();
+            } while ($exists);
+            $request->session()->put('browserFingerprint', $codetosend);
+            // $request->session()->put('customer', 'empty');
+        }
+        // else{
+            // $getcustomersession = Sms_session::where([
+            //     ['browserFingerprint', '=', $browserFingerprint],
+            // ])->first();
+            // if(isset($getcustomersession->id)){
+            //     $customer = Customer::where("id", $getcustomersession->customer_id)->first();
+            //     $request->session()->put('customer', $customer);
+            // }
+            
+        // }
         return view('frontend/login', [
 
         ]);
@@ -355,8 +380,10 @@ class FrontendPageController extends Controller
     }
     public function indexPage(Request $request)
     {
+        $qrybrand = brandsModel::get();
         return view('frontend/index-page', [
             'layout' => 'side-menu',
+            'brand' => $qrybrand
         ]);
     }
     public function loopidentity(Request $request) {
@@ -417,5 +444,11 @@ class FrontendPageController extends Controller
     public function popupcarsearchsubmodel(Request $request, $id) {
         $qrysubmodel = sub_modelsModel::where("generations_id", $request->generations_id)->get();
         return response()->json($qrysubmodel);
+    }
+
+    public function clearsessioncustomer() {
+        session()->forget('customer_session');
+        session()->flush();
+        return redirect("/");
     }
 }

@@ -41,7 +41,7 @@
     </div>
     <div class="col-12 col-xl-3 box-search-car">
         <div class="bg-searchcar">
-            <div class="topic-carsearch"><img class="svg" src="images/icon-carred.svg" alt=""> ค้นหารถยนต์</div>
+            <div class="topic-carsearch"><img class="svg" src="{{asset('frontend/images/icon-carred.svg')}}" alt=""> ค้นหารถยนต์</div>
             <span class="short-desc-search">ค้นหารถมือสอง รถใหม่ ราคาโดนใจในรถพร้อมขายกับเรา</span>
             <div class="carsearch-input">
                 <input type="text" readonly value="ยี่ห้อรถ">
@@ -159,7 +159,7 @@
     <div class="col-12 col-lg-4 col-xl-3 bg-findcar">
         <div class="desc-findcar">
             <div class="topic-findcar">
-                <img class="svg" src="images/icon-carred.svg" alt=""> ช่วยคุณหารถที่ใช่
+                <img class="svg" src="{{asset('frontend/images/icon-carred.svg')}}" alt=""> ช่วยคุณหารถที่ใช่
             </div>
             <p>ให้รถพร้อมขายช่วยหารถให้คุณ</p>
             <a data-fancybox data-src="#help-carsearch" href="javascript:;">คลิกเลย <i class="bi bi-chat-text-fill"></i></a>
@@ -377,7 +377,7 @@
                                     <figcaption>
                                         <h3>ลงขายรถของคุณ ฟรี!</h3>
                                         <p>รถมือเดียว รถบ้านเจ้าของขายเอง</p>
-                                        <div class="btn-itempostcar btn-itempostcar-home">ลงขายสำหรับรถบ้าน <img src="frontend/images/chevron.svg')}}" class="svg" alt=""></div>
+                                        <div class="btn-itempostcar btn-itempostcar-home">ลงขายสำหรับรถบ้าน <img src="{{asset('frontend/images/chevron.svg')}}" class="svg" alt=""></div>
                                     </figcaption>
                                 </figure>
                             </a>
@@ -389,7 +389,7 @@
                                     <figcaption>
                                         <h3>ลงขายสำหรับดีลเลอร์</h3>
                                         <p>เต็นท์รถที่น่าเชื่อถือ มีรับประกัน ขับได้สบายใจ</p>
-                                        <div class="btn-itempostcar btn-itempostcar-dealer">ลงขายสำหรับดีลเลอร์ <img src="frontend/images/chevron.svg')}}" class="svg" alt=""></div>
+                                        <div class="btn-itempostcar btn-itempostcar-dealer">ลงขายสำหรับดีลเลอร์ <img src="{{asset('frontend/images/chevron.svg')}}" class="svg" alt=""></div>
                                     </figcaption>
                                 </figure>
                             </a>

@@ -37,11 +37,50 @@ class PostController extends Controller
         $cars->sub_models_id = $request->sub_models;
         $cars->modelyear = $request->years;
         $cars->mileage = $request->mileage;
+        if ($request->gear == "auto") {
+            $cars->gear = "auto";
+        }
+        else {
+            $cars->gear = "manual";
+        }
+        if ($request->gashas == "1") {
+            $cars->gas = "รถน้ำมัน / hybrid";
+            $cars->ev = "0";
+        }
+        else if ($request->gashas == "2") {
+            $cars->gas = "รถไฟฟ้า EV 100%";
+            $cars->ev = "1";
+        }
+        else {
+            $cars->gas = "รถติดแก๊ส";
+            $cars->ev = "0";
+        }
         $cars->vehicle_code = $request->vehicle_code;
         $cars->title = $request->title;
-        $cars->price = $request->price;
+        $cars->price = str_replace(",", "", $request->price);
         $cars->licenseplate = $request->licenseplate;
+        if ($request->has('warranty_1')) {
+            $cars->warranty_1 = 1;
+        }
+        else {
+            $cars->warranty_1 = 0;
+        }
+        if ($request->has('warranty_2')) {
+            $cars->warranty_2 = 1;
+        }
+        else {
+            $cars->warranty_2 = 0;
+        }
+        if ($request->has('warranty_3')) {
+            $cars->warranty_3 = 1;
+        }
+        else {
+            $cars->warranty_3 = 0;
+        }
+        $cars->warranty_2_input = $request->warranty_2_input;
         $cars->status = 'created';
+        $cars->color = $request->color;
+        $cars->province = $request->province;
         $cars->save();
 
         if($request->picture_feature){

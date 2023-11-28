@@ -6,9 +6,11 @@
         </div>
         <input type="text" class="car-inputsearch" placeholder="ค้นหา...">
         <ul class="carsearch-ul">
+            @if (isset($brand))
             @foreach ($brand as $rows)
-            <li><button rel="{{strtoupper($rows->title)}}" onclick="brand({{$rows->id}}, '{{strtoupper($rows->title)}}')"><img src="{{$rows->feature}}" alt=""> {{strtoupper($rows->title)}}</button></li>
+            <li><button rel="{{strtoupper($rows->title)}}" onclick="brand({{$rows->id}}, '{{strtoupper($rows->title)}}')"> {{strtoupper($rows->title)}}</button></li>
             @endforeach
+            @endif
         </ul>
     </div>
     <div class="carsearch-menu carsearch-lv2">

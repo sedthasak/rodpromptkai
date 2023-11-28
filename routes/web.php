@@ -91,8 +91,8 @@ Route::middleware('sessionlogin')->group(function() {
 
         Route::get('/dev', 'DevelopPage')->name('DevelopPage');
         
-        Route::get('/', 'indexPage')->name('indexPage');
-        Route::get('/login', 'loginPage')->name('loginPage');
+        
+        
         Route::get('/login-welcome', 'loginwelcomePage')->name('loginwelcomePage');
         Route::get('/edit-profile-first', 'editprofilePage_afterregis')->name('editprofilePage_afterregis');
         Route::get('/edit-profile', 'editprofilePage')->name('editprofilePage');
@@ -145,8 +145,9 @@ Route::middleware('sessionlogin')->group(function() {
 Route::get('login-system', [AuthController::class, 'backendLogin'])->name('backendLogin');
 Route::get('loopidentity', [FrontendPageController::class, 'loopidentity'])->name('loopidentity');
 Route::get('/generate-qrcode', [QrCodeController::class, 'index']);
-
-
+Route::get("/clearsessioncustomer", [FrontendPageController::class, 'clearsessioncustomer']);
+Route::get('/login', [FrontendPageController::class, 'loginPage'])->name('loginPage');
+Route::get('/', [FrontendPageController::class, 'indexPage'])->name('indexPage');
 
 
 Route::middleware('auth')->group(function() {

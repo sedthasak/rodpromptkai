@@ -59,7 +59,36 @@ $arr_cartype = array(
 
 
 ?>
-    
+
+<style>
+    .select2-container .select2-selection--single {
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        height: 45px;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 26px;
+        position: absolute;
+        top: 9px;
+        right: 12px;
+        width: 20px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #444;
+        line-height: 43px;
+    }
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        display: block;
+        padding-left: 17px;
+        padding-right: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
 
 <form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
 @csrf
@@ -102,7 +131,7 @@ $arr_cartype = array(
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>ประเภทการลงทะเบียน</label>
                                             <input type="hidden" name="type" value='{{$_POST["type"]}}' />
-                                            <select class="form-select" name="typeshow" disabled>
+                                            <select class="form-select" name="typeshow" id="typeshow" disabled>
                                                 @foreach($arr_cartype as $keyarr_cartype => $cartype)
                                                 <option value="{{$keyarr_cartype}}" {{($keyarr_cartype==$_POST["type"])?"selected":""}}>{{$cartype}}</option>
                                                 @endforeach
@@ -126,7 +155,7 @@ $arr_cartype = array(
                                     <div class="row">
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>1. ยี่ห้อ<span>*</span></label>
-                                            <select class="form-select" name="brands" id="brands"  required>
+                                            <select class="form-select select2s" name="brands" id="brands" required>
                                                 <option value="">เลือกยี่ห้อ</option>
                                                 @foreach($brands as $keybn => $bn)
                                                 <option value="{{$bn->id}}">{{$bn->title}}</option>
@@ -135,7 +164,7 @@ $arr_cartype = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>2. รุ่น<span>*</span></label>
-                                            <select class="form-select" name="models" id="models"  required>
+                                            <select class="form-select select2s" name="models" id="models"  required>
                                                 <option value="">เลือกรุ่น</option>
                                             </select>
                                         </div>
@@ -147,7 +176,7 @@ $arr_cartype = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>4. รุ่นย่อย<span>*</span></label>
-                                            <select class="form-select" name="sub_models" id="sub_models" required>
+                                            <select class="form-select select2s" name="sub_models" id="sub_models" required>
                                                 <option value="">เลือกรุ่นย่อย</option>
                                             </select>
                                         </div>
@@ -191,33 +220,29 @@ $arr_cartype = array(
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6 frm-step">
-                                            <label>แก๊ส<span>*</span></label>
+                                            <label>เชื้อเพลิง<span>*</span></label>
                                             <div class="carsearch-radio">
-                                                <label class="car-radio">ไม่ติดแก๊ส
-                                                    <input type="radio" name="gashas" value="no"  required />
+                                                <label class="car-radio">รถน้ำมัน / hybrid
+                                                    <input type="radio" name="gashas" value="1"  required />
                                                     <span class="checkmark"></span>
                                                 </label>
-                                                <label class="car-radio">NGV
-                                                    <input type="radio" name="gashas" value="ngv" />
+                                                <label class="car-radio">รถไฟฟ้า EV 100%
+                                                    <input type="radio" name="gashas" value="2" />
                                                     <span class="checkmark"></span>
                                                 </label>
-                                                <label class="car-radio">LPG
-                                                    <input type="radio" name="gashas" value="lpg" />
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="car-radio">รถไฟฟ้า
-                                                    <input type="radio" name="gashas" value="ev" />
+                                                <label class="car-radio">รถติดแก๊ส
+                                                    <input type="radio" name="gashas" value="3" />
                                                     <span class="checkmark"></span>
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
-                                            <label>ทะเบียนรถ<span>*</span></label>
-                                            <input type="text" name="vehicle_code" class="form-control" required>
+                                            <label>ทะเบียนรถ / รหัสรถ</label>
+                                            <input type="text" name="vehicle_code" class="form-control">
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>จังหวัด<span>*</span></label>
-                                            <select class="form-select" name="province" required >
+                                            <select class="form-select select2s" name="province" required >
                                                 <option value="">เลือกจังหวัด</option>
                                                 @foreach($provinces as $keypv => $pv)
                                                 <option value="{{$pv->name_th}}">{{$pv->name_th}}</option>
@@ -270,6 +295,12 @@ $arr_cartype = array(
                                         <div class="col-12 frm-step">
                                             <label>หัวข้อโฆษณา<span>*</span></label>
                                             <input type="text" class="form-control" name="title" id="title_txt1" required >
+                                            
+                                        </div>
+                                        <div class="col-12 frm-step">
+                                            <label>รายละเอียดรถ<span>*</span></label>
+                                            <!-- <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt=""> -->
+                                            <textarea class="form-control" id="car_detail"  rows="5" name="detail" required></textarea>
                                             <div class="box-introtext">
                                                 <div class="topic-introtext">ข้อความแนะนำ</div>
                                                 <div class="btn-introtext">
@@ -283,14 +314,9 @@ $arr_cartype = array(
                                             </div>
                                         </div>
                                         <div class="col-12 frm-step">
-                                            <label>รายละเอียดรถ<span>*</span></label>
-                                            <!-- <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt=""> -->
-                                            <textarea class="form-control" id="car_detail"  rows="5" name="detail" required></textarea>
-                                        </div>
-                                        <div class="col-12 frm-step">
                                             <label>ตั้งราคาขาย<span>*</span></label>
                                             <div class="txt-noteedit">หลังจากลงขายแล้ว สามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
-                                            <input type="number" class="form-control" name="price" required>
+                                            <input type="text" class="form-control" name="price" id="price" required oninput="formatNumber()">
                                         </div>
                                     </div>
                                 </div>
@@ -387,7 +413,7 @@ $arr_cartype = array(
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>
-                                                    <div class="box-uploadphoto">
+                                                    <div class="box-uploadphoto dealerlicenseplate">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
                                                         <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
                                                         <div class="row row-photoupload" id="image-preview-licenseplate">
@@ -404,10 +430,31 @@ $arr_cartype = array(
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="step-chceckbox dealerstepcheck">
+                                                    <div class="topic-notephoto">การรับประกันหลังการขาย</div>
+                                                    <div class="login-checkbox">
+                                                        <label class="list-checkbox">รถได้รับการตรวจสภาพโดยผู้เชี่ยวชาญ
+                                                            <input type="checkbox" name="warranty_1">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <label class="list-checkbox">มีการรับประกัน กรุณาระบุระยะเวลา
+                                                            <input type="checkbox" name="warranty_2">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <input type="text" class="form-control" placeholder="เช่น 1 ปี / 10,000 กม." name="warranty_2_input">
+                                                        <label class="list-checkbox">มีบริการช่วยเหลือฉุกเฉิน 24 ชม.
+                                                            <input type="checkbox" name="warranty_3">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="txt-markpost">
+                                                    **โปรดระบุข้อมูลที่ตรงกับความเป็นจริงเท่านั้น หากตรวจพบว่าไม่เป็นจริง ทางเว็บไซต์จะลบโพสต์ออกทันที 
+                                                    </div>
+                                                </div>
                                                 <div class="step-chceckbox">
                                                     <div class="login-checkbox">
                                                         <label class="list-checkbox"><a href="#" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="#" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
-                                                            <input type="checkbox" name="submit" value="1" required >
+                                                            <input type="checkbox" name="submit" value="1" required  checked="checked">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                     </div>
@@ -484,7 +531,7 @@ $arr_cartype = array(
 
 
         $(".clckads").on( "click", function() {
-            var oldtext = $("#title_txt1").val();
+            var oldtext = $("#car_detail").val();
             var thistext = $(this).text();
             var newtext = oldtext+thistext;
             
@@ -498,7 +545,7 @@ $arr_cartype = array(
 
 
         function add_text(newtext){ 
-            document.getElementById("title_txt1").value = newtext;
+            document.getElementById("car_detail").value = newtext;
         }
 
 
@@ -710,7 +757,24 @@ $arr_cartype = array(
 
             readerlicenseplate.readAsDataURL(filelicenseplate);
         });
+        $(".select2s").select2();
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+        if ($("#typeshow").val() == "dealer") {
+            $(".dealerlicenseplate").hide();
+            $(".dealerstepcheck").show();
+        }
+        else {
+            $(".dealerlicenseplate").show();
+            $(".dealerstepcheck").hide();
+        }
+        $('#price').on('input', function() {
+            let value = $(this).val().replace(/,/g, ''); // ลบ comma เดิม
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // เพิ่ม comma ทุก 3 หลัก
 
+            $(this).val(value);
+        });
     });
     $(function() {
         $("#image-preview").sortable({
