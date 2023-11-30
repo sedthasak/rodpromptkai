@@ -21,7 +21,7 @@ class PostController extends Controller
 {
 
     public function carpostregisterSubmitPage(Request $request) {
-
+        ini_set('upload_max_filesize', '13M');
         // dd($request);
         // $validatedData = $request->validate([
         //     'title' => ['required', 'unique:posts', 'max:255'],
