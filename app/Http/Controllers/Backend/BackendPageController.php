@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsSaveController;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use App\Models\modelsModel;
 use App\Models\brandsModel;
 use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
+use App\Models\setFooterModel;
 
 class BackendPageController extends Controller
 {
@@ -19,10 +21,378 @@ class BackendPageController extends Controller
 
     public function BN_setfooter()
     {
-        return view('backend/setfooter', [ 
+
+        $setFooterModel = setFooterModel::all();
+        return view('backend/setting-setfooter', [ 
             'default_pagename' => 'ตั้งค่า footer',
+            'setFooterModel' => $setFooterModel,
             
         ]);
+    }
+    public function BN_setfooterupdate(Request $request)
+    {
+
+        
+        $footer_setting1 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        $footer_setting1 = setFooterModel::find($footer_setting1->id);
+        $footer_setting1->heading = $request->head1;
+        $footer_setting1->name = $request->head1_name1;
+        $footer_setting1->link = $request->head1_link1;
+        $footer_setting1->update();
+
+
+        $footer_setting2 = DB::table('footer_setting')->where('footer_name', 'head1_name2')->first();
+        $footer_setting2 = setFooterModel::find($footer_setting2->id);
+        $footer_setting2->name = $request->head1_name2;
+        $footer_setting2->link = $request->head1_link2;
+        $footer_setting2->update();
+
+        $footer_setting3 = DB::table('footer_setting')->where('footer_name', 'head1_name3')->first();
+        $footer_setting3 = setFooterModel::find($footer_setting3->id);
+        $footer_setting3->name = $request->head1_name3;
+        $footer_setting3->link = $request->head1_link3;
+        $footer_setting3->update();
+
+        $footer_setting4 = DB::table('footer_setting')->where('footer_name', 'head1_name4')->first();
+        $footer_setting4 = setFooterModel::find($footer_setting4->id);
+        $footer_setting4->name = $request->head1_name4;
+        $footer_setting4->link = $request->head1_link4;
+        $footer_setting4->update();
+
+        $footer_setting5 = DB::table('footer_setting')->where('footer_name', 'head1_name5')->first();
+        $footer_setting5 = setFooterModel::find($footer_setting5->id);
+        $footer_setting5->name = $request->head1_name5;
+        $footer_setting5->link = $request->head1_link5;
+        $footer_setting5->update();
+
+        $footer_setting6 = DB::table('footer_setting')->where('footer_name', 'head1_name6')->first();
+        $footer_setting6 = setFooterModel::find($footer_setting6->id);
+        $footer_setting6->name = $request->head1_name6;
+        $footer_setting6->link = $request->head1_link6;
+        $footer_setting6->update();
+
+        $footer_setting7 = DB::table('footer_setting')->where('footer_name', 'head2_name1')->first();
+        $footer_setting7 = setFooterModel::find($footer_setting7->id);
+        $footer_setting7->heading = $request->head2;
+        $footer_setting7->name = $request->head2_name1;
+        $footer_setting7->link = $request->head2_link1;
+        $footer_setting7->update();
+
+        $footer_setting8 = DB::table('footer_setting')->where('footer_name', 'head2_name2')->first();
+        $footer_setting8 = setFooterModel::find($footer_setting8->id);
+        $footer_setting8->name = $request->head2_name2;
+        $footer_setting8->link = $request->head2_link2;
+        $footer_setting8->update();
+
+        $footer_setting9 = DB::table('footer_setting')->where('footer_name', 'head2_name3')->first();
+        $footer_setting9 = setFooterModel::find($footer_setting9->id);
+        $footer_setting9->name = $request->head2_name3;
+        $footer_setting9->link = $request->head2_link3;
+        $footer_setting9->update();
+
+        $footer_setting10 = DB::table('footer_setting')->where('footer_name', 'head2_name4')->first();
+        $footer_setting10 = setFooterModel::find($footer_setting10->id);
+        $footer_setting10->name = $request->head2_name4;
+        $footer_setting10->link = $request->head2_link4;
+        $footer_setting10->update();
+
+        $footer_setting11 = DB::table('footer_setting')->where('footer_name', 'head2_name5')->first();
+        $footer_setting11 = setFooterModel::find($footer_setting11->id);
+        $footer_setting11->name = $request->head2_name5;
+        $footer_setting11->link = $request->head2_link5;
+        $footer_setting11->update();
+
+        $footer_setting12 = DB::table('footer_setting')->where('footer_name', 'head2_name6')->first();
+        $footer_setting12 = setFooterModel::find($footer_setting12->id);
+        $footer_setting12->name = $request->head2_name6;
+        $footer_setting12->link = $request->head2_link6;
+        $footer_setting12->update();
+
+        $footer_setting13 = DB::table('footer_setting')->where('footer_name', 'head3_name1')->first();
+        $footer_setting13 = setFooterModel::find($footer_setting13->id);
+        $footer_setting13->heading = $request->head3;
+        $footer_setting13->name = $request->head3_name1;
+        $footer_setting13->link = $request->head3_link1;
+        $footer_setting13->update();
+
+        $footer_setting14 = DB::table('footer_setting')->where('footer_name', 'head3_name2')->first();
+        $footer_setting14 = setFooterModel::find($footer_setting14->id);
+        $footer_setting14->name = $request->head3_name2;
+        $footer_setting14->link = $request->head3_link2;
+        $footer_setting14->update();
+
+        $footer_setting15 = DB::table('footer_setting')->where('footer_name', 'head3_name3')->first();
+        $footer_setting15 = setFooterModel::find($footer_setting15->id);
+        $footer_setting15->name = $request->head3_name3;
+        $footer_setting15->link = $request->head3_link3;
+        $footer_setting15->update();
+
+        $footer_setting16 = DB::table('footer_setting')->where('footer_name', 'head3_name4')->first();
+        $footer_setting16 = setFooterModel::find($footer_setting16->id);
+        $footer_setting16->name = $request->head3_name4;
+        $footer_setting16->link = $request->head3_link4;
+        $footer_setting16->update();
+
+        $footer_setting17 = DB::table('footer_setting')->where('footer_name', 'head3_name5')->first();
+        $footer_setting17 = setFooterModel::find($footer_setting17->id);
+        $footer_setting17->name = $request->head3_name5;
+        $footer_setting17->link = $request->head3_link5;
+        $footer_setting17->update();
+
+        $footer_setting18 = DB::table('footer_setting')->where('footer_name', 'head3_name6')->first();
+        $footer_setting18 = setFooterModel::find($footer_setting18->id);
+        $footer_setting18->name = $request->head3_name6;
+        $footer_setting18->link = $request->head3_link6;
+        $footer_setting18->update();
+
+        $footer_setting19 = DB::table('footer_setting')->where('footer_name', 'head4_name1')->first();
+        $footer_setting19 = setFooterModel::find($footer_setting19->id);
+        $footer_setting19->heading = $request->head4;
+        $footer_setting19->name = $request->head4_name1;
+        $footer_setting19->link = $request->head4_link1;
+        $footer_setting19->update();
+
+        $footer_setting20 = DB::table('footer_setting')->where('footer_name', 'head4_name2')->first();
+        $footer_setting20 = setFooterModel::find($footer_setting20->id);
+        $footer_setting20->name = $request->head4_name2;
+        $footer_setting20->link = $request->head4_link2;
+        $footer_setting20->update();
+
+        $footer_setting21 = DB::table('footer_setting')->where('footer_name', 'head4_name3')->first();
+        $footer_setting21 = setFooterModel::find($footer_setting21->id);
+        $footer_setting21->name = $request->head4_name3;
+        $footer_setting21->link = $request->head4_link3;
+        $footer_setting21->update();
+
+        $footer_setting22 = DB::table('footer_setting')->where('footer_name', 'head4_name4')->first();
+        $footer_setting22 = setFooterModel::find($footer_setting22->id);
+        $footer_setting22->name = $request->head4_name4;
+        $footer_setting22->link = $request->head4_link4;
+        $footer_setting22->update();
+
+        $footer_setting23 = DB::table('footer_setting')->where('footer_name', 'head4_name5')->first();
+        $footer_setting23 = setFooterModel::find($footer_setting23->id);
+        $footer_setting23->name = $request->head4_name5;
+        $footer_setting23->link = $request->head4_link5;
+        $footer_setting23->update();
+
+        $footer_setting24 = DB::table('footer_setting')->where('footer_name', 'head4_name6')->first();
+        $footer_setting24 = setFooterModel::find($footer_setting24->id);
+        $footer_setting24->name = $request->head4_name6;
+        $footer_setting24->link = $request->head4_link6;
+        $footer_setting24->update();
+
+
+
+
+
+
+
+
+
+
+
+        // $footer_setting25 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting25->name = $request->head1_name1;
+        // $footer_setting25->link = $request->head1_link1;
+        // $footer_setting25->update();
+
+        // $footer_setting26 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting26->name = $request->head1_name1;
+        // $footer_setting26->link = $request->head1_link1;
+        // $footer_setting26->update();
+
+        // $footer_setting27 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting27->name = $request->head1_name1;
+        // $footer_setting27->link = $request->head1_link1;
+        // $footer_setting27->update();
+
+        // $footer_setting28 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting28->name = $request->head1_name1;
+        // $footer_setting28->link = $request->head1_link1;
+        // $footer_setting28->update();
+
+        // $footer_setting29 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting29->name = $request->head1_name1;
+        // $footer_setting29->link = $request->head1_link1;
+        // $footer_setting29->update();
+
+        // $footer_setting30 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting30->name = $request->head1_name1;
+        // $footer_setting30->link = $request->head1_link1;
+        // $footer_setting30->update();
+
+        // $footer_setting31 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting31->name = $request->head1_name1;
+        // $footer_setting31->link = $request->head1_link1;
+        // $footer_setting31->update();
+
+        // $footer_setting32 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting32->name = $request->head1_name1;
+        // $footer_setting32->link = $request->head1_link1;
+        // $footer_setting32->update();
+
+        // $footer_setting33 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting33->name = $request->head1_name1;
+        // $footer_setting33->link = $request->head1_link1;
+        // $footer_setting33->update();
+
+        // $footer_setting34 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting34->name = $request->head1_name1;
+        // $footer_setting34->link = $request->head1_link1;
+        // $footer_setting34->update();
+
+        // $footer_setting35 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting35->name = $request->head1_name1;
+        // $footer_setting35->link = $request->head1_link1;
+        // $footer_setting35->update();
+
+        // $footer_setting36 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting36->name = $request->head1_name1;
+        // $footer_setting36->link = $request->head1_link1;
+        // $footer_setting36->update();
+
+        // $footer_setting37 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting37->name = $request->head1_name1;
+        // $footer_setting37->link = $request->head1_link1;
+        // $footer_setting37->update();
+
+        // $footer_setting38 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting38->name = $request->head1_name1;
+        // $footer_setting38->link = $request->head1_link1;
+        // $footer_setting38->update();
+
+        // $footer_setting39 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting39->name = $request->head1_name1;
+        // $footer_setting39->link = $request->head1_link1;
+        // $footer_setting39->update();
+
+        // $footer_setting40 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting40->name = $request->head1_name1;
+        // $footer_setting40->link = $request->head1_link1;
+        // $footer_setting40->update();
+
+        // $footer_setting41 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting41->name = $request->head1_name1;
+        // $footer_setting41->link = $request->head1_link1;
+        // $footer_setting41->update();
+
+        // $footer_setting42 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting42->name = $request->head1_name1;
+        // $footer_setting42->link = $request->head1_link1;
+        // $footer_setting42->update();
+
+        // $footer_setting43 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting43->name = $request->head1_name1;
+        // $footer_setting43->link = $request->head1_link1;
+        // $footer_setting43->update();
+
+        // $footer_setting44 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting44->name = $request->head1_name1;
+        // $footer_setting44->link = $request->head1_link1;
+        // $footer_setting44->update();
+
+        // $footer_setting45 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting45->name = $request->head1_name1;
+        // $footer_setting45->link = $request->head1_link1;
+        // $footer_setting45->update();
+
+        // $footer_setting46 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting46->name = $request->head1_name1;
+        // $footer_setting46->link = $request->head1_link1;
+        // $footer_setting46->update();
+
+        // $footer_setting47 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting47->name = $request->head1_name1;
+        // $footer_setting47->link = $request->head1_link1;
+        // $footer_setting47->update();
+
+        // $footer_setting48 = DB::table('footer_setting')->where('footer_name', 'head1_name1')->first();
+        // $footer_setting48->name = $request->head1_name1;
+        // $footer_setting48->link = $request->head1_link1;
+        // $footer_setting48->update();
+
+
+
+
+
+        // return redirect(route('BN_setfooterupdate'))->with('success', 'แก้ไขสำเร็จ !');
+        return redirect()->back()->with('success', 'แก้ไขสำเร็จ !');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // $query = setFooterModel::all()->sort();
+        // foreach($query as $keyq => $qry){
+
+        //     $setFooterModel = setFooterModel::find($qry->id);
+        //     $setFooterModel->name = $request->$setFooterModel->footer_name;
+        //     $setFooterModel->link = $request->$setFooterModel->footer_link;
+
+        //     echo "<pre>";
+        //     print_r($request->$setFooterModel->footer_name);
+        //     echo "</pre>";
+        // }
+        // dd($query);
+
+        
+
+        
+
+        // foreach($request as $key => $qry){
+        //     $setFooterModel = new setFooterModel;
+        //     $setFooterModel->name = $qry;
+        //     $setFooterModel->save();
+        //     echo "<pre>";
+        //     print_r($qry->parameters);
+        //     echo "</pre>";
+        // }
+
+        // echo "<pre>";
+        // print_r($request);
+        // echo "</pre>";
+        
+        
+        // 
+        // foreach($query as $key => $qry){
+        //     echo "<pre>";
+        //     print_r($qry);
+        //     echo "</pre>";
+        // }
+
+        // 
+        // return view('backend/setting-setfooter', [ 
+        //     'default_pagename' => 'ตั้งค่า footer',
+            
+        // ]);
+
+        // for($i=1;$i<=8;$i++){
+        //     for($j=1;$j<=6;$j++){
+        //         $hhhead = 'head'.$i;
+        //         $nnname = 'head'.$i.'_name'.$j;
+        //         $lllink = 'head'.$i.'_link'.$j;
+        //         $setFooterModel = new setFooterModel;
+        //         $setFooterModel->heading = $hhhead;
+        //         $setFooterModel->name = $nnname;
+        //         $setFooterModel->footer_name = $nnname;
+        //         $setFooterModel->footer_link = $lllink;
+        //         $setFooterModel->save();
+        //     }
+        // }
     }
 
     // public function BN_generations()

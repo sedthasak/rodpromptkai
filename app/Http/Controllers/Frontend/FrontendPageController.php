@@ -15,6 +15,7 @@ use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 use App\Models\carsModel;
 use App\Models\categoriesModel;
+use App\Models\setFooterModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -54,13 +55,16 @@ class FrontendPageController extends Controller
             ->get();
         $qrybrand = brandsModel::get();
 
+        $setFooterModel = setFooterModel::all();
+
         return view('frontend/index-page', [
             'layout' => 'side-menu',
             'categories' => $categories,
             'cars' => $cars,
             'allcarcount' => $allcarcount,
             'allcars6' => $allcars6,
-            'brand' => $qrybrand
+            'brand' => $qrybrand,
+            'setFooterModel' => $setFooterModel
         ]);
     }
     public function profilePage()

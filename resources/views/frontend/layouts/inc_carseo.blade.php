@@ -1,5 +1,35 @@
+<?php
+
+$arr = [];
+foreach($setFooterModel as $keyf => $foot){
+
+    if(!empty($foot->name) && !empty($foot->link)){
+        $arr[$foot->heading][$keyf]['footer_name'] = $foot->name;
+        $arr[$foot->heading][$keyf]['footer_link'] = $foot->link;
+    }
+    
+    // echo "<pre>";
+    // print_r($foot);
+    // echo "</pre>";
+}
+// echo "<pre>";
+// print_r($arr);
+// echo "</pre>";
+?>
+
 <section class="container box-linkcarseo wow fadeInDown">
     <div class="row">
+        @foreach($arr as $keyarray => $arry)
+        
+        <div class="col-3 box-linkcar">
+            <h2>{{$keyarray}}</h2>
+            <ul>
+                @foreach($arry as $keylst => $lst)
+                <li><a href="{{$lst['footer_link']}}" target="_blank">{{$lst['footer_name']}}</a></li>
+                @endforeach
+            </ul>
+        </div>
+        @endforeach
         <div class="col-3 box-linkcar">
             <h2>ขายรถ Toyota มือสอง สภาพดี</h2>
             <ul>
