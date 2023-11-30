@@ -15,6 +15,13 @@
 <script src="{{asset('frontend/js/dropzone-min.js')}}"></script>
 <script src="{{asset('frontend/js/select2.min.js')}}"></script>
 
+<?php
+
+// echo "<pre>";
+// print_r($setFooterModel);
+// echo "</pre>";
+?>
+
 <section class="row">
     <div class="col-12 wrap-footer">
         <div class="container">
