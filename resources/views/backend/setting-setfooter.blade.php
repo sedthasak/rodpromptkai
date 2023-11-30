@@ -7,13 +7,18 @@
 @section('subcontent')
 <?php
 
-
+$arr = [];
 foreach($setFooterModel as $key => $setFoote){
 
-    // echo "<pre>";
-    // print_r($setFooterModel);
-    // echo "</pre>";
+    $arr[$setFoote->footer_name] = $setFoote->name;
+    $arr[$setFoote->footer_link] = $setFoote->link;
+    echo "<pre>";
+    print_r($setFoote);
+    echo "</pre>";
 }
+echo "<pre>";
+    print_r($arr);
+    echo "</pre>";
 ?>
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
         <h2 class="mr-auto text-lg font-medium">{{$default_pagename}}</h2>
