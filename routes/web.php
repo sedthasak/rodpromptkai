@@ -172,6 +172,8 @@ Route::middleware('auth')->group(function() {
         
     });
     
+    Route::get('/backend/setfooter', [BackendPageController::class, 'BN_setfooter'])->name('BN_setfooter');
+
     Route::get('/backend/posts', [PostsController::class, 'BN_posts'])->name('BN_posts');
     Route::get('/backend/posts-add', [PostsController::class, 'BN_posts_add'])->name('BN_posts_add');
     Route::get('/backend/posts-excelpostsell', [PostsController::class, 'BN_posts_excelpostsell'])->name('BN_posts_excelpostsell');

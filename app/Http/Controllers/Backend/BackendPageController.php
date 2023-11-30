@@ -16,6 +16,15 @@ use App\Models\sub_modelsModel;
 class BackendPageController extends Controller
 {
 
+
+    public function BN_setfooter()
+    {
+        return view('backend/setfooter', [ 
+            'default_pagename' => 'ตั้งค่า footer',
+            
+        ]);
+    }
+
     // public function BN_generations()
     // {
     //     return view('backend/models', [ 

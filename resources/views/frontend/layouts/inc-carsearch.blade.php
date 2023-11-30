@@ -155,7 +155,7 @@
         <div class="left-boxsearch-item search-carview">
             <div class="left-boxsearch-topic2">รถที่คุณดูล่าสุด</div>
             <div>
-                <a href="{{route('cardetailPage')}}" class="item-car">
+                <a href="#" class="item-car">
                     <figure>
                         <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
@@ -166,7 +166,7 @@
                         </figcaption>
                     </figure>
                 </a>
-                <a href="{{route('cardetailPage')}}" class="item-car">
+                <a href="#" class="item-car">
                     <figure>
                         <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
@@ -177,7 +177,7 @@
                         </figcaption>
                     </figure>
                 </a>
-                <a href="{{route('cardetailPage')}}" class="item-car">
+                <a href="#" class="item-car">
                     <figure>
                         <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
@@ -188,7 +188,7 @@
                         </figcaption>
                     </figure>
                 </a>
-                <a href="{{route('cardetailPage')}}" class="item-car">
+                <a href="#" class="item-car">
                     <figure>
                         <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
@@ -199,7 +199,7 @@
                         </figcaption>
                     </figure>
                 </a>
-                <a href="{{route('cardetailPage')}}" class="item-car">
+                <a href="#" class="item-car">
                     <figure>
                         <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>

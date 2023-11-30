@@ -102,7 +102,7 @@
                             <div class="car-year">2023</div>
                             <div class="row row-itemcar">
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -135,7 +135,7 @@
                                     </a>
                                 </div>
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -168,7 +168,7 @@
                                     </a>
                                 </div>
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -201,7 +201,7 @@
                                     </a>
                                 </div>
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -240,7 +240,7 @@
                             <div class="car-year">2021</div>
                             <div class="row row-itemcar">
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -273,7 +273,7 @@
                                     </a>
                                 </div>
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -306,7 +306,7 @@
                                     </a>
                                 </div>
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -360,7 +360,7 @@
                             <div class="car-year">2021</div>
                             <div class="row row-itemcar">
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -393,7 +393,7 @@
                                     </a>
                                 </div>
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
@@ -426,7 +426,7 @@
                                     </a>
                                 </div>
                                 <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="car-detail.php" class="item-car">
+                                    <a href="#" class="item-car">
                                         <figure>
                                             <div class="cover-car">
                                                 <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">

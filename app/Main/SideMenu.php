@@ -95,9 +95,17 @@ class SideMenu
             ],
             'setting' => [
                 'icon' => 'Settings',
-                'route_name' => 'BN_setting',
-                'params' => [],
-                'title' => 'ตั้งค่าระบบ'
+                // 'route_name' => 'BN_setting',
+                // 'params' => [],
+                'title' => 'ตั้งค่าระบบ',
+                'sub_menu' => [
+                    'caroverall' => [
+                        'icon' => 'Sidebar',
+                        'route_name' => 'BN_setfooter',
+                        'params' => [],
+                        'title' => 'ตั้งค่า footer'
+                    ],
+                ]
             ],
             'devider',
             'logs' => [
