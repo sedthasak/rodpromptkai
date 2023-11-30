@@ -19,6 +19,7 @@ class brandsModel extends Model
         'user_id',
         'meta_title',
         'meta_description',
-        'meta_keyword'
+        'meta_keyword',
+        'sort_no'
     ];
 }

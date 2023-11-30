@@ -15,6 +15,7 @@ class modelsModel extends Model
         'brand_id',
         'model',
         'description',
-        'feature'
+        'feature',
+        'evtype'
     ];
 }

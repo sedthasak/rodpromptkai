@@ -156,6 +156,8 @@ class BrandsController extends Controller
             $yearfirst = 2004;
             $yearlast = 2012;
             $sub_models_name = "";
+            $sort_no = null;
+            $evtype = 0;
 
             ini_set ( 'max_execution_time', 1200); 
             $row = 2;
@@ -172,13 +174,21 @@ class BrandsController extends Controller
                     $brand_title = $brand_title;
                 }
                 else {
-                    $brand_title = strtolower($cellValueA);
+                    $brand_title = $cellValueA;
+                }
+                $cellValueG = $worksheet->getCell('G' . $row)->getValue();
+                if (empty($cellValueG)) {
+                    $sort_no = null;
+                }
+                else {
+                    $sort_no = $cellValueG;
                 }
                 $qrybrand = brandsModel::where("title", $brand_title)->first();
                 if (empty($qrybrand)) {
                     $brand_data = [
                         "title"     => $brand_title,
-                        "user_id"   => Auth::user()->id
+                        "user_id"   => Auth::user()->id,
+                        "sort_no"   => $sort_no
                     ];
                     $brand = brandsModel::create($brand_data);
                     $brand_id = $brand->id;
@@ -191,13 +201,21 @@ class BrandsController extends Controller
                     $model_name = $model_name;
                 }
                 else {
-                    $model_name = strtolower($cellValueB);
+                    $model_name = $cellValueB;
+                }
+                $cellValueH = $worksheet->getCell('H' . $row)->getValue();
+                if (empty($cellValueH)) {
+                    $evtype = 0;
+                }
+                else {
+                    $evtype = 1;
                 }
                 $qrymodel = modelsModel::where("brand_id", $brand_id)->where("model", $model_name)->first();
                 if (empty($qrymodel)) {
                     $model_data = [
                         "brand_id"      => $brand_id,
-                        "model"         => $model_name
+                        "model"         => $model_name,
+                        "evtype"        => $evtype
                     ];
                     $model = modelsModel::create($model_data);
                     $model_id = $model->id;
@@ -211,7 +229,7 @@ class BrandsController extends Controller
                     $generations_name = $generations_name;
                 }
                 else {
-                    $generations_name = strtolower($cellValueC);
+                    $generations_name = $cellValueC;
                 }
                 
                 $cellValueD = $worksheet->getCell('D' . $row)->getValue();
@@ -233,7 +251,7 @@ class BrandsController extends Controller
                 if (empty($qrygenerations)) {
                     $generations_data = [
                         "models_id"     => $model_id,
-                        "generations"   => strtolower($generations_name),
+                        "generations"   => $generations_name,
                         "yearfirst"     => $yearfirst,
                         "yearlast"      => $yearlast
                     ];
@@ -254,7 +272,7 @@ class BrandsController extends Controller
                 if (empty($qrysubmodel)) {
                     $submodel_data = [
                         "generations_id"    => $generations_id,
-                        "sub_models"        => strtolower($sub_models_name)
+                        "sub_models"        => $sub_models_name
                     ];
                     $submodel = sub_modelsModel::create($submodel_data);
                     $submodel_id = $submodel->id;

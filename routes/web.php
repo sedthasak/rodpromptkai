@@ -99,15 +99,11 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/edit-profile-action', 'editprofileactionPage')->name('editprofileactionPage');
 
         Route::get('/notification', 'notificationPage')->name('notificationPage');
-        Route::get('/news', 'newsPage')->name('newsPage');
-        Route::get('/news-detail', 'newsdetailPage')->name('newsdetailPage');
-        Route::get('/postcar', 'postcarPage')->name('postcarPage');
-        Route::get('/car', 'carPage')->name('carPage');
-        Route::get('/car-detail/{post}', 'cardetailPage')->name('cardetailPage');
+        
         Route::get('/postcar-welcome', 'postcarwelcomePage')->name('postcarwelcomePage');
         Route::get('/postcar-welcome-dealer', 'postcarwelcomedealerPage')->name('postcarwelcomedealerPage');
         Route::get('/postcar-welcome-lady', 'postcarwelcomeladyPage')->name('postcarwelcomeladyPage');
-        
+        Route::get('/postcar', 'postcarPage')->name('postcarPage');
         Route::get('/carpost-step2', 'carpoststep2Page')->name('carpoststep2Page');
         Route::get('/carpost-step3', 'carpoststep3Page')->name('carpoststep3Page');
         Route::get('/carpost-step4', 'carpoststep4Page')->name('carpoststep4Page');
@@ -148,7 +144,14 @@ Route::get('/generate-qrcode', [QrCodeController::class, 'index']);
 Route::get("/clearsessioncustomer", [FrontendPageController::class, 'clearsessioncustomer']);
 Route::get('/login', [FrontendPageController::class, 'loginPage'])->name('loginPage');
 Route::get('/', [FrontendPageController::class, 'indexPage'])->name('indexPage');
+Route::get('/phpinfo', function () {
+    return phpinfo();
+});
 
+Route::get('/news', [FrontendPageController::class, 'newsPage'])->name('newsPage');
+Route::get('/news-detail', [FrontendPageController::class, 'newsdetailPage'])->name('newsdetailPage');
+Route::get('/car', [FrontendPageController::class, 'carPage'])->name('carPage');
+Route::get('/car-detail/{post}', [FrontendPageController::class, 'cardetailPage'])->name('cardetailPage');
 
 Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');        
