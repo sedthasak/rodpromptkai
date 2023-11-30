@@ -241,7 +241,7 @@ class PostController extends Controller
     public function carpostregistersuccessPage()
     {
         $provinces = provincesModel::all();
-        $brands = brandsModel::all();
+        $brands = brandsModel::orderBy("sort_no", "ASC")->get();
         // $models = modelsModel::all();
         // $query = DB::table('generations')->where('id', 1)->first();
         return view('frontend/carpost-register-success', [
