@@ -99,6 +99,8 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/edit-profile-action', 'editprofileactionPage')->name('editprofileactionPage');
 
         Route::get('/notification', 'notificationPage')->name('notificationPage');
+        Route::get('/termcondition', 'termconditionPage')->name('termconditionPage');
+        Route::get('/privacypolicy', 'privacypolicyPage')->name('privacypolicyPage');
         
         Route::get('/postcar-welcome', 'postcarwelcomePage')->name('postcarwelcomePage');
         Route::get('/postcar-welcome-dealer', 'postcarwelcomedealerPage')->name('postcarwelcomedealerPage');
@@ -177,7 +179,11 @@ Route::middleware('auth')->group(function() {
     });
     
     Route::get('/backend/setfooter', [BackendPageController::class, 'BN_setfooter'])->name('BN_setfooter');
+    Route::get('/backend/termcondition', [BackendPageController::class, 'BN_termcondition'])->name('BN_termcondition');
+    Route::get('/backend/privacypolicy', [BackendPageController::class, 'BN_privacypolicy'])->name('BN_privacypolicy');
     Route::post('/backend/setfooter-update', [BackendPageController::class, 'BN_setfooterupdate'])->name('BN_setfooterupdate');
+    Route::post('/backend/termcondition-update', [BackendPageController::class, 'BN_termcondition_update'])->name('BN_termcondition_update');
+    Route::post('/backend/privacypolicy-update', [BackendPageController::class, 'BN_privacypolicy_update'])->name('BN_privacypolicy_update');
 
     Route::get('/backend/posts', [PostsController::class, 'BN_posts'])->name('BN_posts');
     Route::get('/backend/posts-add', [PostsController::class, 'BN_posts_add'])->name('BN_posts_add');

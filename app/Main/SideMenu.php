@@ -105,6 +105,18 @@ class SideMenu
                         'params' => [],
                         'title' => 'ตั้งค่า footer'
                     ],
+                    'termcondition' => [
+                        'icon' => 'Sidebar',
+                        'route_name' => 'BN_termcondition',
+                        'params' => [],
+                        'title' => 'ข้อกำหนดในการให้บริการ'
+                    ],
+                    'privacypolicy' => [
+                        'icon' => 'Sidebar',
+                        'route_name' => 'BN_privacypolicy',
+                        'params' => [],
+                        'title' => 'นโยบายความเป็นส่วนตัว'
+                    ],
                 ]
             ],
             'devider',
