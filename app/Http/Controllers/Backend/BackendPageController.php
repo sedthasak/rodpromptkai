@@ -14,11 +14,48 @@ use App\Models\brandsModel;
 use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 use App\Models\setFooterModel;
+use App\Models\setting_optionModel;
 
 class BackendPageController extends Controller
 {
 
 
+    public function BN_termcondition()
+    {
+        $termcondition = DB::table('setting_option')->where('key_option', 'termcondition')->first();
+        return view('backend/setting-termcondition', [ 
+            'default_pagename' => 'ข้อกำหนดในการให้บริการ',
+            'termcondition' => $termcondition,
+            
+        ]);
+    }
+    public function BN_termcondition_update(Request $request)
+    {
+        // dd($request);
+        $query = DB::table('setting_option')->where('key_option', 'termcondition')->first();
+        $setting_optionModel = setting_optionModel::find($query->id);
+        $setting_optionModel->value_option = $request->termcondition;
+        $setting_optionModel->update();
+        return redirect()->back()->with('success', 'แก้ไขสำเร็จ !');
+    }
+    public function BN_privacypolicy()
+    {
+        $privacypolicy = DB::table('setting_option')->where('key_option', 'privacypolicy')->first();
+        return view('backend/setting-privacypolicy', [ 
+            'default_pagename' => 'นโยบายความเป็นส่วนตัว',
+            'privacypolicy' => $privacypolicy,
+            
+        ]);
+    }
+    public function BN_privacypolicy_update(Request $request)
+    {
+        // dd($request);
+        $query = DB::table('setting_option')->where('key_option', 'privacypolicy')->first();
+        $setting_optionModel = setting_optionModel::find($query->id);
+        $setting_optionModel->value_option = $request->privacypolicy;
+        $setting_optionModel->update();
+        return redirect()->back()->with('success', 'แก้ไขสำเร็จ !');
+    }
     public function BN_setfooter()
     {
 

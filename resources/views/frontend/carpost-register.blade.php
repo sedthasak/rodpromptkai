@@ -453,7 +453,7 @@ $arr_cartype = array(
                                                 </div>
                                                 <div class="step-chceckbox">
                                                     <div class="login-checkbox">
-                                                        <label class="list-checkbox"><a href="#" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="#" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
+                                                        <label class="list-checkbox"><a href="{{route('termconditionPage')}}" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="{{route('privacypolicyPage')}}" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
                                                             <input type="checkbox" name="submit" value="1" required  checked="checked">
                                                             <span class="checkmark"></span>
                                                         </label>

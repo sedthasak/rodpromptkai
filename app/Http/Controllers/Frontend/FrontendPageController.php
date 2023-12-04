@@ -16,6 +16,7 @@ use App\Models\sub_modelsModel;
 use App\Models\carsModel;
 use App\Models\categoriesModel;
 use App\Models\setFooterModel;
+use App\Models\setting_optionModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -23,6 +24,23 @@ use File;
 
 class FrontendPageController extends Controller
 {
+    public function termconditionPage()
+    {
+        $termcondition = DB::table('setting_option')->where('key_option', 'termcondition')->first();
+        return view('frontend/termcondition', [
+            'default_pagename' => 'ข้อกำหนดในการให้บริการ',
+            'termcondition' => $termcondition,
+        ]);
+    }
+    public function privacypolicyPage()
+    {
+        $privacypolicy = DB::table('setting_option')->where('key_option', 'privacypolicy')->first();
+        return view('frontend/privacypolicy', [
+            'default_pagename' => 'นโยบายความเป็นส่วนตัว',
+            'privacypolicy' => $privacypolicy,
+        ]);
+    }
+
     public function indexPage(Request $request)
     {
         $categories = categoriesModel::all();
