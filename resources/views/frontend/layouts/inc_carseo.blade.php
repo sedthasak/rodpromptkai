@@ -1,16 +1,18 @@
 <?php
 
 $arr = [];
-foreach($setFooterModel as $keyf => $foot){
+if (isset($setFooterModel)) {
+    foreach($setFooterModel as $keyf => $foot){
 
     if(!empty($foot->name) && !empty($foot->link)){
         $arr[$foot->heading][$keyf]['footer_name'] = $foot->name;
         $arr[$foot->heading][$keyf]['footer_link'] = $foot->link;
     }
-    
+
     // echo "<pre>";
     // print_r($foot);
     // echo "</pre>";
+    }
 }
 // echo "<pre>";
 // print_r($arr);
