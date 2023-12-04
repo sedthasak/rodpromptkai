@@ -134,6 +134,10 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/popup-carsearch-model/{id}', 'popupcarsearchmodel')->name('popupcarsearchmodel');
         Route::get('/popup-carsearch-generation/{id}', 'popupcarsearchgeneration')->name('popupcarsearchgeneration');
         Route::get('/popup-carsearch-submodel/{id}', 'popupcarsearchsubmodel')->name('popupcarsearchsubmodel');
+        Route::get('/searchbrandtext/{brand_name}', 'searchbrandtext')->name('searchbrandtext');
+        Route::get('/searchmodeltext/{model_name}', 'searchmodeltext')->name('searchmodeltext');
+        Route::get('/searchgenerationtext/{generation_name}', 'searchgenerationtext')->name('searchgenerationtext');
+        Route::get('/searchsubmodeltext/{submodel_name}', 'searchsubmodeltext')->name('searchsubmodeltext');
     });
 });
 

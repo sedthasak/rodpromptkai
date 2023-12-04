@@ -693,4 +693,12 @@ class FrontendPageController extends Controller
         session()->flush();
         return redirect("/");
     }
+
+    public function searchbrandtext($brand_name) {
+        $qrybrand = brandsModel::leftJoin("models", "brands.id", "models.brand_id")
+        ->select("models.id as model_id", "model")
+        ->where("brands.title", "like", "%".$brand_name."%")
+        ->get();
+        return response()->json($qrybrand);
+    }
 }

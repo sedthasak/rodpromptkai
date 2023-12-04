@@ -4,7 +4,7 @@
             <button class="carsearch-head"> เลือกยี่ห้อรถ</button>
             <button class="carsearch-exit">ยกเลิก</button>
         </div>
-        <input type="text" class="car-inputsearch" placeholder="ค้นหา...">
+        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="brandtext" onkeyup="brandsearch();">
         <ul class="carsearch-ul">
             @if (isset($brand))
             @foreach ($brand as $rows)
@@ -53,8 +53,21 @@
     </div>
 </div>
 
-
-
+{{-- <script src="{{asset('frontend/js/jquery.min.js')}}"></script> --}}
+<script>
+    function brandsearch(){
+        $.get('/searchbrandtext/'+$("#brandtext").val(), function(data, status) {
+            // console.log(data);
+            var param2 = "";
+            var html='<li><button rel="'+param2+' ทุกรุ่น" onclick="model(0, \''+param2+' ทุกรุ่น\')">รุ่นทั้งหมด</button></li>';
+            $.each(data, function(index, value){
+                html+='<li><button rel="'+param2+' '+value.model.toUpperCase()+'" onclick="model('+value.model_id+', \''+param2+' '+value.model.toUpperCase()+'\')">'+value.model.toUpperCase()+'</button></li>';
+            });
+            $('.carsearch-lv2 .carsearch-ul').empty().append(html);
+        });
+    }
+    
+</script>
 <script type="text/javascript">
     function brand(param, param2) {
         $.get('/popup-carsearch-model/'+param, function(data, status) {
