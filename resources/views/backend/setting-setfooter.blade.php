@@ -13,7 +13,7 @@ foreach($setFooterModel as $key => $setFoote){
     $arr[$setFoote->footer_name] = $setFoote->name;
     $arr[$setFoote->footer_link] = $setFoote->link;
     echo "<pre>";
-    print_r($setFoote);
+    print_r($setFoote); 
     echo "</pre>";
 }
 echo "<pre>";
