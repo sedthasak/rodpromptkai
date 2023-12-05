@@ -17,6 +17,7 @@ use App\Models\carsModel;
 use App\Models\categoriesModel;
 use App\Models\setFooterModel;
 use App\Models\setting_optionModel;
+use App\Models\contactsModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -24,6 +25,32 @@ use File;
 
 class FrontendPageController extends Controller
 {
+
+    public function helpcaractionPage(Request $request)
+    {
+        // dd($request);
+
+        $contacts = new contactsModel;
+        $contacts->customer_id = $request->customer_id;
+        $contacts->name = $request->name;
+        $contacts->tel = $request->tel;
+        $contacts->line = $request->line;
+        $contacts->messages = $request->messages;
+        $contacts->save();
+        return redirect()->back()->with('success', 'ส่งข้อมูลสำเร็จ !');
+    }
+
+    // public function helpcaractionPage(Request $request)
+    // {
+    //     dd($request)
+        // $termcondition = DB::table('setting_option')->where('key_option', 'termcondition')->first();
+        // return view('frontend/termcondition', [
+        //     'default_pagename' => 'ข้อกำหนดในการให้บริการ',
+        //     'termcondition' => $termcondition,
+        // ]);
+    // }
+
+
     public function termconditionPage()
     {
         $termcondition = DB::table('setting_option')->where('key_option', 'termcondition')->first();
@@ -308,6 +335,56 @@ class FrontendPageController extends Controller
                 $exterior[] = $gal;
             }
         }
+        $customerdata = session('customer');
+        $Customer = Customer::find($customerdata->id);
+        $history = $Customer->history;
+        
+        
+        if($history){
+            $jdecd = json_decode($history);
+            if(is_array($jdecd)){
+                if(in_array($post, $jdecd)){
+                    // if (($key = array_search($post, $jdecd)) !== false) {
+                    //     unset($jdecd[$key]);
+                    // }
+                    $createloop = [];
+                    foreach($jdecd as $keyloop => $loop){
+                        if($loop != $post){
+                            $createloop[] = $loop;
+                        }
+                    }
+                    array_unshift($createloop,$post);
+
+                    $jencd = json_encode($createloop, true);
+                    $Customer->history = $jencd;
+                    $Customer->update();
+                    // $rrr = 'ccc';
+                }else{
+                    array_unshift($jdecd,$post);
+
+                    $jencd = json_encode($jdecd, true);
+                    $Customer->history = $jencd;
+                    $Customer->update();
+                    // $rrr = 'dddd';
+                }
+                // $histry = '';
+                
+
+                
+                
+            }
+                
+        }else{
+            $val_history = [];
+            $val_history[] = $post;
+            // $rrr = 'bbb';
+
+            $jencd = json_encode($val_history, true);
+            $Customer->history = $jencd;
+            $Customer->update();
+        }
+
+        
 
         return view('frontend/car-detail', [
             'cars' => $mycars,
@@ -316,6 +393,8 @@ class FrontendPageController extends Controller
             'interior' => $interior,
             'exterior' => $exterior,
             'gallery' => $gallery,
+            'gallery' => $gallery,
+            // 'customerdata' => $rrr,
         ]);
     }
 

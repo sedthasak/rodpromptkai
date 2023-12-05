@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\GenerationsController;
 use App\Http\Controllers\Backend\Sub_modelsController;
 use App\Http\Controllers\Backend\PostsController;
 use App\Http\Controllers\Backend\CustomersController;
+use App\Http\Controllers\Backend\ContactsController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -150,6 +151,7 @@ Route::get('/generate-qrcode', [QrCodeController::class, 'index']);
 Route::get("/clearsessioncustomer", [FrontendPageController::class, 'clearsessioncustomer']);
 Route::get('/login', [FrontendPageController::class, 'loginPage'])->name('loginPage');
 Route::get('/', [FrontendPageController::class, 'indexPage'])->name('indexPage');
+Route::post('helpcaraction', [FrontendPageController::class, 'helpcaractionPage'])->name('helpcaractionPage');
 Route::get('/phpinfo', function () {
     return phpinfo();
 });
@@ -177,6 +179,8 @@ Route::middleware('auth')->group(function() {
         Route::get('/backend/tags', 'BN_tags')->name('BN_tags');
         
     });
+
+    Route::get('/backend/contacts', [ContactsController::class, 'BN_contacts'])->name('BN_contacts');
     
     Route::get('/backend/setfooter', [BackendPageController::class, 'BN_setfooter'])->name('BN_setfooter');
     Route::get('/backend/termcondition', [BackendPageController::class, 'BN_termcondition'])->name('BN_termcondition');

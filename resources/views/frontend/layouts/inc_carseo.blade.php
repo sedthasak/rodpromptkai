@@ -32,7 +32,8 @@ if (isset($setFooterModel)) {
             </ul>
         </div>
         @endforeach
-        <div class="col-3 box-linkcar">
+        
+        <!-- <div class="col-3 box-linkcar">
             <h2>ขายรถ Toyota มือสอง สภาพดี</h2>
             <ul>
                 <li><a href="{{route('carPage')}}" target="_blank">ฟอร์จูนเนอร์มือสอง</a></li>
@@ -119,7 +120,8 @@ if (isset($setFooterModel)) {
                 <li><a href="{{route('carPage')}}" target="_blank">Benz E300</a></li>
                 <li><a href="{{route('carPage')}}" target="_blank">Benz GLC 250</a></li>
             </ul>
-        </div>
+        </div> -->
+
     </div>
 </section>
 
@@ -127,7 +129,20 @@ if (isset($setFooterModel)) {
     <div class="row">
         <div class="col-12 box-linkcarseo-mb box-linkcarseo">
             <div class="owl-linkcarseo owl-carousel owl-theme">
+                
+                @foreach($arr as $keyarray2 => $arry2)
+            
                 <div class="box-linkcar">
+                    <h2>{{$keyarray2}}</h2>
+                    <ul>
+                        @foreach($arry2 as $keylst => $lst)
+                        <li><a href="{{$lst['footer_link']}}" target="_blank">{{$lst['footer_name']}}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endforeach
+
+                <!-- <div class="box-linkcar">
                     <h2>ขายรถ Toyota มือสอง สภาพดี</h2>
                     <ul>
                         <li><a href="{{route('carPage')}}" target="_blank">ฟอร์จูนเนอร์มือสอง</a></li>
@@ -214,7 +229,7 @@ if (isset($setFooterModel)) {
                         <li><a href="{{route('carPage')}}" target="_blank">Benz E300</a></li>
                         <li><a href="{{route('carPage')}}" target="_blank">Benz GLC 250</a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

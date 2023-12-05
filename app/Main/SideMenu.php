@@ -93,6 +93,12 @@ class SideMenu
                 'params' => [],
                 'title' => 'ยูสเซอร์'
             ],
+            'contacts' => [
+                'icon' => 'Phone Forwarded',
+                'route_name' => 'BN_contacts',
+                'params' => [],
+                'title' => 'ติดต่อ'
+            ],
             'setting' => [
                 'icon' => 'Settings',
                 // 'route_name' => 'BN_setting',

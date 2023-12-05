@@ -650,17 +650,26 @@ $arr_gear = array(
 
 @include('frontend.layouts.inc_carseo')	
 
+<?php
 
+$data = session()->all();
+$customerdata = session('customer');
+// echo "<pre>";
+// print_r($customerdata);
+// echo "</pre>";
+?>
 <div style="display: none;" id="help-carsearch">
     <div class="frm-helpcarsearch">
         <div class="topic-helpcar"><img src="{{asset('frontend/images/carred.svg')}}" alt="" class="svg"> ช่วยคุณหารถที่ใช่</div>
         <p>ให้รถพร้อมขายช่วยหารถให้คุณ</p>
-        <form>
-            <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
-            <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
-            <input type="text" class="form-control" placeholder="Line ID">
-            <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
-            <button class="btn-red">ส่งข้อมูล</button>
+        <form method="post" action="{{route('helpcaractionPage')}}">
+            @csrf
+            <input type="hidden"  name="customer_id	" value="{{$customerdata->id??''}}" placeholder="ชื่อ - นามสกุล">
+            <input type="text" class="form-control" name="name" value="" placeholder="ชื่อ - นามสกุล">
+            <input type="text" class="form-control" name="tel" value="" placeholder="เบอร์โทรติดต่อ">
+            <input type="text" class="form-control" name="line" value="" placeholder="Line ID">
+            <input type="text" class="form-control" name="messages" value="" placeholder="รุ่นรถที่ต้องการ">
+            <button type="submit" class="btn-red">ส่งข้อมูล</button>
         </form>
     </div>
 </div>

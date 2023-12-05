@@ -12,7 +12,7 @@ $arr_gear = array(
 );
 
 // echo "<pre>";
-// print_r($interior);
+// print_r($customerdata);
 // echo "</pre>";
 // echo "<pre>";
 // print_r($exterior);
@@ -178,7 +178,7 @@ $arr_gear = array(
                                     <span class="topic-listdesc">เลขไมล์</span>
                                 </div>
                                 <div class="col-9 text-end">
-                                    <span class="topic-listdesc">{{number_format($cars->mileage, 0, '.', ',')}} กม.</span>
+                                    <span class="topic-listdesc">{{$cars->mileage}} กม.</span>
                                 </div>
                             </div>
                         </div>

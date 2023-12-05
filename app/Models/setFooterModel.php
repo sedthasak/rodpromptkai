@@ -12,10 +12,11 @@ class setFooterModel extends Model
     protected $table = 'footer_setting';
 
     protected $fillable = [
-        'heading',
-        'name',
+        'page',
         'footer_name',
         'footer_link',
-        
+        'heading',
+        'name',
+        'link', 
     ];
 }

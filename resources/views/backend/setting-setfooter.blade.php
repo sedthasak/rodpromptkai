@@ -7,18 +7,45 @@
 @section('subcontent')
 <?php
 
-$arr = [];
-foreach($setFooterModel as $key => $setFoote){
+$arrSet = [];
+$arrUse = [];
+foreach($setFooterModel as $key => $Foote){
 
-    $arr[$setFoote->footer_name] = $setFoote->name;
-    $arr[$setFoote->footer_link] = $setFoote->link;
-    echo "<pre>";
-    print_r($setFoote); 
-    echo "</pre>";
+    $expldname = explode("_", $Foote->footer_name);
+    $expldlink = explode("_", $Foote->footer_link);
+    $title = $Foote->heading;
+    if($expldname[0] == $expldlink[0]){
+        $arrSet[$key]['page'] = $Foote->page;
+        $arrSet[$key]['labelname'] = $Foote->footer_name;
+        $arrSet[$key]['labellink'] = $Foote->footer_link;
+        $arrSet[$key]['setname'] = $expldname[0];
+        $arrSet[$key]['pointname'] = $expldname[1];
+        $arrSet[$key]['pointlink'] = $expldlink[1];
+        $arrSet[$key]['head_title'] = $title;
+        $arrSet[$key]['name'] = $Foote->name;
+        $arrSet[$key]['link'] = $Foote->link;
+    }
 }
-echo "<pre>";
-    print_r($arr);
-    echo "</pre>";
+foreach($arrSet as $key => $setlabel){
+    if(!in_array($setlabel['setname'], $arrUse)){
+        $arrUse[$setlabel['setname']] = array(
+            'title_head' => $setlabel['head_title'],
+            'title_head_name' => $setlabel['setname'],
+            'value' => [],
+        );
+    }
+}
+foreach($arrSet as $keyval => $setvalue){
+    $arrUse[$setvalue['setname']]['value'][] = $setvalue;
+    // echo "<pre>";
+    // print_r($setvalue);
+    // echo "</pre>";
+}
+
+
+// echo "<pre>";
+// print_r($arrUse);
+// echo "</pre>";
 ?>
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
         <h2 class="mr-auto text-lg font-medium">{{$default_pagename}}</h2>
@@ -41,11 +68,45 @@ echo "<pre>";
                     
                     <div class="p-5">
 
+
+                        @foreach($arrUse as $keyuse => $use)
+                        <div class="grid grid-cols-12 gap-x-5">
+                            <div class="col-span-12 xl:col-span-12">
+                                
+                                <div class="mt-3 ">
+                                    <label for="" class="form-label">หัวข้อ</label>
+                                    <input type="text" class="form-control w-full" id="" name="{{$use['title_head_name']}}" value="{{$use['title_head']}}"  autocomplete="off"  />
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="grid grid-cols-12 gap-x-5">
+                            <div class="col-span-12 xl:col-span-6">
+
+                                @foreach($use['value'] as $keysubusename => $subusename)
+                                <div class="mt-3 ">
+                                    <input type="text" class="form-control w-full" value="{{$subusename['name']}}" name="{{$subusename['labelname']}}" placeholder="ข้อความ" autocomplete="off"  />
+                                </div>
+                                @endforeach
+
+                            </div>
+                            <div class="col-span-12 xl:col-span-6">
+                                @foreach($use['value'] as $keysubuselink => $subuselink)
+                                <div class="mt-3 ">
+                                    <input type="text" class="form-control w-full" value="{{$subuselink['link']}}" name="{{$subuselink['labellink']}}" placeholder="ลิ้งก์" autocomplete="off"  />
+                                </div>
+                                @endforeach
+
+                            </div>
+                        </div>
+                        @endforeach
+
                         <!-- Head 1 -->
                         <!-- Head 1 -->
                         <!-- Head 1 -->
 
-                        <div class="grid grid-cols-12 gap-x-5">
+                        <!-- <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-12">
                                 
                                 <div class="mt-3 ">
@@ -102,13 +163,13 @@ echo "<pre>";
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Head 2 -->
                         <!-- Head 2 -->
                         <!-- Head 2 -->
 
-                        <div class="grid grid-cols-12 gap-x-5">
+                        <!-- <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-12">
                                 
                                 <div class="mt-3 ">
@@ -165,13 +226,13 @@ echo "<pre>";
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Head 3 -->
                         <!-- Head 3 -->
                         <!-- Head 3 -->
 
-                        <div class="grid grid-cols-12 gap-x-5">
+                        <!-- <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-12">
                                 
                                 <div class="mt-3 ">
@@ -228,13 +289,13 @@ echo "<pre>";
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Head 4 -->
                         <!-- Head 4 -->
                         <!-- Head 4 -->
 
-                        <div class="grid grid-cols-12 gap-x-5">
+                        <!-- <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-12">
                                 
                                 <div class="mt-3 ">
@@ -291,13 +352,13 @@ echo "<pre>";
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Head 5 -->
                         <!-- Head 5 -->
                         <!-- Head 5 -->
 
-                        <div class="grid grid-cols-12 gap-x-5">
+                        <!-- <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-12">
                                 
                                 <div class="mt-3 ">
@@ -354,13 +415,13 @@ echo "<pre>";
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Head 6 -->
                         <!-- Head 6 -->
                         <!-- Head 6 -->
 
-                        <div class="grid grid-cols-12 gap-x-5">
+                        <!-- <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-12">
                                 
                                 <div class="mt-3 ">
@@ -417,13 +478,13 @@ echo "<pre>";
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <!-- Head 6 -->
                         <!-- Head 7 -->
                         <!-- Head 7 -->
-
+<!-- 
                         <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-12">
                                 
@@ -481,14 +542,14 @@ echo "<pre>";
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <!-- Head 8 -->
                         <!-- Head 8 -->
                         <!-- Head 8 -->
 
-                        <div class="grid grid-cols-12 gap-x-5">
+                        <!-- <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-12">
                                 
                                 <div class="mt-3 ">
@@ -545,7 +606,7 @@ echo "<pre>";
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
                         
 
