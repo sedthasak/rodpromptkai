@@ -678,6 +678,4 @@ $customerdata = session('customer');
         </form>
     </div>
 </div>
-
-
 @endsection
