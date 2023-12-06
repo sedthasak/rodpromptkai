@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsSaveController;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
@@ -19,7 +22,125 @@ use App\Models\setting_optionModel;
 class BackendPageController extends Controller
 {
 
+    public function BN_slide()
+    {
+        $slide = DB::table('setting_option')->where('key_option', 'slide')->first();
+        $decde = json_decode($slide->value_option);
+        return view('backend/setting-slide', [ 
+            'default_pagename' => 'ตั้งค่าแบนเนอร์',
+            'slide' => $decde,
+            
+        ]);
+    }
+    public function BN_slidedelete(Request $request)
+    {
+        // dd($request);
+        $query = DB::table('setting_option')->where('key_option', 'slide')->first();
+        $decde = json_decode($query->value_option);
 
+        // $oldPath = public_path($decde[$request->key]);
+        // if(File::exists($oldPath)){
+        //     File::delete($oldPath);
+        // }
+        $newarr = [];
+        foreach($decde as $keydecde => $decode){
+            if($keydecde == $request->key){
+                $oldPath = public_path($decode);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
+            }else{
+                $newarr[] = $decode;
+            }
+            
+        }
+        $newval = '';
+        $encde = json_encode($newarr, true);
+        if(isset($encde)){$newval = $encde;}
+        
+        $setting_optionModel = setting_optionModel::find($query->id);
+        $setting_optionModel->value_option = $newval;
+        $setting_optionModel->update();
+
+
+        return redirect()->back()->with('success', 'ลบสำเร็จ !');
+
+    }
+    public function BN_slideupdate(Request $request)
+    {
+        // dd($request);
+        $query = DB::table('setting_option')->where('key_option', 'slide')->first();
+        $decde = json_decode($query->value_option);
+        foreach($decde as $keydecde => $decode){
+            $oldPath = public_path($decode);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+        }
+
+        $arr_path = [];
+        if($request->hasFile('banner1')){
+            $file = $request->file('banner1');
+            $destinationPath = public_path('/uploads/banner');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'banner1-'.time() .uniqid() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/banner/'.$newfilenam;
+            $arr_path[] = $filepath;
+        }
+        if($request->hasFile('banner2')){
+            $file = $request->file('banner2');
+            $destinationPath = public_path('/uploads/banner');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'banner2-'.time() .uniqid() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/banner/'.$newfilenam;
+            $arr_path[] = $filepath;
+        }
+        if($request->hasFile('banner3')){
+            $file = $request->file('banner3');
+            $destinationPath = public_path('/uploads/banner');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'banner3-'.time() .uniqid() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/banner/'.$newfilenam;
+            $arr_path[] = $filepath;
+        }
+        if($request->hasFile('banner4')){
+            $file = $request->file('banner4');
+            $destinationPath = public_path('/uploads/banner');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'banner4-'.time() .uniqid() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/banner/'.$newfilenam;
+            $arr_path[] = $filepath;
+        }
+        $newval = '';
+        $encde = json_encode($arr_path, true);
+        if(isset($encde)){$newval = $encde;}
+        
+        $setting_optionModel = setting_optionModel::find($query->id);
+        $setting_optionModel->value_option = $newval;
+        $setting_optionModel->update();
+        
+        
+        // echo "<pre>";
+        // print_r($decde);
+        // echo "</pre>";
+        // $query = DB::table('setting_option')->where('key_option', 'termcondition')->first();
+        // $setting_optionModel = setting_optionModel::find($query->id);
+        // $setting_optionModel->value_option = $request->termcondition;
+        // $setting_optionModel->update();
+        return redirect()->back()->with('success', 'แก้ไขสำเร็จ !');
+    }
     public function BN_termcondition()
     {
         $termcondition = DB::table('setting_option')->where('key_option', 'termcondition')->first();

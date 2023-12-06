@@ -18,6 +18,7 @@ use App\Models\categoriesModel;
 use App\Models\setFooterModel;
 use App\Models\setting_optionModel;
 use App\Models\contactsModel;
+use App\Models\contacts_backModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -26,6 +27,26 @@ use File;
 class FrontendPageController extends Controller
 {
 
+    public function contactcaractionPage(Request $request)
+    {
+        // dd($request);
+
+        if(isset($request->customer_id) && isset($request->cars_id)){
+            $contacts = new contacts_backModel;
+            $contacts->customer_id = $request->customer_id;
+            $contacts->name = $request->name;
+            $contacts->tel = $request->tel;
+            $contacts->time = $request->time;
+            $contacts->remark = $request->remark;
+            $contacts->cars_id = $request->cars_id;
+            $contacts->status = 'create';
+            $contacts->save();
+            return redirect()->back()->with('success', 'ส่งข้อมูลสำเร็จ !');
+        }else{
+            return redirect()->back()->with('error', 'ผิดพลาด !');
+        }   
+            
+    }
     public function helpcaractionPage(Request $request)
     {
         // dd($request);
@@ -102,6 +123,9 @@ class FrontendPageController extends Controller
 
         $setFooterModel = setFooterModel::all();
 
+        $slide = DB::table('setting_option')->where('key_option', 'slide')->first();
+        $decde = json_decode($slide->value_option);
+
         return view('frontend/index-page', [
             'layout' => 'side-menu',
             'categories' => $categories,
@@ -109,6 +133,7 @@ class FrontendPageController extends Controller
             'allcarcount' => $allcarcount,
             'allcars6' => $allcars6,
             'brand' => $qrybrand,
+            'slide' => $decde,
             'setFooterModel' => $setFooterModel
         ]);
     }
@@ -335,56 +360,66 @@ class FrontendPageController extends Controller
                 $exterior[] = $gal;
             }
         }
+        $history = [];
         $customerdata = session('customer');
-        $Customer = Customer::find($customerdata->id);
-        $history = $Customer->history;
-        
-        
-        if($history){
-            $jdecd = json_decode($history);
-            if(is_array($jdecd)){
-                if(in_array($post, $jdecd)){
-                    // if (($key = array_search($post, $jdecd)) !== false) {
-                    //     unset($jdecd[$key]);
-                    // }
-                    $createloop = [];
-                    foreach($jdecd as $keyloop => $loop){
-                        if($loop != $post){
-                            $createloop[] = $loop;
+        if(isset($customerdata)){
+            $Customer = Customer::find($customerdata->id);
+            $history = $Customer->history;
+
+            if($history){
+                $jdecd = json_decode($history);
+                if(is_array($jdecd)){
+                    if(in_array($post, $jdecd)){
+                        // if (($key = array_search($post, $jdecd)) !== false) {
+                        //     unset($jdecd[$key]);
+                        // }
+                        $createloop = [];
+                        foreach($jdecd as $keyloop => $loop){
+                            if($loop != $post){
+                                $createloop[] = $loop;
+                            }
                         }
+                        array_unshift($createloop,$post);
+
+                        $jencd = json_encode($createloop, true);
+                        $Customer->history = $jencd;
+                        $Customer->update();
+                        // $rrr = 'ccc';
+                    }else{
+                        array_unshift($jdecd,$post);
+
+                        $jencd = json_encode($jdecd, true);
+                        $Customer->history = $jencd;
+                        $Customer->update();
+                        // $rrr = 'dddd';
                     }
-                    array_unshift($createloop,$post);
+                    // $histry = '';
+                    
 
-                    $jencd = json_encode($createloop, true);
-                    $Customer->history = $jencd;
-                    $Customer->update();
-                    // $rrr = 'ccc';
-                }else{
-                    array_unshift($jdecd,$post);
-
-                    $jencd = json_encode($jdecd, true);
-                    $Customer->history = $jencd;
-                    $Customer->update();
-                    // $rrr = 'dddd';
+                    
+                    
                 }
-                // $histry = '';
-                
+                    
+            }else{
+                $val_history = [];
+                $val_history[] = $post;
+                // $rrr = 'bbb';
 
-                
-                
+                $jencd = json_encode($val_history, true);
+                $Customer->history = $jencd;
+                $Customer->update();
             }
-                
-        }else{
-            $val_history = [];
-            $val_history[] = $post;
-            // $rrr = 'bbb';
-
-            $jencd = json_encode($val_history, true);
-            $Customer->history = $jencd;
-            $Customer->update();
         }
-
+            
         
+        
+        
+
+        $carcountget = carsModel::find($post);
+        $oldcount = $carcountget->viewcount??0;
+        $newcount = $oldcount+1;
+        $carcountget->viewcount = $newcount;
+        $carcountget->update();
 
         return view('frontend/car-detail', [
             'cars' => $mycars,

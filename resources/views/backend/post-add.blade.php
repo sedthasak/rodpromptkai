@@ -256,6 +256,17 @@ $arr_color = array(
                                         </div>
                                     </div>
                                 </div>
+                                <div class="mt-5">
+                                    <label for="" class="form-label">หมวดหมู่</label>
+                                    <select data-placeholder="หมวดหมู่" name="category[]" multiple="multiple" class="tom-select w-full">
+                                        @foreach($categories as $keycategories => $cate)
+                                        <option value="{{$cate->id}}" >{{$cate->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                               
+
+                                            
 
 
 

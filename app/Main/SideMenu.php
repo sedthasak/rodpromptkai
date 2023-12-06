@@ -105,7 +105,13 @@ class SideMenu
                 // 'params' => [],
                 'title' => 'ตั้งค่าระบบ',
                 'sub_menu' => [
-                    'caroverall' => [
+                    'slide' => [
+                        'icon' => 'Image',
+                        'route_name' => 'BN_slide',
+                        'params' => [],
+                        'title' => 'ตั้งค่าแบนเนอร์'
+                    ],
+                    'setfooter' => [
                         'icon' => 'Sidebar',
                         'route_name' => 'BN_setfooter',
                         'params' => [],

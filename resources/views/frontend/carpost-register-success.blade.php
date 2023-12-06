@@ -88,7 +88,7 @@ $arr_color = array(
                                 <img src="{{asset('frontend/images/icon-success.svg')}}" alt="">
                                 <h2>ส่งข้อมูลสำเร็จ</h2>
                                 <h3>โปรดรอเจ้าหน้าที่ตรวจสอบข้อมูล</h3>
-                                <p>หมายเลขอ้างอิง 12345678</p>
+                                <!-- <p>หมายเลขอ้างอิง 12345678</p> -->
                             </div>
                             <a href="{{route('profilePage')}}" class="btn-backpage">กลับสู่หน้าประกาศ</a>
                         </div>

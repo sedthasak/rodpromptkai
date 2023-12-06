@@ -347,11 +347,31 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
 
                         </div>
                     </div>
+                    <div class="mt-6 lg:mt-0 flex-1 px-5 border-l border-r border-slate-200/60 dark:border-darkmode-400 border-t lg:border-t-0 pt-5 lg:pt-0">
+                        <div class="font-medium text-center lg:text-left lg:mt-3">หมวดหมู่</div>
+                        <div class="flex flex-col justify-center items-center lg:items-start mt-4">
+                            @if(is_array($categories) && (count($categories)>0))
+                                @foreach($categories as $keycatedecde => $catego)
+                                <div class="truncate sm:whitespace-normal flex items-center">
+                                    <i data-lucide="Bookmark" class="w-4 h-4 mr-2"></i> {{$catego->name}}	
+                                </div>
+                                @endforeach
+                            @endif
+                                
+                            
+
+                        </div>
+                    </div>
                     
                 </div>
             </div>    
         </div>
+        <?php
 
+        // echo "<pre>";
+        // print_r($categories);
+        // echo "</pre>";
+        ?>
         <div class="intro-y flex text-xs sm:text-sm flex-col sm:flex-row items-center mt-5 pt-5 border-t border-slate-200/60 dark:border-darkmode-400">
             <div class="flex items-center">
                 <div class="w-12 h-12 flex-none image-fit">

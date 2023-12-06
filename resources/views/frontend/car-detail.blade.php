@@ -203,7 +203,11 @@ $arr_gear = array(
                                 </div>
                                 <div class="col-7 text-end">
                                    <a href="tel:{{$cars->customer_phone}}" target="_blank" class="btn-red"><i class="bi bi-telephone-fill"></i> {{$cars->firstname}}</a>
+                                   @if(isset($cars->customer_line))
+                                    <a href="https://line.me/ti/p/~{{$cars->customer_line}}" target="_blank" class="btn-red"> @ LINE</a>
+                                    @endif
                                 </div>
+                                
                             </div>
                         </div>
                         <div class="box-listdesc">
@@ -213,23 +217,34 @@ $arr_gear = array(
                                     <div style="display: none;" id="contactback">
                                         <div class="cardesc-frmcontact frm-contactback">
                                             <div class="topic-helpcar">ฝากข้อมูลให้ผู้ขายติดต่อกลับ</div>
-                                            <form>
+                                            <?php
+
+                                            $data = session()->all();
+                                            $customerdata = session('customer');
+                                            // echo "<pre>";
+                                            // print_r($customerdata);
+                                            // echo "</pre>";
+                                            ?>
+                                            <form method="post" action="{{route('contactcaractionPage')}}">
+                                                @csrf
+                                                <input type="hidden"  name="customer_id" value="{{$customerdata->id??''}}" >
+                                                <input type="hidden"  name="cars_id" value="{{$cars->id}}" >
                                                 <div class="row">
                                                     <div class="col-12 box-frmcontactback">
                                                         <label> ชื่อ - นามสกุล<span>*</span></label>
-                                                        <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
+                                                        <input type="text" class="form-control" name="name" placeholder="ชื่อ - นามสกุล">
                                                     </div>
                                                     <div class="col-12 col-md-6 box-frmcontactback">
                                                         <label>เบอร์โทรติดต่อ<span>*</span></label>
-                                                        <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
+                                                        <input type="text" class="form-control" name="tel" placeholder="เบอร์โทรติดต่อ">
                                                     </div>
                                                     <div class="col-12 col-md-6 box-frmcontactback">
                                                         <label>เวลาที่สะดวกให้ติดต่อกลับ<span>*</span></label>
-                                                        <input type="text" class="form-control" placeholder="ระบุเวลา">
+                                                        <input type="text" class="form-control" name="time" placeholder="ระบุเวลา">
                                                     </div>
                                                     <div class="col-12 box-frmcontactback">
                                                         <label>หมายเหตุ</label>
-                                                        <textarea rows="4" class="form-control"></textarea>
+                                                        <textarea rows="4" class="form-control" name="remark"></textarea>
                                                     </div>
                                                     <div class="col-12 col-md-9 box-frmcontactback">
                                                         <label class="list-checkbox">ฉันยอมรับ<a href="#" target="_blank">เงื่อนไขและนโยบายของ RodPromptkai</a> 

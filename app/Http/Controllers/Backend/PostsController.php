@@ -15,6 +15,7 @@ use App\Models\sub_modelsModel;
 use App\Models\carsModel;
 use App\Models\Customer;
 use App\Models\galleryModel;
+use App\Models\categoriesModel;
 use Auth;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -36,6 +37,7 @@ class PostsController extends Controller
         $generations = generationsModel::all();
         $sub_models = sub_modelsModel::all();
         $customer = Customer::all();
+        $categories = categoriesModel::all();
 
         return view('backend/post-add', [ 
             'default_pagename' => 'เพิ่มโพสท์ลงขายรถ',
@@ -45,6 +47,7 @@ class PostsController extends Controller
             'generations' => $generations,
             'sub_models' => $sub_models,
             'customer' => $customer,
+            'categories' => $categories,
         ]);
     }
     public function BN_posts_add_action(Request $request)
@@ -76,6 +79,7 @@ class PostsController extends Controller
         $cars->warranty_2 = $request->warranty_2;
         $cars->warranty_3 = $request->warranty_3;
         $cars->warranty_2_input = $request->warranty_2_input;
+        $cars->category = json_encode($request->category, true);
 
         if($request->user_id){
             $cars->status = 'approved';
@@ -258,6 +262,14 @@ class PostsController extends Controller
         $sub_models = DB::table('sub_models')->where('id', $postcar->sub_models_id)->first();
         $users = DB::table('users')->where('id', $postcar->user_id)->first();
 
+        $arr_cate = [];
+        if(is_array(json_decode($postcar->category)) && (count(json_decode($postcar->category))>0)){
+            foreach((json_decode($postcar->category)) as $keycatedecde => $catego){
+                $arr_cate[] = categoriesModel::find($catego);
+            }
+        }
+            
+
         $interior = [];
         $exterior = [];
         foreach($gallery as $gal){
@@ -282,6 +294,7 @@ class PostsController extends Controller
             'gallery' => $gallery,
             'interior' => $interior,
             'exterior' => $exterior,
+            'categories' => $arr_cate,
         ]);
     }
 
@@ -298,6 +311,7 @@ class PostsController extends Controller
         $generations = generationsModel::all();
         $sub_models = sub_modelsModel::all();
         $customer = Customer::all();
+        $categories = categoriesModel::all();
 
         return view('backend/post-edit', [ 
             'default_pagename' => 'แก้ไขโพสท์ลงขายรถ',
@@ -308,6 +322,7 @@ class PostsController extends Controller
             'generations' => $generations,
             'sub_models' => $sub_models,
             'customer' => $customer,
+            'categories' => $categories,
         ]);
     }
     public function BN_posts_edit_action(Request $request)
@@ -340,6 +355,7 @@ class PostsController extends Controller
         $cars->warranty_2 = $request->warranty_2;
         $cars->warranty_3 = $request->warranty_3;
         $cars->warranty_2_input = $request->warranty_2_input;
+        $cars->category = json_encode($request->category, true);
         $cars->status = 'approved';
         
 

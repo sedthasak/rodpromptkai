@@ -17,7 +17,7 @@ $arr_gear = array(
 // $message = $SixDigitRandomNumber.$tel;
 
 // echo "<pre>";
-// print_r($tel);
+// print_r($slide);
 // echo "</pre>";
 // echo "<pre>";
 // print_r($SixDigitRandomNumber);
@@ -32,7 +32,12 @@ $arr_gear = array(
 <section class="row">
     <div class="col-12 col-xl-9 wrapbanner wow fadeInDown">
         <div class="owl-bannerslide owl-carousel owl-theme">
+            @foreach($slide as $keyslide => $sld)
             <div class="items">
+                <figure><img src="{{asset($sld)}}" alt=""></figure>
+            </div>
+            @endforeach
+            <!-- <div class="items">
                 <figure><img src="{{asset('frontend/images/banner02.png')}}" alt=""></figure>
             </div>
             <div class="items">
@@ -43,7 +48,7 @@ $arr_gear = array(
             </div>
             <div class="items">
                 <figure><img src="{{asset('frontend/images/banner04.png')}}" alt=""></figure>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="col-12 col-xl-3 box-search-car">
@@ -664,7 +669,7 @@ $customerdata = session('customer');
         <p>ให้รถพร้อมขายช่วยหารถให้คุณ</p>
         <form method="post" action="{{route('helpcaractionPage')}}">
             @csrf
-            <input type="hidden"  name="customer_id	" value="{{$customerdata->id??''}}" placeholder="ชื่อ - นามสกุล">
+            <input type="hidden"  name="customer_id	" value="{{$customerdata->id??''}}" >
             <input type="text" class="form-control" name="name" value="" placeholder="ชื่อ - นามสกุล">
             <input type="text" class="form-control" name="tel" value="" placeholder="เบอร์โทรติดต่อ">
             <input type="text" class="form-control" name="line" value="" placeholder="Line ID">

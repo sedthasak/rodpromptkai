@@ -152,6 +152,7 @@ Route::get("/clearsessioncustomer", [FrontendPageController::class, 'clearsessio
 Route::get('/login', [FrontendPageController::class, 'loginPage'])->name('loginPage');
 Route::get('/', [FrontendPageController::class, 'indexPage'])->name('indexPage');
 Route::post('helpcaraction', [FrontendPageController::class, 'helpcaractionPage'])->name('helpcaractionPage');
+Route::post('contactcaraction', [FrontendPageController::class, 'contactcaractionPage'])->name('contactcaractionPage');
 Route::get('/phpinfo', function () {
     return phpinfo();
 });
@@ -165,26 +166,19 @@ Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');        
 
     Route::controller(BackendPageController::class)->group(function() {
-
         Route::get('/backend', 'backendDashboard')->name('backendDashboard');
-
-        // Route::get('/backend/dev', 'BN_dev')->name('BN_dev');
-        // Route::get('/backend/logs', 'BN_logs')->name('BN_logs');
-        // Route::get('/backend/users', 'BN_user')->name('BN_user');
-        // Route::get('/backend/news', 'BN_news')->name('BN_news');
-        // Route::get('/backend/posts', 'BN_posts')->name('BN_posts');
         Route::get('/backend/setting', 'BN_setting')->name('BN_setting');
-       
-        
         Route::get('/backend/tags', 'BN_tags')->name('BN_tags');
-        
     });
 
     Route::get('/backend/contacts', [ContactsController::class, 'BN_contacts'])->name('BN_contacts');
     
+    Route::get('/backend/slide', [BackendPageController::class, 'BN_slide'])->name('BN_slide');
     Route::get('/backend/setfooter', [BackendPageController::class, 'BN_setfooter'])->name('BN_setfooter');
     Route::get('/backend/termcondition', [BackendPageController::class, 'BN_termcondition'])->name('BN_termcondition');
     Route::get('/backend/privacypolicy', [BackendPageController::class, 'BN_privacypolicy'])->name('BN_privacypolicy');
+    Route::post('/backend/slide-update', [BackendPageController::class, 'BN_slideupdate'])->name('BN_slideupdate');
+    Route::post('/backend/slide-delete', [BackendPageController::class, 'BN_slidedelete'])->name('BN_slidedelete');
     Route::post('/backend/setfooter-update', [BackendPageController::class, 'BN_setfooterupdate'])->name('BN_setfooterupdate');
     Route::post('/backend/termcondition-update', [BackendPageController::class, 'BN_termcondition_update'])->name('BN_termcondition_update');
     Route::post('/backend/privacypolicy-update', [BackendPageController::class, 'BN_privacypolicy_update'])->name('BN_privacypolicy_update');

@@ -257,6 +257,17 @@ $arr_color = array(
                                         </div>
                                     </div>
                                 </div>
+                                <div class="mt-5">
+                                    <label for="" class="form-label">หมวดหมู่</label>
+                                    <select data-placeholder="หมวดหมู่" name="category[]" multiple="multiple" class="tom-select w-full">
+                                        @foreach($categories as $keycategories => $cate)
+                                        @php
+                                        $selected = (in_array($cate->id, json_decode($postcar->category)))?'selected':'';
+                                        @endphp
+                                        <option value="{{$cate->id}}" {{$selected}}>{{$cate->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                             </div>
                         </div>
