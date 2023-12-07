@@ -125,6 +125,7 @@ class FrontendPageController extends Controller
 
         $slide = DB::table('setting_option')->where('key_option', 'slide')->first();
         $decde = json_decode($slide->value_option);
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
 
         return view('frontend/index-page', [
             'layout' => 'side-menu',
@@ -134,7 +135,8 @@ class FrontendPageController extends Controller
             'allcars6' => $allcars6,
             'brand' => $qrybrand,
             'slide' => $decde,
-            'setFooterModel' => $setFooterModel
+            'setFooterModel' => $setFooterModel,
+            'province' => $province
         ]);
     }
     public function profilePage()
@@ -679,8 +681,9 @@ class FrontendPageController extends Controller
     
     public function carPage()
     {
+        $brand = brandsModel::orderBy("sort_no", "ASC")->get();
         return view('frontend/car', [
-
+            "brand" => $brand
         ]);
     }
     public function postcarPage()
@@ -827,10 +830,62 @@ class FrontendPageController extends Controller
     }
 
     public function searchbrandtext($brand_name) {
-        $qrybrand = brandsModel::leftJoin("models", "brands.id", "models.brand_id")
-        ->select("models.id as model_id", "model")
-        ->where("brands.title", "like", "%".$brand_name."%")
-        ->get();
+        if ($brand_name != "all") {
+            $qrybrand = brandsModel::select("brands.title", "brands.id")
+            ->where("brands.title", "like", "%".$brand_name."%")
+            ->orderBy("sort_no", "ASC")
+            ->get();
+        }
+        else {
+            $qrybrand = brandsModel::select("brands.title", "brands.id")
+            ->orderBy("sort_no", "ASC")
+            ->get();
+        }
         return response()->json($qrybrand);
+    }
+
+    public function searchmodeltext($brand_id, $model_name) {
+        if ($model_name != "all") {
+            $qrymodel = modelsModel::select("model", "id")
+            ->where("brand_id", $brand_id)
+            ->where("model", "like", "%".$model_name."%")
+            ->get();
+        }
+        else {
+            $qrymodel = modelsModel::select("model", "id")
+            ->where("brand_id", $brand_id)
+            ->get();
+        }
+        return response()->json($qrymodel);
+    }
+
+    public function searchgenerationtext($model_id, $generation_name) {
+        if ($generation_name != "all") {
+            $qrygeneration = generationsModel::select("generations", "id")
+            ->where("models_id", $model_id)
+            ->where("generations", "like", "%".$generation_name."%")
+            ->get();
+        }
+        else {
+            $qrygeneration = generationsModel::select("generations", "id")
+            ->where("models_id", $model_id)
+            ->get();
+        }
+        return response()->json($qrygeneration);
+    }
+
+    public function searchsubmodeltext($generation_id, $submodel_name) {
+        if ($submodel_name != "all") {
+            $qrysubmodel = sub_modelsModel::select("sub_models", "id")
+            ->where("generations_id", $generation_id)
+            ->where("sub_models", "like", "%".$submodel_name."%")
+            ->get();
+        }
+        else {
+            $qrysubmodel = sub_modelsModel::select("sub_models", "id")
+            ->where("generations_id", $generation_id)
+            ->get();
+        }
+        return response()->json($qrysubmodel);
     }
 }

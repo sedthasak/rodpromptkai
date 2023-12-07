@@ -256,7 +256,7 @@ class PostController extends Controller
     public function carpostregisterPage()
     {
         $provinces = provincesModel::all();
-        $brands = brandsModel::all();
+        $brands = brandsModel::orderBy("sort_no", "ASC")->get();
         // $models = modelsModel::all();
         // $query = DB::table('generations')->where('id', 1)->first();
         return view('frontend/carpost-register', [
@@ -270,7 +270,7 @@ class PostController extends Controller
     public function carpoststep1Page()
     {
         $provinces = provincesModel::all();
-        $brands = brandsModel::all();
+        $brands = brandsModel::orderBy("sort_no", "ASC")->get();
         $models = modelsModel::all();
         return view('frontend/carpost-step1', [
             'provinces' => $provinces,

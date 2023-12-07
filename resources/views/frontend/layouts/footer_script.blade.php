@@ -428,7 +428,7 @@ popupyearslider.noUiSlider.on('update', function (values, handle) {
         });
 
         $('.carsearch-popup .carsearch-ul > li > button').click(function (event) {
-            $('.carsearch-popup .car-inputsearch').val($(this).attr('rel'));
+            $('.carsearch-popup .car-inputsearch').val();
             if ( $(this).hasClass('carsearch-select-all')){
                 $('.carsearch-popup .carsearch-lv2, .carsearch-popup .carsearch-lv3, .carsearch-popup .carsearch-lv4').hide();
                 $('.carsearch-popup .carsearch-lv1').show();

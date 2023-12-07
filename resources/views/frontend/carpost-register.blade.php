@@ -391,7 +391,7 @@ $arr_cartype = array(
                                                         <div id="hidden-inputs-exterior"></div>
                                                         <div id="hidden-inputs-feature"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" name="exterior_pictures[]" id="exterior_pictures" multiple>
+                                                            <input type="file" name="exterior_pictures[]" id="exterior_pictures" multiple required>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>
@@ -409,7 +409,7 @@ $arr_cartype = array(
                                                         </div>
                                                         <div id="hidden-inputs"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" name="interior_pictures[]" id="interior_pictures" multiple>
+                                                            <input type="file" name="interior_pictures[]" id="interior_pictures" multiple required>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>

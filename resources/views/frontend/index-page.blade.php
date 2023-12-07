@@ -107,8 +107,13 @@ $arr_gear = array(
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-4 col-xl-12">
-                            <select name="" id="" class="form-select">
+                            <select name="province" id="province" class="form-select" onchange="province(this);">
                                 <option>จังหวัด</option>
+                                @if (isset($province))
+                                    @foreach ($province as $rows)
+                                        <option value="{{$rows->id}}"> {{$rows->name_th}}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4 col-xl-12">
@@ -143,19 +148,19 @@ $arr_gear = array(
                         </div>
                         <div class="col-12 col-md-6 col-lg-9 col-xl-12">
                             <select name="" id="" class="form-select">
-                                <option>แก๊ส</option>
-                                <option>ติดแก๊ส</option>
-                                <option>ไม่ติดแก๊ส</option>
+                                <option>รถน้ำมัน / hybrid</option>
+                                <option>รถไฟฟ้า EV 100%</option>
+                                <option>รถติดแก๊ส</option>
                             </select>
                         </div>
                         <div class="col-12 col-lg-3 col-xl-12">
-                            <a href="#" class="btn-submitsearch btn-searchcar">ยืนยัน</a>
+                            <a href="#" class="btn-submitsearch btn-searchcar" onclick="submit1()">ยืนยัน</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="boxshow-advance">
-                    <button class="btn-resetsearch"><img src="{{asset('frontend/images/icon-reset-white.svg')}}" alt="">ล้าง</button>
+                    <button class="btn-resetsearch" onClick="delall()"><img src="{{asset('frontend/images/icon-reset-white.svg')}}" alt="">ล้าง</button>
                     <button>กรุงเทพฯ <i class="bi bi-x"></i></button>
                     <button>สีขาว<i class="bi bi-x"></i></button>
                     <button>เกียร์อัตโนมัติ<i class="bi bi-x"></i></button>
@@ -678,4 +683,28 @@ $customerdata = session('customer');
         </form>
     </div>
 </div>
+
+<script>
+    function submit1() {
+        console.log("submit");
+        console.log($('#province').find('option:selected').text());
+        var province = $('#province').find('option:selected').text();
+        // Create a new button element
+        var newButton = $('<button onClick="del(this)">'+province+' <i class="bi bi-x"></i></button>');
+
+        // Append the new button to the boxshow-advance container
+        $('.boxshow-advance').append(newButton);
+    }
+    function province(data){
+        console.log($(data).find('option:selected').text());
+    }
+    function del(data){
+        $(data).remove();
+    }
+    function delall(){
+        // Remove all buttons within the boxshow-advance container
+        $('.boxshow-advance').find('button:not(.btn-resetsearch)').remove();
+        $('.boxshow-advance').show();
+    }
+</script>
 @endsection

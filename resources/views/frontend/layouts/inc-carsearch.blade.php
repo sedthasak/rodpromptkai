@@ -97,11 +97,11 @@
                             </div>
                         </div>
                         <div class="boxfrm-advancesearch">
-                            <label>แก๊ส</label>
+                            <label>เชื้อเพลิง</label>
                             <select name="" id="" class="form-select">
-                                <option>เลือกแก๊ส</option>
-                                <option>ติดแก๊ส</option>
-                                <option>ไม่ติดแก๊ส</option>
+                                <option>รถน้ำมัน / hybrid</option>
+                                <option>รถไฟฟ้า EV 100%</option>
+                                <option>รถติดแก๊ส</option>
                             </select>
                         </div>
                         <div class="boxfrm-advancesearch">
