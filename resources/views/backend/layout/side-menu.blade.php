@@ -5,6 +5,18 @@
 @endsection
 
 @section('content')
+<?php
+$arr = [];
+$arr['admin'] = array('devider','dashboard','customers','posts','car','cat','tag','news','users','contacts','setting','logs','dev',);
+$arr['manager'] = array('devider','dashboard','customers','posts','car','cat','tag','news','contacts','logs',);
+$arr['assistance'] = array('devider','dashboard','customers','posts','car','cat','tag',);
+$arr['editor'] = array('devider','dashboard','news',);
+$arr['marketing'] = array('devider','dashboard','customers',);
+
+// echo "<pre>";
+// print_r($page_name);
+// echo "</pre>";
+?>
     @include('../backend/layout/components/mobile-menu')
     <div class="flex overflow-hidden">
         <!-- BEGIN: Side Menu -->
@@ -21,6 +33,7 @@
                     @if ($menu == 'devider')
                         <li class="side-nav__devider my-6"></li>
                     @else
+                        @if(in_array($menuKey, $arr[auth()->user()->role]))
                         <li>
                             <a href="{{ isset($menu['route_name']) ? route($menu['route_name'], $menu['params']) : 'javascript:;' }}" class="{{ $first_level_active_index == $menuKey ? 'side-menu side-menu--active' : 'side-menu' }}">
                                 <div class="side-menu__icon">
@@ -71,6 +84,8 @@
                                 </ul>
                             @endif
                         </li>
+                        @endif
+                        
                     @endif
                 @endforeach
             </ul>

@@ -108,6 +108,7 @@
                 <li class="p-2">
                     <div class="font-medium">{{ auth()->user()->name }}</div>
                     <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">{{ auth()->user()->email }}</div>
+                    <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">[ {{ auth()->user()->role }} ]</div>
                 </li>
                 <li><hr class="dropdown-divider border-white/[0.08]"></li>
                 <li>

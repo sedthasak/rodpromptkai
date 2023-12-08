@@ -140,7 +140,7 @@ class UsersController extends Controller
         $User->email = $request->email;
         $User->password = Hash::make($request->password);
         $User->role = $request->role;;
-        $User->active = $request->active;;
+        $User->active = $request->active;
 
         $User->save();
         
@@ -164,7 +164,57 @@ class UsersController extends Controller
     }
     public function BN_user_edit_action(Request $request)
     {
-        dd($request);
+        // dd($request);
+
+        $request->validate([
+            
+        ]);
+
+        $User = User::find($request->user);
+
+        if($request->hasFile('photo')){
+
+            $oldPath = public_path($User->photo);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('photo');
+            $destinationPath = public_path('/uploads/photo');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = time().'-'.uniqid().'.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/photo/'.$newfilenam;
+
+            $User->photo = $filepath;
+        }
+
+        $User->name = $request->name;
+        $User->email = $request->email;
+        $User->role = $request->role;;
+        $User->active = $request->active;
+
+        $User->update();
+        
+        // event(new Registered($User));
+
+        if(1==1){
+            $usersavelog = auth()->user();
+            $idsavelog = auth()->user()->id; 
+            $emailsavelog = auth()->user()->email;
+            $para = array(
+                'part' => 'backend',
+                'user' => $idsavelog,
+                'ref' => $User->id,
+                'remark' => 'User '.$idsavelog.' Update User!',
+                'event' => 'update user',
+            );
+            $result = (new LogsSaveController)->create_log($para);
+        }   
+
+        return redirect()->back()->with('success', 'บันทึกข้อมูลสำเร็จ !!!');
     }
 
     

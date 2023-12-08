@@ -1,3 +1,10 @@
+
+<?php
+
+// echo "<pre>";
+// print_r('456464561364');
+// echo "</pre>";
+?>
 <!-- BEGIN: Mobile Menu -->
 <div class="mobile-menu md:hidden">
     <div class="mobile-menu-bar">
@@ -13,6 +20,7 @@
             @if ($menu == 'devider')
                 <li class="menu__devider my-6"></li>
             @else
+                @if(in_array($menuKey, $arr[auth()->user()->role]))
                 <li>
                     <a href="{{ isset($menu['route_name']) ? route($menu['route_name'], $menu['params']) : 'javascript:;' }}" class="{{ $first_level_active_index == $menuKey ? 'menu menu--active' : 'menu' }}">
                         <div class="menu__icon">
@@ -59,6 +67,9 @@
                         </ul>
                     @endif
                 </li>
+                @endif
+                
+                
             @endif
         @endforeach
     </ul>

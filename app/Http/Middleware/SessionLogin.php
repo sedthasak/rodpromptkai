@@ -9,6 +9,7 @@ use App\Http\Controllers\LogsSaveController;
 use App\Models\Sms_session;
 use App\Models\Customer;
 use App\Models\brandsModel;
+use App\Models\contacts_backModel;
 use Illuminate\Support\Facades\View;
 
 class SessionLogin
@@ -29,6 +30,9 @@ class SessionLogin
                 $customerdata = Customer::where("id", $session->customer_id)->first();
                 if(isset($customerdata)){
                     $request->session()->put('customer', $customerdata);
+
+                    $contacts_back = contacts_backModel::where("customer_id", $session->customer_id)->get();
+                    View::share('contacts_back', $contacts_back);
                 }
             }
             else {

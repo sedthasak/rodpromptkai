@@ -5,7 +5,7 @@
 $data = session()->all();
 $customerdata = session('customer');
 // echo "<pre>";
-// print_r($customerdata);
+// print_r(count($contacts_back));
 // echo "</pre>";
 ?>
 <header class="row">
@@ -29,7 +29,12 @@ $customerdata = session('customer');
                             @else
                             <a href="{{route('loginPage')}}" class="btn-login"><i class="bi bi-person-circle"></i> เข้าสู่ระบบ</a>
                             @endif
-                            <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> <div>10</div></a>
+                            @if(isset($contacts_back) && count($contacts_back) > 0)
+                            <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> <div>{{count($contacts_back)}}</div></a>
+                            @else
+                            <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> </a>
+                            @endif
+                            
                             <a href="{{route('postcarPage')}}" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ <span>ฟรี!</span></a>
                         </div>
                     </div>

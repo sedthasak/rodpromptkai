@@ -6,7 +6,14 @@
 
 @section('content')
 
+<?php
 
+
+// $qqq = 7;
+// echo "<pre>";
+// print_r($contacts_back);
+// echo "</pre>";
+?>
 @include('frontend.layouts.inc_profile')	
 <section class="row">
     <div class="col-12 page-profile">
@@ -30,6 +37,48 @@
 
                         <div class="wrap-detailcustomer">
 
+                            @foreach($contacts_back as $keycont => $contact)
+                            <div class="item_customer">
+                                <div class="box-topiccustomer">
+                                    <div class="row">
+                                        <div class="col-12 col-md-5 col-xl-6">
+                                            <div class="customer-carname">1. <a href="{{route('cardetailPage', ['post' => $contact->car_id])}}">{{strtoupper($contact->car_modelyear." ".$contact->brands_title." ".$contact->model_name)}}</a></div>
+                                        </div>
+                                        <div class="col-3 col-md-2 col-xl-2">
+                                            <div class="customer-date">{{date('d/m/Y', strtotime($contact->created_at))}}</div>
+                                        </div>
+                                        <div class="col-9 col-md-5 col-xl-4 text-end">
+                                            <!-- <button class="btn-cus-delete button-delete"><i class="bi bi-trash3-fill"></i></button> -->
+                                            <div class="status-contactcus">
+                                                <select name="color" id='color' onchange="changeColor(this)">
+                                                    <!-- <option value="#D82E2E" {{($contact->created_at == 'create')?'selected':'';}}>ยังไม่ได้ติดต่อ</option>    
+                                                    <option value="#41AC6D" {{($contact->created_at == 'contact')?'selected':'';}}>ติดต่อแล้ว</option>   -->
+                                                    <option value="create" {{($contact->status == 'create')?'selected':'';}}>ยังไม่ได้ติดต่อ</option>    
+                                                    <option value="contact" {{($contact->status == 'contact')?'selected':'';}}>ติดต่อแล้ว</option>  
+                                                </select> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-contactcus"><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></div>
+                                <div class="detail-contactcus">
+                                    <p>ชื่อ - นามสกุล :  <span>{{$contact->name}}</span> </p> 
+                                    <p>เบอร์โทรติดต่อ : <span><a href="tel:0812345678" target="_blank">{{$contact->tel}}</a></span> </p> 
+                                    <p>เวลาที่สะดวกให้ติดต่อกลับ : <span>{{$contact->time}}</span></p> 
+                                    <p>หมายเหตุ : <span>{{$contact->remark}}</span></p>
+                                    <div class="share-contactcus">
+                                        <div class="wrap-btnshare">
+                                            แชร์ : 
+                                            <a href="#" class="btn-popupshare icon-fb"><i class="bi bi-facebook"></i></a>
+                                            <a href="#" class="btn-popupshare icon-messenger"><i class="bi bi-messenger"></i></a>
+                                            <a href="#" class="btn-popupshare icon-line"><i class="bi bi-line"></i></a>
+                                            <a href="#" class="btn-copy"><i class="bi bi-link-45deg"></i> copy</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @endforeach
                             <!-- <div class="item_customer">
                                 <div class="box-topiccustomer">
                                     <div class="row">
