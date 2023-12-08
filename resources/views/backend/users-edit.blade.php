@@ -18,7 +18,7 @@
     </div>
     <form method="post" action="{{route('BN_user_edit_action')}}" enctype="multipart/form-data">
         @csrf
-        <input type="hidden" name="user" value="" />
+        <input type="hidden" name="user" value="{{$user->id}}" />
         <div class="grid grid-cols-12 gap-6 mt-5">
             <!-- <div class="intro-y col-span-12 lg:col-span-3"></div> -->
             <div class="intro-y col-span-12 lg:col-span-12">

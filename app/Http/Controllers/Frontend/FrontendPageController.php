@@ -123,8 +123,10 @@ class FrontendPageController extends Controller
 
         $setFooterModel = setFooterModel::all();
 
+        $decde = array();
         $slide = DB::table('setting_option')->where('key_option', 'slide')->first();
-        $decde = json_decode($slide->value_option);
+        if(isset($slide)){$decde = json_decode($slide->value_option);}
+        
         $province = provincesModel::orderBy("name_th", "ASC")->get();
 
         return view('frontend/index-page', [
@@ -298,10 +300,27 @@ class FrontendPageController extends Controller
             $carfromstatus[$carstatus->status][] = $carstatus;
         }
 
+        $contacts_back = contacts_backModel::where("customer_id", $customer_id)->get();
+
+        $mycontacts = DB::table('contacts_back')
+            ->leftjoin('cars', 'contacts_back.cars_id', '=', 'cars.id')
+            // ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            // ->where('customer_id', $customer_id)
+            ->select('contacts_back.*', 'cars.id as car_id', 'cars.modelyear as car_modelyear', 
+                'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
         return view('frontend/customer-contact', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
+            'contacts_back' => $mycontacts,
         ]);
     }
     /****************************************************************/
