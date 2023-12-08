@@ -113,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            <a href="#" class="btn-searchcar">ค้นหารถยนต์</a>
+            <a href="javascript:void(0);" onclick="search2();" class="btn-searchcar">ค้นหารถยนต์</a>
         </div>
 
         <div class="left-boxsearch-item">
@@ -216,3 +216,4 @@
     </div>
     <a href="#" target="_blank" class="banner-adv"><img src="{{asset('frontend/images/bannera.jpg')}}" alt=""></a>
 </div>
+

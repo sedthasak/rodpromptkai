@@ -682,8 +682,19 @@ class FrontendPageController extends Controller
     public function carPage()
     {
         $brand = brandsModel::orderBy("sort_no", "ASC")->get();
+
+        $qrycar = carsModel::rightJoin('brands', 'cars.brand_id', 'brands.id')
+        ->rightJoin('models', 'cars.model_id', 'models.id')
+        ->rightJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
+        ->rightJoin('generations', 'cars.generations_id', 'generations.id')
+        ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
+        ->orderBy("cars.modelyear", "DESC")
+        ->orderBy("cars.created_at", "DESC")
+        ->get();
+
         return view('frontend/car', [
-            "brand" => $brand
+            "brand" => $brand,
+            "cars" => $qrycar
         ]);
     }
     public function postcarPage()
@@ -887,5 +898,27 @@ class FrontendPageController extends Controller
             ->get();
         }
         return response()->json($qrysubmodel);
+    }
+
+    public function search($brand_id, $model_id, $generation_id, $submodel_id, $evtype, $payment, $pricelow, $pricehigh, $color, $gear, $power, $province_id) {
+        // return "brand = ".$brand_id;
+        // $brand_id = 1; // BMW
+        // $model_id = 25; // X1
+        $qrycar = carsModel::rightJoin('brands', 'cars.brand_id', 'brands.id')
+        ->rightJoin('models', 'cars.model_id', 'models.id')
+        ->rightJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
+        ->rightJoin('generations', 'cars.generations_id', 'generations.id')
+        ->when($model_id, function ($query, $model_id) {
+            return $query->where('cars.model_id', $model_id);
+        })
+        ->when($brand_id, function ($query, $brand_id) {
+            return $query->where('cars.brand_id', $brand_id);
+        })
+        ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
+        ->orderBy("cars.modelyear", "DESC")
+        ->orderBy("cars.created_at", "DESC")
+        ->get();
+
+        return response()->json($qrycar);
     }
 }

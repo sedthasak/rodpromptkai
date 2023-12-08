@@ -161,6 +161,7 @@ Route::get('/news', [FrontendPageController::class, 'newsPage'])->name('newsPage
 Route::get('/news-detail', [FrontendPageController::class, 'newsdetailPage'])->name('newsdetailPage');
 Route::get('/car', [FrontendPageController::class, 'carPage'])->name('carPage');
 Route::get('/car-detail/{post}', [FrontendPageController::class, 'cardetailPage'])->name('cardetailPage');
+Route::get('/search/{brand_id}/{model_id}/{generation_id}/{submodel_id}/{evtype}/{payment}/{pricelow}/{pricehigh}/{color}/{gear}/{power}/{province_id}',  [FrontendPageController::class, 'search'])->name('search');
 
 Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');        

@@ -44,12 +44,19 @@
                             <button>BMW <i class="bi bi-x"></i></button>
                             <button>X1 <i class="bi bi-x"></i></button>
                         </div>
-                        <div class="txt-numresult">ทั้งหมด <span>345</span> รายการ</div>
-                        <div class="btn-boxfilter">
+                        <div class="txt-numresult">ทั้งหมด <span>{{number_format(count($cars))}}</span> รายการ</div>
+                        <div class="btn-boxfilter model">
+                            <button>รุ่น1</button>
+                            <button>รุ่น2</button>
+                        </div>
+                        <div class="btn-boxfilter generation">
                             <button>F48 ปี16-ปัจจุบัน</button>
                             <button>E84 ปี09-16</button>
                         </div>
-                        <div class="btn-boxfilter">
+                        <div class="btn-boxfilter submodel">
+                            <button>Hybride</button>
+                        </div>
+                        <div class="btn-boxfilter year">
                             <button>2023</button>
                             <button>2021</button>
                             <button>2020</button>
@@ -97,369 +104,152 @@
                         </div>
                     </div>
 
-                    <div>
-                        <div class="box-itemcar">
-                            <div class="car-year">2023</div>
-                            <div class="row row-itemcar">
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="caryearcontent">
+                        @php
+                            $total = count($cars);
+                            $currentyear="";
 
-                        <div class="box-itemcar">
-                            <div class="car-year">2021</div>
-                            <div class="row row-itemcar">
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        @endphp
+                        @foreach ($cars as $index => $rows)
+                            @if ($index == 0)
+                                <div class="box-itemcar">
+                                <div class="car-year">{{$rows->modelyear}}</div>
+                                <div class="row row-itemcar">
 
-                        <div class="box-frmhelpcar">
-                            <div class="topic-frmhelpcar">
-                                <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
-                            </div>
-                            <form action="">
-                                <div>
-                                    <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
-                                    <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
-                                    <input type="text" class="form-control" placeholder="Line ID">
-                                    <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
+                                <div class="col-itemcar col-6 col-xl-4">
+                                    <a href="{{url('/car-detail').'/'.$rows->id}}" class="item-car">
+                                        <figure>
+                                            <div class="cover-car">
+                                                <img src="{{$rows->feature}}" alt="">
+                                            </div>
+                                            <figcaption>
+                                                <div class="grid-desccar">
+                                                    <div class="car-name">{{$rows->modelyear}} {{$rows->brand_name}} {{$rows->model_name}} </div>
+                                                    <div class="car-series">{{$rows->submodel_name}} {{$rows->generation_name}}</div>
+                                                    <div class="car-province">{{$rows->province}}</div>
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-8">
+                                                            <div class="descpro-car">{{$rows->title}}</div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 text-end">
+                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="linecontent"></div>
+                                                <div class="row caritem-price">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> @if($rows->gear=="auto"){{"เกียร์อัตโนมัติ"}}@else{{"เกียร์ธรรมดา"}}@endif</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 text-end">
+                                                        <div class="car-price">{{number_format($rows->price)}}.-</div>
+                                                    </div>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </a>
                                 </div>
-                                <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
-                            </form>
-                        </div>
+                            @else
+                                <div class="col-itemcar col-6 col-xl-4">
+                                    <a href="{{url('/car-detail').'/'.$rows->id}}" class="item-car">
+                                        <figure>
+                                            <div class="cover-car">
+                                                <img src="{{$rows->feature}}" alt="">
+                                            </div>
+                                            <figcaption>
+                                                <div class="grid-desccar">
+                                                    <div class="car-name">{{$rows->modelyear}} {{$rows->brand_name}} {{$rows->model_name}} </div>
+                                                    <div class="car-series">{{$rows->submodel_name}} {{$rows->generation_name}}</div>
+                                                    <div class="car-province">{{$rows->province}}</div>
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-8">
+                                                            <div class="descpro-car">{{$rows->title}}</div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 text-end">
+                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="linecontent"></div>
+                                                <div class="row caritem-price">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> @if($rows->gear=="auto"){{"เกียร์อัตโนมัติ"}}@else{{"เกียร์ธรรมดา"}}@endif</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 text-end">
+                                                        <div class="car-price">{{number_format($rows->price)}}.-</div>
+                                                    </div>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </a>
+                                </div>
+                            @endif
+                            @if ($index == $total - 1)
+                                </div>
+                                </div>
+                                {{-- </div> --}}
+                            @endif
+                            @if (($index+1) > 0 && ($index+1) % 10 == 0)
+                                @if ($index == $total - 1)
+                                <div class="box-frmhelpcar">
+                                    <div class="topic-frmhelpcar">
+                                        <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
+                                    </div>
+                                    <form action="">
+                                        <div>
+                                            <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
+                                            <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
+                                            <input type="text" class="form-control" placeholder="Line ID">
+                                            <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
+                                        </div>
+                                        <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
+                                    </form>
+                                </div>
+                                @else
+                                    </div>
+                                    </div>
 
-                        <div class="box-itemcar">
-                            <div class="car-year">2021</div>
-                            <div class="row row-itemcar">
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
+                                    <div class="box-frmhelpcar">
+                                        <div class="topic-frmhelpcar">
+                                            <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
+                                        </div>
+                                        <form action="">
+                                            <div>
+                                                <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
+                                                <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
+                                                <input type="text" class="form-control" placeholder="Line ID">
+                                                <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
                                             </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="#" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">2016 Honda CR-V </div>
-                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                                    <div class="car-province">กรุงเทพมหานคร</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">599,000.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                                            <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
+                                        </form>
+                                    </div>
+            
+                                    
+                                    <div class="box-itemcar">
+                                    <div class="car-year">{{$rows->modelyear}}</div>
+                                    <div class="row row-itemcar">
+                                @endif
+                            @endif
+                            @if ($currentyear != $rows->modelyear)
+                                @if ($currentyear == "")
+                                @elseif (($index+1) > 0 && ($index+1) % 10 == 0)
+                                @else
+                                    </div>
+                                    </div>
+                
+                                    
+                                    <div class="box-itemcar">
+                                    <div class="car-year">{{$rows->modelyear}}</div>
+                                    <div class="row row-itemcar">
+                                @endif
+                                @php
+                                    $currentyear = $rows->modelyear;
+                                @endphp
+                            @endif
+                            
+                        
+
+                        @endforeach
                     </div>
 
                     
@@ -532,6 +322,7 @@
 
 </script>
 <script>
+    var brand_id=1, model_id=1, generation_id=1, submodel_id=1, evtype=0, payment=0, pricelow=0, pricehigh=10000000, color="ขาว", gear="auto", power=1, province_id=1;
     $( document ).ready(function() {
             // range price
     var priceslider = document.getElementById('priceslider');
@@ -633,6 +424,207 @@ yearslider.noUiSlider.on('update', function (values, handle) {
 
     
 });
+    function search2() {
+        $.get("{{url('/search')}}"+"/"+brand_id+"/"+model_id+"/"+generation_id+"/"+submodel_id+"/"+evtype+"/"+payment+"/"+pricelow+"/"+pricehigh+"/"+color+"/"+gear+"/"+power+"/"+province_id, function(data, status){
+            // console.log("Data: " + data + "\nStatus: " + status);
+            var html="", currentyear="", total=0;
+            total = data.length;
+            $('.txt-numresult span').text(total);
+            $.each(data, function( index, value ) {
+                // เริ่มต้น
+                if (index == 0) {
+                    currentyear = value.modelyear;
+                    // section year
+                    html+='<div class="box-itemcar">';
+                    html+='<div class="car-year">'+value.modelyear+'</div>';
+                    html+='<div class="row row-itemcar">';
+
+
+                    // section car
+                    html+='<div class="col-itemcar col-6 col-xl-4">';
+                    html+='<a href="{{url('')}}/car-detail/'+value.id+'" class="item-car">';
+                    html+='<figure>';
+                    html+='<div class="cover-car">';
+                    html+='<img src="{{asset('')}}'+value.feature+'" alt="">';
+                    html+='</div>';
+                    html+='<figcaption>';
+                    html+='<div class="grid-desccar">';
+                    html+='<div class="car-name">'+value.modelyear+' '+value.brand_name+' '+value.model_name+' </div>';
+                    html+='<div class="car-series">'+value.submodel_name+' '+value.generation_name+'</div>';
+                    html+='<div class="car-province">'+value.province+'</div>';
+                    html+='<div class="row">';
+                    html+='<div class="col-12 col-md-8">';
+                    html+='<div class="descpro-car">'+value.title+'</div>';
+                    html+='</div>';
+                    html+='<div class="col-12 col-md-4 text-end">';
+                    html+='<div class="txt-readmore">ดูเพิ่มเติม</div>';
+                    html+='</div>';
+                    html+='</div>';
+                    html+='</div>';
+                    html+='<div class="linecontent"></div>';
+                    html+='<div class="row caritem-price">';
+                    html+='<div class="col-12 col-md-6">';
+                    html+='<div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> '+(value.gear==="auto"?'เกียร์อัตโนมัติ':'เกียร์ธรรมดา')+'</div>';
+                    html+='</div>';
+                    html+='<div class="col-12 col-md-6 text-end">';
+                    html+='<div class="car-price">'+value.price.toLocaleString("en-US")+'.-</div>';
+                    html+='</div>';
+                    html+='</div>';
+                    html+='</figcaption>';
+                    html+='</figure>';
+                    html+='</a>';
+                    html+='</div>';
+                    // end section car
+                }
+                else {
+                    // section car
+                    html+='<div class="col-itemcar col-6 col-xl-4">';
+                    html+='<a href="{{url('')}}/car-detail/'+value.id+'" class="item-car">';
+                    html+='<figure>';
+                    html+='<div class="cover-car">';
+                    html+='<img src="{{asset('')}}'+value.feature+'" alt="">';
+                    html+='</div>';
+                    html+='<figcaption>';
+                    html+='<div class="grid-desccar">';
+                    html+='<div class="car-name">'+value.modelyear+' '+value.brand_name+' '+value.model_name+' </div>';
+                    html+='<div class="car-series">'+value.submodel_name+' '+value.generation_name+'</div>';
+                    html+='<div class="car-province">'+value.province+'</div>';
+                    html+='<div class="row">';
+                    html+='<div class="col-12 col-md-8">';
+                    html+='<div class="descpro-car">'+value.title+'</div>';
+                    html+='</div>';
+                    html+='<div class="col-12 col-md-4 text-end">';
+                    html+='<div class="txt-readmore">ดูเพิ่มเติม</div>';
+                    html+='</div>';
+                    html+='</div>';
+                    html+='</div>';
+                    html+='<div class="linecontent"></div>';
+                    html+='<div class="row caritem-price">';
+                    html+='<div class="col-12 col-md-6">';
+                    html+='<div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> '+(value.gear==="auto"?'เกียร์อัตโนมัติ':'เกียร์ธรรมดา')+'</div>';
+                    html+='</div>';
+                    html+='<div class="col-12 col-md-6 text-end">';
+                    html+='<div class="car-price">'+value.price.toLocaleString("en-US")+'.-</div>';
+                    html+='</div>';
+                    html+='</div>';
+                    html+='</figcaption>';
+                    html+='</figure>';
+                    html+='</a>';
+                    html+='</div>';
+                    // end section car
+                }
+                if (index === total - 1){
+                    // end section year
+                    html+='</div>';
+                    html+='</div>';
+                    // html+='</div>';
+                }
+                if ((index+1) > 0 && (index+1) % 10 === 0) {
+                    if (index === total - 1) {
+                        // แทรกค้นหารถ ทุกๆ 10 คัน
+                        html+='<div class="box-frmhelpcar">';
+                        html+='<div class="topic-frmhelpcar">';
+                        html+='<img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ';
+                        html+='</div>';
+                        html+='<form action="">';
+                        html+='<div>';
+                        html+='<input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">';
+                        html+='<input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">';
+                        html+='<input type="text" class="form-control" placeholder="Line ID">';
+                        html+='<input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">';
+                        html+='</div>';
+                        html+='<button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>';
+                        html+='</form>';
+                        html+='</div>';
+                    }
+                    else {
+                        // end section year
+                        html+='</div>';
+                        html+='</div>';
+                        // html+='</div>';
+
+                        // แทรกค้นหารถ ทุกๆ 10 คัน
+                        html+='<div class="box-frmhelpcar">';
+                        html+='<div class="topic-frmhelpcar">';
+                        html+='<img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ';
+                        html+='</div>';
+                        html+='<form action="">';
+                        html+='<div>';
+                        html+='<input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">';
+                        html+='<input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">';
+                        html+='<input type="text" class="form-control" placeholder="Line ID">';
+                        html+='<input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">';
+                        html+='</div>';
+                        html+='<button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>';
+                        html+='</form>';
+                        html+='</div>';
+
+                        // section year
+                        html+='<div class="box-itemcar">';
+                        html+='<div class="car-year">'+value.modelyear+'</div>';
+                        html+='<div class="row row-itemcar">';
+                    }
+                }
+                if (currentyear !== value.modelyear){
+                    if (currentyear === "") {
+
+                    }
+                    else if ((index+1) > 0 && (index+1) % 10 == 0)
+                    else {
+                        // end section year
+                        html+='</div>';
+                        html+='</div>';
+                        // html+='</div>';
+
+                        // section year
+                        html+='<div class="box-itemcar">';
+                        html+='<div class="car-year">'+value.modelyear+'</div>';
+                        html+='<div class="row row-itemcar">';
+                    }
+                    currentyear = value.modelyear;
+                }
+            });
+            $('#caryearcontent').empty().append(html);
+            // <div class="box-itemcar">
+            //     <div class="car-year">2023</div>
+            //     <div class="row row-itemcar">
+            //         <div class="col-itemcar col-6 col-xl-4">
+            //             <a href="#" class="item-car">
+            //                 <figure>
+            //                     <div class="cover-car">
+            //                         <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
+            //                     </div>
+            //                     <figcaption>
+            //                         <div class="grid-desccar">
+            //                             <div class="car-name">2016 Honda CR-V </div>
+            //                             <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
+            //                             <div class="car-province">กรุงเทพมหานคร</div>
+            //                             <div class="row">
+            //                                 <div class="col-12 col-md-8">
+            //                                     <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
+            //                                 </div>
+            //                                 <div class="col-12 col-md-4 text-end">
+            //                                     <div class="txt-readmore">ดูเพิ่มเติม</div>
+            //                                 </div>
+            //                             </div>
+            //                         </div>
+            //                         <div class="linecontent"></div>
+            //                         <div class="row caritem-price">
+            //                             <div class="col-12 col-md-6">
+            //                                 <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
+            //                             </div>
+            //                             <div class="col-12 col-md-6 text-end">
+            //                                 <div class="car-price">599,000.-</div>
+            //                             </div>
+            //                         </div>
+            //                     </figcaption>
+            //                 </figure>
+            //             </a>
+            //         </div>
+            //     </div>
+            // </div>
+        });
+    }
 </script>
 
 @endsection

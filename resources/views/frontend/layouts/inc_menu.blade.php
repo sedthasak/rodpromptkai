@@ -56,7 +56,7 @@ $customerdata = session('customer');
                                 </div>
                                 <div class="close_menu"><i class="bi bi-x-circle-fill"></i></div>
                             </li>
-                            <li><a href="{{route('carPage')}}"><i class="bi bi-car-front-fill"></i> ซื้อรถยนต์</a></li>
+                            <li><a href="{{route('indexPage')}}"><i class="bi bi-car-front-fill"></i> ซื้อรถยนต์</a></li>
                             <li><a href="{{route('carPage')}}"><i class="bi bi-car-front"></i> ดูรถพร้อมขาย</a></li>
                             <!-- <li><a href="{{route('carPage')}}"><i class="bi bi-stars"></i> รถใหม่</a></li> -->
                             <li class="hassub">
