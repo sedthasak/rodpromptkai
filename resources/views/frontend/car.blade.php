@@ -330,31 +330,31 @@
 var minrange = 0;
 var maxrange = 3000000;
 
-noUiSlider.create(priceslider, {
-    start: [minrange, maxrange],
-    connect: true,
-    snap: true,
-    range: {
-        'min': minrange,
-        '8%': 100000,
-        '16%': 200000,
-        '24%': 300000,
-        '32%': 400000,
-        '40%': 500000,
-        '48%': 600000,
-        '56%': 700000,
-        '64%': 800000,
-        '72%': 900000,
-        '80%': 1000000,
-        '88%': 2000000,
-        'max': maxrange
-    },
-      format: wNumb({
-        decimals: 0,
-        thousand: ',',
-        postfix: '',
-    })
-});
+// noUiSlider.create(priceslider, {
+//     start: [minrange, maxrange],
+//     connect: true,
+//     snap: true,
+//     range: {
+//         'min': minrange,
+//         '8%': 100000,
+//         '16%': 200000,
+//         '24%': 300000,
+//         '32%': 400000,
+//         '40%': 500000,
+//         '48%': 600000,
+//         '56%': 700000,
+//         '64%': 800000,
+//         '72%': 900000,
+//         '80%': 1000000,
+//         '88%': 2000000,
+//         'max': maxrange
+//     },
+//       format: wNumb({
+//         decimals: 0,
+//         thousand: ',',
+//         postfix: '',
+//     })
+// });
 
 var formatValues = [
     document.getElementById('minprice'),
@@ -380,25 +380,25 @@ var minyearrange = 2010;
 var maxyearrange = 2023;
 
 
-noUiSlider.create(yearslider, {
-    start: [minyearrange, maxyearrange],
-    connect: true,
-    snap: true,
-    range: {
-        'min': minyearrange,
-        '10%': 2012,
-        '20%': 2013,
-        '30%': 2015,
-        '50%': 2017,
-        '60%': 2019,
-        '70%': 2020,
-        '90%': 2021,
-        'max': maxyearrange
-    },
-      format: wNumb({
-        decimals: 0,
-    })
-});
+// noUiSlider.create(yearslider, {
+//     start: [minyearrange, maxyearrange],
+//     connect: true,
+//     snap: true,
+//     range: {
+//         'min': minyearrange,
+//         '10%': 2012,
+//         '20%': 2013,
+//         '30%': 2015,
+//         '50%': 2017,
+//         '60%': 2019,
+//         '70%': 2020,
+//         '90%': 2021,
+//         'max': maxyearrange
+//     },
+//       format: wNumb({
+//         decimals: 0,
+//     })
+// });
 
 var formatYear = [
     document.getElementById('minyear'),
@@ -524,7 +524,7 @@ yearslider.noUiSlider.on('update', function (values, handle) {
                         // แทรกค้นหารถ ทุกๆ 10 คัน
                         html+='<div class="box-frmhelpcar">';
                         html+='<div class="topic-frmhelpcar">';
-                        html+='<img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ';
+                        html+='<img src="{{asset("frontend/images/carred.svg")}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ';
                         html+='</div>';
                         html+='<form action="">';
                         html+='<div>';
@@ -546,7 +546,7 @@ yearslider.noUiSlider.on('update', function (values, handle) {
                         // แทรกค้นหารถ ทุกๆ 10 คัน
                         html+='<div class="box-frmhelpcar">';
                         html+='<div class="topic-frmhelpcar">';
-                        html+='<img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ';
+                        html+='<img src="{{asset("frontend/images/carred.svg")}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ';
                         html+='</div>';
                         html+='<form action="">';
                         html+='<div>';
@@ -569,7 +569,9 @@ yearslider.noUiSlider.on('update', function (values, handle) {
                     if (currentyear === "") {
 
                     }
-                    else if ((index+1) > 0 && (index+1) % 10 == 0)
+                    else if ((index+1) > 0 && (index+1) % 10 === 0) {
+                        
+                    }
                     else {
                         // end section year
                         html+='</div>';
@@ -585,44 +587,6 @@ yearslider.noUiSlider.on('update', function (values, handle) {
                 }
             });
             $('#caryearcontent').empty().append(html);
-            // <div class="box-itemcar">
-            //     <div class="car-year">2023</div>
-            //     <div class="row row-itemcar">
-            //         <div class="col-itemcar col-6 col-xl-4">
-            //             <a href="#" class="item-car">
-            //                 <figure>
-            //                     <div class="cover-car">
-            //                         <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
-            //                     </div>
-            //                     <figcaption>
-            //                         <div class="grid-desccar">
-            //                             <div class="car-name">2016 Honda CR-V </div>
-            //                             <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-            //                             <div class="car-province">กรุงเทพมหานคร</div>
-            //                             <div class="row">
-            //                                 <div class="col-12 col-md-8">
-            //                                     <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-            //                                 </div>
-            //                                 <div class="col-12 col-md-4 text-end">
-            //                                     <div class="txt-readmore">ดูเพิ่มเติม</div>
-            //                                 </div>
-            //                             </div>
-            //                         </div>
-            //                         <div class="linecontent"></div>
-            //                         <div class="row caritem-price">
-            //                             <div class="col-12 col-md-6">
-            //                                 <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-            //                             </div>
-            //                             <div class="col-12 col-md-6 text-end">
-            //                                 <div class="car-price">599,000.-</div>
-            //                             </div>
-            //                         </div>
-            //                     </figcaption>
-            //                 </figure>
-            //             </a>
-            //         </div>
-            //     </div>
-            // </div>
         });
     }
 </script>

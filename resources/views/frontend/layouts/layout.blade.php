@@ -13,13 +13,14 @@
 
 @yield('content')
 
-<!-- @include('frontend.layouts.inc_carseo')		 -->
+@include('frontend.layouts.inc_carseo')
 @include('frontend.layouts.inc_help-carsearch')		
 @include('frontend.layouts.inc_footer')		
 @yield('script')
 @if(session('success'))
             
 <script>
+    // @include('frontend.layouts.inc_carseo')
     // Swal.fire(
     //     'Success',
     //     '&nbsp;',
