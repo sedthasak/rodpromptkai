@@ -959,16 +959,16 @@ class FrontendPageController extends Controller
             ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
             ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id')
             ->when($brand_id !== null, function ($query) use ($brand_id) {
-                return $query->where('brands.brand_id', $brand_id);
+                return $query->where('cars.brand_id', $brand_id);
             })
             ->when($model_id !== null, function ($query) use ($model_id) {
-                return $query->where('models.model_id', $model_id);
+                return $query->where('cars.model_id', $model_id);
             })
             ->when($generation_id !== null, function ($query) use ($generation_id) {
-                return $query->where('generations.generation_id', $generation_id);
+                return $query->where('cars.generations_id', $generation_id);
             })
             ->when($submodel_id !== null, function ($query) use ($submodel_id) {
-                return $query->where('sub_models.submodel_id', $submodel_id);
+                return $query->where('cars.sub_models_id', $submodel_id);
             })
             ->when($pricelow && $pricehigh, function ($query) use ($pricelow, $pricehigh) {
                 return $query->whereBetween('cars.price', [$pricelow, $pricehigh]);
@@ -1001,16 +1001,16 @@ class FrontendPageController extends Controller
         ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
         ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id')
         ->when($brand_id !== null, function ($query) use ($brand_id) {
-            return $query->where('brands.brand_id', $brand_id);
+            return $query->where('cars.brand_id', $brand_id);
         })
         ->when($model_id !== null, function ($query) use ($model_id) {
-            return $query->where('models.model_id', $model_id);
+            return $query->where('cars.model_id', $model_id);
         })
         ->when($generation_id !== null, function ($query) use ($generation_id) {
-            return $query->where('generations.generation_id', $generation_id);
+            return $query->where('cars.generations_id', $generation_id);
         })
         ->when($submodel_id !== null, function ($query) use ($submodel_id) {
-            return $query->where('sub_models.submodel_id', $submodel_id);
+            return $query->where('cars.sub_models_id', $submodel_id);
         })
         ->when($pricelow && $pricehigh, function ($query) use ($pricelow, $pricehigh) {
             return $query->whereBetween('cars.price', [$pricelow, $pricehigh]);
