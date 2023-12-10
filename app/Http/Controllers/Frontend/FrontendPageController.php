@@ -709,11 +709,14 @@ class FrontendPageController extends Controller
         ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
         ->orderBy("cars.modelyear", "DESC")
         ->orderBy("cars.created_at", "DESC")
-        ->get();
+        ->paginate(10);
+
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
 
         return view('frontend/car', [
             "brand" => $brand,
-            "cars" => $qrycar
+            "cars" => $qrycar,
+            "province" => $province
         ]);
     }
     public function postcarPage()
@@ -919,25 +922,142 @@ class FrontendPageController extends Controller
         return response()->json($qrysubmodel);
     }
 
-    public function search($brand_id, $model_id, $generation_id, $submodel_id, $evtype, $payment, $pricelow, $pricehigh, $color, $gear, $power, $province_id) {
-        // return "brand = ".$brand_id;
-        // $brand_id = 1; // BMW
-        // $model_id = 25; // X1
-        $qrycar = carsModel::rightJoin('brands', 'cars.brand_id', 'brands.id')
-        ->rightJoin('models', 'cars.model_id', 'models.id')
-        ->rightJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
-        ->rightJoin('generations', 'cars.generations_id', 'generations.id')
-        ->when($model_id, function ($query, $model_id) {
-            return $query->where('cars.model_id', $model_id);
-        })
-        ->when($brand_id, function ($query, $brand_id) {
-            return $query->where('cars.brand_id', $brand_id);
-        })
-        ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
-        ->orderBy("cars.modelyear", "DESC")
-        ->orderBy("cars.created_at", "DESC")
-        ->get();
+    // public function search($brand_id, $model_id, $generation_id, $submodel_id, $evtype, $payment, $pricelow, $pricehigh, $color, $gear, $power, $province_id) {
+    //     // return "brand = ".$brand_id;
+    //     // $brand_id = 1; // BMW
+    //     // $model_id = 25; // X1
+    //     $qrycar = carsModel::rightJoin('brands', 'cars.brand_id', 'brands.id')
+    //     ->rightJoin('models', 'cars.model_id', 'models.id')
+    //     ->rightJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
+    //     ->rightJoin('generations', 'cars.generations_id', 'generations.id')
+    //     ->when($model_id, function ($query, $model_id) {
+    //         return $query->where('cars.model_id', $model_id);
+    //     })
+    //     ->when($brand_id, function ($query, $brand_id) {
+    //         return $query->where('cars.brand_id', $brand_id);
+    //     })
+    //     ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
+    //     ->orderBy("cars.modelyear", "DESC")
+    //     ->orderBy("cars.created_at", "DESC")
+    //     ->get();
 
-        return response()->json($qrycar);
+    //     return response()->json($qrycar);
+    // }
+
+    public function search(Request $request, $brand_id, $model_id, $generation_id, $submodel_id, $evtype, $payment, $pricelow, $pricehigh, $color, $gear, $power, $province_id, $yearlow, $yearhigh) {
+        // return "brand = ".$brand_id." model = ".$model_id." generation = ".$generation_id." submodel = ".$submodel_id." payment = ".$payment." pricelow = ".$pricelow." pricehigh = ".$pricehigh;
+        if ($pricelow == "ต่ำสุด") {
+            $pricelow = null;
+        }
+        if ($pricehigh == "สูงสุด") {
+            $pricehigh = null;
+        }
+
+        if($request->ajax()){
+            $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->rightJoin('models', 'cars.model_id', '=', 'models.id')
+            ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->when($brand_id !== null, function ($query) use ($brand_id) {
+                return $query->where('brands.brand_id', $brand_id);
+            })
+            ->when($model_id !== null, function ($query) use ($model_id) {
+                return $query->where('models.model_id', $model_id);
+            })
+            ->when($generation_id !== null, function ($query) use ($generation_id) {
+                return $query->where('generations.generation_id', $generation_id);
+            })
+            ->when($submodel_id !== null, function ($query) use ($submodel_id) {
+                return $query->where('sub_models.submodel_id', $submodel_id);
+            })
+            ->when($pricelow && $pricehigh, function ($query) use ($pricelow, $pricehigh) {
+                return $query->whereBetween('cars.price', [$pricelow, $pricehigh]);
+            })
+            ->select(
+                'cars.*',
+                'brands.title as brand_name',
+                'models.model as model_name',
+                'sub_models.sub_models as submodel_name',
+                'generations.generations as generation_name'
+            )
+            ->orderBy('cars.modelyear', 'DESC')
+            ->orderBy('cars.created_at', 'DESC')
+            ->paginate(10);
+
+
+            // ->toSql();
+
+            // return dd($cars);
+
+            $brand = brandsModel::orderBy("sort_no", "ASC")->get();
+
+            $province = provincesModel::orderBy("name_th", "ASC")->get();
+            return view('frontend/car-child', compact("cars", "brand", "province"))->render();
+        }
+
+
+        $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->rightJoin('models', 'cars.model_id', '=', 'models.id')
+        ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id')
+        ->when($brand_id !== null, function ($query) use ($brand_id) {
+            return $query->where('brands.brand_id', $brand_id);
+        })
+        ->when($model_id !== null, function ($query) use ($model_id) {
+            return $query->where('models.model_id', $model_id);
+        })
+        ->when($generation_id !== null, function ($query) use ($generation_id) {
+            return $query->where('generations.generation_id', $generation_id);
+        })
+        ->when($submodel_id !== null, function ($query) use ($submodel_id) {
+            return $query->where('sub_models.submodel_id', $submodel_id);
+        })
+        ->when($pricelow && $pricehigh, function ($query) use ($pricelow, $pricehigh) {
+            return $query->whereBetween('cars.price', [$pricelow, $pricehigh]);
+        })
+        ->select(
+            'cars.*',
+            'brands.title as brand_name',
+            'models.model as model_name',
+            'sub_models.sub_models as submodel_name',
+            'generations.generations as generation_name'
+        )
+        ->orderBy('cars.modelyear', 'DESC')
+        ->orderBy('cars.created_at', 'DESC')
+        ->paginate(10);
+
+    
+
+
+        $brand = brandsModel::orderBy("sort_no", "ASC")->get();
+
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+        return view('frontend/car', [
+            "brand" => $brand,
+            "cars" => $qrycar,
+            "province" => $province
+        ]);
     }
+
+    public function brandev() {
+        $qrybrandev = brandsModel::leftJoin('models', 'brands.id', 'models.brand_id')
+        ->select("brands.id", "brands.title")
+        ->where("models.evtype", 1)
+        ->groupBy("brands.id", "brands.title")
+        ->orderBy("brands.sort_no", "ASC")
+        ->get();
+        return response()->json($qrybrandev);
+    }
+
+    public function brandnotev() {
+        $qrybrandnotev = brandsModel::leftJoin('models', 'brands.id', 'models.brand_id')
+        ->select("brands.id", "brands.title")
+        ->where("models.evtype", 0)
+        ->groupBy("brands.id", "brands.title")
+        ->orderBy("brands.sort_no", "ASC")
+        ->get();
+        return response()->json($qrybrandnotev);
+    }
+    
 }

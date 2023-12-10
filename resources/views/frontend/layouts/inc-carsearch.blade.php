@@ -1,3 +1,6 @@
+<script>
+    // search หน้า car left side
+</script>
 <div class="wrap-left-boxsearch">
     <div class="left-boxsearch">
         <div class="left-boxsearch-topic"><img src="{{asset('frontend/images/carred.svg')}}" alt=""> ค้นหารถยนต์</div> 
@@ -17,7 +20,7 @@
             </div>
             <div class="carsearch-input">
                 <a data-fancybox data-src="#popup-searchcar" href="javascript:;">
-                    <input type="text" readonly value="ยี่ห้อรถ">
+                    <input type="text" name="textsearch" id="textsearch" readonly value="ยี่ห้อรถ">
                 </a>
                 
                 
@@ -25,11 +28,11 @@
 
             <div class="carsearch-radio">
                 <label class="car-radio">ซื้อสด 
-                    <input type="radio" name="radio">
+                    <input type="radio" name="payment" value="สด">
                     <span class="checkmark"></span>
                 </label>
                 <label class="car-radio">จัดไฟแนนซ์
-                    <input type="radio" name="radio">
+                    <input type="radio" name="payment" value="ผ่อน">
                     <span class="checkmark"></span>
                 </label>
             </div>
@@ -39,9 +42,9 @@
                     <div class="topic-range">
                         <div>งบประมาณ</div>
                         <div>
-                            <div id="minprice"></div>
+                            <div id="minprice" class="pricelow"></div>
                             <span>-</span>
-                            <div id="maxprice"></div>
+                            <div id="maxprice" class="pricehigh"></div>
                         </div>
                     </div>
                     <div class="box-priceslider">
@@ -107,13 +110,16 @@
                         <div class="boxfrm-advancesearch">
                             <label>จังหวัด</label>
                             <select name="" id="" class="form-select">
-                                <option>จังหวัด</option>
+                                <option value="">จังหวัด</option>
+                                @foreach ($province as $rows)
+                                <option value="{{$rows->id}}">{{$rows->name_th}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
-            <a href="javascript:void(0);" onclick="search2();" class="btn-searchcar">ค้นหารถยนต์</a>
+            <a href="javascript:void(0);" onclick="search3();" class="btn-searchcar">ค้นหารถยนต์</a>
         </div>
 
         <div class="left-boxsearch-item">

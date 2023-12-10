@@ -44,7 +44,7 @@
                             <button>BMW <i class="bi bi-x"></i></button>
                             <button>X1 <i class="bi bi-x"></i></button>
                         </div>
-                        <div class="txt-numresult">ทั้งหมด <span>{{number_format(count($cars))}}</span> รายการ</div>
+                        <div class="txt-numresult">ทั้งหมด <span>{{number_format($cars->total())}}</span> รายการ</div>
                         <div class="btn-boxfilter model">
                             <button>รุ่น1</button>
                             <button>รุ่น2</button>
@@ -104,152 +104,8 @@
                         </div>
                     </div>
 
-                    <div id="caryearcontent">
-                        @php
-                            $total = count($cars);
-                            $currentyear="";
-
-                        @endphp
-                        @foreach ($cars as $index => $rows)
-                            @if ($index == 0)
-                                <div class="box-itemcar">
-                                <div class="car-year">{{$rows->modelyear}}</div>
-                                <div class="row row-itemcar">
-
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="{{url('/car-detail').'/'.$rows->id}}" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{$rows->feature}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">{{$rows->modelyear}} {{$rows->brand_name}} {{$rows->model_name}} </div>
-                                                    <div class="car-series">{{$rows->submodel_name}} {{$rows->generation_name}}</div>
-                                                    <div class="car-province">{{$rows->province}}</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">{{$rows->title}}</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> @if($rows->gear=="auto"){{"เกียร์อัตโนมัติ"}}@else{{"เกียร์ธรรมดา"}}@endif</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">{{number_format($rows->price)}}.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                            @else
-                                <div class="col-itemcar col-6 col-xl-4">
-                                    <a href="{{url('/car-detail').'/'.$rows->id}}" class="item-car">
-                                        <figure>
-                                            <div class="cover-car">
-                                                <img src="{{$rows->feature}}" alt="">
-                                            </div>
-                                            <figcaption>
-                                                <div class="grid-desccar">
-                                                    <div class="car-name">{{$rows->modelyear}} {{$rows->brand_name}} {{$rows->model_name}} </div>
-                                                    <div class="car-series">{{$rows->submodel_name}} {{$rows->generation_name}}</div>
-                                                    <div class="car-province">{{$rows->province}}</div>
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-8">
-                                                            <div class="descpro-car">{{$rows->title}}</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="linecontent"></div>
-                                                <div class="row caritem-price">
-                                                    <div class="col-12 col-md-6">
-                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> @if($rows->gear=="auto"){{"เกียร์อัตโนมัติ"}}@else{{"เกียร์ธรรมดา"}}@endif</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price">{{number_format($rows->price)}}.-</div>
-                                                    </div>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                            @endif
-                            @if ($index == $total - 1)
-                                </div>
-                                </div>
-                                {{-- </div> --}}
-                            @endif
-                            @if (($index+1) > 0 && ($index+1) % 10 == 0)
-                                @if ($index == $total - 1)
-                                <div class="box-frmhelpcar">
-                                    <div class="topic-frmhelpcar">
-                                        <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
-                                    </div>
-                                    <form action="">
-                                        <div>
-                                            <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
-                                            <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
-                                            <input type="text" class="form-control" placeholder="Line ID">
-                                            <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
-                                        </div>
-                                        <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
-                                    </form>
-                                </div>
-                                @else
-                                    </div>
-                                    </div>
-
-                                    <div class="box-frmhelpcar">
-                                        <div class="topic-frmhelpcar">
-                                            <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
-                                        </div>
-                                        <form action="">
-                                            <div>
-                                                <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
-                                                <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
-                                                <input type="text" class="form-control" placeholder="Line ID">
-                                                <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
-                                            </div>
-                                            <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
-                                        </form>
-                                    </div>
-            
-                                    
-                                    <div class="box-itemcar">
-                                    <div class="car-year">{{$rows->modelyear}}</div>
-                                    <div class="row row-itemcar">
-                                @endif
-                            @endif
-                            @if ($currentyear != $rows->modelyear)
-                                @if ($currentyear == "")
-                                @elseif (($index+1) > 0 && ($index+1) % 10 == 0)
-                                @else
-                                    </div>
-                                    </div>
-                
-                                    
-                                    <div class="box-itemcar">
-                                    <div class="car-year">{{$rows->modelyear}}</div>
-                                    <div class="row row-itemcar">
-                                @endif
-                                @php
-                                    $currentyear = $rows->modelyear;
-                                @endphp
-                            @endif
-                            
-                        
-
-                        @endforeach
+                    <div id="caryearcontent" class="infinite-scroll">
+                        @include('frontend.car-child')
                     </div>
 
                     
@@ -322,7 +178,7 @@
 
 </script>
 <script>
-    var brand_id=1, model_id=1, generation_id=1, submodel_id=1, evtype=0, payment=0, pricelow=0, pricehigh=10000000, color="ขาว", gear="auto", power=1, province_id=1;
+    var brand_id=null, model_id=null, generation_id=null, submodel_id=null, evtype=null, payment=null, pricelow=null, pricehigh=null, color=null, gear=null, power=null, province_id=null, yearlow=null, yearhigh=null;
     $( document ).ready(function() {
             // range price
     var priceslider = document.getElementById('priceslider');
@@ -422,6 +278,68 @@ yearslider.noUiSlider.on('update', function (values, handle) {
     }
 });
 
+    $('ul.pagination').hide();
+    $(function() {
+        $('.infinite-scroll').jscroll({
+            autoTrigger: true,
+            loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+            padding: 0,
+            nextSelector: '.pagination li.active + li a',
+            contentSelector: 'div.infinite-scroll',
+            callback: function() {
+                $('ul.pagination').remove();
+            }
+        });
+    });
+
+    if($('#searchev').is(':checked')) {
+            $.get('/brandev', function(data, status) {
+                // console.log(data);
+                var param2 = "";
+                var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+                $.each(data, function(index, value){
+                    html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                });
+                $('.carsearch-lv1 .carsearch-ul').empty().append(html);
+            });
+        }
+        else {
+            $.get('/brandnotev', function(data, status) {
+                // console.log(data);
+                var param2 = "";
+                var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+                $.each(data, function(index, value){
+                    html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                });
+                $('.carsearch-lv1 .carsearch-ul').empty().append(html);
+            });
+        }
+
+
+    $('#searchev').click(function(){
+        if($('#searchev').is(':checked')) {
+            $.get('/brandev', function(data, status) {
+                // console.log(data);
+                var param2 = "";
+                var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+                $.each(data, function(index, value){
+                    html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                });
+                $('.carsearch-lv1 .carsearch-ul').empty().append(html);
+            });
+        }
+        else {
+            $.get('/brandnotev', function(data, status) {
+                // console.log(data);
+                var param2 = "";
+                var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+                $.each(data, function(index, value){
+                    html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                });
+                $('.carsearch-lv1 .carsearch-ul').empty().append(html);
+            });
+        }
+    });
     
 });
     function search2() {
@@ -589,6 +507,33 @@ yearslider.noUiSlider.on('update', function (values, handle) {
             $('#caryearcontent').empty().append(html);
         });
     }
+
+    function search3() {
+        payment = $('input[name="payment"]:checked').val();
+        pricelow = $('.pricelow').text().replace(/,/g, '');
+        pricehigh = $('.pricehigh').text().replace(/,/g, '');
+
+        $('.infinite-scroll').data('jscroll', null);
+        $.get("{{url('/search')}}"+"/"+brand_id+"/"+model_id+"/"+generation_id+"/"+submodel_id+"/"+evtype+"/"+payment+"/"+pricelow+"/"+pricehigh+"/"+color+"/"+gear+"/"+power+"/"+province_id+"/"+yearlow+"/"+yearhigh, function(data, status){
+            // $('#caryearcontent').empty();
+            $('#caryearcontent').html(data);
+            // $('.infinite-scroll').jscroll({
+            //     // refresh: true,
+            //     autoTrigger: true,
+            //     loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+            //     padding: 0,
+            //     nextSelector: '.pagination li.active + li a',
+            //     contentSelector: 'div.infinite-scroll',
+            //     callback: function() {
+            //         $('ul.pagination').remove();
+            //     }
+            // });
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    
 </script>
 
 @endsection
