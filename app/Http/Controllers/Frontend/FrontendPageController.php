@@ -947,75 +947,67 @@ class FrontendPageController extends Controller
     public function search(Request $request, $brand_id, $model_id, $generation_id, $submodel_id, $evtype, $payment, $pricelow, $pricehigh, $color, $gear, $power, $province_id, $yearlow, $yearhigh) {
         // return "brand = ".$brand_id." model = ".$model_id." generation = ".$generation_id." submodel = ".$submodel_id." payment = ".$payment." pricelow = ".$pricelow." pricehigh = ".$pricehigh;
         if ($pricelow == "ต่ำสุด") {
-            $pricelow = null;
+            $pricelow = "null";
         }
         if ($pricehigh == "สูงสุด") {
-            $pricehigh = null;
+            $pricehigh = "null";
         }
-
-        if($request->ajax()){
-            $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->rightJoin('models', 'cars.model_id', '=', 'models.id')
-            ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->when($brand_id !== null, function ($query) use ($brand_id) {
-                return $query->where('cars.brand_id', $brand_id);
-            })
-            ->when($model_id !== null, function ($query) use ($model_id) {
-                return $query->where('cars.model_id', $model_id);
-            })
-            ->when($generation_id !== null, function ($query) use ($generation_id) {
-                return $query->where('cars.generations_id', $generation_id);
-            })
-            ->when($submodel_id !== null, function ($query) use ($submodel_id) {
-                return $query->where('cars.sub_models_id', $submodel_id);
-            })
-            ->when($pricelow && $pricehigh, function ($query) use ($pricelow, $pricehigh) {
-                return $query->whereBetween('cars.price', [$pricelow, $pricehigh]);
-            })
-            ->select(
-                'cars.*',
-                'brands.title as brand_name',
-                'models.model as model_name',
-                'sub_models.sub_models as submodel_name',
-                'generations.generations as generation_name'
-            )
-            ->orderBy('cars.modelyear', 'DESC')
-            ->orderBy('cars.created_at', 'DESC')
-            ->paginate(10);
-
-
-            // ->toSql();
-
-            // return dd($cars);
-
-            $brand = brandsModel::orderBy("sort_no", "ASC")->get();
-
-            $province = provincesModel::orderBy("name_th", "ASC")->get();
-            return view('frontend/car-child', compact("cars", "brand", "province"))->render();
+        if ($yearlow == " ") {
+            $yearlow = "null";
         }
-
+        if ($yearhigh == "ทุกปี") {
+            $yearhigh = "null";
+        }
 
         $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
         ->rightJoin('models', 'cars.model_id', '=', 'models.id')
         ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-        ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id')
-        ->when($brand_id !== null, function ($query) use ($brand_id) {
-            return $query->where('cars.brand_id', $brand_id);
-        })
-        ->when($model_id !== null, function ($query) use ($model_id) {
-            return $query->where('cars.model_id', $model_id);
-        })
-        ->when($generation_id !== null, function ($query) use ($generation_id) {
-            return $query->where('cars.generations_id', $generation_id);
-        })
-        ->when($submodel_id !== null, function ($query) use ($submodel_id) {
-            return $query->where('cars.sub_models_id', $submodel_id);
-        })
-        ->when($pricelow && $pricehigh, function ($query) use ($pricelow, $pricehigh) {
-            return $query->whereBetween('cars.price', [$pricelow, $pricehigh]);
-        })
-        ->select(
+        ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id');
+        if ($brand_id != "null") {
+            $cars = $cars->where('cars.brand_id', $brand_id);
+        }
+        if ($model_id != "null") {
+            $cars = $cars->where('cars.model_id', $model_id);
+        }
+        if ($generation_id != "null") {
+            $cars = $cars->where('cars.generations_id', $generation_id);
+        }
+        if ($submodel_id != "null") {
+            $cars = $cars->where('cars.sub_models_id', $submodel_id);
+        }
+        if ($pricelow != "null") {
+            $cars = $cars->where('cars.price', '>=', $pricelow);
+        }
+        if ($pricehigh != "null") {
+            $cars = $cars->where('cars.price', '<=', $pricehigh);
+        }
+        if ($yearlow != "null") {
+            $cars = $cars->where('cars.modelyear', '>=', $yearlow);
+        }
+        if ($yearhigh != "null") {
+            $cars = $cars->where('cars.modelyear', '<=', $yearhigh);
+        }
+        if ($color != "null") {
+            $cars = $cars->where('cars.color', $color);
+        }
+        if ($gear != "null") {
+            $cars = $cars->where('cars.gear', $gear);
+        }
+        if ($power != "null") {
+            if ($power == 1) {
+                $cars = $cars->where('cars.gas', 'รถน้ำมัน / hybrid');
+            }
+            if ($power == 2) {
+                $cars = $cars->where('cars.gas', 'รถไฟฟ้า EV 100%');
+            }
+            if ($power == 3) {
+                $cars = $cars->where('cars.gas', 'รถติดแก๊ส');
+            }
+        }
+        if ($province_id != "null") {
+            $cars = $cars->where('cars.province', $province_id);
+        }
+        $cars = $cars->select(
             'cars.*',
             'brands.title as brand_name',
             'models.model as model_name',
@@ -1025,18 +1017,153 @@ class FrontendPageController extends Controller
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(10);
-
-    
-
+        // ->getBindings();
+        // ->get();
+        // ->toSql();
+        // return dd($cars);
 
         $brand = brandsModel::orderBy("sort_no", "ASC")->get();
 
         $province = provincesModel::orderBy("name_th", "ASC")->get();
 
+        // if($request->ajax()){
+        //     return view('frontend/car-child', ["cars"=>$cars, "brand"=>$brand, "province"=>$province])->render();
+        // }
+
         return view('frontend/car', [
             "brand" => $brand,
-            "cars" => $qrycar,
+            "cars" => $cars,
             "province" => $province
+        ]);
+    }
+
+    public function search2(Request $request) {
+        // return dd($request->yearhigh);
+        if ($request->pricelow == "ต่ำสุด") {
+            $pricelow = null;
+        }
+        else {
+            $pricelow = $request->pricelow;
+        }
+        if ($request->pricehigh == "สูงสุด") {
+            $pricehigh = null;
+        }
+        else {
+            $pricehigh = $request->pricehigh;
+        }
+        if ($request->yearlow == "ต่ำสุด -") {
+            $yearlow = null;
+        }
+        else {
+            $yearlow = $request->yearlow;
+        }
+        if ($request->yearhigh == "ทุกปี") {
+            $yearhigh = null;
+        }
+        else {
+            $yearhigh = $request->yearhigh;
+        }
+
+        $brandsel = null;
+        if (!empty($request->brand_id)) {
+            $qrybrand = brandsModel::where("id", $request->brand_id)->first();
+            $brandsel = $qrybrand->title;
+            $qrymodel = modelsModel::where("brand_id", $request->brand_id)->get();
+            // $modellist = $qrymodel->model;
+        }
+        $modelsel = null;
+        if (!empty($request->model_id)) {
+            $qrymodel = modelsModel::where("id", $request->model_id)->first();
+            $modelsel = $qrymodel->model;
+        }
+        $generationsel = null;
+        if (!empty($request->generation_id)) {
+            $qrygeneration = generationsModel::where("id", $request->generation_id)->first();
+            $generationsel = $qrygeneration->generations;
+        }
+        $submodelsel = null;
+        if (!empty($request->submodel_id)) {
+            $qrysubmodel = sub_modelsModel::where("id", $request->submodel_id)->first();
+            $submodelsel = $qrysubmodel->sub_models;
+        }
+
+        $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->rightJoin('models', 'cars.model_id', '=', 'models.id')
+        ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id');
+        if (!empty($request->brand_id)) {
+            $cars = $cars->where('cars.brand_id', $request->brand_id);
+        }
+        if (!empty($request->model_id)) {
+            $cars = $cars->where('cars.model_id', $request->model_id);
+        }
+        if (!empty($grequest->eneration_id)) {
+            $cars = $cars->where('cars.generations_id', $request->generation_id);
+        }
+        if (!empty($request->submodel_id)) {
+            $cars = $cars->where('cars.sub_models_id', $request->submodel_id);
+        }
+        if (!empty($pricelow)) {
+            $cars = $cars->where('cars.price', '>=', $pricelow);
+        }
+        if (!empty($pricehigh)) {
+            $cars = $cars->where('cars.price', '<=', $pricehigh);
+        }
+        if (!empty($yearlow)) {
+            $cars = $cars->where('cars.modelyear', '>=', $yearlow);
+        }
+        if (!empty($yearhigh)) {
+            $cars = $cars->where('cars.modelyear', '<=', $yearhigh);
+        }
+        if (!empty($request->color)) {
+            $cars = $cars->where('cars.color', $request->color);
+        }
+        if (!empty($request->gear)) {
+            $cars = $cars->where('cars.gear', $request->gear);
+        }
+        if (!empty($request->power)) {
+            if ($power == 1) {
+                $cars = $cars->where('cars.gas', 'รถน้ำมัน / hybrid');
+            }
+            if ($power == 2) {
+                $cars = $cars->where('cars.gas', 'รถไฟฟ้า EV 100%');
+            }
+            if ($power == 3) {
+                $cars = $cars->where('cars.gas', 'รถติดแก๊ส');
+            }
+        }
+        if (!empty($request->province_id)) {
+            $cars = $cars->where('cars.province', $request->province_id);
+        }
+        $cars = $cars->select(
+            'cars.*',
+            'brands.title as brand_name',
+            'models.model as model_name',
+            'sub_models.sub_models as submodel_name',
+            'generations.generations as generation_name'
+        )
+        ->orderBy('cars.modelyear', 'DESC')
+        ->orderBy('cars.created_at', 'DESC')
+        ->paginate(10);
+        // ->getBindings();
+        // ->get();
+        // ->toSql();
+        // return dd($cars);
+
+        $brand = brandsModel::orderBy("sort_no", "ASC")->get();
+
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+
+
+        return view('frontend/car', [
+            "brand" => $brand,
+            "cars" => $cars,
+            "province" => $province,
+            "brandsel" => $brandsel,
+            "modelsel" => $modelsel,
+            "generationsel" => $generationsel,
+            "submodelsel" => $submodelsel
         ]);
     }
 

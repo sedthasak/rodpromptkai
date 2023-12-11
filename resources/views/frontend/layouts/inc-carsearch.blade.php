@@ -4,7 +4,8 @@
 <div class="wrap-left-boxsearch">
     <div class="left-boxsearch">
         <div class="left-boxsearch-topic"><img src="{{asset('frontend/images/carred.svg')}}" alt=""> ค้นหารถยนต์</div> 
-        
+        <form action="/search2" id="my_form" method="GET">
+            @csrf
         <div class="left-boxsearch-desc">
             <div class="left-boxsearch-topic2">รายละเอียดรถยนต์</div>
             <div class="row box-ecocar">
@@ -21,6 +22,10 @@
             <div class="carsearch-input">
                 <a data-fancybox data-src="#popup-searchcar" href="javascript:;">
                     <input type="text" name="textsearch" id="textsearch" readonly value="ยี่ห้อรถ">
+                    <input type="hidden" name="brand_id">
+                    <input type="hidden" name="model_id">
+                    <input type="hidden" name="generation_id">
+                    <input type="hidden" name="submodel_id">
                 </a>
                 
                 
@@ -43,8 +48,10 @@
                         <div>งบประมาณ</div>
                         <div>
                             <div id="minprice" class="pricelow"></div>
+                            <input type="hidden" name="pricelow">
                             <span>-</span>
                             <div id="maxprice" class="pricehigh"></div>
+                            <input type="hidden" name="pricehigh">
                         </div>
                     </div>
                     <div class="box-priceslider">
@@ -55,8 +62,10 @@
                     <div class="topic-range">
                         <div>ปี</div>
                         <div>
-                            <div id="minyear"></div>
-                            <div id="maxyear"></div>
+                            <div id="minyear" class="yearlow"></div>
+                            <input type="hidden" name="yearlow">
+                            <div id="maxyear" class="yearhigh"></div>
+                            <input type="hidden" name="yearhigh">
                         </div>
                     </div>
                     <div class="box-priceslider">
@@ -70,57 +79,59 @@
                     <div class="content_advancesearch">
                         <div class="boxfrm-advancesearch">
                             <label>สี</label>
-                            <select name="" id="" class="form-select">
-                                <option>เลือกสี</option>
-                                <option>ทุกสี</option>
-                                <option>ขาว</option>
-                                <option>เขียว</option>
-                                <option>ครีม</option>
-                                <option>ชมพู</option>
-                                <option>ดำ</option>
-                                <option>แดง</option>
-                                <option>เทา</option>
-                                <option>น้ำเงิน</option>
-                                <option>น้ำตาล</option>
-                                <option>บรอนซ์เงิน</option>
-                                <option>บรอนซ์ทอง</option>
-                                <option>ฟ้า</option>
-                                <option>ม่วง</option>
-                                <option>ส้ม</option>
-                                <option>เหลือง</option>
+                            <select name="carcolor" id="carcolor" class="form-select">
+                                <option value="">เลือกสี</option>
+                                <option value="">ทุกสี</option>
+                                <option value="ขาว">ขาว</option>
+                                <option value="เขียว">เขียว</option>
+                                <option value="ครีม">ครีม</option>
+                                <option value="ชมพู">ชมพู</option>
+                                <option value="ดำ">ดำ</option>
+                                <option value="แดง">แดง</option>
+                                <option value="เทา">เทา</option>
+                                <option value="น้ำเงิน">น้ำเงิน</option>
+                                <option value="น้ำตาล">น้ำตาล</option>
+                                <option value="บรอนซ์เงิน">บรอนซ์เงิน</option>
+                                <option value="บรอนซ์ทอง">บรอนซ์ทอง</option>
+                                <option value="ฟ้า">ฟ้า</option>
+                                <option value="ม่วง">ม่วง</option>
+                                <option value="ส้ม">ส้ม</option>
+                                <option value="เหลือง">เหลือง</option>
                             </select>
                         </div>
                         <div class="boxfrm-advancesearch">
                             <div class="advance-boxgear">
                                 <div class="txt-label">เกียร์</div>
                                 <div>
-                                    <label><input type="radio" name="advance-gear"> <span>อัตโนมัติ</span></label>
-                                    <label><input type="radio" name="advance-gear"> <span>ธรรมดา</span></label>
+                                    <label><input type="radio" name="gear" id="advance-gear" value="auto"> <span>อัตโนมัติ</span></label>
+                                    <label><input type="radio" name="gear" value="manual"> <span>ธรรมดา</span></label>
                                 </div>
                             </div>
                         </div>
                         <div class="boxfrm-advancesearch">
                             <label>เชื้อเพลิง</label>
-                            <select name="" id="" class="form-select">
-                                <option>รถน้ำมัน / hybrid</option>
-                                <option>รถไฟฟ้า EV 100%</option>
-                                <option>รถติดแก๊ส</option>
+                            <select name="power" id="power" class="form-select">
+                                <option value="">เลือก</option>
+                                <option value="1">รถน้ำมัน / hybrid</option>
+                                <option value="2">รถไฟฟ้า EV 100%</option>
+                                <option value="3">รถติดแก๊ส</option>
                             </select>
                         </div>
                         <div class="boxfrm-advancesearch">
                             <label>จังหวัด</label>
-                            <select name="" id="" class="form-select">
+                            <select name="province" id="province" class="form-select">
                                 <option value="">จังหวัด</option>
                                 @foreach ($province as $rows)
-                                <option value="{{$rows->id}}">{{$rows->name_th}}</option>
+                                <option value="{{$rows->name_th}}">{{$rows->name_th}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
-            <a href="javascript:void(0);" onclick="search3();" class="btn-searchcar">ค้นหารถยนต์</a>
+            <a href="javascript:void(0);" onclick="search4();" class="btn-searchcar">ค้นหารถยนต์</a>
         </div>
+        </form>
 
         <div class="left-boxsearch-item">
             <div class="left-boxsearch-topic2">รถมือสอง ประเภทอื่นๆ</div>

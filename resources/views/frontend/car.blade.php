@@ -41,10 +41,27 @@
                         <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย</div>
                         <div class="result-btn-search">
                             <button class="btn-refresh"><img src="{{asset('frontend/images/icon-clear.svg')}}" alt="">ล้างข้อมูล</button>
-                            <button>BMW <i class="bi bi-x"></i></button>
-                            <button>X1 <i class="bi bi-x"></i></button>
+                            @if (isset($brandsel))
+                                <button>{{$brandsel}} <i class="bi bi-x brand"></i></button>
+                            @endif
+                            @if (isset($modelsel))
+                                <button>{{$modelsel}} <i class="bi bi-x model"></i></button>
+                            @endif
+                            @if (isset($generationsel))
+                                <button>{{$generationsel}} <i class="bi bi-x generation"></i></button>
+                            @endif
+                            @if (isset($submodelsel))
+                                <button>{{$submodelsel}} <i class="bi bi-x submodel"></i></button>
+                            @endif
                         </div>
                         <div class="txt-numresult">ทั้งหมด <span>{{number_format($cars->total())}}</span> รายการ</div>
+                        <div class="btn-boxfilter brand">
+                            @if (isset($brand))
+                                @foreach ($brand as $rows)
+                                <button onclick="brandsel(this);">{{$rows->title}}</button>
+                                @endforeach
+                            @endif
+                        </div>
                         <div class="btn-boxfilter model">
                             <button>รุ่น1</button>
                             <button>รุ่น2</button>
@@ -179,6 +196,10 @@
 </script>
 <script>
     var brand_id=null, model_id=null, generation_id=null, submodel_id=null, evtype=null, payment=null, pricelow=null, pricehigh=null, color=null, gear=null, power=null, province_id=null, yearlow=null, yearhigh=null;
+    
+    var brand_sel=null;
+    
+    
     $( document ).ready(function() {
             // range price
     var priceslider = document.getElementById('priceslider');
@@ -281,8 +302,9 @@ yearslider.noUiSlider.on('update', function (values, handle) {
     $('ul.pagination').hide();
     $(function() {
         $('.infinite-scroll').jscroll({
+            refresh: true,
             autoTrigger: true,
-            loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+            loadingHtml: '<img class="center-block" src="{{asset("frontend/images/loading.gif")}}" alt="Loading..." />',
             padding: 0,
             nextSelector: '.pagination li.active + li a',
             contentSelector: 'div.infinite-scroll',
@@ -340,6 +362,17 @@ yearslider.noUiSlider.on('update', function (values, handle) {
             });
         }
     });
+
+    // $(".result-btn-search button").not(".btn-refresh").remove();
+    if (brand_sel === null) {
+        
+        $('.btn-boxfilter.brand').show();
+        $('.btn-boxfilter.model').hide();
+        $('.btn-boxfilter.generation').hide();
+        $('.btn-boxfilter.submodel').hide();
+        $('.btn-boxfilter.year').hide();
+    }
+
     
 });
     function search2() {
@@ -509,9 +542,45 @@ yearslider.noUiSlider.on('update', function (values, handle) {
     }
 
     function search3() {
-        payment = $('input[name="payment"]:checked').val();
+        if ($('input[name="payment"]').is(':checked')) {
+            payment = $('input[name="payment"]:checked').val();
+        } else {
+            payment = null;
+        }
         pricelow = $('.pricelow').text().replace(/,/g, '');
         pricehigh = $('.pricehigh').text().replace(/,/g, '');
+        yearlow = $('.yearlow').text();
+        yearhigh = $('.yearhigh').text();
+        if ($('#carcolor').is(':selected')) {
+            color = $('#carcolor').find(":selected").val();
+            if (color === "") {
+                color = null;
+            }
+        } else {
+            color = null;
+        }
+        if ($('input[name="advance-gear"]').is(':checked')) {
+            gear = $('input[name="advance-gear"]:checked').val();
+        } else {
+            gear = null;
+        }
+        if ($('#power').is(':selected')) {
+            power = $('#power').find(":selected").val();
+            if (power === "") {
+                power = null;
+            }
+        } else {
+            power = null;
+        }
+        if ($('#power').is(':selected')) {
+            province = $('#province').find(':selected').text();
+            if (province === "") {
+                province = null;
+            }
+        } else {
+            province = null;
+        }
+        
 
         $('.infinite-scroll').data('jscroll', null);
         $.get("{{url('/search')}}"+"/"+brand_id+"/"+model_id+"/"+generation_id+"/"+submodel_id+"/"+evtype+"/"+payment+"/"+pricelow+"/"+pricehigh+"/"+color+"/"+gear+"/"+power+"/"+province_id+"/"+yearlow+"/"+yearhigh, function(data, status){
@@ -529,6 +598,34 @@ yearslider.noUiSlider.on('update', function (values, handle) {
             //     }
             // });
         });
+    }
+
+    function search4() {
+        $('input[name="brand_id"]').val(brand_id);
+        $('input[name="model_id"]').val(model_id);
+        $('input[name="generation_id"]').val(generation_id);
+        $('input[name="submodel_id"]').val(submodel_id);
+        $('input[name="pricelow"]').val($('.pricelow').text().replace(/,/g, ''));
+        $('input[name="pricehigh"]').val($('.pricehigh').text().replace(/,/g, ''));
+        $('input[name="yearlow"]').val($('.yearlow').text());
+        $('input[name="yearhigh"]').val($('.yearhigh').text());
+        $('#my_form').submit();
+    }
+
+    function brandsel(value){
+        // console.log($(value).text());
+        brand_sel = $(value).text();
+        $(".result-btn-search button").not(".btn-refresh").remove();
+
+
+        // Create a new button element
+
+        var newButton = $('<button>'+brand_sel+' <i class="bi bi-x brand"></i></button>');
+
+        // Append the new button to the result-btn-search element
+        $('.result-btn-search').append(newButton);
+
+        
     }
 </script>
 

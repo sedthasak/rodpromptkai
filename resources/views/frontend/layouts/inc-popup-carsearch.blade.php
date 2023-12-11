@@ -202,7 +202,7 @@
     }
     // search หน้า car fancybox
     function brand2(param, param2) {
-        
+        // console.log(param);
         $.get('/popup-carsearch-model/'+param, function(data, status) {
             // console.log(data);
             $("#modelall").attr("onClick", 'model2(0, \''+param2+' รุ่นทั้งหมด\')');

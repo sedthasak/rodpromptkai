@@ -145,4 +145,4 @@
                         
 
                         @endforeach
-                        {{ $cars->links() }}
+                        {{ $cars->withQueryString()->links() }}

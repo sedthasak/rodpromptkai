@@ -134,13 +134,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/edit-dealer-carpost-step3', 'editdealercarpoststep3Page')->name('editdealercarpoststep3Page');
         Route::get('/edit-dealer-carpost-step4', 'editdealercarpoststep4Page')->name('editdealercarpoststep4Page');
 
-        Route::get('/popup-carsearch-model/{id}', 'popupcarsearchmodel')->name('popupcarsearchmodel');
-        Route::get('/popup-carsearch-generation/{id}', 'popupcarsearchgeneration')->name('popupcarsearchgeneration');
-        Route::get('/popup-carsearch-submodel/{id}', 'popupcarsearchsubmodel')->name('popupcarsearchsubmodel');
-        Route::get('/searchbrandtext/{brand_name}', 'searchbrandtext')->name('searchbrandtext');
-        Route::get('/searchmodeltext/{brand_id}/{model_name}', 'searchmodeltext')->name('searchmodeltext');
-        Route::get('/searchgenerationtext/{model_id}/{generation_name}', 'searchgenerationtext')->name('searchgenerationtext');
-        Route::get('/searchsubmodeltext/{generation_id}/{submodel_name}', 'searchsubmodeltext')->name('searchsubmodeltext');
+        
     });
 });
 
@@ -161,7 +155,15 @@ Route::get('/news', [FrontendPageController::class, 'newsPage'])->name('newsPage
 Route::get('/news-detail', [FrontendPageController::class, 'newsdetailPage'])->name('newsdetailPage');
 Route::get('/car', [FrontendPageController::class, 'carPage'])->name('carPage');
 Route::get('/car-detail/{post}', [FrontendPageController::class, 'cardetailPage'])->name('cardetailPage');
+Route::get('/popup-carsearch-model/{id}', [FrontendPageController::class, 'popupcarsearchmodel'])->name('popupcarsearchmodel');
+Route::get('/popup-carsearch-generation/{id}', [FrontendPageController::class, 'popupcarsearchgeneration'])->name('popupcarsearchgeneration');
+Route::get('/popup-carsearch-submodel/{id}', [FrontendPageController::class, 'popupcarsearchsubmodel'])->name('popupcarsearchsubmodel');
+Route::get('/searchbrandtext/{brand_name}', [FrontendPageController::class, 'searchbrandtext'])->name('searchbrandtext');
+Route::get('/searchmodeltext/{brand_id}/{model_name}', [FrontendPageController::class, 'searchmodeltext'])->name('searchmodeltext');
+Route::get('/searchgenerationtext/{model_id}/{generation_name}', [FrontendPageController::class, 'searchgenerationtext'])->name('searchgenerationtext');
+Route::get('/searchsubmodeltext/{generation_id}/{submodel_name}', [FrontendPageController::class, 'searchsubmodeltext'])->name('searchsubmodeltext');
 Route::get('/search/{brand_id}/{model_id}/{generation_id}/{submodel_id}/{evtype}/{payment}/{pricelow}/{pricehigh}/{color}/{gear}/{power}/{province_id}/{yearlow}/{yearhigh}',  [FrontendPageController::class, 'search'])->name('search');
+Route::get('/search2',  [FrontendPageController::class, 'search2']);
 Route::get('/brandev', [FrontendPageController::class, 'brandev'])->name('brandev');
 Route::get('/brandnotev', [FrontendPageController::class, 'brandnotev'])->name('brandnotev');
 
