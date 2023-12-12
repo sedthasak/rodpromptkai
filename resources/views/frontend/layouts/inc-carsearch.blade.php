@@ -79,7 +79,7 @@
                     <div class="content_advancesearch">
                         <div class="boxfrm-advancesearch">
                             <label>สี</label>
-                            <select name="carcolor" id="carcolor" class="form-select">
+                            <select name="color" id="color" class="form-select">
                                 <option value="">เลือกสี</option>
                                 <option value="">ทุกสี</option>
                                 <option value="ขาว">ขาว</option>

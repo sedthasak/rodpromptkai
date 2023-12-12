@@ -53,39 +53,63 @@
                             @if (isset($submodelsel))
                                 <button>{{$submodelsel}} <i class="bi bi-x submodel"></i></button>
                             @endif
+                            @if (isset($paymentsel))
+                                <button>{{$paymentsel}} <i class="bi bi-x submodel"></i></button>
+                            @endif
+                            @if (isset($pricelowsel) && isset($pricehighsel))
+                                <button>{{'ราคา '.( is_numeric( preg_replace('/[^0-9]/', '', $pricelowsel) )?number_format( preg_replace('/[^0-9]/', '', $pricelowsel) ):str_replace('-', '', str_replace('ราคา', '', $pricelowsel)) ).' - '.( is_numeric( preg_replace('/[^0-9]/', '', $pricehighsel) )?number_format( preg_replace('/[^0-9]/', '', $pricehighsel) ):$pricehighsel ) }} <i class="bi bi-x submodel"></i></button>
+                            @endif
+                            @if (isset($yearlowsel) && isset($yearhighsel))
+                                <button>{{$yearlowsel}}{{$yearhighsel}} <i class="bi bi-x pricelow"></i></button>
+                            @endif
+                            @if (isset($colorsel))
+                                <button>{{$colorsel}} <i class="bi bi-x pricelow"></i></button>
+                            @endif
+                            @if (isset($gearsel))
+                                <button>{{$gearsel}} <i class="bi bi-x pricelow"></i></button>
+                            @endif
+                            @if (isset($powersel))
+                                <button>{{$powersel}} <i class="bi bi-x pricelow"></i></button>
+                            @endif
+                            @if (isset($provincesel))
+                                <button>{{$provincesel}} <i class="bi bi-x pricelow"></i></button>
+                            @endif
                         </div>
                         <div class="txt-numresult">ทั้งหมด <span>{{number_format($cars->total())}}</span> รายการ</div>
                         <div class="btn-boxfilter brand">
-                            @if (isset($brand))
+                            @if (isset($brandx))
                                 @foreach ($brand as $rows)
                                 <button onclick="brandsel(this);">{{$rows->title}}</button>
                                 @endforeach
                             @endif
                         </div>
                         <div class="btn-boxfilter model">
-                            <button>รุ่น1</button>
-                            <button>รุ่น2</button>
+                            @if (isset($modellist))
+                                @foreach ($modellist as $rows)
+                                <button onclick="modelsel(this);">{{$rows->model}}</button>
+                                @endforeach
+                            @endif
                         </div>
                         <div class="btn-boxfilter generation">
-                            <button>F48 ปี16-ปัจจุบัน</button>
-                            <button>E84 ปี09-16</button>
+                            @if (isset($generationlist))
+                                @foreach ($generationlist as $rows)
+                                <button onclick="generationsel(this);">{{$rows->generations}}</button>
+                                @endforeach
+                            @endif
                         </div>
                         <div class="btn-boxfilter submodel">
-                            <button>Hybride</button>
+                            @if (isset($submodellist))
+                                @foreach ($submodellist as $rows)
+                                <button onclick="submodelsel(this);">{{$rows->sub_models}}</button>
+                                @endforeach
+                            @endif
                         </div>
                         <div class="btn-boxfilter year">
-                            <button>2023</button>
-                            <button>2021</button>
-                            <button>2020</button>
-                            <button>2019</button>
-                            <button>2018</button>
-                            <button>2017</button>
-                            <button>2016</button>
-                            <button>2015</button>
-                            <button>2014</button>
-                            <button>2013</button>
-                            <button>2012</button>
-                            <button>2011</button>
+                            @if (isset($qrygeneration))
+                                @for ($i = $qrygeneration->yearfirst; $i <= $qrygeneration->yearlast; $i++)
+                                <button onclick="yearsel(this);">{{$i}}</button>
+                                @endfor
+                            @endif
                         </div>
                         <div class="box-filteritem">
                             <div class="row">
@@ -195,7 +219,20 @@
 
 </script>
 <script>
-    var brand_id=null, model_id=null, generation_id=null, submodel_id=null, evtype=null, payment=null, pricelow=null, pricehigh=null, color=null, gear=null, power=null, province_id=null, yearlow=null, yearhigh=null;
+    var brand_id=@if(isset($brand_id)){{$brand_id}}@else{{'null'}}@endif;
+    var model_id=@if(isset($model_id)){{$model_id}}@else{{"null"}}@endif;
+    var generation_id=@if(isset($generation_id)){{$generation_id}}@else{{"null"}}@endif;
+    var submodel_id=@if(isset($submodel_id)){{$submodel_id}}@else{{'null'}}@endif;
+    var evtype=null;
+    var payment=@if(isset($payment)){{$payment}}@else{{'null'}}@endif;
+    var pricelow=@if(isset($pricelow)){{$pricelow}}@else{{'null'}}@endif;
+    var pricehigh=@if(isset($pricehigh)){{$pricehigh}}@else{{'null'}}@endif;
+    var color=@if(isset($color)){{$color}}@else{{'null'}}@endif;
+    var gear=@if(isset($gear)){{$gear}}@else{{'null'}}@endif;
+    var power=@if(isset($power)){{$power}}@else{{'null'}}@endif;
+    var province_id=@if(isset($province_id))@else{{'null'}}@endif;
+    var yearlow=@if(isset($yearlow))@else{{'null'}}@endif;
+    var yearhigh=@if(isset($yearhigh))@else{{'null'}}@endif;
     
     var brand_sel=null;
     
@@ -305,7 +342,7 @@ yearslider.noUiSlider.on('update', function (values, handle) {
             refresh: true,
             autoTrigger: true,
             loadingHtml: '<img class="center-block" src="{{asset("frontend/images/loading.gif")}}" alt="Loading..." />',
-            padding: 0,
+            padding: 1000,
             nextSelector: '.pagination li.active + li a',
             contentSelector: 'div.infinite-scroll',
             callback: function() {
@@ -367,10 +404,10 @@ yearslider.noUiSlider.on('update', function (values, handle) {
     if (brand_sel === null) {
         
         $('.btn-boxfilter.brand').show();
-        $('.btn-boxfilter.model').hide();
-        $('.btn-boxfilter.generation').hide();
-        $('.btn-boxfilter.submodel').hide();
-        $('.btn-boxfilter.year').hide();
+        $('.btn-boxfilter.model').show();
+        $('.btn-boxfilter.generation').show();
+        $('.btn-boxfilter.submodel').show();
+        $('.btn-boxfilter.year').show();
     }
 
     

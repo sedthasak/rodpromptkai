@@ -709,7 +709,7 @@ class FrontendPageController extends Controller
         ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
         ->orderBy("cars.modelyear", "DESC")
         ->orderBy("cars.created_at", "DESC")
-        ->paginate(10);
+        ->paginate(30);
 
         $province = provincesModel::orderBy("name_th", "ASC")->get();
 
@@ -1016,7 +1016,7 @@ class FrontendPageController extends Controller
         )
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
-        ->paginate(10);
+        ->paginate(30);
         // ->getBindings();
         // ->get();
         // ->toSql();
@@ -1063,29 +1063,126 @@ class FrontendPageController extends Controller
         else {
             $yearhigh = $request->yearhigh;
         }
+        if ($request->color == "ทุกสี") {
+            $color = null;
+        }
+        else {
+            $color = $request->color;
+        }
 
         $brandsel = null;
-        if (!empty($request->brand_id)) {
+        $brand_id = null;
+        $qrymodellist = null;
+        if (isset($request->brand_id)) {
             $qrybrand = brandsModel::where("id", $request->brand_id)->first();
+            $brand_id = $qrybrand->id;
             $brandsel = $qrybrand->title;
-            $qrymodel = modelsModel::where("brand_id", $request->brand_id)->get();
-            // $modellist = $qrymodel->model;
+            $qrymodellist = modelsModel::where("brand_id", $request->brand_id)->get();
         }
         $modelsel = null;
-        if (!empty($request->model_id)) {
+        $model_id = null;
+        $qrygenerationlist = null;
+        if (isset($request->model_id)) {
+            $qrymodellist = null;
             $qrymodel = modelsModel::where("id", $request->model_id)->first();
+            $model_id = $qrymodel->id;
             $modelsel = $qrymodel->model;
+            $qrygenerationlist = generationsModel::where("models_id", $qrymodel->id)->get();
         }
         $generationsel = null;
-        if (!empty($request->generation_id)) {
+        $generation_id = null;
+        $qrysubmodellist = null;
+        $qrygeneration = null;
+        if (isset($request->generation_id)) {
+            $qrygenerationlist = null;
             $qrygeneration = generationsModel::where("id", $request->generation_id)->first();
+            $generation_id = $qrygeneration->id;
             $generationsel = $qrygeneration->generations;
+            $qrysubmodellist = sub_modelsModel::where("generations_id", $qrygeneration->id)->get();
         }
         $submodelsel = null;
-        if (!empty($request->submodel_id)) {
+        $submodel_id = null;
+        if (isset($request->submodel_id)) {
+            $qrysubmodellist = null;
             $qrysubmodel = sub_modelsModel::where("id", $request->submodel_id)->first();
+            $submodel_id = $qrysubmodel->id;
             $submodelsel = $qrysubmodel->sub_models;
         }
+        $paymentsel = null;
+        if(isset($request->payment)) {
+            $paymentsel = $request->payment;
+        }
+        $pricelowsel = null;
+        if($request->pricelow == "ต่ำสุด") {
+            $pricelowsel = "ราคา ต่ำสุด - ";
+        }
+        if (isset($pricelow)) {
+            $pricelowsel = "ราคา ".$pricelow." - ";
+        }
+        $pricehighsel = null;
+        if($request->pricehigh == "สูงสุด") {
+            $pricehighsel = "สูงสุด";
+        }
+        if (isset($pricehigh)) {
+            $pricehighsel = $pricelow;
+        }
+        $yearlowsel = null;
+        if($request->yearlow == "ต่ำสุด -") {
+            $yearlowsel = "ปี ต่ำสุด - ";
+        }
+        if (isset($yearlow)) {
+            $yearlowsel = "ปี ".$yearlow;
+        }
+        $yearhighsel = null;
+        if($request->yearhigh == "ทุกปี") {
+            $yearlowsel = '';
+            $yearhighsel = "ทุกปี";
+        }
+        if (isset($yearhigh)) {
+            $yearhighsel = " ".$yearhigh;
+        }
+        $colorsel = null;
+        if (isset($color)) {
+            $qrycolor = carsModel::where("color", $request->color)->first();
+            if (empty($qrycolor)) {
+                $colorsel = $request->color;
+            }
+            else {
+                $colorsel = $qrycolor->color;
+            }
+            
+        }
+        $gearsel = null;
+        if ($request->gear == 'auto') {
+            $gearsel = "เกียร์ออโต้";
+        }
+        if ($request->gear == 'manual') {
+            $gearsel = "เกียร์ธรรมดา";
+        }
+        $powersel = null;
+        if (isset($request->power)){
+            if ($request->power == 1) {
+                $powersel = 'รถน้ำมัน / hybrid';
+            }
+            if ($request->power == 2) {
+                $powersel = 'รถไฟฟ้า EV 100%';
+            }
+            if ($request->power == 3) {
+                $powersel = 'รถติดแก๊ส';
+            }
+        }
+        $provincesel = null;
+        if (isset($request->province)) {
+            $qryprovince = carsModel::where("province", $request->province)->first();
+            if (empty($qryprovince)){
+                $provincesel = $request->province;
+            }
+            else {
+                $provincesel = $qryprovince->province;
+            }
+            
+        }
+
 
         $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
         ->rightJoin('models', 'cars.model_id', '=', 'models.id')
@@ -1102,6 +1199,9 @@ class FrontendPageController extends Controller
         }
         if (!empty($request->submodel_id)) {
             $cars = $cars->where('cars.sub_models_id', $request->submodel_id);
+        }
+        if (!empty($request->payment)) {
+            $cars = $cars->where('cars.payment', $request->payment);
         }
         if (!empty($pricelow)) {
             $cars = $cars->where('cars.price', '>=', $pricelow);
@@ -1122,13 +1222,13 @@ class FrontendPageController extends Controller
             $cars = $cars->where('cars.gear', $request->gear);
         }
         if (!empty($request->power)) {
-            if ($power == 1) {
+            if ($request->power == 1) {
                 $cars = $cars->where('cars.gas', 'รถน้ำมัน / hybrid');
             }
-            if ($power == 2) {
+            if ($request->power == 2) {
                 $cars = $cars->where('cars.gas', 'รถไฟฟ้า EV 100%');
             }
-            if ($power == 3) {
+            if ($request->power == 3) {
                 $cars = $cars->where('cars.gas', 'รถติดแก๊ส');
             }
         }
@@ -1144,7 +1244,7 @@ class FrontendPageController extends Controller
         )
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
-        ->paginate(10);
+        ->paginate(30);
         // ->getBindings();
         // ->get();
         // ->toSql();
@@ -1163,7 +1263,24 @@ class FrontendPageController extends Controller
             "brandsel" => $brandsel,
             "modelsel" => $modelsel,
             "generationsel" => $generationsel,
-            "submodelsel" => $submodelsel
+            "submodelsel" => $submodelsel,
+            "paymentsel" => $paymentsel,
+            "pricelowsel" => $pricelowsel,
+            "pricehighsel" => $pricehighsel,
+            "yearlowsel" => $yearlowsel,
+            "yearhighsel" => $yearhighsel,
+            "colorsel" => $colorsel,
+            "gearsel" => $gearsel,
+            "powersel" => $powersel,
+            "provincesel" => $provincesel,
+            "modellist" => $qrymodellist,
+            "generationlist" => $qrygenerationlist,
+            "submodellist" => $qrysubmodellist,
+            "qrygeneration" => $qrygeneration,
+            "brand_id" => $brand_id,
+            "model_id" => $model_id,
+            "generation_id" => $generation_id,
+            "submodel_id" => $submodel_id
         ]);
     }
 
