@@ -29,8 +29,8 @@ $customerdata = session('customer');
                             @else
                             <a href="{{route('loginPage')}}" class="btn-login"><i class="bi bi-person-circle"></i> เข้าสู่ระบบ</a>
                             @endif
-                            @if(isset($contacts_back) && count($contacts_back) > 0)
-                            <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> <div>{{count($contacts_back)}}</div></a>
+                            @if(isset($notice) && count($notice) > 0)
+                            <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> <div>{{count($notice)}}</div></a>
                             @else
                             <a href="{{route('notificationPage')}}" class="btn-noti"><i class="bi bi-bell"></i> </a>
                             @endif

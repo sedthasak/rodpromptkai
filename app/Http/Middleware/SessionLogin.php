@@ -10,6 +10,7 @@ use App\Models\Sms_session;
 use App\Models\Customer;
 use App\Models\brandsModel;
 use App\Models\contacts_backModel;
+use App\Models\noticeModel;
 use Illuminate\Support\Facades\View;
 
 class SessionLogin
@@ -31,8 +32,16 @@ class SessionLogin
                 if(isset($customerdata)){
                     $request->session()->put('customer', $customerdata);
 
-                    $contacts_back = contacts_backModel::where("customer_id", $session->customer_id)->get();
-                    View::share('contacts_back', $contacts_back);
+                    // $contacts_back = contacts_backModel::where("customer_id", $session->customer_id)->get();
+                    // View::share('contacts_back', $contacts_back);
+
+                    $notice = noticeModel::orderBy('id', 'desc')
+                    ->where([
+                        ["customer_id", $session->customer_id],
+                        ["status", 'create'],
+                    ])
+                    ->get();
+                    View::share('notice', $notice);
                 }
             }
             else {

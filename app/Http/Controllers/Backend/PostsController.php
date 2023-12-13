@@ -16,6 +16,7 @@ use App\Models\carsModel;
 use App\Models\Customer;
 use App\Models\galleryModel;
 use App\Models\categoriesModel;
+use App\Models\noticeModel;
 use Auth;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -487,6 +488,24 @@ class PostsController extends Controller
         // $cars->user_id = $request->user_id;
         // $cars->customer_id = $request->customer_id;
         $cars->update();
+
+        if(isset($request->change_status) && $request->change_status=='rejected'){
+
+            $carcar = carsModel::find($request->post_id);
+            if($carcar){
+
+                $notice = new noticeModel;
+                $notice->customer_id = $carcar->customer_id;
+                $notice->status = 'create';
+                $notice->title = 'กรุณาแก้ไขรายละเอียดรถยนต์';
+                $notice->detail = $request->reason;
+                $notice->resource = 'cars';
+                $notice->resource_id = $request->post_id;
+                $notice->save();
+            }
+
+                
+        }
     
         return redirect(route('BN_posts_detail', ['id' => $request->post_id]))->with('success', 'สำเร็จ !');
         // return redirect(route('BN_posts_detail', ['id' => $request->id]));

@@ -20,6 +20,7 @@ use App\Models\setting_optionModel;
 use App\Models\contactsModel;
 use App\Models\contacts_backModel;
 use App\Models\newsModel;
+use App\Models\noticeModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -42,6 +43,18 @@ class FrontendPageController extends Controller
             $contacts->cars_id = $request->cars_id;
             $contacts->status = 'create';
             $contacts->save();
+
+            if(isset($contacts->id)){
+                $notice = new noticeModel;
+                $notice->customer_id = $request->customer_id;
+                $notice->status = 'create';
+                $notice->title = 'มีลูกค้ารอติดต่อกลับ';
+                $notice->detail = 'ชื่อลูกค้า: '.$request->name;
+                $notice->resource = 'contacts_back';
+                $notice->resource_id = $contacts->id;
+                $notice->save();
+            }
+
             return redirect()->back()->with('success', 'ส่งข้อมูลสำเร็จ !');
         }else{
             return redirect()->back()->with('error', 'ผิดพลาด !');
@@ -795,8 +808,16 @@ class FrontendPageController extends Controller
 
     public function notificationPage()
     {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+        
+        $notice = noticeModel::orderBy('id', 'desc')
+        ->where([
+            ["customer_id", $customer_id],
+        ])
+        ->paginate(12);
         return view('frontend/notification', [
-
+            "notice" => $notice,
         ]);
     }
     public function loginPage(Request $request)
