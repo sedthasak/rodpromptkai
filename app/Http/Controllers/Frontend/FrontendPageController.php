@@ -19,6 +19,7 @@ use App\Models\setFooterModel;
 use App\Models\setting_optionModel;
 use App\Models\contactsModel;
 use App\Models\contacts_backModel;
+use App\Models\newsModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -129,6 +130,10 @@ class FrontendPageController extends Controller
         
         $province = provincesModel::orderBy("name_th", "ASC")->get();
 
+        $news = newsModel::query()
+        ->orderBy('id', 'desc')
+        ->take(5)->get();
+
         return view('frontend/index-page', [
             'layout' => 'side-menu',
             'categories' => $categories,
@@ -138,7 +143,67 @@ class FrontendPageController extends Controller
             'brand' => $qrybrand,
             'slide' => $decde,
             'setFooterModel' => $setFooterModel,
+            'news' => $news,
             'province' => $province
+        ]);
+    }
+    public function newsPage()
+    {
+
+        $firstTwoPosts = newsModel::query()
+        ->orderBy('id', 'desc')
+        ->take(2)->get();
+        
+        // $remainingPosts = newsModel::query()
+        // ->orderBy('id', 'desc')
+        // ->skip(2)->get();
+
+        // $remainingPosts = newsModel::query()
+        // ->orderBy('id', 'desc')
+        // ->skip(2)
+        // ->paginate(4);
+
+        $remainingPosts = newsModel::query()
+        ->orderBy('id', 'desc')
+        ->paginate(4);
+
+        $excpt1 = 99998;
+        $excpt2 = 99999;
+        foreach($remainingPosts as $keyloop => $loop){
+            if($keyloop==0){$excpt1 = $loop->id;}
+            if($keyloop==1){$excpt2 = $loop->id;}
+        }
+
+        $remainingPosts = DB::table('news')
+            ->where([
+                ["id", "<>", $excpt1],
+                ["id", "<>", $excpt2],
+            ])
+            ->orderBy('id', 'desc')
+            // ->where("id", "<>", 14)
+            ->offset(2)
+            ->limit(99999)
+            ->paginate(12);
+
+        // $remainingPosts = DB::table('news')->skip(10)->take(5)->orderBy('id', 'desc')->get();
+
+        return view('frontend/news', [
+            'firstTwoPosts' => $firstTwoPosts,
+            'remainingPosts' => $remainingPosts,
+        ]);
+    }
+    public function newsdetailPage(Request $request, $news_id)
+    {
+        $mynews = newsModel::find($news_id);
+        $othernews = newsModel::query()
+        ->orderBy('id', 'desc')
+        ->where("id", "<>", $news_id)
+        ->take(5)
+        ->get();
+        
+        return view('frontend/news-detail', [
+            'mynews' => $mynews,
+            'othernews' => $othernews,
         ]);
     }
     public function profilePage()
@@ -725,18 +790,8 @@ class FrontendPageController extends Controller
 
         ]);
     }
-    public function newsdetailPage()
-    {
-        return view('frontend/news-detail', [
-
-        ]);
-    }
-    public function newsPage()
-    {
-        return view('frontend/news', [
-
-        ]);
-    }
+    
+    
 
     public function notificationPage()
     {

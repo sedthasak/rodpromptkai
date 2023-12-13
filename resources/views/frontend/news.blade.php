@@ -6,7 +6,11 @@
 
 @section('content')
 
-
+<?php
+// echo "<pre>";
+// print_r($firstTwoPosts);
+// echo "</pre>";
+?>
 <section class="row">
     <div class="col-12 wrap-page wow fadeInDown">
         <div class="container">
@@ -14,41 +18,66 @@
                 <div class="col-12">
                     <h1 class="topic-insidepage"><i class="bi bi-circle-fill"></i> อัพเดทข่าวยานยนต์</h1>
                     <div class="box-latestupdate">
-                        <a href="{{route('newsdetailPage')}}" class="row news-latest">
+                        @if(isset($firstTwoPosts) && (count($firstTwoPosts)==2))
+                        @php 
+                        $feature0_news = ($firstTwoPosts[0]->feature)?asset($firstTwoPosts[0]->feature):asset('public/uploads/default-car.jpg');
+                        $feature1_news = ($firstTwoPosts[1]->feature)?asset($firstTwoPosts[1]->feature):asset('public/uploads/default-car.jpg');
+                        @endphp
+
+                        <a href="{{route('newsdetailPage', ['news_id' => $firstTwoPosts[0]->id])}}" class="row news-latest">
                             <div class="col-12 col-md-7">
-                                <figure><img src="{{asset('frontend/images/Rectangle 2251.png')}}" alt=""></figure>
+                                <figure><img src="{{$feature0_news}}" alt=""></figure>
                             </div>
                             <div class="col-12 col-md-5">
                                 <div class="desc-latestnews">
-                                    <h2>เจาะ Haval H6 PRO และ ULTRA วัดกันหมัดต่อหมัดรุ่นไหนใช่สำหรับคุณ?</h2>
-                                    <div class="news-date"><i class="bi bi-calendar3"></i> 30 MAY 2566 15:38</div>
-                                    <div class="news-shortdesc">
-                                    Toyota Vios รถยอดนิยมที่ในขายดีถล่มทลาย ชนิดที่ว่า ไม่ว่าคุณจะกวาดตาไปบนถนนเส้นไหน ก็จะเจอรถรุ่นนี้ให้เห็นกันอยู่จนชินตา จุดเริ่มต้นของรถรุ่นยอดนิยมนี้เกิดขึ้นตั้งแต่ปี 1966 ที่มาในรูปโฉมของรุ่นพี่อย่าง Toyota Soluna ในช่วงแรกของการผลิตเป็นรถยนต์ที่วางเครื่องรหัส 5A-FE ขนาด 1.5 ลิตร ที่ขึ้นชื่อเรื่องความ Toyota Vios รถยอดนิยมที่ในขายดีถล่มทลาย ชนิดที่ว่า ไม่ว่าคุณจะกวาดตาไปบนถนนเส้นไหน ก็จะเจอรถรุ่นนี้ให้เห็นกันอยู่จนชินตา จุดเริ่มต้นของรถรุ่นยอดนิยมนี้เกิดขึ้นตั้งแต่ปี 1966 ที่มาในรูปโฉมของรุ่นพี่อย่าง Toyota Soluna ในช่วงแรกของการผลิตเป็นรถยนต์ที่วางเครื่องรหัส 5A-FE ขนาด 1.5 ลิตร ที่ขึ้นชื่อเรื่องความ
-                                    </div>
+                                    <h2>{{$firstTwoPosts[0]->title}}</h2>
+                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($firstTwoPosts[0]->created_at))}}</div>
+                                    <div class="news-shortdesc">{{$firstTwoPosts[0]->excerpt}}</div>
                                     <div class="btn-red">อ่านต่อ</div>
                                 </div>
                             </div>
                         </a>
-                        <a href="news-detail.php" class="row news-latest">
+                        <a href="{{route('newsdetailPage', ['news_id' => $firstTwoPosts[1]->id])}}" class="row news-latest">
                             <div class="col-12 col-md-7">
-                                <figure><img src="{{asset('frontend/images/Rectangle 2252.png')}}" alt=""></figure>
+                                <figure><img src="{{$feature1_news}}" alt=""></figure>
                             </div>
                             <div class="col-12 col-md-5">
                                 <div class="desc-latestnews">
-                                    <h2>ราคา Toyota Altis รถยอดนิยมในปี 2023</h2>
-                                    <div class="news-date"><i class="bi bi-calendar3"></i> 30 MAY 2566 15:38</div>
-                                    <div class="news-shortdesc">
-                                    Toyota Vios รถยอดนิยมที่ในขายดีถล่มทลาย ชนิดที่ว่า ไม่ว่าคุณจะกวาดตาไปบนถนนเส้นไหน ก็จะเจอรถรุ่นนี้ให้เห็นกันอยู่จนชินตา จุดเริ่มต้นของรถรุ่นยอดนิยมนี้เกิดขึ้นตั้งแต่ปี 1966 ที่มาในรูปโฉมของรุ่นพี่อย่าง Toyota Soluna ในช่วงแรกของการผลิตเป็นรถยนต์ที่วางเครื่องรหัส 5A-FE ขนาด 1.5 ลิตร ที่ขึ้นชื่อเรื่องความ Toyota Vios รถยอดนิยมที่ในขายดีถล่มทลาย ชนิดที่ว่า ไม่ว่าคุณจะกวาดตาไปบนถนนเส้นไหน ก็จะเจอรถรุ่นนี้ให้เห็นกันอยู่จนชินตา จุดเริ่มต้นของรถรุ่นยอดนิยมนี้เกิดขึ้นตั้งแต่ปี 1966 ที่มาในรูปโฉมของรุ่นพี่อย่าง Toyota Soluna ในช่วงแรกของการผลิตเป็นรถยนต์ที่วางเครื่องรหัส 5A-FE ขนาด 1.5 ลิตร ที่ขึ้นชื่อเรื่องความ
-                                    </div>
+                                    <h2>{{$firstTwoPosts[1]->title}}</h2>
+                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($firstTwoPosts[1]->created_at))}}</div>
+                                    <div class="news-shortdesc">{{$firstTwoPosts[1]->excerpt}}</div>
                                     <div class="btn-red">อ่านต่อ</div>
                                 </div>
                             </div>
                         </a>
+                        @endif
+                        
+
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 col-md-4 col-lg-3 item-allnews">
+
+                @foreach($remainingPosts as $keynews => $newsres)
+                    @php
+                    $feature_news = ($newsres->feature)?asset($newsres->feature):asset('public/uploads/default-car.jpg');
+                    @endphp
+                    
+                    <div class="col-6 col-md-4 col-lg-3 item-allnews">
+                        <a href="{{route('newsdetailPage', ['news_id' => $newsres->id])}}" class="home-itemnews">
+                            <figure>
+                                <div class="cover-news">
+                                    <img src="{{$feature_news}}" alt="">
+                                </div>
+                                <figcaption>
+                                    <div class="item-topicnews">{{$newsres->title}}</div>
+                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($newsres->created_at))}}</div>
+                                </figcaption>
+                            </figure>
+                        </a>
+                    </div>
+                @endforeach
+                <!-- <div class="col-6 col-md-4 col-lg-3 item-allnews">
                     <a href="news-detail.php" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
@@ -203,9 +232,12 @@
                             </figcaption>
                         </figure>
                     </a>
-                </div>
+                </div> -->
 
                 <div class="col-12 box-pagination">
+                    {!! $remainingPosts->links() !!}
+                </div>
+                <!-- <div class="col-12 box-pagination">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
                             <li class="page-item disabled">
@@ -221,7 +253,8 @@
                             </li>
                         </ul>
                     </nav>
-                </div>
+                </div> -->
+
             </div>
         </div>
     </div>

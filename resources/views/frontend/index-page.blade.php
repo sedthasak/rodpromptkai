@@ -573,7 +573,12 @@ $arr_gear = array(
         </section>
     </div>
 </section>
-
+<?php
+// echo "<pre>";
+// print_r($news);
+// echo "</pre>";
+?>
+@if(isset($news) && (count($news) > 0))
 <section class="row">
     <div class="col-12 home-news wow fadeInDown">
         <div class="container">
@@ -584,79 +589,54 @@ $arr_gear = array(
                 </div>
             </div>
             <div class="row">
+                @php
+                $feature0_news = ($news[0]->feature)?asset($news[0]->feature):asset('public/uploads/default-car.jpg');
+                @endphp
                 <div class="col-12 col-xl-6 home-news-lg">
-                    <a href="{{route('newsdetailPage')}}" class="home-itemnews">
+                    <a href="{{route('newsdetailPage', ['news_id' => $news[0]->id])}}" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
-                                <img src="{{asset('frontend/images/Rectangle 149.png')}}" alt="">
+                                <img src="{{$feature0_news}}" alt="">
                             </div>
                             <figcaption>
-                                <div class="item-topicnews">ต่อใบขับขี่หมดอายุ หรือหาย 2566 ทำยังไง ใช้เอกสารอะไรบ้าง</div>
-                                <div class="news-date"><i class="bi bi-calendar3"></i> 30 MAY 2566 15:38</div>
+                                <div class="item-topicnews">{{$news[0]->title}}</div>
+                                <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($news[0]->created_at))}}</div>
                             </figcaption>
                         </figure>
                     </a>
                 </div>
                 <div class="col-12 col-xl-6">
                     <div class="row">
-                        <div class="col-6">
-                            <a href="{{route('newsdetailPage')}}" class="home-itemnews">
-                                <figure>
-                                    <div class="cover-news">
-                                        <img src="{{asset('frontend/images/Rectangle 2251.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="item-topicnews">ต่อใบขับขี่หมดอายุ หรือหาย 2566 ทำยังไง</div>
-                                        <div class="news-date"><i class="bi bi-calendar3"></i> 30 MAY 2566 15:38</div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="{{route('newsdetailPage')}}" class="home-itemnews">
-                                <figure>
-                                    <div class="cover-news">
-                                        <img src="{{asset('frontend/images/Rectangle 2252.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="item-topicnews">ต่อใบขับขี่หมดอายุ หรือหาย 2566 ทำยังไง ใช้เอกสารอะไรบ้าง</div>
-                                        <div class="news-date"><i class="bi bi-calendar3"></i> 30 MAY 2566 15:38</div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="{{route('newsdetailPage')}}" class="home-itemnews">
-                                <figure>
-                                    <div class="cover-news">
-                                        <img src="{{asset('frontend/images/Rectangle 151.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="item-topicnews">ต่อใบขับขี่หมดอายุ หรือหาย 2566 ทำยังไง ใช้เอกสารอะไรบ้าง</div>
-                                        <div class="news-date"><i class="bi bi-calendar3"></i> 30 MAY 2566 15:38</div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="{{route('newsdetailPage')}}" class="home-itemnews">
-                                <figure>
-                                    <div class="cover-news">
-                                        <img src="{{asset('frontend/images/Rectangle 145.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="item-topicnews">ต่อใบขับขี่หมดอายุ หรือหาย 2566 ทำยังไง ใช้เอกสารอะไรบ้าง</div>
-                                        <div class="news-date"><i class="bi bi-calendar3"></i> 30 MAY 2566 15:38</div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div>
+                        @foreach($news as $keynews => $newsres)
+                            @if($keynews != 0)
+
+                            @php
+                            $feature_news = ($newsres->feature)?asset($newsres->feature):asset('public/uploads/default-car.jpg');
+                            @endphp
+                            <div class="col-6">
+                                <a href="{{route('newsdetailPage', ['news_id' => $newsres->id])}}" class="home-itemnews">
+                                    <figure>
+                                        <div class="cover-news">
+                                            <img src="{{$feature_news}}" alt="">
+                                        </div>
+                                        <figcaption>
+                                            <div class="item-topicnews">{{$newsres->title}}</div>
+                                            <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($newsres->created_at))}}</div>
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </div>
+                            @endif
+                        @endforeach
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+@endif
 
 @include('frontend.layouts.inc_carseo')	
 
