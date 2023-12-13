@@ -11,7 +11,7 @@
 
 // $qqq = 7;
 // echo "<pre>";
-// print_r($contacts_back);
+// print_r($notice);
 // echo "</pre>";
 ?>
 
@@ -23,18 +23,23 @@
                 <div class="col-12">
                     <div class="topic-profilepage"><i class="bi bi-circle-fill"></i> รายการแจ้งเตือน</div>
 
-                    @foreach($contacts_back as $keycont => $contact)
-
-                    <a href="{{route('customercontactPage')}}" class="item-noti">
+                    
+                    @foreach($notice as $keycont => $notice_show)
+                    @php 
+                    $url = '#';
+                    if($notice_show->resource=='contacts_back'){$url = route('customercontactPage');}
+                    elseif($notice_show->resource=='cars'){$url = route('profileeditcarinfoPage');}
+                    @endphp 
+                    <a href="{{$url}}" class="item-noti">
                         <div class="row">
                             <div class="col-9">
-                                <div class="title-noti">มีลูกค้ารอติดต่อกลับ</div>
+                                <div class="title-noti">{{$notice_show->title}}</div>
                             </div>
                             <div class="col-3 text-end">
-                                {{date('d/m/Y', strtotime($contact->created_at))}}
+                                {{date('d/m/Y', strtotime($notice_show->created_at))}}
                             </div>
                             <div class="col-12">
-                                <div class="desc-noti">ชื่อลูกค้า:  {{$contact->name}}</div>
+                                <div class="desc-noti">{{$notice_show->detail}}</div>
                             </div>
                         </div>
                     </a>

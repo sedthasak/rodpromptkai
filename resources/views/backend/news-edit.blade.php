@@ -16,8 +16,9 @@
             <a href="{{route('BN_news')}}" class="transition duration-200 border inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary mr-2 shadow-md" >ย้อนกลับ</a>    
         </div>
     </div>
-    <form method="post" action="{{route('BN_news_add_action')}}" enctype="multipart/form-data" >
+    <form method="post" action="{{route('BN_news_edit_action')}}" enctype="multipart/form-data" >
         @csrf
+        <input type="hidden" name="news_id" value="{{$mynews->id}}" required />
         <input type="hidden" name="user_id" value="{{auth()->user()->id}}" required />
         <div class="grid grid-cols-12 gap-6 mt-5">
             <!-- <div class="intro-y col-span-12 lg:col-span-3"></div> -->
@@ -29,7 +30,7 @@
                         <div class="sm:grid grid-cols-1 gap-1">
                             <div class="">
                                 <label for="" class="form-label">ชื่อ</label>
-                                <input type="text" class="form-control w-full" id="" name="title" autocomplete="on" required/>
+                                <input type="text" class="form-control w-full" id="" name="title" autocomplete="off" value="{{$mynews->title}}" required/>
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
@@ -38,16 +39,24 @@
                                 <input type="file" class="form-control w-full" id="" name="feature"  autocomplete="off" required/>
                             </div>
                         </div>
+                        @if(isset($mynews->feature))
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="" class="form-label">รูปภาพหน้าปกปัจจุบัน</label>
+                                <image width="150" src="{{asset($mynews->feature)}}">
+                            </div>
+                        </div>
+                        @endif
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div class="">
                                 <label for="" class="form-label">คำอธิบาย</label>
-                                <input type="text" class="form-control w-full" id="" name="excerpt"  autocomplete="on" required/>
+                                <input type="text" class="form-control w-full" id="" name="excerpt"  autocomplete="off" value="{{$mynews->excerpt}}"  required/>
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div class="">
                                 <label for="" class="form-label">เนื้อหา</label>
-                                <textarea class="form-control" id="content" placeholder="Enter the Description" rows="5" name="content"></textarea>
+                                <textarea class="form-control" id="content" placeholder="Enter the Description" rows="5" name="content">{{$mynews->content}}</textarea>
                             </div>
                         </div>
                         

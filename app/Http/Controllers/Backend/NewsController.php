@@ -5,9 +5,21 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use App\Models\newsModel;
+
+
+
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Input;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rules;
+use Illuminate\Database\Eloquent\Builder;
+
 use App\DataTables\newsModelDataTable;
-use Auth;
+use App\Models\newsModel;
+use App\Models\User;
 
 class NewsController extends Controller
 {
@@ -21,14 +33,27 @@ class NewsController extends Controller
     public function BN_news()
     {
         // return $dataTable->render('backend.news');
+        $news = newsModel::query()
+        ->orderBy('id', 'desc')
+        ->paginate(12);
+
         return view('backend/news', [ 
             'default_pagename' => 'ข่าวรถยนต์',
+            'news' => $news,
         ]);
     }
     public function BN_news_add(Request $request)
     {
         return view('backend/news-add', [ 
             'default_pagename' => 'เพิ่มข่าวใหม่',
+        ]);
+    }
+    public function BN_news_edit(Request $request, $id)
+    {
+        $mynews = newsModel::find($id);
+        return view('backend/news-edit', [ 
+            'default_pagename' => 'แก้ไขข่าว',
+            'mynews' => $mynews,
         ]);
     }
     public function BN_newsFetch()
@@ -75,6 +100,104 @@ class NewsController extends Controller
         }else{
             echo "Not Found!!!";
         }
+    }
+
+    public function BN_news_add_action(Request $request)
+    {
+        // dd($request);
+        $news = new newsModel;
+
+        if($request->hasFile('feature')){
+
+            $oldPath = public_path($news->feature);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('feature');
+            $destinationPath = public_path('/uploads/news-feature');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = time().'-'.uniqid().'.'.$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/news-feature/'.$newfilenam;
+
+            $news->feature = $filepath;
+        }
+
+
+        $news->user_id = $request->user_id;
+        $news->title = $request->title;
+        $news->excerpt = $request->excerpt;
+        $news->content = $request->content;
+
+        $news->save();
+
+        // if(isset($Customer->id)){
+        //     $usersavelog = auth()->user();
+        //     $idsavelog = auth()->user()->id; 
+        //     $emailsavelog = auth()->user()->email;
+        //     $para = array(
+        //         'part' => 'backend',
+        //         'user' => $idsavelog,
+        //         'ref' => $categories->id,
+        //         'remark' => 'User '.$idsavelog.' Create new Category!',
+        //         'event' => 'create category',
+        //     );
+        //     $result = (new LogsSaveController)->create_log($para);
+        // }
+
+        return redirect(route('BN_news'))->with('success', 'สร้างสำเร็จ !!!');
+
+    }
+    public function BN_news_edit_action(Request $request)
+    {
+        // dd($request);
+        $news = newsModel::find($request->news_id);
+
+        if($request->hasFile('feature')){
+
+            $oldPath = public_path($news->feature);
+            if(File::exists($oldPath)){
+                File::delete($oldPath);
+            }
+
+            $file = $request->file('feature');
+            $destinationPath = public_path('/uploads/news-feature');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = time().'-'.uniqid().'.'.$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/news-feature/'.$newfilenam;
+
+            $news->feature = $filepath;
+        }
+
+
+        $news->user_id = $request->user_id;
+        $news->title = $request->title;
+        $news->excerpt = $request->excerpt;
+        $news->content = $request->content;
+
+        $news->update();
+
+        // if(isset($Customer->id)){
+        //     $usersavelog = auth()->user();
+        //     $idsavelog = auth()->user()->id; 
+        //     $emailsavelog = auth()->user()->email;
+        //     $para = array(
+        //         'part' => 'backend',
+        //         'user' => $idsavelog,
+        //         'ref' => $categories->id,
+        //         'remark' => 'User '.$idsavelog.' Create new Category!',
+        //         'event' => 'create category',
+        //     );
+        //     $result = (new LogsSaveController)->create_log($para);
+        // }
+        return redirect()->back()->with('success', 'แก้ไขสำเร็จ !!!');
+
     }
     public function BN_news_store(Request $request, newsModelDataTable $dataTable): RedirectResponse
     {

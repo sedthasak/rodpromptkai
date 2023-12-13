@@ -158,7 +158,7 @@ $arr_gear = array(
                         <div class="car-spectype">
                             <div class="car-type01">{{$cars->model_name." ".$cars->sub_models_name}}</div>
                             <span>|</span>
-                            <div>{{$arr_gear[$cars->gear]}}</div>
+                            <div>{{$arr_gear[$cars->gear]??''}}</div>
                         </div>
                         <div class="car-type02">โฉม {{$cars->generations_name}} </div>
                         <!-- <div class="car-timelogin">เข้าสู่ระบบ 1 วันที่ผ่านมา</div> -->
@@ -178,7 +178,7 @@ $arr_gear = array(
                                     <span class="topic-listdesc">เลขไมล์</span>
                                 </div>
                                 <div class="col-9 text-end">
-                                    <span class="topic-listdesc">{{$cars->mileage}} กม.</span>
+                                    <span class="topic-listdesc">{{$cars->mileage??''}} กม.</span>
                                 </div>
                             </div>
                         </div>
@@ -376,7 +376,7 @@ $arr_gear = array(
     </div>
 </section>
 
-<section class="row">
+<!-- <section class="row">
     <div class="col-12 bg-average wow fadeInDown">
         <div class="container">
             <div class="row">
@@ -433,7 +433,7 @@ $arr_gear = array(
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <section class="row">
     <div class="col-12 wrap-carreccom wow fadeInDown">
