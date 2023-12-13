@@ -401,6 +401,7 @@ popupyearslider.noUiSlider.on('update', function (values, handle) {
 
         // เพิ่มมาใหม่ //
         $('.carsearch-popup .carsearch-exit').click(function (event) {
+            event.preventDefault();
             $('.carsearch-popup .carsearch-lv2, .carsearch-popup .carsearch-lv3, .carsearch-popup .carsearch-lv4').hide();
             $('.carsearch-popup .carsearch-lv1').show();
             $.fancybox.close();
@@ -409,6 +410,7 @@ popupyearslider.noUiSlider.on('update', function (values, handle) {
         });
         
         $('.carsearch-popup .carsearch-head').click(function (event) {
+            event.preventDefault();
             if (  $(this).parents('.carsearch-popup .carsearch-lv1').length) {
                 $('.carsearch-popup .carsearch-lv2, .carsearch-popup .carsearch-lv3, .carsearch-popup .carsearch-lv4').hide();
                 $('.carsearch-popup .carsearch-lv1').show();
@@ -428,6 +430,7 @@ popupyearslider.noUiSlider.on('update', function (values, handle) {
         });
 
         $('.carsearch-popup .carsearch-ul > li > button').click(function (event) {
+            event.preventDefault();
             $('.carsearch-popup .car-inputsearch').val();
             if ( $(this).hasClass('carsearch-select-all')){
                 $('.carsearch-popup .carsearch-lv2, .carsearch-popup .carsearch-lv3, .carsearch-popup .carsearch-lv4').hide();
@@ -453,6 +456,7 @@ popupyearslider.noUiSlider.on('update', function (values, handle) {
         });
 
         $('.carsearch-popup .btn-selectall-car button').click(function (event) {
+            event.preventDefault();
             $('.carsearch-popup .car-inputsearch').val($(this).attr('rel'));
                 $('.carsearch-popup .carsearch-lv2, .carsearch-popup .carsearch-lv3, .carsearch-popup .carsearch-lv4').hide();
                 $('.carsearch-popup .carsearch-lv1').show();

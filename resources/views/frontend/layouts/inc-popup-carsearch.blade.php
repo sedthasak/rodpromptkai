@@ -1,17 +1,21 @@
 <div class="carsearch-popup">
     <div class="carsearch-menu carsearch-lv1">
         <div class="carsearch-top">
-            <button class="carsearch-head"> เลือกยี่ห้อรถ</button>
-            <button class="carsearch-exit">ยกเลิก</button>
+            <button type="button" class="carsearch-head"> เลือกยี่ห้อรถ</button>
+            <button type="button" class="carsearch-exit">ยกเลิก</button>
         </div>
         <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="brandtext" onkeyup="brandsearch();">
         <ul class="carsearch-ul">
-            
+            @if (isset($brand))
+                @foreach ($brand as $rows)
+                <li><button type="button" rel="{{$rows->title}}" onclick="brand2({{$rows->id}}, '{{$rows->title}}')"> {{$rows->title}}</button></li>
+                @endforeach
+            @endif
         </ul>
     </div>
     <div class="carsearch-menu carsearch-lv2">
         <div class="carsearch-top">
-            <button class="carsearch-head"><i class="bi bi-arrow-left"></i> เลือกรุ่นรถ</button><button class="carsearch-exit">ยกเลิก</button>
+            <button type="button" class="carsearch-head"><i class="bi bi-arrow-left"></i> เลือกรุ่นรถ</button><button type="button" class="carsearch-exit">ยกเลิก</button>
         </div>
         <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="modeltext" onkeyup="modelsearch();">
         <ul class="carsearch-ul">
@@ -64,9 +68,9 @@
         $.get('/searchbrandtext/'+id1, function(data, status) {
             // console.log(data);
             var param2 = "";
-            var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+            var html='<li><button type="button" rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                html+='<li><button type="button" rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
             });
             $('.carsearch-lv1 .carsearch-ul').empty().append(html);
         });
@@ -83,9 +87,9 @@
         $.get('/searchmodeltext/'+brand_id+'/'+id1, function(data, status) {
             // console.log(data);
             var param2 = "";
-            var html='<li><button rel="รุ่นทั้งหมด" onclick="model2(0, \'รุ่นทั้งหมด\')">รุ่นทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="รุ่นทั้งหมด" onclick="model2(0, \'รุ่นทั้งหมด\')">รุ่นทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+value.title+'" onclick="model2('+value.id+', \''+param2+' '+value.model+'\')">'+value.model+'</button></li>';
+                html+='<li><button type="button" rel="'+value.title+'" onclick="model2('+value.id+', \''+param2+' '+value.model+'\')">'+value.model+'</button></li>';
             });
             $('.carsearch-lv2 .carsearch-ul').empty().append(html);
         });
@@ -102,9 +106,9 @@
         $.get('/searchgenerationtext/'+model_id+'/'+id1, function(data, status) {
             // console.log(data);
             var param2 = "";
-            var html='<li><button rel="โฉมทั้งหมด" onclick="generation(0, \'โฉมทั้งหมด\')">โฉมทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="โฉมทั้งหมด" onclick="generation(0, \'โฉมทั้งหมด\')">โฉมทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+value.generations+'" onclick="generation2('+value.id+', \''+param2+' '+value.generations+'\')">'+value.generations+'</button></li>';
+                html+='<li><button type="button" rel="'+value.generations+'" onclick="generation2('+value.id+', \''+param2+' '+value.generations+'\')">'+value.generations+'</button></li>';
             });
             $('.carsearch-lv3 .carsearch-ul').empty().append(html);
         });
@@ -121,9 +125,9 @@
         $.get('/searchsubmodeltext/'+generation_id+'/'+id1, function(data, status) {
             // console.log(data);
             var param2 = "";
-            var html='<li><button rel="รุ่นย่อยทั้งหมด" onclick="generation(0, \'รุ่นย่อยทั้งหมด\')">รุ่นย่อยทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="รุ่นย่อยทั้งหมด" onclick="generation(0, \'รุ่นย่อยทั้งหมด\')">รุ่นย่อยทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+value.sub_models+'" onclick="submodel2('+value.id+', \''+param2+' '+value.sub_models+'\')">'+value.sub_models+'</button></li>';
+                html+='<li><button type="button" rel="'+value.sub_models+'" onclick="submodel2('+value.id+', \''+param2+' '+value.sub_models+'\')">'+value.sub_models+'</button></li>';
             });
             $('.carsearch-lv4 .carsearch-ul').empty().append(html);
         });
@@ -133,9 +137,9 @@
         console.log(param);
         $.get('/popup-carsearch-model/'+param, function(data, status) {
             // console.log(data);
-            var html='<li><button rel="'+param2+' ทุกรุ่น" onclick="model(0, \''+param2+' ทุกรุ่น\')">รุ่นทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="'+param2+' ทุกรุ่น" onclick="model(0, \''+param2+' ทุกรุ่น\')">รุ่นทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+param2+' '+value.model+'" onclick="model('+value.id+', \''+param2+' '+value.model+'\')">'+value.model+'</button></li>';
+                html+='<li><button type="button" rel="'+param2+' '+value.model+'" onclick="model('+value.id+', \''+param2+' '+value.model+'\')">'+value.model+'</button></li>';
             });
             $('.carsearch-lv2 .carsearch-ul').empty().append(html);
         });
@@ -146,9 +150,9 @@
         
         $.get('/popup-carsearch-generation/'+param+'?models_id='+param, function(data, status) {
             // console.log(data);
-            var html='<li><button rel="'+param2+' ทุกโฉม" onclick="generation(0, \''+param2+' ทุกโฉม\')">โฉมทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="'+param2+' ทุกโฉม" onclick="generation(0, \''+param2+' ทุกโฉม\')">โฉมทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+param2+' '+value.generations+'" onclick="generation('+value.id+', \''+param2+' '+value.generations+'\')">'+value.generations+'</button></li>';
+                html+='<li><button type="button" rel="'+param2+' '+value.generations+'" onclick="generation('+value.id+', \''+param2+' '+value.generations+'\')">'+value.generations+'</button></li>';
             });
             $('.carsearch-lv3 .carsearch-ul').empty().append(html);
         });
@@ -169,9 +173,9 @@
         $('.box-search-car .carsearch-input input').val(param2);
         $.get('/popup-carsearch-submodel/'+param+'?generations_id='+param, function(data, status) {
             // console.log(data);
-            var html='<li><button rel="'+param2+' ทุกรุ่นย่อย" onclick="submodel(0, \''+param2+' ทุกรุ่นย่อย\')">รุ่นย่อยทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="'+param2+' ทุกรุ่นย่อย" onclick="submodel(0, \''+param2+' ทุกรุ่นย่อย\')">รุ่นย่อยทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+param2+' '+value.sub_models+'" onclick="submodel('+value.id+', \''+param2+' '+value.sub_models+'\')">'+value.sub_models+'</button></li>';
+                html+='<li><button type="button" rel="'+param2+' '+value.sub_models+'" onclick="submodel('+value.id+', \''+param2+' '+value.sub_models+'\')">'+value.sub_models+'</button></li>';
             });
             $('.carsearch-lv4 .carsearch-ul').empty().append(html);
         });
@@ -203,12 +207,12 @@
     // search หน้า car fancybox
     function brand2(param, param2) {
         // console.log(param);
-        $.get('/popup-carsearch-model/'+param, function(data, status) {
-            // console.log(data);
+        $.get('/popup-carsearch-model/a?brand_id='+param, function(data, status) {
+            console.log(data);
             $("#modelall").attr("onClick", 'model2(0, \''+param2+' รุ่นทั้งหมด\')');
-            var html='<li><button rel="'+param2+' รุ่นทั้งหมด" onclick="model2(0, \''+param2+' รุ่นทั้งหมด\')">รุ่นทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="'+param2+' รุ่นทั้งหมด" onclick="model2(0, \''+param2+' รุ่นทั้งหมด\')">รุ่นทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+param2+' '+value.model+'" onclick="model2('+value.id+', \''+param2+' '+value.model+'\')">'+value.model+'</button></li>';
+                html+='<li><button type="button" rel="'+param2+' '+value.model+'" onclick="model2('+value.id+', \''+param2+' '+value.model+'\')">'+value.model+'</button></li>';
             });
             $('.carsearch-lv2 .carsearch-ul').empty().append(html);
         });
@@ -239,9 +243,9 @@
         $('.box-search-car .carsearch-input input').val(param2);
         $.get('/popup-carsearch-generation/'+param+'?models_id='+param, function(data, status) {
             // console.log(data);
-            var html='<li><button rel="'+param2+' โฉมทั้งหมด" onclick="generation2(0, \''+param2+' โฉมทั้งหมด\')">โฉมทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="'+param2+' โฉมทั้งหมด" onclick="generation2(0, \''+param2+' โฉมทั้งหมด\')">โฉมทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+param2+' '+value.generations+'" onclick="generation2('+value.id+', \''+param2+' '+value.generations+'\')">'+value.generations+'</button></li>';
+                html+='<li><button type="button" rel="'+param2+' '+value.generations+'" onclick="generation2('+value.id+', \''+param2+' '+value.generations+'\')">'+value.generations+'</button></li>';
             });
             $('.carsearch-lv3 .carsearch-ul').empty().append(html);
         });
@@ -272,9 +276,9 @@
         $('.box-search-car .carsearch-input input').val(param2);
         $.get('/popup-carsearch-submodel/'+param+'?generations_id='+param, function(data, status) {
             // console.log(data);
-            var html='<li><button rel="'+param2+' รุ่นย่อยทั้งหมด" onclick="submodel2(0, \''+param2+' รุ่นย่อยทั้งหมด\')">รุ่นย่อยทั้งหมด</button></li>';
+            var html='<li><button type="button" rel="'+param2+' รุ่นย่อยทั้งหมด" onclick="submodel2(0, \''+param2+' รุ่นย่อยทั้งหมด\')">รุ่นย่อยทั้งหมด</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button rel="'+param2+' '+value.sub_models+'" onclick="submodel2('+value.id+', \''+param2+' '+value.sub_models+'\')">'+value.sub_models+'</button></li>';
+                html+='<li><button type="button" rel="'+param2+' '+value.sub_models+'" onclick="submodel2('+value.id+', \''+param2+' '+value.sub_models+'\')">'+value.sub_models+'</button></li>';
             });
             $('.carsearch-lv4 .carsearch-ul').empty().append(html);
         });
@@ -321,5 +325,10 @@
             $('.carsearch-lv4').hide();
             $.fancybox.close();
         }
+
+
+
+        
+        $('.carsearch-popup .carsearch-exit').click();
     }
 </script>

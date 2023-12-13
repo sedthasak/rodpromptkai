@@ -40,74 +40,74 @@
                     <div class="wrap-allitem-car">
                         <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย</div>
                         <div class="result-btn-search">
-                            <button class="btn-refresh"><img src="{{asset('frontend/images/icon-clear.svg')}}" alt="">ล้างข้อมูล</button>
+                            <button class="btn-refresh" onclick="clearall();"><img src="{{asset('frontend/images/icon-clear.svg')}}" alt="">ล้างข้อมูล</button>
                             @if (isset($brandsel))
-                                <button>{{$brandsel}} <i class="bi bi-x brand"></i></button>
+                                <button class="btn-brand" onclick="delbrand();">{{$brandsel}} <i class="bi bi-x brand"></i></button>
                             @endif
                             @if (isset($modelsel))
-                                <button>{{$modelsel}} <i class="bi bi-x model"></i></button>
+                                <button class="btn-model" onclick="delmodel();">{{$modelsel}} <i class="bi bi-x model"></i></button>
                             @endif
                             @if (isset($generationsel))
-                                <button>{{$generationsel}} <i class="bi bi-x generation"></i></button>
+                                <button class="btn-generation" onclick="delgeneration();">{{$generationsel}} <i class="bi bi-x generation"></i></button>
                             @endif
                             @if (isset($submodelsel))
-                                <button>{{$submodelsel}} <i class="bi bi-x submodel"></i></button>
+                                <button class="btn-submodel" onclick="delsubmodel();">{{$submodelsel}} <i class="bi bi-x submodel"></i></button>
                             @endif
                             @if (isset($paymentsel))
-                                <button>{{$paymentsel}} <i class="bi bi-x submodel"></i></button>
+                                <button class="btn-payment" onclick="delpayment();">{{$paymentsel}} <i class="bi bi-x payment"></i></button>
                             @endif
                             @if (isset($pricelowsel) && isset($pricehighsel))
-                                <button>{{'ราคา '.( is_numeric( preg_replace('/[^0-9]/', '', $pricelowsel) )?number_format( preg_replace('/[^0-9]/', '', $pricelowsel) ):str_replace('-', '', str_replace('ราคา', '', $pricelowsel)) ).' - '.( is_numeric( preg_replace('/[^0-9]/', '', $pricehighsel) )?number_format( preg_replace('/[^0-9]/', '', $pricehighsel) ):$pricehighsel ) }} <i class="bi bi-x submodel"></i></button>
+                                <button class="btn-price" onclick="delprice();">{{'ราคา '.( is_numeric( preg_replace('/[^0-9]/', '', $pricelowsel) )?number_format( preg_replace('/[^0-9]/', '', $pricelowsel) ):str_replace('-', '', str_replace('ราคา', '', $pricelowsel)) ).' - '.( is_numeric( preg_replace('/[^0-9]/', '', $pricehighsel) )?number_format( preg_replace('/[^0-9]/', '', $pricehighsel) ):$pricehighsel ) }} <i class="bi bi-x price"></i></button>
                             @endif
                             @if (isset($yearlowsel) && isset($yearhighsel))
-                                <button>{{$yearlowsel}}{{$yearhighsel}} <i class="bi bi-x pricelow"></i></button>
+                                <button class="btn-year" onclick="delyear();">{{$yearlowsel}}{{$yearhighsel}} <i class="bi bi-x year"></i></button>
                             @endif
                             @if (isset($colorsel))
-                                <button>{{$colorsel}} <i class="bi bi-x pricelow"></i></button>
+                                <button class="btn-color" onclick="delcolor();">{{$colorsel}} <i class="bi bi-x color"></i></button>
                             @endif
                             @if (isset($gearsel))
-                                <button>{{$gearsel}} <i class="bi bi-x pricelow"></i></button>
+                                <button class="btn-gear" onclick="delgear();">{{$gearsel}} <i class="bi bi-x gear"></i></button>
                             @endif
                             @if (isset($powersel))
-                                <button>{{$powersel}} <i class="bi bi-x pricelow"></i></button>
+                                <button class="btn-power" onclick="delpower();">{{$powersel}} <i class="bi bi-x power"></i></button>
                             @endif
                             @if (isset($provincesel))
-                                <button>{{$provincesel}} <i class="bi bi-x pricelow"></i></button>
+                                <button class="btn-province" onclick="delprovince();">{{$provincesel}} <i class="bi bi-x province"></i></button>
                             @endif
                         </div>
-                        <div class="txt-numresult">ทั้งหมด <span>{{number_format($cars->total())}}</span> รายการ</div>
+                        <div class="txt-numresult">ทั้งหมด <span class="total-cars">{{number_format($cars->total())}}</span> รายการ</div>
                         <div class="btn-boxfilter brand">
                             @if (isset($brandx))
                                 @foreach ($brand as $rows)
-                                <button onclick="brandsel(this);">{{$rows->title}}</button>
+                                <button onclick="brandsel($rows->id);">{{$rows->title}}</button>
                                 @endforeach
                             @endif
                         </div>
                         <div class="btn-boxfilter model">
                             @if (isset($modellist))
                                 @foreach ($modellist as $rows)
-                                <button onclick="modelsel(this);">{{$rows->model}}</button>
+                                <button onclick="modelsel({{$rows->id}}, '{{$rows->model}}');">{{$rows->model}}</button>
                                 @endforeach
                             @endif
                         </div>
                         <div class="btn-boxfilter generation">
                             @if (isset($generationlist))
                                 @foreach ($generationlist as $rows)
-                                <button onclick="generationsel(this);">{{$rows->generations}}</button>
+                                <button onclick="generationsel($rows->id, $rows->generations);">{{$rows->generations}}</button>
                                 @endforeach
                             @endif
                         </div>
                         <div class="btn-boxfilter submodel">
                             @if (isset($submodellist))
                                 @foreach ($submodellist as $rows)
-                                <button onclick="submodelsel(this);">{{$rows->sub_models}}</button>
+                                <button onclick="submodelsel($rows->id, $rows->sub_models);">{{$rows->sub_models}}</button>
                                 @endforeach
                             @endif
                         </div>
                         <div class="btn-boxfilter year">
                             @if (isset($qrygeneration))
                                 @for ($i = $qrygeneration->yearfirst; $i <= $qrygeneration->yearlast; $i++)
-                                <button onclick="yearsel(this);">{{$i}}</button>
+                                <button onclick="yearsel($i);">{{$i}}</button>
                                 @endfor
                             @endif
                         </div>
@@ -224,15 +224,15 @@
     var generation_id=@if(isset($generation_id)){{$generation_id}}@else{{"null"}}@endif;
     var submodel_id=@if(isset($submodel_id)){{$submodel_id}}@else{{'null'}}@endif;
     var evtype=null;
-    var payment=@if(isset($payment)){{$payment}}@else{{'null'}}@endif;
-    var pricelow=@if(isset($pricelow)){{$pricelow}}@else{{'null'}}@endif;
-    var pricehigh=@if(isset($pricehigh)){{$pricehigh}}@else{{'null'}}@endif;
-    var color=@if(isset($color)){{$color}}@else{{'null'}}@endif;
-    var gear=@if(isset($gear)){{$gear}}@else{{'null'}}@endif;
-    var power=@if(isset($power)){{$power}}@else{{'null'}}@endif;
-    var province_id=@if(isset($province_id))@else{{'null'}}@endif;
-    var yearlow=@if(isset($yearlow))@else{{'null'}}@endif;
-    var yearhigh=@if(isset($yearhigh))@else{{'null'}}@endif;
+    var payment=@if(isset($paymentsel)){{$paymentsel}}@else{{'null'}}@endif;
+    var pricelow = @if(isset($pricelowsel)) @if(is_numeric($pricelowsel)){{$pricelowsel}}@else{{'null'}}@endif @else{{'null'}}@endif;
+    var pricehigh= @if(isset($pricehighsel)) @if(is_numeric($pricehighsel)){{$pricehighsel}}@else{{'null'}}@endif @else{{'null'}}@endif;
+    var color=@if(isset($colorsel)){{$colorsel}}@else{{'null'}}@endif;
+    var gear=@if(isset($gearsel)){{$gearsel}}@else{{'null'}}@endif;
+    var power=@if(isset($powersel)){{$powersel}}@else{{'null'}}@endif;
+    var province_id=@if(isset($provincesel))@else{{'null'}}@endif;
+    var yearlow= @if(isset($yearlowsel)) @if(is_numeric($yearlowsel)){{$yearlowsel}}@else{{'null'}}@endif @else{{'null'}}@endif;
+    var yearhigh= @if(isset($yearhighsel)) @if(is_numeric($yearhighsel)){{$yearhighsel}}@else{{'null'}}@endif @else{{'null'}}@endif;
     
     var brand_sel=null;
     
@@ -339,7 +339,7 @@ yearslider.noUiSlider.on('update', function (values, handle) {
     $('ul.pagination').hide();
     $(function() {
         $('.infinite-scroll').jscroll({
-            refresh: true,
+            // refresh: true,
             autoTrigger: true,
             loadingHtml: '<img class="center-block" src="{{asset("frontend/images/loading.gif")}}" alt="Loading..." />',
             padding: 1000,
@@ -413,12 +413,15 @@ yearslider.noUiSlider.on('update', function (values, handle) {
     
 });
     function search2() {
-        $.get("{{url('/search')}}"+"/"+brand_id+"/"+model_id+"/"+generation_id+"/"+submodel_id+"/"+evtype+"/"+payment+"/"+pricelow+"/"+pricehigh+"/"+color+"/"+gear+"/"+power+"/"+province_id, function(data, status){
+        $.get("{{url('/search')}}"+"/"+brand_id+"/"+model_id+"/"+generation_id+"/"+submodel_id+"/"+evtype+"/"+payment+"/"+pricelow+"/"+pricehigh+"/"+color+"/"+gear+"/"+power+"/"+province_id+"/"+yearlow+"/"+yearhigh, function(data, status){
             // console.log("Data: " + data + "\nStatus: " + status);
-            var html="", currentyear="", total=0;
-            total = data.length;
-            $('.txt-numresult span').text(total);
-            $.each(data, function( index, value ) {
+            var html="", currentyear="";
+            // var total = data.data.length;
+            // console.log(total);
+            
+            // console.log(data.total);
+            // console.log(data.data.total);
+            $.each(data.data, function( index, value ) {
                 // เริ่มต้น
                 if (index == 0) {
                     currentyear = value.modelyear;
@@ -574,7 +577,9 @@ yearslider.noUiSlider.on('update', function (values, handle) {
                     currentyear = value.modelyear;
                 }
             });
-            $('#caryearcontent').empty().append(html);
+            // $('#caryearcontent').empty().append(html);
+            $('#caryearcontent').html(data);
+            // console.log("data="+data);
         });
     }
 
@@ -623,6 +628,28 @@ yearslider.noUiSlider.on('update', function (values, handle) {
         $.get("{{url('/search')}}"+"/"+brand_id+"/"+model_id+"/"+generation_id+"/"+submodel_id+"/"+evtype+"/"+payment+"/"+pricelow+"/"+pricehigh+"/"+color+"/"+gear+"/"+power+"/"+province_id+"/"+yearlow+"/"+yearhigh, function(data, status){
             // $('#caryearcontent').empty();
             $('#caryearcontent').html(data);
+            $('.total-cars').text($('#total').val());
+
+
+
+
+            $('ul.pagination').hide();
+            $(function() {
+                $('.infinite-scroll').jscroll({
+                    refresh: true,
+                    autoTrigger: true,
+                    loadingHtml: '<img class="center-block" src="{{asset("frontend/images/loading.gif")}}" alt="Loading..." />',
+                    padding: 1000,
+                    nextSelector: '.pagination li.active + li a',
+                    contentSelector: 'div.infinite-scroll',
+                    callback: function() {
+                        $('ul.pagination').remove();
+                    }
+                });
+            });
+
+
+
             // $('.infinite-scroll').jscroll({
             //     // refresh: true,
             //     autoTrigger: true,
@@ -664,10 +691,330 @@ yearslider.noUiSlider.on('update', function (values, handle) {
 
         
     }
+    function modelsel(rowid, rowname){
+        model_sel = rowname;
+        model_id = rowid;
+
+
+
+        $('.bi.bi-x.model').parent().remove();
+        $('.bi.bi-x.generation').parent().remove();
+        $('.bi.bi-x.submodel').parent().remove();
+
+        // Create a new button element
+
+        var newButton = $('<button class="btn-model" onclick="delmodel();">'+model_sel+' <i class="bi bi-x model"></i></button>');
+
+        // Append the new button to the result-btn-search element
+        $('.result-btn-search').children().eq(1).after(newButton);
+
+        // แสดงตัวเลือกโฉม
+        $.get('/popup-carsearch-generation/a?models_id='+model_id, function(data, status) {
+            // console.log(data);
+            var html='';
+            $.each(data, function(index, value){
+                html+='<button onclick="generationsel('+value.id+', \''+value.generations+'\');">'+value.generations+'</button>';
+            });
+            $('.btn-boxfilter.model').empty();
+            $('.btn-boxfilter.generation').empty().append(html);
+        });
+
+
+
+        search3();
+    }
+
+    function generationsel(rowid, rowname){
+        generation_sel = rowname;
+        generation_id = rowid;
+
+
+
+        $('.bi.bi-x.generation').parent().remove();
+        $('.bi.bi-x.submodel').parent().remove();
+
+        // Create a new button element
+
+        var newButton = $('<button class="btn-generation" onclick="delgeneration();">'+generation_sel+' <i class="bi bi-x generation"></i></button>');
+
+        // Append the new button to the result-btn-search element
+        $('.result-btn-search').children().eq(2).after(newButton);
+
+        // แสดงตัวเลือกรุ่นย่อย
+        $.get('/popup-carsearch-submodel/a?generations_id='+generation_id, function(data, status) {
+            // console.log(data);
+            var html='';
+            $.each(data, function(index, value){
+                html+='<button onclick="submodelsel('+value.id+', \''+value.sub_models+'\');">'+value.sub_models+'</button>';
+            });
+            $('.btn-boxfilter.generation').empty();
+            $('.btn-boxfilter.submodel').empty().append(html);
+        });
+
+        // แสดงรุ่นปี
+        $.get('/popup-carsearch-year/a?generations_id='+generation_id, function(data, status) {
+            // console.log(data);
+            var html='';
+            for(i=data.yearfirst; i<=data.yearlast; i++){
+                html+='<button onclick="yearsel(\''+i+'\');">'+i+'</button>';
+            }
+            $('.btn-boxfilter.generation').empty();
+            $('.btn-boxfilter.year').empty().append(html);
+        });
+
+
+        search3();
+    }
+
+    function submodelsel(rowid, rowname){
+        submodel_sel = rowname;
+        submodel_id = rowid;
+
+
+
+        
+        $('.bi.bi-x.submodel').parent().remove();
+
+        // Create a new button element
+
+        var newButton = $('<button class="btn-submodel" onclick="delsubmodel();">'+submodel_sel+' <i class="bi bi-x submodel"></i></button>');
+
+        // Append the new button to the result-btn-search element
+        $('.result-btn-search').children().eq(3).after(newButton);
+        $('.btn-boxfilter.submodel').empty();
+
+        search3();
+    }
+
+    function yearsel(rowid){
+        year = rowid;
+        yearlow = year;
+        yearhigh = year;
+
+
+
+        
+        $('.bi.bi-x.year').parent().remove();
+
+        // Create a new button element
+
+        var newButton = $('<button class="btn-year" onclick="delyear();">'+year+' <i class="bi bi-x year"></i></button>');
+
+        // Append the new button to the result-btn-search element
+        $('.result-btn-search').children().eq(4).after(newButton);
+        $('.btn-boxfilter.year').empty();
+
+        search3();
+    }
 </script>
 
 <script type="text/javascript">
     
+</script>
+
+<script>
+    function delbrand() {
+        brand_id=null;
+        model_id=null;
+        generation_id=null;
+        submodel_id=null;
+        
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-brand').remove();
+        $('.btn-model').remove();
+        $('.btn-generation').remove();
+        $('.btn-submodel').remove();
+        $('.btn-year').remove();
+
+        $('.btn-boxfilter.model').empty();
+        $('.btn-boxfilter.generation').empty();
+        $('.btn-boxfilter.submodel').empty();
+        $('.btn-boxfilter.year').empty();
+
+        search3();
+    }
+    function delmodel() {
+        model_id=null;
+        generation_id=null;
+        submodel_id=null;
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-model').remove();
+        $('.btn-generation').remove();
+        $('.btn-submodel').remove();
+        $('.btn-year').remove();
+
+        $('.btn-boxfilter.generation').empty();
+        $('.btn-boxfilter.submodel').empty();
+        $('.btn-boxfilter.year').empty();
+
+        // แสดงตัวเลือกรุ่น
+        $.get('/popup-carsearch-model/a?brand_id='+brand_id, function(data, status) {
+            var html='';
+            $.each(data, function(index, value){
+                html+='<button onclick="modelsel('+value.id+', \''+value.model+'\');">'+value.model+'</button>';
+            });
+            $('.btn-boxfilter.brand').empty();
+            $('.btn-boxfilter.model').empty().append(html);
+        });
+
+        search3();
+    }
+    function delgeneration() {
+        generation_id=null;
+        submodel_id=null;
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-generation').remove();
+        $('.btn-submodel').remove();
+        $('.btn-year').remove();
+
+        $('.btn-boxfilter.submodel').empty();
+        $('.btn-boxfilter.year').empty();
+
+        // แสดงตัวเลือกโฉม
+        $.get('/popup-carsearch-generation/a?models_id='+model_id, function(data, status) {
+            // console.log(data);
+            var html='';
+            $.each(data, function(index, value){
+                html+='<button onclick="generationsel('+value.id+', \''+value.generations+'\');">'+value.generations+'</button>';
+            });
+            $('.btn-boxfilter.model').empty();
+            $('.btn-boxfilter.generation').empty().append(html);
+        });
+
+
+        search3();
+    }
+    function delsubmodel() {
+        submodel_id=null;
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-submodel').remove();
+        $('.btn-year').remove();
+
+
+        $('.btn-boxfilter.year').empty();
+
+        // แสดงตัวเลือกรุ่นย่อย
+        $.get('/popup-carsearch-submodel/a?generations_id='+generation_id, function(data, status) {
+            // console.log(data);
+            var html='';
+            $.each(data, function(index, value){
+                html+='<button onclick="submodelsel('+value.id+', \''+value.sub_models+'\');">'+value.sub_models+'</button>';
+            });
+            $('.btn-boxfilter.generation').empty();
+            $('.btn-boxfilter.submodel').empty().append(html);
+        });
+
+        // แสดงรุ่นปี
+        $.get('/popup-carsearch-year/a?generations_id='+generation_id, function(data, status) {
+            // console.log(data);
+            var html='';
+            for(i=data.yearfirst; i<=data.yearlast; i++){
+                html+='<button onclick="yearsel(\''+i+'\');">'+i+'</button>';
+            }
+            $('.btn-boxfilter.generation').empty();
+            $('.btn-boxfilter.year').empty().append(html);
+        });
+
+
+        search3();
+    }
+    function delpayment() {
+        payment=null;
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-payment').remove();
+        search3();
+    }
+    function delprice() {
+        pricelow='ต่ำสุด';
+        pricehigh='สูงสุด';
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-price').remove();
+        search3();
+    }
+    function delyear() {
+        yearlow=' ';
+        yearhigh='ทุกปี';
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-year').remove();
+
+        // แสดงรุ่นปี
+        $.get('/popup-carsearch-year/a?generations_id='+generation_id, function(data, status) {
+            // console.log(data);
+            var html='';
+            for(i=data.yearfirst; i<=data.yearlast; i++){
+                html+='<button onclick="yearsel(\''+i+'\');">'+i+'</button>';
+            }
+            $('.btn-boxfilter.generation').empty();
+            $('.btn-boxfilter.year').empty().append(html);
+        });
+
+
+        search3();
+    }
+    function delcolor() {
+        color=null;
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-color').remove();
+        search3();
+    }
+    function delgear() {
+        gear=null;
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-gear').remove();
+        search3();
+    }
+    function delpower() {
+        power=null;
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-power').remove();
+        search3();
+    }
+    function delprovince() {
+        province_id=null;
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btnprovince').remove();
+        search3();
+    }
+    function clearall() {
+        $('.result-btn-search button:not(:first-child)').remove();
+        brand_id=null;
+        model_id=null;
+        generation_id=null;
+        submodel_id=null;
+        evtype=null;
+        payment=null;
+        pricelow = null;
+        pricehigh= null;
+        color=null;
+        gear=null;
+        power=null;
+        province_id=null;
+        yearlow= null;
+        yearhigh=null;
+
+        // นำปุ่มที่ถูกคลิกออกจาก DOM
+        $('.btn-brand').remove();
+        $('.btn-model').remove();
+        $('.btn-generation').remove();
+        $('.btn-submodel').remove();
+        $('.btn-year').remove();
+        $('.btn-color').remove();
+        $('.btn-payment').remove();
+        $('.btn-price').remove();
+        $('.btn-gear').remove();
+        $('.btn-power').remove();
+        $('.btnprovince').remove();
+
+        
+        
+
+        $('.btn-boxfilter.model').empty();
+        $('.btn-boxfilter.generation').empty();
+        $('.btn-boxfilter.submodel').empty();
+        $('.btn-boxfilter.year').empty();
+
+        search3();
+    }
 </script>
 
 @endsection

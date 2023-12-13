@@ -52,123 +52,132 @@ $arr_gear = array(
         </div>
     </div>
     <div class="col-12 col-xl-3 box-search-car">
-        <div class="bg-searchcar">
-            <div class="topic-carsearch"><img class="svg" src="{{asset('frontend/images/icon-carred.svg')}}" alt=""> ค้นหารถยนต์</div>
-            <span class="short-desc-search">ค้นหารถมือสอง รถใหม่ ราคาโดนใจในรถพร้อมขายกับเรา</span>
-            <div class="carsearch-input">
-                <input type="text" readonly value="ยี่ห้อรถ">
-            </div>
-            <div class="home-popup-search">@include('frontend.layouts.inc-popup-carsearch')</div> 
-            <div class="carsearch-radio">
-                <label class="car-radio">ซื้อสด
-                    <input type="radio" name="radio">
-                    <span class="checkmark"></span>
-                </label>
-                <label class="car-radio">จัดไฟแนนซ์
-                    <input type="radio" name="radio">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
+        <form action="/search2" id="my_form" method="GET">
+            @csrf
+            <div class="bg-searchcar">
+                <div class="topic-carsearch"><img class="svg" src="{{asset('frontend/images/icon-carred.svg')}}" alt=""> ค้นหารถยนต์</div>
+                <span class="short-desc-search">ค้นหารถมือสอง รถใหม่ ราคาโดนใจในรถพร้อมขายกับเรา</span>
+                <div class="carsearch-input">
+                    <input type="text" readonly value="ยี่ห้อรถ">
+                    <input type="hidden" name="brand_id">
+                    <input type="hidden" name="model_id">
+                    <input type="hidden" name="generation_id">
+                    <input type="hidden" name="submodel_id">
+                </div>
+                <div class="home-popup-search">@include('frontend.layouts.inc-popup-carsearch')</div> 
+                <div class="carsearch-radio">
+                    <label class="car-radio">ซื้อสด
+                        <input type="radio" name="payment" value="สด">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="car-radio">จัดไฟแนนซ์
+                        <input type="radio" name="payment" value="ผ่อน">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
 
-            <div class="box-searchrange">
-                <div class="search-range">
-                    <div class="topic-range">
-                        <div>งบประมาณ</div>
-                        <div>
-                            <div id="minprice"></div>
-                            <span>-</span>
-                            <div id="maxprice"></div>
-                        </div>
-                    </div>
-                    <div class="box-priceslider">
-                        <div id="priceslider"></div>
-                    </div>
-                </div>
-                <div class="search-range">
-                    <div class="topic-range">
-                        <div>ปี</div>
-                        <div>
-                            <div id="minyear"></div>
-                            <div id="maxyear"></div>
-                        </div>
-                    </div>
-                    <div class="box-priceslider">
-                        <div id="yearslider"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="wrap-boxadvance">
-                <a href="#" class="btn-advancesearch">ค้นหารถยนต์แบบละเอียด <img src="{{asset('frontend/images/chevron-red.svg')}}" alt=""></a>
-                <div class="box-advancesearch">
-                    <div class="box-advancesearch-head">
-                        <span>ค้นหารถยนต์แบบละเอียด</span>
-                        <button class="advance-exit">ยกเลิก</button>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-6 col-lg-4 col-xl-12">
-                            <select name="province" id="province" class="form-select" onchange="province(this);">
-                                <option>จังหวัด</option>
-                                @if (isset($province))
-                                    @foreach ($province as $rows)
-                                        <option value="{{$rows->id}}"> {{$rows->name_th}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4 col-xl-12">
-                            <select name="" id="" class="form-select">
-                                <option>สี</option>
-                                <option>ทุกสี</option>
-                                <option>ขาว</option>
-                                <option>เขียว</option>
-                                <option>ครีม</option>
-                                <option>ชมพู</option>
-                                <option>ดำ</option>
-                                <option>แดง</option>
-                                <option>เทา</option>
-                                <option>น้ำเงิน</option>
-                                <option>น้ำตาล</option>
-                                <option>บรอนซ์เงิน</option>
-                                <option>บรอนซ์ทอง</option>
-                                <option>ฟ้า</option>
-                                <option>ม่วง</option>
-                                <option>ส้ม</option>
-                                <option>เหลือง</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4 col-xl-12">
-                            <div class="advance-boxgear">
-                                <div>เกียร์</div>
-                                <div>
-                                    <label><input type="radio" name="advance-gear"> <span>อัตโนมัติ</span></label>
-                                    <label><input type="radio" name="advance-gear"> <span>ธรรมดา</span></label>
-                                </div>
+                <div class="box-searchrange">
+                    <div class="search-range">
+                        <div class="topic-range">
+                            <div>งบประมาณ</div>
+                            <div>
+                                <div id="minprice" class="pricelow"></div>
+                                <input type="hidden" name="pricelow">
+                                <span>-</span>
+                                <div id="maxprice" class="pricehigh"></div>
+                                <input type="hidden" name="pricehigh">
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-9 col-xl-12">
-                            <select name="" id="" class="form-select">
-                                <option>รถน้ำมัน / hybrid</option>
-                                <option>รถไฟฟ้า EV 100%</option>
-                                <option>รถติดแก๊ส</option>
-                            </select>
+                        <div class="box-priceslider">
+                            <div id="priceslider"></div>
                         </div>
-                        <div class="col-12 col-lg-3 col-xl-12">
-                            <a href="#" class="btn-submitsearch btn-searchcar" onclick="submit1()">ยืนยัน</a>
+                    </div>
+                    <div class="search-range">
+                        <div class="topic-range">
+                            <div>ปี</div>
+                            <div>
+                                <div id="minyear" class="yearlow"></div>
+                                <input type="hidden" name="yearlow">
+                                <div id="maxyear" class="yearhigh"></div>
+                                <input type="hidden" name="yearhigh">
+                            </div>
+                        </div>
+                        <div class="box-priceslider">
+                            <div id="yearslider"></div>
                         </div>
                     </div>
                 </div>
+                
+                <div class="wrap-boxadvance">
+                    <a href="#" class="btn-advancesearch">ค้นหารถยนต์แบบละเอียด <img src="{{asset('frontend/images/chevron-red.svg')}}" alt=""></a>
+                    <div class="box-advancesearch">
+                        <div class="box-advancesearch-head">
+                            <span>ค้นหารถยนต์แบบละเอียด</span>
+                            <button type="button" class="advance-exit">ยกเลิก</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-4 col-xl-12">
+                                <select name="province" id="province" class="form-select">
+                                    <option value="">จังหวัด</option>
+                                    @if (isset($province))
+                                        @foreach ($province as $rows)
+                                            <option value="{{$rows->name_th}}"> {{$rows->name_th}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4 col-xl-12">
+                                <select name="color" id="color" class="form-select">
+                                <option value="">สี</option>
+                                <option value="">ทุกสี</option>
+                                <option value="ขาว">ขาว</option>
+                                <option value="เขียว">เขียว</option>
+                                <option value="ครีม">ครีม</option>
+                                <option value="ชมพู">ชมพู</option>
+                                <option value="ดำ">ดำ</option>
+                                <option value="แดง">แดง</option>
+                                <option value="เทา">เทา</option>
+                                <option value="น้ำเงิน">น้ำเงิน</option>
+                                <option value="น้ำตาล">น้ำตาล</option>
+                                <option value="บรอนซ์เงิน">บรอนซ์เงิน</option>
+                                <option value="บรอนซ์ทอง">บรอนซ์ทอง</option>
+                                <option value="ฟ้า">ฟ้า</option>
+                                <option value="ม่วง">ม่วง</option>
+                                <option value="ส้ม">ส้ม</option>
+                                <option value="เหลือง">เหลือง</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4 col-xl-12">
+                                <div class="advance-boxgear">
+                                    <div>เกียร์</div>
+                                    <div>
+                                        <label><input type="radio" name="gear" id="advance-gear" value="auto"> <span>อัตโนมัติ</span></label>
+                                        <label><input type="radio" name="gear" value="manual"> <span>ธรรมดา</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-9 col-xl-12">
+                                <select name="power" id="power" class="form-select">
+                                    <option value="">เลือก</option>
+                                    <option value="1">รถน้ำมัน / hybrid</option>
+                                    <option value="2">รถไฟฟ้า EV 100%</option>
+                                    <option value="3">รถติดแก๊ส</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-lg-3 col-xl-12">
+                                <a href="#" class="btn-submitsearch btn-searchcar" onclick="submit1()">ยืนยัน</a>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="boxshow-advance">
-                    <button class="btn-resetsearch" onClick="delall()"><img src="{{asset('frontend/images/icon-reset-white.svg')}}" alt="">ล้าง</button>
-                    <button>กรุงเทพฯ <i class="bi bi-x"></i></button>
-                    <button>สีขาว<i class="bi bi-x"></i></button>
-                    <button>เกียร์อัตโนมัติ<i class="bi bi-x"></i></button>
+                    <div class="boxshow-advance">
+                        <button type="button" class="btn-resetsearch" onClick="delall()"><img src="{{asset('frontend/images/icon-reset-white.svg')}}" alt="">ล้าง</button>
+                    </div>
+
+                    <a href="javascript:void(0);" onclick="search4();" class="btn-searchcar">ค้นหารถยนต์</a>
                 </div>
-
-                <a href="#" class="btn-searchcar">ค้นหารถยนต์</a>
             </div>
-        </div>
+        </form>
     </div>
 </section>
 
@@ -679,21 +688,59 @@ $customerdata = session('customer');
             <input type="text" class="form-control" name="tel" value="" placeholder="เบอร์โทรติดต่อ">
             <input type="text" class="form-control" name="line" value="" placeholder="Line ID">
             <input type="text" class="form-control" name="messages" value="" placeholder="รุ่นรถที่ต้องการ">
-            <button type="submit" class="btn-red">ส่งข้อมูล</button>
+            <button type="button" class="btn-red">ส่งข้อมูล</button>
         </form>
     </div>
 </div>
 
 <script>
     function submit1() {
-        console.log("submit");
-        console.log($('#province').find('option:selected').text());
+        // console.log($('#province').find('option:selected').text());
         var province = $('#province').find('option:selected').text();
-        // Create a new button element
-        var newButton = $('<button onClick="del(this)">'+province+' <i class="bi bi-x"></i></button>');
+        
+        if ($('#province').text() !== "จังหวัด" && $('#province').val() !== "" && $('#province').val() !== "จังหวัด") {
+            var newButton = $('<button type="button" onclick="del(this)">'+province+' <i class="bi bi-x"></i></button>');
+            $('.boxshow-advance').append(newButton);
+        }
+        
 
-        // Append the new button to the boxshow-advance container
-        $('.boxshow-advance').append(newButton);
+        // console.log("color="+$('#color').val());
+        if($('#color').val() !== "") {
+            var newButton = $('<button type="button" onclick="del(this)">'+$('#color').val()+' <i class="bi bi-x"></i></button>');
+            $('.boxshow-advance').append(newButton);
+        }
+
+
+        if($("input[name='gear']").val() !== "") {
+            console.log($("input[name='gear']").val());
+            var newButton;
+            if ($("input[name='gear']").val() === "auto") {
+                newButton = $('<button type="button" onclick="del(this)">เกียร์อัตโนมัติ <i class="bi bi-x"></i></button>');
+            }
+
+            if ($("input[name='gear']").val() === "manual") {
+                newButton = $('<button type="button" onclick="del(this)">เกียร์ธรรมดา<i class="bi bi-x"></i></button>');
+            }
+            
+            $('.boxshow-advance').append(newButton);
+        }
+
+
+        if($('#power').val() !== "") {
+            var newButton;
+            if ($('#power').val() == 1) {
+                newButton = $('<button type="button" onclick="del(this)">รถน้ำมัน / hybrid <i class="bi bi-x"></i></button>');
+            }
+            
+            if ($('#power').val() == 2) {
+                newButton = $('<button type="button" onclick="del(this)">รถไฟฟ้า EV 100% <i class="bi bi-x"></i></button>');
+            }
+
+            if ($('#power').val() == 3) {
+                newButton = $('<button type="button" onclick="del(this)">รถติดแก๊ส <i class="bi bi-x"></i></button>');
+            }
+            $('.boxshow-advance').append(newButton);
+        }
     }
     function province(data){
         console.log($(data).find('option:selected').text());
@@ -705,6 +752,18 @@ $customerdata = session('customer');
         // Remove all buttons within the boxshow-advance container
         $('.boxshow-advance').find('button:not(.btn-resetsearch)').remove();
         $('.boxshow-advance').show();
+    }
+
+    function search4() {
+        $('input[name="brand_id"]').val(brand_id);
+        $('input[name="model_id"]').val(model_id);
+        $('input[name="generation_id"]').val(generation_id);
+        $('input[name="submodel_id"]').val(submodel_id);
+        $('input[name="pricelow"]').val($('.pricelow').text().replace(/,/g, ''));
+        $('input[name="pricehigh"]').val($('.pricehigh').text().replace(/,/g, ''));
+        $('input[name="yearlow"]').val($('.yearlow').text());
+        $('input[name="yearhigh"]').val($('.yearhigh').text());
+        $('#my_form').submit();
     }
 </script>
 @endsection

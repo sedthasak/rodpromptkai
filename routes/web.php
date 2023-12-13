@@ -158,6 +158,7 @@ Route::get('/car-detail/{post}', [FrontendPageController::class, 'cardetailPage'
 Route::get('/popup-carsearch-model/{id}', [FrontendPageController::class, 'popupcarsearchmodel'])->name('popupcarsearchmodel');
 Route::get('/popup-carsearch-generation/{id}', [FrontendPageController::class, 'popupcarsearchgeneration'])->name('popupcarsearchgeneration');
 Route::get('/popup-carsearch-submodel/{id}', [FrontendPageController::class, 'popupcarsearchsubmodel'])->name('popupcarsearchsubmodel');
+Route::get('/popup-carsearch-year/{id}', [FrontendPageController::class, 'popupcarsearchyear'])->name('popupcarsearchyear');
 Route::get('/searchbrandtext/{brand_name}', [FrontendPageController::class, 'searchbrandtext'])->name('searchbrandtext');
 Route::get('/searchmodeltext/{brand_id}/{model_name}', [FrontendPageController::class, 'searchmodeltext'])->name('searchmodeltext');
 Route::get('/searchgenerationtext/{model_id}/{generation_name}', [FrontendPageController::class, 'searchgenerationtext'])->name('searchgenerationtext');

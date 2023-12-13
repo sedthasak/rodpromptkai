@@ -842,7 +842,7 @@ class FrontendPageController extends Controller
     }
 
     public function popupcarsearchmodel(Request $request, $id) {
-        $qrymodel = modelsModel::where("brand_id", $id)->get();
+        $qrymodel = modelsModel::where("brand_id", $request->brand_id)->get();
         return response()->json($qrymodel);
     }
 
@@ -854,6 +854,11 @@ class FrontendPageController extends Controller
     public function popupcarsearchsubmodel(Request $request, $id) {
         $qrysubmodel = sub_modelsModel::where("generations_id", $request->generations_id)->get();
         return response()->json($qrysubmodel);
+    }
+
+    public function popupcarsearchyear(Request $request, $id) {
+        $qryyear = generationsModel::where("id", $request->generations_id)->first();
+        return response()->json($qryyear);
     }
 
     public function clearsessioncustomer() {
@@ -946,54 +951,108 @@ class FrontendPageController extends Controller
 
     public function search(Request $request, $brand_id, $model_id, $generation_id, $submodel_id, $evtype, $payment, $pricelow, $pricehigh, $color, $gear, $power, $province_id, $yearlow, $yearhigh) {
         // return "brand = ".$brand_id." model = ".$model_id." generation = ".$generation_id." submodel = ".$submodel_id." payment = ".$payment." pricelow = ".$pricelow." pricehigh = ".$pricehigh;
+        
+        
         if ($pricelow == "ต่ำสุด") {
-            $pricelow = "null";
+            $pricelow = null;
+        }
+        if ($pricelow == "ต่ำสุด - ") {
+            $pricelow = null;
         }
         if ($pricehigh == "สูงสุด") {
-            $pricehigh = "null";
+            $pricehigh = null;
         }
         if ($yearlow == " ") {
-            $yearlow = "null";
+            $yearlow = null;
         }
         if ($yearhigh == "ทุกปี") {
-            $yearhigh = "null";
+            $yearhigh = null;
         }
+        if ($color == "ทุกสี") {
+            $color = null;
+        }
+
+
+        if ($brand_id == "null") {
+            $brand_id = null;
+        }
+        if ($model_id == "null") {
+            $model_id = null;
+        }
+        if ($generation_id == "null") {
+            $generation_id = null;
+        }
+        if ($submodel_id == "null") {
+            $submodel_id = null;
+        }
+        if ($evtype == "null") {
+            $evtype = null;
+        }
+        if ($payment == "null") {
+            $payment = null;
+        }
+        if ($pricelow == "null") {
+            $pricelow = null;
+        }
+        if ($pricehigh == "null") {
+            $pricehigh = null;
+        }
+        if ($color == "null") {
+            $color = null;
+        }
+        if ($gear == "null") {
+            $gear = null;
+        }
+        if ($power == "null") {
+            $power = null;
+        }
+        if ($province_id == "null") {
+            $province_id = null;
+        }
+        if ($yearlow == "null") {
+            $yearlow = null;
+        }
+        if ($yearhigh == "null") {
+            $yearhigh = null;
+        }
+
+
 
         $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
         ->rightJoin('models', 'cars.model_id', '=', 'models.id')
         ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
         ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id');
-        if ($brand_id != "null") {
+        if (!empty($brand_id)) {
             $cars = $cars->where('cars.brand_id', $brand_id);
         }
-        if ($model_id != "null") {
+        if (!empty($model_id)) {
             $cars = $cars->where('cars.model_id', $model_id);
         }
-        if ($generation_id != "null") {
+        if (!empty($generation_id)) {
             $cars = $cars->where('cars.generations_id', $generation_id);
         }
-        if ($submodel_id != "null") {
+        if (!empty($submodel_id)) {
             $cars = $cars->where('cars.sub_models_id', $submodel_id);
         }
-        if ($pricelow != "null") {
+        if (!empty($pricelow)) {
             $cars = $cars->where('cars.price', '>=', $pricelow);
         }
-        if ($pricehigh != "null") {
+        if (!empty($pricehigh)) {
             $cars = $cars->where('cars.price', '<=', $pricehigh);
         }
-        if ($yearlow != "null") {
+        if (!empty($yearlow)) {
             $cars = $cars->where('cars.modelyear', '>=', $yearlow);
         }
-        if ($yearhigh != "null") {
+        if (!empty($yearhigh)) {
             $cars = $cars->where('cars.modelyear', '<=', $yearhigh);
         }
-        if ($color != "null") {
+        if (!empty($color)) {
             $cars = $cars->where('cars.color', $color);
         }
-        if ($gear != "null") {
+        if (!empty($gear)) {
             $cars = $cars->where('cars.gear', $gear);
         }
-        if ($power != "null") {
+        if (!empty($power)) {
             if ($power == 1) {
                 $cars = $cars->where('cars.gas', 'รถน้ำมัน / hybrid');
             }
@@ -1004,7 +1063,7 @@ class FrontendPageController extends Controller
                 $cars = $cars->where('cars.gas', 'รถติดแก๊ส');
             }
         }
-        if ($province_id != "null") {
+        if (!empty($province_id)) {
             $cars = $cars->where('cars.province', $province_id);
         }
         $cars = $cars->select(
@@ -1026,9 +1085,10 @@ class FrontendPageController extends Controller
 
         $province = provincesModel::orderBy("name_th", "ASC")->get();
 
-        // if($request->ajax()){
-        //     return view('frontend/car-child', ["cars"=>$cars, "brand"=>$brand, "province"=>$province])->render();
-        // }
+        if($request->ajax()){
+            // return dd(["cars"=>$cars, "brand"=>$brand, "province"=>$province, "total"=>$total]);
+            return view('frontend/car-child', ["cars"=>$cars, "brand"=>$brand, "province"=>$province])->render();
+        }
 
         return view('frontend/car', [
             "brand" => $brand,
@@ -1154,7 +1214,7 @@ class FrontendPageController extends Controller
         }
         $gearsel = null;
         if ($request->gear == 'auto') {
-            $gearsel = "เกียร์ออโต้";
+            $gearsel = "เกียร์อัตโนมัติ";
         }
         if ($request->gear == 'manual') {
             $gearsel = "เกียร์ธรรมดา";

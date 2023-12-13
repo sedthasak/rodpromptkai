@@ -1,6 +1,6 @@
 
 @php
-                            $total = count($cars);
+                            $total = $cars->total();
                             $currentyear="";
                         @endphp
                         
@@ -8,6 +8,7 @@
                             @if ($currentyear != $rows->modelyear)
                                 @if ($currentyear == "")
                                 @elseif (($index+1) > 0 && ($index+1) % 10 == 0)
+                                
                                 @else
                                     </div>
                                     </div>
@@ -22,6 +23,7 @@
                                 @endphp
                             @endif
                             @if ($index == 0)
+                                <input type="hidden" id="total" value="{{number_format($total)}}">
                                 <div class="box-itemcar">
                                 <div class="car-year">{{$rows->modelyear}}</div>
                                 <div class="row row-itemcar">
@@ -145,4 +147,5 @@
                         
 
                         @endforeach
+                        
                         {{ $cars->withQueryString()->links() }}
