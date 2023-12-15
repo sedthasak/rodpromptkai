@@ -631,7 +631,17 @@ yearslider.noUiSlider.on('update', function (values, handle) {
             $('.total-cars').text($('#total').val());
 
 
-
+            // Initialization
+            if (_nextHref != 'undefined') {
+                $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
+                _wrapInnerContent();
+                _preloadImage();
+                _setBindings();
+            } else {
+                _debug('warn', 'jScroll: nextSelector not found - destroying');
+                _destroy();
+                return false;
+            }
 
             $('ul.pagination').hide();
             $(function() {
