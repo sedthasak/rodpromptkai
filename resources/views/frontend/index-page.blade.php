@@ -196,7 +196,7 @@ $arr_gear = array(
             <div class="owl-carslide owl-carousel owl-theme">
                 @foreach($categories as $keycate => $cate)
                 <div class="items">
-                    <a href="#"><figure><img src="{{asset($cate->feature)}}" alt=""></figure></a> 
+                    <a href="{{url('/search-category').'/'.$cate->id}}"><figure><img src="{{asset($cate->feature)}}" alt=""></figure></a> 
                 </div>
                 @endforeach
                 <!-- <div class="items">

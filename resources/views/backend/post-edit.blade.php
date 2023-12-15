@@ -262,7 +262,12 @@ $arr_color = array(
                                     <select data-placeholder="หมวดหมู่" name="category[]" multiple="multiple" class="tom-select w-full">
                                         @foreach($categories as $keycategories => $cate)
                                         @php
-                                        $selected = (in_array($cate->id, json_decode($postcar->category)))?'selected':'';
+                                            if (isset($postcar->category)) {
+                                                $selected = (in_array($cate->id, json_decode($postcar->category)))?'selected':'';
+                                            }
+                                            else {
+                                                $selected = '';
+                                            }
                                         @endphp
                                         <option value="{{$cate->id}}" {{$selected}}>{{$cate->name}}</option>
                                         @endforeach
@@ -274,6 +279,15 @@ $arr_color = array(
                         <div class="flex justify-end mt-4">
                             <button type="submit" class="btn btn-primary w-20 mr-auto">Save</button>
                         </div>
+                        
+
+                        <!-- หนี dropdown select -->
+                        @for($i=0;$i<30;$i++)
+                        <br></br>
+                        @endfor
+
+
+
                     </div>
                 
                 </div>

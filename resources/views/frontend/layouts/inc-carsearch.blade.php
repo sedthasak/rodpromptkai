@@ -136,36 +136,16 @@
         <div class="left-boxsearch-item">
             <div class="left-boxsearch-topic2">รถมือสอง ประเภทอื่นๆ</div>
             <div class="row">
+                @if (isset($category))
+                @foreach ($category as $rows)
                 <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="{{route('carPage')}}">
-                        <img src="{{asset('frontend/images/car-type01.svg')}}" alt="">
+                    <a href="{{url('/search-category').'/'.$rows->id}}">
+                        <img src="{{asset($rows->feature)}}" alt="">
                     </a>
                 </div>
-                <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="{{route('carPage')}}">
-                        <img src="{{asset('frontend/images/car-type02.svg')}}" alt="">
-                    </a>
-                </div>
-                <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="{{route('carPage')}}">
-                        <img src="{{asset('frontend/images/car-type03.svg')}}" alt="">
-                    </a>
-                </div>
-                <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="{{route('carPage')}}">
-                        <img src="{{asset('frontend/images/car-type04.svg')}}" alt="">
-                    </a>
-                </div>
-                <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="{{route('carPage')}}">
-                        <img src="{{asset('frontend/images/car-type05.svg')}}" alt="">
-                    </a>
-                </div>
-                <div class="col-4 col-lg-6 boxsearch-cartype">
-                    <a href="{{route('carPage')}}">
-                        <img src="{{asset('frontend/images/car-type06.svg')}}" alt="">
-                    </a>
-                </div>
+                
+                @endforeach
+                @endif
             </div>
         </div>
 

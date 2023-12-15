@@ -780,21 +780,23 @@ class FrontendPageController extends Controller
     {
         $brand = brandsModel::orderBy("sort_no", "ASC")->get();
 
-        $qrycar = carsModel::rightJoin('brands', 'cars.brand_id', 'brands.id')
-        ->rightJoin('models', 'cars.model_id', 'models.id')
-        ->rightJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
-        ->rightJoin('generations', 'cars.generations_id', 'generations.id')
+        $qrycar = carsModel::leftJoin('brands', 'cars.brand_id', 'brands.id')
+        ->leftJoin('models', 'cars.model_id', 'models.id')
+        ->leftJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
+        ->leftJoin('generations', 'cars.generations_id', 'generations.id')
         ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
         ->orderBy("cars.modelyear", "DESC")
         ->orderBy("cars.created_at", "DESC")
         ->paginate(30);
 
         $province = provincesModel::orderBy("name_th", "ASC")->get();
+        $category = categoriesModel::orderBy("created_at", "DESC")->get();
 
         return view('frontend/car', [
             "brand" => $brand,
             "cars" => $qrycar,
-            "province" => $province
+            "province" => $province,
+            "category" => $category
         ]);
     }
     public function postcarPage()
@@ -1094,10 +1096,10 @@ class FrontendPageController extends Controller
 
 
 
-        $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
-        ->rightJoin('models', 'cars.model_id', '=', 'models.id')
-        ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-        ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id');
+        $cars = carsModel::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->leftJoin('models', 'cars.model_id', '=', 'models.id')
+        ->leftJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id');
         if (!empty($brand_id)) {
             $cars = $cars->where('cars.brand_id', $brand_id);
         }
@@ -1142,6 +1144,9 @@ class FrontendPageController extends Controller
         if (!empty($province_id)) {
             $cars = $cars->where('cars.province', $province_id);
         }
+        if (!empty($status)) {
+            $cars = $cars->where('cars.status', 'approved');
+        }
         $cars = $cars->select(
             'cars.*',
             'brands.title as brand_name',
@@ -1166,10 +1171,15 @@ class FrontendPageController extends Controller
             return view('frontend/car-child', ["cars"=>$cars, "brand"=>$brand, "province"=>$province])->render();
         }
 
+        $category = categoriesModel::orderBy("created_at", "DESC")->get();
+
+        
+
         return view('frontend/car', [
             "brand" => $brand,
             "cars" => $cars,
-            "province" => $province
+            "province" => $province,
+            "category" => $category
         ]);
     }
 
@@ -1320,10 +1330,10 @@ class FrontendPageController extends Controller
         }
 
 
-        $cars = carsModel::rightJoin('brands', 'cars.brand_id', '=', 'brands.id')
-        ->rightJoin('models', 'cars.model_id', '=', 'models.id')
-        ->rightJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-        ->rightJoin('generations', 'cars.generations_id', '=', 'generations.id');
+        $cars = carsModel::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->leftJoin('models', 'cars.model_id', '=', 'models.id')
+        ->leftJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id');
         if (!empty($request->brand_id)) {
             $cars = $cars->where('cars.brand_id', $request->brand_id);
         }
@@ -1371,6 +1381,9 @@ class FrontendPageController extends Controller
         if (!empty($request->province_id)) {
             $cars = $cars->where('cars.province', $request->province_id);
         }
+        if (!empty($status)) {
+            $cars = $cars->where('cars.status', 'approved');
+        }
         $cars = $cars->select(
             'cars.*',
             'brands.title as brand_name',
@@ -1389,6 +1402,8 @@ class FrontendPageController extends Controller
         $brand = brandsModel::orderBy("sort_no", "ASC")->get();
 
         $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+        $category = categoriesModel::orderBy("created_at", "DESC")->get();
 
 
 
@@ -1416,7 +1431,8 @@ class FrontendPageController extends Controller
             "brand_id" => $brand_id,
             "model_id" => $model_id,
             "generation_id" => $generation_id,
-            "submodel_id" => $submodel_id
+            "submodel_id" => $submodel_id,
+            "category" => $category
         ]);
     }
 
@@ -1438,6 +1454,45 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no", "ASC")
         ->get();
         return response()->json($qrybrandnotev);
+    }
+
+    public function searchcategory($category_id) {
+        $cars = carsModel::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->leftJoin('models', 'cars.model_id', '=', 'models.id')
+        ->leftJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id');
+        if (!empty($category_id)) {
+            $cars = $cars->whereJsonContains('cars.category', $category_id);
+        }
+        if (!empty($status)) {
+            $cars = $cars->where('cars.status', 'approved');
+        }
+        $cars = $cars->select(
+            'cars.*',
+            'brands.title as brand_name',
+            'models.model as model_name',
+            'sub_models.sub_models as submodel_name',
+            'generations.generations as generation_name'
+        )
+        ->orderBy('cars.modelyear', 'DESC')
+        ->orderBy('cars.created_at', 'DESC')
+        ->paginate(30);
+
+
+
+        $brand = brandsModel::orderBy("sort_no", "ASC")->get();
+
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+        $category = categoriesModel::orderBy("created_at", "DESC")->get();
+
+
+        return view('frontend/car', [
+            "brand" => $brand,
+            "cars" => $cars,
+            "province" => $province,
+            "category" => $category
+        ]);
     }
     
 }

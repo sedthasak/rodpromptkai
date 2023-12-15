@@ -100,6 +100,26 @@
                                 </div>
                                 </div>
 
+
+                                @if ($index < 10)
+                                <div class="box-frmhelpcar">
+                                    <div class="topic-frmhelpcar">
+                                        <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
+                                    </div>
+                                    <form method="post" action="{{route('helpcaractionPage')}}">
+                                        @csrf
+                                        <div>
+                                            <input type="hidden"  name="customer_id	" value="{{$customerdata->id??''}}" >
+                                            <input type="text" class="form-control" name="name" placeholder="ชื่อ - นามสกุล">
+                                            <input type="text" class="form-control" name="tel" placeholder="เบอร์โทรติดต่อ">
+                                            <input type="text" class="form-control" name="line" placeholder="Line ID">
+                                            <input type="text" class="form-control" name="messages" placeholder="รุ่นรถที่ต้องการ">
+                                        </div>
+                                        <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
+                                    </form>
+                                </div>
+                                @endif
+
                             @endif
                             @if (($index+1) > 0 && ($index+1) % 10 == 0)
                                 @if ($index == $total - 1)
@@ -107,12 +127,14 @@
                                     <div class="topic-frmhelpcar">
                                         <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
                                     </div>
-                                    <form action="">
+                                    <form method="post" action="{{route('helpcaractionPage')}}">
+                                        @csrf
                                         <div>
-                                            <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
-                                            <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
-                                            <input type="text" class="form-control" placeholder="Line ID">
-                                            <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
+                                            <input type="hidden"  name="customer_id	" value="{{$customerdata->id??''}}" >
+                                            <input type="text" class="form-control" name="name" placeholder="ชื่อ - นามสกุล">
+                                            <input type="text" class="form-control" name="tel" placeholder="เบอร์โทรติดต่อ">
+                                            <input type="text" class="form-control" name="line" placeholder="Line ID">
+                                            <input type="text" class="form-control" name="messages" placeholder="รุ่นรถที่ต้องการ">
                                         </div>
                                         <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
                                     </form>
@@ -125,12 +147,14 @@
                                         <div class="topic-frmhelpcar">
                                             <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
                                         </div>
-                                        <form action="">
+                                        <form method="post" action="{{route('helpcaractionPage')}}">
+                                            @csrf
                                             <div>
-                                                <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
-                                                <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
-                                                <input type="text" class="form-control" placeholder="Line ID">
-                                                <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
+                                                <input type="hidden"  name="customer_id	" value="{{$customerdata->id??''}}" >
+                                                <input type="text" class="form-control" name="name" placeholder="ชื่อ - นามสกุล">
+                                                <input type="text" class="form-control" name="tel" placeholder="เบอร์โทรติดต่อ">
+                                                <input type="text" class="form-control" name="line" placeholder="Line ID">
+                                                <input type="text" class="form-control" name="messages" placeholder="รุ่นรถที่ต้องการ">
                                             </div>
                                             <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
                                         </form>
