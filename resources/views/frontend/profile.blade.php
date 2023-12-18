@@ -32,6 +32,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         @foreach($carfromstatus['approved'] as $keycarsModel => $cars)
                         @php
                         $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
+                        $resve_state = ($cars->reserve==1)?'active':'';
                         @endphp
                         <div class="item-mycar">
                             <div class="item-mycar-cover">
@@ -67,14 +68,17 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                             </div>
                                         </div>
                                         <div class="col-4 col-md-4 text-end">
-                                            <button class="mycar-reserve "><img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt=""> จองแล้ว</button>
+                                            <button class="mycar-reserve {{$resve_state}}" data-post-id="{{ $cars->id }}" data-current-value="{{ $cars->reserve }}" ><img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt=""> จองแล้ว</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="item-mycar-button">
                                 <a href="#" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
-                                <button class="btn-mycar btn-mycar-delete button-delete"><i class="bi bi-trash3-fill"></i> ลบ</button>
+                                <button class="btn-mycar btn-mycar-delete button-delete" data-carsid="{{ $cars->id }}">
+                                    <i class="bi bi-trash3-fill"></i> ลบ
+                                </button>
+
                             </div>
                         </div>
                         @endforeach
@@ -182,27 +186,148 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
     $( ".menu-mycar > ul > li:nth-child(1) > a" ).addClass( "here" );
 </script>
 <script>
-    $(document).on('click', '.button-delete', function(e) {
-        Swal.fire({
-        title: 'ยืนยันการลบข้อมูล',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#C60D0D',
-        cancelButtonColor: '#666',
-        confirmButtonText: 'ยืนยัน',
-        cancelButtonText: 'ยกเลิก',
-        denyButtonText: 'ยกเลิก'
-        }).then((result) => {
-        if (result.isConfirmed) {
+
+    document.querySelectorAll('.btn-mycar-delete').forEach(button => {
+        button.addEventListener('click', function () {
+            var postId = this.getAttribute('data-carsid');
+
             Swal.fire({
-                title: 'ลบข้อมูลสำเร็จ',
-                icon: 'success',
+                title: 'ต้องการจะลบหรือไม่ ?',
+                text: 'หากลบแล้ว ข้อมูลจะหายไปทั้งหมด',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'ตกลง',
-                confirmButtonColor: '#C60D0D',
-            })
-        }
-        })
-  });
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post('{{ route("carpostdeleteactionPage") }}', {
+                        id: postId
+                    })
+                    .then((response) => {
+                        Swal.fire({
+                            title: 'สำเร็จ !',
+                            text: response.data.message,
+                            icon: 'success'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    })
+                    .catch((error) => {
+                        Swal.fire(
+                            'ล้มเหลว!',
+                            'ไม่สามารถทำตามที่ร้องขอได้ !!!',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    });
+
+
+    document.querySelectorAll('.mycar-reserve').forEach(button => {
+        button.addEventListener('click', function () {
+            var postId = this.getAttribute('data-post-id');
+            var currentValue = this.getAttribute('data-current-value');
+
+            // You can customize the Swal.fire() method according to your needs
+            Swal.fire({
+                title: 'เปลี่ยนสถานะการจอง ?',
+                // text: 'You are about to toggle the data for post ' + postId + '!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Handle the toggle action here using Ajax or any other method
+                    // For example, you can use Axios to make an Ajax request
+                    axios.post('/update-reserve', {
+                        id: postId,
+                        currentValue: currentValue,
+                        // Other data to be sent for toggle
+                    })
+                    .then((response) => {
+                        // Handle the success response
+                        Swal.fire({
+                            title: 'สำเร็จ !',
+                            // text: 'Your data has been toggled for post ' + postId + '.',
+                            icon: 'success'
+                        }).then(() => {
+                            // Reload the page after clicking "OK"
+                            location.reload();
+                        });
+                        
+                        // Update the button's data-current-value attribute after a successful toggle
+                        this.setAttribute('data-current-value', response.data.newValue);
+                    })
+                    .catch((error) => {
+                        // Handle the error response
+                        Swal.fire(
+                            'ล้มเหลว!',
+                            'ไม่สามารถทำตามที่ร้องขอได้ !!!',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    });
+
+
+    
+
+
+
+
+
+    // $(document).on('click', '.button-delete', function(e) {
+    //     Swal.fire({
+    //     title: 'ยืนยันการลบข้อมูล',
+    //     icon: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#C60D0D',
+    //     cancelButtonColor: '#666',
+    //     confirmButtonText: 'ยืนยัน',
+    //     cancelButtonText: 'ยกเลิก',
+    //     denyButtonText: 'ยกเลิก'
+    //     }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         Swal.fire({
+    //             title: 'ลบข้อมูลสำเร็จ',
+    //             icon: 'success',
+    //             confirmButtonText: 'ตกลง',
+    //             confirmButtonColor: '#C60D0D',
+    //         })
+    //     }
+    //     })
+    // });
+    
+    // $(document).on('click', '.button-delete', function(e) {
+    //     Swal.fire({
+    //     title: 'ยืนยันการลบข้อมูล',
+    //     icon: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#C60D0D',
+    //     cancelButtonColor: '#666',
+    //     confirmButtonText: 'ยืนยัน',
+    //     cancelButtonText: 'ยกเลิก',
+    //     denyButtonText: 'ยกเลิก'
+    //     }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         Swal.fire({
+    //             title: 'ลบข้อมูลสำเร็จ',
+    //             icon: 'success',
+    //             confirmButtonText: 'ตกลง',
+    //             confirmButtonColor: '#C60D0D',
+    //         })
+    //     }
+    //     })
+    // });
 </script>
 
 @endsection

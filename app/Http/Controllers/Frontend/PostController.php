@@ -20,6 +20,25 @@ use File;
 class PostController extends Controller
 {
 
+    public function carpostdeleteactionPage(Request $request)
+    {
+        $postId = $request->input('id');
+
+        // Assuming you have a 'carsModel' model
+        $car = carsModel::find($postId);
+
+        if (!$car) {
+            // Car not found
+            return response()->json(['error' => 'Car not found'], 404);
+        }
+
+        // Delete the car
+        $car->delete();
+
+        // Return a success response
+        return response()->json(['message' => 'ลบสำเร็จ']);
+    }
+
     public function carpostregisterSubmitPage(Request $request) {
         ini_set('post_max_size', '500M');
         ini_set('upload_max_filesize', '500M');
@@ -59,6 +78,7 @@ class PostController extends Controller
         }
         $cars->vehicle_code = $request->vehicle_code;
         $cars->title = $request->title;
+        $cars->detail = $request->detail;
         $cars->price = str_replace(",", "", $request->price);
         $cars->licenseplate = $request->licenseplate;
         if ($request->has('warranty_1')) {
@@ -80,7 +100,12 @@ class PostController extends Controller
             $cars->warranty_3 = 0;
         }
         $cars->warranty_2_input = $request->warranty_2_input;
-        $cars->status = 'created';
+
+        if($request->customer_type == 'dealer'){
+            $cars->status = 'approved';
+        }else{
+            $cars->status = 'created';
+        }
         $cars->color = $request->color;
         $cars->province = $request->province;
         $cars->save();

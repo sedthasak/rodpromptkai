@@ -73,6 +73,15 @@ Route::controller(FrontendPageController::class)->group(function() {
 Route::middleware('sessionlogin')->group(function() {
 
     Route::controller(PostController::class)->group(function() {
+
+
+        // Route::delete('/carpost-delete/{id}', 'PostController@destroy')->name('carpost.destroy');
+
+        Route::post('/carpost-delete', 'carpostdeleteactionPage')->name('carpostdeleteactionPage');
+        // Route::post('/carpost-delete', 'PostController@carpostdeleteactionPage')->name('carpostdeleteactionPage');
+
+
+
         Route::post('/carpost-select-brand', 'carpostSelectBrand')->name('carpostSelectBrand');
         Route::post('/carpost-select-model', 'carpostSelectModel')->name('carpostSelectModel');
         Route::post('/carpost-select-generations', 'carpostSelectGenerations')->name('carpostSelectGenerations');
@@ -89,6 +98,7 @@ Route::middleware('sessionlogin')->group(function() {
     Route::controller(FrontendPageController::class)->group(function() {
 
         Route::get('/profile', 'profilePage')->name('profilePage');
+        Route::post('/update-reserve', 'updatereservePage')->name('updatereservePage');
 
         Route::get('/dev', 'DevelopPage')->name('DevelopPage');
         
