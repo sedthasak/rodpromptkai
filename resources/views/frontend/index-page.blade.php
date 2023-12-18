@@ -52,9 +52,10 @@ $arr_gear = array(
         </div>
     </div>
     <div class="col-12 col-xl-3 box-search-car">
-        <form action="/search2" id="my_form" method="GET">
-            @csrf
+        
             <div class="bg-searchcar">
+                <form action="/search2" id="my_form" method="GET">
+                    @csrf
                 <div class="topic-carsearch"><img class="svg" src="{{asset('frontend/images/icon-carred.svg')}}" alt=""> ค้นหารถยนต์</div>
                 <span class="short-desc-search">ค้นหารถมือสอง รถใหม่ ราคาโดนใจในรถพร้อมขายกับเรา</span>
                 <div class="carsearch-input">
@@ -176,8 +177,9 @@ $arr_gear = array(
 
                     <a href="javascript:void(0);" onclick="search4();" class="btn-searchcar">ค้นหารถยนต์</a>
                 </div>
+                </form>
             </div>
-        </form>
+        
     </div>
 </section>
 

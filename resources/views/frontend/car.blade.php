@@ -632,7 +632,7 @@ yearslider.noUiSlider.on('update', function (values, handle) {
 
 
             // Initialization
-            if (_nextHref != 'undefined') {
+            if (_nextHref !== undefined) {
                 $e.data('jscroll', $.extend({}, _data, {initialized: true, waiting: false, nextHref: _nextHref}));
                 _wrapInnerContent();
                 _preloadImage();
@@ -646,11 +646,11 @@ yearslider.noUiSlider.on('update', function (values, handle) {
             $('ul.pagination').hide();
             $(function() {
                 $('.infinite-scroll').jscroll({
-                    refresh: true,
+                    // refresh: true,
                     autoTrigger: true,
                     loadingHtml: '<img class="center-block" src="{{asset("frontend/images/loading.gif")}}" alt="Loading..." />',
                     padding: 1000,
-                    nextSelector: '.pagination li.active + li a',
+                    nextSelector: 'li.page-item a.page-link[rel="next"]',
                     contentSelector: 'div.infinite-scroll',
                     callback: function() {
                         $('ul.pagination').remove();

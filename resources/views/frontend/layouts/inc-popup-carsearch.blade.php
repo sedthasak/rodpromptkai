@@ -4,7 +4,7 @@
             <button type="button" class="carsearch-head"> เลือกยี่ห้อรถ</button>
             <button type="button" class="carsearch-exit">ยกเลิก</button>
         </div>
-        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="brandtext" onkeyup="brandsearch();">
+        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="brandtext" onkeyup="brandsearch(event);">
         <ul class="carsearch-ul">
             @if (isset($brand))
                 @foreach ($brand as $rows)
@@ -17,7 +17,7 @@
         <div class="carsearch-top">
             <button type="button" class="carsearch-head"><i class="bi bi-arrow-left"></i> เลือกรุ่นรถ</button><button type="button" class="carsearch-exit">ยกเลิก</button>
         </div>
-        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="modeltext" onkeyup="modelsearch();">
+        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="modeltext" onkeyup="modelsearch(event);">
         <ul class="carsearch-ul">
             
         </ul>
@@ -29,7 +29,7 @@
         <div class="carsearch-top">
             <button class="carsearch-head"><i class="bi bi-arrow-left"></i> เลือกโฉม</button><button class="carsearch-exit">ยกเลิก</button>
         </div>
-        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="generationtext" onkeyup="generationsearch();">
+        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="generationtext" onkeyup="generationsearch(event);">
         <ul class="carsearch-ul">
             
             
@@ -42,7 +42,7 @@
         <div class="carsearch-top">
             <button class="carsearch-head"><i class="bi bi-arrow-left"></i> เลือกรุ่นย่อย</button><button class="carsearch-exit">ยกเลิก</button>
         </div>
-        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="submodeltext" onkeyup="submodelsearch();">
+        <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="submodeltext" onkeyup="submodelsearch(event);">
         <ul class="carsearch-ul">
             
             
@@ -59,7 +59,7 @@
     var brand_id, model_id, generation_id, submodel_id;
     function brandsearch(){
         var id1 = "";
-        if ($("#brandtext").val() !== "") {
+        if ($("#brandtext").val(event.target.value).length > 0 ) {
             id1 = $("#brandtext").val();
         }
         else {
@@ -76,9 +76,9 @@
         });
     }
 
-    function modelsearch(){
+    function modelsearch(event){
         var id1 = "";
-        if ($("#modeltext").val() !== "") {
+        if ($("#modeltext").val(event.target.value).length > 0) {
             id1 = $("#modeltext").val();
         }
         else {
@@ -95,9 +95,9 @@
         });
     }
 
-    function generationsearch(){
+    function generationsearch(event){
         var id1 = "";
-        if ($("#generationtext").val() !== "") {
+        if ($("#generationtext").val(event.target.value).length > 0) {
             id1 = $("#generationtext").val();
         }
         else {
@@ -114,9 +114,9 @@
         });
     }
 
-    function submodelsearch(){
+    function submodelsearch(event){
         var id1 = "";
-        if ($("#submodeltext").val() !== "") {
+        if ($("#submodeltext").val(event.target.value).length > 0) {
             id1 = $("#submodeltext").val();
         }
         else {

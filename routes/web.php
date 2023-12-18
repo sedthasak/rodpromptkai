@@ -168,6 +168,9 @@ Route::get('/search2',  [FrontendPageController::class, 'search2']);
 Route::get('/brandev', [FrontendPageController::class, 'brandev'])->name('brandev');
 Route::get('/brandnotev', [FrontendPageController::class, 'brandnotev'])->name('brandnotev');
 Route::get('/search-category/{id}', [FrontendPageController::class, 'searchcategory'])->name('searchcategory');
+Route::get('/carpost-register', function(){
+    return redirect('/');
+});
 
 Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');        
