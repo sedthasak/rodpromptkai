@@ -122,6 +122,7 @@ $arr_cartype = array(
                         <div class="wrap-boxstep">
                                 <div class="topic-step"><span>1.1</span> ข้อมูลทั่วไป</div>
                                 <input type="hidden" name="customer_id" value="{{$customerid}}" />
+                                <input type="hidden" name="customer_type" value="{{$_POST['type']}}" />
                                 <div class="box-frm-step">
                                     <div class="row">
                                         <div class="col-12 col-md-6 frm-step">
@@ -300,16 +301,16 @@ $arr_cartype = array(
                                         <div class="col-12 frm-step">
                                             <label>รายละเอียดรถ<span>*</span></label>
                                             <!-- <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt=""> -->
-                                            <textarea class="form-control" id="car_detail"  rows="5" name="detail" required></textarea>
+                                            <textarea class="form-control" id="car_detail"  rows="10" name="detail" required></textarea>
                                             <div class="box-introtext">
                                                 <div class="topic-introtext">ข้อความแนะนำ</div>
                                                 <div class="btn-introtext">
-                                                    <div  class="clckads btn btn-default button">มีประวัติการเข้าศูนย์</div>
-                                                    <div  class="clckads btn btn-default button">ไม่มีชนหนัก</div>
-                                                    <div  class="clckads btn btn-default button">รถสภาพดี</div>
-                                                    <div  class="clckads btn btn-default button">มีประกัน</div>
-                                                    <div  class="clckads btn btn-default button">ดูแลอย่างดี</div>
-                                                    <div  class="clckads btn btn-default button">รถบ้าน</div>
+                                                    <div  class="clckads btn btn-default button" data-text="มีประวัติการเข้าศูนย์">มีประวัติการเข้าศูนย์</div>
+                                                    <div  class="clckads btn btn-default button" data-text="ไม่มีชนหนัก">ไม่มีชนหนัก</div>
+                                                    <div  class="clckads btn btn-default button" data-text="รถสภาพดี">รถสภาพดี</div>
+                                                    <div  class="clckads btn btn-default button" data-text="มีประกัน">มีประกัน</div>
+                                                    <div  class="clckads btn btn-default button" data-text="ดูแลอย่างดี">ดูแลอย่างดี</div>
+                                                    <div  class="clckads btn btn-default button" data-text="รถบ้าน">รถบ้าน</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -497,6 +498,51 @@ $arr_cartype = array(
 </script>
 <script>
 
+    // ClassicEditor
+    //     .create( document.querySelector( '#car_detail' ))
+    //     .catch( error => {
+    //     console.error( error );
+    // } );
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize CKEditor
+        ClassicEditor
+            .create(document.querySelector('#car_detail'))
+            .then(editor => {
+                // Add event listener to buttons with class 'clckads'
+                var buttons = document.querySelectorAll('.clckads');
+                if (buttons) {
+                    buttons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            // Get the text from the 'data-text' attribute
+                            var buttonText = button.getAttribute('data-text');
+
+                            // Get the CKEditor instance
+                            var editorInstance = editor;
+
+                            // Check if the instance is available
+                            if (editorInstance) {
+                                // Get the current content
+                                var currentContent = editorInstance.getData();
+
+                                // Concatenate the current content with the button text
+                                var newText = currentContent + buttonText ;
+
+                                // Set the new content
+                                editorInstance.setData(newText);
+                            } else {
+                                console.error('CKEditor instance not found.');
+                            }
+                        });
+                    });
+                } else {
+                    console.error('Buttons with class "clckads" not found.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
     // const exterior = new Dropzone("div.exterior-dropzone", { url: "/file/post" });
     // const interior = new Dropzone("div.interior-dropzone", { url: "/file/post" });
     // const licence = new Dropzone("div.licence-dropzone", { url: "/file/post" });
@@ -525,6 +571,8 @@ $arr_cartype = array(
         }
     };
 
+
+    
     
 
     $(document).ready(function() {
@@ -535,10 +583,6 @@ $arr_cartype = array(
             var thistext = $(this).text();
             var newtext = oldtext+thistext;
             
-
-            console.log(oldtext);
-            console.log(thistext);
-            console.log(newtext);
 
             add_text(newtext);
         } );
@@ -666,11 +710,7 @@ $arr_cartype = array(
         } );
     }); 
 
-    ClassicEditor
-        .create( document.querySelector( '#car_detail' ))
-        .catch( error => {
-        console.error( error );
-    } );
+    
 </script>
 <script>
     var interior_count = 0;

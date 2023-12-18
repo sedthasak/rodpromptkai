@@ -29,6 +29,18 @@ use File;
 class FrontendPageController extends Controller
 {
 
+    public function updatereservePage(Request $request)
+    {
+        $postId = $request->id;
+        $currentValue = $request->currentValue;
+        $newValue = $currentValue == 1 ? 0 : 1;
+        carsModel::where('id', $postId)->update([
+            'reserve' => $newValue,
+        ]);
+
+        return response()->json(['status' => 'success', 'newValue' => $newValue]);
+    }
+
     public function contactcaractionPage(Request $request)
     {
         // dd($request);

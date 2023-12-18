@@ -204,7 +204,7 @@ $arr_gear = array(
                                 <div class="col-7 text-end">
                                    <a href="tel:{{$cars->customer_phone}}" target="_blank" class="btn-red"><i class="bi bi-telephone-fill"></i> {{$cars->firstname}}</a>
                                    @if(isset($cars->customer_line))
-                                    <a href="https://line.me/ti/p/~{{$cars->customer_line}}" target="_blank" class="btn-red"> @ LINE</a>
+                                    <a href="https://line.me/ti/p/~{{$cars->customer_line}}" target="_blank" class="btn-red" style="background-color:#00b900;"> @ LINE</a>
                                     @endif
                                 </div>
                                 
@@ -302,7 +302,8 @@ $arr_gear = array(
                     <div class="topic-descpromotion">{{$cars->title}}</div>
                     <div class="desc-wrapper">
                         <div class="desc content-editor">
-                            {{$cars->detail}}
+                            <!-- {{$cars->detail}} -->
+                            {!!$cars->detail!!}
                             <!-- <ul>
                                 <li>รถบ้านใช้เอง รุ่นท็อป ไมล์แท้ เจ้าของขายเอง รถเข้าศูนย์ตลอด BSI 10 ปี</li>
                                 <li>โฉมล่าสุด LCI, BSI/warranty-2026</li>

@@ -15,11 +15,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <link type="image/ico" rel="shortcut icon" href="{{asset('frontend/images/favicon.ico')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/layout.css')}}" />
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/dropzone.css')}}" />
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/select2.min.css')}}" />
+    
 
     @if(1==2)
         <meta http-equiv="refresh" content="3;url={{route('editprofilePage_afterregis')}}">
