@@ -204,7 +204,7 @@ $arr_gear = array(
                                 <div class="col-7 text-end">
                                    <a href="tel:{{$cars->customer_phone}}" target="_blank" class="btn-red"><i class="bi bi-telephone-fill"></i> {{$cars->firstname}}</a>
                                    @if(isset($cars->customer_line))
-                                    <a href="https://line.me/ti/p/~{{$cars->customer_line}}" target="_blank" class="btn-red" style="background-color:#00b900;"> @ LINE</a>
+                                    <a href="https://line.me/ti/p/~{{$cars->customer_line}}" target="_blank" class="btnline btn-red" style="background-color:#00b900;"> @ LINE</a>
                                     @endif
                                 </div>
                                 
@@ -559,7 +559,7 @@ $(document).ready(function(){
         margin:10,
         smartSpeed: 2000,
         autoplayTimeout: 8000,
-        autoplay:true,
+        autoplay:false,
         autoplayHoverPause: true,
         autoplayHoverPause:true,
         navText: ['<span><i class="fas fa-chevron-left"></i></span>','<span><i class="fas fa-chevron-right"></i></span>'],

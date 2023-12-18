@@ -2161,6 +2161,7 @@ a {
   color: rgba(255, 255, 255, 0.65);
   z-index: 11;
   border-radius: 15px 15px 0 0;
+  pointer-events: none;
 }
 
 .slide-wrapper .car-booked div {
@@ -6454,6 +6455,15 @@ a {
   background-color: #666;
 }
 
+.listdesc-contact .btnline {
+  background-color: #31C139;
+  margin-left: 5px;
+}
+
+.listdesc-contact .btnline:hover {
+  background-color: #333;
+}
+
 /*responsive*/
 @media (min-width: 1700px) {
   .container {
@@ -7981,6 +7991,19 @@ a {
   .wrap-postwelcome {
     padding: 70px 0;
   }
+  #popup-searchcar.fancybox-content {
+    background: #242629;
+    padding: 5px;
+  }
+  #popup-searchcar .carsearch-menu {
+    background-color: #242629;
+  }
+  #popup-searchcar .carsearch-top button, #popup-searchcar .carsearch-ul li button {
+    color: #fff;
+  }
+  #popup-searchcar .carsearch-ul li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
 }
 
 @media (max-width: 767px) {
@@ -9420,6 +9443,16 @@ a {
   }
   .hide-txtmb {
     display: none;
+  }
+  .desc-cardetail .box-listdesc .topic-listdesc i {
+    font-size: 1.3rem;
+  }
+  .listdesc-contact.text-end {
+    text-align: left !important;
+    margin-top: 15px;
+  }
+  .listdesc-contact a {
+    margin-right: 5px;
   }
 }
 
