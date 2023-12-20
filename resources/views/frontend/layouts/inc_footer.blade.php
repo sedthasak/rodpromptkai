@@ -163,10 +163,10 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                         <div class="topic-range">
                             <div>งบประมาณ</div>
                             <div>
-                                <div id="popup-minprice" class="pricelow"></div>
+                                <div id="popup-minprice" class="pricelowfooter"></div>
                                 <input type="hidden" name="pricelow">
                                 <span>-</span>
-                                <div id="popup-maxprice" class="pricehigh"></div>
+                                <div id="popup-maxprice" class="pricehighfooter"></div>
                                 <input type="hidden" name="pricehigh">
                             </div>
                         </div>
@@ -178,9 +178,9 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                         <div class="topic-range">
                             <div>ปี</div>
                             <div>
-                                <div id="popup-minyear" class="yearlow"></div>
+                                <div id="popup-minyear" class="yearlowfooter"></div>
                                 <input type="hidden" name="yearlow">
-                                <div id="popup-maxyear" class="yearhigh"></div>
+                                <div id="popup-maxyear" class="yearhighfooter"></div>
                                 <input type="hidden" name="yearhigh">
                             </div>
                         </div>
@@ -247,7 +247,7 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                         </div>
                     </div>
                 </div>
-                <a href="javascript:void(0);" onclick="search4();" class="btn-searchcar">ค้นหารถยนต์</a>
+                <a href="javascript:void(0);" onclick="search5();" class="btn-searchcar">ค้นหารถยนต์</a>
             </div>
             </form>
         </div>
@@ -330,6 +330,18 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
             $('.box-search-car .carsearch-lv1').show();
             $( ".box-search-car .carsearch-popup" ).effect('slide', { direction: 'right', mode: 'hide' }, 500);
         }
+    }
+
+    function search5() {
+        $('input[name="brand_id"]').val(brand_id);
+        $('input[name="model_id"]').val(model_id);
+        $('input[name="generation_id"]').val(generation_id);
+        $('input[name="submodel_id"]').val(submodel_id);
+        $('input[name="pricelow"]').val($('.pricelowfooter').text().replace(/,/g, ''));
+        $('input[name="pricehigh"]').val($('.pricehighfooter').text().replace(/,/g, ''));
+        $('input[name="yearlow"]').val($('.yearlowfooter').text());
+        $('input[name="yearhigh"]').val($('.yearhighfooter').text());
+        $('#my_form').submit();
     }
 </script>
 

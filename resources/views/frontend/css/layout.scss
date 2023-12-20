@@ -933,6 +933,8 @@ a{
             padding: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             button{
+                width: 100%;
+                text-align: left;
                 border: 0;
                 background: none;
                 padding: 0;
@@ -1613,6 +1615,7 @@ a{
         color: rgba(255,255,255,0.65);
         z-index: 11;
         border-radius: 15px 15px 0 0;
+        pointer-events: none;
         div{
             position: relative;
             top: 50%;
@@ -4802,10 +4805,19 @@ a{
     width: 70px;
     transition: 0.5s;
     margin-left: auto;
-    text-align: center;
+    text-align: center; 
     white-space: nowrap;
     &:hover{
         background-color: $main-color;
+    }
+}
+.listdesc-contact{
+    .btnline{
+        background-color: #31C139;
+        margin-left: 5px;
+        &:hover{
+            background-color: #333;
+        }
     }
 }
 
@@ -6341,6 +6353,20 @@ a{
     .wrap-postwelcome{
         padding: 70px 0;
     }
+    #popup-searchcar.fancybox-content{
+        background: #242629;
+        padding: 5px;
+    }
+    #popup-searchcar .carsearch-menu{
+        background-color: #242629;
+    }
+    #popup-searchcar .carsearch-top button, #popup-searchcar .carsearch-ul li button{
+        color: #fff;
+    }
+    #popup-searchcar .carsearch-ul li{
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
 }
 @media (max-width: 767px){
 
@@ -7838,6 +7864,19 @@ a{
     }
     .hide-txtmb{
         display: none;
+    }
+    .desc-cardetail .box-listdesc .topic-listdesc i{
+        font-size: 1.3rem;
+    }
+    .listdesc-contact.text-end{
+        text-align: left !important;
+        margin-top: 15px;
+    }
+    .listdesc-contact a{
+        margin-right: 5px;
+    }
+    .carsearch-ul{
+        height: calc(100% - 177px);
     }
 }
 @media (max-width: 360px){ 

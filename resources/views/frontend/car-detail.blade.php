@@ -377,7 +377,7 @@ $arr_gear = array(
     </div>
 </section>
 
-<!-- <section class="row">
+<section class="row">
     <div class="col-12 bg-average wow fadeInDown">
         <div class="container">
             <div class="row">
@@ -391,50 +391,83 @@ $arr_gear = array(
                         <div class="row">
                             <div class="col-9">
                                 <div class="brandcar-average">
-                                    <img src="{{asset('frontend/images/logo-bmw.png')}}" alt="">
-                                    <span>BMW X1</span> โฉม F48 ปี16-ปัจจุบัน
+                                    @if (isset($cars->brands_feature))
+                                    <img src="{{asset($cars->brands_feature)}}" alt="">
+                                    @endif
+                                    <span>{{$cars->brands_title." ".$cars->model_name}}</span> โฉม {{$cars->generations_name}}
                                 </div>
                             </div>
                             <div class="col-3 text-end">
-                                <a href="check-price.php" class="average-viewall">ดูทั้งหมด</a>
+                                <a href="{{url('/check-price').'/'.$cars->brand_id.'/'.$cars->model_id}}" class="average-viewall">ดูทั้งหมด</a>
                             </div>
                         </div>
                         <div class="average-bar">
-                            <div class="item-bar active">
-                                <div class="animated-progress"> <span data-progress="100"></span></div>
-                                <div class="bar-year">2021</div>
-                                <div class="txt-seeyear">ปีที่คุณดูอยู่</div>
-                            </div>
-                            <div class="item-bar">
-                                <div class="animated-progress"> <span data-progress="65"></span></div>
-                                <div class="bar-year">2020</div>
-                            </div>
-                            <div class="item-bar">
-                                <div class="animated-progress"> <span data-progress="75"></span></div>
-                                <div class="bar-year">2019</div>
-                            </div>
-                            <div class="item-bar">
-                                <div class="animated-progress"><span data-progress="63"></span></div>
-                                <div class="bar-year">2018</div>
-                            </div>
-                            <div class="item-bar">
-                                <div class="animated-progress"> <span data-progress="45"></span></div>
-                                <div class="bar-year">2017</div>
-                            </div>
-                            <div class="item-bar">
-                                <div class="animated-progress"> <span data-progress="30"></span></div>
-                                <div class="bar-year">2016</div>
-                            </div>
+                            @php
+                                $topprice = $cars->price;
+                            @endphp
+
+
+
+                            @if (isset($yearprice))
+                            @foreach ($yearprice as $index => $rows)
+
+                                @if ($rows->modelyear == $cars->modelyear)
+                                    @php
+                                        if ($rows->max_price > $topprice) {
+                                            $topprice = $rows->max_price;
+                                        }
+                                    @endphp
+                                @elseif ($rows->modelyear < $cars->modelyear)
+                                    @php
+                                        if ($rows->max_price > $topprice) {
+                                            $topprice = $rows->max_price;
+                                        }
+                                    @endphp
+                                @endif
+
+                                @if ($index + 1 == 6)
+                                    @php
+                                        break;
+                                    @endphp
+                                @endif
+
+                            @endforeach
+
+
+                            
+                            @foreach ($yearprice as $index => $rows)
+
+                                @if ($rows->modelyear == $cars->modelyear)
+                                <div class="item-bar active">
+                                    <div class="animated-progress"> <span data-progress="{{ceil( (100/$topprice) * $rows->avg_price )}}"></span></div>
+                                    <div class="bar-year">{{$rows->modelyear}}</div>
+                                    <div class="txt-seeyear">ปีที่คุณดูอยู่</div>
+                                </div>
+                                @elseif ($rows->modelyear < $cars->modelyear)
+                                <div class="item-bar">
+                                    <div class="animated-progress"> <span data-progress="{{ceil( (100/$topprice) * $rows->avg_price )}}"></span></div>
+                                    <div class="bar-year">{{$rows->modelyear}}</div>
+                                </div>
+                                @endif
+
+                                @if ($index + 1 == 6)
+                                    @php
+                                        break;
+                                    @endphp
+                                @endif
+
+                            @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-5 photo-average">
-                    <figure><img src="{{asset('frontend/images/c01.webp')}}" alt=""></figure>
+                    <figure><img src="{{asset($cars->feature)}}" alt=""></figure>
                 </div>
             </div>
         </div>
     </div>
-</section> -->
+</section>
 
 <section class="row">
     <div class="col-12 wrap-carreccom wow fadeInDown">
@@ -487,7 +520,7 @@ $arr_gear = array(
                             <figcaption>
                                 <div class="car-name">{{$allcar2->modelyear." ".$allcar2->brands_title." ".$allcar2->model_name}} </div>
                                 <div class="car-series">{{$allcar2->generations_name." ".$allcar2->sub_models_name}}</div>
-                                <div class="car-province">{{$allcar2->customer_proveince}}</div>
+                                <div class="car-province">@if(isset($allcar2->customer_proveince)){{$allcar2->customer_proveince}}@else{{"-"}}@endif</div>
                                 <div class="row">
                                     <div class="col-12 col-xl-9">
                                         <div class="descpro-car">{{$allcar2->title}}</div>

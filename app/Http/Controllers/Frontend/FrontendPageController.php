@@ -456,7 +456,8 @@ class FrontendPageController extends Controller
                 'customer.map as customer_map', 'customer.google_map as customer_google_map', 
                 'customer.phone as customer_phone', 'customer.line as customer_line', 
                 'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name',
+                'brands.feature as brands_feature')
             ->orderBy('id', 'desc')
             ->first();
 
@@ -532,6 +533,16 @@ class FrontendPageController extends Controller
         $carcountget->viewcount = $newcount;
         $carcountget->update();
 
+
+        $qryyearprice = DB::table('cars')
+        ->select('modelyear', DB::raw('MAX(price) as max_price, MIN(price) as min_price, AVG(price) as avg_price'))
+        ->where("brand_id", $mycars->brand_id)
+        ->where("model_id", $mycars->model_id)
+        ->where("generations_id", $mycars->generations_id)
+        ->groupBy('modelyear')
+        ->orderBy('modelyear', 'DESC')
+        ->get();
+
         return view('frontend/car-detail', [
             'cars' => $mycars,
             'allcars' => $allcars,
@@ -540,7 +551,7 @@ class FrontendPageController extends Controller
             'exterior' => $exterior,
             'gallery' => $gallery,
             'gallery' => $gallery,
-            // 'customerdata' => $rrr,
+            'yearprice' => $qryyearprice
         ]);
     }
 
@@ -1352,7 +1363,7 @@ class FrontendPageController extends Controller
         if (!empty($request->model_id)) {
             $cars = $cars->where('cars.model_id', $request->model_id);
         }
-        if (!empty($grequest->eneration_id)) {
+        if (!empty($request->generation_id)) {
             $cars = $cars->where('cars.generations_id', $request->generation_id);
         }
         if (!empty($request->submodel_id)) {
@@ -1504,6 +1515,95 @@ class FrontendPageController extends Controller
             "cars" => $cars,
             "province" => $province,
             "category" => $category
+        ]);
+    }
+
+    public function checkprice($brand_id, $model_id) {
+        $qrybrandrow = brandsModel::where("id", $brand_id)->first();
+        $qrymodelrow = modelsModel::where("id", $model_id)->first();
+
+        $qryyearprice = carsModel::select('cars.modelyear', 'generations.generations as generation_name', 'cars.generations_id')
+        ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id')
+        ->where('cars.brand_id', $brand_id)
+        ->where('cars.model_id', $model_id)
+        ->groupBy('cars.generations_id', 'cars.modelyear', 'generations.generations')
+        ->orderByDesc('cars.modelyear')
+        ->selectRaw('MAX(cars.price) as max_price, MIN(cars.price) as min_price, AVG(cars.price) as avg_price')
+        ->get();
+
+        $qrybrand = brandsModel::get();
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+        $setFooterModel = setFooterModel::all();
+
+        return view('frontend/check-price', [
+            "yearprice" => $qryyearprice,
+            "brand" => $qrybrand,
+            "brandrow" => $qrybrandrow,
+            "modelrow" => $qrymodelrow,
+            'setFooterModel' => $setFooterModel
+        ]);
+    }
+
+
+    public function searchprice($brand_id, $model_id, $generation_id, $price) {
+        // return dd($request->yearhigh);
+        $pricelow = $price;
+        $pricehigh = $price;
+
+        $pricelowsel = $pricelow;
+        $pricehighsel = $pricehigh;
+
+        $cars = carsModel::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->leftJoin('models', 'cars.model_id', '=', 'models.id')
+        ->leftJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id');
+        if (!empty($brand_id)) {
+            $cars = $cars->where('cars.brand_id', $brand_id);
+        }
+        if (!empty($model_id)) {
+            $cars = $cars->where('cars.model_id', $model_id);
+        }
+        if (!empty($generation_id)) {
+            $cars = $cars->where('cars.generations_id', $generation_id);
+        }
+        if (!empty($pricelow)) {
+            $cars = $cars->where('cars.price', '>=', $pricelow);
+        }
+        if (!empty($pricehigh)) {
+            $cars = $cars->where('cars.price', '<=', $pricehigh);
+        }
+        
+        $cars = $cars->select(
+            'cars.*',
+            'brands.title as brand_name',
+            'models.model as model_name',
+            'sub_models.sub_models as submodel_name',
+            'generations.generations as generation_name'
+        )
+        ->orderBy('cars.modelyear', 'DESC')
+        ->orderBy('cars.created_at', 'DESC')
+        ->paginate(30);
+        // ->getBindings();
+        // ->get();
+        // ->toSql();
+        // return dd($cars);
+
+        $brand = brandsModel::orderBy("sort_no", "ASC")->get();
+
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+        $category = categoriesModel::orderBy("created_at", "DESC")->get();
+
+
+
+        return view('frontend/car', [
+            "brand" => $brand,
+            "cars" => $cars,
+            "province" => $province,
+            "category" => $category,
+            "pricelowsel" => $pricelowsel,
+            "pricehighsel" => $pricehighsel
         ]);
     }
     
