@@ -48,10 +48,8 @@ class SessionLogin
 
         $qrybrand = brandsModel::get();
         View::share('brand', $qrybrand);
-<<<<<<< Updated upstream
         $qryprovince = provincesModel::get();
         View::share('province', $qryprovince);
-=======
         // if(isset($customerdata->id)){
 
         //     $contacts_back = contacts_backModel::orderBy('id', 'desc')
@@ -71,7 +69,6 @@ class SessionLogin
         //     ->get();
         //     View::share('notice', $notice);
         // }
->>>>>>> Stashed changes
 
         return $next($request);
     }
