@@ -51,8 +51,18 @@ class FrontendPageController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+            $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
         return view('frontend/performance-view', [
             'mycars' => $mycars,
+            'carstatus' => "approved",
+            'brandsearch' => $qrybrandsearch,
         ]);
     }
 
@@ -75,8 +85,18 @@ class FrontendPageController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+            $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
         return view('frontend/performance-viewpost', [
             'mycars' => $mycars,
+            'carstatus' => "approved",
+            'brandsearch' => $qrybrandsearch,
         ]);
     }
 
@@ -99,8 +119,18 @@ class FrontendPageController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
         return view('frontend/performance', [
             'mycars' => $mycars,
+            'carstatus' => "approved",
+            'brandsearch' => $qrybrandsearch,
         ]);
     }
 

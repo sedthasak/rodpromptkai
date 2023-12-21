@@ -45,7 +45,7 @@ $line = $customerdata->line??'-';
                 <div class="col-12 col-md-3 col-lg-5 profile-boxbtn text-end">
                     <a href="{{route('profilePage')}}" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> รถที่ลงขาย</a>
                     <a href="{{route('performancePage')}}" class="btn-performance"><img src="{{asset('frontend/images/icon-performance.svg')}}" alt=""> Performance</a>
-                    <a href="{{route('customercontactPage')}}" class="btn-cuscontact">รอติดต่อ <div>3</div></a>
+                    <a href="{{route('customercontactPage')}}" class="btn-cuscontact">รอติดต่อ <div>{{count($contacts_back)}}</div></a>
                 </div>
             </div>
         </div>

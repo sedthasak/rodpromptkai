@@ -12,11 +12,11 @@
 // print_r($mycars);
 // echo "</pre>";
 
-foreach($mycars as $ketsee => $see){
-    echo "<pre>";
-    print_r($see->id);
-    echo "</pre>";
-}
+// foreach($mycars as $ketsee => $see){
+//     echo "<pre>";
+//     print_r($see->id);
+//     echo "</pre>";
+// }
 ?>
 <div class="bg-profile-performance">@include('frontend.layouts.inc_profile')</div>
 <section class="row">
