@@ -196,7 +196,7 @@ $arr_gear = array(
                                 </div>
                             </div>
                         </div>
-                        <div class="box-listdesc">
+                        <!-- <div class="box-listdesc">
                             <div class="row">
                                 <div class="col-5">
                                     <span class="topic-listdesc"><i class="bi bi-person-circle"></i> ติดต่อผู้ขาย</span>
@@ -210,14 +210,35 @@ $arr_gear = array(
 
                                 @if(isset($cars->customer_line))
                                     <a href="https://line.me/ti/p/~{{$cars->customer_line}}" data-post="{{$cars->id}}" target="_blank" class="btnline btn-red" style="background-color:#00b900;" onclick="updateClickCount({{$cars->id}}, this)">
-                                        @ LINE
+                                        LINE
                                     </a>
                                 @endif
 
                                 </div>
                                 
                             </div>
+                        </div> -->
+
+                        <div class="box-listdesc">
+                            <div class="row">
+                                <div class="col-12 col-sm-5">
+                                    <span class="topic-listdesc"><i class="bi bi-person-circle"></i> ติดต่อผู้ขาย</span>
+                                </div>
+                                <div class="col-12 col-sm-7 listdesc-contact text-end">
+                                    <a href="tel:{{$cars->customer_phone}}" data-post="{{$cars->id}}" target="_blank" class="btn-red" onclick="updateClickCount({{$cars->id}}, this)">
+                                        <i class="bi bi-telephone-fill"></i> {{$cars->firstname}}
+                                    </a>
+
+                                    @if(isset($cars->customer_line))
+                                        <a href="https://line.me/ti/p/~{{$cars->customer_line}}" data-post="{{$cars->id}}" target="_blank" class="btnline btn-red" style="background-color:#00b900;" onclick="updateClickCount({{$cars->id}}, this)">
+                                            LINE
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
+
+
                         <div class="box-listdesc">
                             <div class="row">
                                 <div class="col-12 col-md-9">
@@ -633,8 +654,8 @@ $(document).ready(function(){
         smartSpeed: 2000,
         autoplayTimeout: 8000,
         autoplay:false,
-        autoplayHoverPause: true,
-        autoplayHoverPause:true,
+        autoplayHoverPause: false,
+        autoplayHoverPause:false,
         navText: ['<span><i class="fas fa-chevron-left"></i></span>','<span><i class="fas fa-chevron-right"></i></span>'],
         nav: false,
         dots: false
@@ -681,7 +702,7 @@ $(document).ready(function(){
         autoplay:false,
         smartSpeed: 2000,
         autoplayTimeout: 8000,
-        autoplayHoverPause: true,
+        autoplayHoverPause: false,
         nav: true,
         navText: ['<span><i class="fas fa-chevron-left"></i></span>','<span><i class="fas fa-chevron-right"></i></span>'],
         dots: false,

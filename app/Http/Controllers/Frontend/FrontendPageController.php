@@ -828,12 +828,22 @@ class FrontendPageController extends Controller
         ->orderBy('contacts_back.created_at', 'desc')
         ->get();
 
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
         return view('frontend/customer-contact', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'contacts_back' => $contacts_back,
             'mycontacts' => $mycontacts,
+            'carstatus' => "approved",
+            'brandsearch' => $qrybrandsearch,
         ]);
     }
     /****************************************************************/
