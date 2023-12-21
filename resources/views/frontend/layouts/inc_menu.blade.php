@@ -5,7 +5,7 @@
 $data = session()->all();
 $customerdata = session('customer');
 // echo "<pre>";
-// print_r(count($contacts_back));
+// print_r($notice);
 // echo "</pre>";
 ?>
 <header class="row">

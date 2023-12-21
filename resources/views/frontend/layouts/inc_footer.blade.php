@@ -238,11 +238,7 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                                 <label>จังหวัด</label>
                                 <select name="province" id="province" class="form-select">
                                     <option value="">จังหวัด</option>
-                                    @if (isset($province))
-                                        @foreach ($province as $rows)
-                                            <option value="{{$rows->name_th}}"> {{$rows->name_th}}</option>
-                                        @endforeach
-                                    @endif
+
                                 </select>
                             </div>
                         </div>

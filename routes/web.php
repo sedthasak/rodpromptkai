@@ -78,6 +78,9 @@ Route::middleware('sessionlogin')->group(function() {
         // Route::delete('/carpost-delete/{id}', 'PostController@destroy')->name('carpost.destroy');
 
         Route::post('/carpost-delete', 'carpostdeleteactionPage')->name('carpostdeleteactionPage');
+        Route::post('/update-click-count/{car}', 'updateClickCount')->name('updaupdateClickCountteClickCount');
+   
+
         // Route::post('/carpost-delete', 'PostController@carpostdeleteactionPage')->name('carpostdeleteactionPage');
 
 
@@ -91,8 +94,10 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
         // Route::get('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
         Route::post('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
+        Route::get('/carpost-register-edit/{post}', 'carpostregistereditPage')->name('carpostregistereditPage');
         Route::get('/carpost-register-success', 'carpostregistersuccessPage')->name('carpostregistersuccessPage');
         Route::post('/carpost-register-submit', 'carpostregisterSubmitPage')->name('carpostregisterSubmitPage');
+        Route::post('/carpost-register-edit-submit', 'carpostregistereditubmitPage')->name('carpostregistereditubmitPage');
     });
 
     Route::controller(FrontendPageController::class)->group(function() {
@@ -130,6 +135,10 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/check-price', 'checkpricePage')->name('checkpricePage');
         Route::get('/customer-contact', 'customercontactPage')->name('customercontactPage');
         Route::get('/update-carprice', 'updatecarpricePage')->name('updatecarpricePage');
+
+        // Route::post('/update-status', 'contactupdateStatus')->name('contactupdateStatus');
+        Route::post('/updateContactStatus/{id}', 'updateContactStatus')->name('updateContactStatus');
+
 
         Route::get('/dealer-carpost-step1', 'dealercarpoststep1Page')->name('dealercarpoststep1Page');
         Route::get('/dealer-carpost-step2', 'dealercarpoststep2Page')->name('dealercarpoststep2Page');

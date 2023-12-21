@@ -29,6 +29,114 @@ use File;
 class FrontendPageController extends Controller
 {
 
+    public function performanceviewPage()
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->where('cars.status', 'approved')
+            ->where(function ($query) {
+                $query->where('cars.clickcount', '<=', 0)
+                      ->orWhereNull('cars.viewcount');
+            })
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('frontend/performance-view', [
+            'mycars' => $mycars,
+        ]);
+    }
+
+    public function performanceviewpostPage()
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->where('cars.status', 'approved')
+            ->where('cars.viewcount', '>', 0)
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('frontend/performance-viewpost', [
+            'mycars' => $mycars,
+        ]);
+    }
+
+    public function performancePage()
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->where('cars.status', 'approved')
+            ->where('cars.clickcount', '>', 0)
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('frontend/performance', [
+            'mycars' => $mycars,
+        ]);
+    }
+
+    public function updateContactStatus(Request $request, $id)
+    {
+        // dd($request);
+        $contact = contacts_backModel::find($id);
+        if (!$contact) {
+            return response()->json(['error' => 'Contact not found.'], 404);
+        }
+
+        $contact->status = $request->input('status');
+        $contact->save();
+
+        return response()->json(['success' => 'Contact status updated successfully.']);
+
+        // try {
+
+        //     dd($request);
+
+        //     $contact = contacts_backModel::find($id);
+        //     if (!$contact) {
+        //         return response()->json(['error' => 'Contact not found.'], 404);
+        //     }
+
+        //     $contact->status = $request->input('status');
+        //     $contact->save();
+
+    
+        //     return response()->json(['success' => 'Contact status updated successfully.']);
+        // } catch (\Exception $e) {
+        //     \Log::error('Error updating contact status: ' . $e->getMessage());
+        //     return response()->json(['error' => 'Internal Server Error'], 500);
+        // }
+    }
+
     public function updatereservePage(Request $request)
     {
         $postId = $request->id;
@@ -671,25 +779,31 @@ class FrontendPageController extends Controller
 
         $contacts_back = contacts_backModel::where("customer_id", $customer_id)->get();
 
-        $mycontacts = DB::table('contacts_back')
-            ->leftjoin('cars', 'contacts_back.cars_id', '=', 'cars.id')
-            // ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            // ->where('customer_id', $customer_id)
-            ->select('contacts_back.*', 'cars.id as car_id', 'cars.modelyear as car_modelyear', 
-                'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->orderBy('id', 'desc')
-            ->get();
+
+        $mycontacts = contacts_backModel::select(
+            'contacts_back.*', // Select all fields from contacts_back
+            'customer.id as customer_id',
+            'cars.*', // Select all fields from cars
+            'brands.title as brand',
+            'models.model as model', // Replace models.title with models.model
+            'generations.generations as generation', // Replace generations.title with generations.generations
+            'sub_models.sub_models as sub_model' // Replace sub_models.title with sub_models.sub_models
+        )
+        ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+        ->join('customer', 'contacts_back.customer_id', '=', 'customer.id')
+        ->join('brands', 'cars.brand_id', '=', 'brands.id')
+        ->join('models', 'cars.model_id', '=', 'models.id')
+        ->join('generations', 'cars.generations_id', '=', 'generations.id')
+        ->join('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->orderBy('contacts_back.created_at', 'desc')
+        ->get();
 
         return view('frontend/customer-contact', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
-            'contacts_back' => $mycontacts,
+            'contacts_back' => $contacts_back,
+            'mycontacts' => $mycontacts,
         ]);
     }
     /****************************************************************/
@@ -1017,24 +1131,9 @@ class FrontendPageController extends Controller
 
         ]);
     }
-    public function performanceviewPage()
-    {
-        return view('frontend/performance-view', [
-
-        ]);
-    }
-    public function performanceviewpostPage()
-    {
-        return view('frontend/performance-viewpost', [
-
-        ]);
-    }
-    public function performancePage()
-    {
-        return view('frontend/performance', [
-
-        ]);
-    }
+    
+    
+    
     
     
     

@@ -64,7 +64,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                         <div class="col-8 col-md-8">
                                             <div class="mycar-boxprice">
                                                 <div class="mycar-price">{{number_format($cars->price, 0, '.', ',')}}.-</div>
-                                                <a data-fancybox data-src="#edit-carprice" href="javascript:;" class="mycar-editprice"><i class="bi bi-pencil-square"></i> แก้ไขราคา</a>
+                                                <!-- <a data-fancybox data-src="#edit-carprice" href="javascript:;" class="mycar-editprice"><i class="bi bi-pencil-square"></i> แก้ไขราคา</a> -->
                                             </div>
                                         </div>
                                         <div class="col-4 col-md-4 text-end">
@@ -74,7 +74,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                 </div>
                             </div>
                             <div class="item-mycar-button">
-                                <a href="#" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
+                                <a href="{{route('carpostregistereditPage', ['post' => $cars->id])}}" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
                                 <button class="btn-mycar btn-mycar-delete button-delete" data-carsid="{{ $cars->id }}">
                                     <i class="bi bi-trash3-fill"></i> ลบ
                                 </button>

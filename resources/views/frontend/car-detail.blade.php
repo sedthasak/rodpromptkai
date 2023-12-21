@@ -202,10 +202,18 @@ $arr_gear = array(
                                     <span class="topic-listdesc"><i class="bi bi-person-circle"></i> ติดต่อผู้ขาย</span>
                                 </div>
                                 <div class="col-7 text-end">
-                                   <a href="tel:{{$cars->customer_phone}}" target="_blank" class="btn-red"><i class="bi bi-telephone-fill"></i> {{$cars->firstname}}</a>
-                                   @if(isset($cars->customer_line))
-                                    <a href="https://line.me/ti/p/~{{$cars->customer_line}}" target="_blank" class="btnline btn-red" style="background-color:#00b900;"> @ LINE</a>
-                                    @endif
+                                    
+
+                                <a href="tel:{{$cars->customer_phone}}" data-post="{{$cars->id}}" target="_blank" class="btn-red" onclick="updateClickCount({{$cars->id}}, this)">
+                                    <i class="bi bi-telephone-fill"></i> {{$cars->firstname}}
+                                </a>
+
+                                @if(isset($cars->customer_line))
+                                    <a href="https://line.me/ti/p/~{{$cars->customer_line}}" data-post="{{$cars->id}}" target="_blank" class="btnline btn-red" style="background-color:#00b900;" onclick="updateClickCount({{$cars->id}}, this)">
+                                        @ LINE
+                                    </a>
+                                @endif
+
                                 </div>
                                 
                             </div>
@@ -563,6 +571,38 @@ $arr_gear = array(
 @endsection
 
 @section('script')
+
+<script>
+    function updateClickCount(carId, element) {
+        // Send AJAX request to update click count
+        fetch(`/update-click-count/${carId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // After the click count is updated, proceed to the link
+            if (element && element.getAttribute) {
+                window.location.href = element.getAttribute('href');
+            } else {
+                console.error('Element or attribute not found.');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating click count:', error);
+        });
+    }
+</script>
+
+
+
+
+
 <script>
 $(document).ready(function(){
     $( '.tab_article_btn > div' ).click(function (event) {

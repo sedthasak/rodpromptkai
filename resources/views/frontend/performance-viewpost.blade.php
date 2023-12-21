@@ -20,32 +20,39 @@
                             <button class="show-menuprofile"><i class="bi bi-search"></i>ค้นหารถในบัญชี</button>
                         </div>
                         @include('frontend.layouts.inc_menu-performance')
-                        <a href="car-detail.php" class="item-mycar">
+
+                        @foreach($mycars as $keycarsModel => $cars)
+                        @php
+                        $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
+                        $resve_state = ($cars->reserve==1)?'active':'';
+                        @endphp
+
+                        <a href="{{route('cardetailPage', ['post' => $cars->id])}}" class="item-mycar">
                             <div class="item-mycar-cover">
-                                <figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure>
+                                <figure><img src="{{$profilecar_img}}" alt=""></figure>
                             </div>
                             <div class="mycar-detail-mb">
-                                <div class="mycar-name">2023 BMW X1</div>
-                                <div class="mycar-type">X1 2.0 sDrive18i</div>
-                                <div class="mycar-idcar">4กข 8113</div>
+                                <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
+                                <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
+                                <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
                             </div>
                             <div class="item-mycar-detail-check item-mycar-detail">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
-                                        <div class="mycar-name">2023 BMW X1</div>
-                                        <div class="mycar-type">X1 2.0 sDrive18i</div>
-                                        <div class="mycar-idcar">4กข 8113</div>
+                                        <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
+                                        <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
+                                        <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
                                     </div>
                                     <div class="col-12 col-md-6 text-end">
-                                        <div class="score-performance">จำนวนผู้คลิกดู : 82</div>
-                                        <div class="mycar-price-mb mycar-price">599,000.-</div>
+                                        <div class="score-performance">จำนวนผู้คลิกดู : {{$cars->viewcount}}</div>
+                                        <div class="mycar-price-mb mycar-price">{{number_format($cars->price, 0, '.', ',')}}.-</div>
                                     </div>
                                 </div>
                                 <div class="mycar-boxline">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="mycar-boxprice">
-                                                <div class="mycar-price">599,000.-</div>
+                                                <div class="mycar-price">{{number_format($cars->price, 0, '.', ',')}}.-</div>
                                             </div>
                                         </div>
                                     </div>
@@ -53,71 +60,10 @@
                             </div>
                         </a>
 
-                        <a href="car-detail.php" class="item-mycar">
-                            <div class="item-mycar-cover">
-                                <figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure>
-                            </div>
-                            <div class="mycar-detail-mb">
-                                <div class="mycar-name">2023 BMW X1</div>
-                                <div class="mycar-type">X1 2.0 sDrive18i</div>
-                                <div class="mycar-idcar">4กข 8113</div>
-                            </div>
-                            <div class="item-mycar-detail-check item-mycar-detail">
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
-                                        <div class="mycar-name">2023 BMW X1</div>
-                                        <div class="mycar-type">X1 2.0 sDrive18i</div>
-                                        <div class="mycar-idcar">4กข 8113</div>
-                                    </div>
-                                    <div class="col-12 col-md-6 text-end">
-                                        <div class="score-performance">จำนวนผู้คลิกดู : 82</div>
-                                        <div class="mycar-price-mb mycar-price">599,000.-</div>
-                                    </div>
-                                </div>
-                                <div class="mycar-boxline">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="mycar-boxprice">
-                                                <div class="mycar-price">599,000.-</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+                        @endforeach
 
-                        <a href="car-detail.php" class="item-mycar">
-                            <div class="item-mycar-cover">
-                                <figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure>
-                            </div>
-                            <div class="mycar-detail-mb">
-                                <div class="mycar-name">2023 BMW X1</div>
-                                <div class="mycar-type">X1 2.0 sDrive18i</div>
-                                <div class="mycar-idcar">4กข 8113</div>
-                            </div>
-                            <div class="item-mycar-detail-check item-mycar-detail">
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
-                                        <div class="mycar-name">2023 BMW X1</div>
-                                        <div class="mycar-type">X1 2.0 sDrive18i</div>
-                                        <div class="mycar-idcar">4กข 8113</div>
-                                    </div>
-                                    <div class="col-12 col-md-6 text-end">
-                                        <div class="score-performance">จำนวนผู้คลิกดู : 82</div>
-                                        <div class="mycar-price-mb mycar-price">599,000.-</div>
-                                    </div>
-                                </div>
-                                <div class="mycar-boxline">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="mycar-boxprice">
-                                                <div class="mycar-price">599,000.-</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+
+
 
                     </div>
                 </div>

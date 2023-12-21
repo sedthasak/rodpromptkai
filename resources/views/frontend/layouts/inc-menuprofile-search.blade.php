@@ -2,7 +2,7 @@
     <div class="close-menuprofile"><i class="bi bi-x-circle-fill"></i></div>
     <a href="{{route('customercontactPage')}}" class="btn-customer">
         <div><i class="bi bi-person"></i> ลูกค้ารอติดต่อกลับ</div>
-        <div class="num-contactcus">0</div>
+        <div class="num-contactcus">{{count($contacts_back)}}</div>
     </a>
     <div class="box-menuprofile box-menuprofile-hide">
         <div class="topic-menuprofile">รถที่ลงขาย</div>

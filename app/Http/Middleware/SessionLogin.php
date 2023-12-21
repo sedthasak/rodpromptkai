@@ -33,16 +33,7 @@ class SessionLogin
                 if(isset($customerdata)){
                     $request->session()->put('customer', $customerdata);
 
-                    // $contacts_back = contacts_backModel::where("customer_id", $session->customer_id)->get();
-                    // View::share('contacts_back', $contacts_back);
-
-                    $notice = noticeModel::orderBy('id', 'desc')
-                    ->where([
-                        ["customer_id", $session->customer_id],
-                        ["status", 'create'],
-                    ])
-                    ->get();
-                    View::share('notice', $notice);
+                    
                 }
             }
             else {
@@ -57,8 +48,30 @@ class SessionLogin
 
         $qrybrand = brandsModel::get();
         View::share('brand', $qrybrand);
+<<<<<<< Updated upstream
         $qryprovince = provincesModel::get();
         View::share('province', $qryprovince);
+=======
+        // if(isset($customerdata->id)){
+
+        //     $contacts_back = contacts_backModel::orderBy('id', 'desc')
+        //     ->where([
+        //         ["customer_id", $customerdata->id],
+        //         ["status", 'create'],
+        //     ])
+        //     ->get();
+        //     View::share('contacts_back', $contacts_back);
+
+
+        //     $notice = noticeModel::orderBy('id', 'desc')
+        //     ->where([
+        //         ["customer_id", $customerdata->id],
+        //         ["status", 'create'],
+        //     ])
+        //     ->get();
+        //     View::share('notice', $notice);
+        // }
+>>>>>>> Stashed changes
 
         return $next($request);
     }
