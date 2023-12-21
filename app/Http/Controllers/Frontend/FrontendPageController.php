@@ -145,7 +145,7 @@ class FrontendPageController extends Controller
             ->orderBy('id', 'desc')
             ->take(6)
             ->get();
-        $qrybrand = brandsModel::get();
+        $qrybrand = brandsModel::orderBy("title")->get();
 
         $setFooterModel = setFooterModel::all();
 
@@ -258,10 +258,21 @@ class FrontendPageController extends Controller
             $carfromstatus[$carstatus->status][] = $carstatus;
         }
 
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+
         return view('frontend/profile', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
+            'brandsearch' => $qrybrandsearch,
+            'carstatus' => "approved"
         ]);
     }
     public function profilecheckPage()
@@ -291,10 +302,21 @@ class FrontendPageController extends Controller
             $carfromstatus[$carstatus->status][] = $carstatus;
         }
 
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'created')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+
         return view('frontend/profile-check', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
+            'brandsearch' => $qrybrandsearch,
+            'carstatus' => "created"
         ]);
     }
     public function profileeditcarinfoPage()
@@ -324,10 +346,23 @@ class FrontendPageController extends Controller
             $carfromstatus[$carstatus->status][] = $carstatus;
         }
 
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'update')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+
+
+
         return view('frontend/profile-editcarinfo', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
+            'brandsearch' => $qrybrandsearch,
+            'carstatus' => "update"
         ]);
     }
     public function profileexpirePage()
@@ -357,12 +392,256 @@ class FrontendPageController extends Controller
             $carfromstatus[$carstatus->status][] = $carstatus;
         }
 
+
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'expired')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+
+
         return view('frontend/profile-expire', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
+            'brandsearch' => $qrybrandsearch,
+            'carstatus' => "expire"
         ]);
     }
+
+
+    public function searchprofilePage(Request $request)
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id');
+            if (isset($request->profile_brand_id)) {
+                $mycars = $mycars->where("cars.brand_id", $request->profile_brand_id);
+            }
+            if (isset($request->profile_model_id)) {
+                $mycars = $mycars->where("cars.model_id", $request->profile_model_id);
+            }
+            if (isset($request->profile_vehicle_code)) {
+                $mycars = $mycars->where("cars.vehicle_code", $request->profile_vehicle_code);
+            }
+            if (isset($request->profile_customer_id)) {
+                $mycars = $mycars->where("cars.customer_id", $request->profile_customer_id);
+            }
+            $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+
+        return view('frontend/profile', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+            'brandsearch' => $qrybrandsearch,
+            'carstatus' => "approved"
+        ]);
+    }
+    public function searchprofilecheckPage(Request $request)
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id');
+            if (isset($request->profile_brand_id)) {
+                $mycars = $mycars->where("cars.brand_id", $request->profile_brand_id);
+            }
+            if (isset($request->profile_model_id)) {
+                $mycars = $mycars->where("cars.model_id", $request->profile_model_id);
+            }
+            if (isset($request->profile_vehicle_code)) {
+                $mycars = $mycars->where("cars.vehicle_code", $request->profile_vehicle_code);
+            }
+            if (isset($request->profile_customer_id)) {
+                $mycars = $mycars->where("cars.customer_id", $request->profile_customer_id);
+            }
+            $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'created')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+
+        return view('frontend/profile-check', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+            'brandsearch' => $qrybrandsearch,
+            'carstatus' => "created"
+        ]);
+    }
+    public function searchprofileeditcarinfoPage(Request $request)
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id');
+            if (isset($request->profile_brand_id)) {
+                $mycars = $mycars->where("cars.brand_id", $request->profile_brand_id);
+            }
+            if (isset($request->profile_model_id)) {
+                $mycars = $mycars->where("cars.model_id", $request->profile_model_id);
+            }
+            if (isset($request->profile_vehicle_code)) {
+                $mycars = $mycars->where("cars.vehicle_code", $request->profile_vehicle_code);
+            }
+            if (isset($request->profile_customer_id)) {
+                $mycars = $mycars->where("cars.customer_id", $request->profile_customer_id);
+            }
+            $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'update')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+
+
+
+        return view('frontend/profile-editcarinfo', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+            'brandsearch' => $qrybrandsearch,
+            'carstatus' => "update"
+        ]);
+    }
+    public function searchprofileexpirePage(Request $request)
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id');
+            if (isset($request->profile_brand_id)) {
+                $mycars = $mycars->where("cars.brand_id", $request->profile_brand_id);
+            }
+            if (isset($request->profile_model_id)) {
+                $mycars = $mycars->where("cars.model_id", $request->profile_model_id);
+            }
+            if (isset($request->profile_vehicle_code)) {
+                $mycars = $mycars->where("cars.vehicle_code", $request->profile_vehicle_code);
+            }
+            if (isset($request->profile_customer_id)) {
+                $mycars = $mycars->where("cars.customer_id", $request->profile_customer_id);
+            }
+            $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $carfromstatus = array(
+            'created' => [],
+            'approved' => [],
+            'rejected' => [],
+            'expired' => [],
+        );
+        foreach($mycars as $keystatus => $carstatus){
+            $carfromstatus[$carstatus->status][] = $carstatus;
+        }
+
+
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'expired')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+
+
+        return view('frontend/profile-expire', [
+            'customer_id' => $customer_id,
+            'mycars' => $mycars,
+            'carfromstatus' => $carfromstatus,
+            'brandsearch' => $qrybrandsearch,
+            'carstatus' => "expire"
+        ]);
+    }
+
+
+
+
+
     public function customercontactPage()
     {
         $customerdata = session('customer');
@@ -633,10 +912,12 @@ class FrontendPageController extends Controller
         $data = session('customer');
         $provinces = provincesModel::all();
         $Customer = Customer::find($data->id);
-        
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
+
         return view('frontend/edit-profile', [
             'provinces' => $provinces,
             'Customer' => $Customer,
+            'province' => $province
         ]);
     }
     public function editprofileactionPage(Request $request)
@@ -709,6 +990,8 @@ class FrontendPageController extends Controller
     public function editprofilePage_afterregis()
     {
         $provinces = provincesModel::all();
+        
+        
         return view('frontend/edit-profile-first', [
             'provinces' => $provinces,
         ]);
@@ -1606,5 +1889,20 @@ class FrontendPageController extends Controller
             "pricehighsel" => $pricehighsel
         ]);
     }
+
+    public function profilesearchmodel(Request $request)
+    {
+        // return dd("carstatus=".$request->carstatus." customer_id=".$request->customer_id." brand_id=".$request->brand_id);
+        $qrymodelsearch = carsModel::leftJoin("models", "cars.model_id", "models.id")
+        ->select("models.id", "models.model")
+        ->where("cars.status", $request->carstatus)
+        ->where('cars.customer_id', $request->customer_id)
+        ->where('models.brand_id', $request->brand_id)
+        ->orderBy("models.model")
+        ->get();
+
+        return response()->json(['modelsearch' => $qrymodelsearch]);
+    }
+
     
 }

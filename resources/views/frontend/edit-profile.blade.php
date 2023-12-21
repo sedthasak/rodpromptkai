@@ -19,7 +19,7 @@ $image = $Customer->image??asset('frontend/images/avatar.jpeg');
 $firstname = $Customer->firstname??'';
 $lastname = $Customer->lastname??'';
 $place = $Customer->place??'';
-$province = $Customer->province??'';
+$province1 = $Customer->province??'';
 $map = $Customer->map??'';
 $google_map = $Customer->google_map??'';
 $facebook = $Customer->facebook??'';
@@ -97,7 +97,7 @@ $line = $Customer->line??'';
                                                         <option value="">เลือกจังหวัด</option>
                                                         @foreach($provinces as $keypv => $pv)
                                                         @php
-                                                        $selected = $province==$pv->name_th?'selected':'';
+                                                        $selected = $province1==$pv->name_th?'selected':'';
                                                         @endphp
                                                         <option value="{{$pv->name_th}}" {{$selected}}>{{$pv->name_th}}</option>
                                                         @endforeach

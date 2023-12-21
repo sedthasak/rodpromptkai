@@ -13,46 +13,78 @@
             <li><a href="{{route('profileexpirePage')}}">หมดอายุ <span>({{count($carfromstatus['expired'])??0}})</span></a></li>
         </ul>
     </div>
-    <!-- <div class="box-menuprofile">
+
+    <form name="profileform" method="GET">
+        <input type="hidden" name="profile_brand_id">
+        <input type="hidden" name="profile_model_id">
+        <input type="hidden" name="profile_vehicle_code">
+        <input type="hidden" name="profile_options" value="{{$carstatus}}">
+        <input type="hidden" name="profile_customer_id" value={{$customer_id}}>
+    </form>
+
+    <div class="box-menuprofile">
         <div class="topic-menuprofile"><img src="{{asset('frontend/images/carred2.svg')}}" alt="" class="svg"> ค้นหารถในบัญชี</div>
         <div class="wrap-mycarsearch">
             <div class="item_mycarsearch">
                 <div class="topicmycarsearch"> ยี่ห้อรถ</div>
                 <div class="content_mycarsearch">
-                    <input type="text" class="form-control" placeholder="ค้นหา...">
+                    <input type="text" class="form-control brand" placeholder="ค้นหา...">
                     <div class="mycarsearch-type">
-                        <button class="list-mycarsearch">
-                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button> 
-                        <button class="list-mycarsearch">
-                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div><img src="{{asset('frontend/images/logo-bmw.png')}}" alt=""> Toyota</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
+                        @php
+                            $cnt=0;
+                            $currentbrand = "";
+                            $currentbrandid = 0;
+                            $currentimage = "";
+                            $total=count($brandsearch);
+                        @endphp
+                        
+                        @if (isset($brandsearch))
+                        @foreach ($brandsearch as $index => $rows)
+
+                            @php
+                                $cnt++;
+                            @endphp
+
+                            @if ($index==0)
+                                @php
+                                    $currentbrand = $rows->title;
+                                    $currentbrandid = $rows->id;
+                                    $currentimage = asset($rows->feature);
+                                @endphp
+                            @endif
+                            
+                            @if ($currentbrand != $rows->title)
+                                
+
+                                <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel({{$currentbrandid}});">
+                                    <div><img src="{{$currentimage}}" alt=""> {{$currentbrand}}</div>
+                                    <div class="num-mycarsearch">({{$cnt}})</div>
+                                    
+                                </button>
+                                @php
+                                    $cnt=1;
+                                @endphp
+
+                                @php
+                                    $currentbrand = $rows->title;
+                                    $currentbrandid = $rows->id;
+                                    $currentimage = asset($rows->feature);
+                                @endphp
+
+                            @endif
+
+                            @if ($index+1 == $total)
+                                <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel({{$currentbrandid}});">
+                                    <div><img src="{{$currentimage}}" alt=""> {{$currentbrand}}</div>
+                                    <div class="num-mycarsearch">({{$cnt}})</div>
+                                </button>
+                                @php
+                                    $cnt=1;
+                                @endphp
+                            @endif
+
+                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -61,32 +93,104 @@
             <div class="item_mycarsearch-sub">
                 <div class="topicmycarsearch-sub"> เลือกรุ่น</div>
                 <div class="content_mycarsearch-sub">
-                    <input type="text" class="form-control" placeholder="ค้นหา...">
-                    <div class="mycarsearch-type">
-                        <button class="list-mycarsearch">
-                            <div>C-CLASS</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div>CLS-CLASS</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div>GLC-CLASS</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
-                        <button class="list-mycarsearch">
-                            <div>B-CLASS</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button>
+                    <input type="text" class="form-control model" placeholder="ค้นหา...">
+                    <div class="mycarsearch-type model">
+                        
+
+
                     </div>
                 </div>
             </div>
         </div>
         <div class="search-carid">
             <label>เลขทะเบียน | รหัสรถ</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" name="vehiclesearch">
         </div>
-        <button class="btn-red">ค้นหารถยนต์</button>
-    </div> -->
+        <button type="button" class="btn-red" onclick="search6();">ค้นหารถยนต์</button>
+    </div>
 </div>
+
+<script>
+    function profilesearchmodel(brand_id) {
+        $.get('/profilesearchmodel/a?customer_id={{$customer_id}}&brand_id=' + brand_id + '&carstatus={{$carstatus}}', function (data, status) {
+
+            $('.wrap-mycarsearch-sub').removeClass('disabled');
+
+
+            // console.log(data);
+            var html = '';
+            $('input[name="profile_brand_id"]').val(brand_id);
+
+            var cnt = 0,
+                currentmodel = "",
+                currentmodelid = 0,
+                total = 0,
+                index2 = 0;
+            
+            $.each(data.modelsearch, function (index, value) {
+                total++;
+            });
+            
+            $.each(data.modelsearch, function (index, value) {
+                cnt++;
+                
+                if (index2 === 0) {
+                    currentmodel = value.model;
+                    currentmodelid = value.id;
+                }
+                if (currentmodel != value.model) {
+                    html += '<button type="button" class="list-mycarsearch model" onclick="profilemodel(\''+currentmodelid+'\')">';
+                    html += '<div>' + currentmodel + '</div>';
+                    html += '<div class="num-mycarsearch">(' + cnt + ')</div>';
+                    html += '</button>';
+                    cnt = 1;
+                    currentmodel = value.model;
+                    currentmodelid = value.id;
+                }
+                if (index2 + 1 === total) {
+                    html += '<button type="button" class="list-mycarsearch model" onclick="profilemodel(\''+currentmodelid+'\')">';
+                    html += '<div>' + currentmodel + '</div>';
+                    html += '<div class="num-mycarsearch">(' + cnt + ')</div>';
+                    html += '</button>';
+                    cnt = 1;
+                }
+                index2++;
+            });
+
+            $('.mycarsearch-type.model').empty().append(html);
+        });
+    }
+
+    function profilemodel(model_id) {
+        $('input[name="profile_model_id"]').val(model_id);
+    }
+
+    function search6() {
+        $('input[name="profile_vehicle_code"]').val($('input[name="vehiclesearch"]').val());
+
+        // กำหนดค่า action
+        if ($('input[name="profile_options"]').val() === "created") {
+            $('form[name="profileform"]').attr('action', '/searchprofilecheckpage');
+        }
+        if ($('input[name="profile_options"]').val() === "update") {
+            $('form[name="profileform"]').attr('action', '/searchprofileeditcarinfopage');
+        }
+        if ($('input[name="profile_options"]').val() === "approved") {
+            $('form[name="profileform"]').attr('action', '/searchprofilepage');
+        }
+        if ($('input[name="profile_options"]').val() === "expire") {
+            $('form[name="profileform"]').attr('action', '/searchprofileexpirepage');
+        }
+
+        // console.log($('input[name="profile_options"]').val());
+
+        // ทำการ submit ฟอร์ม
+        $('form[name="profileform"]').submit();
+
+    }
+
+</script>
+
+
+
+    

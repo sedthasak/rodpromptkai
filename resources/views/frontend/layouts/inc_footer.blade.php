@@ -233,6 +233,7 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                                     <option value="3">รถติดแก๊ส</option>
                                 </select>
                             </div>
+                            
                             <div class="boxfrm-advancesearch">
                                 <label>จังหวัด</label>
                                 <select name="province" id="province" class="form-select">

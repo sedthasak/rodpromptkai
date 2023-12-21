@@ -144,7 +144,12 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/edit-dealer-carpost-step3', 'editdealercarpoststep3Page')->name('editdealercarpoststep3Page');
         Route::get('/edit-dealer-carpost-step4', 'editdealercarpoststep4Page')->name('editdealercarpoststep4Page');
 
+        Route::get('/profilesearchmodel/{data}', 'profilesearchmodel')->name('profilesearchmodel');
         
+        Route::get('/searchprofilepage', 'searchprofilePage')->name('searchprofilePage');
+        Route::get('/searchprofilecheckpage', 'searchprofilecheckPage')->name('searchprofilecheckPage');
+        Route::get('/searchprofileeditcarinfopage', 'searchprofileeditcarinfoPage')->name('searchprofileeditcarinfoPage');
+        Route::get('/searchprofileexpirepage', 'searchprofileexpirePage')->name('searchprofileexpirePage');
     });
 });
 

@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\brandsModel;
 use App\Models\contacts_backModel;
 use App\Models\noticeModel;
+use App\Models\provincesModel;
 use Illuminate\Support\Facades\View;
 
 class SessionLogin
@@ -56,6 +57,8 @@ class SessionLogin
 
         $qrybrand = brandsModel::get();
         View::share('brand', $qrybrand);
+        $qryprovince = provincesModel::get();
+        View::share('province', $qryprovince);
 
         return $next($request);
     }

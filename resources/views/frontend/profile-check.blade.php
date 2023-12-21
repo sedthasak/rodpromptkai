@@ -133,4 +133,43 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
     $( ".box-menuprofile > ul > li:nth-child(2) > a" ).addClass( "here" );
     $( ".menu-mycar > ul > li:nth-child(2) > a" ).addClass( "here" );
 </script>
+
+<script>
+    $(document).ready(function(){
+      // เมื่อมีการเปลี่ยนแปลงใน input type="text"
+      $('.form-control.brand').on('input', function() {
+        var searchTerm = $(this).val().toLowerCase(); // ดึงข้อความที่ใส่ใน input
+        // วนลูปผ่านทุก <div class="list-mycarsearch">
+        $('.list-mycarsearch.brand').each(function() {
+          var brandName = $(this).find('div:first-child').text().toLowerCase(); // ดึงข้อความใน div แรก
+          // ถ้า brandName ไม่ตรงกับ searchTerm ให้ซ่อน div
+          if (brandName.indexOf(searchTerm) === -1) {
+            $(this).hide();
+          } else {
+            $(this).show(); // แสดง div ถ้าตรง
+          }
+        });
+      });
+
+
+      $('.form-control.model').on('input', function() {
+        var searchmodelTerm = $(this).val().toLowerCase(); // ดึงข้อความที่ใส่ใน input
+        // วนลูปผ่านทุก <div class="list-mycarsearch">
+        $('.list-mycarsearch.model').each(function() {
+          var modelName = $(this).find('div:first-child').text().toLowerCase(); // ดึงข้อความใน div แรก
+          // ถ้า brandName ไม่ตรงกับ searchTerm ให้ซ่อน div
+          if (modelName.indexOf(searchmodelTerm) === -1) {
+            $(this).hide();
+          } else {
+            $(this).show(); // แสดง div ถ้าตรง
+          }
+        });
+      });
+
+    });
+
+    
+    </script>
+
+
 @endsection
