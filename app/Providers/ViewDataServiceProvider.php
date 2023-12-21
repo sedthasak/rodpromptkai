@@ -72,6 +72,7 @@ class ViewDataServiceProvider extends ServiceProvider
                 $view->with('carfromstatus', $carfromstatus);
                 $view->with('contacts_back', $contacts_back);
                 $view->with('notice', $notice);
+                $view->with('customer_id', $customerdata->id);
             }
         });
     }
