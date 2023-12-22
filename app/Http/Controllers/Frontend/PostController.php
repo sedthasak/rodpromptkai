@@ -16,6 +16,7 @@ use App\Models\galleryModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
+use Image;
 
 class PostController extends Controller
 {
@@ -313,6 +314,33 @@ class PostController extends Controller
 
             // Save the image to the defined path
             file_put_contents($path, $imageData);
+
+
+            // ทำ ลายน้ำ
+            $watermarkPath = public_path('frontend/images/watermark.png');
+            $imagePath = public_path('uploads/feature'.'/'.$filename);
+
+            $img = Image::make($imagePath);
+
+            // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+            $watermark = Image::make($watermarkPath);
+            $watermarkWidth = $img->width() / 5;
+            $watermark->resize($watermarkWidth, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            // เพิ่ม watermark ลงในรูป
+            $img->insert($watermark, 'top-left', 30, 40);
+
+            // บันทึกรูปที่มี watermark
+            $img->save(public_path('uploads/feature'.'/'.$filename));
+
+
+
+
+
+
+
             carsModel::where("id", $cars->id)->update(["feature" => $filepath1]);
         }
         if($request->hasFile('licenseplate')){
@@ -324,6 +352,29 @@ class PostController extends Controller
             $newfilenam = 'licenseplate-'.time() . '.' .$ext;
             $licenseplate->move($destinationPath, $newfilenam);
             $filepath2 = 'uploads/licenseplate/'.$newfilenam;
+
+
+            // ทำ ลายน้ำ
+            $watermarkPath = public_path('frontend/images/watermark.png');
+            $imagePath = public_path('uploads/feature'.'/'.$filepath2);
+
+            $img = Image::make($imagePath);
+
+            // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+            $watermark = Image::make($watermarkPath);
+            $watermarkWidth = $img->width() / 5;
+            $watermark->resize($watermarkWidth, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            // เพิ่ม watermark ลงในรูป
+            $img->insert($watermark, 'top-left', 30, 40);
+
+            // บันทึกรูปที่มี watermark
+            $img->save(public_path('uploads/feature'.'/'.$filepath2));
+
+
+
             carsModel::where("id", $cars->id)->update(["licenseplate" => $filepath2]);
         }
         
@@ -351,6 +402,31 @@ class PostController extends Controller
                 // Save the image to the defined path
                 file_put_contents($path, $imageData);
 
+
+
+                // ทำ ลายน้ำ
+                $watermarkPath = public_path('frontend/images/watermark.png');
+                $imagePath = public_path('uploads/exterior'.'/'.$filename);
+
+                $img = Image::make($imagePath);
+
+                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+                $watermark = Image::make($watermarkPath);
+                $watermarkWidth = $img->width() / 5;
+                $watermark->resize($watermarkWidth, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // เพิ่ม watermark ลงในรูป
+                $img->insert($watermark, 'top-left', 30, 40);
+
+                // บันทึกรูปที่มี watermark
+                $img->save(public_path('uploads/exterior'.'/'.$filename));
+
+
+
+
+
                 $gallery = new galleryModel;
                 $gallery->cars_id = $cars->id;
                 $gallery->gallery = $filepath;
@@ -358,32 +434,69 @@ class PostController extends Controller
                 $gallery->save();
             }
         }
-        if($request->picture_interior){
-            $interior_image = $request->picture_interior;
-            foreach($request->picture_interior as $keyin => $intr){
+        if($request->hasFile('interior_pictures')){
 
-                $string_pieces = explode( ";base64,", $intr);
+            // version 1
+            // $interior_image = $request->picture_interior;
+            // foreach($request->picture_interior as $keyin => $intr){
+
+            //     $string_pieces = explode( ";base64,", $intr);
             
-                $image_type_pieces = explode( "image/", $string_pieces[0] );
+            //     $image_type_pieces = explode( "image/", $string_pieces[0] );
             
-                $image_type = $image_type_pieces[1];
+            //     $image_type = $image_type_pieces[1];
 
-                // Decode the base64 string and save the image
-                $imageData = base64_decode($string_pieces[1]);
+            //     // Decode the base64 string and save the image
+            //     $imageData = base64_decode($string_pieces[1]);
 
-                // Generate a unique filename
-                $filename = 'interior-'.$keyin.'-'.time() . '.' .$image_type;
+            //     // Generate a unique filename
+            //     $filename = 'interior-'.$keyin.'-'.time() . '.' .$image_type;
 
-                // Define the path where you want to save the image
-                $path = public_path('uploads/interior/' . $filename);
-                $filepath = 'uploads/interior/' . $filename;
+            //     // Define the path where you want to save the image
+            //     $path = public_path('uploads/interior/' . $filename);
+            //     $filepath = 'uploads/interior/' . $filename;
 
-                // Save the image to the defined path
-                file_put_contents($path, $imageData);
+            //     // Save the image to the defined path
+            //     file_put_contents($path, $imageData);
                 
+            //     $gallery = new galleryModel;
+            //     $gallery->cars_id = $cars->id;
+            //     $gallery->gallery = $filepath;
+            //     $gallery->type = 'interior';
+            //     $gallery->save();
+            // }
+
+
+            // version 2
+            foreach ($request->file('interior_pictures') as $keyin => $image) {
+                // บันทึกไฟล์
+                $imageName = 'interior-'.$keyin.'-'.time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('uploads/interior'), $imageName);
+
+
+                // ทำ ลายน้ำ
+                $watermarkPath = public_path('frontend/images/watermark.png');
+                $imagePath = public_path('uploads/interior'.'/'.$imageName);
+
+                $img = Image::make($imagePath);
+
+                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+                $watermark = Image::make($watermarkPath);
+                $watermarkWidth = $img->width() / 5;
+                $watermark->resize($watermarkWidth, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // เพิ่ม watermark ลงในรูป
+                $img->insert($watermark, 'top-left', 30, 40);
+
+                // บันทึกรูปที่มี watermark
+                $img->save(public_path('uploads/interior'.'/'.$imageName));
+
+
                 $gallery = new galleryModel;
                 $gallery->cars_id = $cars->id;
-                $gallery->gallery = $filepath;
+                $gallery->gallery = 'uploads/interior/' . $imageName;
                 $gallery->type = 'interior';
                 $gallery->save();
             }
