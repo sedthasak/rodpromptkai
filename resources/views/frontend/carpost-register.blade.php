@@ -88,8 +88,38 @@ $arr_cartype = array(
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-</style>
 
+    .box-waiting {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.5); /* Black background with 50% opacity */
+        z-index: 999; /* Set z-index to 999 */
+    }
+
+    .waiting-wrapper-image {
+        width: 100%;
+        max-width: 400px;
+        height: 0;
+        padding-bottom: 11.1111%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .waiting-wrapper-image img {
+        width: 120px; /* Set the width to 120px */
+        height: auto; /* Automatically adjust the height to maintain aspect ratio */
+        max-width: 100%; /* Ensure the image doesn't exceed its container */
+    }
+</style>
+<div id="wait" class="box-waiting " style="display:none;"><div class="waiting-wrapper-image"><img src="{{asset('uploads/wait.gif')}}" /></div></div>
 <form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
 @csrf
     <div id="topontop"></div>
@@ -466,7 +496,7 @@ $arr_cartype = array(
                                 </div>
                                 <div class="frm-step-button text-center">
                                     <div class="btn btn-step btn-backstep btn_to_step2">ย้อนกลับ</div>
-                                    <button type="submit" class="btn btn-step btn-nextstep">สร้าง</button>
+                                    <button type="submit" class="btn btn-step btn-nextstep" id="submit-btn">สร้าง</button>
                                 </div>
                             </div>
                         </div>
@@ -497,6 +527,33 @@ $arr_cartype = array(
 
 </script>
 <script>
+
+    $(document).ready(function () {
+        $('#form').submit(function (event) {
+            // Show the "wait" div when the form is submitted
+            $('#wait').show();
+
+            // You can also disable the submit button to prevent multiple submissions
+            // $('.btn-nextstep').prop('disabled', true);
+        });
+
+        // $('#form').submit(function (event) {
+        //     event.preventDefault();
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: $(this).attr('action'),
+        //         data: $(this).serialize(),
+        //         success: function (response) {
+        //             // Hide the "wait" div on success
+        //             $('#wait').hide();
+        //         },
+        //         error: function (error) {
+        //             console.error('Error:', error);
+        //         },
+        //     });
+        // });
+    });
+
 
     // ClassicEditor
     //     .create( document.querySelector( '#car_detail' ))

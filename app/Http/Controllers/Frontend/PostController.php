@@ -232,6 +232,8 @@ class PostController extends Controller
         //     'title' => ['required', 'unique:posts', 'max:255'],
         //     'body' => ['required'],
         // ]);
+
+        // dd($request);
         $cars = new carsModel;
 
         $cars->type = $request->type;
@@ -287,8 +289,12 @@ class PostController extends Controller
 
         if($request->customer_type == 'dealer'){
             $cars->status = 'approved';
+            $cars->adddate = time();
+            $cars->approvedate = time();
+            $cars->expiredate = strtotime("+90 days", time());
         }else{
             $cars->status = 'created';
+            $cars->adddate = time();
         }
         $cars->color = $request->color;
         $cars->province = $request->province;

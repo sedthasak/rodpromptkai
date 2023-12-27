@@ -487,8 +487,10 @@ class PostsController extends Controller
 
         // $cars->user_id = $request->user_id;
         // $cars->customer_id = $request->customer_id;
-        $cars->update();
-
+        if(isset($request->change_status) && $request->change_status=='approved'){  
+            $cars->approvedate = time();
+            $cars->expiredate = strtotime("+90 days", time());
+        }
         if(isset($request->change_status) && $request->change_status=='rejected'){
 
             $carcar = carsModel::find($request->post_id);
@@ -502,10 +504,10 @@ class PostsController extends Controller
                 $notice->resource = 'cars';
                 $notice->resource_id = $request->post_id;
                 $notice->save();
-            }
-
-                
+            }   
         }
+
+        $cars->update();
     
         return redirect(route('BN_posts_detail', ['id' => $request->post_id]))->with('success', 'สำเร็จ !');
         // return redirect(route('BN_posts_detail', ['id' => $request->id]));
