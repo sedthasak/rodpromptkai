@@ -362,7 +362,7 @@ class PostController extends Controller
 
             // ทำ ลายน้ำ
             $watermarkPath = public_path('frontend/images/watermark.png');
-            $imagePath = public_path('uploads/feature'.'/'.$filepath2);
+            $imagePath = public_path('uploads/licenseplate'.'/'.$newfilenam);
 
             $img = Image::make($imagePath);
 
