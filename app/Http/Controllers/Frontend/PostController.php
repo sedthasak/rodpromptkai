@@ -377,7 +377,7 @@ class PostController extends Controller
             $img->insert($watermark, 'top-left', 30, 40);
 
             // บันทึกรูปที่มี watermark
-            $img->save(public_path('uploads/feature'.'/'.$filepath2));
+            $img->save(public_path('uploads/feature'.'/'.$newfilenam));
 
 
 
