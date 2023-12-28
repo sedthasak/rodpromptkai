@@ -75,12 +75,12 @@ class SideMenu
                 'params' => [],
                 'title' => 'หมวดหมู่'
             ],
-            'tag' => [
-                'icon' => 'Tag',
-                'route_name' => 'BN_tags',
-                'params' => [],
-                'title' => 'แท็ก'
-            ],
+            // 'tag' => [
+            //     'icon' => 'Tag',
+            //     'route_name' => 'BN_tags',
+            //     'params' => [],
+            //     'title' => 'แท็ก'
+            // ],
             'news' => [
                 'icon' => 'File-Text',
                 'route_name' => 'BN_news',

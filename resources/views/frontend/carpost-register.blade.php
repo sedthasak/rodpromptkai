@@ -88,8 +88,38 @@ $arr_cartype = array(
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-</style>
 
+    .box-waiting {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.5); /* Black background with 50% opacity */
+        z-index: 999; /* Set z-index to 999 */
+    }
+
+    .waiting-wrapper-image {
+        width: 100%;
+        max-width: 400px;
+        height: 0;
+        padding-bottom: 11.1111%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .waiting-wrapper-image img {
+        width: 120px; /* Set the width to 120px */
+        height: auto; /* Automatically adjust the height to maintain aspect ratio */
+        max-width: 100%; /* Ensure the image doesn't exceed its container */
+    }
+</style>
+<div id="wait" class="box-waiting " style="display:none;"><div class="waiting-wrapper-image"><img src="{{asset('uploads/wait.gif')}}" /></div></div>
 <form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
 @csrf
     <div id="topontop"></div>
@@ -400,7 +430,7 @@ $arr_cartype = array(
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
                                                         <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
                                                         
-                                                        <div class="row row-photoupload" id="image-preview">
+                                                        <div class="row row-photoupload interior" id="image-preview">
                                                             {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button type="button"><i class="bi bi-trash3-fill"></i></button>
@@ -466,7 +496,7 @@ $arr_cartype = array(
                                 </div>
                                 <div class="frm-step-button text-center">
                                     <div class="btn btn-step btn-backstep btn_to_step2">ย้อนกลับ</div>
-                                    <button type="submit" class="btn btn-step btn-nextstep">สร้าง</button>
+                                    <button type="submit" class="btn btn-step btn-nextstep" id="submit-btn">สร้าง</button>
                                 </div>
                             </div>
                         </div>
@@ -497,6 +527,33 @@ $arr_cartype = array(
 
 </script>
 <script>
+
+    $(document).ready(function () {
+        $('#form').submit(function (event) {
+            // Show the "wait" div when the form is submitted
+            $('#wait').show();
+
+            // You can also disable the submit button to prevent multiple submissions
+            // $('.btn-nextstep').prop('disabled', true);
+        });
+
+        // $('#form').submit(function (event) {
+        //     event.preventDefault();
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: $(this).attr('action'),
+        //         data: $(this).serialize(),
+        //         success: function (response) {
+        //             // Hide the "wait" div on success
+        //             $('#wait').hide();
+        //         },
+        //         error: function (error) {
+        //             console.error('Error:', error);
+        //         },
+        //     });
+        // });
+    });
+
 
     // ClassicEditor
     //     .create( document.querySelector( '#car_detail' ))
@@ -716,36 +773,25 @@ $arr_cartype = array(
     var interior_count = 0;
     var exterior_count = 0;
     $(document).ready(function() {
-        $('#interior_pictures').change(function(event){
-            let files = event.target.files;
-            let hiddenInputs = $('#hidden-inputs');
-            let imagePreview = $('#image-preview');
-            hiddenInputs.empty(); // เคลียร์ค่าที่เก่าออก
-
-            $.each(files, function(index, file){
-                let reader = new FileReader();
-
-                reader.onload = function(){
-                    // console.log(reader.result);
-                    // let base64String = reader.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
-                    let base64String = reader.result; // เอาเฉพาะส่วนที่เป็น base64
-                    
-                    // สร้าง input hidden
-                    interior_count++;
-                    let hiddenInput = '<input type="hidden" name="picture_interior[]" id="hidden_interior_'+interior_count+'" value="'+base64String+'">';
-                    hiddenInputs.append(hiddenInput);
-
-                    // สร้าง image tag
-                    // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
-                    // imagePreview.append(imageTag);
-
-                    let imageTag = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_interior_'+interior_count+'"><div class="item-photoupload"><button type="button" id="picture_interior_'+interior_count+'" onClick="del(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="'+base64String+'" alt=""></div></div>';
-                    imagePreview.append(imageTag);
-                }
-
-                reader.readAsDataURL(file);
-            });
+        $("#image-preview").sortable({
+            handle: '.item-photoupload',
+            stop: function(event, ui) {
+                // Code to handle sorting update
+                updateImageOrder();
+            }
         });
+
+        // Additional code for handling file input change
+        $("#interior_pictures").on('change', handleFileSelect);
+
+        // Additional code for handling form submission
+        $("#yourFormId").on('submit', function(e) {
+            e.preventDefault();
+            submitForm();
+        });
+
+        
+
         $('#exterior_pictures').change(function(event){
             let filesExterior = event.target.files;
             let hiddenInputsExterior = $('#hidden-inputs-exterior');
@@ -860,6 +906,78 @@ $arr_cartype = array(
         $("#hidden_exterior_"+id).remove();
         $("#border_exterior_"+id).remove();
         exterior_count--;
+    }
+
+
+
+    function handleFileSelect() {
+        const files = this.files;
+        displayImages(files);
+    }
+
+    function displayImages(files) {
+        const imagePreview = $("#image-preview");
+        imagePreview.empty();
+
+        for (const file of files) {
+            const item = $('<div class="col-4 col-md-3 col-lg-2 col-photoupload"></div>');
+            const innerItem = $('<div class="item-photoupload"></div>');
+            const deleteButton = $('<button type="button"><i class="bi bi-trash3-fill"></i></button>');
+            const img = $('<img>').attr('src', URL.createObjectURL(file));
+
+            deleteButton.on('click', function() {
+                // Code to handle deletion
+                $(this).closest('.col-photoupload').remove();
+                updateImageOrder();
+            });
+
+            innerItem.append(deleteButton);
+            innerItem.append(img);
+            item.append(innerItem);
+            imagePreview.append(item);
+        }
+    }
+
+    function submitForm() {
+        const imagePreview = $("#image-preview");
+        const images = imagePreview.find('.col-photoupload img');
+
+        // Use images array to send the images to the server via AJAX or other methods
+        // Example: Use $.ajax to send the images to a server endpoint
+        /*
+        $.ajax({
+            url: 'your-server-endpoint',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+        */
+    }
+    function updateImageOrder() {
+        // อัพเดตลำดับของรูปภาพในแบบฟอร์ม
+        const imageOrder = [];
+        $("#image-preview .item-photoupload").each(function(index) {
+            imageOrder.push({
+                index: index + 1,
+                fileInput: $(this).find('input[type="file"]')
+            });
+        });
+
+        // อัพเดต index ของ input file ตามลำดับใหม่
+        imageOrder.forEach(function(image) {
+            const name = "interior_pictures[" + image.index + "]";
+            image.fileInput.attr('name', name);
+        });
+
+        // ทำอย่างไรก็ตามที่คุณต้องการทำกับ imageOrder ก่อนส่งไปยังเซิร์ฟเวอร์
+        console.log("Image Order:", imageOrder);
     }
 </script>
 @endsection

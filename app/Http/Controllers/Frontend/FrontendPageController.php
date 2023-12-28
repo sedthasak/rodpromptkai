@@ -183,9 +183,9 @@ class FrontendPageController extends Controller
     {
         // dd($request);
 
-        if(isset($request->customer_id) && isset($request->cars_id)){
+        if(isset($request->cars_id)){
             $contacts = new contacts_backModel;
-            $contacts->customer_id = $request->customer_id;
+            $contacts->customer_id = $request->customer_id??999999;
             $contacts->name = $request->name;
             $contacts->tel = $request->tel;
             $contacts->time = $request->time;
