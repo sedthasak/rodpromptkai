@@ -215,7 +215,7 @@ $arr_cartype = array(
                                             <label>สี<span>*</span></label>
                                             <div class="row">
                                                 <div class="col-12 col-md-6">
-                                                    <select class="form-select" name="color"  required>
+                                                    <select class="form-select" name="color" >
                                                         <option value="">เลือกสี</option>
                                                         @foreach($arr_color as $keycolor => $color)
                                                         <option value="{{$color}}">{{$color}}</option>
@@ -223,7 +223,7 @@ $arr_cartype = array(
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-md-6">
-                                                    <input type="text" name="other_color" class="form-control" placeholder="สีอื่นๆ โปรดระบุ">
+                                                    <input type="text" name="other_color" class="form-control" placeholder="สีอื่นๆ โปรดระบุ" value="">
                                                 </div>
                                             </div>
                                         </div>
@@ -331,7 +331,7 @@ $arr_cartype = array(
                                         <div class="col-12 frm-step">
                                             <label>รายละเอียดรถ<span>*</span></label>
                                             <!-- <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt=""> -->
-                                            <textarea class="form-control" id="car_detail"  rows="10" name="detail" required></textarea>
+                                            <textarea class="form-control" id="car_detail"  rows="10" name="detail"></textarea>
                                             <div class="box-introtext">
                                                 <div class="topic-introtext">ข้อความแนะนำ</div>
                                                 <div class="btn-introtext">
@@ -534,58 +534,47 @@ $arr_cartype = array(
             $('#wait').show();
 
             // You can also disable the submit button to prevent multiple submissions
-            // $('.btn-nextstep').prop('disabled', true);
+            $('.btn-nextstep').prop('disabled', true);
         });
-
-        // $('#form').submit(function (event) {
-        //     event.preventDefault();
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: $(this).attr('action'),
-        //         data: $(this).serialize(),
-        //         success: function (response) {
-        //             // Hide the "wait" div on success
-        //             $('#wait').hide();
-        //         },
-        //         error: function (error) {
-        //             console.error('Error:', error);
-        //         },
-        //     });
-        // });
     });
 
-
-    // ClassicEditor
-    //     .create( document.querySelector( '#car_detail' ))
-    //     .catch( error => {
-    //     console.error( error );
-    // } );
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("submit-btn").addEventListener("click", function (event) {
+            event.preventDefault();
+            if (validateForm()) {
+                document.getElementById("form").submit();
+            }
+        });
+        function validateForm() {
+            var requiredFields = document.querySelectorAll("[required]");
+            for (var i = 0; i < requiredFields.length; i++) {
+                if (requiredFields[i].value.trim() === "") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+                    });
+                    return false;
+                }
+            }
+            return true;
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Initialize CKEditor
         ClassicEditor
             .create(document.querySelector('#car_detail'))
             .then(editor => {
-                // Add event listener to buttons with class 'clckads'
                 var buttons = document.querySelectorAll('.clckads');
                 if (buttons) {
                     buttons.forEach(button => {
                         button.addEventListener('click', function () {
-                            // Get the text from the 'data-text' attribute
                             var buttonText = button.getAttribute('data-text');
-
-                            // Get the CKEditor instance
                             var editorInstance = editor;
 
-                            // Check if the instance is available
                             if (editorInstance) {
-                                // Get the current content
                                 var currentContent = editorInstance.getData();
-
-                                // Concatenate the current content with the button text
                                 var newText = currentContent + buttonText ;
-
-                                // Set the new content
                                 editorInstance.setData(newText);
                             } else {
                                 console.error('CKEditor instance not found.');
@@ -600,11 +589,9 @@ $arr_cartype = array(
                 console.error(error);
             });
     });
-    // const exterior = new Dropzone("div.exterior-dropzone", { url: "/file/post" });
-    // const interior = new Dropzone("div.interior-dropzone", { url: "/file/post" });
-    // const licence = new Dropzone("div.licence-dropzone", { url: "/file/post" });
 
-    
+
+
 
     Dropzone.options.exteriorDropzone = {
         url: "/fake/location",
