@@ -185,8 +185,8 @@ $arr_cartype = array(
                                 <div class="box-frm-step">
                                     <div class="row">
                                         <div class="col-12 col-md-6 frm-step">
-                                            <label>1. ยี่ห้อ<span>*</span></label>
-                                            <select class="form-select select2s" name="brands" id="brands" required>
+                                            <label id="brands_label" >1. ยี่ห้อ<span>*</span></label>
+                                            <select aria-labelledby="brands_label" class="form-select select2s" name="brands" id="brands" required>
                                                 <option value="">เลือกยี่ห้อ</option>
                                                 @foreach($brands as $keybn => $bn)
                                                 <option value="{{$bn->id}}">{{$bn->title}}</option>
@@ -194,54 +194,70 @@ $arr_cartype = array(
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
-                                            <label>2. รุ่น<span>*</span></label>
-                                            <select class="form-select select2s" name="models" id="models"  required>
+                                            <label id="models_label">2. รุ่น<span>*</span></label>
+                                            <select aria-labelledby="models_label"  class="form-select select2s" name="models" id="models"  required>
                                                 <option value="">เลือกรุ่น</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
-                                            <label>3. โฉม<span>*</span></label>
-                                            <select class="form-select" name="generations" id="generations" required>
+                                            <label id="generations_label">3. โฉม<span>*</span></label>
+                                            <select aria-labelledby="generations_label"  class="form-select" name="generations" id="generations" required>
                                                 <option value="">เลือกโฉม</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
-                                            <label>4. รุ่นย่อย<span>*</span></label>
-                                            <select class="form-select select2s" name="sub_models" id="sub_models" required>
+                                            <label id="sub_models_label">4. รุ่นย่อย<span>*</span></label>
+                                            <select aria-labelledby="sub_models_label"  class="form-select select2s" name="sub_models" id="sub_models" required>
                                                 <option value="">เลือกรุ่นย่อย</option>
                                             </select>
                                         </div>
-                                        <div class="col-12 frm-step frm-step-inline">
-                                            <label>สี<span>*</span></label>
+                                        <!-- <div class="col-12 frm-step frm-step-inline">
+                                            <label id="color_label">สี<span>*</span></label>
                                             <div class="row">
                                                 <div class="col-12 col-md-6">
-                                                    <select class="form-select" name="color" >
+                                                    <select aria-labelledby="color_label"  class="form-select" name="color" required >
                                                         <option value="">เลือกสี</option>
                                                         @foreach($arr_color as $keycolor => $color)
                                                         <option value="{{$color}}">{{$color}}</option>
                                                         @endforeach
+                                                        <option value="9999999999">สีอื่นๆ</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-md-6">
-                                                    <input type="text" name="other_color" class="form-control" placeholder="สีอื่นๆ โปรดระบุ" value="">
+                                                    <label id="other_color_label">สีอื่นๆ<span></span></label>
+                                                    <input aria-labelledby="other_color_label" type="text" name="other_color" class="form-control" placeholder="สีอื่นๆ โปรดระบุ" value="">
                                                 </div>
                                             </div>
+                                        </div> -->
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label label id="color_label">สี<span>*</span></label>
+                                            <select aria-labelledby="color_label"  class="form-select" name="color" required >
+                                                <option value="">เลือกสี</option>
+                                                @foreach($arr_color as $keycolor => $color)
+                                                <option value="{{$color}}">{{$color}}</option>
+                                                @endforeach
+                                                <option value="9999999999">สีอื่นๆ</option>
+                                            </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
-                                            <label>รุ่นปี<span>*</span></label>
-                                            <select class="form-select" name="years" id="years" required>
+                                            <label id="other_color_label">สีอื่นๆ<span></span></label>
+                                            <input aria-labelledby="other_color_label" type="text" name="other_color" class="form-control" placeholder="สีอื่นๆ โปรดระบุ" value="">
+                                        </div>
+                                        <div class="col-12 col-md-6 frm-step">
+                                            <label id="years_label">รุ่นปี<span>*</span></label>
+                                            <select aria-labelledby="years_label"  class="form-select" name="years" id="years" required>
                                                 <option value="">เลือกรุ่นปี</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
-                                            <label>เลขไมล์<span>*</span></label>
-                                            <input type="text" name="mileage" class="form-control" required>
+                                            <label id="mileage_label">เลขไมล์<span>*</span></label>
+                                            <input  aria-labelledby="mileage_label"  type="text" name="mileage" class="form-control" required>
                                         </div>
                                         <div class="col-12 col-lg-6 frm-step">
                                             <label>เกียร์<span>*</span></label>
                                             <div class="carsearch-radio">
                                                 <label class="car-radio">ออโต้
-                                                    <input type="radio" name="gear" value="auto"  required />
+                                                    <input type="radio" name="gear" value="auto" checked />
                                                     <span class="checkmark"></span>
                                                 </label>
                                                 <label class="car-radio">ธรรมดา
@@ -254,7 +270,7 @@ $arr_cartype = array(
                                             <label>เชื้อเพลิง<span>*</span></label>
                                             <div class="carsearch-radio">
                                                 <label class="car-radio">รถน้ำมัน / hybrid
-                                                    <input type="radio" name="gashas" value="1"  required />
+                                                    <input type="radio" name="gashas" value="1" checked />
                                                     <span class="checkmark"></span>
                                                 </label>
                                                 <label class="car-radio">รถไฟฟ้า EV 100%
@@ -272,8 +288,8 @@ $arr_cartype = array(
                                             <input type="text" name="vehicle_code" class="form-control">
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
-                                            <label>จังหวัด<span>*</span></label>
-                                            <select class="form-select select2s" name="province" required >
+                                            <label id="province_label">จังหวัด<span>*</span></label>
+                                            <select aria-labelledby="province_label"  class="form-select select2s" name="province" required >
                                                 <option value="">เลือกจังหวัด</option>
                                                 @foreach($provinces as $keypv => $pv)
                                                 <option value="{{$pv->name_th}}">{{$pv->name_th}}</option>
@@ -324,14 +340,14 @@ $arr_cartype = array(
                                 <div class="box-frm-step">
                                     <div class="row">
                                         <div class="col-12 frm-step">
-                                            <label>หัวข้อโฆษณา<span>*</span></label>
-                                            <input type="text" class="form-control" name="title" id="title_txt1" required >
+                                            <label id="title_label">หัวข้อโฆษณา<span>*</span></label>
+                                            <input aria-labelledby="title_label" type="text" class="form-control" name="title" id="title_txt1" required >
                                             
                                         </div>
                                         <div class="col-12 frm-step">
-                                            <label>รายละเอียดรถ<span>*</span></label>
+                                            <label id="detail_label">รายละเอียดรถ<span>*</span></label>
                                             <!-- <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt=""> -->
-                                            <textarea class="form-control" id="car_detail"  rows="10" name="detail"></textarea>
+                                            <textarea aria-labelledby="detail_label" class="form-control" id="car_detail"  rows="10" name="detail"></textarea>
                                             <div class="box-introtext">
                                                 <div class="topic-introtext">ข้อความแนะนำ</div>
                                                 <div class="btn-introtext">
@@ -345,9 +361,9 @@ $arr_cartype = array(
                                             </div>
                                         </div>
                                         <div class="col-12 frm-step">
-                                            <label>ตั้งราคาขาย<span>*</span></label>
+                                            <label id="price_label">ตั้งราคาขาย<span>*</span></label>
                                             <div class="txt-noteedit">หลังจากลงขายแล้ว สามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
-                                            <input type="text" class="form-control" name="price" id="price" required oninput="formatNumber()">
+                                            <input aria-labelledby="price_label" type="text" class="form-control" name="price" id="price" required oninput="formatNumber()">
                                         </div>
                                     </div>
                                 </div>
@@ -409,7 +425,7 @@ $arr_cartype = array(
                                                 <div>
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
-                                                        <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
+                                                        <div><label id="exterior_pictures_label">อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
 
                                                         <div class="row row-photoupload" id="image-preview-exterior">
                                                             {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
@@ -422,13 +438,13 @@ $arr_cartype = array(
                                                         <div id="hidden-inputs-exterior"></div>
                                                         <div id="hidden-inputs-feature"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" name="exterior_pictures[]" id="exterior_pictures" multiple required>
+                                                            <input aria-labelledby="exterior_pictures_label" type="file" name="exterior_pictures[]" id="exterior_pictures" multiple required>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
-                                                        <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
+                                                        <div><label id="interior_pictures_label">อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
                                                         
                                                         <div class="row row-photoupload interior" id="image-preview">
                                                             {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
@@ -440,7 +456,7 @@ $arr_cartype = array(
                                                         </div>
                                                         <div id="hidden-inputs"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" name="interior_pictures[]" id="interior_pictures" multiple required>
+                                                            <input aria-labelledby="interior_pictures_label" type="file" name="interior_pictures[]" id="interior_pictures" multiple required>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>
@@ -538,28 +554,155 @@ $arr_cartype = array(
         });
     });
 
+
+
+
+
+
     document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("submit-btn").addEventListener("click", function (event) {
-            event.preventDefault();
-            if (validateForm()) {
-                document.getElementById("form").submit();
-            }
-        });
-        function validateForm() {
-            var requiredFields = document.querySelectorAll("[required]");
-            for (var i = 0; i < requiredFields.length; i++) {
-                if (requiredFields[i].value.trim() === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "กรุณากรอกข้อมูลให้ครบถ้วน",
-                    });
-                    return false;
-                }
-            }
-            return true;
-        }
+    document.getElementById("submit-btn").addEventListener("click", function (event) {
+        event.preventDefault();
+        validateForm();
     });
+
+    function validateForm() {
+        var requiredFields = document.querySelectorAll("[required]");
+        var emptyFields = [];
+
+        for (var i = 0; i < requiredFields.length; i++) {
+            var fieldValue = requiredFields[i].value.trim();
+
+            // Check if the selected color is "สีอื่นๆ"
+            if (requiredFields[i].name === "color" && fieldValue === "9999999999") {
+                // If "สีอื่นๆ" is selected, check if other_color is not empty
+                var otherColorInput = document.querySelector("[name='other_color']");
+                if (otherColorInput.value.trim() === "") {
+                    // If other_color is empty, add the label to the emptyFields array
+                    var labelId = otherColorInput.getAttribute("aria-labelledby");
+                    var label = document.getElementById(labelId);
+                    emptyFields.push(label.innerText);
+                }
+            } else if (fieldValue === "") {
+                // If other fields are empty, add them to the emptyFields array
+                var labelId = requiredFields[i].getAttribute("aria-labelledby");
+                var label = document.getElementById(labelId);
+                emptyFields.push(label.innerText);
+            }
+        }
+
+        if (emptyFields.length > 0) {
+            var errorMessage = "\n";
+            for (var j = 0; j < emptyFields.length; j++) {
+                errorMessage += "- " + emptyFields[j] + ",\n";
+            }
+
+            Swal.fire({
+                icon: "error",
+                title: "กรุณากรอกข้อมูลให้ครบถ้วน...",
+                text: errorMessage,
+            });
+        } else {
+            document.getElementById("form").submit();
+        }
+    }
+});
+
+
+
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
+    //         event.preventDefault();
+    //         validateForm();
+    //     });
+
+    //     function validateForm() {
+    //         var requiredFields = document.querySelectorAll("[required]");
+    //         var emptyFields = [];
+
+    //         for (var i = 0; i < requiredFields.length; i++) {
+    //             if (requiredFields[i].value.trim() === "") {
+    //                 // Get the label text associated with the input field
+    //                 var labelId = requiredFields[i].getAttribute("aria-labelledby");
+    //                 var label = document.getElementById(labelId);
+    //                 emptyFields.push(label.innerText);
+    //             }
+    //         }
+
+    //         if (emptyFields.length > 0) {
+    //             var errorMessage = "กรุณากรอกข้อมูลให้ครบถ้วน:\n";
+    //             for (var j = 0; j < emptyFields.length; j++) {
+    //                 errorMessage += "- " + emptyFields[j] + "\n";
+    //             }
+
+    //             Swal.fire({
+    //                 icon: "error",
+    //                 title: "Oops...",
+    //                 text: errorMessage,
+    //             });
+    //         } else {
+    //             document.getElementById("form").submit();
+    //         }
+    //     }
+    // });
+
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
+    //         event.preventDefault();
+    //         validateForm();
+    //     });
+
+    //     function validateForm() {
+    //         var requiredFields = document.querySelectorAll("[required]");
+    //         var emptyFields = [];
+
+    //         for (var i = 0; i < requiredFields.length; i++) {
+    //             if (requiredFields[i].value.trim() === "") {
+    //                 emptyFields.push(requiredFields[i].name);
+    //             }
+    //         }
+
+    //         if (emptyFields.length > 0) {
+    //             var errorMessage = "กรุณากรอกข้อมูลให้ครบถ้วน:\n";
+    //             for (var j = 0; j < emptyFields.length; j++) {
+    //                 errorMessage += "- " + emptyFields[j] + "\n";
+    //             }
+
+    //             Swal.fire({
+    //                 icon: "error",
+    //                 title: "Oops...",
+    //                 text: errorMessage,
+    //             });
+    //         } else {
+    //             document.getElementById("form").submit();
+    //         }
+    //     }
+    // });
+
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
+    //         event.preventDefault();
+    //         if (validateForm()) {
+    //             document.getElementById("form").submit();
+    //         }
+    //     });
+    //     function validateForm() {
+    //         var requiredFields = document.querySelectorAll("[required]");
+    //         for (var i = 0; i < requiredFields.length; i++) {
+    //             if (requiredFields[i].value.trim() === "") {
+    //                 Swal.fire({
+    //                     icon: "error",
+    //                     title: "Oops...",
+    //                     text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+    //                 });
+    //                 return false;
+    //             }
+    //         }
+    //         return true;
+    //     }
+    // });
 
     document.addEventListener('DOMContentLoaded', function () {
         ClassicEditor
@@ -621,26 +764,6 @@ $arr_cartype = array(
 
     $(document).ready(function() {
 
-
-        $(".clckads").on( "click", function() {
-            var oldtext = $("#car_detail").val();
-            var thistext = $(this).text();
-            var newtext = oldtext+thistext;
-            
-
-            add_text(newtext);
-        } );
-
-
-        function add_text(newtext){ 
-            document.getElementById("car_detail").value = newtext;
-        }
-
-
-
-
-
-
         $(".btn_to_step1").on( "click", function() {
             $('html, body').animate({
                 scrollTop: $("#topontop").offset().top
@@ -668,6 +791,27 @@ $arr_cartype = array(
             $('#step3').show();
             $('#step4').hide();
         } );
+
+        $(".clckads").on( "click", function() {
+            var oldtext = $("#car_detail").val();
+            var thistext = $(this).text();
+            var newtext = oldtext+thistext;
+            
+
+            add_text(newtext);
+        } );
+
+
+        function add_text(newtext){ 
+            document.getElementById("car_detail").value = newtext;
+        }
+
+
+
+
+
+
+        
         // $(".btn_to_step4").on( "click", function() {
         //     $('#step1').hide();
         //     $('#step2').hide();

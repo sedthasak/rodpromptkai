@@ -18,7 +18,7 @@ if (isset($setFooterModel)) {
 // print_r($arr);
 // echo "</pre>";
 ?>
-
+<!-- </script> -->
 <section class="container box-linkcarseo wow fadeInDown">
     <div class="row">
         @foreach($arr as $keyarray => $arry)

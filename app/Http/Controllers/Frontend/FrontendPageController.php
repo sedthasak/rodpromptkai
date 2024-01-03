@@ -196,7 +196,7 @@ class FrontendPageController extends Controller
 
             if(isset($contacts->id)){
                 $notice = new noticeModel;
-                $notice->customer_id = $request->customer_id;
+                $notice->customer_id = $request->customer_id??999999;
                 $notice->status = 'create';
                 $notice->title = 'มีลูกค้ารอติดต่อกลับ';
                 $notice->detail = 'ชื่อลูกค้า: '.$request->name;

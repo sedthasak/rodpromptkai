@@ -43,7 +43,8 @@ class PostController extends Controller
         }
 
         // Delete the car
-        $car->delete();
+        $car->status = 'deleted';
+        $car->update();
 
         // Return a success response
         return response()->json(['message' => 'ลบสำเร็จ']);
@@ -114,7 +115,7 @@ class PostController extends Controller
         }else{
             $cars->status = 'created';
         }
-        $cars->color = $request->color;
+        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
         $cars->province = $request->province;
         $cars->update();
 
@@ -296,7 +297,7 @@ class PostController extends Controller
             $cars->status = 'created';
             $cars->adddate = time();
         }
-        $cars->color = $request->color;
+        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
         $cars->province = $request->province;
         $cars->save();
 

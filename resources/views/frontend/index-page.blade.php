@@ -670,7 +670,7 @@ $customerdata = session('customer');
             <input type="text" class="form-control" name="tel" value="" placeholder="เบอร์โทรติดต่อ">
             <input type="text" class="form-control" name="line" value="" placeholder="Line ID">
             <input type="text" class="form-control" name="messages" value="" placeholder="รุ่นรถที่ต้องการ">
-            <button type="button" class="btn-red">ส่งข้อมูล</button>
+            <button type="submit" class="btn-red">ส่งข้อมูล</button>
         </form>
     </div>
 </div>
