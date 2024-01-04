@@ -45,7 +45,13 @@
                                     <label for="" class="form-label">ไลน์ไอดี</label>
                                     <input type="text" class="form-control w-full" value="" name="line" autocomplete="off" />
                                 </div>
-                                
+                                <div class="mt-3">
+                                    <label for="" class="form-label">โรล</label>
+                                    <select name="sp_role" id="sp_role" data-search="true" class=" w-full" required >
+                                        <option value="home" selected>ลูกค้าทั่วไป</option>
+                                        <option value="dealer">ดีลเลอร์</option>
+                                    </select>
+                                </div>
                                 
          
 
@@ -80,7 +86,7 @@
 
                             </div>
                         </div>
-
+                        <br>
                         <div class="grid grid-cols-12 gap-x-5">
                             <div class="col-span-12 xl:col-span-6">
                                 

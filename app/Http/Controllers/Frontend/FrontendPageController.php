@@ -264,6 +264,7 @@ class FrontendPageController extends Controller
             ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
             ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->where('cars.status', '=', 'approved')
             ->orderBy('id', 'desc')
             ->get();
 
@@ -280,6 +281,7 @@ class FrontendPageController extends Controller
                 'customer.phone as customer_phone', 'customer.line as customer_line', 
                 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->where('cars.status', '=', 'approved')
             ->orderBy('id', 'desc')
             ->take(6)
             ->get();

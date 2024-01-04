@@ -8007,6 +8007,18 @@ a {
   .carsearch-ul {
     height: calc(100% - 190px);
   }
+  .result-btn-search {
+    overflow-x: auto;
+  }
+  .btn-boxfilter {
+    overflow-x: auto;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    width: 100%;
+  }
+  .btn-boxfilter button {
+    white-space: nowrap;
+  }
 }
 
 @media (max-width: 767px) {

@@ -49,7 +49,13 @@
                                     <label for="" class="form-label">ไลน์ไอดี</label>
                                     <input type="text" class="form-control w-full" value="{{$Customer->line}}" name="line" autocomplete="off" />
                                 </div>
-                                
+                                <div class="mt-3">
+                                    <label for="" class="form-label">โรล</label>
+                                    <select name="sp_role" id="sp_role" data-search="true" class=" w-full" required >
+                                        <option value="home" {{($Customer->sp_role == 'home')?'selected':''}} >ลูกค้าทั่วไป</option>
+                                        <option value="dealer" {{($Customer->sp_role == 'dealer')?'selected':''}} >ดีลเลอร์</option>
+                                    </select>
+                                </div>
                                 
          
 

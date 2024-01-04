@@ -155,6 +155,7 @@ class CustomersController extends Controller
             $Customer->map = $filepath;
         }
 
+        $Customer->sp_role = $request->sp_role;
         $Customer->phone = $request->phone;
         $Customer->firstname = $request->firstname;
         $Customer->lastname = $request->lastname;
@@ -253,6 +254,7 @@ class CustomersController extends Controller
             $Customer->map = $filepath;
         }
 
+        $Customer->sp_role = $request->sp_role;
         $Customer->phone = $request->phone;
         $Customer->firstname = $request->firstname;
         $Customer->lastname = $request->lastname;

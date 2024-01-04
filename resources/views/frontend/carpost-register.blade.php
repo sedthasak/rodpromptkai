@@ -147,7 +147,7 @@ $arr_cartype = array(
     }
 </style>
 <div id="wait" class="box-waiting " style="display:none;"><div class="waiting-wrapper-image"><img src="{{asset('uploads/wait.gif')}}" /></div></div>
-<form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
+<form method="POST" id="regis" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
 @csrf
     <div id="topontop"></div>
     <div id="step1">
@@ -528,7 +528,7 @@ $arr_cartype = array(
                                                 <div class="step-chceckbox">
                                                     <div class="login-checkbox">
                                                         <label class="list-checkbox"><a href="{{route('termconditionPage')}}" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="{{route('privacypolicyPage')}}" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
-                                                            <input type="checkbox" name="submit" value="1" required  checked="checked">
+                                                            <input type="checkbox" value="1"  checked>
                                                             <span class="checkmark"></span>
                                                         </label>
                                                     </div>
@@ -571,15 +571,15 @@ $arr_cartype = array(
 </script>
 <script>
 
-    $(document).ready(function () {
-        $('#form').submit(function (event) {
-            // Show the "wait" div when the form is submitted
-            $('#wait').show();
+    // $(document).ready(function () {
+    //     $('#form').submit(function (event) {
+    //         // Show the "wait" div when the form is submitted
+    //         $('#wait').show();
 
-            // You can also disable the submit button to prevent multiple submissions
-            $('.btn-nextstep').prop('disabled', true);
-        });
-    });
+    //         // You can also disable the submit button to prevent multiple submissions
+    //         $('.btn-nextstep').prop('disabled', true);
+    //     });
+    // });
 
 
 
@@ -587,17 +587,17 @@ $arr_cartype = array(
 
 
     document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("submit-btn").addEventListener("click", function (event) {
-        event.preventDefault();
-        validateForm();
-    });
+        document.getElementById("submit-btn").addEventListener("click", function (event) {
+            event.preventDefault();
+            validateForm();
+        });
 
-    function validateForm() {
-        var requiredFields = document.querySelectorAll("[required]");
-        var emptyFields = [];
+        function validateForm() {
+            var requiredFields = document.querySelectorAll("[required]");
+            var emptyFields = [];
 
-        for (var i = 0; i < requiredFields.length; i++) {
-            var fieldValue = requiredFields[i].value.trim();
+            for (var i = 0; i < requiredFields.length; i++) {
+                var fieldValue = requiredFields[i].value.trim();
 
             // Check if the selected color is "สีอื่นๆ"
             if (requiredFields[i].name === "color" && fieldValue === "9999999999") {
@@ -617,201 +617,34 @@ $arr_cartype = array(
             }
         }
 
+            if (emptyFields.length > 0) {
+                var errorMessage = "\n";
+                for (var j = 0; j < emptyFields.length; j++) {
+                    errorMessage += "- " + emptyFields[j] + ",\n";
+                }
 
-
-
-
-
-
-        // ตรวจสอบขนาดของไฟล์ exterior_pictures
-        var files = $("[name='exterior_pictures[]']")[0].files;
-        var isValid = true;
-
-        for (var i = 0; i < files.length; i++) {
-            var fileSize = files[i].size / 1024; // แปลงเป็น KB
-
-            if (fileSize < 10 || fileSize > 12000) {
-                alert("ขนาดไฟล์ " + files[i].name + " ต้องอยู่ในช่วง 10 KB ถึง 12000 KB");
-                isValid = false;
-                break;
-            }
-        }
-
-        // ถ้าขนาดไฟล์ไม่ถูกต้อง ยกเลิกการ submit
-        if (!isValid) {
-            emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
-        }
-
-        // ตรวจสอบขนาดของไฟล์ interior_pictures
-        var files = $("[name='interior_pictures[]']")[0].files;
-        var isValid = true;
-
-        for (var i = 0; i < files.length; i++) {
-            var fileSize = files[i].size / 1024; // แปลงเป็น KB
-
-            if (fileSize < 10 || fileSize > 12000) {
-                alert("ขนาดไฟล์ " + files[i].name + " ต้องอยู่ในช่วง 10 KB ถึง 12000 KB");
-                isValid = false;
-                break;
-            }
-        }
-
-        // ถ้าขนาดไฟล์ไม่ถูกต้อง ยกเลิกการ submit
-        if (!isValid) {
-            emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
-        }
-        
-        // ตรวจสอบขนาดของไฟล์ licenseplate
-        var inputFile = $("[name='licenseplate']")[0];
-        if (inputFile.files.length > 0) {
-            // ดึงขนาดของไฟล์
-            var fileSize = inputFile.files[0].size; // ขนาดไฟล์อยู่ในหน่วย bytes
-
-            // ตรวจสอบว่าขนาดไฟล์อยู่ในช่วงที่กำหนดหรือไม่
-            if (fileSize >= 10240 && fileSize <= 12000000) {
-                // ขนาดไฟล์ถูกต้อง
+                Swal.fire({
+                    icon: "error",
+                    title: "กรุณากรอกข้อมูลให้ครบถ้วน...",
+                    text: errorMessage,
+                });
             } else {
-                // ขนาดไฟล์ไม่ถูกต้อง
-                emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
+                // document.getElementById("#form").submit();
+
+                var form = document.querySelector("#regis");
+                // console.log(form);
+                if (form) {
+                    // console.log(form.submit);
+                    form.submit();
+                    $('#wait').show();
+
+                    // You can also disable the submit button to prevent multiple submissions
+                    $('.btn-nextstep').prop('disabled', true);
+                }
             }
-        } else {
-            // ไม่มีไฟล์ถูกเลือก
         }
+    });
 
-        // นับรูปรวม 5 - 25 ภาพ
-        var interiorInput = document.getElementById('interior_pictures');
-        var exteriorInput = document.getElementById('exterior_pictures');
-        var totalFiles = interiorInput.files.length + exteriorInput.files.length;
-
-        // ตรวจสอบจำนวนรูปภาพทั้งหมด
-        if (totalFiles < 5 || totalFiles > 25) {
-            // สามารถล้างค่า input ที่เลือกได้ด้วย
-            emptyFields.push("จำนวนภาพไม่ถูกต้องตามเงื่อนไข");
-            // interiorInput.value = '';
-            // exteriorInput.value = '';
-        }
-
-
-
-
-        
-
-
-
-
-        if (emptyFields.length > 0) {
-            var errorMessage = "\n";
-            for (var j = 0; j < emptyFields.length; j++) {
-                errorMessage += "- " + emptyFields[j] + ",\n";
-            }
-
-            Swal.fire({
-                icon: "error",
-                title: "กรุณากรอกข้อมูลให้ครบถ้วน...",
-                text: errorMessage,
-            });
-        } else {
-            document.getElementById("form").submit();
-        }
-    }
-});
-
-
-
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
-    //         event.preventDefault();
-    //         validateForm();
-    //     });
-
-    //     function validateForm() {
-    //         var requiredFields = document.querySelectorAll("[required]");
-    //         var emptyFields = [];
-
-    //         for (var i = 0; i < requiredFields.length; i++) {
-    //             if (requiredFields[i].value.trim() === "") {
-    //                 // Get the label text associated with the input field
-    //                 var labelId = requiredFields[i].getAttribute("aria-labelledby");
-    //                 var label = document.getElementById(labelId);
-    //                 emptyFields.push(label.innerText);
-    //             }
-    //         }
-
-    //         if (emptyFields.length > 0) {
-    //             var errorMessage = "กรุณากรอกข้อมูลให้ครบถ้วน:\n";
-    //             for (var j = 0; j < emptyFields.length; j++) {
-    //                 errorMessage += "- " + emptyFields[j] + "\n";
-    //             }
-
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "Oops...",
-    //                 text: errorMessage,
-    //             });
-    //         } else {
-    //             document.getElementById("form").submit();
-    //         }
-    //     }
-    // });
-
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
-    //         event.preventDefault();
-    //         validateForm();
-    //     });
-
-    //     function validateForm() {
-    //         var requiredFields = document.querySelectorAll("[required]");
-    //         var emptyFields = [];
-
-    //         for (var i = 0; i < requiredFields.length; i++) {
-    //             if (requiredFields[i].value.trim() === "") {
-    //                 emptyFields.push(requiredFields[i].name);
-    //             }
-    //         }
-
-    //         if (emptyFields.length > 0) {
-    //             var errorMessage = "กรุณากรอกข้อมูลให้ครบถ้วน:\n";
-    //             for (var j = 0; j < emptyFields.length; j++) {
-    //                 errorMessage += "- " + emptyFields[j] + "\n";
-    //             }
-
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "Oops...",
-    //                 text: errorMessage,
-    //             });
-    //         } else {
-    //             document.getElementById("form").submit();
-    //         }
-    //     }
-    // });
-
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
-    //         event.preventDefault();
-    //         if (validateForm()) {
-    //             document.getElementById("form").submit();
-    //         }
-    //     });
-    //     function validateForm() {
-    //         var requiredFields = document.querySelectorAll("[required]");
-    //         for (var i = 0; i < requiredFields.length; i++) {
-    //             if (requiredFields[i].value.trim() === "") {
-    //                 Swal.fire({
-    //                     icon: "error",
-    //                     title: "Oops...",
-    //                     text: "กรุณากรอกข้อมูลให้ครบถ้วน",
-    //                 });
-    //                 return false;
-    //             }
-    //         }
-    //         return true;
-    //     }
-    // });
 
     document.addEventListener('DOMContentLoaded', function () {
         ClassicEditor
@@ -931,6 +764,7 @@ $arr_cartype = array(
         $("#generations").on( "change", function() {
             var generations_id = $(this).val();
             if(generations_id){
+                $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectGenerations')}}",
                     type: "post",
@@ -940,9 +774,11 @@ $arr_cartype = array(
                     },
                     success: function (response) {
                         // console.log(response);
+                        $('#wait').hide();
                         $('#sub_models').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
                         console.log(textStatus, errorThrown);
                     }
                 });
@@ -955,9 +791,11 @@ $arr_cartype = array(
                     },
                     success: function (response) {
                         // console.log(response);
+                        $('#wait').hide();
                         $('#years').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
                         console.log(textStatus, errorThrown);
                     }
                 });
@@ -967,6 +805,7 @@ $arr_cartype = array(
         $("#models").on( "change", function() {
             var models_id = $(this).val();
             if(models_id){
+                $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectModel')}}",
                     type: "post",
@@ -976,9 +815,11 @@ $arr_cartype = array(
                     },
                     success: function (response) {
                         // console.log(response);
+                        $('#wait').hide();
                         $('#generations').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
                         console.log(textStatus, errorThrown);
                     }
                 });
@@ -988,6 +829,7 @@ $arr_cartype = array(
         $("#brands").on( "change", function() {
             var brands_id = $(this).val();
             if(brands_id){
+                $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectBrand')}}",
                     type: "post",
@@ -997,9 +839,11 @@ $arr_cartype = array(
                     },
                     success: function (response) {
                         // console.log(response);
+                        $('#wait').hide();
                         $('#models').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
                         console.log(textStatus, errorThrown);
                     }
                 });
