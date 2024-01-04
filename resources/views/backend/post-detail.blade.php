@@ -8,6 +8,10 @@
 <?php
 $customerimage = $customer->image;
 $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.png');
+$arrsprole = array(
+    'home' => 'ลูกค้าทั่วไป',
+    'dealer' => 'ดีลเลอร์',
+);
 // $img_profile = $customer->image??asset('img/user-default.png')
 // echo "<pre>";
 // print_r($img_profile);
@@ -65,7 +69,7 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                         <div class="font-medium text-center lg:text-left lg:mt-3">ข้อมูลลูกค้า</div>
                         <div class="flex flex-col justify-center items-center lg:items-start mt-4">
                             <div class="truncate sm:whitespace-normal flex items-center">
-                                <i data-lucide="Map Pin" class="w-4 h-4 mr-2"></i>สถานะ : {{$customer->sp_role}}
+                                <i data-lucide="Map Pin" class="w-4 h-4 mr-2"></i>สถานะ : {{$arrsprole[$customer->sp_role]}}
                             </div>
                             <div class="truncate sm:whitespace-normal flex items-center">
                                 <i data-lucide="Map Pin" class="w-4 h-4 mr-2"></i>อีเมล : {{$customer->email}}
@@ -128,6 +132,34 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                             รออนุมัติ
                         </div>
 
+                        
+                        
+
+
+
+                        <?php
+                        }elseif(isset($postcar->status) && ($postcar->status == 'approved')){
+                        ?>
+                        <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="alert relative border rounded-md px-5 py-4 bg-success border-success text-slate-900 dark:border-success mb-2 flex items-center"><i data-lucide="Check" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                            ออนไลน์
+                        </div>
+                        <?php
+                        }elseif(isset($postcar->status) && ($postcar->status == 'rejected')){
+                            ?>
+                            <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="alert relative border rounded-md px-5 py-4 bg-danger border-danger text-slate-900 dark:border-danger mb-2 flex items-center"><i data-lucide="X" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                                รอแก้ไข
+                            </div>
+                            <?php
+                        }elseif(isset($postcar->status) && ($postcar->status == 'deleted')){
+                        ?>
+                        <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="alert relative border rounded-md px-5 py-4 bg-danger border-danger text-slate-900 dark:border-danger mb-2 flex items-center"><i data-lucide="X" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                            ถูกลบ
+                        </div>
+                        <?php
+                        }
+                        ?>
+                        
+
                         <!-- BEGIN: Modal Content -->
                         <div id="modal-created" class="modal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-lg" style="width: 1000px;">
@@ -144,9 +176,10 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                                                 <div class="col-span-12 sm:col-span-6">
                                                     <label for="modal-form-6" class="inline-block mb-2"> สถานะ</label>
                                                     <select name="change_status" id="select_status" class="disabled:bg-slate-100 disabled:cursor-not-allowed disabled:dark:bg-darkmode-800/50 [&amp;[readonly]]:bg-slate-100 [&amp;[readonly]]:cursor-not-allowed [&amp;[readonly]]:dark:bg-darkmode-800/50 transition duration-200 ease-in-out w-full text-sm border-slate-200 shadow-sm rounded-md py-2 px-3 pr-8 focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus:border-primary focus:border-opacity-40 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50">
-                                                        <option value="created" selected >รออนุมัติ</option>
-                                                        <option value="approved">ออนไลน์</option>
-                                                        <option value="rejected">ปฏิเสธ</option>
+                                                        <option value="created" {{($postcar->status == 'created')?'selected':''}} >รออนุมัติ</option>
+                                                        <option value="approved" {{($postcar->status == 'approved')?'selected':''}} >ออนไลน์</option>
+                                                        <option value="rejected" {{($postcar->status == 'rejected')?'selected':''}} >ปฏิเสธ</option>
+                                                        <option value="deleted" {{($postcar->status == 'deleted')?'selected':''}} >ถูกลบ</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-span-12 sm:col-span-6" id="reason_box" style="display:none;">
@@ -167,26 +200,6 @@ $img_profile = ($customerimage)?asset($customerimage):asset('img/user-default.pn
                             </div>
                         </div>
                         <!-- END: Modal Content -->
-                        
-
-
-
-                        <?php
-                        }elseif(isset($postcar->status) && ($postcar->status == 'approved')){
-                        ?>
-                        <div role="alert" class="alert relative border rounded-md px-5 py-4 bg-success border-success text-slate-900 dark:border-success mb-2 flex items-center"><i data-lucide="Check" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
-                            ออนไลน์
-                        </div>
-                        <?php
-                        }elseif(isset($postcar->status) && ($postcar->status == 'rejected')){
-                        ?>
-                        <div role="alert" class="alert relative border rounded-md px-5 py-4 bg-danger border-danger text-slate-900 dark:border-danger mb-2 flex items-center"><i data-lucide="X" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
-                            รอแก้ไข
-                        </div>
-                        <?php
-                        }
-                        ?>
-                        
                     </div>
                     
                     <div class="mt-6 lg:mt-0 flex-1 px-5 border-t lg:border-0 border-slate-200/60 dark:border-darkmode-400 pt-5 lg:pt-0">
