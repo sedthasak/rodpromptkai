@@ -39,7 +39,7 @@
                                 <a href="{{url('/car-detail').'/'.$rows->id}}" class="item-car">
                                     <figure>
                                         <div class="cover-car">
-                                            <img src="{{$rows->feature}}" alt="">
+                                            <img src="{{($rows->feature)?asset($rows->feature):asset('public/uploads/default-car.jpg')}}" alt="">
                                         </div>
                                         <figcaption>
                                             <div class="grid-desccar">

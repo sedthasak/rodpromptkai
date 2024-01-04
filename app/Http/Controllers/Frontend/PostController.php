@@ -331,13 +331,13 @@ class PostController extends Controller
 
             // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
             $watermark = Image::make($watermarkPath);
-            $watermarkWidth = $img->width() / 5;
+            $watermarkWidth = $img->width() / 3;
             $watermark->resize($watermarkWidth, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
 
             // เพิ่ม watermark ลงในรูป
-            $img->insert($watermark, 'top-left', 30, 40);
+            $img->insert($watermark, 'top-left', 40, 60);
 
             // บันทึกรูปที่มี watermark
             $img->save(public_path('uploads/feature'.'/'.$filename));
@@ -369,13 +369,13 @@ class PostController extends Controller
 
             // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
             $watermark = Image::make($watermarkPath);
-            $watermarkWidth = $img->width() / 5;
+            $watermarkWidth = $img->width() / 3;
             $watermark->resize($watermarkWidth, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
 
             // เพิ่ม watermark ลงในรูป
-            $img->insert($watermark, 'top-left', 30, 40);
+            $img->insert($watermark, 'top-left', 40, 60);
 
             // บันทึกรูปที่มี watermark
             $img->save(public_path('uploads/feature'.'/'.$newfilenam));
@@ -419,13 +419,13 @@ class PostController extends Controller
 
                 // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
                 $watermark = Image::make($watermarkPath);
-                $watermarkWidth = $img->width() / 5;
+                $watermarkWidth = $img->width() / 3;
                 $watermark->resize($watermarkWidth, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
 
                 // เพิ่ม watermark ลงในรูป
-                $img->insert($watermark, 'top-left', 30, 40);
+                $img->insert($watermark, 'top-left', 40, 60);
 
                 // บันทึกรูปที่มี watermark
                 $img->save(public_path('uploads/exterior'.'/'.$filename));
@@ -489,13 +489,13 @@ class PostController extends Controller
 
                 // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
                 $watermark = Image::make($watermarkPath);
-                $watermarkWidth = $img->width() / 5;
+                $watermarkWidth = $img->width() / 3;
                 $watermark->resize($watermarkWidth, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
 
                 // เพิ่ม watermark ลงในรูป
-                $img->insert($watermark, 'top-left', 30, 40);
+                $img->insert($watermark, 'top-left', 40, 60);
 
                 // บันทึกรูปที่มี watermark
                 $img->save(public_path('uploads/interior'.'/'.$imageName));

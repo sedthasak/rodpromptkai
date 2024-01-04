@@ -62,7 +62,7 @@
                                     
                                 </button>
                                 @php
-                                    $cnt=1;
+                                    $cnt=0;
                                 @endphp
 
                                 @php
@@ -79,7 +79,7 @@
                                     <div class="num-mycarsearch">({{$cnt}})</div>
                                 </button>
                                 @php
-                                    $cnt=1;
+                                    $cnt=0;
                                 @endphp
                             @endif
 
@@ -143,7 +143,7 @@
                     html += '<div>' + currentmodel + '</div>';
                     html += '<div class="num-mycarsearch">(' + cnt + ')</div>';
                     html += '</button>';
-                    cnt = 1;
+                    cnt = 0;
                     currentmodel = value.model;
                     currentmodelid = value.id;
                 }
@@ -152,7 +152,7 @@
                     html += '<div>' + currentmodel + '</div>';
                     html += '<div class="num-mycarsearch">(' + cnt + ')</div>';
                     html += '</button>';
-                    cnt = 1;
+                    cnt = 0;
                 }
                 index2++;
             });
