@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsSaveController;
 // use App\Http\Controllers\Backend\Input;
 
-// use Illuminate\Support\Facades\Input;
-
 use App\Providers\RouteServiceProvider;
 
 use Illuminate\Http\Request;
@@ -16,7 +14,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-// use Illuminate\Support\Facades\Input;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules;
 use Illuminate\Database\Eloquent\Builder;

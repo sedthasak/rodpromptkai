@@ -49,6 +49,7 @@
                 <thead>
                     <tr>
                         <th class="text-center whitespace-nowrap">#</th>
+                        <th class="whitespace-nowrap">วันที่</th>
                         <th class="whitespace-nowrap">ชื่อ - นามสกุล</th>
                         <th class="whitespace-nowrap">เบอร์</th>
                         <th class="whitespace-nowrap">ไลน์</th>
@@ -60,9 +61,28 @@
                     
                     @foreach($Contacts as $keyres => $res)
 
+                    @php
+                    $resCreatedAtTimestamp = strtotime($res->created_at);
+                    $currentTimestamp = time();
+
+                    $startOfDayTimestamp = strtotime('today');
+                    $endOfDayTimestamp = strtotime('tomorrow') - 1;
+
+                    $today = ($resCreatedAtTimestamp >= $startOfDayTimestamp && $resCreatedAtTimestamp <= $endOfDayTimestamp) ? 1 : 0;
+                    @endphp
+
                         <tr class="intro-x">
                             <td class="text-center">{{$keyres+1}}</td>
 
+                            <td>
+                                
+                                <div class="font-medium whitespace-nowrap">
+                                    @if($today == 1)
+                                    <i data-lucide="star" class="w-4 h-4 mr-1" style="display:inline;color: orange;"></i>
+                                    @endif
+                                    {{date('d/m/Y H:i:s', strtotime($res->created_at))}}
+                                </div>
+                            </td>
                             <td>
                                 <div class="font-medium whitespace-nowrap">{{$res->name}}</div>
                             </td>

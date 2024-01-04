@@ -21,14 +21,64 @@ use Auth;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+// use Illuminate\Support\Facades\File;
+// use Illuminate\Support\Facades\Hash;
+// use Illuminate\Auth\Events\Registered;
+// use Illuminate\Validation\Rules;
+// use Illuminate\Database\Eloquent\Builder;
+
 class PostsController extends Controller
 {
-    public function BN_posts()
+    public function BN_posts(Request $request)
     {
+
+        $query = carsModel::query()
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc');
+
+        // Check if status parameter is present in the URL
+        if ($request->has('status')) {
+            $status = $request->input('status');
+            // Add a condition to filter by status
+            $query->where('cars.status', '=', $status);
+        }
+
+        // Check if type parameter is present in the URL
+        if ($request->has('type')) {
+            $type = $request->input('type');
+            // Add a condition to filter by type
+            $query->where('cars.type', '=', $type);
+        }
+
+        $resultPerPage = 24;
+        $query = $query->paginate($resultPerPage);
+
         return view('backend/post', [ 
             'default_pagename' => 'โพสท์ลงขายรถ',
-            
+            'query' => $query,
         ]);
+        // $query = carsModel::query()
+        //     ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+        //     ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+        //     ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+        //     ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+        //     ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        //     ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'brands.title as brands_title', 'models.model as model_name', 
+        //         'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+        //     ->orderBy('id', 'desc')
+        //     ->paginate(24);
+
+
+        // return view('backend/post', [ 
+        //     'default_pagename' => 'โพสท์ลงขายรถ',
+        //     'query' => $query,
+        // ]);
     }
     public function BN_posts_add(Request $request)
     {
@@ -173,7 +223,7 @@ class PostsController extends Controller
             ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(12);
         $output = '';
 
         $arrrole = array(
