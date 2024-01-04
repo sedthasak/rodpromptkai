@@ -617,6 +617,11 @@ $arr_cartype = array(
                 }
             }
 
+            if (emptyFields.length > 0) {
+                var errorMessage = "\n";
+                for (var j = 0; j < emptyFields.length; j++) {
+                    errorMessage += "- " + emptyFields[j] + ",\n";
+                }
 
 
             // ตรวจสอบขนาดของไฟล์ exterior_pictures
