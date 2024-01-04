@@ -120,7 +120,7 @@ $arr_cartype = array(
     }
 </style>
 <div id="wait" class="box-waiting " style="display:none;"><div class="waiting-wrapper-image"><img src="{{asset('uploads/wait.gif')}}" /></div></div>
-<form method="POST" id="form" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
+<form method="POST" id="regis" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
 @csrf
     <div id="topontop"></div>
     <div id="step1">
@@ -501,7 +501,7 @@ $arr_cartype = array(
                                                 <div class="step-chceckbox">
                                                     <div class="login-checkbox">
                                                         <label class="list-checkbox"><a href="{{route('termconditionPage')}}" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="{{route('privacypolicyPage')}}" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
-                                                            <input type="checkbox" name="submit" value="1" required  checked="checked">
+                                                            <input type="checkbox" value="1"  checked>
                                                             <span class="checkmark"></span>
                                                         </label>
                                                     </div>
@@ -544,15 +544,15 @@ $arr_cartype = array(
 </script>
 <script>
 
-    $(document).ready(function () {
-        $('#form').submit(function (event) {
-            // Show the "wait" div when the form is submitted
-            $('#wait').show();
+    // $(document).ready(function () {
+    //     $('#form').submit(function (event) {
+    //         // Show the "wait" div when the form is submitted
+    //         $('#wait').show();
 
-            // You can also disable the submit button to prevent multiple submissions
-            $('.btn-nextstep').prop('disabled', true);
-        });
-    });
+    //         // You can also disable the submit button to prevent multiple submissions
+    //         $('.btn-nextstep').prop('disabled', true);
+    //     });
+    // });
 
 
 
@@ -560,149 +560,64 @@ $arr_cartype = array(
 
 
     document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("submit-btn").addEventListener("click", function (event) {
-        event.preventDefault();
-        validateForm();
-    });
+        document.getElementById("submit-btn").addEventListener("click", function (event) {
+            event.preventDefault();
+            validateForm();
+        });
 
-    function validateForm() {
-        var requiredFields = document.querySelectorAll("[required]");
-        var emptyFields = [];
+        function validateForm() {
+            var requiredFields = document.querySelectorAll("[required]");
+            var emptyFields = [];
 
-        for (var i = 0; i < requiredFields.length; i++) {
-            var fieldValue = requiredFields[i].value.trim();
+            for (var i = 0; i < requiredFields.length; i++) {
+                var fieldValue = requiredFields[i].value.trim();
 
-            // Check if the selected color is "สีอื่นๆ"
-            if (requiredFields[i].name === "color" && fieldValue === "9999999999") {
-                // If "สีอื่นๆ" is selected, check if other_color is not empty
-                var otherColorInput = document.querySelector("[name='other_color']");
-                if (otherColorInput.value.trim() === "") {
-                    // If other_color is empty, add the label to the emptyFields array
-                    var labelId = otherColorInput.getAttribute("aria-labelledby");
+                // Check if the selected color is "สีอื่นๆ"
+                if (requiredFields[i].name === "color" && fieldValue === "9999999999") {
+                    // If "สีอื่นๆ" is selected, check if other_color is not empty
+                    var otherColorInput = document.querySelector("[name='other_color']");
+                    if (otherColorInput.value.trim() === "") {
+                        // If other_color is empty, add the label to the emptyFields array
+                        var labelId = otherColorInput.getAttribute("aria-labelledby");
+                        var label = document.getElementById(labelId);
+                        emptyFields.push(label.innerText);
+                    }
+                } else if (fieldValue === "") {
+                    // If other fields are empty, add them to the emptyFields array
+                    var labelId = requiredFields[i].getAttribute("aria-labelledby");
                     var label = document.getElementById(labelId);
                     emptyFields.push(label.innerText);
                 }
-            } else if (fieldValue === "") {
-                // If other fields are empty, add them to the emptyFields array
-                var labelId = requiredFields[i].getAttribute("aria-labelledby");
-                var label = document.getElementById(labelId);
-                emptyFields.push(label.innerText);
-            }
-        }
-
-        if (emptyFields.length > 0) {
-            var errorMessage = "\n";
-            for (var j = 0; j < emptyFields.length; j++) {
-                errorMessage += "- " + emptyFields[j] + ",\n";
             }
 
-            Swal.fire({
-                icon: "error",
-                title: "กรุณากรอกข้อมูลให้ครบถ้วน...",
-                text: errorMessage,
-            });
-        } else {
-            document.getElementById("form").submit();
+            if (emptyFields.length > 0) {
+                var errorMessage = "\n";
+                for (var j = 0; j < emptyFields.length; j++) {
+                    errorMessage += "- " + emptyFields[j] + ",\n";
+                }
+
+                Swal.fire({
+                    icon: "error",
+                    title: "กรุณากรอกข้อมูลให้ครบถ้วน...",
+                    text: errorMessage,
+                });
+            } else {
+                // document.getElementById("#form").submit();
+
+                var form = document.querySelector("#regis");
+                // console.log(form);
+                if (form) {
+                    // console.log(form.submit);
+                    form.submit();
+                    $('#wait').show();
+
+                    // You can also disable the submit button to prevent multiple submissions
+                    $('.btn-nextstep').prop('disabled', true);
+                }
+            }
         }
-    }
-});
+    });
 
-
-
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
-    //         event.preventDefault();
-    //         validateForm();
-    //     });
-
-    //     function validateForm() {
-    //         var requiredFields = document.querySelectorAll("[required]");
-    //         var emptyFields = [];
-
-    //         for (var i = 0; i < requiredFields.length; i++) {
-    //             if (requiredFields[i].value.trim() === "") {
-    //                 // Get the label text associated with the input field
-    //                 var labelId = requiredFields[i].getAttribute("aria-labelledby");
-    //                 var label = document.getElementById(labelId);
-    //                 emptyFields.push(label.innerText);
-    //             }
-    //         }
-
-    //         if (emptyFields.length > 0) {
-    //             var errorMessage = "กรุณากรอกข้อมูลให้ครบถ้วน:\n";
-    //             for (var j = 0; j < emptyFields.length; j++) {
-    //                 errorMessage += "- " + emptyFields[j] + "\n";
-    //             }
-
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "Oops...",
-    //                 text: errorMessage,
-    //             });
-    //         } else {
-    //             document.getElementById("form").submit();
-    //         }
-    //     }
-    // });
-
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
-    //         event.preventDefault();
-    //         validateForm();
-    //     });
-
-    //     function validateForm() {
-    //         var requiredFields = document.querySelectorAll("[required]");
-    //         var emptyFields = [];
-
-    //         for (var i = 0; i < requiredFields.length; i++) {
-    //             if (requiredFields[i].value.trim() === "") {
-    //                 emptyFields.push(requiredFields[i].name);
-    //             }
-    //         }
-
-    //         if (emptyFields.length > 0) {
-    //             var errorMessage = "กรุณากรอกข้อมูลให้ครบถ้วน:\n";
-    //             for (var j = 0; j < emptyFields.length; j++) {
-    //                 errorMessage += "- " + emptyFields[j] + "\n";
-    //             }
-
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "Oops...",
-    //                 text: errorMessage,
-    //             });
-    //         } else {
-    //             document.getElementById("form").submit();
-    //         }
-    //     }
-    // });
-
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     document.getElementById("submit-btn").addEventListener("click", function (event) {
-    //         event.preventDefault();
-    //         if (validateForm()) {
-    //             document.getElementById("form").submit();
-    //         }
-    //     });
-    //     function validateForm() {
-    //         var requiredFields = document.querySelectorAll("[required]");
-    //         for (var i = 0; i < requiredFields.length; i++) {
-    //             if (requiredFields[i].value.trim() === "") {
-    //                 Swal.fire({
-    //                     icon: "error",
-    //                     title: "Oops...",
-    //                     text: "กรุณากรอกข้อมูลให้ครบถ้วน",
-    //                 });
-    //                 return false;
-    //             }
-    //         }
-    //         return true;
-    //     }
-    // });
 
     document.addEventListener('DOMContentLoaded', function () {
         ClassicEditor
@@ -822,6 +737,7 @@ $arr_cartype = array(
         $("#generations").on( "change", function() {
             var generations_id = $(this).val();
             if(generations_id){
+                $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectGenerations')}}",
                     type: "post",
@@ -831,9 +747,11 @@ $arr_cartype = array(
                     },
                     success: function (response) {
                         // console.log(response);
+                        $('#wait').hide();
                         $('#sub_models').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
                         console.log(textStatus, errorThrown);
                     }
                 });
@@ -846,9 +764,11 @@ $arr_cartype = array(
                     },
                     success: function (response) {
                         // console.log(response);
+                        $('#wait').hide();
                         $('#years').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
                         console.log(textStatus, errorThrown);
                     }
                 });
@@ -858,6 +778,7 @@ $arr_cartype = array(
         $("#models").on( "change", function() {
             var models_id = $(this).val();
             if(models_id){
+                $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectModel')}}",
                     type: "post",
@@ -867,9 +788,11 @@ $arr_cartype = array(
                     },
                     success: function (response) {
                         // console.log(response);
+                        $('#wait').hide();
                         $('#generations').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
                         console.log(textStatus, errorThrown);
                     }
                 });
@@ -879,6 +802,7 @@ $arr_cartype = array(
         $("#brands").on( "change", function() {
             var brands_id = $(this).val();
             if(brands_id){
+                $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectBrand')}}",
                     type: "post",
@@ -888,9 +812,11 @@ $arr_cartype = array(
                     },
                     success: function (response) {
                         // console.log(response);
+                        $('#wait').hide();
                         $('#models').html(response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
                         console.log(textStatus, errorThrown);
                     }
                 });

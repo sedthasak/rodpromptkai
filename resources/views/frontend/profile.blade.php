@@ -55,8 +55,14 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                         </a>
                                     </div>
                                     <div class="col-12 col-md-6 text-end">
-                                        <div class="mycar-post">วันที่ลงขาย :  {{date('d m Y', strtotime($cars->created_at))}}</div>
-                                        <!-- <div class="mycar-expire">วันที่หมดอายุ :  {{date('d m Y', strtotime($cars->created_at))}}</div> -->
+                                        @if(isset($cars->approvedate))
+                                            <div class="mycar-post">วันที่ลงขาย :  {{date('d/m/Y', $cars->approvedate)}}</div>
+                                        @endif
+                                        @if(isset($cars->expiredate))
+                                            <div class="mycar-expire">วันที่หมดอายุ :  {{date('d/m/Y', $cars->expiredate)}}</div>
+                                        @endif
+                                        <!-- <div class="mycar-post">วันที่ลงขาย :  {{date('d m Y', strtotime($cars->created_at))}}</div>
+                                        <div class="mycar-expire">วันที่หมดอายุ :  {{date('d m Y', strtotime($cars->created_at))}}</div> -->
                                     </div>
                                 </div>
                                 <div class="mycar-boxline">

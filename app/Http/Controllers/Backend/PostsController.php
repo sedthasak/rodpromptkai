@@ -201,6 +201,9 @@ class PostsController extends Controller
                 }elseif($res->status == 'expired'){
                     $classset = 'cursor-pointer rounded-full bg-danger px-2 py-1 text-xs font-medium text-white';
                     $nameset = 'หมดอายุ';
+                }elseif($res->status == 'deleted'){
+                    $classset = 'cursor-pointer rounded-full bg-danger px-2 py-1 text-xs font-medium text-white';
+                    $nameset = 'ถูกลบ';
                 }
                 ?>
                 <tr class="intro-x">

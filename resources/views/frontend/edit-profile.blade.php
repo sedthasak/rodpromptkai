@@ -26,7 +26,7 @@ $facebook = $Customer->facebook??'';
 $line = $Customer->line??'';
 
 // echo "<pre>";
-// print_r($customer_id);
+// print_r(session('success'));
 // echo "</pre>";
 ?>
 <section class="row">
@@ -36,7 +36,7 @@ $line = $Customer->line??'';
                 <div class="col-12">
                     <h1 class="topic-insidepage"><i class="bi bi-circle-fill"></i> แก้ไขโปรไฟล์</h1>
                     <div class="bg-white-profile">
-                        <form method="post" action="{{route('editprofileactionPage')}}" enctype="multipart/form-data" >
+                        <form method="post" action="{{route('editprofileactionPage')}}" enctype="multipart/form-data" onsubmit="return confirmSubmit()" >
                         @csrf
                             <input type="hidden" name="id" value="{{$customerdata->id}}" />
                             <div class="row">
@@ -115,7 +115,7 @@ $line = $Customer->line??'';
                                                     <img width="250px" src="{{$map}}" />
                                                 </div>
                                                 <div class="col-12 text-end">
-                                                    <button type="submit" class="btn-profile btn-red">บันทึก</button>
+                                                    <button type="submit" class="btn-profile btn-red"  >บันทึก</button>
                                                 </div>
                                             </div>
                                         </div>  
@@ -133,6 +133,38 @@ $line = $Customer->line??'';
 @endsection
 
 @section('script')
+<script>
+    function confirmSubmit() {
+        Swal.fire({
+            title: 'ยืนยันการบันทึกข้อมูล?',
+            text: 'คุณแน่ใจหรือไม่ที่ต้องการบันทึกข้อมูลนี้?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ยืนยัน',
+            cancelButtonText: 'ยกเลิก',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, submit the form
+                document.forms[0].submit();
+            }
+        });
+
+        // Prevent default form submission
+        return false;
+    }
+
+    // @if(session('success'))
+    //     Swal.fire({
+    //         title: 'บันทึกข้อมูลสำเร็จ!',
+    //         text: '{{ session('success') }}',
+    //         icon: 'success',
+    //         showConfirmButton: false,
+    //         timer: 2000  // Adjust the time the success message is displayed (in milliseconds)
+    //     });
+    // @endif
+</script>
 
 @endsection
 

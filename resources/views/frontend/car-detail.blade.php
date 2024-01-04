@@ -15,7 +15,7 @@ $arr_gear = array(
 // print_r($customerdata);
 // echo "</pre>";
 // echo "<pre>";
-// print_r($exterior);
+// print_r($cars);
 // echo "</pre>";
 ?>
 
@@ -27,7 +27,10 @@ $arr_gear = array(
                 <div class="col-12 col-lg-6 detail_slide">
                     <div class="slide-wrapper">
                         <div class="tab_pdetail slide_load cover-radius">
-                            <!-- <div class="car-booked"><div>จองแล้ว</div></div> -->
+                            @if($cars->reserve == 1)
+                            <div class="car-booked"><div>จองแล้ว</div></div>
+                            @endif
+                            
                             <div class="owl-carousel owl-theme slider">
                                 @foreach($exterior as $ext)
                                 <div class="item">
@@ -343,6 +346,24 @@ $arr_gear = array(
                             <p>
                             Lorem ipsum dolor sit amet, ante dignissim, varius elit urna erat odio lectus. Aenean laoreet pellentesque justo maecenas nec, viverra diam cras, lorem at vitae vestibulum, arcu lobortis ac. Netus vitae wisi odio vitae sagittis tortor, cras mauris accumsan sed ornare phasellus pellentesque, tellus morbi non in lectus vel volutpat, arcu eu a, et at urna donec integer suscipit orci. Elit nisl hendrerit mus dui. Commodo eget odio, in nulla eget, curabitur enim sed semper. At malesuada pharetra felis commodo facilisi egestas, in praesent in neque lorem libero nostrud, turpis ac, blandit fringilla vestibulum odio nullam, sit etiam ut. Lectus integer facilisis in fusce erat amet. 
                             </p> -->
+                            <br>
+                            <div class="topic-descpromotion">การรับประกันหลังการขาย</div>
+
+
+                            @if ($cars->warranty_1 == 1)
+                                <p><i class="bi bi-check"></i> รถได้รับการตรวจสภาพโดยผู้เชี่ยวชาญ</p>
+                            @endif
+
+                            @if ($cars->warranty_2 == 1)
+                                <p><i class="bi bi-check"></i> มีการรับประกัน </p>
+                                @if (!empty($cars->warranty_2_input))
+                                    <p>{{ $cars->warranty_2_input }}</p>
+                                @endif
+                            @endif
+
+                            @if ($cars->warranty_3 == 1)
+                                <p><i class="bi bi-check"></i> มีบริการช่วยเหลือฉุกเฉิน 24 ชม.</p>
+                            @endif
                         </div>
                     </div>
                     <button class="more-info">

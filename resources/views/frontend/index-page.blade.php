@@ -258,7 +258,7 @@ $arr_gear = array(
                                     <div class="linecontent"></div>
                                     <div class="row caritem-price">
                                         <div class="col-6">
-                                            <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$car1->gear]}}</div>
+                                            <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$car1->gear]??''}}</div>
                                         </div>
                                         <div class="col-6 text-end">
                                             <div class="car-price">{{number_format($car1->price, 0, '.', ',')}}.-</div>
@@ -405,7 +405,7 @@ $arr_gear = array(
                                         <div class="linecontent"></div>
                                         <div class="row caritem-price">
                                             <div class="col-12 col-md-6">
-                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$post6post->gear]}}</div>
+                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$post6post->gear]??''}}</div>
                                             </div>
                                             <div class="col-12 col-md-6 text-end">
                                                 <div class="car-price">{{number_format($post6post->price, 0, '.', ',')}}.-</div>
