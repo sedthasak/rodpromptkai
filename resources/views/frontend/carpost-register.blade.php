@@ -118,6 +118,33 @@ $arr_cartype = array(
         height: auto; /* Automatically adjust the height to maintain aspect ratio */
         max-width: 100%; /* Ensure the image doesn't exceed its container */
     }
+
+
+
+
+
+    #image-preview {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .item-photoupload {
+        margin: 5px;
+        cursor: move;
+        box-sizing: border-box;
+        position: relative;
+        transition: transform 0.2s ease; /* ลดความ sensitive */
+        z-index: 1;
+    }
+
+    .item-photoupload img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 </style>
 <div id="wait" class="box-waiting " style="display:none;"><div class="waiting-wrapper-image"><img src="{{asset('uploads/wait.gif')}}" /></div></div>
 <form method="POST" id="regis" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
@@ -170,7 +197,7 @@ $arr_cartype = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>อีเมล</label>
-                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly  />
+                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly  required />
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>เบอร์โทรศัพท์</label>
@@ -340,7 +367,7 @@ $arr_cartype = array(
                                 <div class="box-frm-step">
                                     <div class="row">
                                         <div class="col-12 frm-step">
-                                            <label id="title_label">หัวข้อโฆษณา<span>*</span></label>
+                                            <label id="title_label">หัวข้อโฆษณา/โปรโมชั่น<span>*</span></label>
                                             <input aria-labelledby="title_label" type="text" class="form-control" name="title" id="title_txt1" required >
                                             
                                         </div>
@@ -438,7 +465,7 @@ $arr_cartype = array(
                                                         <div id="hidden-inputs-exterior"></div>
                                                         <div id="hidden-inputs-feature"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input aria-labelledby="exterior_pictures_label" type="file" name="exterior_pictures[]" id="exterior_pictures" multiple required>
+                                                            <input aria-labelledby="exterior_pictures_label" type="file" name="exterior_pictures[]" id="exterior_pictures" accept="image/jpeg, image/png" multiple required>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>
@@ -446,7 +473,7 @@ $arr_cartype = array(
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
                                                         <div><label id="interior_pictures_label">อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
                                                         
-                                                        <div class="row row-photoupload interior" id="image-preview">
+                                                        <div id="image-preview">
                                                             {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button type="button"><i class="bi bi-trash3-fill"></i></button>
@@ -456,7 +483,7 @@ $arr_cartype = array(
                                                         </div>
                                                         <div id="hidden-inputs"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input aria-labelledby="interior_pictures_label" type="file" name="interior_pictures[]" id="interior_pictures" multiple required>
+                                                            <input aria-labelledby="interior_pictures_label" type="file" name="interior_pictures[]" id="interior_pictures" accept="image/jpeg, image/png" multiple required>
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>
@@ -472,7 +499,7 @@ $arr_cartype = array(
                                                             </div>
                                                         </div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" accept="image/*" name="licenseplate" id="licenseplate">
+                                                            <input type="file" accept="image/*" name="licenseplate" id="licenseplate" accept="image/jpeg, image/png">
                                                             <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
                                                         </div>
                                                     </div>
@@ -584,11 +611,73 @@ $arr_cartype = array(
                     }
                 } else if (fieldValue === "") {
                     // If other fields are empty, add them to the emptyFields array
+                    // console.log(i);
                     var labelId = requiredFields[i].getAttribute("aria-labelledby");
                     var label = document.getElementById(labelId);
                     emptyFields.push(label.innerText);
                 }
             }
+
+
+
+            // ตรวจสอบขนาดของไฟล์ exterior_pictures
+            var files = $("[name='exterior_pictures[]']")[0].files;
+            var isValid = true;
+
+            for (var i = 0; i < files.length; i++) {
+                var fileSize = files[i].size / 1024; // แปลงเป็น KB
+
+                if (fileSize < 10 || fileSize > 12000) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            // ถ้าขนาดไฟล์ไม่ถูกต้อง ยกเลิกการ submit
+            if (!isValid) {
+                emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
+            }
+
+            // ตรวจสอบขนาดของไฟล์ interior_pictures
+            var files = $("[name='interior_pictures[]']")[0].files;
+            var isValid = true;
+
+            for (var i = 0; i < files.length; i++) {
+                var fileSize = files[i].size / 1024; // แปลงเป็น KB
+
+                if (fileSize < 10 || fileSize > 12000) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            // ถ้าขนาดไฟล์ไม่ถูกต้อง ยกเลิกการ submit
+            if (!isValid) {
+                emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
+            }
+            
+            // ตรวจสอบขนาดของไฟล์ licenseplate
+            var inputFile = $("[name='licenseplate']")[0];
+            if (inputFile.files.length > 0) {
+                // ดึงขนาดของไฟล์
+                var fileSize = inputFile.files[0].size; // ขนาดไฟล์อยู่ในหน่วย bytes
+
+                // ตรวจสอบว่าขนาดไฟล์อยู่ในช่วงที่กำหนดหรือไม่
+                if (fileSize >= 10240 && fileSize <= 12000000) {
+                    // ขนาดไฟล์ถูกต้อง
+                } else {
+                    // ขนาดไฟล์ไม่ถูกต้อง
+                    emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
+                }
+            } else {
+                // ไม่มีไฟล์ถูกเลือก
+            }
+
+
+
+
+
+
 
             if (emptyFields.length > 0) {
                 var errorMessage = "\n";
@@ -830,13 +919,24 @@ $arr_cartype = array(
     var interior_count = 0;
     var exterior_count = 0;
     $(document).ready(function() {
-        $("#image-preview").sortable({
-            handle: '.item-photoupload',
-            stop: function(event, ui) {
-                // Code to handle sorting update
-                updateImageOrder();
-            }
+        $(".item-photoupload").draggable({
+            helper: "clone",
+            cursor: "move",
+            zIndex: 1000
         });
+
+        // $("#image-preview").droppable({
+        //     accept: ".item-photoupload",
+        //     drop: function (event, ui) {
+        //         var droppedElement = ui.helper.clone();
+        //         ui.helper.remove();
+
+        //         $(this).append(droppedElement);
+
+        //         // Code to handle sorting update
+        //         updateImageOrder();
+        //     }
+        // });
 
         // Additional code for handling file input change
         $("#interior_pictures").on('change', handleFileSelect);
@@ -932,7 +1032,9 @@ $arr_cartype = array(
                 // let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
                 // hiddenInputsFeature.empty().append(hiddenInputFeature);
                 // console.log(base64StringExterior);
+                updateImageOrder();
             }
+            
         });
         $('#image-preview').disableSelection();
         $("#image-preview-exterior").sortable({
@@ -1018,23 +1120,31 @@ $arr_cartype = array(
         */
     }
     function updateImageOrder() {
-        // อัพเดตลำดับของรูปภาพในแบบฟอร์ม
-        const imageOrder = [];
-        $("#image-preview .item-photoupload").each(function(index) {
-            imageOrder.push({
-                index: index + 1,
-                fileInput: $(this).find('input[type="file"]')
-            });
-        });
+        // // อัพเดตลำดับของรูปภาพในแบบฟอร์ม
+        // const imageOrder = [];
+        // $("#image-preview .item-photoupload").each(function(index) {
+        //     imageOrder.push({
+        //         index: index + 1,
+        //         fileInput: $(this).find('input[type="file"]')
+        //     });
+        // });
 
-        // อัพเดต index ของ input file ตามลำดับใหม่
-        imageOrder.forEach(function(image) {
-            const name = "interior_pictures[" + image.index + "]";
-            image.fileInput.attr('name', name);
-        });
+        // // อัพเดต index ของ input file ตามลำดับใหม่
+        // imageOrder.forEach(function(image) {
+        //     const name = "interior_pictures[" + image.index + "]";
+        //     image.fileInput.attr('name', name);
+        // });
 
-        // ทำอย่างไรก็ตามที่คุณต้องการทำกับ imageOrder ก่อนส่งไปยังเซิร์ฟเวอร์
-        console.log("Image Order:", imageOrder);
+        // // ทำอย่างไรก็ตามที่คุณต้องการทำกับ imageOrder ก่อนส่งไปยังเซิร์ฟเวอร์
+        // console.log("Image Order:", imageOrder);
+
+
+
+
+        // Code to update the order of images
+        var order = $("#image-preview").sortable("toArray");
+            console.log(order);
+            // Implement your logic to save or use the new order
     }
 </script>
 @endsection
