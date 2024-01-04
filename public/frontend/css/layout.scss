@@ -4811,7 +4811,7 @@ a{
         background-color: $main-color;
     }
 }
-.listdesc-contact{
+.listdesc-contact{ 
     .btnline{
         background-color: #31C139;
         margin-left: 5px;
@@ -4819,17 +4819,20 @@ a{
             background-color: #333;
         }
     }
+    a{
+        div{
+            display: inline-block;
+            padding-left: 5px;
+        }
+    }
 }
 
 
 /*responsive*/
-@media (min-width: 1700px){ 
-   .container{
+@media (min-width: 1700px){  
+   .container{ 
        max-width: 1650px;
    } 
-}
-@media (max-width: 1920px){
-   
 }
 @media (max-width: 1600px){
     .search-range{
@@ -5703,6 +5706,10 @@ a{
         width: 35px;
         height: 35px;
     }
+    .listdesc-contact.text-end{
+        text-align: left !important;
+        margin-top: 15px;
+    }
 }
 @media (max-width: 991px){
     body{
@@ -6380,9 +6387,20 @@ a{
     .btn-boxfilter button{
         white-space: nowrap;
     }
+    .listdesc-contact a div{
+        display: none;
+    }
+    .listdesc-contact.text-end{
+        text-align: right !important;
+        margin-top: 0;
+    }
+   
 }
 @media (max-width: 767px){
-
+    .listdesc-contact.text-end{
+        text-align: left !important;
+        margin-top: 15px;
+    }
     .owl-carousel.owl-bannerslide .owl-dots .owl-dot span{
         width: 6px;
         height: 6px;
@@ -7881,10 +7899,7 @@ a{
     .desc-cardetail .box-listdesc .topic-listdesc i{
         font-size: 1.3rem;
     }
-    .listdesc-contact.text-end{
-        text-align: left !important;
-        margin-top: 15px;
-    }
+   
     .listdesc-contact a{
         margin-right: 5px;
     }

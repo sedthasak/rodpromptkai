@@ -229,7 +229,7 @@ $arr_gear = array(
                                 </div>
                                 <div class="col-12 col-sm-7 listdesc-contact text-end">
                                     <a href="tel:{{$cars->customer_phone}}" data-post="{{$cars->id}}" target="_blank" class="btn-red" onclick="updateClickCount({{$cars->id}}, this)">
-                                        <i class="bi bi-telephone-fill"></i> {{$cars->firstname}}
+                                        <i class="bi bi-telephone-fill"></i> คุณ{{$cars->firstname}}&nbsp;<div>{{$cars->customer_phone}}</div>
                                     </a>
 
                                     @if(isset($cars->customer_line))
