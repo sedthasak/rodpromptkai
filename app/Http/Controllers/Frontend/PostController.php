@@ -110,11 +110,17 @@ class PostController extends Controller
         }
         $cars->warranty_2_input = $request->warranty_2_input;
 
-        if($request->customer_type == 'dealer'){
+        if($request->status == 'approved'){
             $cars->status = 'approved';
-        }else{
+        }elseif($request->status == 'rejected'){
             $cars->status = 'created';
         }
+
+        // if($request->customer_type == 'dealer'){
+        //     $cars->status = 'approved';
+        // }else{
+        //     $cars->status = 'created';
+        // }
         $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
         $cars->province = $request->province;
         $cars->update();

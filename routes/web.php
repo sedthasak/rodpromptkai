@@ -104,6 +104,9 @@ Route::middleware('sessionlogin')->group(function() {
 
         Route::get('/profile', 'profilePage')->name('profilePage');
         Route::post('/update-reserve', 'updatereservePage')->name('updatereservePage');
+        Route::post('/update-price', 'updatepricePage')->name('updatepricePage');
+
+
 
         Route::get('/dev', 'DevelopPage')->name('DevelopPage');
         

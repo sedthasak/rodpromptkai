@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <div class="item-mycar-button">
-                                <a href="#" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
+                                <a href="{{route('carpostregistereditPage', ['post' => $cars->id])}}" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
                                 <button class="btn-mycar btn-mycar-delete button-delete"><i class="bi bi-trash3-fill"></i> ลบ</button>
                             </div>
                         </div>

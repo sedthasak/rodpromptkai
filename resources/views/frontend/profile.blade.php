@@ -12,7 +12,7 @@
 
 $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png');
 // echo "<pre>";
-// print_r($mycars);
+// print_r($_POST);
 // echo "</pre>";
 ?>
 <section class="row">
@@ -61,8 +61,6 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                         @if(isset($cars->expiredate))
                                             <div class="mycar-expire">วันที่หมดอายุ :  {{date('d/m/Y', $cars->expiredate)}}</div>
                                         @endif
-                                        <!-- <div class="mycar-post">วันที่ลงขาย :  {{date('d m Y', strtotime($cars->created_at))}}</div>
-                                        <div class="mycar-expire">วันที่หมดอายุ :  {{date('d m Y', strtotime($cars->created_at))}}</div> -->
                                     </div>
                                 </div>
                                 <div class="mycar-boxline">
@@ -70,11 +68,17 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                         <div class="col-8 col-md-8">
                                             <div class="mycar-boxprice">
                                                 <div class="mycar-price">{{number_format($cars->price, 0, '.', ',')}}.-</div>
-                                                <!-- <a data-fancybox data-src="#edit-carprice" href="javascript:;" class="mycar-editprice"><i class="bi bi-pencil-square"></i> แก้ไขราคา</a> -->
+                                                @if((2 - $cars->edit_price) > 0)
+                                                <a data-fancybox data-src="#edit-carprice{{$cars->id}}" href="javascript:;" class="mycar-editprice">
+                                                    <i class="bi bi-pencil-square"></i> แก้ไขราคา
+                                                </a>
+                                                @endif 
+                                                
                                             </div>
                                         </div>
                                         <div class="col-4 col-md-4 text-end">
-                                            <button class="mycar-reserve {{$resve_state}}" data-post-id="{{ $cars->id }}" data-current-value="{{ $cars->reserve }}" ><img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt=""> จองแล้ว</button>
+                                            <button class="mycar-reserve {{$resve_state}}" data-post-id="{{ $cars->id }}" data-current-value="{{ $cars->reserve }}" >
+                                            <img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt=""> จองแล้ว</button>
                                         </div>
                                     </div>
                                 </div>
@@ -85,6 +89,43 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                     <i class="bi bi-trash3-fill"></i> ลบ
                                 </button>
 
+                            </div>
+                        </div>
+
+                        <div style="display: none;" id="edit-carprice{{$cars->id}}" class="box-edit-carprice">
+                            <div class="frm-edit-carprice">
+                                <div class="text-center">
+                                    <div class="txt-editprices">แก้ไขราคา</div>
+                                    <div class="txt-editprices2">ท่านสามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
+                                </div>
+                                <form method="post" action="{{ route('updatepricePage') }}">
+                                @csrf
+                                    <input type="hidden" name="id" value="{{$cars->id}}" />
+                                    <div class="row">
+                                        <div class="col-4 col-md-3">
+                                            <label>ราคาเดิม</label>
+                                        </div>
+                                        <div class="col-8 col-md-9">
+                                            <div class="txt-editprices3">{{number_format($cars->price, 0, '.', ',')}}.-</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 col-md-3">
+                                            <label>ราคาใหม่</label>
+                                        </div>
+                                        <div class="col-8 col-md-9">
+                                            <input type="number" name="newprice" class="form-control">
+                                            <div>จำนวนครั้งที่ท่านสามารถแก้ไขได้  {{2 - $cars->edit_price}}/2</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <div class="frm-step-button">
+                                                <div class="btn-step btn-nextstep btn-confirm-edit-carprice">ยืนยันการแก้ไข</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         @endforeach
@@ -137,41 +178,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         </div> -->
 
 
-                        <div style="display: none;" id="edit-carprice">
-                            <div class="frm-edit-carprice">
-                                <div class="text-center">
-                                    <div class="txt-editprices">แก้ไขราคา</div>
-                                    <div class="txt-editprices2">ท่านสามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
-                                </div>
-                                <form>
-                                    <div class="row">
-                                        <div class="col-4 col-md-3">
-                                            <label>ราคาเดิม</label>
-                                        </div>
-                                        <div class="col-8 col-md-9">
-                                            <div class="txt-editprices3">599,000.-</div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4 col-md-3">
-                                            <label>ราคาใหม่</label>
-                                        </div>
-                                        <div class="col-8 col-md-9">
-                                            <input type="text" class="form-control">
-                                            <div>จำนวนครั้งที่ท่านสามารถแก้ไขได้  1/2</div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 text-center">
-                                            <div class="frm-step-button">
-                                                <button class="btn-step btn-nextstep">ยืนยันการแก้ไข</button>
-                                                <button href="dealer-carpost-step3.php" class="btn-step btn-backstep">ยกเลิก</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <div class="totop-mb"><a id="button-top">กลับสู่ด้านบน</a></div>
@@ -192,6 +199,13 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
     $( ".menu-mycar > ul > li:nth-child(1) > a" ).addClass( "here" );
 </script>
 <script>
+
+    $(document).ready(function(){
+        $(".btn-confirm-edit-carprice").on("click", function () {
+            $(this).closest("form").submit();
+        });
+    });
+
 
     document.querySelectorAll('.btn-mycar-delete').forEach(button => {
         button.addEventListener('click', function () {
@@ -338,6 +352,10 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
 
 
 <script>
+    // $(".btn-confirm-edit-carprice").on("click", function () {
+    //     $(this).closest("form").submit();
+    // });
+
     $(document).ready(function(){
       // เมื่อมีการเปลี่ยนแปลงใน input type="text"
       $('input[type="text"]').on('input', function() {

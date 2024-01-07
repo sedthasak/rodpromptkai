@@ -51,24 +51,22 @@
                                             <div class="customer-carname">{{$cont_count}}. <a href="{{route('cardetailPage', ['post' => $contact->cars_id])}}">{{strtoupper($contact->modelyear." ".$contact->brand." ".$contact->model)}}</a></div>
                                         </div>
                                         <div class="col-3 col-md-2 col-xl-2">
-                                            <div class="customer-date">{{date('d/m/Y', strtotime($contact->created_at))}}</div>
+                                            <div class="customer-date">{{date('d/m/Y', strtotime($contact->created_at)).$contact->id}}</div>
                                         </div>
                                         <div class="col-9 col-md-5 col-xl-4 text-end">
                                             <!-- <button class="btn-cus-delete button-delete"><i class="bi bi-trash3-fill"></i></button> -->
-                                            <div class="status-contactcus">
-                                                <!-- <select name="color" id='color' data-post="{{$contact->cars_id}}" >
-                                                    <option value="#D82E2E" {{($contact->created_at == 'create')?'selected':'';}}>ยังไม่ได้ติดต่อ</option>    
-                                                    <option value="#41AC6D" {{($contact->created_at == 'contact')?'selected':'';}}>ติดต่อแล้ว</option>  
-                                                    <option value="create" {{($contact->status == 'create')?'selected':'';}}>ยังไม่ได้ติดต่อ</option>    
-                                                    <option value="contact" {{($contact->status == 'contact')?'selected':'';}}>ติดต่อแล้ว</option>  
-                                                </select>  -->
+                                            <!-- <div class="status-contactcus">
+
 
                                                 <select name="color" id="color" data-post="{{$contact->cars_id}}">
                                                     <option value="create" {{($contact->status == 'create')?'selected':'';}}>ยังไม่ได้ติดต่อ</option>    
                                                     <option value="contact" {{($contact->status == 'contact')?'selected':'';}}>ติดต่อแล้ว</option>  
                                                 </select>
-                                            </div>
+                                            </div> -->
+                                            <button class="mycar-reserve " data-post-id="{{$contact->status}}" data-current-value="{{$contact->status}}" >
+                                            <img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt=""> ติดต่อแล้ว</button>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="btn-contactcus"><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></div>
@@ -221,6 +219,61 @@
 
 
 <script>
+
+    // document.querySelectorAll('.mycar-reserve').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         var postId = this.getAttribute('data-post-id');
+    //         var currentValue = this.getAttribute('data-current-value');
+
+    //         // You can customize the Swal.fire() method according to your needs
+    //         Swal.fire({
+    //             title: 'เปลี่ยนสถานะการจอง ?',
+    //             // text: 'You are about to toggle the data for post ' + postId + '!',
+    //             icon: 'warning',
+    //             showCancelButton: true,
+    //             confirmButtonColor: '#3085d6',
+    //             cancelButtonColor: '#d33',
+    //             confirmButtonText: 'ตกลง',
+    //             cancelButtonText: 'ยกเลิก'
+    //         }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 // Handle the toggle action here using Ajax or any other method
+    //                 // For example, you can use Axios to make an Ajax request
+    //                 axios.post('/update-reserve', {
+    //                     id: postId,
+    //                     currentValue: currentValue,
+    //                     // Other data to be sent for toggle
+    //                 })
+    //                 .then((response) => {
+    //                     // Handle the success response
+    //                     Swal.fire({
+    //                         title: 'สำเร็จ !',
+    //                         // text: 'Your data has been toggled for post ' + postId + '.',
+    //                         icon: 'success'
+    //                     }).then(() => {
+    //                         // Reload the page after clicking "OK"
+    //                         location.reload();
+    //                     });
+                        
+    //                     // Update the button's data-current-value attribute after a successful toggle
+    //                     this.setAttribute('data-current-value', response.data.newValue);
+    //                 })
+    //                 .catch((error) => {
+    //                     // Handle the error response
+    //                     Swal.fire(
+    //                         'ล้มเหลว!',
+    //                         'ไม่สามารถทำตามที่ร้องขอได้ !!!',
+    //                         'error'
+    //                     );
+    //                 });
+    //             }
+    //         });
+    //     });
+    // });
+
+
+
+
     document.addEventListener('DOMContentLoaded', function () {
         var colorSelect = document.getElementById('color');
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsSaveController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdatePriceRequest;
 use App\Models\Customer;
 use App\Models\Sms_session;
 use App\Models\provincesModel;
@@ -167,6 +168,23 @@ class FrontendPageController extends Controller
         // }
     }
 
+    public function updatepricePage(Request $request)
+    {
+        $postId = $request->id;
+        $newprice = $request->newprice;
+        if($postId && $newprice){
+            $carsModel = carsModel::find($postId);
+
+            if ($carsModel && $carsModel->edit_price < 2) {
+
+                $oldValue = $carsModel->edit_price;
+                $carsModel->edit_price = $oldValue + 1;
+                $carsModel->price = $newprice;
+                $carsModel->save();
+            }
+        }
+        return redirect()->back()->with('success', 'บันทึกสำเร็จ !');
+    }
     public function updatereservePage(Request $request)
     {
         $postId = $request->id;

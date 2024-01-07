@@ -124,6 +124,7 @@ $arr_cartype = array(
                                 <input type="hidden" name="customer_id" value="{{$customerid}}" />
                                 <input type="hidden" name="customer_type" value="{{$mycars->type}}" />
                                 <input type="hidden" name="post_id" value="{{$mycars->id}}" />
+                                <input type="hidden" name="status" value="{{$mycars->status}}" />
                                 <div class="box-frm-step">
                                     <div class="row">
                                         <div class="col-12 col-md-6 frm-step">
@@ -322,7 +323,7 @@ $arr_cartype = array(
                                         <div class="col-12 frm-step">
                                             <label>ตั้งราคาขาย<span>*</span></label>
                                             <div class="txt-noteedit">หลังจากลงขายแล้ว สามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
-                                            <input type="text" class="form-control" name="price" id="price" required oninput="formatNumber()" value="{{number_format($mycars->price??0)}}" >
+                                            <input type="text" class="form-control" name="price" id="price" required oninput="formatNumber()" value="{{number_format($mycars->price??0)}}"  {{($mycars->edit_price < 2)?'':'readonly'}} >
                                         </div>
                                     </div>
                                 </div>
