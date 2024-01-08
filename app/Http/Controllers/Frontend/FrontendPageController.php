@@ -1922,7 +1922,7 @@ class FrontendPageController extends Controller
     public function brandev() {
         $qrybrandev = brandsModel::leftJoin('models', 'brands.id', 'models.brand_id')
         ->select("brands.id", "brands.title")
-        ->where("models.evtype", 1)
+        // ->where("models.evtype", 1)
         ->groupBy("brands.id", "brands.title")
         ->orderBy("brands.sort_no", "ASC")
         ->get();
@@ -2074,9 +2074,12 @@ class FrontendPageController extends Controller
         ->select("models.id", "models.model")
         ->where("cars.status", $request->carstatus)
         ->where('cars.customer_id', $request->customer_id)
-        ->where('models.brand_id', $request->brand_id)
+        ->where('cars.brand_id', $request->brand_id)
         ->orderBy("models.model")
         ->get();
+        // ->toSql();
+        // ->getBindings();
+        // return dd($qrymodelsearch);
 
         return response()->json(['modelsearch' => $qrymodelsearch]);
     }
