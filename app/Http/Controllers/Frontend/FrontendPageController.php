@@ -465,7 +465,7 @@ class FrontendPageController extends Controller
         ->where("cars.status", 'created')
         ->where('cars.customer_id', $customer_id)
         // ->groupBy("brands.id", "brands.title", "brands.feature")
-        ->orderBy("brands.sort_no")
+        ->orderBy("brands.title")
         ->get();
 
 

@@ -58,7 +58,7 @@
 
                                 <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel({{$currentbrandid}});">
                                     <div><img src="{{$currentimage}}" alt=""> {{$currentbrand}}</div>
-                                    <div class="num-mycarsearch">({{$cnt}})</div>
+                                    <div class="num-mycarsearch">({{$cnt-1}})</div>
                                     
                                 </button>
                                 @php
@@ -76,7 +76,7 @@
                             @if ($index+1 == $total)
                                 <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel({{$currentbrandid}});">
                                     <div><img src="{{$currentimage}}" alt=""> {{$currentbrand}}</div>
-                                    <div class="num-mycarsearch">({{$cnt}})</div>
+                                    <div class="num-mycarsearch">({{$cnt+1}})</div>
                                 </button>
                                 @php
                                     $cnt=0;
