@@ -845,7 +845,47 @@ class FrontendPageController extends Controller
             $carfromstatus[$carstatus->status][] = $carstatus;
         }
 
-        $contacts_back = contacts_backModel::where("customer_id", $customer_id)->get();
+        // $contacts_back = contacts_backModel::where("customer_id", $customer_id)->get();
+        $contacts_back = DB::table('contacts_back')
+        ->select('contacts_back.*', 'cars.*', 'brands.title as brand_title', 'models.model as model_name', 'customer.*')
+        ->where('contacts_back.customer_id', '=', $customer_id)
+        ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+        ->join('brands', 'cars.brand_id', '=', 'brands.id')
+        ->join('models', 'cars.model_id', '=', 'models.id')
+        ->join('customer', 'contacts_back.customer_id', '=', 'customer.id')
+        ->get();
+
+        // $query_contact_back = DB::table('contacts_back')
+        //     ->select(
+        //         'contacts_back.*', 
+        //         'cars.id as car_id', // Include the id of cars
+        //         'cars.*', 
+        //         'brands.title as brand_title', 
+        //         'models.model as model_name', 
+        //         'customer.*'
+        //     )
+        //     ->where('contacts_back.customer_id', '=', $customer_id)
+        //     ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+        //     ->join('brands', 'cars.brand_id', '=', 'brands.id')
+        //     ->join('models', 'cars.model_id', '=', 'models.id')
+        //     ->join('customer', 'contacts_back.customer_id', '=', 'customer.id')
+        //     ->get();
+
+        $query_contact_back = DB::table('contacts_back')
+            ->select('contacts_back.*', 'cars.*', 'brands.title as brand_title', 'models.model as model_name', 'customer.*')
+            ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+            ->join('brands', 'cars.brand_id', '=', 'brands.id')
+            ->join('models', 'cars.model_id', '=', 'models.id')
+            ->join('customer', 'cars.customer_id', '=', 'customer.id')
+            ->where('cars.customer_id', '=', $customer_id)
+            ->get();
+
+
+
+
+
+
+
 
 
         $mycontacts = contacts_backModel::select(
@@ -866,6 +906,9 @@ class FrontendPageController extends Controller
         ->orderBy('contacts_back.created_at', 'desc')
         ->get();
 
+
+        
+
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
         ->select("brands.id", "brands.title", "brands.feature")
         ->where("cars.status", 'approved')
@@ -882,6 +925,7 @@ class FrontendPageController extends Controller
             'mycontacts' => $mycontacts,
             'carstatus' => "approved",
             'brandsearch' => $qrybrandsearch,
+            'query_contact_back' => $query_contact_back,
         ]);
     }
     /****************************************************************/
@@ -1118,10 +1162,13 @@ class FrontendPageController extends Controller
         
         if($request->hasFile('image')){
 
-            $oldPath = public_path($Customer->image);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($Customer->image)){
+                $oldPath = public_path($Customer->image);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
+                
 
             $file = $request->file('image');
             $destinationPath = public_path('/uploads/profile/');

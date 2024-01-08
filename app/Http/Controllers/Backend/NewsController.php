@@ -109,9 +109,11 @@ class NewsController extends Controller
 
         if($request->hasFile('feature')){
 
-            $oldPath = public_path($news->feature);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($Customer->feature)){
+                $oldPath = public_path($Customer->feature);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('feature');
@@ -158,9 +160,11 @@ class NewsController extends Controller
 
         if($request->hasFile('feature')){
 
-            $oldPath = public_path($news->feature);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($Customer->feature)){
+                $oldPath = public_path($Customer->feature);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('feature');

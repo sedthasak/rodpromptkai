@@ -211,6 +211,8 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
         button.addEventListener('click', function () {
             var postId = this.getAttribute('data-carsid');
 
+            $('#wait').show();
+
             Swal.fire({
                 title: 'ต้องการจะลบหรือไม่ ?',
                 text: 'หากลบแล้ว ข้อมูลจะหายไปทั้งหมด',
@@ -221,11 +223,16 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                 confirmButtonText: 'ตกลง',
                 cancelButtonText: 'ยกเลิก'
             }).then((result) => {
+
+                $('#wait').hide();
+
                 if (result.isConfirmed) {
+                    $('#wait').show();
                     axios.post('{{ route("carpostdeleteactionPage") }}', {
                         id: postId
                     })
                     .then((response) => {
+                        $('#wait').hide();
                         Swal.fire({
                             title: 'สำเร็จ !',
                             text: response.data.message,
@@ -235,6 +242,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         });
                     })
                     .catch((error) => {
+                        $('#wait').hide();
                         Swal.fire(
                             'ล้มเหลว!',
                             'ไม่สามารถทำตามที่ร้องขอได้ !!!',

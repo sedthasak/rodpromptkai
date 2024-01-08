@@ -10,9 +10,18 @@
 
 
 // $qqq = 7;
+echo "<pre>";
+print_r(count($query_contact_back));
+echo "</pre>";
 // echo "<pre>";
-// print_r($mycontacts);
+// print_r($query_contact_back);
 // echo "</pre>";
+
+foreach($query_contact_back as $kkkk => $QRY){
+    echo "<pre>";
+    print_r($QRY);
+    echo "</pre>";
+}
 ?>
 @include('frontend.layouts.inc_profile')	
 <section class="row">
@@ -48,7 +57,7 @@
                                 <div class="box-topiccustomer">
                                     <div class="row">
                                         <div class="col-12 col-md-5 col-xl-6">
-                                            <div class="customer-carname">{{$cont_count}}. <a href="{{route('cardetailPage', ['post' => $contact->cars_id])}}">{{strtoupper($contact->modelyear." ".$contact->brand." ".$contact->model)}}</a></div>
+                                            <div class="customer-carname">{{$cont_count}}. <a href="{{route('cardetailPage', ['post' => $contact->cars_id])}}">{{strtoupper($contact->modelyear." ".$contact->brand_title." ".$contact->model_name)}}</a></div>
                                         </div>
                                         <div class="col-3 col-md-2 col-xl-2">
                                             <div class="customer-date">{{date('d/m/Y', strtotime($contact->created_at)).$contact->id}}</div>
