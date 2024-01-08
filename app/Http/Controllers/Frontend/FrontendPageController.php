@@ -506,7 +506,7 @@ class FrontendPageController extends Controller
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
         ->select("brands.id", "brands.title", "brands.feature")
-        ->where("cars.status", 'update')
+        ->where("cars.status", 'rejected')
         ->where('cars.customer_id', $customer_id)
         // ->groupBy("brands.id", "brands.title", "brands.feature")
         ->orderBy("brands.sort_no")
@@ -520,7 +520,7 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "update"
+            'carstatus' => "rejected"
         ]);
     }
     public function profileexpirePage()
@@ -566,7 +566,7 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "expire"
+            'carstatus' => "expired"
         ]);
     }
 
@@ -735,7 +735,7 @@ class FrontendPageController extends Controller
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
         ->select("brands.id", "brands.title", "brands.feature")
-        ->where("cars.status", 'update')
+        ->where("cars.status", 'rejected')
         ->where('cars.customer_id', $customer_id)
         // ->groupBy("brands.id", "brands.title", "brands.feature")
         ->orderBy("brands.sort_no")
@@ -749,7 +749,7 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "update",
+            'carstatus' => "rejected",
             "mycars2" => $mycars2
         ]);
     }
@@ -809,7 +809,7 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "expire",
+            'carstatus' => "expired",
             "mycars2" => $mycars2
         ]);
     }
