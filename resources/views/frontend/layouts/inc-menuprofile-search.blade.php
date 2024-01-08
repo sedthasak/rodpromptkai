@@ -76,7 +76,7 @@
                             @if ($index+1 == $total)
                                 <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel({{$currentbrandid}});">
                                     <div><img src="{{$currentimage}}" alt=""> {{$currentbrand}}</div>
-                                    <div class="num-mycarsearch">({{$cnt+1}})</div>
+                                    <div class="num-mycarsearch">(@if($cnt>1){{$cnt+1}}@else{{$cnt}}@endif)</div>
                                 </button>
                                 @php
                                     $cnt=0;
@@ -117,7 +117,7 @@
             $('.wrap-mycarsearch-sub').removeClass('disabled');
 
 
-            // console.log(data);
+            console.log(data);
             var html = '';
             $('input[name="profile_brand_id"]').val(brand_id);
 
@@ -141,7 +141,7 @@
                 if (currentmodel != value.model) {
                     html += '<button type="button" class="list-mycarsearch model" onclick="profilemodel(\''+currentmodelid+'\')">';
                     html += '<div>' + currentmodel + '</div>';
-                    html += '<div class="num-mycarsearch">(' + cnt + ')</div>';
+                    html += '<div class="num-mycarsearch">(' + (cnt-1) + ')</div>';
                     html += '</button>';
                     cnt = 0;
                     currentmodel = value.model;
@@ -150,7 +150,7 @@
                 if (index2 + 1 === total) {
                     html += '<button type="button" class="list-mycarsearch model" onclick="profilemodel(\''+currentmodelid+'\')">';
                     html += '<div>' + currentmodel + '</div>';
-                    html += '<div class="num-mycarsearch">(' + cnt + ')</div>';
+                    html += '<div class="num-mycarsearch">(' + (index2>1?(cnt+1):(cnt)) + ')</div>';
                     html += '</button>';
                     cnt = 0;
                 }
@@ -172,13 +172,13 @@
         if ($('input[name="profile_options"]').val() === "created") {
             $('form[name="profileform"]').attr('action', '/searchprofilecheckpage');
         }
-        if ($('input[name="profile_options"]').val() === "update") {
+        if ($('input[name="profile_options"]').val() === "rejected") {
             $('form[name="profileform"]').attr('action', '/searchprofileeditcarinfopage');
         }
         if ($('input[name="profile_options"]').val() === "approved") {
             $('form[name="profileform"]').attr('action', '/searchprofilepage');
         }
-        if ($('input[name="profile_options"]').val() === "expire") {
+        if ($('input[name="profile_options"]').val() === "expired") {
             $('form[name="profileform"]').attr('action', '/searchprofileexpirepage');
         }
 

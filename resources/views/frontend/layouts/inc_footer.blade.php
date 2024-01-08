@@ -126,7 +126,7 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                     </div>
                     <div class="col-3 text-end">
                         <label class="switch">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" checked id="searchev">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -340,6 +340,31 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
         $('input[name="yearhigh"]').val($('.yearhighfooter').text());
         $('#my_form').submit();
     }
+
+    $('#searchev').click(function(){
+        if($('#searchev').is(':checked')) {
+            $.get('/brandev', function(data, status) {
+                // console.log(data);
+                var param2 = "";
+                var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+                $.each(data, function(index, value){
+                    html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                });
+                $('.carsearch-lv1 .carsearch-ul').empty().append(html);
+            });
+        }
+        else {
+            $.get('/brandnotev', function(data, status) {
+                // console.log(data);
+                var param2 = "";
+                var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+                $.each(data, function(index, value){
+                    html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                });
+                $('.carsearch-lv1 .carsearch-ul').empty().append(html);
+            });
+        }
+    });
 </script>
 
 

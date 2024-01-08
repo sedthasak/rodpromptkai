@@ -506,7 +506,7 @@ class FrontendPageController extends Controller
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
         ->select("brands.id", "brands.title", "brands.feature")
-        ->where("cars.status", 'update')
+        ->where("cars.status", 'rejected')
         ->where('cars.customer_id', $customer_id)
         // ->groupBy("brands.id", "brands.title", "brands.feature")
         ->orderBy("brands.sort_no")
@@ -520,7 +520,7 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "update"
+            'carstatus' => "rejected"
         ]);
     }
     public function profileexpirePage()
@@ -566,7 +566,7 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "expire"
+            'carstatus' => "expired"
         ]);
     }
 
@@ -735,7 +735,7 @@ class FrontendPageController extends Controller
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
         ->select("brands.id", "brands.title", "brands.feature")
-        ->where("cars.status", 'update')
+        ->where("cars.status", 'rejected')
         ->where('cars.customer_id', $customer_id)
         // ->groupBy("brands.id", "brands.title", "brands.feature")
         ->orderBy("brands.sort_no")
@@ -749,7 +749,7 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "update",
+            'carstatus' => "rejected",
             "mycars2" => $mycars2
         ]);
     }
@@ -809,7 +809,7 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "expire",
+            'carstatus' => "expired",
             "mycars2" => $mycars2
         ]);
     }
@@ -1969,7 +1969,7 @@ class FrontendPageController extends Controller
     public function brandev() {
         $qrybrandev = brandsModel::leftJoin('models', 'brands.id', 'models.brand_id')
         ->select("brands.id", "brands.title")
-        ->where("models.evtype", 1)
+        // ->where("models.evtype", 1)
         ->groupBy("brands.id", "brands.title")
         ->orderBy("brands.sort_no", "ASC")
         ->get();
@@ -2121,9 +2121,12 @@ class FrontendPageController extends Controller
         ->select("models.id", "models.model")
         ->where("cars.status", $request->carstatus)
         ->where('cars.customer_id', $request->customer_id)
-        ->where('models.brand_id', $request->brand_id)
+        ->where('cars.brand_id', $request->brand_id)
         ->orderBy("models.model")
         ->get();
+        // ->toSql();
+        // ->getBindings();
+        // return dd($qrymodelsearch);
 
         return response()->json(['modelsearch' => $qrymodelsearch]);
     }
