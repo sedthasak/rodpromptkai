@@ -224,10 +224,10 @@ $arr_gear = array(
 
                         <div class="box-listdesc">
                             <div class="row">
-                                <div class="col-12 col-sm-5">
+                                <div class="col-12 col-sm-4">
                                     <span class="topic-listdesc"><i class="bi bi-person-circle"></i> ติดต่อผู้ขาย</span>
                                 </div>
-                                <div class="col-12 col-sm-7 listdesc-contact text-end">
+                                <div class="col-12 col-sm-8 listdesc-contact text-end">
                                     <a href="tel:{{$cars->customer_phone}}" data-post="{{$cars->id}}" target="_blank" class="btn-red" onclick="updateClickCount({{$cars->id}}, this)">
                                         <i class="bi bi-telephone-fill"></i> คุณ{{$cars->firstname}}&nbsp;<div>{{$cars->customer_phone}}</div>
                                     </a>
