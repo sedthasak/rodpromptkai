@@ -19,14 +19,18 @@
                     <h1>{{$mynews->title}}</h1>
                     <div class="news-boxshare">
                         <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($mynews->created_at))}}</div>
-                        <!-- <div class="news-share">
+                        <div class="news-share">
                             <span><img src="{{asset('frontend/images/icon-share.svg')}}" alt=""> แชร์</span>
                             <a href="#" target="_blank"><img src="{{asset('frontend/images/facebook.svg')}}" alt=""></a>
                             <a href="#" target="_blank"><img src="{{asset('frontend/images/twitter.svg')}}" alt=""></a>
                             <a href="#" target="_blank"><img src="{{asset('frontend/images/line.svg')}}" alt=""></a>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="content-editor">
+                        @php
+                        $myfeature_news = ($mynews->feature)?asset($mynews->feature):asset('public/uploads/default-car.jpg');
+                        @endphp
+                        <img src="{{$myfeature_news}}" alt="" style="width: 100%;">
                         {!!$mynews->content!!}
 
                     </div>

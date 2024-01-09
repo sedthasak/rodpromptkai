@@ -22,6 +22,34 @@ use App\Models\User;
 class UsersController extends Controller
 {
 
+    public function BN_user(Request $request)
+    {
+        // $User = User::query()
+        // // ->where('phone',$request->s)
+        // ->orderBy('id', 'desc')
+        // ->paginate(16);
+
+        $query = User::query()
+            ->orderBy('id', 'desc');
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($query) use ($keyword) {
+                $query->where('name', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('email', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+
+        $resultPerPage = 24;
+        $query = $query->paginate($resultPerPage);
+
+        return view('backend/users', [ 
+            'default_pagename' => 'ยูสเซอร์',
+            'query' => $query,
+        ]);
+    }
+
+
     public function BN_user_add()
     {
         return view('backend/users-add', [ 
@@ -37,18 +65,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function BN_user()
-    {
-        $User = User::query()
-        // ->where('phone',$request->s)
-        ->orderBy('id', 'desc')
-        ->paginate(16);
-
-        return view('backend/users', [ 
-            'default_pagename' => 'ยูสเซอร์',
-            'User' => $User,
-        ]);
-    }
+    
 
     public function BN_usersFetch()
     {
@@ -119,9 +136,12 @@ class UsersController extends Controller
 
         if($request->hasFile('photo')){
 
-            $oldPath = public_path($User->photo);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+
+            if(isset($User->photo)){
+                $oldPath = public_path($User->photo);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('photo');
@@ -174,9 +194,11 @@ class UsersController extends Controller
 
         if($request->hasFile('photo')){
 
-            $oldPath = public_path($User->photo);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($User->photo)){
+                $oldPath = public_path($User->photo);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('photo');
@@ -242,9 +264,12 @@ class UsersController extends Controller
         $userupdate = User::find($userloginid);
         if($request->hasFile('photo')){
 
-            $oldPath = public_path($userupdate->photo);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+
+            if(isset($userupdate->photo)){
+                $oldPath = public_path($userupdate->photo);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('photo');

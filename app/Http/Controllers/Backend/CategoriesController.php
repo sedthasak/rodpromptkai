@@ -135,10 +135,14 @@ class CategoriesController extends Controller
         $categories = categoriesModel::find($request->id);
         if($request->hasFile('feature')){
 
-            $oldPath = public_path($categories->feature);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+
+            if(isset($categories->feature)){
+                $oldPath = public_path($categories->feature);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
+
 
             $file = $request->file('feature');
             $destinationPath = public_path('/uploads');

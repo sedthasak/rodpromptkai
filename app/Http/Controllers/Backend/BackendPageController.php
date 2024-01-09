@@ -42,6 +42,13 @@ class BackendPageController extends Controller
         // if(File::exists($oldPath)){
         //     File::delete($oldPath);
         // }
+        // if(isset($decde[$request->key])){
+        //     $oldPath = public_path($decde[$request->key]);
+        //     if(File::exists($oldPath)){
+        //         File::delete($oldPath);
+        //     }
+        // }
+
         $newarr = [];
         foreach($decde as $keydecde => $decode){
             if($keydecde == $request->key){

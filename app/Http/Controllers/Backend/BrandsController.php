@@ -17,11 +17,24 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class BrandsController extends Controller
 {
 
-    public function BN_brands()
+    public function BN_brands(Request $request)
     {
+        $query = brandsModel::query()
+            ->orderBy('title', 'asc');
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', '%' . $keyword . '%');
+                    // ->orWhere('customer.lastname', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+
+        $resultPerPage = 24;
+        $query = $query->paginate($resultPerPage);
+
         return view('backend/brands', [ 
             'default_pagename' => 'ยี่ห้อรถ',
-            
+            'query' => $query,
         ]);
     }
     public function BN_brands_add(Request $request)
