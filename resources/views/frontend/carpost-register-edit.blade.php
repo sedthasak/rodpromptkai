@@ -504,11 +504,126 @@ $arr_cartype = array(
 </script>
 <script>
 
-    // ClassicEditor
-    //     .create( document.querySelector( '#car_detail' ))
-    //     .catch( error => {
-    //     console.error( error );
-    // } );
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("submit-btn").addEventListener("click", function (event) {
+            event.preventDefault();
+            validateForm();
+        });
+
+        function validateForm() {
+            var requiredFields = document.querySelectorAll("[required]");
+            var emptyFields = [];
+
+            for (var i = 0; i < requiredFields.length; i++) {
+                var fieldValue = requiredFields[i].value.trim();
+
+                // Check if the selected color is "สีอื่นๆ"
+                if (requiredFields[i].name === "color" && fieldValue === "9999999999") {
+                    // If "สีอื่นๆ" is selected, check if other_color is not empty
+                    var otherColorInput = document.querySelector("[name='other_color']");
+                    if (otherColorInput.value.trim() === "") {
+                        // If other_color is empty, add the label to the emptyFields array
+                        var labelId = otherColorInput.getAttribute("aria-labelledby");
+                        var label = document.getElementById(labelId);
+                        emptyFields.push(label.innerText);
+                    }
+                } else if (fieldValue === "") {
+                    // If other fields are empty, add them to the emptyFields array
+                    // console.log(i);
+                    var labelId = requiredFields[i].getAttribute("aria-labelledby");
+                    var label = document.getElementById(labelId);
+                    emptyFields.push(label.innerText);
+                }
+            }
+
+
+
+            // ตรวจสอบขนาดของไฟล์ exterior_pictures
+            var files = $("[name='exterior_pictures[]']")[0].files;
+            var isValid = true;
+
+            for (var i = 0; i < files.length; i++) {
+                var fileSize = files[i].size / 1024; // แปลงเป็น KB
+
+                if (fileSize < 10 || fileSize > 12000) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            // ถ้าขนาดไฟล์ไม่ถูกต้อง ยกเลิกการ submit
+            if (!isValid) {
+                emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
+            }
+
+            // ตรวจสอบขนาดของไฟล์ interior_pictures
+            var files = $("[name='interior_pictures[]']")[0].files;
+            var isValid = true;
+
+            for (var i = 0; i < files.length; i++) {
+                var fileSize = files[i].size / 1024; // แปลงเป็น KB
+
+                if (fileSize < 10 || fileSize > 12000) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            // ถ้าขนาดไฟล์ไม่ถูกต้อง ยกเลิกการ submit
+            if (!isValid) {
+                emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
+            }
+            
+            // ตรวจสอบขนาดของไฟล์ licenseplate
+            var inputFile = $("[name='licenseplate']")[0];
+            if (inputFile.files.length > 0) {
+                // ดึงขนาดของไฟล์
+                var fileSize = inputFile.files[0].size; // ขนาดไฟล์อยู่ในหน่วย bytes
+
+                // ตรวจสอบว่าขนาดไฟล์อยู่ในช่วงที่กำหนดหรือไม่
+                if (fileSize >= 10240 && fileSize <= 12000000) {
+                    // ขนาดไฟล์ถูกต้อง
+                } else {
+                    // ขนาดไฟล์ไม่ถูกต้อง
+                    emptyFields.push("ขนาดภาพไม่ถูกต้องตามเงื่อนไข");
+                }
+            } else {
+                // ไม่มีไฟล์ถูกเลือก
+            }
+
+
+
+
+
+
+
+            if (emptyFields.length > 0) {
+                var errorMessage = "\n";
+                for (var j = 0; j < emptyFields.length; j++) {
+                    errorMessage += "- " + emptyFields[j] + ",\n";
+                }
+
+                Swal.fire({
+                    icon: "error",
+                    title: "กรุณากรอกข้อมูลให้ครบถ้วน...",
+                    text: errorMessage,
+                });
+            } else {
+                // document.getElementById("#form").submit();
+
+                var form = document.querySelector("#regis");
+                // console.log(form);
+                if (form) {
+                    // console.log(form.submit);
+                    form.submit();
+                    $('#wait').show();
+
+                    // You can also disable the submit button to prevent multiple submissions
+                    $('.btn-nextstep').prop('disabled', true);
+                }
+            }
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize CKEditor

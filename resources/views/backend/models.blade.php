@@ -11,9 +11,7 @@
 // echo "</pre>";
 ?>
 
-    <div class=" " id="fetchModelss">
-        
-    </div>
+    <!-- <div class=" " id="fetchModelss"></div> -->
 
 
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
@@ -49,7 +47,7 @@
             <thead>
                 <tr>
                     <th class="text-center whitespace-nowrap" width="10%">#</th>
-                    <th class="whitespace-nowrap"></th>
+                    <!-- <th class="whitespace-nowrap"></th> -->
                     <th class="whitespace-nowrap">ยี่ห้อ</th>
                     <th class="whitespace-nowrap">รุ่น</th>
                     <th class="text-center whitespace-nowrap"></th>
@@ -63,13 +61,13 @@
                 @endphp
                     <tr class="intro-x">
                         <td class="text-center">{{(($query->currentPage()-1)*48)+$keyres+1}}</td>
-                        <td class="w-40">
+                        <!-- <td class="w-40">
                             <div class="flex">
                                 <div class="w-10 h-10 image-fit zoom-in -ml-5">
                                     <img alt="{{$res->title}}" class="tooltip " src="{{$feature_img}}" >
                                 </div>
                             </div>
-                        </td>
+                        </td> -->
                         
                         <td>
                             <div class="font-medium whitespace-nowrap">{{$res->title}}</div>

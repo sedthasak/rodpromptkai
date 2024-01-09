@@ -488,13 +488,7 @@ class BackendPageController extends Controller
     //         'default_pagename' => 'โฉมรถ',
     //     ]);
     // }
-    public function BN_car()
-    {
-        return view('backend/car', [ 
-            'default_pagename' => 'ข้อมูลรถ',
-            
-        ]);
-    }
+    
 
     
 

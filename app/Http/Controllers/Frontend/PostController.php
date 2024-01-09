@@ -13,6 +13,7 @@ use App\Models\brandsModel;
 use App\Models\modelsModel;
 use App\Models\carsModel;
 use App\Models\galleryModel;
+use App\Models\noticeModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -226,6 +227,13 @@ class PostController extends Controller
 
         $cars2->ref_code = $strtotime.$cars2->customer_id;
         $cars2->update();
+
+
+        $notice = noticeModel::where('resource', 'cars')
+            ->where('resource_id', $request->post_id)
+            ->first();
+        $notice->status = 'read';
+        $notice->update();
 
         return redirect(route('carpostregistersuccessPage'));
 

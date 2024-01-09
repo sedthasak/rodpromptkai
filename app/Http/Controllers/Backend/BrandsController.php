@@ -17,6 +17,65 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class BrandsController extends Controller
 {
 
+    public function BN_car(Request $request)
+    {
+        $brands = brandsModel::orderBy('title', 'asc')->get();
+
+        // $query = brandsModel::query()
+        //     ->select('brands.id as brands_id', 'models.id as models_id', 'generations.id as generations_id', 'sub_models.id as sub_models_id',
+        //             'brands.title as brands_name', 'models.model as models_name', 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+        //     ->leftJoin('models', 'models.brand_id', '=', 'brands.id')
+        //     ->leftJoin('generations', 'generations.models_id', '=', 'models.id')
+        //     ->leftJoin('sub_models', 'sub_models.generations_id', '=', 'generations.id')
+        //     ->orderBy('brands_name')
+        //     ->orderBy('models_name')
+        //     ->orderBy('generations_name')
+        //     ->orderBy('sub_models_name');
+
+        // if ($request->filled('brand')) {
+        //     $brand = $request->input('brand');
+        //     $query->where('models.brand_id', '=', $brand);
+        // }
+
+        // $resultPerPage = 48;
+        // $query = $query->paginate($resultPerPage);
+
+        $myquery = brandsModel::query()
+            ->select('brands.id as brands_id', 'models.id as models_id', 'generations.id as generations_id', 'sub_models.id as sub_models_id',
+                'brands.title as brands_name', 'models.model as models_name', 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->leftJoin('models', 'models.brand_id', '=', 'brands.id')
+            ->leftJoin('generations', 'generations.models_id', '=', 'models.id')
+            ->leftJoin('sub_models', 'sub_models.generations_id', '=', 'generations.id');
+
+        if ($request->filled('brand')) {
+            $brand = $request->input('brand');
+            $myquery->where('models.brand_id', '=', $brand);
+        }
+
+        $totalCount = $myquery->count(); // นับทั้งหมดของแถวโดยไม่ใช้การแบ่งหน้า
+
+        $resultPerPage = 48;
+        $query = $myquery->orderBy('brands_name')
+            ->orderBy('models_name')
+            ->orderBy('generations_name')
+            ->orderBy('sub_models_name')
+            ->paginate($resultPerPage);
+
+        return view('backend/car', [ 
+            'default_pagename' => 'ข้อมูลรถ',
+            'brands' => $brands,
+            'query' => $query,
+            'totalCount' => $totalCount,
+        ]);
+    }
+
+
+
+
+
+
+
+
     public function BN_brands(Request $request)
     {
         $query = brandsModel::query()
