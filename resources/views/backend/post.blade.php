@@ -13,7 +13,7 @@ $arrrole = array(
 );
 $arrtype = array(
     'home' => 'รถบ้าน',
-    'dealer' => 'นายหน้า',
+    'dealer' => 'ดีลเลอร์',
     'lady' => 'รถผู้หญิง',
 );
 // echo "<pre>";

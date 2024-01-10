@@ -97,12 +97,12 @@
 
     function applyFilters() {
         var brand = document.getElementById('brand').value;
-        var keyword = document.getElementById('keyword').value;
+        // var keyword = document.getElementById('keyword').value;
 
-        var newUrl = `{{ route('BN_car') }}?brand=${brand}&keyword=${keyword}`;
+        var newUrl = `{{ route('BN_car') }}?brand=${brand}`;
         window.location.href = newUrl;
     }
-    document.getElementById('brand').addEventListener('change', applyFilters);
+    // document.getElementById('brand').addEventListener('change', applyFilters);
     function handleEnter(event) {
         if (event.key === 'Enter') {
             applyFilters();
