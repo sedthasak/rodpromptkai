@@ -429,8 +429,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -473,8 +475,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -517,8 +521,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -563,8 +569,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
 
@@ -623,9 +631,12 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
+        
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
         ->select("brands.id", "brands.title", "brands.feature")
@@ -858,8 +869,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
         // $contacts_back = contacts_backModel::where("customer_id", $customer_id)->get();
@@ -1684,6 +1697,7 @@ class FrontendPageController extends Controller
             'sub_models.sub_models as submodel_name',
             'generations.generations as generation_name'
         )
+        ->where('cars.status', 'approved')
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(30);
@@ -1921,6 +1935,7 @@ class FrontendPageController extends Controller
             'sub_models.sub_models as submodel_name',
             'generations.generations as generation_name'
         )
+        ->where('cars.status', 'approved')
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(30);
@@ -2004,6 +2019,7 @@ class FrontendPageController extends Controller
             'sub_models.sub_models as submodel_name',
             'generations.generations as generation_name'
         )
+        ->where('cars.status', 'approved')
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(30);
@@ -2088,6 +2104,7 @@ class FrontendPageController extends Controller
             'sub_models.sub_models as submodel_name',
             'generations.generations as generation_name'
         )
+        ->where('cars.status', 'approved')
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(30);
