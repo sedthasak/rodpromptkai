@@ -142,7 +142,7 @@ $arr_cartype = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>อีเมล</label>
-                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly  required />
+                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly />
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>เบอร์โทรศัพท์</label>
