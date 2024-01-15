@@ -721,7 +721,7 @@ $arr_cartype = array(
 
                             if (editorInstance) {
                                 var currentContent = editorInstance.getData();
-                                var newText = currentContent + buttonText ;
+                                var newText = currentContent + buttonText;
                                 editorInstance.setData(newText);
                             } else {
                                 console.error('CKEditor instance not found.');
@@ -736,6 +736,40 @@ $arr_cartype = array(
                 console.error(error);
             });
     });
+
+    // CKEditor default configuration
+    ClassicEditor.defaultConfig = {
+        toolbar: {
+            items: [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                '|',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'insertTable',
+                '|',
+                // 'imageUpload',
+                '|',
+                'undo',
+                'redo'
+            ]
+        },
+        image: {
+            toolbar: [
+                'imageStyle:full',
+                'imageStyle:side',
+                '|',
+                'imageTextAlternative'
+            ]
+        },
+        table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
+        language: 'en'
+    };
 
 
 

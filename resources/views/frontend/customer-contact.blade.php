@@ -93,7 +93,7 @@ foreach($query_contact_back as $kkkk => $QRY){
                                             <a href="#" class="btn-popupshare icon-fb"><i class="bi bi-facebook"></i></a>
                                             <a href="#" class="btn-popupshare icon-messenger"><i class="bi bi-messenger"></i></a>
                                             <a href="#" class="btn-popupshare icon-line"><i class="bi bi-line"></i></a>
-                                            <a class="btn-copy" data-link="{{route('cardetailPage', ['post' => $contact->cars_id])}}" ><i class="bi bi-link-45deg"></i> copy</a>
+                                            <a class="btn-copy" data-link="{{route('cardetailPage', ['post' => $contact->cars_id])}}<br>ชื่อ - นามสกุล : {{$contact->name}}<br>เบอร์โทรติดต่อ : {{$contact->tel}}<br>เวลาที่สะดวกให้ติดต่อกลับ : {{$contact->time}}<br>หมายเหตุ : {{$contact->remark}}" ><i class="bi bi-link-45deg"></i> copy</a>
                                         </div>
                                     </div>
                                 </div>
@@ -326,20 +326,24 @@ foreach($query_contact_back as $kkkk => $QRY){
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
   var copyButtons = document.querySelectorAll('.btn-copy');
 
   copyButtons.forEach(function (copyButton) {
     copyButton.addEventListener('click', function () {
       var linkToCopy = copyButton.getAttribute('data-link');
+      
+      // Replace HTML line breaks with plain text line breaks
+      linkToCopy = linkToCopy.replace(/<br>/g, '\n');
 
-      var tempInput = document.createElement('input');
+      // Create a textarea element to hold plain text content
+      var tempInput = document.createElement('textarea');
       tempInput.value = linkToCopy;
       document.body.appendChild(tempInput);
 
       tempInput.select();
       document.execCommand('copy');
-      
+
       document.body.removeChild(tempInput);
 
       // Change the button text temporarily for feedback
@@ -350,6 +354,65 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   var copyButtons = document.querySelectorAll('.btn-copy');
+
+//   copyButtons.forEach(function (copyButton) {
+//     copyButton.addEventListener('click', function () {
+//       var linkToCopy = copyButton.getAttribute('data-link');
+
+//       // Create a textarea element to hold plain text content
+//       var tempInput = document.createElement('textarea');
+//       tempInput.value = linkToCopy;
+//       document.body.appendChild(tempInput);
+
+//       tempInput.select();
+//       document.execCommand('copy');
+
+//       document.body.removeChild(tempInput);
+
+//       // Change the button text temporarily for feedback
+//       copyButton.innerHTML = '<i class="bi bi-check"></i> Copied';
+//       setTimeout(function () {
+//         copyButton.innerHTML = '<i class="bi bi-link-45deg"></i> Copy';
+//       }, 2000);
+//     });
+//   });
+// });
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   var copyButtons = document.querySelectorAll('.btn-copy');
+
+//   copyButtons.forEach(function (copyButton) {
+//     copyButton.addEventListener('click', function () {
+//       var linkToCopy = copyButton.getAttribute('data-link');
+
+//       // Get text from <p> elements
+//       var detailContact = copyButton.closest('.detail-contactcus');
+//       var paragraphs = detailContact.querySelectorAll('p');
+//       paragraphs.forEach(function (paragraph) {
+//         linkToCopy += ' ' + paragraph.innerText;
+//       });
+
+//       var tempInput = document.createElement('input');
+//       tempInput.value = linkToCopy;
+//       document.body.appendChild(tempInput);
+
+//       tempInput.select();
+//       document.execCommand('copy');
+      
+//       document.body.removeChild(tempInput);
+
+//       // Change the button text temporarily for feedback
+//       copyButton.innerHTML = '<i class="bi bi-check"></i> Copied';
+//       setTimeout(function () {
+//         copyButton.innerHTML = '<i class="bi bi-link-45deg"></i> Copy';
+//       }, 2000);
+//     });
+//   });
+// });
+
 </script>
 
 <script>
