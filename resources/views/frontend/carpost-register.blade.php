@@ -140,10 +140,20 @@ $arr_cartype = array(
         z-index: 1;
     }
 
-    .item-photoupload img {
+    /* .item-photoupload img {
         width: 100%;
         height: auto;
         display: block;
+    } */
+
+    .item-photoupload {
+        cursor: move;
+    }
+
+    #image-preview-exterior {
+        min-height: 100px; /* กำหนดความสูงของ droppable area */
+        border: 2px dashed #ccc; /* กำหนดเส้นขอบของ droppable area */
+        padding: 10px; /* เพิ่ม padding เพื่อให้สามารถลากและวางได้ง่ายขึ้น */
     }
 </style>
 <div id="wait" class="box-waiting " style="display:none;"><div class="waiting-wrapper-image"><img src="{{asset('uploads/wait.gif')}}" /></div></div>
@@ -919,24 +929,23 @@ $arr_cartype = array(
     var interior_count = 0;
     var exterior_count = 0;
     $(document).ready(function() {
+        // Make items draggable
         $(".item-photoupload").draggable({
-            helper: "clone",
-            cursor: "move",
-            zIndex: 1000
+            helper: 'clone',
+            revert: 'invalid',
+            cursor: 'move'
         });
 
-        // $("#image-preview").droppable({
-        //     accept: ".item-photoupload",
-        //     drop: function (event, ui) {
-        //         var droppedElement = ui.helper.clone();
-        //         ui.helper.remove();
-
-        //         $(this).append(droppedElement);
-
-        //         // Code to handle sorting update
-        //         updateImageOrder();
-        //     }
-        // });
+        // Make row droppable
+        $(".row-photoupload").droppable({
+            accept: '.item-photoupload',
+            drop: function (event, ui) {
+                // Clone the dragged item and append it to the droppable row
+                $(this).append(ui.helper.clone());
+                // Remove the delete button from the cloned item
+                $(".delete-btn").remove();
+            }
+        });
 
         // Additional code for handling file input change
         $("#interior_pictures").on('change', handleFileSelect);
@@ -1037,22 +1046,22 @@ $arr_cartype = array(
             
         });
         $('#image-preview').disableSelection();
-        $("#image-preview-exterior").sortable({
-            update: function(event, ui) {
-                // Get the id of the leftmost item after sorting
-                // var leftmostItemId = $("#image-preview-exterior .col-photoupload:first").attr("id");
+        // $("#image-preview-exterior").sortable({
+        //     update: function(event, ui) {
+        //         // Get the id of the leftmost item after sorting
+        //         // var leftmostItemId = $("#image-preview-exterior .col-photoupload:first").attr("id");
                 
-                // Display the result
-                // console.log("Leftmost item id:", leftmostItemId);
+        //         // Display the result
+        //         // console.log("Leftmost item id:", leftmostItemId);
 
-                let hiddenInputsFeature = $('#hidden-inputs-feature');
-                var base64StringExterior = $('#image-preview-exterior .col-photoupload:first img').attr('src');
-                let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
-                hiddenInputsFeature.empty().append(hiddenInputFeature);
-                // console.log(base64StringExterior);
-            }
-        });
-        $('#image-preview-exterior').disableSelection();
+        //         let hiddenInputsFeature = $('#hidden-inputs-feature');
+        //         var base64StringExterior = $('#image-preview-exterior .col-photoupload:first img').attr('src');
+        //         let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
+        //         hiddenInputsFeature.empty().append(hiddenInputFeature);
+        //         // console.log(base64StringExterior);
+        //     }
+        // });
+        // $('#image-preview-exterior').disableSelection();
     });
     function del(e) {
         id = e.replace("picture_interior_", "");
