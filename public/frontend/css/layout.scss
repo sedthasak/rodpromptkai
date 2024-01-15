@@ -2484,6 +2484,7 @@ a{
 }
 .result-btn-search{
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     padding: 15px 0;
     button{
@@ -2499,6 +2500,8 @@ a{
         line-height: 1;
         margin-right: 7px;
         transition: 0.5s;
+        margin-bottom: 9px;
+        white-space: nowrap;
         &:hover{
             background-color: $grey-color333;
         }
@@ -6378,6 +6381,10 @@ a{
     }
     .result-btn-search{
         overflow-x: auto;
+        flex-wrap: nowrap;
+        button{
+            margin-bottom: 0;
+        }
     }
     .btn-boxfilter{
         overflow-x: auto;

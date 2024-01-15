@@ -149,13 +149,13 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
 
                 <div class="carsearch-radio">
                     <label class="car-radio">ซื้อสด 
-                        <input type="radio" name="payment" value="สด">
+                        <input type="radio" name="payment" value="สด" checked>
                         <span class="checkmark"></span>
                     </label>
-                    <label class="car-radio">จัดไฟแนนซ์
+                    {{-- <label class="car-radio">จัดไฟแนนซ์
                         <input type="radio" name="payment" value="ผ่อน">
                         <span class="checkmark"></span>
-                    </label>
+                    </label> --}}
                 </div>
 
                 <div class="box-searchrange">

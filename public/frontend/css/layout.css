@@ -3315,6 +3315,8 @@ a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -3339,6 +3341,8 @@ a {
   margin-right: 7px;
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  margin-bottom: 9px;
+  white-space: nowrap;
 }
 
 .result-btn-search button:hover {
@@ -8018,6 +8022,11 @@ a {
   }
   .result-btn-search {
     overflow-x: auto;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+  }
+  .result-btn-search button {
+    margin-bottom: 0;
   }
   .btn-boxfilter {
     overflow-x: auto;

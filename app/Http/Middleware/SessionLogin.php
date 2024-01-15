@@ -46,7 +46,7 @@ class SessionLogin
             return redirect('/login');
         }
 
-        $qrybrand = brandsModel::get();
+        $qrybrand = brandsModel::orderBy("sort_no")->get();
         View::share('brand', $qrybrand);
         $qryprovince = provincesModel::get();
         View::share('province', $qryprovince);

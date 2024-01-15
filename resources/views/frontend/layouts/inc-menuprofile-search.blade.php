@@ -1,3 +1,11 @@
+<style>
+    .list-mycarsearch.brand.active {
+        background-color: #E4EEFA;
+    }
+    .list-mycarsearch.model.active {
+        background-color: #E4EEFA;
+    }
+</style>
 <div class="col-12 col-lg-4 col-xl-3 menuprofile-mb">
     <div class="close-menuprofile"><i class="bi bi-x-circle-fill"></i></div>
     <a href="{{route('customercontactPage')}}" class="btn-customer">
@@ -30,61 +38,18 @@
                 <div class="content_mycarsearch">
                     <input type="text" class="form-control brand" placeholder="ค้นหา...">
                     <div class="mycarsearch-type">
-                        @php
-                            $cnt=0;
-                            $currentbrand = "";
-                            $currentbrandid = 0;
-                            $currentimage = "";
-                            $total=count($brandsearch);
-                        @endphp
                         
-                        @if (isset($brandsearch))
-                        @foreach ($brandsearch as $index => $rows)
-
-                            @php
-                                $cnt++;
-                            @endphp
-
-                            @if ($index==0)
-                                @php
-                                    $currentbrand = $rows->title;
-                                    $currentbrandid = $rows->id;
-                                    $currentimage = asset($rows->feature);
-                                @endphp
-                            @endif
-                            
-                            @if ($currentbrand != $rows->title)
-                                
-
-                                <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel({{$currentbrandid}});">
-                                    <div><img src="{{$currentimage}}" alt=""> {{$currentbrand}}</div>
-                                    <div class="num-mycarsearch">({{$cnt-1}})</div>
+                        @if (isset($brandsum))
+                            @foreach($brandsum as $rows)
+                                <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel('{{$rows->id}}', this);">
+                                    <div><img src="{{$rows->feature}}" alt=""> {{$rows->title}}</div>
+                                    <div class="num-mycarsearch">({{$rows->brandcount}})</div>
                                     
                                 </button>
-                                @php
-                                    $cnt=0;
-                                @endphp
-
-                                @php
-                                    $currentbrand = $rows->title;
-                                    $currentbrandid = $rows->id;
-                                    $currentimage = asset($rows->feature);
-                                @endphp
-
-                            @endif
-
-                            @if ($index+1 == $total)
-                                <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel({{$currentbrandid}});">
-                                    <div><img src="{{$currentimage}}" alt=""> {{$currentbrand}}</div>
-                                    <div class="num-mycarsearch">(@if($cnt>1){{$cnt+1}}@else{{$cnt}}@endif)</div>
-                                </button>
-                                @php
-                                    $cnt=0;
-                                @endphp
-                            @endif
-
-                        @endforeach
+                            @endforeach
                         @endif
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -111,57 +76,50 @@
 </div>
 
 <script>
-    function profilesearchmodel(brand_id) {
+    function profilesearchmodel(brand_id, this2) {
+
+        // // ลบคลาสที่มีสีพื้นหลังออก
+        $(".list-mycarsearch.brand").removeClass("active");
+
+        // เพิ่มคลาสที่มีสีพื้นหลังใหม่
+        $(this2).addClass("active");
+
+
         $.get('/profilesearchmodel/a?customer_id={{$customer_id}}&brand_id=' + brand_id + '&carstatus={{$carstatus}}', function (data, status) {
 
             $('.wrap-mycarsearch-sub').removeClass('disabled');
 
 
-            console.log(data);
+            // console.log("data="+JSON.stringify(data));
             var html = '';
             $('input[name="profile_brand_id"]').val(brand_id);
 
             var cnt = 0,
                 currentmodel = "",
                 currentmodelid = 0,
-                total = 0,
-                index2 = 0;
+                total = 0;
             
             $.each(data.modelsearch, function (index, value) {
                 total++;
             });
             
             $.each(data.modelsearch, function (index, value) {
-                cnt++;
-                
-                if (index2 === 0) {
-                    currentmodel = value.model;
-                    currentmodelid = value.id;
-                }
-                if (currentmodel != value.model) {
-                    html += '<button type="button" class="list-mycarsearch model" onclick="profilemodel(\''+currentmodelid+'\')">';
-                    html += '<div>' + currentmodel + '</div>';
-                    html += '<div class="num-mycarsearch">(' + (cnt-1) + ')</div>';
-                    html += '</button>';
-                    cnt = 0;
-                    currentmodel = value.model;
-                    currentmodelid = value.id;
-                }
-                if (index2 + 1 === total) {
-                    html += '<button type="button" class="list-mycarsearch model" onclick="profilemodel(\''+currentmodelid+'\')">';
-                    html += '<div>' + currentmodel + '</div>';
-                    html += '<div class="num-mycarsearch">(' + (index2>1?(cnt+1):(cnt)) + ')</div>';
-                    html += '</button>';
-                    cnt = 0;
-                }
-                index2++;
+                html += '<button type="button" class="list-mycarsearch model" onclick="profilemodel(\''+value.id+'\', this)">';
+                html += '<div>' + value.model + '</div>';
+                html += '<div class="num-mycarsearch">(' + value.countmodel + ')</div>';
+                html += '</button>';
             });
 
             $('.mycarsearch-type.model').empty().append(html);
         });
     }
 
-    function profilemodel(model_id) {
+    function profilemodel(model_id, this2) {
+        // // ลบคลาสที่มีสีพื้นหลังออก
+        $(".list-mycarsearch.model").removeClass("active");
+
+        // เพิ่มคลาสที่มีสีพื้นหลังใหม่
+        $(this2).addClass("active");
         $('input[name="profile_model_id"]').val(model_id);
     }
 

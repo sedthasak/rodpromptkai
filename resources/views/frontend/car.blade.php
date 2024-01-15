@@ -76,41 +76,41 @@
                             @endif
                         </div>
                         <div class="txt-numresult">ทั้งหมด <span class="total-cars">{{number_format($cars->total())}}</span> รายการ</div>
-                        <div class="btn-boxfilter brand">
-                            @if (isset($brandx))
+                        @if (isset($brandx))
+                            <div class="btn-boxfilter brand">
                                 @foreach ($brand as $rows)
                                 <button onclick="brandsel($rows->id);">{{$rows->title}}</button>
                                 @endforeach
-                            @endif
-                        </div>
-                        <div class="btn-boxfilter model">
-                            @if (isset($modellist))
+                            </div>
+                        @endif
+                        @if (isset($modellist))
+                            <div class="btn-boxfilter model">
                                 @foreach ($modellist as $rows)
                                 <button onclick="modelsel({{$rows->id}}, '{{$rows->model}}');">{{$rows->model}}</button>
                                 @endforeach
-                            @endif
-                        </div>
-                        <div class="btn-boxfilter generation">
-                            @if (isset($generationlist))
+                            </div>
+                        @endif
+                        @if (isset($generationlist))
+                            <div class="btn-boxfilter generation">
                                 @foreach ($generationlist as $rows)
                                 <button onclick="generationsel($rows->id, $rows->generations);">{{$rows->generations}}</button>
                                 @endforeach
-                            @endif
-                        </div>
-                        <div class="btn-boxfilter submodel">
-                            @if (isset($submodellist))
+                            </div>
+                        @endif
+                        @if (isset($submodellist))
+                            <div class="btn-boxfilter submodel">
                                 @foreach ($submodellist as $rows)
                                 <button onclick="submodelsel($rows->id, $rows->sub_models);">{{$rows->sub_models}}</button>
                                 @endforeach
-                            @endif
-                        </div>
-                        <div class="btn-boxfilter year">
-                            @if (isset($qrygeneration))
+                            </div>
+                        @endif
+                        @if (isset($qrygeneration))
+                            <div class="btn-boxfilter year">
                                 @for ($i = $qrygeneration->yearfirst; $i <= $qrygeneration->yearlast; $i++)
                                 <button onclick="yearsel($i);">{{$i}}</button>
                                 @endfor
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                         <div class="box-filteritem">
                             <div class="row">
                                 <div class="col-4 col-md-4">

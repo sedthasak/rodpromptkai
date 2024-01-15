@@ -219,7 +219,6 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
       });
 
     });
-
     
     </script>
 

@@ -320,7 +320,7 @@ class FrontendPageController extends Controller
             ->orderBy('id', 'desc')
             ->take(6)
             ->get();
-        $qrybrand = brandsModel::orderBy("title")->get();
+        $qrybrand = brandsModel::orderBy("sort_no")->get();
 
         $setFooterModel = setFooterModel::all();
 
@@ -443,13 +443,23 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+        // ->getBindings();
+
 
         return view('frontend/profile', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "approved"
+            'carstatus' => "approved",
+            'brandsum' => $qrybrandsum
         ]);
     }
     public function profilecheckPage()
@@ -486,7 +496,15 @@ class FrontendPageController extends Controller
         ->where("cars.status", 'created')
         ->where('cars.customer_id', $customer_id)
         // ->groupBy("brands.id", "brands.title", "brands.feature")
-        ->orderBy("brands.title")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'created')
+        ->where('cars.customer_id', $customer_id)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
         ->get();
 
 
@@ -495,7 +513,8 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "created"
+            'carstatus' => "created",
+            'brandsum' => $qrybrandsum
         ]);
     }
     public function profileeditcarinfoPage()
@@ -535,7 +554,13 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
-
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'rejected')
+        ->where('cars.customer_id', $customer_id)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
 
 
         return view('frontend/profile-editcarinfo', [
@@ -543,7 +568,8 @@ class FrontendPageController extends Controller
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "rejected"
+            'carstatus' => "rejected",
+            "brandsum" => $qrybrandsum
         ]);
     }
     public function profileexpirePage()
@@ -584,14 +610,21 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
-
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'expired')
+        ->where('cars.customer_id', $customer_id)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
 
         return view('frontend/profile-expire', [
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
-            'carstatus' => "expired"
+            'carstatus' => "expired",
+            "brandsum" => $qrybrandsum
         ]);
     }
 
@@ -646,6 +679,14 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
 
         return view('frontend/profile', [
             'customer_id' => $customer_id,
@@ -653,7 +694,8 @@ class FrontendPageController extends Controller
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
             'carstatus' => "approved",
-            "mycars2" => $mycars2
+            "mycars2" => $mycars2,
+            'brandsum' => $qrybrandsum
         ]);
     }
     public function searchprofilecheckPage(Request $request)
@@ -710,6 +752,14 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'created')
+        ->where('cars.customer_id', $customer_id)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
 
         return view('frontend/profile-check', [
             'customer_id' => $customer_id,
@@ -717,7 +767,8 @@ class FrontendPageController extends Controller
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
             'carstatus' => "created",
-            "mycars2" => $mycars2
+            "mycars2" => $mycars2,
+            "brandsum" => $qrybrandsum
         ]);
     }
     public function searchprofileeditcarinfoPage(Request $request)
@@ -769,7 +820,13 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
-
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'rejected')
+        ->where('cars.customer_id', $customer_id)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
 
 
         return view('frontend/profile-editcarinfo', [
@@ -778,7 +835,8 @@ class FrontendPageController extends Controller
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
             'carstatus' => "rejected",
-            "mycars2" => $mycars2
+            "mycars2" => $mycars2,
+            "brandsum" => $qrybrandsum
         ]);
     }
     public function searchprofileexpirePage(Request $request)
@@ -830,6 +888,13 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'expired')
+        ->where('cars.customer_id', $customer_id)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
 
 
         return view('frontend/profile-expire', [
@@ -838,7 +903,8 @@ class FrontendPageController extends Controller
             'carfromstatus' => $carfromstatus,
             'brandsearch' => $qrybrandsearch,
             'carstatus' => "expired",
-            "mycars2" => $mycars2
+            "mycars2" => $mycars2,
+            "brandsum" => $qrybrandsum
         ]);
     }
 
@@ -2054,7 +2120,7 @@ class FrontendPageController extends Controller
         ->selectRaw('MAX(cars.price) as max_price, MIN(cars.price) as min_price, AVG(cars.price) as avg_price')
         ->get();
 
-        $qrybrand = brandsModel::get();
+        $qrybrand = brandsModel::orderBy("sort_no")->get();
         $province = provincesModel::orderBy("name_th", "ASC")->get();
 
         $setFooterModel = setFooterModel::all();
@@ -2133,14 +2199,26 @@ class FrontendPageController extends Controller
 
     public function profilesearchmodel(Request $request)
     {
-        // return dd("carstatus=".$request->carstatus." customer_id=".$request->customer_id." brand_id=".$request->brand_id);
-        $qrymodelsearch = carsModel::leftJoin("models", "cars.model_id", "models.id")
-        ->select("models.id", "models.model")
+        // $qrymodelsearch = carsModel::leftJoin("models", "cars.model_id", "models.id")
+        // ->select("models.id", "models.model")
+        // ->where("cars.status", $request->carstatus)
+        // ->where('cars.customer_id', $request->customer_id)
+        // ->where('cars.brand_id', $request->brand_id)
+        // ->orderBy("models.model")
+        // ->get();
+
+        $qrymodelsearch = DB::table("cars")->leftJoin("models", "cars.model_id", "models.id")
+        ->selectRaw("models.id, models.model, COUNT(models.model) as countmodel")
         ->where("cars.status", $request->carstatus)
         ->where('cars.customer_id', $request->customer_id)
         ->where('cars.brand_id', $request->brand_id)
+        ->groupBy('models.id', 'models.model')
         ->orderBy("models.model")
         ->get();
+
+
+
+
         // ->toSql();
         // ->getBindings();
         // return dd($qrymodelsearch);
