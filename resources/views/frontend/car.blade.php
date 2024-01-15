@@ -224,7 +224,7 @@
     var generation_id=@if(isset($generation_id)){{$generation_id}}@else{{"null"}}@endif;
     var submodel_id=@if(isset($submodel_id)){{$submodel_id}}@else{{'null'}}@endif;
     var evtype=null;
-    var payment=@if(isset($paymentsel)){{$paymentsel}}@else{{'null'}}@endif;
+    var payment="@if(isset($paymentsel)){{$paymentsel}}@else{{'null'}}@endif";
     var pricelow = @if(isset($pricelowsel)) @if(is_numeric($pricelowsel)){{$pricelowsel}}@else{{'null'}}@endif @else{{'null'}}@endif;
     var pricehigh= @if(isset($pricehighsel)) @if(is_numeric($pricehighsel)){{$pricehighsel}}@else{{'null'}}@endif @else{{'null'}}@endif;
     var color=@if(isset($colorsel)){{$colorsel}}@else{{'null'}}@endif;
