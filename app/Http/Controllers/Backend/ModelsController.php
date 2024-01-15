@@ -14,20 +14,42 @@ use App\Models\sub_modelsModel;
 
 class ModelsController extends Controller
 {
-    public function BN_carmd()
+    public function BN_carmd(Request $request)
     {
+        $brands = brandsModel::orderBy('title', 'asc')->get();
 
-        // $query = DB::table('models')
-        //     ->join('brands', 'models.brand_id', '=', 'brands.id')
-        //     ->get();
+        $query = modelsModel::query()
+            ->select('models.id as model_id', 'brands.id as brand_id', 'brands.title', 'models.model', 'models.*', 'brands.*')
+            ->join('brands', 'models.brand_id', '=', 'brands.id')
+            ->orderBy('brands.title', 'asc')
+            ->orderBy('models.model', 'asc')
+            ->orderBy('models.id', 'desc');
+
+        if ($request->filled('brand')) {
+            $brand = $request->input('brand');
+            $query->where('models.brand_id', '=', $brand);
+        }
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($query) use ($keyword) {
+                $query->where('model', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+
+        $resultPerPage = 48;
+        $query = $query->paginate($resultPerPage);
+
+
+
         return view('backend/models', [ 
             'default_pagename' => 'รุ่นรถ',
-            // 'query' => $query,
+            'brands' => $brands,
+            'query' => $query,
         ]);
     }
     public function BN_carmd_add(Request $request)
     {
-        $brands = brandsModel::all();
+        $brands = brandsModel::orderBy('title', 'asc')->get();
         return view('backend/models-add', [ 
             'default_pagename' => 'เพิ่มรุ่นรถ',
             'brands' => $brands,
@@ -51,8 +73,8 @@ class ModelsController extends Controller
 
         $models->brand_id = $request->brand_id;
         $models->model = $request->model;
-        $models->modelyear = $request->modelyear;
-        $models->submodel = $request->submodel;
+        $models->evtype = $request->evtype;
+        // $models->submodel = $request->submodel;
         $models->description = $request->description;
         $models->save();
 
@@ -61,11 +83,40 @@ class ModelsController extends Controller
     }
     public function BN_carmd_edit(Request $request, $id)
     {
-
+        $brands = brandsModel::orderBy('title', 'asc')->get();
+        $model = modelsModel::find($id);
+        return view('backend/models-edit', [ 
+            'default_pagename' => 'แก้ไขรุ่นรถ',
+            'model' => $model,
+            'brands' => $brands,
+        ]);
     }
     public function BN_carmd_edit_action(Request $request)
     {
+        // dd($request);
 
+        $models = modelsModel::find($request->id);
+
+        if($request->hasFile('feature')){
+            $file = $request->file('feature');
+            $destinationPath = public_path('/uploads');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'model-'.time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/'.$newfilenam;
+            $models->feature = $filepath;
+        }
+
+        $models->brand_id = $request->brand_id;
+        $models->model = $request->model;
+        $models->evtype = $request->evtype;
+        $models->description = $request->description;
+
+        $models->update();
+
+        return redirect(route('BN_carmd'))->with('success', 'อัพเดทสำเร็จ !');
     }
     public function BN_carmdFetch()
     {

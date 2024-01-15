@@ -6,7 +6,13 @@
 
 @section('content')
 
-
+<?php
+$customerdata = session('customer');
+$sp_role = $customerdata->sp_role;
+// echo "<pre>";
+// print_r($sp_role);
+// echo "</pre>";
+?>
 <section class="row">
     <div class="col-12 wrap-postcar">
         <div class="container">
@@ -23,11 +29,14 @@
                             <h2>รถบ้าน<br>เจ้าของขายเอง</h2>
                             <div class="btn-select-post">เลือก</div>
                         </a>
+                        @if($sp_role=='dealer')
                         <a href="{{route('postcarwelcomedealerPage')}}" class="item-postcar item-dealer">
                             <img src="{{asset('frontend/images/icon-post02.svg')}}" alt="">
                             <h2>ดีลเลอร์/<br>ลงแบบฝากขาย</h2>
                             <div class="btn-select-post">เลือก</div>
                         </a>
+                        @endif
+                        
                         <a href="{{route('postcarwelcomeladyPage')}}" class="item-postcar item-lady">
                             <img src="{{asset('frontend/images/icon-post03.svg')}}" alt="">
                             <h2>คุณผู้หญิงลงขายรถ</h2>

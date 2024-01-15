@@ -104,6 +104,7 @@ Route::middleware('sessionlogin')->group(function() {
 
         Route::get('/profile', 'profilePage')->name('profilePage');
         Route::post('/update-reserve', 'updatereservePage')->name('updatereservePage');
+        Route::post('/update-contackback', 'updatecontackbackPage')->name('updatecontackbackPage');
         Route::post('/update-price', 'updatepricePage')->name('updatepricePage');
 
 
@@ -246,7 +247,7 @@ Route::middleware('auth')->group(function() {
 
             Route::prefix('car')->group(function () {
 
-                Route::get('', [BackendPageController::class, 'BN_car'])->name('BN_car');
+                Route::get('', [BrandsController::class, 'BN_car'])->name('BN_car');
 
                 Route::get('excelcars-add', [BrandsController::class, 'BN_excelcars_add'])->name('BN_excelcars_add');
                 Route::post('excelcars-store', [BrandsController::class, 'BN_excelcars_store'])->name('BN_excelcars_store');
@@ -269,11 +270,15 @@ Route::middleware('auth')->group(function() {
                 Route::get('generations', [GenerationsController::class, 'BN_generations'])->name('BN_generations');
                 Route::get('generations-add', [GenerationsController::class, 'BN_generations_add'])->name('BN_generations_add');
                 Route::post('generations-add-action', [GenerationsController::class, 'BN_generations_add_action'])->name('BN_generations_add_action');
+                Route::get('generations-edit/{id}', [GenerationsController::class, 'BN_generations_edit'])->name('BN_generations_edit');
+                Route::post('generations-edit-action', [GenerationsController::class, 'BN_generations_edit_action'])->name('BN_generations_edit_action');
                 Route::get('generationsfetch', [GenerationsController::class, 'BN_generationsFetch'])->name('BN_generationsFetch');
 
                 Route::get('sub_models', [Sub_modelsController::class, 'BN_sub_models'])->name('BN_sub_models');
                 Route::get('sub_models-add', [Sub_modelsController::class, 'BN_sub_models_add'])->name('BN_sub_models_add');
                 Route::post('sub_models-add-action', [Sub_modelsController::class, 'BN_sub_models_add_action'])->name('BN_sub_models_add_action');
+                Route::get('sub_models-edit/{id}', [Sub_modelsController::class, 'BN_sub_models_edit'])->name('BN_sub_models_edit');
+                Route::post('sub_models-edit-action', [Sub_modelsController::class, 'BN_sub_models_edit_action'])->name('BN_sub_models_edit_action');
                 Route::get('sub_modelsfetch', [Sub_modelsController::class, 'BN_sub_modelsFetch'])->name('BN_sub_modelsFetch');
 
                 // Route::get('generations', [BackendPageController::class, 'BN_generations'])->name('BN_generations');

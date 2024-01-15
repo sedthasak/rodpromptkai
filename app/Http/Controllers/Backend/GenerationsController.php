@@ -14,15 +14,44 @@ use App\Models\sub_modelsModel;
 
 class GenerationsController extends Controller
 {
-    public function BN_generations()
+    public function BN_generations(Request $request)
     {
+
+        $query = GenerationsModel::query()
+            ->join('models', 'generations.models_id', '=', 'models.id')
+            ->join('brands', 'models.brand_id', '=', 'brands.id')
+            ->select(
+                'generations.id as generations_id',
+                'models.id as models_id',
+                'brands.id as brands_id',
+                'generations.generations as generations_name',
+                'models.model as models_name',
+                'brands.title as brands_name'
+            )
+            ->orderBy('brands_name')
+            ->orderBy('models_name')
+            ->orderBy('generations_name');
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($query) use ($keyword) {
+                $query->where('brands.title', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('models.model', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('generations.generations', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+
+        $resultPerPage = 48;
+        $query = $query->paginate($resultPerPage);
+
         return view('backend/generations', [ 
             'default_pagename' => 'โฉมรถ',
+            'query' => $query,
         ]);
     }
     public function BN_generations_add(Request $request)
     {
-        $models = modelsModel::all();
+        $models = modelsModel::orderBy('model', 'asc')->get();
         return view('backend/generations-add', [ 
             'default_pagename' => 'เพิ่มโฉมรถ',
             'models' => $models,
@@ -56,11 +85,38 @@ class GenerationsController extends Controller
     }
     public function BN_generations_edit(Request $request, $id)
     {
-
+        $models = modelsModel::orderBy('model', 'asc')->get();
+        $mygeneration = generationsModel::find($id);
+        return view('backend/generations-edit', [ 
+            'default_pagename' => 'แก้ไขโฉมรถ',
+            'models' => $models,
+            'mygeneration' => $mygeneration,
+        ]);
     }
     public function BN_generations_edit_action(Request $request)
     {
+        $generationsModel = generationsModel::find($request->id);
 
+        if($request->hasFile('feature')){
+            $file = $request->file('feature');
+            $destinationPath = public_path('/uploads');
+            $filename = $file->getClientOriginalName();
+
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $newfilenam = 'generations-'.time() . '.' .$ext;
+            $file->move($destinationPath, $newfilenam);
+            $filepath = 'uploads/'.$newfilenam;
+            $generationsModel->feature = $filepath;
+        }
+
+        $generationsModel->models_id = $request->models_id;
+        $generationsModel->generations = $request->generations;
+        $generationsModel->yearfirst = $request->yearfirst;
+        $generationsModel->yearlast = $request->yearlast;
+        $generationsModel->description = $request->description;
+        $generationsModel->save();
+
+        return redirect(route('BN_generations'))->with('success', 'แก้ไขสำเร็จ !');
     }
     public function BN_generationsFetch()
     {

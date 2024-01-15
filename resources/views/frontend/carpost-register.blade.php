@@ -207,7 +207,7 @@ $arr_cartype = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>อีเมล</label>
-                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly  required />
+                                            <input type="text" name="email" class="form-control" value="{{$email}}" readonly />
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>เบอร์โทรศัพท์</label>
@@ -499,7 +499,7 @@ $arr_cartype = array(
                                                     </div>
                                                     <div class="box-uploadphoto dealerlicenseplate">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
-                                                        <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
+                                                        <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์<span>*</span></label></div>
                                                         <div class="row row-photoupload" id="image-preview-licenseplate">
                                                             <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 {{-- <div class="item-photoupload">

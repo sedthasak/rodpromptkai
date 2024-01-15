@@ -32,6 +32,9 @@ $arr_gear = array(
                             @endif
                             
                             <div class="owl-carousel owl-theme slider">
+                                <div class="item">
+                                    <a href="{{asset($cars->feature)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($cars->feature)}}"></a>
+                                </div>
                                 @foreach($exterior as $ext)
                                 <div class="item">
                                     <a href="{{asset($ext->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($ext->gallery)}}"></a>
@@ -61,6 +64,9 @@ $arr_gear = array(
                         <div class="tab_pdetail slide_load cover-radius">
                             <!-- <div class="car-booked"><div>จองแล้ว</div></div> -->
                             <div class="owl-carousel owl-theme slider">
+                                <!-- <div class="item">
+                                    <a href="{{asset($cars->feature)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($cars->feature)}}"></a>
+                                </div> -->
                                 @foreach($interior as $int)
                                 <div class="item">
                                     <a href="{{asset($int->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($int->gallery)}}"></a>
@@ -96,6 +102,9 @@ $arr_gear = array(
                         <div class="slide-wrapper">
                             <div class="tab_pdetail_thumb slide_load">
                                 <div id="sync2" class="owl-carousel owl-theme navigation-thumbs">
+                                    <div class="item cover-carthumb">
+                                        <img src="{{asset($cars->feature)}}">
+                                    </div>
                                     @foreach($exterior as $ext)
                                     <div class="item cover-carthumb">
                                         <img src="{{asset($ext->gallery)}}">

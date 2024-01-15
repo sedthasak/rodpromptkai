@@ -23,6 +23,36 @@ use App\Models\User;
 
 class NewsController extends Controller
 {
+
+    public function BN_news(Request $request)
+    {
+        // $news = newsModel::query()
+        // ->orderBy('id', 'desc')
+        // ->paginate(12);
+
+        $query = newsModel::query()
+            ->orderBy('id', 'desc');
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('excerpt', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('content', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+
+        $resultPerPage = 12;
+        $query = $query->paginate($resultPerPage);
+
+        return view('backend/news', [ 
+            'default_pagename' => 'ข่าวรถยนต์',
+            'query' => $query,
+        ]);
+    }
+
+
+
     public function index(newsModelDataTable $dataTable)
     {
         return $dataTable->render('backend.news');
@@ -30,18 +60,7 @@ class NewsController extends Controller
         // $data["data"] = "hello world";
         // return response(json_encode($data));
     }
-    public function BN_news()
-    {
-        // return $dataTable->render('backend.news');
-        $news = newsModel::query()
-        ->orderBy('id', 'desc')
-        ->paginate(12);
-
-        return view('backend/news', [ 
-            'default_pagename' => 'ข่าวรถยนต์',
-            'news' => $news,
-        ]);
-    }
+    
     public function BN_news_add(Request $request)
     {
         return view('backend/news-add', [ 
@@ -109,9 +128,11 @@ class NewsController extends Controller
 
         if($request->hasFile('feature')){
 
-            $oldPath = public_path($news->feature);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($Customer->feature)){
+                $oldPath = public_path($Customer->feature);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('feature');
@@ -158,9 +179,11 @@ class NewsController extends Controller
 
         if($request->hasFile('feature')){
 
-            $oldPath = public_path($news->feature);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($Customer->feature)){
+                $oldPath = public_path($Customer->feature);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('feature');

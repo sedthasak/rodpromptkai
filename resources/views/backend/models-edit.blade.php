@@ -7,18 +7,19 @@
 @section('subcontent')
 <?php
 // echo "<pre>";
-// print_r($page_name);
+// print_r($model);
 // echo "</pre>";
 ?>
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
         <h2 class="mr-auto text-lg font-medium">{{$default_pagename}}</h2>
         <div class="mt-4 flex w-full sm:mt-0 sm:w-auto">
-            <a href="{{route('BN_generations')}}" class="transition duration-200 border inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary mr-2 shadow-md" >ย้อนกลับ</a>    
+            <a href="{{route('BN_brands')}}" class="transition duration-200 border inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary mr-2 shadow-md" >ย้อนกลับ</a>    
         </div>
     </div>
-    <form method="post" action="{{route('BN_generations_add_action')}}" enctype="multipart/form-data" >
+    <form method="post" action="{{route('BN_carmd_edit_action')}}" enctype="multipart/form-data" >
         @csrf
         <input type="hidden" name="user_id" value="{{auth()->user()->id}}" />
+        <input type="hidden" name="id" value="{{$model->id}}" />
         <div class="grid grid-cols-12 gap-6 mt-5">
             <!-- <div class="intro-y col-span-12 lg:col-span-3"></div> -->
             <div class="intro-y col-span-12 lg:col-span-12">
@@ -30,35 +31,39 @@
                     </div>
                     <div class="p-5">
                         <div class="grid grid-cols-12 gap-x-5">
-                            <div class="col-span-12 xl:col-span-6">
+                            <div class="col-span-12 xl:col-span-4">
 
                                 <div class="">
-                                    <label for="update-profile-form-8" class="form-label">รุ่น</label>
-                                    <select id="update-profile-form-8" class="form-select" name="models_id">
-                                        @foreach($models as $keymodels => $model)
-                                        <option value="{{$model->id}}">{{$model->model}}</option>
+                                    <label for="update-profile-form-8" class="form-label">ยี่ห้อ</label>
+                                    <select id="update-profile-form-8" class="form-select" name="brand_id">
+                                        @foreach($brands as $keybrands => $brand)
+                                        <option value="{{$brand->id}}" @if($model->brand_id == $brand->id) selected @endif >{{$brand->title}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="mt-3">
-                                    <label for="update-profile-form-13" class="form-label">ปีเริ่มต้น</label>
-                                    <input type="text" class="form-control" name="yearfirst" value=""  autocomplete="off" />
-                                </div>
+
                             </div>
-                            <div class="col-span-12 xl:col-span-6">
+                            <div class="col-span-12 xl:col-span-4">
                                 <div class="mt-3 xl:mt-0">
-                                    <label for="update-profile-form-10" class="form-label">โฉมรถ</label>
-                                    <input type="text" class="form-control" name="generations" value=""  autocomplete="off" />
+                                    <label for="update-profile-form-10" class="form-label">รุ่น</label>
+                                    <input type="text" class="form-control" name="model" value="{{$model->model}}"  autocomplete="off" />
                                 </div>
-                                <div class="mt-3">
-                                    <label for="update-profile-form-13" class="form-label">ปีสุดท้าย</label>
-                                    <input type="text" class="form-control" name="yearlast" value=""  autocomplete="off" />
+
+                            </div>
+                            <div class="col-span-12 xl:col-span-4">
+                                <div class="">
+                                    <label for="update-profile-form-8" class="form-label">รถ EV</label>
+                                    <select id="update-profile-form-8" class="form-select" name="evtype">
+                                        <option value="0" @if($model->evtype == 0) selected @endif >ไม่ใช่</option>
+                                        <option value="1" @if($model->evtype == 1) selected @endif >ใช่</option>
+                                    </select>
                                 </div>
+
                             </div>
                             <div class="col-span-12 xl:col-span-12 mt-3">
                                 <div class="mt-3 xl:mt-0">
                                     <label for="update-profile-form-10" class="form-label">รายละเอียด</label>
-                                    <input type="text" class="form-control" name="description" value=""  autocomplete="off" />
+                                    <input type="text" class="form-control" name="description" value="{{$model->description}}"  autocomplete="off" />
                                 </div>
                             </div>
                             <!-- <div class="col-span-12 xl:col-span-12 mt-3">

@@ -185,6 +185,23 @@ class FrontendPageController extends Controller
         }
         return redirect()->back()->with('success', 'บันทึกสำเร็จ !');
     }
+    public function updatecontackbackPage(Request $request)
+    {
+        $postId = $request->id;
+        $currentValue = $request->currentValue;
+        $newValue = $currentValue == 'create' ? 'contact' : 'create';
+        $newValuefornotice = $currentValue == 'create' ? 'read' : 'create';
+        contacts_backModel::where('id', $postId)->update([
+            'status' => $newValue,
+        ]);
+        noticeModel::where('resource_id', $postId)
+        ->where('resource', 'contacts_back')
+        ->update([
+            'status' => $newValuefornotice,
+        ]);
+
+        return response()->json(['status' => 'success', 'newValue' => $newValue]);
+    }
     public function updatereservePage(Request $request)
     {
         $postId = $request->id;
@@ -412,8 +429,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -456,8 +475,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -500,8 +521,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -546,8 +569,10 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
 
@@ -606,9 +631,12 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
+        
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
         ->select("brands.id", "brands.title", "brands.feature")
@@ -841,30 +869,56 @@ class FrontendPageController extends Controller
             'rejected' => [],
             'expired' => [],
         );
-        foreach($mycars as $keystatus => $carstatus){
-            $carfromstatus[$carstatus->status][] = $carstatus;
+        if (isset($mycars)) {
+            foreach($mycars as $keystatus => $carstatus){
+                $carfromstatus[$carstatus->status][] = $carstatus;
+            }
         }
 
-        $contacts_back = contacts_backModel::where("customer_id", $customer_id)->get();
+        // $contacts_back = contacts_backModel::where("customer_id", $customer_id)->get();
+        // $contacts_back = DB::table('contacts_back')
+        // ->select('contacts_back.*', 'cars.*', 'brands.title as brand_title', 'models.model as model_name', 'customer.*')
+        // ->where('contacts_back.customer_id', '=', $customer_id)
+        // ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+        // ->join('brands', 'cars.brand_id', '=', 'brands.id')
+        // ->join('models', 'cars.model_id', '=', 'models.id')
+        // ->join('customer', 'contacts_back.customer_id', '=', 'customer.id')
+        // ->get();
 
 
-        $mycontacts = contacts_backModel::select(
-            'contacts_back.*', // Select all fields from contacts_back
-            'customer.id as customer_id',
-            'cars.*', // Select all fields from cars
-            'brands.title as brand',
-            'models.model as model', // Replace models.title with models.model
-            'generations.generations as generation', // Replace generations.title with generations.generations
-            'sub_models.sub_models as sub_model' // Replace sub_models.title with sub_models.sub_models
-        )
-        ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
-        ->join('customer', 'contacts_back.customer_id', '=', 'customer.id')
-        ->join('brands', 'cars.brand_id', '=', 'brands.id')
-        ->join('models', 'cars.model_id', '=', 'models.id')
-        ->join('generations', 'cars.generations_id', '=', 'generations.id')
-        ->join('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-        ->orderBy('contacts_back.created_at', 'desc')
-        ->get();
+        $query_contact_back = DB::table('contacts_back')
+            ->select('contacts_back.id as contact_id', 'contacts_back.status as contact_status', 'contacts_back.*', 'cars.id', 'cars.status', 'cars.customer_id', 'cars.user_id', 
+            'cars.type', 'cars.brand_id', 'cars.model_id', 'cars.modelyear', 'brands.title as brand_title', 
+            'models.model as model_name', 'customer.*', 'contacts_back.created_at')
+            ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+            ->join('brands', 'cars.brand_id', '=', 'brands.id')
+            ->join('models', 'cars.model_id', '=', 'models.id')
+            ->join('customer', 'cars.customer_id', '=', 'customer.id')
+            ->where('cars.customer_id', '=', $customer_id)
+            ->orderBy('contacts_back.id', 'desc')
+            ->paginate(24);
+
+
+        // $mycontacts = contacts_backModel::select(
+        //     'contacts_back.*', // Select all fields from contacts_back
+        //     'customer.id as customer_id',
+        //     'cars.*', // Select all fields from cars
+        //     'brands.title as brand',
+        //     'models.model as model', // Replace models.title with models.model
+        //     'generations.generations as generation', // Replace generations.title with generations.generations
+        //     'sub_models.sub_models as sub_model' // Replace sub_models.title with sub_models.sub_models
+        // )
+        // ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+        // ->join('customer', 'contacts_back.customer_id', '=', 'customer.id')
+        // ->join('brands', 'cars.brand_id', '=', 'brands.id')
+        // ->join('models', 'cars.model_id', '=', 'models.id')
+        // ->join('generations', 'cars.generations_id', '=', 'generations.id')
+        // ->join('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        // ->orderBy('contacts_back.created_at', 'desc')
+        // ->get();
+
+
+        
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
         ->select("brands.id", "brands.title", "brands.feature")
@@ -878,10 +932,11 @@ class FrontendPageController extends Controller
             'customer_id' => $customer_id,
             'mycars' => $mycars,
             'carfromstatus' => $carfromstatus,
-            'contacts_back' => $contacts_back,
-            'mycontacts' => $mycontacts,
+            // 'contacts_back' => $contacts_back,
+            // 'mycontacts' => $mycontacts,
             'carstatus' => "approved",
             'brandsearch' => $qrybrandsearch,
+            'query_contact_back' => $query_contact_back,
         ]);
     }
     /****************************************************************/
@@ -1118,10 +1173,13 @@ class FrontendPageController extends Controller
         
         if($request->hasFile('image')){
 
-            $oldPath = public_path($Customer->image);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($Customer->image)){
+                $oldPath = public_path($Customer->image);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
+                
 
             $file = $request->file('image');
             $destinationPath = public_path('/uploads/profile/');
@@ -1136,9 +1194,11 @@ class FrontendPageController extends Controller
         }
         if($request->hasFile('map')){
 
-            $oldPath = public_path($Customer->map);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($Customer->map)){
+                $oldPath = public_path($Customer->map);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('map');
@@ -1637,6 +1697,7 @@ class FrontendPageController extends Controller
             'sub_models.sub_models as submodel_name',
             'generations.generations as generation_name'
         )
+        ->where('cars.status', 'approved')
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(30);
@@ -1874,6 +1935,7 @@ class FrontendPageController extends Controller
             'sub_models.sub_models as submodel_name',
             'generations.generations as generation_name'
         )
+        ->where('cars.status', 'approved')
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(30);
@@ -1957,6 +2019,7 @@ class FrontendPageController extends Controller
             'sub_models.sub_models as submodel_name',
             'generations.generations as generation_name'
         )
+        ->where('cars.status', 'approved')
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(30);
@@ -2041,6 +2104,7 @@ class FrontendPageController extends Controller
             'sub_models.sub_models as submodel_name',
             'generations.generations as generation_name'
         )
+        ->where('cars.status', 'approved')
         ->orderBy('cars.modelyear', 'DESC')
         ->orderBy('cars.created_at', 'DESC')
         ->paginate(30);

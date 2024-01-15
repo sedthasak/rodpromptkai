@@ -31,11 +31,24 @@ class ViewDataServiceProvider extends ServiceProvider
 
             // Check if $customerdata is set
             if ($customerdata && isset($customerdata->id)) {
-                $contacts_back = contacts_backModel::orderBy('id', 'desc')
-                    ->where([
-                        ["customer_id", $customerdata->id],
-                        ["status", 'create'],
-                    ])
+                // $contacts_back = contacts_backModel::orderBy('id', 'desc')
+                //     ->where([
+                //         ["customer_id", $customerdata->id],
+                //         ["status", 'create'],
+                //     ])
+                //     ->get();
+
+                $contacts_back = DB::table('contacts_back')
+                    ->select('contacts_back.*', 'cars.id', 'cars.status', 'cars.customer_id', 'cars.user_id', 
+                    'cars.type', 'cars.brand_id', 'cars.model_id', 'cars.modelyear', 'brands.title as brand_title', 
+                    'models.model as model_name', 'customer.*', 'contacts_back.created_at')
+                    ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+                    ->join('brands', 'cars.brand_id', '=', 'brands.id')
+                    ->join('models', 'cars.model_id', '=', 'models.id')
+                    ->join('customer', 'cars.customer_id', '=', 'customer.id')
+                    ->where('cars.customer_id', '=', $customerdata->id)
+                    ->where('contacts_back.status', '=', 'create')
+                    ->orderBy('contacts_back.id', 'desc')
                     ->get();
 
                 $notice = noticeModel::orderBy('id', 'desc')

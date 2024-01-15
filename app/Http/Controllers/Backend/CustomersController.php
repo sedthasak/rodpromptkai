@@ -25,20 +25,28 @@ class CustomersController extends Controller
     
     public function BN_customers(Request $request)
     {
-        // dd($request->s);
-        // $Customer = Customer::latest()->paginate(12);
-        $Customer = Customer::query()
-        // ->where('phone',$request->s)
-        ->orderBy('id', 'desc')
-        ->paginate(16);
-        // if ($request->s){
-            
-        // }
-        // return view('post',compact('post'));
+        // $Customer = Customer::query()
+        // ->orderBy('id', 'desc')
+        // ->paginate(16);
+
+        $query = Customer::query()
+            ->orderBy('id', 'desc');
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($query) use ($keyword) {
+                $query->where('firstname', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+
+        $resultPerPage = 24;
+        $query = $query->paginate($resultPerPage);
+
 
         return view('backend/customer', [ 
             'default_pagename' => 'ลูกค้า',
-            'Customer' => $Customer,
+            'query' => $query,
         ]);
     }
     public function BN_customers_detail(Request $request, $id)
@@ -116,9 +124,12 @@ class CustomersController extends Controller
 
         if($request->hasFile('image')){
 
-            $oldPath = public_path($Customer->image);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+
+            if(isset($Customer->image)){
+                $oldPath = public_path($Customer->image);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('image');
@@ -135,9 +146,11 @@ class CustomersController extends Controller
 
         if($request->hasFile('map')){
 
-            $oldPath = public_path($Customer->map);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+            if(isset($Customer->map)){
+                $oldPath = public_path($Customer->map);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('map');
@@ -215,9 +228,12 @@ class CustomersController extends Controller
         $Customer = Customer::find($request->id);
         if($request->hasFile('image')){
 
-            $oldPath = public_path($Customer->image);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+
+            if(isset($Customer->image)){
+                $oldPath = public_path($Customer->image);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('image');
@@ -234,9 +250,12 @@ class CustomersController extends Controller
 
         if($request->hasFile('map')){
 
-            $oldPath = public_path($Customer->map);
-            if(File::exists($oldPath)){
-                File::delete($oldPath);
+
+            if(isset($Customer->map)){
+                $oldPath = public_path($Customer->map);
+                if(File::exists($oldPath)){
+                    File::delete($oldPath);
+                }
             }
 
             $file = $request->file('map');

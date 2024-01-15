@@ -29,59 +29,33 @@
         <!-- END: JS Assets-->
 
         @yield('script')
+        {{-- Display SweetAlert on session success --}}
         @if(session('success'))
-                    
-        <script>
-            // Swal.fire(
-            //     'Success',
-            //     '&nbsp;',
-            //     'warning'
-            // )
-            Swal.fire({
-                title: '{{session('success')}}',
-                // text: "You won't be able to revert this!",
-                icon: 'success',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                    )
-                }
-            })
-        </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: '{{ session('success') }}',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            </script>
         @endif
-        @if(session('error'))
 
-        <script>
-            // Swal.fire(
-            //     'Success',
-            //     '&nbsp;',
-            //     'warning'
-            // )
-            Swal.fire({
-                title: '{{session('error')}}',
-                // text: "You won't be able to revert this!",
-                icon: 'success',
-                // showCancelButton: true,
-                // confirmButtonColor: '#3085d6',
-                // cancelButtonColor: '#d33',
-                // confirmButtonText: 'Yes, delete it!'
-                // }).then((result) => {
-                // if (result.isConfirmed) {
-                //     Swal.fire(
-                //     'Deleted!',
-                //     'Your file has been deleted.',
-                //     'success'
-                //     )
-                // }
-            })
-        </script>
+        {{-- Display SweetAlert on session error --}}
+        @if(session('error'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '{{ session('error') }}',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            </script>
         @endif
+        
     </body>
 @endsection

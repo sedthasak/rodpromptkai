@@ -30,7 +30,7 @@
                     </div>
                     <div class="p-5">
                         <div class="grid grid-cols-12 gap-x-5">
-                            <div class="col-span-12 xl:col-span-6">
+                            <div class="col-span-12 xl:col-span-4">
 
                                 <div class="">
                                     <label for="update-profile-form-8" class="form-label">ยี่ห้อ</label>
@@ -42,10 +42,20 @@
                                 </div>
 
                             </div>
-                            <div class="col-span-12 xl:col-span-6">
+                            <div class="col-span-12 xl:col-span-4">
                                 <div class="mt-3 xl:mt-0">
                                     <label for="update-profile-form-10" class="form-label">รุ่น</label>
                                     <input type="text" class="form-control" name="model" value=""  autocomplete="off" />
+                                </div>
+
+                            </div>
+                            <div class="col-span-12 xl:col-span-4">
+                                <div class="">
+                                    <label for="update-profile-form-8" class="form-label">รถ EV</label>
+                                    <select id="update-profile-form-8" class="form-select" name="evtype">
+                                        <option value="0">ไม่ใช่</option>
+                                        <option value="1">ใช่</option>
+                                    </select>
                                 </div>
 
                             </div>
@@ -55,18 +65,18 @@
                                     <input type="text" class="form-control" name="description" value=""  autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col-span-12 xl:col-span-12 mt-3">
+                            <!-- <div class="col-span-12 xl:col-span-12 mt-3">
                                 <div class="mt-3 xl:mt-0">
                                     <label for="update-profile-form-10" class="form-label">รูปภาพ</label>
                                     <input type="file" class="form-control" name="feature" value="">
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="flex justify-end mt-4">
                             <button type="submit" class="btn btn-primary w-20 mr-auto">บันทึก</button>
-                            <a href="" class="text-danger flex items-center">
+                            <!-- <a href="" class="text-danger flex items-center">
                                 <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
