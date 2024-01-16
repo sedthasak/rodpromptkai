@@ -155,6 +155,71 @@ $arr_cartype = array(
         border: 2px dashed #ccc; /* กำหนดเส้นขอบของ droppable area */
         padding: 10px; /* เพิ่ม padding เพื่อให้สามารถลากและวางได้ง่ายขึ้น */
     }
+
+
+
+    /* CSS */
+    .dropzone {
+        min-height: 0px;
+        border: 0px solid rgba(0,0,0,.3);
+        background: #fff;
+        padding: 0px 0px;
+    }
+
+    .dropzone .dz-preview {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        margin: 8px;
+        border: 0px solid #ebebeb;
+        background: #f9f9f9;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .dropzone .dz-preview .dz-remove {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+        font-size: 11px;
+        color: white;
+        background-color: lightgray;
+        border: none;
+        z-index: 100000;
+        border-radius: 50%; /* เพิ่มบรรทัดนี้เพื่อทำให้มีรูปวงกลม */
+        width: 25px; /* Adjust width and height for the desired size */
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* opacity: 90%; */
+    }
+
+    .dropzone .dz-remove:hover {
+        color: red;
+    }
+
+    .dz-details {
+        display: none;
+    }
+
+    .dz-button {
+        display: none;
+    }
+
+    .dropzone .dz-remove i {
+    /* Style for the trash icon */
+        color: white;
+    }
+    .bi {
+        line-height: 2.2;
+    }
+
+.dropzone .dz-remove:hover {
+    /* Add hover effect if needed */
+    background-color: darkred;
+}
 </style>
 <div id="wait" class="box-waiting " style="display:none;"><div class="waiting-wrapper-image"><img src="{{asset('uploads/wait.gif')}}" /></div></div>
 <form method="POST" id="regis" action="{{route('carpostregisterSubmitPage')}}" enctype="multipart/form-data">
@@ -464,14 +529,29 @@ $arr_cartype = array(
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
                                                         <div><label id="exterior_pictures_label">อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
 
-                                                        <div class="row row-photoupload" id="image-preview-exterior">
-                                                            {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                        {{-- <div class="row row-photoupload" id="image-preview-exterior">
+                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                                                     <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
                                                                 </div>
+                                                            </div>
+                                                        </div> --}}
+
+
+                                                        <div id="my-dropzone" class="dropzone">
+                                                            <!-- Dropzone area -->
+                                                            {{-- <div class="dz-preview dz-file-preview">
+                                                                <!-- Thumbnail and file details -->
+                                                                <div class="dz-details">
+                                                                    <!-- Other details here -->
+                                                                </div>
+                                                                <!-- Remove button -->
+                                                                <button class="dz-remove" data-dz-remove><i class="bi bi-trash3-fill"></i></button>
                                                             </div> --}}
                                                         </div>
+
+
                                                         <div id="hidden-inputs-exterior"></div>
                                                         <div id="hidden-inputs-feature"></div>
                                                         <div class="btn-uploadimg">
@@ -992,41 +1072,41 @@ $arr_cartype = array(
 
         
 
-        $('#exterior_pictures').change(function(event){
-            let filesExterior = event.target.files;
-            let hiddenInputsExterior = $('#hidden-inputs-exterior');
-            let imagePreviewExterior = $('#image-preview-exterior');
-            let hiddenInputsFeature = $('#hidden-inputs-feature');
-            hiddenInputsExterior.empty(); // เคลียร์ค่าที่เก่าออก
+        // $('#exterior_pictures').change(function(event){
+        //     let filesExterior = event.target.files;
+        //     let hiddenInputsExterior = $('#hidden-inputs-exterior');
+        //     let imagePreviewExterior = $('#image-preview-exterior');
+        //     let hiddenInputsFeature = $('#hidden-inputs-feature');
+        //     hiddenInputsExterior.empty(); // เคลียร์ค่าที่เก่าออก
 
-            $.each(filesExterior, function(index, file){
-                let readerExterior = new FileReader();
+        //     $.each(filesExterior, function(index, file){
+        //         let readerExterior = new FileReader();
 
-                readerExterior.onload = function(){
-                    // console.log(reader.result);
-                    let base64StringExterior = readerExterior.result; // เอาเฉพาะส่วนที่เป็น base64
+        //         readerExterior.onload = function(){
+        //             // console.log(reader.result);
+        //             let base64StringExterior = readerExterior.result; // เอาเฉพาะส่วนที่เป็น base64
                     
-                    // สร้าง input hidden
-                    exterior_count++;
-                    let hiddenInputExterior = '<input type="hidden" name="picture_exterior[]" id="hidden_exterior_'+exterior_count+'" value="'+base64StringExterior+'">';
-                    hiddenInputsExterior.append(hiddenInputExterior);
+        //             // สร้าง input hidden
+        //             exterior_count++;
+        //             let hiddenInputExterior = '<input type="hidden" name="picture_exterior[]" id="hidden_exterior_'+exterior_count+'" value="'+base64StringExterior+'">';
+        //             hiddenInputsExterior.append(hiddenInputExterior);
 
-                    if (exterior_count == 1) {
-                        let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
-                        hiddenInputsFeature.empty().append(hiddenInputFeature);
-                    }
+        //             if (exterior_count == 1) {
+        //                 let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
+        //                 hiddenInputsFeature.empty().append(hiddenInputFeature);
+        //             }
 
-                    // สร้าง image tag
-                    // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
-                    // imagePreview.append(imageTag);
+        //             // สร้าง image tag
+        //             // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
+        //             // imagePreview.append(imageTag);
 
-                    let imageTagExterior = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_exterior_'+exterior_count+'"><div class="item-photoupload"><button type="button" id="picture_exterior_'+exterior_count+'" onClick="delexterior(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="'+base64StringExterior+'" alt=""></div></div>';
-                    imagePreviewExterior.append(imageTagExterior);
-                }
+        //             let imageTagExterior = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_exterior_'+exterior_count+'"><div class="item-photoupload"><button type="button" id="picture_exterior_'+exterior_count+'" onClick="delexterior(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="'+base64StringExterior+'" alt=""></div></div>';
+        //             imagePreviewExterior.append(imageTagExterior);
+        //         }
 
-                readerExterior.readAsDataURL(file);
-            });
-        });
+        //         readerExterior.readAsDataURL(file);
+        //     });
+        // });
         $('#licenseplate').change(function(event){
             let filelicenseplate = event.target.files[0];
             let imagePreviewlicenseplate = $('#image-preview-licenseplate');
@@ -1189,5 +1269,58 @@ $arr_cartype = array(
             console.log(order);
             // Implement your logic to save or use the new order
     }
+    // Initialize Dropzone
+    Dropzone.autoDiscover = false;
+    var myDropzone = new Dropzone("#my-dropzone", {
+        url: "/exterior-upload",
+        clickable: "#exterior_pictures", // Attach the button to trigger file selection
+        // Additional configuration options as needed
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        addRemoveLinks: true,  // เพิ่มลิงก์ลบสำหรับแต่ละไฟล์
+        maxFilesize: 12,        // ขนาดไฟล์สูงสุด (MB)
+        acceptedFiles: ".jpeg,.jpg,.png", // ประเภทไฟล์ที่ยอมรับ
+        dictRemoveFile: '<i class="bi bi-trash3-fill"></i>', // Change the text for the remove link
+
+        init: function () {
+            this.on("addedfile", function (file) {
+                // Add delete icon to each thumbnail
+                // var removeButton = Dropzone.createElement('<button class="btn btn-danger btn-sm" style="position:absolute; top:0; right:0;">Remove</button>');
+
+                // var _this = this;
+
+                // removeButton.addEventListener("click", function (e) {
+                //     e.preventDefault();
+                //     e.stopPropagation();
+                //     _this.removeFile(file);
+                // });
+            });
+
+            
+        }
+    });
+
+    $(".dropzone").sortable({
+        items:'.dz-preview',
+        cursor: 'grab',
+        opacity: 0.5,
+        containment: '.dropzone',
+        distance: 20,
+        tolerance: 'pointer',
+        stop: function () {
+        var queue = myDropzone.getAcceptedFiles();
+        newQueue = [];
+        $('#imageUpload .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {           
+                var name = el.innerHTML;
+                queue.forEach(function(file) {
+                    if (file.name === name) {
+                        newQueue.push(file);
+                    }
+                });
+        });
+        myDropzone.files = newQueue;
+        }
+    });
 </script>
 @endsection

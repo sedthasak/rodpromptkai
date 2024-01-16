@@ -654,4 +654,21 @@ class PostController extends Controller
             'a' => 'test',
         ]);
     }
+
+    public function exteriorupload(Request $request) {
+        echo "test exteriorupload";
+        $file = $request->file('file');
+        // $path = $file->store('uploads', 'public');
+
+        // $licenseplate = $request->file('licenseplate');
+        $destinationPath = public_path('/uploads/exterior');
+        $filename = $file->getClientOriginalName();
+
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $newfilenam = 'exteriror-'.time() . '.' .$ext;
+        $file->move($destinationPath, $newfilenam);
+        $filepath2 = 'uploads/exterior/'.$newfilenam;
+
+        return response()->json(['path' => $destinationPath]);
+    }
 }

@@ -98,6 +98,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/carpost-register-success', 'carpostregistersuccessPage')->name('carpostregistersuccessPage');
         Route::post('/carpost-register-submit', 'carpostregisterSubmitPage')->name('carpostregisterSubmitPage');
         Route::post('/carpost-register-edit-submit', 'carpostregistereditubmitPage')->name('carpostregistereditubmitPage');
+        Route::post('/exterior-upload', 'exteriorupload')->name('exteriorupload');
     });
 
     Route::controller(FrontendPageController::class)->group(function() {
