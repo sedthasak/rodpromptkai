@@ -228,12 +228,10 @@ class PostController extends Controller
         $cars2->ref_code = $strtotime.$cars2->customer_id;
         $cars2->update();
 
-
-        $notice = noticeModel::where('resource', 'cars')
-            ->where('resource_id', $request->post_id)
-            ->first();
-        $notice->status = 'read';
-        $notice->update();
+        $resourceId = $request->post_id;
+        NoticeModel::where('resource', 'cars')
+            ->where('resource_id', $resourceId)
+            ->update(['status' => 'read']);
 
         return redirect(route('carpostregistersuccessPage'));
 
