@@ -83,6 +83,17 @@ class GenerationsController extends Controller
         return redirect(route('BN_generations'))->with('success', 'เพิ่มสำเร็จ !');
 
     }
+    public function BN_generations_delete(Request $request, $id)
+    {
+        // dd($request);
+        try {
+            $generation = generationsModel::findOrFail($id);
+            $generation->delete();
+            return redirect()->route('BN_generations')->with('success', 'ลบสำเร็จ !!!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('success', 'Error deleting generation: ' . $e->getMessage());
+        }
+    }
     public function BN_generations_edit(Request $request, $id)
     {
         $models = modelsModel::orderBy('model', 'asc')->get();

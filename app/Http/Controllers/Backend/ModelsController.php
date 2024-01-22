@@ -81,6 +81,17 @@ class ModelsController extends Controller
         return redirect(route('BN_carmd'))->with('success', 'เพิ่มสำเร็จ !');
 
     }
+    public function BN_carmd_delete(Request $request, $id)
+    {
+        // dd($request);
+        try {
+            $model = modelsModel::findOrFail($id);
+            $model->delete();
+            return redirect()->route('BN_carmd')->with('success', 'ลบสำเร็จ !!!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('success', 'Error deleting brand: ' . $e->getMessage());
+        }
+    }
     public function BN_carmd_edit(Request $request, $id)
     {
         $brands = brandsModel::orderBy('title', 'asc')->get();
