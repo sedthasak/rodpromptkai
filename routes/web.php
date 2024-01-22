@@ -99,6 +99,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/carpost-register-submit', 'carpostregisterSubmitPage')->name('carpostregisterSubmitPage');
         Route::post('/carpost-register-edit-submit', 'carpostregistereditubmitPage')->name('carpostregistereditubmitPage');
         Route::post('/exterior-upload', 'exteriorupload')->name('exteriorupload');
+        Route::post('/rearrange-carpost', 'rearrangecarpost')->name('rearrangecarpost');
     });
 
     Route::controller(FrontendPageController::class)->group(function() {

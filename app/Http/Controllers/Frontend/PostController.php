@@ -663,10 +663,33 @@ class PostController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'exteriror-'.time() . '.' .$ext;
+        $newfilenam = 'exteriror-'.$file->getClientOriginalName() . '.' .$ext;
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/exterior/'.$newfilenam;
 
+        $customerid = $request->input('customerid');
+        if (isset($customerid)) {
+            $data = [
+                "cars_id" => 0,
+                "gallery" => $newfilenam,
+                "type" => $request->input('customerid')
+            ];
+            galleryModel::create($data);
+        }
+
         return response()->json(['path' => $destinationPath]);
+    }
+
+    function rearrangecarpost(Request $request) {
+        return dd($request);
+        $fileNames = $request->input('files');
+
+        foreach ($fileNames as $fileName) {
+            $newfilenam = 'uploads/exterior/'.'exteriror-'.$fileName;
+            // Assuming your model is named 'Image' and has an 'updated_at' attribute
+            gallery::where('gallery', $newfilenam)->update(['updated_at' => now()]);
+        }
+
+        return response()->json(['message' => 'Updated updated_at for selected files.']);
     }
 }

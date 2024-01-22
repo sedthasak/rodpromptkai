@@ -2227,4 +2227,6 @@ class FrontendPageController extends Controller
     }
 
     
+
+    
 }

@@ -555,8 +555,10 @@ $arr_cartype = array(
                                                         <div id="hidden-inputs-exterior"></div>
                                                         <div id="hidden-inputs-feature"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input aria-labelledby="exterior_pictures_label" type="file" name="exterior_pictures[]" id="exterior_pictures" accept="image/jpeg, image/png" multiple required>
+                                                            <input aria-labelledby="exterior_pictures_label" type="button" name="exterior_pictures[]" id="exterior_pictures" accept="image/jpeg, image/png" multiple required>
+                                                            {{-- <button type="button" name="exterior_pictures[]" id="exterior_pictures"> --}}
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="box-uploadphoto">
@@ -1035,6 +1037,11 @@ $arr_cartype = array(
                 });
             }
         } );
+
+
+
+
+
     }); 
 
     
@@ -1042,6 +1049,8 @@ $arr_cartype = array(
 <script>
     var interior_count = 0;
     var exterior_count = 0;
+    var totalimage = 25;
+    var currentImageCount = 0;
     $(document).ready(function() {
         // Make items draggable
         $(".item-photoupload").draggable({
@@ -1272,6 +1281,7 @@ $arr_cartype = array(
     // Initialize Dropzone
     Dropzone.autoDiscover = false;
     var myDropzone = new Dropzone("#my-dropzone", {
+        paramName: "file",
         url: "/exterior-upload",
         clickable: "#exterior_pictures", // Attach the button to trigger file selection
         // Additional configuration options as needed
@@ -1282,22 +1292,29 @@ $arr_cartype = array(
         maxFilesize: 12,        // ขนาดไฟล์สูงสุด (MB)
         acceptedFiles: ".jpeg,.jpg,.png", // ประเภทไฟล์ที่ยอมรับ
         dictRemoveFile: '<i class="bi bi-trash3-fill"></i>', // Change the text for the remove link
+        parallelUploads: 1,
 
         init: function () {
             this.on("addedfile", function (file) {
-                // Add delete icon to each thumbnail
-                // var removeButton = Dropzone.createElement('<button class="btn btn-danger btn-sm" style="position:absolute; top:0; right:0;">Remove</button>');
-
-                // var _this = this;
-
-                // removeButton.addEventListener("click", function (e) {
-                //     e.preventDefault();
-                //     e.stopPropagation();
-                //     _this.removeFile(file);
-                // });
+                currentImageCount++;
+                // Check if the current image count is less than the total allowed images
+                if (currentImageCount-1 < totalimage) {
+                    // Increment the current image count
+                } else {
+                    // If the limit is reached, remove the file from Dropzone
+                    this.removeFile(file);
+                }
+                
             });
 
-            
+            this.on("removedfile", function (file) {
+                currentImageCount--; // Decrease count when file is removed
+            });
+
+            // Set up the params to send additional data
+            this.on("sending", function (file, xhr, formData) {
+                formData.append("customerid", {{$customerid}});
+            });
         }
     });
 
@@ -1306,7 +1323,7 @@ $arr_cartype = array(
         cursor: 'grab',
         opacity: 0.5,
         containment: '.dropzone',
-        distance: 20,
+        distance: 5,
         tolerance: 'pointer',
         stop: function () {
         var queue = myDropzone.getAcceptedFiles();
@@ -1320,6 +1337,30 @@ $arr_cartype = array(
                 });
         });
         myDropzone.files = newQueue;
+
+        // Include the CSRF token in the AJAX request
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+
+        $.ajax({
+            url: '/rearrange-carpost',
+            method: 'POST',
+            data: {
+                files: newQueue.map(file => file.name)
+            },
+            success: function (response) {
+                console.log(response); // Handle the response from the server
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+
+
         }
     });
 </script>
