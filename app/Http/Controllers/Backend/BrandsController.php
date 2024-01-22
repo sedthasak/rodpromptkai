@@ -126,6 +126,17 @@ class BrandsController extends Controller
 
         return redirect(route('BN_brands'))->with('success', 'เพิ่มสำเร็จ !');
     }
+    public function BN_brands_delete(Request $request, $id)
+    {
+        // dd($request);
+        try {
+            $brand = BrandsModel::findOrFail($id);
+            $brand->delete();
+            return redirect()->route('BN_brands')->with('success', 'ลบสำเร็จ !!!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('success', 'Error deleting brand: ' . $e->getMessage());
+        }
+    }
     public function BN_brands_edit(Request $request, $id)
     {
         $brands = brandsModel::find($id);

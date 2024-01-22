@@ -64,8 +64,13 @@
                     </div>
 
 
-                    <div class="text-right mt-5">
+                    <!-- <div class="text-right mt-5">
+                        <a href="#" class="btn btn-danger w-24 mr-auto ">ลบ</a>
                         <button type="submit" class="btn btn-primary w-24">บันทึก</button>
+                    </div> -->
+                    <div class="mt-4 flex justify-end">
+                        <div class="btn-delete-brand btn btn-danger mr-auto w-24" onclick="confirmDelete({{ $brands->id }})">ลบ</div>
+                        <button type="submit" class="btn btn-primary w-24 mr-2">บันทึก</button>
                     </div>
                 </div>
                 <!-- END: Form Layout -->
@@ -80,6 +85,24 @@
 
 @section('script')
 <script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'ยืนยัน?',
+            text: 'ยืนยันการลบยี่ห้อรถนี้ใช่ไหม !',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ตกลง !',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, redirect to delete route
+                window.location.href = '/backend/car/brands-delete/' + id;
+            }
+        });
+    }
+    
     ClassicEditor
         .create( document.querySelector( '#content' ) )
         .catch( error => {

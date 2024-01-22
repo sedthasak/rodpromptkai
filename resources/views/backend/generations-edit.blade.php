@@ -69,11 +69,15 @@
                                 </div>
                             </div> -->
                         </div>
-                        <div class="flex justify-end mt-4">
+                        <!-- <div class="flex justify-end mt-4">
                             <button type="submit" class="btn btn-primary w-20 mr-auto">บันทึก</button>
-                            <!-- <a href="" class="text-danger flex items-center">
+                            <a href="" class="text-danger flex items-center">
                                 <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                            </a> -->
+                            </a>
+                        </div> -->
+                        <div class="mt-4 flex justify-end">
+                            <div class="btn-delete-brand btn btn-danger mr-auto w-24" onclick="confirmDelete({{ $mygeneration->id }})">ลบ</div>
+                            <button type="submit" class="btn btn-primary w-24 mr-2">บันทึก</button>
                         </div>
                     </div>
                 </div>
@@ -90,6 +94,23 @@
 @section('script')
 <script>
 
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'ยืนยัน?',
+            text: 'ยืนยันการลบโฉมรถนี้ใช่ไหม !',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ตกลง !',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, redirect to delete route
+                window.location.href = '/backend/car/generations-delete/' + id;
+            }
+        });
+    }
 </script>
 
 

@@ -104,6 +104,17 @@ class Sub_modelsController extends Controller
         return redirect(route('BN_sub_models'))->with('success', 'เพิ่มสำเร็จ !');
 
     }
+    public function BN_sub_models_delete(Request $request, $id)
+    {
+        // dd($request);
+        try {
+            $sub_models = sub_modelsModel::findOrFail($id);
+            $sub_models->delete();
+            return redirect()->route('BN_sub_models')->with('success', 'ลบสำเร็จ !!!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('success', 'Error deleting sub model: ' . $e->getMessage());
+        }
+    }
     public function BN_sub_models_edit(Request $request, $id)
     {
         // $models = modelsModel::orderBy('model', 'asc')->get();

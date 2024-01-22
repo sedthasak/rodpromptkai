@@ -257,6 +257,7 @@ Route::middleware('auth')->group(function() {
                 Route::get('brands', [BrandsController::class, 'BN_brands'])->name('BN_brands');
                 Route::get('brands-add', [BrandsController::class, 'BN_brands_add'])->name('BN_brands_add');
                 Route::get('brands-edit/{id}', [BrandsController::class, 'BN_brands_edit'])->name('BN_brands_edit');
+                Route::get('brands-delete/{id}', [BrandsController::class, 'BN_brands_delete'])->name('BN_brands_delete');
                 Route::post('brands-add-action', [BrandsController::class, 'BN_brands_add_action'])->name('BN_brands_add_action');
                 Route::post('brands-edit-action', [BrandsController::class, 'BN_brands_edit_action'])->name('BN_brands_edit_action');
                 Route::get('brandsfetch', [BrandsController::class, 'BN_brandsFetch'])->name('BN_brandsFetch');
@@ -265,6 +266,7 @@ Route::middleware('auth')->group(function() {
                 Route::get('models', [ModelsController::class, 'BN_carmd'])->name('BN_carmd');
                 Route::get('models-add', [ModelsController::class, 'BN_carmd_add'])->name('BN_carmd_add');
                 Route::get('models-edit/{id}', [ModelsController::class, 'BN_carmd_edit'])->name('BN_carmd_edit');
+                Route::get('models-delete/{id}', [ModelsController::class, 'BN_carmd_delete'])->name('BN_carmd_delete');
                 Route::post('models-add-action', [ModelsController::class, 'BN_carmd_add_action'])->name('BN_carmd_add_action');
                 Route::post('models-edit-action', [ModelsController::class, 'BN_carmd_edit_action'])->name('BN_carmd_edit_action');
                 Route::get('modelsfetch', [ModelsController::class, 'BN_carmdFetch'])->name('BN_carmdFetch');
@@ -273,12 +275,14 @@ Route::middleware('auth')->group(function() {
                 Route::get('generations-add', [GenerationsController::class, 'BN_generations_add'])->name('BN_generations_add');
                 Route::post('generations-add-action', [GenerationsController::class, 'BN_generations_add_action'])->name('BN_generations_add_action');
                 Route::get('generations-edit/{id}', [GenerationsController::class, 'BN_generations_edit'])->name('BN_generations_edit');
+                Route::get('generations-delete/{id}', [GenerationsController::class, 'BN_generations_delete'])->name('BN_generations_delete');
                 Route::post('generations-edit-action', [GenerationsController::class, 'BN_generations_edit_action'])->name('BN_generations_edit_action');
                 Route::get('generationsfetch', [GenerationsController::class, 'BN_generationsFetch'])->name('BN_generationsFetch');
 
                 Route::get('sub_models', [Sub_modelsController::class, 'BN_sub_models'])->name('BN_sub_models');
                 Route::get('sub_models-add', [Sub_modelsController::class, 'BN_sub_models_add'])->name('BN_sub_models_add');
                 Route::post('sub_models-add-action', [Sub_modelsController::class, 'BN_sub_models_add_action'])->name('BN_sub_models_add_action');
+                Route::get('sub_models-delete/{id}', [Sub_modelsController::class, 'BN_sub_models_delete'])->name('BN_sub_models_delete');
                 Route::get('sub_models-edit/{id}', [Sub_modelsController::class, 'BN_sub_models_edit'])->name('BN_sub_models_edit');
                 Route::post('sub_models-edit-action', [Sub_modelsController::class, 'BN_sub_models_edit_action'])->name('BN_sub_models_edit_action');
                 Route::get('sub_modelsfetch', [Sub_modelsController::class, 'BN_sub_modelsFetch'])->name('BN_sub_modelsFetch');
