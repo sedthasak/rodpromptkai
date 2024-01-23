@@ -97,7 +97,8 @@ $( '.tab_article_btn > div' ).click(function (event) {
 // owl
 $(document).ready(function() {
     $('.owl-bannerslide').owlCarousel({
-        loop: true,
+        loop: false,
+        rewind: true,
         margin: 0,
         autoplay: true,
         autoplayTimeout: 8000,
@@ -119,7 +120,8 @@ $(document).ready(function() {
         }
     });
     $('.owl-bannercar').owlCarousel({
-        loop: true,
+        loop: false,
+        rewind: true,
         margin: 0,
         autoplay: true,
         autoplayTimeout: 8000,
