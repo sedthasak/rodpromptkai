@@ -99,7 +99,14 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/carpost-register-submit', 'carpostregisterSubmitPage')->name('carpostregisterSubmitPage');
         Route::post('/carpost-register-edit-submit', 'carpostregistereditubmitPage')->name('carpostregistereditubmitPage');
         Route::post('/exterior-upload', 'exteriorupload')->name('exteriorupload');
-        Route::post('/rearrange-carpost', 'rearrangecarpost')->name('rearrangecarpost');
+        Route::post('/exterior-rearrange', 'exteriorrearrange')->name('exteriorrearrange');
+        Route::post('/exterior-delete', 'exteriordelete')->name('exteriordelete');
+        Route::post('/interior-upload', 'interiorupload')->name('interiorupload');
+        Route::post('/interior-rearrange', 'interiorrearrange')->name('interiorrearrange');
+        Route::post('/interior-delete', 'interiordelete')->name('interiordelete');
+        Route::post('/licenseplate-upload', 'licenseplateupload')->name('licenseplateupload');
+        Route::post('/licenseplate-rearrange', 'licenseplaterearrange')->name('licenseplaterearrange');
+        Route::post('/licenseplate-delete', 'licenseplatedelete')->name('licenseplatedelete');
     });
 
     Route::controller(FrontendPageController::class)->group(function() {

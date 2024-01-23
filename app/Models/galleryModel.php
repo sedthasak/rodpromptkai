@@ -14,6 +14,7 @@ class galleryModel extends Model
     protected $fillable = [
         'cars_id',
         'gallery',
-        'type'
+        'type',
+        'pre_id'
     ];
 }

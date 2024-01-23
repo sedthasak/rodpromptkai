@@ -599,6 +599,22 @@ class PostController extends Controller
         $brands = brandsModel::orderBy("sort_no", "ASC")->get();
         // $models = modelsModel::all();
         // $query = DB::table('generations')->where('id', 1)->first();
+
+        // add function delete old files
+        $customerdata = session('customer');
+        if (isset($customerdata->id)) {
+            $qrygallery = galleryModel::where("pre_id", $customerdata->id)->get();
+            if (isset($qrygallery)) {
+                foreach ($qrygallery as $rows) {
+                    galleryModel::where('id', $rows->id)->delete();
+                    if (File::exists($rows->gallery)) {
+                        File::delete($rows->gallery);
+                    }
+                }
+            }
+        }
+
+
         return view('frontend/carpost-register', [
             'provinces' => $provinces,
             'brands' => $brands,
@@ -654,7 +670,6 @@ class PostController extends Controller
     }
 
     public function exteriorupload(Request $request) {
-        echo "test exteriorupload";
         $file = $request->file('file');
         // $path = $file->store('uploads', 'public');
 
@@ -663,7 +678,7 @@ class PostController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'exteriror-'.$file->getClientOriginalName() . '.' .$ext;
+        $newfilenam = 'exterior-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/exterior/'.$newfilenam;
 
@@ -671,8 +686,9 @@ class PostController extends Controller
         if (isset($customerid)) {
             $data = [
                 "cars_id" => 0,
-                "gallery" => $newfilenam,
-                "type" => $request->input('customerid')
+                "gallery" => $filepath2,
+                "type" => "exterior",
+                "pre_id" => $request->input('customerid'),
             ];
             galleryModel::create($data);
         }
@@ -680,16 +696,137 @@ class PostController extends Controller
         return response()->json(['path' => $destinationPath]);
     }
 
-    function rearrangecarpost(Request $request) {
-        echo "test";
+    function exteriorrearrange(Request $request) {
         $fileNames = $request->input('files');
-
-        foreach ($fileNames as $fileName) {
-            $newfilenam = 'uploads/exterior/'.'exteriror-'.$fileName;
-            // Assuming your model is named 'Image' and has an 'updated_at' attribute
-            gallery::where('gallery', $newfilenam)->update(['updated_at' => now()]);
+        $customerid = $request->input('customerid');
+        if (isset($customerid)) {
+            $qrygallery = galleryModel::where("type", "exterior")->where("pre_id", $customerid)->get();
+            foreach ($qrygallery as $index => $rows) {
+                $newfilenam = 'uploads/exterior/'.'exterior-'.$fileNames[$index];
+                galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
+            }
         }
 
         return response()->json(['message' => 'Updated updated_at for selected files.']);
+    }
+
+    function exteriordelete(Request $request) {
+        $fileName = $request->input('filename');
+        $customerid = $request->input('customerid');
+        $filePath = 'uploads/exterior/'.'exterior-'.$fileName;
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            galleryModel::where('gallery', $filePath)->where("pre_id", $customerid)->delete();
+            echo "File deleted successfully.";
+        }
+        return response()->json();
+    }
+
+    public function interiorupload(Request $request) {
+        echo "test interiorupload";
+        $file = $request->file('file');
+        // $path = $file->store('uploads', 'public');
+
+        // $licenseplate = $request->file('licenseplate');
+        $destinationPath = public_path('/uploads/interior');
+        $filename = $file->getClientOriginalName();
+
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $newfilenam = 'interior-'.$file->getClientOriginalName();
+        $file->move($destinationPath, $newfilenam);
+        $filepath2 = 'uploads/interior/'.$newfilenam;
+
+        $customerid = $request->input('customerid');
+        if (isset($customerid)) {
+            $data = [
+                "cars_id" => 0,
+                "gallery" => $filepath2,
+                "type" => "interior",
+                "pre_id" => $request->input('customerid'),
+            ];
+            galleryModel::create($data);
+        }
+
+        return response()->json(['path' => $destinationPath]);
+    }
+
+    function interiorrearrange(Request $request) {
+        $fileNames = $request->input('files');
+        $customerid = $request->input('customerid');
+        if (isset($customerid)) {
+            $qrygallery = galleryModel::where("type", "interior")->where("pre_id", $customerid)->get();
+            foreach ($qrygallery as $index => $rows) {
+                $newfilenam = 'uploads/interior/'.'interior-'.$fileNames[$index];
+                galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
+            }
+        }
+
+        return response()->json(['message' => 'Updated updated_at for selected files.']);
+    }
+
+    function interiordelete(Request $request) {
+        $fileName = $request->input('filename');
+        $customerid = $request->input('customerid');
+        $filePath = 'uploads/interior/'.'interior-'.$fileName;
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            galleryModel::where('gallery', $filePath)->where("pre_id", $customerid)->delete();
+            echo "File deleted successfully.";
+        }
+        return response()->json();
+    }
+
+    public function licenseplateupload(Request $request) {
+        echo "test licenseplateupload";
+        $file = $request->file('file');
+        // $path = $file->store('uploads', 'public');
+
+        // $licenseplate = $request->file('licenseplate');
+        $destinationPath = public_path('/uploads/licenseplate');
+        $filename = $file->getClientOriginalName();
+
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $newfilenam = 'licenseplate-'.$file->getClientOriginalName();
+        $file->move($destinationPath, $newfilenam);
+        $filepath2 = 'uploads/licenseplate/'.$newfilenam;
+
+        $customerid = $request->input('customerid');
+        if (isset($customerid)) {
+            $data = [
+                "cars_id" => 0,
+                "gallery" => $filepath2,
+                "type" => "licenseplate",
+                "pre_id" => $request->input('customerid'),
+            ];
+            galleryModel::create($data);
+        }
+
+        return response()->json(['path' => $destinationPath]);
+    }
+
+    function licenseplaterearrange(Request $request) {
+        $fileNames = $request->input('files');
+        $customerid = $request->input('customerid');
+        if (isset($customerid)) {
+            $qrygallery = galleryModel::where("type", "licenseplate")->where("pre_id", $customerid)->get();
+            foreach ($qrygallery as $index => $rows) {
+                $newfilenam = 'uploads/licenseplate/'.'licenseplate-'.$fileNames[$index];
+                galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
+            }
+        }
+
+        return response()->json(['message' => 'Updated updated_at for selected files.']);
+    }
+
+    function licenseplatedelete(Request $request) {
+        $fileName = $request->input('filename');
+        $customerid = $request->input('customerid');
+        $filePath = 'uploads/licenseplate/'.'licenseplate-'.$fileName;
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            galleryModel::where('gallery', $filePath)->where("pre_id", $customerid)->delete();
+            echo "File deleted successfully.";
+        }
+        return response()->json();
     }
 }
