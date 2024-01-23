@@ -864,32 +864,6 @@ $arr_cartype = array(
     };
 
 
-
-
-    Dropzone.options.exteriorDropzone = {
-        url: "/fake/location",
-        autoProcessQueue: false,
-        paramName: "exteriorDropzone",
-        clickable: true,
-        maxFilesize: 5, //in mb
-        addRemoveLinks: true,
-        acceptedFiles: '.png,.jpg,.jpeg',
-        dictDefaultMessage: "อัพโหลดรูปภายนอกรถยนต์",
-        init: function() {
-            this.on("sending", function(file, xhr, formData) {
-            console.log("sending file");
-            });
-            this.on("success", function(file, responseText) {
-            console.log('great success');
-            });
-            this.on("addedfile", function(file){
-                console.log('file added');
-            });
-        }
-    };
-
-
-    
     
 
     $(document).ready(function() {
@@ -1311,32 +1285,85 @@ $arr_cartype = array(
                 currentImageCount--; // Decrease count when file is removed
             });
 
-            // Set up the params to send additional data
-            this.on("sending", function (file, xhr, formData) {
-                formData.append("customerid", {{$customerid}});
-            });
+            
         }
     });
 
     $(".dropzone").sortable({
         items:'.dz-preview',
+        containment: '.dropzone',
         cursor: 'grab',
         opacity: 0.5,
-        containment: '.dropzone',
         distance: 5,
         tolerance: 'pointer',
-        stop: function () {
-        var queue = myDropzone.getAcceptedFiles();
-        newQueue = [];
-        $('#imageUpload .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {           
+
+        // เพิ่มโค้ดเรียงลำดับไฟล์เมื่อ Dropzone ถูกลากและวาง
+        stop: function (event) {
+            console.log("drop");
+            var newQueue = [];
+            $('#my-dropzone .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {
                 var name = el.innerHTML;
-                queue.forEach(function(file) {
+                myDropzone.files.forEach(function (file) {
                     if (file.name === name) {
                         newQueue.push(file);
                     }
                 });
-        });
-        myDropzone.files = newQueue;
+            });
+            myDropzone.files = newQueue;
+            updateFileOrder(newQueue);
+        };
+    });
+
+    // $(".dropzone").sortable({
+    //     items:'.dz-preview',
+    //     cursor: 'grab',
+    //     opacity: 0.5,
+    //     containment: '.dropzone',
+    //     distance: 25,
+    //     tolerance: 'pointer',
+    //     stop: function () {
+    //     var queue = myDropzone.getAcceptedFiles();
+    //     newQueue = [];
+    //     $('#imageUpload .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {           
+    //             var name = el.innerHTML;
+    //             console.log("el.innerhtml="+name);
+    //             queue.forEach(function(file) {
+    //                 if (file.name === name) {
+    //                     newQueue.push(file);
+    //                 }
+    //             });
+    //     });
+    //     myDropzone.files = newQueue;
+
+    //     // Include the CSRF token in the AJAX request
+    //     $.ajaxSetup({
+    //         headers: {
+    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         }
+    //     });
+
+    //     console.log("newQueue="+newQueue);
+
+    //     $.ajax({
+    //         url: '/rearrange-carpost',
+    //         method: 'POST',
+    //         data: {
+    //             files: newQueue.map(file => file.name)
+    //         },
+    //         success: function (response) {
+    //             console.log(response); // Handle the response from the server
+    //         },
+    //         error: function (error) {
+    //             console.error(error);
+    //         }
+    //     });
+
+
+    //     }
+    // });
+
+    function updateFileOrder(newQueue) {
+        var fileNames = newQueue.map(file => file.name);
 
         // Include the CSRF token in the AJAX request
         $.ajaxSetup({
@@ -1345,12 +1372,12 @@ $arr_cartype = array(
             }
         });
 
-
+        // ส่งข้อมูลลำดับไฟล์ไปยังเซิร์ฟเวอร์ Laravel
         $.ajax({
             url: '/rearrange-carpost',
             method: 'POST',
             data: {
-                files: newQueue.map(file => file.name)
+                files: fileNames
             },
             success: function (response) {
                 console.log(response); // Handle the response from the server
@@ -1359,9 +1386,6 @@ $arr_cartype = array(
                 console.error(error);
             }
         });
-
-
-        }
-    });
+    }
 </script>
 @endsection

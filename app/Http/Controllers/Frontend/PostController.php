@@ -681,7 +681,7 @@ class PostController extends Controller
     }
 
     function rearrangecarpost(Request $request) {
-        return dd($request);
+        echo "test";
         $fileNames = $request->input('files');
 
         foreach ($fileNames as $fileName) {
