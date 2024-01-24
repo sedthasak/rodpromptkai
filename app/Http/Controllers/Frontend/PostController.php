@@ -279,7 +279,8 @@ class PostController extends Controller
         $cars->title = $request->title;
         $cars->detail = $request->detail;
         $cars->price = str_replace(",", "", $request->price);
-        $cars->licenseplate = $request->licenseplate;
+        // $cars->licenseplate = $request->licenseplate;
+        
         if ($request->has('warranty_1')) {
             $cars->warranty_1 = 1;
         }
@@ -313,213 +314,219 @@ class PostController extends Controller
         $cars->province = $request->province;
         $cars->save();
 
-        if($request->picture_feature){
+        // if($request->picture_feature){
 
-            $string_pieces = explode( ";base64,", $request->picture_feature);
+        //     $string_pieces = explode( ";base64,", $request->picture_feature);
          
-            $image_type_pieces = explode( "image/", $string_pieces[0] );
+        //     $image_type_pieces = explode( "image/", $string_pieces[0] );
          
-            $image_type = $image_type_pieces[1];
+        //     $image_type = $image_type_pieces[1];
 
-            // Decode the base64 string and save the image
-            $imageData = base64_decode($string_pieces[1]);
+        //     // Decode the base64 string and save the image
+        //     $imageData = base64_decode($string_pieces[1]);
             
-            // Generate a unique filename
-            $filename = 'feature-'.time() . '.' .$image_type;
+        //     // Generate a unique filename
+        //     $filename = 'feature-'.time() . '.' .$image_type;
 
-            // Define the path where you want to save the image
-            $path = public_path('uploads/feature/' . $filename);
-            $filepath1 = 'uploads/feature/' . $filename;
+        //     // Define the path where you want to save the image
+        //     $path = public_path('uploads/feature/' . $filename);
+        //     $filepath1 = 'uploads/feature/' . $filename;
 
-            // Save the image to the defined path
-            file_put_contents($path, $imageData);
-
-
-            // ทำ ลายน้ำ
-            $watermarkPath = public_path('frontend/images/watermark.png');
-            $imagePath = public_path('uploads/feature'.'/'.$filename);
-
-            $img = Image::make($imagePath);
-
-            // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-            $watermark = Image::make($watermarkPath);
-            $watermarkWidth = $img->width() / 3;
-            $watermark->resize($watermarkWidth, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-
-            // เพิ่ม watermark ลงในรูป
-            $img->insert($watermark, 'top-left', 40, 60);
-
-            // บันทึกรูปที่มี watermark
-            $img->save(public_path('uploads/feature'.'/'.$filename));
+        //     // Save the image to the defined path
+        //     file_put_contents($path, $imageData);
 
 
+        //     // ทำ ลายน้ำ
+        //     $watermarkPath = public_path('frontend/images/watermark.png');
+        //     $imagePath = public_path('uploads/feature'.'/'.$filename);
+
+        //     $img = Image::make($imagePath);
+
+        //     // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+        //     $watermark = Image::make($watermarkPath);
+        //     $watermarkWidth = $img->width() / 3;
+        //     $watermark->resize($watermarkWidth, null, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //     });
+
+        //     // เพิ่ม watermark ลงในรูป
+        //     $img->insert($watermark, 'top-left', 40, 60);
+
+        //     // บันทึกรูปที่มี watermark
+        //     $img->save(public_path('uploads/feature'.'/'.$filename));
 
 
 
 
 
-            carsModel::where("id", $cars->id)->update(["feature" => $filepath1]);
-        }
-        if($request->hasFile('licenseplate')){
-            $licenseplate = $request->file('licenseplate');
-            $destinationPath = public_path('/uploads/licenseplate');
-            $filename = $licenseplate->getClientOriginalName();
-
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = 'licenseplate-'.time() . '.' .$ext;
-            $licenseplate->move($destinationPath, $newfilenam);
-            $filepath2 = 'uploads/licenseplate/'.$newfilenam;
 
 
-            // ทำ ลายน้ำ
-            $watermarkPath = public_path('frontend/images/watermark.png');
-            $imagePath = public_path('uploads/licenseplate'.'/'.$newfilenam);
-
-            $img = Image::make($imagePath);
-
-            // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-            $watermark = Image::make($watermarkPath);
-            $watermarkWidth = $img->width() / 3;
-            $watermark->resize($watermarkWidth, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-
-            // เพิ่ม watermark ลงในรูป
-            $img->insert($watermark, 'top-left', 40, 60);
-
-            // บันทึกรูปที่มี watermark
-            $img->save(public_path('uploads/feature'.'/'.$newfilenam));
+        //     carsModel::where("id", $cars->id)->update(["feature" => $filepath1]);
+        // }
 
 
 
-            carsModel::where("id", $cars->id)->update(["licenseplate" => $filepath2]);
-        }
+
+
+        // // ใส่ลายน้ำ
+        // $qrygallery = galleryModel::where("pre_id", $request->customer_id)->orderBy("id")->get();
+        // if (!empty($qrygallery)) {
+        //     foreach ($qrygallery as $rows) {
+        //         // ทำ ลายน้ำ feature
+        //         $watermarkPath = public_path('frontend/images/watermark.png');
+        //         $imagePath = public_path($rows->gallery);
+
+        //         $img = Image::make($imagePath);
+
+        //         // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+        //         $watermark = Image::make($watermarkPath);
+        //         $watermarkWidth = $img->width() / 3;
+        //         $watermark->resize($watermarkWidth, null, function ($constraint) {
+        //             $constraint->aspectRatio();
+        //         });
+
+        //         // เพิ่ม watermark ลงในรูป
+        //         $img->insert($watermark, 'top-left', ceil($img->width()*0.10), ceil($img->height()*0.20));
+
+        //         // บันทึกรูปที่มี watermark
+        //         $img->save(public_path($rows->gallery));
+        //     }
+            
+        // }
+        // update gallery set cars_id
+        galleryModel::where("pre_id", $request->customer_id)->update(["cars_id" => $cars->id, "pre_id" => null]);
+        
         
 
-        if($request->picture_exterior){
-            $exterior_image = $request->picture_exterior;
-            foreach($request->picture_exterior as $keyex => $extr){
-                // Decode the base64 string and save the image
+
+
+        // if($request->hasFile('licenseplate')){
+        //     $licenseplate = $request->file('licenseplate');
+        //     $destinationPath = public_path('/uploads/licenseplate');
+        //     $filename = $licenseplate->getClientOriginalName();
+
+        //     $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        //     $newfilenam = 'licenseplate-'.time() . '.' .$ext;
+        //     $licenseplate->move($destinationPath, $newfilenam);
+        //     $filepath2 = 'uploads/licenseplate/'.$newfilenam;
+
+
+        //     // ทำ ลายน้ำ
+        //     $watermarkPath = public_path('frontend/images/watermark.png');
+        //     $imagePath = public_path('uploads/licenseplate'.'/'.$newfilenam);
+
+        //     $img = Image::make($imagePath);
+
+        //     // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+        //     $watermark = Image::make($watermarkPath);
+        //     $watermarkWidth = $img->width() / 3;
+        //     $watermark->resize($watermarkWidth, null, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //     });
+
+        //     // เพิ่ม watermark ลงในรูป
+        //     $img->insert($watermark, 'top-left', 40, 60);
+
+        //     // บันทึกรูปที่มี watermark
+        //     $img->save(public_path('uploads/feature'.'/'.$newfilenam));
+
+
+
+        //     carsModel::where("id", $cars->id)->update(["licenseplate" => $filepath2]);
+        // }
+        
+
+        // if($request->picture_exterior){
+        //     $exterior_image = $request->picture_exterior;
+        //     foreach($request->picture_exterior as $keyex => $extr){
+        //         // Decode the base64 string and save the image
                 
-                $string_pieces = explode( ";base64,", $extr);
+        //         $string_pieces = explode( ";base64,", $extr);
             
-                $image_type_pieces = explode( "image/", $string_pieces[0] );
+        //         $image_type_pieces = explode( "image/", $string_pieces[0] );
             
-                $image_type = $image_type_pieces[1];
+        //         $image_type = $image_type_pieces[1];
 
-                $imageData = base64_decode($string_pieces[1]);
+        //         $imageData = base64_decode($string_pieces[1]);
 
-                // Generate a unique filename
-                $filename = 'exterior-'.$keyex.'-'.time() . '.' .$image_type;
+        //         // Generate a unique filename
+        //         $filename = 'exterior-'.$keyex.'-'.time() . '.' .$image_type;
 
-                // Define the path where you want to save the image
-                $path = public_path('uploads/exterior/' . $filename);
-                $filepath = 'uploads/exterior/' . $filename;
+        //         // Define the path where you want to save the image
+        //         $path = public_path('uploads/exterior/' . $filename);
+        //         $filepath = 'uploads/exterior/' . $filename;
 
-                // Save the image to the defined path
-                file_put_contents($path, $imageData);
-
-
-
-                // ทำ ลายน้ำ
-                $watermarkPath = public_path('frontend/images/watermark.png');
-                $imagePath = public_path('uploads/exterior'.'/'.$filename);
-
-                $img = Image::make($imagePath);
-
-                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-                $watermark = Image::make($watermarkPath);
-                $watermarkWidth = $img->width() / 3;
-                $watermark->resize($watermarkWidth, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-
-                // เพิ่ม watermark ลงในรูป
-                $img->insert($watermark, 'top-left', 40, 60);
-
-                // บันทึกรูปที่มี watermark
-                $img->save(public_path('uploads/exterior'.'/'.$filename));
+        //         // Save the image to the defined path
+        //         file_put_contents($path, $imageData);
 
 
 
+        //         // ทำ ลายน้ำ
+        //         $watermarkPath = public_path('frontend/images/watermark.png');
+        //         $imagePath = public_path('uploads/exterior'.'/'.$filename);
+
+        //         $img = Image::make($imagePath);
+
+        //         // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+        //         $watermark = Image::make($watermarkPath);
+        //         $watermarkWidth = $img->width() / 3;
+        //         $watermark->resize($watermarkWidth, null, function ($constraint) {
+        //             $constraint->aspectRatio();
+        //         });
+
+        //         // เพิ่ม watermark ลงในรูป
+        //         $img->insert($watermark, 'top-left', 40, 60);
+
+        //         // บันทึกรูปที่มี watermark
+        //         $img->save(public_path('uploads/exterior'.'/'.$filename));
 
 
-                $gallery = new galleryModel;
-                $gallery->cars_id = $cars->id;
-                $gallery->gallery = $filepath;
-                $gallery->type = 'exterior';
-                $gallery->save();
-            }
-        }
-        if($request->hasFile('interior_pictures')){
-
-            // version 1
-            // $interior_image = $request->picture_interior;
-            // foreach($request->picture_interior as $keyin => $intr){
-
-            //     $string_pieces = explode( ";base64,", $intr);
-            
-            //     $image_type_pieces = explode( "image/", $string_pieces[0] );
-            
-            //     $image_type = $image_type_pieces[1];
-
-            //     // Decode the base64 string and save the image
-            //     $imageData = base64_decode($string_pieces[1]);
-
-            //     // Generate a unique filename
-            //     $filename = 'interior-'.$keyin.'-'.time() . '.' .$image_type;
-
-            //     // Define the path where you want to save the image
-            //     $path = public_path('uploads/interior/' . $filename);
-            //     $filepath = 'uploads/interior/' . $filename;
-
-            //     // Save the image to the defined path
-            //     file_put_contents($path, $imageData);
-                
-            //     $gallery = new galleryModel;
-            //     $gallery->cars_id = $cars->id;
-            //     $gallery->gallery = $filepath;
-            //     $gallery->type = 'interior';
-            //     $gallery->save();
-            // }
 
 
-            // version 2
-            foreach ($request->file('interior_pictures') as $keyin => $image) {
-                // บันทึกไฟล์
-                $imageName = 'interior-'.$keyin.'-'.time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads/interior'), $imageName);
+
+        //         $gallery = new galleryModel;
+        //         $gallery->cars_id = $cars->id;
+        //         $gallery->gallery = $filepath;
+        //         $gallery->type = 'exterior';
+        //         $gallery->save();
+        //     }
+        // }
+        // if($request->hasFile('interior_pictures')){
+
+        //     // version 2
+        //     foreach ($request->file('interior_pictures') as $keyin => $image) {
+        //         // บันทึกไฟล์
+        //         $imageName = 'interior-'.$keyin.'-'.time() . '_' . $image->getClientOriginalName();
+        //         $image->move(public_path('uploads/interior'), $imageName);
 
 
-                // ทำ ลายน้ำ
-                $watermarkPath = public_path('frontend/images/watermark.png');
-                $imagePath = public_path('uploads/interior'.'/'.$imageName);
+        //         // ทำ ลายน้ำ
+        //         $watermarkPath = public_path('frontend/images/watermark.png');
+        //         $imagePath = public_path('uploads/interior'.'/'.$imageName);
 
-                $img = Image::make($imagePath);
+        //         $img = Image::make($imagePath);
 
-                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-                $watermark = Image::make($watermarkPath);
-                $watermarkWidth = $img->width() / 3;
-                $watermark->resize($watermarkWidth, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
+        //         // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+        //         $watermark = Image::make($watermarkPath);
+        //         $watermarkWidth = $img->width() / 3;
+        //         $watermark->resize($watermarkWidth, null, function ($constraint) {
+        //             $constraint->aspectRatio();
+        //         });
 
-                // เพิ่ม watermark ลงในรูป
-                $img->insert($watermark, 'top-left', 40, 60);
+        //         // เพิ่ม watermark ลงในรูป
+        //         $img->insert($watermark, 'top-left', 40, 60);
 
-                // บันทึกรูปที่มี watermark
-                $img->save(public_path('uploads/interior'.'/'.$imageName));
+        //         // บันทึกรูปที่มี watermark
+        //         $img->save(public_path('uploads/interior'.'/'.$imageName));
 
 
-                $gallery = new galleryModel;
-                $gallery->cars_id = $cars->id;
-                $gallery->gallery = 'uploads/interior/' . $imageName;
-                $gallery->type = 'interior';
-                $gallery->save();
-            }
-        }
+        //         $gallery = new galleryModel;
+        //         $gallery->cars_id = $cars->id;
+        //         $gallery->gallery = 'uploads/interior/' . $imageName;
+        //         $gallery->type = 'interior';
+        //         $gallery->save();
+        //     }
+        // }
 
         $cars2 = carsModel::find($cars->id);
         $strtotime = strtotime($cars2->created_at);
@@ -678,7 +685,7 @@ class PostController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'exterior-'.$file->getClientOriginalName();
+        $newfilenam = 'exterior-'.time().'-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/exterior/'.$newfilenam;
 
@@ -693,6 +700,32 @@ class PostController extends Controller
             galleryModel::create($data);
         }
 
+        // ใส่ลายน้ำ
+        $qrygallery = galleryModel::where("pre_id", $customerid)->where("type", "exterior")->get();
+        if (!empty($qrygallery)) {
+            foreach ($qrygallery as $rows) {
+                // ทำ ลายน้ำ feature
+                $watermarkPath = public_path('frontend/images/watermark.png');
+                $imagePath = public_path($rows->gallery);
+
+                $img = Image::make($imagePath);
+
+                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+                $watermark = Image::make($watermarkPath);
+                $watermarkWidth = $img->width() / 3;
+                $watermark->resize($watermarkWidth, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // เพิ่ม watermark ลงในรูป
+                $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
+
+                // บันทึกรูปที่มี watermark
+                $img->save(public_path($rows->gallery));
+            }
+            
+        }
+
         return response()->json(['path' => $destinationPath]);
     }
 
@@ -702,7 +735,7 @@ class PostController extends Controller
         if (isset($customerid)) {
             $qrygallery = galleryModel::where("type", "exterior")->where("pre_id", $customerid)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/exterior/'.'exterior-'.$fileNames[$index];
+                $newfilenam = 'uploads/exterior/'.'exterior-'.time().'-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }
@@ -711,19 +744,31 @@ class PostController extends Controller
     }
 
     function exteriordelete(Request $request) {
+        // $fileName = $request->input('filename');
+        // $customerid = $request->input('customerid');
+        // $filePath = 'uploads/exterior/'.'exterior-'.time().'-'.$fileName;
+        // if (File::exists($filePath)) {
+        //     File::delete($filePath);
+        //     galleryModel::where('gallery', 'like', '%'. $filePath)->where("pre_id", $customerid)->delete();
+        //     echo "File deleted successfully.";
+        // }
+        // return response()->json();
+
         $fileName = $request->input('filename');
         $customerid = $request->input('customerid');
-        $filePath = 'uploads/exterior/'.'exterior-'.$fileName;
-        if (File::exists($filePath)) {
-            File::delete($filePath);
-            galleryModel::where('gallery', $filePath)->where("pre_id", $customerid)->delete();
-            echo "File deleted successfully.";
+        $qrygallery = galleryModel::where('gallery', 'like', '%'.$fileName.'%')->where("pre_id", $customerid)->get();
+        foreach ($qrygallery as $rows) {
+            galleryModel::where('id', $rows->id)->delete();
+            if (File::exists($rows->gallery)) {
+                File::delete($rows->gallery);
+                
+                echo "File deleted successfully.";
+            }
         }
         return response()->json();
     }
 
     public function interiorupload(Request $request) {
-        echo "test interiorupload";
         $file = $request->file('file');
         // $path = $file->store('uploads', 'public');
 
@@ -732,7 +777,7 @@ class PostController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'interior-'.$file->getClientOriginalName();
+        $newfilenam = 'interior-'.time().'-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/interior/'.$newfilenam;
 
@@ -747,6 +792,32 @@ class PostController extends Controller
             galleryModel::create($data);
         }
 
+        // ใส่ลายน้ำ
+        $qrygallery = galleryModel::where("pre_id", $customerid)->where("type", "interior")->get();
+        if (!empty($qrygallery)) {
+            foreach ($qrygallery as $rows) {
+                // ทำ ลายน้ำ feature
+                $watermarkPath = public_path('frontend/images/watermark.png');
+                $imagePath = public_path($rows->gallery);
+
+                $img = Image::make($imagePath);
+
+                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+                $watermark = Image::make($watermarkPath);
+                $watermarkWidth = $img->width() / 3;
+                $watermark->resize($watermarkWidth, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // เพิ่ม watermark ลงในรูป
+                $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
+
+                // บันทึกรูปที่มี watermark
+                $img->save(public_path($rows->gallery));
+            }
+            
+        }
+
         return response()->json(['path' => $destinationPath]);
     }
 
@@ -756,7 +827,7 @@ class PostController extends Controller
         if (isset($customerid)) {
             $qrygallery = galleryModel::where("type", "interior")->where("pre_id", $customerid)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/interior/'.'interior-'.$fileNames[$index];
+                $newfilenam = 'uploads/interior/'.'interior-'.time().'-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }
@@ -765,19 +836,31 @@ class PostController extends Controller
     }
 
     function interiordelete(Request $request) {
+        // $fileName = $request->input('filename');
+        // $customerid = $request->input('customerid');
+        // $filePath = 'uploads/interior/'.'interior-'.time().'-'.$fileName;
+        // if (File::exists($filePath)) {
+        //     File::delete($filePath);
+        //     galleryModel::where('gallery', 'like', '%'. $filePath)->where("pre_id", $customerid)->delete();
+        //     echo "File deleted successfully.";
+        // }
+        // return response()->json();
+
         $fileName = $request->input('filename');
         $customerid = $request->input('customerid');
-        $filePath = 'uploads/interior/'.'interior-'.$fileName;
-        if (File::exists($filePath)) {
-            File::delete($filePath);
-            galleryModel::where('gallery', $filePath)->where("pre_id", $customerid)->delete();
-            echo "File deleted successfully.";
+        $qrygallery = galleryModel::where('gallery', 'like', '%'.$fileName.'%')->where("pre_id", $customerid)->get();
+        foreach ($qrygallery as $rows) {
+            galleryModel::where('id', $rows->id)->delete();
+            if (File::exists($rows->gallery)) {
+                File::delete($rows->gallery);
+                
+                echo "File deleted successfully.";
+            }
         }
         return response()->json();
     }
 
     public function licenseplateupload(Request $request) {
-        echo "test licenseplateupload";
         $file = $request->file('file');
         // $path = $file->store('uploads', 'public');
 
@@ -786,7 +869,7 @@ class PostController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'licenseplate-'.$file->getClientOriginalName();
+        $newfilenam = 'licenseplate-'.time().'-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/licenseplate/'.$newfilenam;
 
@@ -801,6 +884,32 @@ class PostController extends Controller
             galleryModel::create($data);
         }
 
+        // ใส่ลายน้ำ
+        $qrygallery = galleryModel::where("pre_id", $customerid)->where("type", "licenseplate")->get();
+        if (!empty($qrygallery)) {
+            foreach ($qrygallery as $rows) {
+                // ทำ ลายน้ำ feature
+                $watermarkPath = public_path('frontend/images/watermark.png');
+                $imagePath = public_path($rows->gallery);
+
+                $img = Image::make($imagePath);
+
+                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+                $watermark = Image::make($watermarkPath);
+                $watermarkWidth = $img->width() / 3;
+                $watermark->resize($watermarkWidth, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // เพิ่ม watermark ลงในรูป
+                $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
+
+                // บันทึกรูปที่มี watermark
+                $img->save(public_path($rows->gallery));
+            }
+            
+        }
+
         return response()->json(['path' => $destinationPath]);
     }
 
@@ -810,7 +919,7 @@ class PostController extends Controller
         if (isset($customerid)) {
             $qrygallery = galleryModel::where("type", "licenseplate")->where("pre_id", $customerid)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/licenseplate/'.'licenseplate-'.$fileNames[$index];
+                $newfilenam = 'uploads/licenseplate/'.'licenseplate-'.time().'-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }
@@ -821,11 +930,14 @@ class PostController extends Controller
     function licenseplatedelete(Request $request) {
         $fileName = $request->input('filename');
         $customerid = $request->input('customerid');
-        $filePath = 'uploads/licenseplate/'.'licenseplate-'.$fileName;
-        if (File::exists($filePath)) {
-            File::delete($filePath);
-            galleryModel::where('gallery', $filePath)->where("pre_id", $customerid)->delete();
-            echo "File deleted successfully.";
+        $qrygallery = galleryModel::where('gallery', 'like', '%'.$fileName.'%')->where("pre_id", $customerid)->get();
+        foreach ($qrygallery as $rows) {
+            galleryModel::where('id', $rows->id)->delete();
+            if (File::exists($rows->gallery)) {
+                File::delete($rows->gallery);
+                
+                echo "File deleted successfully.";
+            }
         }
         return response()->json();
     }
