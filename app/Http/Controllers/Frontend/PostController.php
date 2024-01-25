@@ -393,8 +393,14 @@ class PostController extends Controller
         //     }
             
         // }
+
+
+        // update cars.feature
+        $qrygallery = galleryModel::where("pre_id", $request->customer_id)->orderBy("id", "ASC")->first();
+        carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
         // update gallery set cars_id
         galleryModel::where("pre_id", $request->customer_id)->update(["cars_id" => $cars->id, "pre_id" => null]);
+        
         
         
 
@@ -701,32 +707,25 @@ class PostController extends Controller
         }
 
         // ใส่ลายน้ำ
-        $qrygallery = galleryModel::where("pre_id", $customerid)->where("type", "exterior")->get();
-        if (!empty($qrygallery)) {
-            foreach ($qrygallery as $rows) {
-                // ทำ ลายน้ำ feature
-                $watermarkPath = public_path('frontend/images/watermark.png');
-                $imagePath = public_path($rows->gallery);
+        $watermarkPath = public_path('frontend/images/watermark.png');
+        $imagePath = public_path($filepath2);
 
-                $img = Image::make($imagePath);
+        $img = Image::make($imagePath);
 
-                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-                $watermark = Image::make($watermarkPath);
-                $watermarkWidth = $img->width() / 3;
-                $watermark->resize($watermarkWidth, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
+        // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+        $watermark = Image::make($watermarkPath);
+        $watermarkWidth = $img->width() / 3;
+        $watermark->resize($watermarkWidth, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
 
-                // เพิ่ม watermark ลงในรูป
-                $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
+        // เพิ่ม watermark ลงในรูป
+        $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
 
-                // บันทึกรูปที่มี watermark
-                $img->save(public_path($rows->gallery));
-            }
-            
-        }
+        // บันทึกรูปที่มี watermark
+        $img->save(public_path($filepath2));
 
-        return response()->json(['path' => $destinationPath]);
+        return response()->json(['path' => 'create exterior']);
     }
 
     function exteriorrearrange(Request $request) {
@@ -793,32 +792,25 @@ class PostController extends Controller
         }
 
         // ใส่ลายน้ำ
-        $qrygallery = galleryModel::where("pre_id", $customerid)->where("type", "interior")->get();
-        if (!empty($qrygallery)) {
-            foreach ($qrygallery as $rows) {
-                // ทำ ลายน้ำ feature
-                $watermarkPath = public_path('frontend/images/watermark.png');
-                $imagePath = public_path($rows->gallery);
+        $watermarkPath = public_path('frontend/images/watermark.png');
+        $imagePath = public_path($filepath2);
 
-                $img = Image::make($imagePath);
+        $img = Image::make($imagePath);
 
-                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-                $watermark = Image::make($watermarkPath);
-                $watermarkWidth = $img->width() / 3;
-                $watermark->resize($watermarkWidth, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
+        // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+        $watermark = Image::make($watermarkPath);
+        $watermarkWidth = $img->width() / 3;
+        $watermark->resize($watermarkWidth, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
 
-                // เพิ่ม watermark ลงในรูป
-                $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
+        // เพิ่ม watermark ลงในรูป
+        $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
 
-                // บันทึกรูปที่มี watermark
-                $img->save(public_path($rows->gallery));
-            }
-            
-        }
+        // บันทึกรูปที่มี watermark
+        $img->save(public_path($filepath2));
 
-        return response()->json(['path' => $destinationPath]);
+        return response()->json(['path' => 'create interior']);
     }
 
     function interiorrearrange(Request $request) {
@@ -885,32 +877,25 @@ class PostController extends Controller
         }
 
         // ใส่ลายน้ำ
-        $qrygallery = galleryModel::where("pre_id", $customerid)->where("type", "licenseplate")->get();
-        if (!empty($qrygallery)) {
-            foreach ($qrygallery as $rows) {
-                // ทำ ลายน้ำ feature
-                $watermarkPath = public_path('frontend/images/watermark.png');
-                $imagePath = public_path($rows->gallery);
+        $watermarkPath = public_path('frontend/images/watermark.png');
+        $imagePath = public_path($filepath2);
 
-                $img = Image::make($imagePath);
+        $img = Image::make($imagePath);
 
-                // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-                $watermark = Image::make($watermarkPath);
-                $watermarkWidth = $img->width() / 3;
-                $watermark->resize($watermarkWidth, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
+        // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
+        $watermark = Image::make($watermarkPath);
+        $watermarkWidth = $img->width() / 3;
+        $watermark->resize($watermarkWidth, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
 
-                // เพิ่ม watermark ลงในรูป
-                $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
+        // เพิ่ม watermark ลงในรูป
+        $img->insert($watermark, 'top-left', ceil($img->width()*0.09), ceil($img->height()*0.17));
 
-                // บันทึกรูปที่มี watermark
-                $img->save(public_path($rows->gallery));
-            }
-            
-        }
+        // บันทึกรูปที่มี watermark
+        $img->save(public_path($filepath2));
 
-        return response()->json(['path' => $destinationPath]);
+        return response()->json(['path' => 'create licenseplate']);
     }
 
     function licenseplaterearrange(Request $request) {

@@ -105,7 +105,7 @@ $arr_gear = array(
                                     <div class="item cover-carthumb">
                                         <img src="{{asset($cars->feature)}}">
                                     </div>
-                                    @foreach($exterior as $ext)
+                                    @foreach($exterior as $index => $ext)
                                     <div class="item cover-carthumb">
                                         <img src="{{asset($ext->gallery)}}">
                                     </div>
