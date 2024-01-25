@@ -102,9 +102,9 @@ $arr_gear = array(
                         <div class="slide-wrapper">
                             <div class="tab_pdetail_thumb slide_load">
                                 <div id="sync2" class="owl-carousel owl-theme navigation-thumbs">
-                                    <div class="item cover-carthumb">
+                                    {{-- <div class="item cover-carthumb">
                                         <img src="{{asset($cars->feature)}}">
-                                    </div>
+                                    </div> --}}
                                     @foreach($exterior as $index => $ext)
                                     <div class="item cover-carthumb">
                                         <img src="{{asset($ext->gallery)}}">
