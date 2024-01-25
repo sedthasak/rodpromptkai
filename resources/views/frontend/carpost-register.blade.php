@@ -685,8 +685,10 @@ $arr_cartype = array(
             if (interiorDropzone.files.length < 1) {
                 emptyFields.push("รูปห้องโดยสาร");
             }
-            if (licenseplateDropzone.files.length < 1) {
-                emptyFields.push("เล่มทะเบียนรถ");
+            if (if ($("#typeshow").val() == "dealer")) {
+                if (licenseplateDropzone.files.length < 1) {
+                    emptyFields.push("เล่มทะเบียนรถ");
+                }
             }
 
 
