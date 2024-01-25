@@ -691,7 +691,7 @@ class PostController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'exterior-'.time().'-'.$file->getClientOriginalName();
+        $newfilenam = 'exterior-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/exterior/'.$newfilenam;
 
@@ -734,7 +734,7 @@ class PostController extends Controller
         if (isset($customerid)) {
             $qrygallery = galleryModel::where("type", "exterior")->where("pre_id", $customerid)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/exterior/'.'exterior-'.time().'-'.$fileNames[$index];
+                $newfilenam = 'uploads/exterior/'.'exterior-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }
@@ -776,7 +776,7 @@ class PostController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'interior-'.time().'-'.$file->getClientOriginalName();
+        $newfilenam = 'interior-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/interior/'.$newfilenam;
 
@@ -819,7 +819,7 @@ class PostController extends Controller
         if (isset($customerid)) {
             $qrygallery = galleryModel::where("type", "interior")->where("pre_id", $customerid)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/interior/'.'interior-'.time().'-'.$fileNames[$index];
+                $newfilenam = 'uploads/interior/'.'interior-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }
@@ -861,7 +861,7 @@ class PostController extends Controller
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'licenseplate-'.time().'-'.$file->getClientOriginalName();
+        $newfilenam = 'licenseplate-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/licenseplate/'.$newfilenam;
 
@@ -904,7 +904,7 @@ class PostController extends Controller
         if (isset($customerid)) {
             $qrygallery = galleryModel::where("type", "licenseplate")->where("pre_id", $customerid)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/licenseplate/'.'licenseplate-'.time().'-'.$fileNames[$index];
+                $newfilenam = 'uploads/licenseplate/'.'licenseplate-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }

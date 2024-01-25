@@ -68,12 +68,13 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                         <div class="col-8 col-md-8">
                                             <div class="mycar-boxprice">
                                                 <div class="mycar-price">{{number_format($cars->price, 0, '.', ',')}}.-</div>
-                                                @if((2 - $cars->edit_price) > 0)
-                                                <a data-fancybox data-src="#edit-carprice{{$cars->id}}" href="javascript:;" class="mycar-editprice">
-                                                    <i class="bi bi-pencil-square"></i> แก้ไขราคา
-                                                </a>
-                                                @endif 
-                                                
+                                                @if (isset($cars->edit_price))
+                                                    @if((2 - $cars->edit_price) > 0)
+                                                    <a data-fancybox data-src="#edit-carprice{{$cars->id}}" href="javascript:;" class="mycar-editprice">
+                                                        <i class="bi bi-pencil-square"></i> แก้ไขราคา
+                                                    </a>
+                                                    @endif 
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-4 col-md-4 text-end">
@@ -115,7 +116,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                         </div>
                                         <div class="col-8 col-md-9">
                                             <input type="number" name="newprice" class="form-control">
-                                            <div>จำนวนครั้งที่ท่านสามารถแก้ไขได้  {{2 - $cars->edit_price}}/2</div>
+                                            <div>จำนวนครั้งที่ท่านสามารถแก้ไขได้  @if(isset($cars->edit_price)){{2 - $cars->edit_price}}/2 @else 2/2 @endif</div>
                                         </div>
                                     </div>
                                     <div class="row">
