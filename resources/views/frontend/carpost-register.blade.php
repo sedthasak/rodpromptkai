@@ -520,7 +520,7 @@ $arr_cartype = array(
                                                             <li>ไม่อนุญาตให้มีรายละเอียดช่องทางการติดต่อ หรือโปรโมชั่นต่างๆ ภายในรูปภาพ</li>
                                                             <li>สามารถอัพโหลดรูปภาพทั้งภายนอกและห้องโดยสารรวม 5-25 รูป</li>
                                                             <li>ขนาดรูปภาพจะต้องมีขนาดระหว่าง 10Kb แต่ไม่เกิน 12Mb</li>
-                                                            <li>นามสกุลไฟล์รูปภาพที่รองรับคือ .jpg และ .jpeg เท่านั้น</li>
+                                                            <li>นามสกุลไฟล์รูปภาพที่รองรับคือ .png .jpg และ .jpeg เท่านั้น</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -551,7 +551,7 @@ $arr_cartype = array(
                                                         </div>
                                                     </div>
                                                     <div class="box-uploadphoto dealerlicenseplate">
-                                                        <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
+                                                        <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มรถ</div>
                                                         <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์<span>*</span></label></div>
                                                         
                                                         <div id="licenseplate-dropzone" class="dropzone licenseplate-dropzone">
@@ -559,7 +559,7 @@ $arr_cartype = array(
                                                         </div>
                                                         <div class="btn-uploadimg">
                                                             <input aria-labelledby="licenseplate_pictures_label" type="button" name="licenseplate_pictures" id="licenseplate_pictures">
-                                                            <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
+                                                            <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มรถ
                                                         </div>
                                                     </div>
                                                 </div>
@@ -687,7 +687,7 @@ $arr_cartype = array(
             }
             if ($("#typeshow").val() != "dealer") {
                 if (licenseplateDropzone.files.length < 1) {
-                    emptyFields.push("เล่มทะเบียนรถ");
+                    emptyFields.push("เล่มรถ");
                 }
             }
 

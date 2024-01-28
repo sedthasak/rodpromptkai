@@ -1,6 +1,12 @@
 <script>
     // search หน้า car left side
 </script>
+<?php
+
+// echo "<pre>";
+// print_r($carshistory);
+// echo "</pre>";
+?>
 <div class="wrap-left-boxsearch">
     <div class="left-boxsearch">
         <div class="left-boxsearch-topic"><img src="{{asset('frontend/images/carred.svg')}}" alt=""> ค้นหารถยนต์</div> 
@@ -149,10 +155,27 @@
             </div>
         </div>
 
+        @if(isset($carshistory) && count($carshistory) > 0)
         <div class="left-boxsearch-item search-carview">
             <div class="left-boxsearch-topic2">รถที่คุณดูล่าสุด</div>
             <div>
-                <a href="#" class="item-car">
+                @foreach($carshistory as $keycarshistory => $carshis)
+                @php
+                $profilecar_imgcarshis = ($carshis->feature)?asset($carshis->feature):asset('public/uploads/default-car.jpg');
+                @endphp
+                <a href="{{route('cardetailPage', ['post' => $carshis->id])}}" class="item-car">
+                    <figure>
+                        <div class="cover-car"><img src="{{$profilecar_imgcarshis}}" alt=""></div>
+                        <figcaption>
+                            <div class="car-name">{{$carshis->modelyear." ".$carshis->brands_title." ".$carshis->model_name}} </div>
+                            <div class="car-series">{{$carshis->generations_name." ".$carshis->sub_models_name}}</div>
+                            <div class="car-province">@if(!empty($carshis->customer_proveince)){{$carshis->customer_proveince}}@else{{"-"}}@endif</div>
+                            <div class="car-price">{{number_format($carshis->price, 0, '.', ',')}}.-</div>
+                        </figcaption>
+                    </figure>
+                </a>
+                @endforeach
+                <!-- <a href="#" class="item-car">
                     <figure>
                         <div class="cover-car"><img src="{{asset('frontend/images/cover-car.jpg')}}" alt=""></div>
                         <figcaption>
@@ -206,9 +229,11 @@
                             <div class="car-price">599,000.-</div>
                         </figcaption>
                     </figure>
-                </a>
+                </a> -->
             </div>
         </div>  
+        @endif
+        
 
     </div>
     <a href="#" target="_blank" class="banner-adv"><img src="{{asset('frontend/images/bannera.jpg')}}" alt=""></a>

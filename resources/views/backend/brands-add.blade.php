@@ -47,7 +47,7 @@
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div class="">
-                                <label for="" class="form-label">บทความ</label>
+                                <label for="" class="form-label">ข่าว</label>
                                 <textarea class="form-control" id="content" rows="5" name="content"></textarea>
                             </div>
                         </div>

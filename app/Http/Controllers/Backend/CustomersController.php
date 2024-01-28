@@ -36,7 +36,8 @@ class CustomersController extends Controller
             $keyword = $request->input('keyword');
             $query->where(function ($query) use ($keyword) {
                 $query->where('firstname', 'LIKE', '%' . $keyword . '%')
-                    ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');
+                    ->orWhere('lastname', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $keyword . '%');
             });
         }
 

@@ -83,7 +83,7 @@ $arrsprole = array(
                             <div class="truncate sm:whitespace-normal flex items-center">
                                 <i data-lucide="Map Pin" class="w-4 h-4 mr-2"></i>สถานที่รับรถ : {{$customer->place}}
                             </div>
-                            <div class="truncate sm:whitespace-normal flex items-center">
+                            <div classภ="truncate sm:whitespace-normal flex items-center">
                                 <i data-lucide="Map" class="w-4 h-4 mr-2"></i>Map : 
                                 <?php
                                 if(isset($customer->map)){
@@ -117,7 +117,7 @@ $arrsprole = array(
             <div class="box">
                 <div class="flex flex-col lg:flex-row border-b border-slate-200/60 dark:border-darkmode-400 px-5 py-5 -mx-5">
                     <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
-                        
+                        {{$postcar->reason??''}}
                     </div>
                     <div class="mt-6 lg:mt-0 flex-1 px-5 border-l border-r border-slate-200/60 dark:border-darkmode-400 border-t lg:border-t-0 pt-5 lg:pt-0">
                         <!-- <div class="flex flex-col justify-center items-center lg:items-start mt-4">

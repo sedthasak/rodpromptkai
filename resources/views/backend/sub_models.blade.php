@@ -93,7 +93,7 @@
     </div>
     <!-- END: Data List -->
     <div class="d-flex">
-        {!! $query->links() !!}
+    {!! $query->appends(request()->input())->links() !!}
     </div>
 
 

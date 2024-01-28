@@ -19,7 +19,7 @@ $arr_gear = array(
 // echo "</pre>";
 ?>
 
-
+@if($cars->status == 'approved')
 <section class="row">
     <div class="col-12 wrap-pagecardetail wrap-page wow fadeInDown">
         <div class="container">
@@ -240,7 +240,7 @@ $arr_gear = array(
                                 </div>
                                 <div class="col-12 col-sm-8 listdesc-contact text-end">
                                     <a href="tel:{{$cars->customer_phone}}" data-post="{{$cars->id}}" target="_blank" class="btn-red" onclick="updateClickCount({{$cars->id}}, this)">
-                                        <i class="bi bi-telephone-fill"></i> คุณ{{$cars->firstname}}&nbsp;<div>{{$cars->customer_phone}}</div>
+                                        <i class="bi bi-telephone-fill"></i> {{$cars->firstname}}&nbsp;<div>{{$cars->customer_phone}}</div>
                                     </a>
 
                                     @if(isset($cars->customer_line))
@@ -366,9 +366,9 @@ $arr_gear = array(
                             @endif
 
                             @if ($cars->warranty_2 == 1)
-                                <p><i class="bi bi-check"></i> มีการรับประกัน </p>
+                                <p><i class="bi bi-check"></i> มีการรับประกัน 
                                 @if (!empty($cars->warranty_2_input))
-                                    <p>{{ $cars->warranty_2_input }}</p>
+                                    {{ $cars->warranty_2_input }}</p>
                                 @endif
                             @endif
 
@@ -615,6 +615,9 @@ $arr_gear = array(
         </div>
     </div>
 </section>
+@endif
+
+
 
 
 

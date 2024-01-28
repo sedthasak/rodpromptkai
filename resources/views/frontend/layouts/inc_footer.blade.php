@@ -68,8 +68,8 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                     </div>
                     <p>RodPromptKai ช่องทางที่ดีที่สุดในการซื้อและขายรถยนต์</p>
                     <div class="link-footer">
-                        <a href="tel:+6622345678" target="_blank"><i class="bi bi-telephone"></i> Tel. : +662 234 5678</a>
-                        <a href="mailto:admin@rodpromptkai.com" target="_blank"><i class="bi bi-envelope"></i> Email : admin@rodpromptkai.com</a>
+                        <a href="tel:+6622345678" target="_blank"><i class="bi bi-telephone"></i> Tel. : 098-969-1120</a>
+                        <a href="mailto:admin@rodpromptkai.com" target="_blank"><i class="bi bi-envelope"></i> Email : support@rodpromptkai.com</a>
                         <a href="http://line.me/ti/p/~@rodpromptkai"" target="_blank"><i class="bi bi-line"></i> Line ID : @rodpromptkai</a>
                     </div>
                     <div class="row footer-cc">
