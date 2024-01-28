@@ -551,7 +551,7 @@ $arr_cartype = array(
                                                         </div>
                                                     </div>
                                                     <div class="box-uploadphoto dealerlicenseplate">
-                                                        <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มรถ</div>
+                                                        <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
                                                         <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์<span>*</span></label></div>
                                                         
                                                         <div id="licenseplate-dropzone" class="dropzone licenseplate-dropzone">
@@ -559,7 +559,7 @@ $arr_cartype = array(
                                                         </div>
                                                         <div class="btn-uploadimg">
                                                             <input aria-labelledby="licenseplate_pictures_label" type="button" name="licenseplate_pictures" id="licenseplate_pictures">
-                                                            <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มรถ
+                                                            <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
                                                         </div>
                                                     </div>
                                                 </div>
@@ -687,7 +687,7 @@ $arr_cartype = array(
             }
             if ($("#typeshow").val() != "dealer") {
                 if (licenseplateDropzone.files.length < 1) {
-                    emptyFields.push("เล่มรถ");
+                    emptyFields.push("เล่มทะเบียนรถ");
                 }
             }
 

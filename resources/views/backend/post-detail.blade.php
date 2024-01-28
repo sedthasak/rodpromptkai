@@ -332,7 +332,7 @@ $arrsprole = array(
             <div class="box">
                 <div class="flex flex-col lg:flex-row border-b border-slate-200/60 dark:border-darkmode-400 px-5 py-5 -mx-5">
                     <div class="mt-6 lg:mt-0 flex-1 px-5 border-t lg:border-0 border-slate-200/60 dark:border-darkmode-400 pt-5 lg:pt-0">
-                        <div class="font-medium text-center lg:text-left lg:mt-5">รูปป้ายทะเบียน</div>
+                        <div class="font-medium text-center lg:text-left lg:mt-5">เล่มรถ</div>
                         <div class="">
                             <!-- {{($customer->map)?'<img alt="" data-action="zoom" class="rounded-md" width="100" height="60" src="#">':''}} -->
                             <?php
