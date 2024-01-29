@@ -1401,47 +1401,41 @@ class FrontendPageController extends Controller
         $province = provincesModel::orderBy("name_th", "ASC")->get();
         $category = categoriesModel::orderBy("created_at", "DESC")->get();
 
-
-        $customerdata = session('customer');
-        $customer_id = $customerdata->id;
-        $customer = Customer::find($customer_id);
-
         $carshistory = array();
-        if ($customer && isset($customer->history)) {
-            $history = json_decode($customer->history);
-            $carIds = $history ?? [];
-            if (!empty($carIds)) {
-                // $carshistory = carsModel::whereIn('id', $carIds)->get();
-                // $carshistory = carsModel::whereIn('cars.id', $carIds)
-                //     ->leftJoin('brands', 'cars.brand_id', 'brands.id')
-                //     ->leftJoin('models', 'cars.model_id', 'models.id')
-                //     ->leftJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
-                //     ->leftJoin('generations', 'cars.generations_id', 'generations.id')
-                //     ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
-                //     ->take(3)
-                //     ->get();
-
-                $carshistory = carsModel::whereIn('cars.id', $carIds)
-                    ->leftJoin('brands', 'cars.brand_id', 'brands.id')
-                    ->leftJoin('models', 'cars.model_id', 'models.id')
-                    ->leftJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
-                    ->leftJoin('generations', 'cars.generations_id', 'generations.id')
-                    ->select(
-                        "cars.*",
-                        "brands.title as brand_name",
-                        "models.model as model_name",
-                        "sub_models.sub_models as submodel_name",
-                        "generations.generations as generation_name"
-                    )
-                    ->orderByRaw('FIELD(cars.id, ' . implode(',', $carIds) . ')')
-                    ->take(6) // Limit the results to 3
-                    ->get();
+        $customerdata = session('customer');
+        if (isset($customerdata)) {
+            $customerdata = session('customer');
+            $customer_id = $customerdata->id;
+            $customer = Customer::find($customer_id);
+    
+            // $carshistory = array();
+            if ($customer && isset($customer->history)) {
+                $history = json_decode($customer->history);
+                $carIds = $history ?? [];
+                if (!empty($carIds)) {
+    
+                    $carshistory = carsModel::whereIn('cars.id', $carIds)
+                        ->leftJoin('brands', 'cars.brand_id', 'brands.id')
+                        ->leftJoin('models', 'cars.model_id', 'models.id')
+                        ->leftJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
+                        ->leftJoin('generations', 'cars.generations_id', 'generations.id')
+                        ->select(
+                            "cars.*",
+                            "brands.title as brand_name",
+                            "models.model as model_name",
+                            "sub_models.sub_models as submodel_name",
+                            "generations.generations as generation_name"
+                        )
+                        ->orderByRaw('FIELD(cars.id, ' . implode(',', $carIds) . ')')
+                        ->take(6) // Limit the results to 3
+                        ->get();
+                } else {
+                    
+                }
             } else {
                 
             }
-        } else {
-            
-        }
+        }    
 
 
         return view('frontend/car', [
