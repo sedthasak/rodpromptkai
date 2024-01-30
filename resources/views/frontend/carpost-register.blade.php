@@ -609,7 +609,7 @@ $arr_cartype = array(
     </div>
 
 
-
+    <input type="hidden" name="genname" id="genname" value="{{bin2hex(random_bytes(8))}}">
 </form>
 
 
@@ -1160,7 +1160,7 @@ $arr_cartype = array(
                     method: 'POST',
                     data: {
                         filename: file.name,
-                        customerid: {{$customerid}}
+                        genname: $('#genname').val()
                     },
                     success: function (response) {
                         // Handle the response from the server (if needed)
@@ -1173,7 +1173,7 @@ $arr_cartype = array(
 
             // Set up the params to send additional data
             this.on("sending", function (file, xhr, formData) {
-                formData.append("customerid", {{$customerid}});
+                formData.append("genname", $('#genname').val());
             });
         }
     });
@@ -1211,7 +1211,7 @@ $arr_cartype = array(
                 method: 'POST',
                 data: {
                     files: newQueue.map(file => file.name),
-                    customerid: {{$customerid}}
+                    genname: $('#genname').val()
                 },
                 success: function (response) {
                     // console.log(response); // Handle the response from the server
@@ -1260,7 +1260,7 @@ $arr_cartype = array(
                     method: 'POST',
                     data: {
                         filename: file.name,
-                        customerid: {{$customerid}}
+                        genname: $('#genname').val()
                     },
                     success: function (response) {
                         // Handle the response from the server (if needed)
@@ -1273,7 +1273,7 @@ $arr_cartype = array(
 
             // Set up the params to send additional data
             this.on("sending", function (file, xhr, formData) {
-                formData.append("customerid", {{$customerid}});
+                formData.append("genname", $('#genname').val());
             });
         }
     });
@@ -1311,7 +1311,7 @@ $arr_cartype = array(
                 method: 'POST',
                 data: {
                     files: newQueue.map(file => file.name),
-                    customerid: {{$customerid}}
+                    genname: $('#genname').val()
                 },
                 success: function (response) {
                     // console.log(response); // Handle the response from the server
@@ -1365,7 +1365,7 @@ $arr_cartype = array(
                     method: 'POST',
                     data: {
                         filename: file.name,
-                        customerid: {{$customerid}}
+                        genname: $('#genname').val()
                     },
                     success: function (response) {
                         // Handle the response from the server (if needed)
@@ -1378,7 +1378,7 @@ $arr_cartype = array(
 
             // Set up the params to send additional data
             this.on("sending", function (file, xhr, formData) {
-                formData.append("customerid", {{$customerid}});
+                formData.append("genname", $('#genname').val());
             });
         }
     });
@@ -1416,7 +1416,7 @@ $arr_cartype = array(
                 method: 'POST',
                 data: {
                     files: newQueue.map(file => file.name),
-                    customerid: {{$customerid}}
+                    genname: $('#genname').val()
                 },
                 success: function (response) {
                     // console.log(response); // Handle the response from the server

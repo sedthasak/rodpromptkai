@@ -396,10 +396,11 @@ class PostController extends Controller
 
 
         // update cars.feature
-        $qrygallery = galleryModel::where("pre_id", $request->session()->get('browserFingerprint'))->orderBy("id", "ASC")->first();
+        $genname = $request->input('genname');
+        $qrygallery = galleryModel::where("pre_id", $genname)->orderBy("id", "ASC")->first();
         carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
         // update gallery set cars_id
-        galleryModel::where("pre_id", $request->session()->get('browserFingerprint'))->update(["cars_id" => $cars->id, "pre_id" => null]);
+        galleryModel::where("pre_id", $genname)->update(["cars_id" => $cars->id, "pre_id" => null]);
         
         
         
@@ -613,20 +614,6 @@ class PostController extends Controller
         // $models = modelsModel::all();
         // $query = DB::table('generations')->where('id', 1)->first();
 
-        // add function delete old files
-        $customerdata = session('customer');
-        if (isset($customerdata->id)) {
-            $qrygallery = galleryModel::where("pre_id", session('browserFingerprint'))->get();
-            if (isset($qrygallery)) {
-                foreach ($qrygallery as $rows) {
-                    galleryModel::where('id', $rows->id)->delete();
-                    if (File::exists($rows->gallery)) {
-                        File::delete($rows->gallery);
-                    }
-                }
-            }
-        }
-
 
         return view('frontend/carpost-register', [
             'provinces' => $provinces,
@@ -684,24 +671,23 @@ class PostController extends Controller
 
     public function exteriorupload(Request $request) {
         $file = $request->file('file');
-        // $path = $file->store('uploads', 'public');
+        $genname = $request->input('genname');
 
         // $licenseplate = $request->file('licenseplate');
         $destinationPath = public_path('/uploads/exterior');
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'exterior-'.$request->session()->get('browserFingerprint').'-'.$file->getClientOriginalName();
+        $newfilenam = 'exterior-'.$genname.'-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/exterior/'.$newfilenam;
 
-        $customerid = $request->input('customerid');
-        if (isset($customerid)) {
+        if (isset($genname)) {
             $data = [
                 "cars_id" => 0,
                 "gallery" => $filepath2,
                 "type" => "exterior",
-                "pre_id" => $request->session()->get('browserFingerprint'),
+                "pre_id" => $genname,
             ];
             galleryModel::create($data);
         }
@@ -730,11 +716,11 @@ class PostController extends Controller
 
     function exteriorrearrange(Request $request) {
         $fileNames = $request->input('files');
-        $customerid = $request->input('customerid');
-        if (isset($customerid)) {
-            $qrygallery = galleryModel::where("type", "exterior")->where("pre_id", $request->session()->get('browserFingerprint'))->get();
+        $genname = $request->input('genname');
+        if (isset($genname)) {
+            $qrygallery = galleryModel::where("type", "exterior")->where("pre_id", $genname)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/exterior/'.'exterior-'.$request->session()->get('browserFingerprint').'-'.$fileNames[$index];
+                $newfilenam = 'uploads/exterior/'.'exterior-'.$genname.'-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }
@@ -754,8 +740,8 @@ class PostController extends Controller
         // return response()->json();
 
         $fileName = $request->input('filename');
-        $customerid = $request->input('customerid');
-        $qrygallery = galleryModel::where('gallery', 'like', '%'.$request->session()->get('browserFingerprint').'-'.$fileName.'%')->where("pre_id", $request->session()->get('browserFingerprint'))->get();
+        $genname = $request->input('genname');
+        $qrygallery = galleryModel::where('gallery', 'like', '%'.$genname.'-'.$fileName.'%')->where("pre_id", $genname)->get();
         foreach ($qrygallery as $rows) {
             galleryModel::where('id', $rows->id)->delete();
             if (File::exists($rows->gallery)) {
@@ -769,24 +755,23 @@ class PostController extends Controller
 
     public function interiorupload(Request $request) {
         $file = $request->file('file');
-        // $path = $file->store('uploads', 'public');
+        $genname = $request->input('genname');
 
         // $licenseplate = $request->file('licenseplate');
         $destinationPath = public_path('/uploads/interior');
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'interior-'.$request->session()->get('browserFingerprint').'-'.$file->getClientOriginalName();
+        $newfilenam = 'interior-'.$genname.'-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/interior/'.$newfilenam;
 
-        $customerid = $request->input('customerid');
-        if (isset($customerid)) {
+        if (isset($genname)) {
             $data = [
                 "cars_id" => 0,
                 "gallery" => $filepath2,
                 "type" => "interior",
-                "pre_id" => $request->session()->get('browserFingerprint'),
+                "pre_id" => $genname,
             ];
             galleryModel::create($data);
         }
@@ -815,11 +800,11 @@ class PostController extends Controller
 
     function interiorrearrange(Request $request) {
         $fileNames = $request->input('files');
-        $customerid = $request->input('customerid');
-        if (isset($customerid)) {
-            $qrygallery = galleryModel::where("type", "interior")->where("pre_id", $request->session()->get('browserFingerprint'))->get();
+        $genname = $request->input('genname');
+        if (isset($genname)) {
+            $qrygallery = galleryModel::where("type", "interior")->where("pre_id", $genname)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/interior/'.'interior-'.$request->session()->get('browserFingerprint').'-'.$fileNames[$index];
+                $newfilenam = 'uploads/interior/'.'interior-'.$genname.'-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }
@@ -839,8 +824,8 @@ class PostController extends Controller
         // return response()->json();
 
         $fileName = $request->input('filename');
-        $customerid = $request->input('customerid');
-        $qrygallery = galleryModel::where('gallery', 'like', '%'.$request->session()->get('browserFingerprint').'-'.$fileName.'%')->where("pre_id", $request->session()->get('browserFingerprint'))->get();
+        $genname = $request->input('genname');
+        $qrygallery = galleryModel::where('gallery', 'like', '%'.$genname.'-'.$fileName.'%')->where("pre_id", $genname)->get();
         foreach ($qrygallery as $rows) {
             galleryModel::where('id', $rows->id)->delete();
             if (File::exists($rows->gallery)) {
@@ -854,24 +839,23 @@ class PostController extends Controller
 
     public function licenseplateupload(Request $request) {
         $file = $request->file('file');
-        // $path = $file->store('uploads', 'public');
+        $genname = $request->input('genname');
 
         // $licenseplate = $request->file('licenseplate');
         $destinationPath = public_path('/uploads/licenseplate');
         $filename = $file->getClientOriginalName();
 
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        $newfilenam = 'licenseplate-'.$request->session()->get('browserFingerprint').'-'.$file->getClientOriginalName();
+        $newfilenam = 'licenseplate-'.$genname.'-'.$file->getClientOriginalName();
         $file->move($destinationPath, $newfilenam);
         $filepath2 = 'uploads/licenseplate/'.$newfilenam;
 
-        $customerid = $request->input('customerid');
-        if (isset($customerid)) {
+        if (isset($genname)) {
             $data = [
                 "cars_id" => 0,
                 "gallery" => $filepath2,
                 "type" => "licenseplate",
-                "pre_id" => $request->session()->get('browserFingerprint'),
+                "pre_id" => $genname,
             ];
             galleryModel::create($data);
         }
@@ -900,11 +884,11 @@ class PostController extends Controller
 
     function licenseplaterearrange(Request $request) {
         $fileNames = $request->input('files');
-        $customerid = $request->input('customerid');
-        if (isset($customerid)) {
-            $qrygallery = galleryModel::where("type", "licenseplate")->where("pre_id", $request->session()->get('browserFingerprint'))->get();
+        $genname = $request->input('genname');
+        if (isset($genname)) {
+            $qrygallery = galleryModel::where("type", "licenseplate")->where("pre_id", $genname)->get();
             foreach ($qrygallery as $index => $rows) {
-                $newfilenam = 'uploads/licenseplate/'.'licenseplate-'.$request->session()->get('browserFingerprint').'-'.$fileNames[$index];
+                $newfilenam = 'uploads/licenseplate/'.'licenseplate-'.$genname.'-'.$fileNames[$index];
                 galleryModel::where('id', $rows->id)->update(['gallery' => $newfilenam]);
             }
         }
@@ -914,8 +898,8 @@ class PostController extends Controller
 
     function licenseplatedelete(Request $request) {
         $fileName = $request->input('filename');
-        $customerid = $request->input('customerid');
-        $qrygallery = galleryModel::where('gallery', 'like', '%'.$request->session()->get('browserFingerprint').'-'.$fileName.'%')->where("pre_id", $request->session()->get('browserFingerprint'))->get();
+        $genname = $request->input('genname');
+        $qrygallery = galleryModel::where('gallery', 'like', '%'.$genname.'-'.$fileName.'%')->where("pre_id", $genname)->get();
         foreach ($qrygallery as $rows) {
             galleryModel::where('id', $rows->id)->delete();
             if (File::exists($rows->gallery)) {
