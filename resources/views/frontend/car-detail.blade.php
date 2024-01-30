@@ -19,7 +19,7 @@ $arr_gear = array(
 // echo "</pre>";
 ?>
 
-@if($cars->status == 'approved')
+{{-- @if($cars->status == 'approved') --}}
 <section class="row">
     <div class="col-12 wrap-pagecardetail wrap-page wow fadeInDown">
         <div class="container">
@@ -102,10 +102,12 @@ $arr_gear = array(
                         <div class="slide-wrapper">
                             <div class="tab_pdetail_thumb slide_load">
                                 <div id="sync2" class="owl-carousel owl-theme navigation-thumbs">
-                                    @if ($cars->feature != $exterior[0]->gallery)
-                                        <div class="item cover-carthumb">
-                                            <img src="{{asset($cars->feature)}}">
-                                        </div>
+                                    @if (isset($exterior[0]))
+                                        @if ($cars->feature != $exterior[0]->gallery)
+                                            <div class="item cover-carthumb">
+                                                <img src="{{asset($cars->feature)}}">
+                                            </div>
+                                        @endif
                                     @endif
                                     @foreach($exterior as $index => $ext)
                                     <div class="item cover-carthumb">
@@ -615,7 +617,7 @@ $arr_gear = array(
         </div>
     </div>
 </section>
-@endif
+{{-- @endif --}}
 
 
 
