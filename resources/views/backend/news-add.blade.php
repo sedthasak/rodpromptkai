@@ -17,6 +17,7 @@
         </div>
     </div>
     <form method="post" action="{{route('BN_news_add_action')}}" enctype="multipart/form-data" >
+        
         @csrf
         <input type="hidden" name="user_id" value="{{auth()->user()->id}}" required />
         <div class="grid grid-cols-12 gap-6 mt-5">
@@ -32,12 +33,15 @@
                                 <input type="text" class="form-control w-full" id="" name="title" autocomplete="on" required/>
                             </div>
                         </div>
+
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div class="">
-                                <label for="" class="form-label">รูปภาพหน้าปก</label>
-                                <input type="file" class="form-control w-full" id="" name="feature"  autocomplete="off" required/>
+                                <label for="feature" class="form-label">รูปภาพหน้าปก</label>
+                                <input type="file" class="form-control w-full" id="feature" name="feature" autocomplete="off" required/>
                             </div>
                         </div>
+
+
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div class="">
                                 <label for="" class="form-label">คำอธิบาย</label>
@@ -71,6 +75,7 @@
 
 @section('script')
 <script>
+
     ClassicEditor
         .create( document.querySelector( '#content' ))
         .catch( error => {

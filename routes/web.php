@@ -327,6 +327,8 @@ Route::middleware('auth')->group(function() {
                 Route::get('index', [NewsController::class, 'BN_newsIndex'])->name('BN_newsIndex');
                 Route::post('store', [NewsController::class, 'BN_news_store'])->name('BN_news_store');
 
+                // Route::post('news-upload', [NewsController::class, 'BN_news_upload'])->name('BN_news_upload');
+
             });
 
             Route::prefix('users')->group(function () {

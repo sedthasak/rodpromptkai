@@ -120,55 +120,28 @@ class NewsController extends Controller
             echo "Not Found!!!";
         }
     }
+    
 
-    public function BN_news_add_action(Request $request)
+    public function BN_news_add_actionss(Request $request)
     {
         // dd($request);
         $news = new newsModel;
-
         if($request->hasFile('feature')){
-
-            if(isset($Customer->feature)){
-                $oldPath = public_path($Customer->feature);
-                if(File::exists($oldPath)){
-                    File::delete($oldPath);
-                }
-            }
-
             $file = $request->file('feature');
             $destinationPath = public_path('/uploads/news-feature');
             $filename = $file->getClientOriginalName();
-
             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
             $newfilenam = time().'-'.uniqid().'.'.$ext;
             $file->move($destinationPath, $newfilenam);
             $filepath = 'uploads/news-feature/'.$newfilenam;
-
             $news->feature = $filepath;
         }
-
-
         $news->user_id = $request->user_id;
         $news->title = $request->title;
         $news->excerpt = $request->excerpt;
         $news->content = $request->content;
 
         $news->save();
-
-        // if(isset($Customer->id)){
-        //     $usersavelog = auth()->user();
-        //     $idsavelog = auth()->user()->id; 
-        //     $emailsavelog = auth()->user()->email;
-        //     $para = array(
-        //         'part' => 'backend',
-        //         'user' => $idsavelog,
-        //         'ref' => $categories->id,
-        //         'remark' => 'User '.$idsavelog.' Create new Category!',
-        //         'event' => 'create category',
-        //     );
-        //     $result = (new LogsSaveController)->create_log($para);
-        // }
-
         return redirect(route('BN_news'))->with('success', 'สร้างสำเร็จ !!!');
 
     }
