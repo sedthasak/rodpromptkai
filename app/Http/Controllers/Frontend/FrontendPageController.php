@@ -1394,6 +1394,7 @@ class FrontendPageController extends Controller
         ->leftJoin('sub_models', 'cars.sub_models_id', 'sub_models.id')
         ->leftJoin('generations', 'cars.generations_id', 'generations.id')
         ->select("cars.*", "brands.title as brand_name", "models.model as model_name", "sub_models.sub_models as submodel_name", "generations.generations as generation_name")
+        ->where("cars.status", "approved")
         ->orderBy("cars.modelyear", "DESC")
         ->orderBy("cars.created_at", "DESC")
         ->paginate(30);
