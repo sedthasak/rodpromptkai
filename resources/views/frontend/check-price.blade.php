@@ -67,7 +67,7 @@
                                         @if ($count <= 6)
                                         
                                             <div class="item-bar">
-                                                <a href="{{url('/search-price').'/'.$brandrow->id.'/'.$modelrow->id.'/'.$rows->generations_id.'/'.$rows->avg_price}}" class="box-avgprice">
+                                                <a href="{{url('/search-price2').'/'.$brandrow->id.'/'.$modelrow->id.'/'.$rows->generations_id.'/'.$rows->avg_price.'/'.$rows->modelyear}}" class="box-avgprice">
                                                     Avg <div>{{number_format(round($rows->avg_price/1000000, 2), 2)."M"}}</div>
                                                 </a>
                                                 <a href="{{url('/search-price').'/'.$brandrow->id.'/'.$modelrow->id.'/'.$rows->generations_id.'/'.$rows->max_price}}" class="avgprice">{{number_format(round($rows->max_price/1000000, 2), 2)."M"}}</a>

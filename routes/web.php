@@ -207,6 +207,7 @@ Route::get('/brandnotev', [FrontendPageController::class, 'brandnotev'])->name('
 Route::get('/search-category/{id}', [FrontendPageController::class, 'searchcategory'])->name('searchcategory');
 Route::get('/check-price/{brand_id}/{model_id}', [FrontendPageController::class, 'checkprice'])->name('checkprice');
 Route::get('/search-price/{brand_id}/{model_id}/{generation_id}/{price}', [FrontendPageController::class, 'searchprice'])->name('searchprice');
+Route::get('/search-price2/{brand_id}/{model_id}/{generation_id}/{price}/{modelyear}', [FrontendPageController::class, 'searchprice2'])->name('searchprice2');
 Route::get('/carpost-register', function(){
     return redirect('/');
 });

@@ -2239,6 +2239,72 @@ class FrontendPageController extends Controller
         ]);
     }
 
+    public function searchprice2($brand_id, $model_id, $generation_id, $price, $modelyear) {
+        // return dd($request->yearhigh);
+        $pricelow = $price;
+        $pricehigh = $price;
+
+        $pricelowsel = $pricelow;
+        $pricehighsel = $pricehigh;
+
+        $cars = carsModel::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->leftJoin('models', 'cars.model_id', '=', 'models.id')
+        ->leftJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id');
+        if (!empty($brand_id)) {
+            $cars = $cars->where('cars.brand_id', $brand_id);
+        }
+        if (!empty($model_id)) {
+            $cars = $cars->where('cars.model_id', $model_id);
+        }
+        if (!empty($generation_id)) {
+            $cars = $cars->where('cars.generations_id', $generation_id);
+        }
+        // เปลี่ยน จากค่าเฉลี่ย เป็น แสดงทุกคัน
+        // if (!empty($pricelow)) {
+        //     $cars = $cars->where('cars.price', '>=', $pricelow);
+        // }
+        // if (!empty($pricehigh)) {
+        //     $cars = $cars->where('cars.price', '<=', $pricehigh);
+        // }
+        if (!empty($modelyear)) {
+            $cars = $cars->where('cars.modelyear', $modelyear);
+        }
+        
+        $cars = $cars->select(
+            'cars.*',
+            'brands.title as brand_name',
+            'models.model as model_name',
+            'sub_models.sub_models as submodel_name',
+            'generations.generations as generation_name'
+        )
+        ->where('cars.status', 'approved')
+        ->orderBy('cars.modelyear', 'DESC')
+        ->orderBy('cars.created_at', 'DESC')
+        ->paginate(30);
+        // ->getBindings();
+        // ->get();
+        // ->toSql();
+        // return dd($cars);
+
+        $brand = brandsModel::orderBy("sort_no", "ASC")->get();
+
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+        $category = categoriesModel::orderBy("created_at", "DESC")->get();
+
+
+
+        return view('frontend/car', [
+            "brand" => $brand,
+            "cars" => $cars,
+            "province" => $province,
+            "category" => $category,
+            "pricelowsel" => $pricelowsel,
+            "pricehighsel" => $pricehighsel
+        ]);
+    }
+
     public function profilesearchmodel(Request $request)
     {
         // $qrymodelsearch = carsModel::leftJoin("models", "cars.model_id", "models.id")
