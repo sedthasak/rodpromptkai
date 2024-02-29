@@ -4,6 +4,15 @@
     <title>รถพร้อมขาย - performance-viewpost</title>
 @endsection
 
+<style>
+    .list-mycarsearch.brand.active {
+        background-color: #1E1E1E;
+    }
+    .list-mycarsearch.model.active {
+        background-color: #1E1E1E;
+    }
+</style>
+
 @section('content')
 
 

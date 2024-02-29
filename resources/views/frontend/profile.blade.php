@@ -4,6 +4,15 @@
     <title>รถพร้อมขาย - profile</title>
 @endsection
 
+<style>
+    .list-mycarsearch.brand.active {
+        background-color: #E4EEFA;
+    }
+    .list-mycarsearch.model.active {
+        background-color: #E4EEFA;
+    }
+</style>
+
 @section('content')
 
 

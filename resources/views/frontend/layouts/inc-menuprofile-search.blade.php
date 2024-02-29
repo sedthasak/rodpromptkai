@@ -1,11 +1,11 @@
-<style>
+{{-- <style>
     .list-mycarsearch.brand.active {
         background-color: #E4EEFA;
     }
     .list-mycarsearch.model.active {
         background-color: #E4EEFA;
     }
-</style>
+</style> --}}
 <div class="col-12 col-lg-4 col-xl-3 menuprofile-mb">
     <div class="close-menuprofile"><i class="bi bi-x-circle-fill"></i></div>
     <a href="{{route('customercontactPage')}}" class="btn-customer">

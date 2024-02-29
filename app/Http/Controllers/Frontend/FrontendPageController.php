@@ -128,10 +128,20 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        ->where('cars.clickcount', '>', 0)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
         return view('frontend/performance', [
             'mycars' => $mycars,
             'carstatus' => "approved",
             'brandsearch' => $qrybrandsearch,
+            'brandsum' => $qrybrandsum,
         ]);
     }
 

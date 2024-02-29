@@ -7,7 +7,15 @@
 @section('content')
 
 
-@include('frontend.layouts.inc_profile')	
+@include('frontend.layouts.inc_profile')
+<style>
+    .list-mycarsearch.brand.active {
+        background-color: #E4EEFA;
+    }
+    .list-mycarsearch.model.active {
+        background-color: #E4EEFA;
+    }
+</style>
 
 
 <?php
