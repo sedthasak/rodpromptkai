@@ -22,7 +22,7 @@
                         @include('frontend.layouts.inc_menu-mycar')
                         <div class="note-expire">ต่ออายุประกาศ</div>
 
-                        @foreach($carfromstatus['expired'] as $keycarsModel => $cars)
+                        @foreach($carfromstatus2['expired'] as $keycarsModel => $cars)
                         @php
                         $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
                         @endphp

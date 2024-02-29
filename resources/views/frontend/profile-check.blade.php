@@ -31,56 +31,8 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         
                         @include('frontend.layouts.inc_menu-mycar')
 
-                        @if (isset($mycars2))
-
-
-                        @foreach($mycars2 as $keycarsModel => $cars)
-                        @php
-                        $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
-                        @endphp
-                        <div class="item-mycar">
-                            <div class="item-mycar-cover">
-                                <a href="{{route('cardetailPage', ['post' => $cars->id])}}"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
-                            </div>
-                            <div class="mycar-detail-mb">
-                                <a href="{{route('cardetailPage', ['post' => $cars->id])}}">
-                                    <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
-                                    <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
-                                    <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
-                                </a>
-                            </div>
-                            <div class="item-mycar-detail">
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
-                                        <a href="{{route('cardetailPage', ['post' => $cars->id])}}">
-                                            <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
-                                            <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
-                                            <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
-                                        </a>
-                                    </div>
-                                    <div class="col-12 col-md-6 text-end">
-                                        <div class="mycar-post">วันที่ลงขาย :  {{date('d m Y', strtotime($cars->created_at))}}</div>
-                                        <!-- <div class="mycar-expire">วันที่หมดอายุ :  {{date('d m Y', strtotime($cars->created_at))}}</div> -->
-                                    </div>
-                                </div>
-                                <div class="mycar-boxline">
-                                    <div class="row">
-                                        <div class="col-8 col-md-8">
-                                            <div class="mycar-boxprice">
-                                                <div class="mycar-price">{{number_format($cars->price, 0, '.', ',')}}.-</div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                        
-
-
-                        @else
-                        @foreach($carfromstatus['created'] as $keycarsModel => $cars)
+                       
+                        @foreach($carfromstatus2['created'] as $keycarsModel => $cars)
                         @php
                         $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
                         @endphp
@@ -125,11 +77,6 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
 
 
                         
-                        @endif
-                        
-
-
-
 
                         <div style="display: none;" id="edit-carprice">
                             <div class="frm-edit-carprice">
