@@ -50,6 +50,7 @@ class FrontendPageController extends Controller
             ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
             ->orderBy('id', 'desc')
+            ->take(10)
             ->get();
 
             $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -93,7 +94,8 @@ class FrontendPageController extends Controller
             ->where('cars.viewcount', '>', 0)
             ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->orderBy('id', 'desc')
+            ->orderBy('cars.viewcount', 'desc')
+            ->take(10)
             ->get();
 
             $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -137,7 +139,8 @@ class FrontendPageController extends Controller
             ->where('cars.clickcount', '>', 0)
             ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->orderBy('id', 'desc')
+            ->orderBy('cars.clickcount', 'desc')
+            ->take(10)
             ->get();
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -199,6 +202,7 @@ class FrontendPageController extends Controller
             $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
             ->orderBy('id', 'desc')
+            ->take(10)
             ->get();
 
             $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -214,6 +218,7 @@ class FrontendPageController extends Controller
         ->where("cars.status", 'approved')
         ->where('cars.customer_id', $customer_id)
         ->where('cars.clickcount', '<=', 0)
+        ->orWhereNull('cars.viewcount')
         ->groupBy("brands.id", "brands.title", "brands.feature")
         ->orderBy("brands.sort_no")
         ->get();
@@ -256,7 +261,8 @@ class FrontendPageController extends Controller
             }
             $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->orderBy('id', 'desc')
+            ->orderBy('cars.viewcount', 'desc')
+            ->take(10)
             ->get();
 
             $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -314,7 +320,8 @@ class FrontendPageController extends Controller
             }
             $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
                 'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->orderBy('id', 'desc')
+            ->orderBy('cars.clickcount', 'desc')
+            ->take(10)
             ->get();
 
         $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
@@ -2747,8 +2754,18 @@ class FrontendPageController extends Controller
         ->selectRaw("models.id, models.model, COUNT(models.model) as countmodel")
         ->where("cars.status", $carstatus)
         ->where('cars.customer_id', $request->customer_id)
-        ->where('cars.brand_id', $request->brand_id)
-        ->groupBy('models.id', 'models.model')
+        ->where('cars.brand_id', $request->brand_id);
+        if ($request->carstatus == "search-performance") {
+            $qrymodelsearch = $qrymodelsearch->where('cars.clickcount', '>', 0);
+        }
+        if ($request->carstatus == "search-performanceviewpost") {
+            $qrymodelsearch = $qrymodelsearch->where('cars.viewcount', '>', 0);
+        }
+        if ($request->carstatus == "search-performanceview") {
+            $qrymodelsearch = $qrymodelsearch->where('cars.clickcount', '<=', 0);
+            $qrymodelsearch = $qrymodelsearch->orWhereNull('cars.viewcount');
+        }
+        $qrymodelsearch = $qrymodelsearch->groupBy('models.id', 'models.model')
         ->orderBy("models.model")
         ->get();
 
