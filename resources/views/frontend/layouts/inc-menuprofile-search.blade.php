@@ -139,6 +139,15 @@
         if ($('input[name="profile_options"]').val() === "expired") {
             $('form[name="profileform"]').attr('action', '/searchprofileexpirepage');
         }
+        if ($('input[name="profile_options"]').val() === "search-performance") {
+            $('form[name="profileform"]').attr('action', '/search-performance');
+        }
+        if ($('input[name="profile_options"]').val() === "search-performanceview") {
+            $('form[name="profileform"]').attr('action', '/search-performanceview');
+        }
+        if ($('input[name="profile_options"]').val() === "search-performanceviewpost") {
+            $('form[name="profileform"]').attr('action', '/search-performanceviewpost');
+        }
 
         // console.log($('input[name="profile_options"]').val());
 

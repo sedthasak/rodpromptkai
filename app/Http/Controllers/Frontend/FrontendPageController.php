@@ -60,10 +60,20 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        ->where('cars.clickcount', '<=', 0)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
         return view('frontend/performance-view', [
             'mycars' => $mycars,
-            'carstatus' => "approved",
+            'carstatus' => "search-performanceview",
             'brandsearch' => $qrybrandsearch,
+            'brandsum' => $qrybrandsum,
         ]);
     }
 
@@ -94,10 +104,20 @@ class FrontendPageController extends Controller
         ->orderBy("brands.sort_no")
         ->get();
 
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        ->where('cars.viewcount', '>', 0)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
         return view('frontend/performance-viewpost', [
             'mycars' => $mycars,
-            'carstatus' => "approved",
+            'carstatus' => "search-performanceviewpost",
             'brandsearch' => $qrybrandsearch,
+            'brandsum' => $qrybrandsum,
         ]);
     }
 
@@ -139,7 +159,184 @@ class FrontendPageController extends Controller
 
         return view('frontend/performance', [
             'mycars' => $mycars,
-            'carstatus' => "approved",
+            'carstatus' => "search-performance",
+            'brandsearch' => $qrybrandsearch,
+            'brandsum' => $qrybrandsum,
+        ]);
+    }
+
+    public function searchperformanceview(Request $request)
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->where('cars.status', 'approved')
+            ->where(function ($query) {
+                $query->where('cars.clickcount', '<=', 0)
+                      ->orWhereNull('cars.viewcount');
+            });
+            if (isset($request->profile_brand_id)) {
+                echo $request->profile_brand_id;
+                $mycars = $mycars->where("cars.brand_id", $request->profile_brand_id);
+            }
+            if (isset($request->profile_model_id)) {
+                echo $request->profile_model_id;
+                $mycars = $mycars->where("cars.model_id", $request->profile_model_id);
+            }
+            if (isset($request->profile_vehicle_code)) {
+                $mycars = $mycars->where("cars.vehicle_code", $request->profile_vehicle_code);
+            }
+            if (isset($request->profile_customer_id)) {
+                $mycars = $mycars->where("cars.customer_id", $request->profile_customer_id);
+            }
+            $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+            $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        ->where('cars.clickcount', '<=', 0)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+        return view('frontend/performance-view', [
+            'mycars' => $mycars,
+            'carstatus' => "search-performanceview",
+            'brandsearch' => $qrybrandsearch,
+            'brandsum' => $qrybrandsum,
+        ]);
+    }
+
+    public function searchperformanceviewpost(Request $request)
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->where('cars.status', 'approved')
+            ->where('cars.viewcount', '>', 0);
+            if (isset($request->profile_brand_id)) {
+                echo $request->profile_brand_id;
+                $mycars = $mycars->where("cars.brand_id", $request->profile_brand_id);
+            }
+            if (isset($request->profile_model_id)) {
+                echo $request->profile_model_id;
+                $mycars = $mycars->where("cars.model_id", $request->profile_model_id);
+            }
+            if (isset($request->profile_vehicle_code)) {
+                $mycars = $mycars->where("cars.vehicle_code", $request->profile_vehicle_code);
+            }
+            if (isset($request->profile_customer_id)) {
+                $mycars = $mycars->where("cars.customer_id", $request->profile_customer_id);
+            }
+            $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+            $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        ->where('cars.viewcount', '>', 0)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+        return view('frontend/performance-viewpost', [
+            'mycars' => $mycars,
+            'carstatus' => "search-performanceviewpost",
+            'brandsearch' => $qrybrandsearch,
+            'brandsum' => $qrybrandsum,
+        ]);
+    }
+
+    public function searchperformance(Request $request)
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        $mycars = DB::table('cars')
+            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+            ->where('customer_id', $customer_id)
+            ->where('cars.status', 'approved')
+            ->where('cars.clickcount', '>', 0);
+            if (isset($request->profile_brand_id)) {
+                echo $request->profile_brand_id;
+                $mycars = $mycars->where("cars.brand_id", $request->profile_brand_id);
+            }
+            if (isset($request->profile_model_id)) {
+                echo $request->profile_model_id;
+                $mycars = $mycars->where("cars.model_id", $request->profile_model_id);
+            }
+            if (isset($request->profile_vehicle_code)) {
+                $mycars = $mycars->where("cars.vehicle_code", $request->profile_vehicle_code);
+            }
+            if (isset($request->profile_customer_id)) {
+                $mycars = $mycars->where("cars.customer_id", $request->profile_customer_id);
+            }
+            $mycars = $mycars->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+        ->select("brands.id", "brands.title", "brands.feature")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        // ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+        ->where("cars.status", 'approved')
+        ->where('cars.customer_id', $customer_id)
+        ->where('cars.clickcount', '>', 0)
+        ->groupBy("brands.id", "brands.title", "brands.feature")
+        ->orderBy("brands.sort_no")
+        ->get();
+
+        return view('frontend/performance', [
+            'mycars' => $mycars,
+            'carstatus' => "search-performance",
             'brandsearch' => $qrybrandsearch,
             'brandsum' => $qrybrandsum,
         ]);
@@ -2529,9 +2726,26 @@ class FrontendPageController extends Controller
         // ->orderBy("models.model")
         // ->get();
 
+        $carstatus = null;
+        if ($request->carstatus == "approved") {
+            $carstatus = "approved";
+        }
+        elseif ($request->carstatus == "rejected") {
+            $carstatus = "rejected";
+        }
+        elseif ($request->carstatus == "created") {
+            $carstatus = "created";
+        }
+        elseif ($request->carstatus == "expired") {
+            $carstatus = "expired";
+        }
+        else {
+            $carstatus = "approved";
+        }
+
         $qrymodelsearch = DB::table("cars")->leftJoin("models", "cars.model_id", "models.id")
         ->selectRaw("models.id, models.model, COUNT(models.model) as countmodel")
-        ->where("cars.status", $request->carstatus)
+        ->where("cars.status", $carstatus)
         ->where('cars.customer_id', $request->customer_id)
         ->where('cars.brand_id', $request->brand_id)
         ->groupBy('models.id', 'models.model')

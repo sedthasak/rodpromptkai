@@ -145,6 +145,9 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/performance', 'performancePage')->name('performancePage');
         Route::get('/performance-viewpost', 'performanceviewpostPage')->name('performanceviewpostPage');
         Route::get('/performance-view', 'performanceviewPage')->name('performanceviewPage');
+        Route::get('/search-performance', 'searchperformance')->name('searchperformance');
+        Route::get('/search-performanceviewpost', 'searchperformanceviewpost')->name('searchperformanceviewpost');
+        Route::get('/search-performanceview', 'searchperformanceview')->name('searchperformanceview');
         Route::get('/check-price', 'checkpricePage')->name('checkpricePage');
         Route::get('/customer-contact', 'customercontactPage')->name('customercontactPage');
         Route::get('/update-carprice', 'updatecarpricePage')->name('updatecarpricePage');
