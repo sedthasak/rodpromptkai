@@ -42,7 +42,7 @@
                         @if (isset($brandsum))
                             @foreach($brandsum as $rows)
                                 <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel('{{$rows->id}}', this);">
-                                    <div><img src="{{$rows->feature}}" alt=""> {{$rows->title}}</div>
+                                    <div>@if(isset($rows->feature))<img src="{{$rows->feature}}" alt="">@endif {{$rows->title}}</div>
                                     <div class="num-mycarsearch">({{$rows->brandcount}})</div>
                                     
                                 </button>
