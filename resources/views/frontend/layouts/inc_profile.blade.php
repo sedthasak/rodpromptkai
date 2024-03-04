@@ -38,7 +38,7 @@ $line = $customerdata->line??'-';
                         <div class="profile-name">{{$firstname}} {{$lastname}}</div>
                         <div class="level-member">Member</div>
                         <div class="profile-phone"><i class="bi bi-phone"></i> {{$phone}}</div>
-                        <a href="{{route('editprofilePage')}}" class="btn-editprofile"><i class="bi bi-pencil-square"></i> แก้ไขโปรไฟล์</a>
+                        <a href="{{route('editprofilePage')}}" class="btn-editprofile"><i class="bi bi-pencil-square"></i> แก้ไขโปรไฟล์</a>&emsp;
                         <a href="/clearsessioncustomer" class="btn-editprofile"><i class="bi bi-pencil-square"></i> ออกจากระบบ</a>
                     </div>
                 </div>

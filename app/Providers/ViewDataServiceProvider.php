@@ -11,6 +11,7 @@ use App\Models\brandsModel;
 use App\Models\contacts_backModel;
 use App\Models\noticeModel;
 use App\Models\carsModel;
+use App\Models\provincesModel;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -80,12 +81,14 @@ class ViewDataServiceProvider extends ServiceProvider
                 foreach($mycars as $keystatus => $carstatus){
                     $carfromstatus[$carstatus->status][] = $carstatus;
                 }   
+                $allprovince = provincesModel::all();
 
                 // Share the variables with all views
                 $view->with('carfromstatus', $carfromstatus);
                 $view->with('contacts_back', $contacts_back);
                 $view->with('notice', $notice);
                 $view->with('customer_id', $customerdata->id);
+                $view->with('allprovince', $allprovince);
             }
         });
     }

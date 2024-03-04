@@ -233,13 +233,13 @@ $arr_cartype = array(
                         <div class="col-12 text-center">
                             <h1>ลงขายรถยนต์</h1>
                             <div class="box-iconstep">
-                                <div href="{{route('carpoststep1Page')}}"><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></div>
+                                <div ><img src="{{asset('frontend/images/icon-step1-active.svg')}}" alt=""></div>
                                 <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                                <div href="{{route('carpoststep2Page')}}"><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></div>
+                                <div ><img src="{{asset('frontend/images/icon-step2.svg')}}" alt=""></div>
                                 <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                                <div href="{{route('carpoststep3Page')}}"><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></div>
+                                <div ><img src="{{asset('frontend/images/icon-step3.svg')}}" alt=""></div>
                                 <div><img src="{{asset('frontend/images/step-arrow.svg')}}" alt=""></div>
-                                <div href="{{route('carpoststep4Page')}}"><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></div>
+                                <div ><img src="{{asset('frontend/images/icon-step4.svg')}}" alt=""></div>
                             </div>
                         </div>
                     </div>
