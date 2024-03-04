@@ -1,11 +1,11 @@
-<style>
+{{-- <style>
     .list-mycarsearch.brand.active {
         background-color: #E4EEFA;
     }
     .list-mycarsearch.model.active {
         background-color: #E4EEFA;
     }
-</style>
+</style> --}}
 <div class="col-12 col-lg-4 col-xl-3 menuprofile-mb">
     <div class="close-menuprofile"><i class="bi bi-x-circle-fill"></i></div>
     <a href="{{route('customercontactPage')}}" class="btn-customer">
@@ -42,7 +42,7 @@
                         @if (isset($brandsum))
                             @foreach($brandsum as $rows)
                                 <button type="button" class="list-mycarsearch brand" onclick="profilesearchmodel('{{$rows->id}}', this);">
-                                    <div><img src="{{$rows->feature}}" alt=""> {{$rows->title}}</div>
+                                    <div>@if(isset($rows->feature))<img src="{{$rows->feature}}" alt="">@endif {{$rows->title}}</div>
                                     <div class="num-mycarsearch">({{$rows->brandcount}})</div>
                                     
                                 </button>
@@ -138,6 +138,15 @@
         }
         if ($('input[name="profile_options"]').val() === "expired") {
             $('form[name="profileform"]').attr('action', '/searchprofileexpirepage');
+        }
+        if ($('input[name="profile_options"]').val() === "search-performance") {
+            $('form[name="profileform"]').attr('action', '/search-performance');
+        }
+        if ($('input[name="profile_options"]').val() === "search-performanceview") {
+            $('form[name="profileform"]').attr('action', '/search-performanceview');
+        }
+        if ($('input[name="profile_options"]').val() === "search-performanceviewpost") {
+            $('form[name="profileform"]').attr('action', '/search-performanceviewpost');
         }
 
         // console.log($('input[name="profile_options"]').val());

@@ -4,6 +4,15 @@
     <title>รถพร้อมขาย - profile-expire</title>
 @endsection
 
+<style>
+    .list-mycarsearch.brand.active {
+        background-color: #E4EEFA;
+    }
+    .list-mycarsearch.model.active {
+        background-color: #E4EEFA;
+    }
+</style>
+
 @section('content')
 
 
@@ -22,7 +31,7 @@
                         @include('frontend.layouts.inc_menu-mycar')
                         <div class="note-expire">ต่ออายุประกาศ</div>
 
-                        @foreach($carfromstatus['expired'] as $keycarsModel => $cars)
+                        @foreach($carfromstatus2['expired'] as $keycarsModel => $cars)
                         @php
                         $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
                         @endphp

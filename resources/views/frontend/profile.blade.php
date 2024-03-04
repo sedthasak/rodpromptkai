@@ -4,6 +4,15 @@
     <title>รถพร้อมขาย - profile</title>
 @endsection
 
+<style>
+    .list-mycarsearch.brand.active {
+        background-color: #E4EEFA;
+    }
+    .list-mycarsearch.model.active {
+        background-color: #E4EEFA;
+    }
+</style>
+
 @section('content')
 
 
@@ -29,7 +38,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         
                         @include('frontend.layouts.inc_menu-mycar')
 
-                        @foreach($carfromstatus['approved'] as $keycarsModel => $cars)
+                        @foreach($carfromstatus2['approved'] as $keycarsModel => $cars)
                         @php
                         $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
                         $resve_state = ($cars->reserve==1)?'active':'';

@@ -4,6 +4,15 @@
     <title>รถพร้อมขาย - profile-editcarinfo</title>
 @endsection
 
+<style>
+    .list-mycarsearch.brand.active {
+        background-color: #E4EEFA;
+    }
+    .list-mycarsearch.model.active {
+        background-color: #E4EEFA;
+    }
+</style>
+
 @section('content')
 
 
@@ -22,7 +31,7 @@
                         @include('frontend.layouts.inc_menu-mycar')
                         <div class="note-expire">กรุณาแก้ไขภายใน 3 วัน ไม่เช่นนั้นโพสของคุณจะถูกลบ</div>
 
-                        @foreach($carfromstatus['rejected'] as $keycarsModel => $cars)
+                        @foreach($carfromstatus2['rejected'] as $keycarsModel => $cars)
                         @php
                         $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
                         @endphp
