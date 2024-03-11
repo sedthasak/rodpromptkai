@@ -126,7 +126,7 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                     </div>
                     <div class="col-3 text-end">
                         <label class="switch">
-                            <input type="checkbox" checked id="searchev">
+                            <input type="checkbox" id="searchev">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -227,7 +227,7 @@ cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palet
                             <div class="boxfrm-advancesearch">
                                 <label>เชื้อเพลิง</label>
                                 <select name="power" id="power" class="form-select">
-                                    <option value="">เลือก</option>
+                                    <option value="">เลือกเชื้อเพลิง</option>
                                     <option value="1">รถน้ำมัน / hybrid</option>
                                     <option value="2">รถไฟฟ้า EV 100%</option>
                                     <option value="3">รถติดแก๊ส</option>

@@ -2289,10 +2289,14 @@ class FrontendPageController extends Controller
         $brandsel = null;
         $brand_id = null;
         $qrymodellist = null;
+        $brand_excerpt = null;
+        $brand_content = null;
         if (isset($request->brand_id)) {
             $qrybrand = brandsModel::where("id", $request->brand_id)->first();
             $brand_id = $qrybrand->id;
             $brandsel = $qrybrand->title;
+            $brand_excerpt = $qrybrand->excerpt;
+            $brand_content = $qrybrand->content;
             $qrymodellist = modelsModel::where("brand_id", $request->brand_id)->get();
         }
         $modelsel = null;
@@ -2503,14 +2507,16 @@ class FrontendPageController extends Controller
             "model_id" => $model_id,
             "generation_id" => $generation_id,
             "submodel_id" => $submodel_id,
-            "category" => $category
+            "category" => $category,
+            "brandexcerpt" => $brand_excerpt,
+            "brandcontent" => $brand_content,
         ]);
     }
 
     public function brandev() {
         $qrybrandev = brandsModel::leftJoin('models', 'brands.id', 'models.brand_id')
         ->select("brands.id", "brands.title")
-        // ->where("models.evtype", 1)
+        ->where("models.evtype", 1)
         ->groupBy("brands.id", "brands.title")
         ->orderBy("brands.sort_no", "ASC")
         ->get();
@@ -2779,7 +2785,10 @@ class FrontendPageController extends Controller
         return response()->json(['modelsearch' => $qrymodelsearch]);
     }
 
-    
+    public function updategeneration() {
+        $currentYear = date('Y');
+        generationsModel::where("generations", "like", "%ปัจจุบัน%")->update(["yearlast" => $currentYear]);
+    }
 
     
 }

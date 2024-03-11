@@ -214,6 +214,7 @@ Route::get('/search-price2/{brand_id}/{model_id}/{generation_id}/{price}/{modely
 Route::get('/carpost-register', function(){
     return redirect('/');
 });
+Route::get('/updategeneration',  [FrontendPageController::class, 'updategeneration']);
 
 Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');        

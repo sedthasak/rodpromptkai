@@ -150,7 +150,7 @@
                     </div>
 
                     
-                    @if ($cars->onLastPage())
+                    @if ($cars->onLastPage() && isset($brandexcerpt) && isset($brandcontent))
                         {{-- <div class="box-car-article">
                             <h4 class="topic-car-article">Mercedes-Benz ในประเทศไทยรุ่นรถมีอะไรบ้าง</h4>
                             <div class="content-editor">
@@ -169,9 +169,9 @@
                             </div>
                         </div> --}}
                         <div class="box-car-article">
-                            <h4 class="topic-car-article">{{$cars[0]->brand_name}}</h4>
+                            <h4 class="topic-car-article">{{$brandexcerpt}}</h4>
                             <div class="content-editor">
-                                {!!$cars[0]->content!!}
+                                {!!$brandcontent!!}
                             </div>
                         </div>
                     @endif

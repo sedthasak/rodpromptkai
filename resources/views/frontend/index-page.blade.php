@@ -159,7 +159,7 @@ $arr_gear = array(
                             </div>
                             <div class="col-12 col-md-6 col-lg-9 col-xl-12">
                                 <select name="power" id="power" class="form-select">
-                                    <option value="">เลือก</option>
+                                    <option value="">เลือกเชื้อเพลิง</option>
                                     <option value="1">รถน้ำมัน / hybrid</option>
                                     <option value="2">รถไฟฟ้า EV 100%</option>
                                     <option value="3">รถติดแก๊ส</option>
