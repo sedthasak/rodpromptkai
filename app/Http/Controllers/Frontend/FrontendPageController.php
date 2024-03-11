@@ -1918,7 +1918,10 @@ class FrontendPageController extends Controller
             // }
             
         // }
-        return view('frontend/login', [
+
+        $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+        return view('frontend/login', ["province" => $province
 
         ]);
     }
