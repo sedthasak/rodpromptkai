@@ -2420,9 +2420,9 @@ class FrontendPageController extends Controller
         if (!empty($request->submodel_id)) {
             $cars = $cars->where('cars.sub_models_id', $request->submodel_id);
         }
-        if (!empty($request->payment)) {
-            $cars = $cars->where('cars.payment', $request->payment);
-        }
+        // if (!empty($request->payment)) {
+        //     $cars = $cars->where('cars.payment', $request->payment);
+        // }
         if (!empty($pricelow)) {
             $cars = $cars->where('cars.price', '>=', $pricelow);
         }
