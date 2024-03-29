@@ -32,9 +32,9 @@ $arr_gear = array(
                             @endif
                             
                             <div class="owl-carousel owl-theme slider">
-                                <div class="item">
+                                <!-- <div class="item">
                                     <a href="{{asset($cars->feature)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($cars->feature)}}"></a>
-                                </div>
+                                </div> -->
                                 @foreach($exterior as $ext)
                                 <div class="item">
                                     <a href="{{asset($ext->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($ext->gallery)}}"></a>
