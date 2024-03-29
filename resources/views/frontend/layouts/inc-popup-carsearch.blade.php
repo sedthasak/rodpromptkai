@@ -5,7 +5,7 @@
             <button type="button" class="carsearch-exit">ยกเลิก</button>
         </div>
         <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="brandtext" onkeyup="brandsearch(event);">
-        <ul class="carsearch-ul">
+        <ul class="carsearch-ul">   
             @if (isset($brand))
                 @foreach ($brand as $rows)
                 <li><button type="button" rel="{{$rows->title}}" onclick="brand2({{$rows->id}}, '{{$rows->title}}')"> {{$rows->title}}</button></li>
@@ -53,7 +53,6 @@
     </div>
 </div>
 
-{{-- <script src="{{asset('frontend/js/jquery.min.js')}}"></script> --}}
 
 <script type="text/javascript">
     var brand_id, model_id, generation_id, submodel_id;
@@ -336,10 +335,7 @@
             $('.carsearch-lv4').hide();
             $.fancybox.close();
         }
-
-
-
-        
         $('.carsearch-popup .carsearch-exit').click();
     }
+        
 </script>

@@ -1,3 +1,4 @@
+{{dd($exterior)}}
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
@@ -88,6 +89,69 @@ $arr_cartype = array(
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+    /* CSS */
+    .dropzone {
+        min-height: 0px;
+        border: 0px solid rgba(0,0,0,.3);
+        background: #fff;
+        padding: 0px 0px;
+    }
+
+    .dropzone .dz-preview {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        margin: 8px;
+        border: 0px solid #ebebeb;
+        background: #f9f9f9;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .dropzone .dz-preview .dz-remove {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+        font-size: 11px;
+        color: white;
+        background-color: lightgray;
+        border: none;
+        z-index: 100000;
+        border-radius: 50%; /* เพิ่มบรรทัดนี้เพื่อทำให้มีรูปวงกลม */
+        width: 25px; /* Adjust width and height for the desired size */
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* opacity: 90%; */
+    }
+
+    .dropzone .dz-remove:hover {
+        color: red;
+    }
+
+    .dz-details {
+        display: none;
+    }
+
+    .dz-button {
+        display: none;
+    }
+
+    .dropzone .dz-remove i {
+    /* Style for the trash icon */
+        color: white;
+    }
+    .bi {
+        line-height: 2.2;
+    }
+
+    .dropzone .dz-remove:hover {
+        /* Add hover effect if needed */
+        background-color: darkred;
+    }
 </style>
 
 <form method="POST" id="form" action="{{route('carpostregistereditubmitPage')}}" enctype="multipart/form-data">
@@ -174,7 +238,7 @@ $arr_cartype = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label>3. โฉม<span>*</span></label>
-                                            <select class="form-select" name="generations" id="generations" required>
+                                            <select class="form-select select2s" name="generations" id="generations" required>
                                                 <option value="">เลือกโฉม</option>
                                                 <option value="{{$mycars->generations_id}}" selected >{{$mycars->generations_name}}</option>
                                             </select>
@@ -385,21 +449,15 @@ $arr_cartype = array(
                                                 <div>
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload1.svg')}}" alt=""> รูปภายนอกรถ</div>
-                                                        <div><label>อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
+                                                        <div><label id="exterior_pictures_label">อัพโหลดรูปภายนอกรถยนต์<span>*</span></label></div>
 
-                                                        <div class="row row-photoupload" id="image-preview-exterior">
-                                                            {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button type="button"><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
-                                                                </div>
-                                                            </div> --}}
+                                                        <div id="exterior-dropzone" class="dropzone exterior-dropzone">
+                                                            
                                                         </div>
-                                                        <div id="hidden-inputs-exterior"></div>
-                                                        <div id="hidden-inputs-feature"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" name="exterior_pictures[]" id="exterior_pictures" multiple >
+                                                            <input aria-labelledby="exterior_pictures_label" type="button" name="exterior_pictures[]" id="exterior_pictures">
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="box-uploadphoto">
@@ -867,41 +925,7 @@ $arr_cartype = array(
                 reader.readAsDataURL(file);
             });
         });
-        $('#exterior_pictures').change(function(event){
-            let filesExterior = event.target.files;
-            let hiddenInputsExterior = $('#hidden-inputs-exterior');
-            let imagePreviewExterior = $('#image-preview-exterior');
-            let hiddenInputsFeature = $('#hidden-inputs-feature');
-            hiddenInputsExterior.empty(); // เคลียร์ค่าที่เก่าออก
-
-            $.each(filesExterior, function(index, file){
-                let readerExterior = new FileReader();
-
-                readerExterior.onload = function(){
-                    // console.log(reader.result);
-                    let base64StringExterior = readerExterior.result; // เอาเฉพาะส่วนที่เป็น base64
-                    
-                    // สร้าง input hidden
-                    exterior_count++;
-                    let hiddenInputExterior = '<input type="hidden" name="picture_exterior[]" id="hidden_exterior_'+exterior_count+'" value="'+base64StringExterior+'">';
-                    hiddenInputsExterior.append(hiddenInputExterior);
-
-                    if (exterior_count == 1) {
-                        let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
-                        hiddenInputsFeature.empty().append(hiddenInputFeature);
-                    }
-
-                    // สร้าง image tag
-                    // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
-                    // imagePreview.append(imageTag);
-
-                    let imageTagExterior = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_exterior_'+exterior_count+'"><div class="item-photoupload"><button type="button" id="picture_exterior_'+exterior_count+'" onClick="delexterior(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="'+base64StringExterior+'" alt=""></div></div>';
-                    imagePreviewExterior.append(imageTagExterior);
-                }
-
-                readerExterior.readAsDataURL(file);
-            });
-        });
+        
         $('#licenseplate').change(function(event){
             let filelicenseplate = event.target.files[0];
             let imagePreviewlicenseplate = $('#image-preview-licenseplate');
@@ -982,5 +1006,105 @@ $arr_cartype = array(
         $("#border_exterior_"+id).remove();
         exterior_count--;
     }
+
+    var exteriorDropzone = new Dropzone("#exterior-dropzone", {
+        paramName: "file",
+        url: "/exterior-upload",
+        clickable: "#exterior_pictures", // Attach the button to trigger file selection
+        // Additional configuration options as needed
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        addRemoveLinks: true,  // เพิ่มลิงก์ลบสำหรับแต่ละไฟล์
+        maxFilesize: 12,        // ขนาดไฟล์สูงสุด (MB)
+        acceptedFiles: ".jpeg,.jpg,.png", // ประเภทไฟล์ที่ยอมรับ
+        dictRemoveFile: '<i class="bi bi-trash3-fill"></i>', // Change the text for the remove link
+        parallelUploads: 1,
+
+        init: function () {
+            this.on("addedfile", function (file) {
+                currentImageCount++;
+                // Check if the current image count is less than the total allowed images
+                if (currentImageCount-1 < totalimage) {
+                    // Increment the current image count
+                } else {
+                    // If the limit is reached, remove the file from Dropzone
+                    this.removeFile(file);
+                }
+                
+            });
+
+            this.on("removedfile", function (file) {
+                currentImageCount--; // Decrease count when file is removed
+                // Add AJAX request to delete file from the database
+                $.ajax({
+                    url: '/exterior-delete', // Replace with the actual endpoint to delete a file
+                    method: 'POST',
+                    data: {
+                        filename: file.name,
+                        genname: $('#genname').val()
+                    },
+                    success: function (response) {
+                        // Handle the response from the server (if needed)
+                    },
+                    error: function (error) {
+                        // Handle the error (if needed)
+                    }
+                });
+            });
+
+            // Set up the params to send additional data
+            this.on("sending", function (file, xhr, formData) {
+                formData.append("genname", $('#genname').val());
+            });
+        }
+    });
+
+    $(".exterior-dropzone").sortable({
+        items:'.dz-preview',
+        containment: '.exterior-dropzone',
+        cursor: 'grab',
+        opacity: 0.5,
+        distance: 5,
+        tolerance: 'pointer',
+
+        stop: function () {
+            var queue = exteriorDropzone.getAcceptedFiles();
+            newQueue = [];
+            $('#exterior-dropzone .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {           
+                    var name = el.innerHTML;
+                    queue.forEach(function(file) {
+                        if (file.name === name) {
+                            newQueue.push(file);
+                        }
+                    });
+            });
+            exteriorDropzone.files = newQueue;
+
+            // Include the CSRF token in the AJAX request
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: '/exterior-rearrange',
+                method: 'POST',
+                data: {
+                    files: newQueue.map(file => file.name),
+                    genname: $('#genname').val()
+                },
+                success: function (response) {
+                    // console.log(response); // Handle the response from the server
+                },
+                error: function (error) {
+                    // console.error(error);
+                }
+            });
+
+
+        }
+    });
 </script>
 @endsection

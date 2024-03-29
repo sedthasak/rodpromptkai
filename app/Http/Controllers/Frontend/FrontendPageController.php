@@ -1870,8 +1870,9 @@ class FrontendPageController extends Controller
     }
     public function postcarPage()
     {
+        $brand = brandsModel::orderBy("sort_no", "ASC")->get();
         return view('frontend/postcar', [
-
+            "brand" => $brand
         ]);
     }
     
@@ -1920,9 +1921,10 @@ class FrontendPageController extends Controller
         // }
 
         $province = provincesModel::orderBy("name_th", "ASC")->get();
-
-        return view('frontend/login', ["province" => $province
-
+        $brand = brandsModel::orderBy("sort_no", "ASC")->get();
+        return view('frontend/login', [
+            "province" => $province,
+            "brand" => $brand
         ]);
     }
     public function DevelopPage()

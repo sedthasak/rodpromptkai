@@ -303,7 +303,7 @@ $arr_cartype = array(
                                         </div>
                                         <div class="col-12 col-md-6 frm-step">
                                             <label id="generations_label">3. โฉม<span>*</span></label>
-                                            <select aria-labelledby="generations_label"  class="form-select" name="generations" id="generations" required>
+                                            <select aria-labelledby="generations_label"  class="form-select select2s" name="generations" id="generations" required>
                                                 <option value="">เลือกโฉม</option>
                                             </select>
                                         </div>

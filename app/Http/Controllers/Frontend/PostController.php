@@ -646,11 +646,12 @@ class PostController extends Controller
         $brands = brandsModel::orderBy("sort_no", "ASC")->get();
         // $models = modelsModel::all();
         // $query = DB::table('generations')->where('id', 1)->first();
+        $exterior = galleryModel::where("cars_id", $post)->where("type", "exterior")->get();
         return view('frontend/carpost-register-edit', [
             'mycars' => $mycars,
             'provinces' => $provinces,
             'brands' => $brands,
-            // 'query' => $query,
+            'exterior' => $exterior,
             // 'a' => 'test',
         ]);
     }

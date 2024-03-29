@@ -79,8 +79,8 @@ $browserFingerprint = session('browserFingerprint');
 @endsection
 
 @section('script')
-    <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
-    <script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script> 
+    {{-- <script src="{{asset('frontend/js/jquery.min.js')}}"></script> --}}
+    {{-- <script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script>  --}}
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -95,7 +95,7 @@ $browserFingerprint = session('browserFingerprint');
         $(document).ready(function() {
             setInterval(function () {
                 var jqxhr = $.get("{{route('loopidentity')}}", function(data, index) {
-                    console.log(data.text);
+                    // console.log(data.text);
                     if (data.text == "success") {
                         window.location.href = "{{route('loginwelcomePage')}}";
                     }
