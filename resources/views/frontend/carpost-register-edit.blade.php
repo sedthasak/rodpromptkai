@@ -1,4 +1,3 @@
-{{dd($exterior)}}
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
@@ -461,36 +460,26 @@ $arr_cartype = array(
                                                         </div>
                                                     </div>
                                                     <div class="box-uploadphoto">
-                                                        <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
-                                                        <div><label>อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
+                                                    <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload2.svg')}}" alt=""> รูปห้องโดยสาร</div>
+                                                        <div><label id="interior_pictures_label">อัพโหลดรูปห้องโดยสาร<span>*</span></label></div>
                                                         
-                                                        <div class="row row-photoupload" id="image-preview">
-                                                            {{-- <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                <div class="item-photoupload">
-                                                                    <button type="button"><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
-                                                                </div>
-                                                            </div> --}}
+                                                        <div id="interior-dropzone" class="dropzone interior-dropzone">
+
                                                         </div>
-                                                        <div id="hidden-inputs"></div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" name="interior_pictures[]" id="interior_pictures" multiple >
+                                                            <input aria-labelledby="interior_pictures_label" type="button" name="interior_pictures[]" id="interior_pictures">
                                                             <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                         </div>
                                                     </div>
                                                     <div class="box-uploadphoto dealerlicenseplate">
                                                         <div class="topic-uploadphoto"><img src="{{asset('frontend/images/icon-upload3.svg')}}" alt=""> เล่มทะเบียนรถ</div>
-                                                        <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์</label></div>
-                                                        <div class="row row-photoupload" id="image-preview-licenseplate">
-                                                            <div class="col-4 col-md-3 col-lg-2 col-photoupload">
-                                                                {{-- <div class="item-photoupload">
-                                                                    <button type="button"><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="{{asset('frontend/images/Rectangle 2338.jpg')}}" alt="">
-                                                                </div> --}}
-                                                            </div>
+                                                        <div><label>เอกสารชุดนี้จะไม่แสดงในโพสต์<span>*</span></label></div>
+                                                        
+                                                        <div id="licenseplate-dropzone" class="dropzone licenseplate-dropzone">
+                                                            
                                                         </div>
                                                         <div class="btn-uploadimg">
-                                                            <input type="file" accept="image/*" name="licenseplate" id="licenseplate">
+                                                            <input aria-labelledby="licenseplate_pictures_label" type="button" name="licenseplate_pictures" id="licenseplate_pictures">
                                                             <i class="bi bi-plus-circle-fill"></i> เพิ่มสำเนา/เล่มทะเบียนรถ
                                                         </div>
                                                     </div>
@@ -541,7 +530,7 @@ $arr_cartype = array(
     </div>
 
 
-
+    <input type="hidden" name="genname" id="genname" value="{{bin2hex(random_bytes(8))}}">
 </form>
 
 
@@ -722,36 +711,7 @@ $arr_cartype = array(
                 console.error(error);
             });
     });
-    // const exterior = new Dropzone("div.exterior-dropzone", { url: "/file/post" });
-    // const interior = new Dropzone("div.interior-dropzone", { url: "/file/post" });
-    // const licence = new Dropzone("div.licence-dropzone", { url: "/file/post" });
 
-    
-
-    Dropzone.options.exteriorDropzone = {
-        url: "/fake/location",
-        autoProcessQueue: false,
-        paramName: "exteriorDropzone",
-        clickable: true,
-        maxFilesize: 5, //in mb
-        addRemoveLinks: true,
-        acceptedFiles: '.png,.jpg,.jpeg',
-        dictDefaultMessage: "อัพโหลดรูปภายนอกรถยนต์",
-        init: function() {
-            this.on("sending", function(file, xhr, formData) {
-            console.log("sending file");
-            });
-            this.on("success", function(file, responseText) {
-            console.log('great success');
-            });
-            this.on("addedfile", function(file){
-                console.log('file added');
-            });
-        }
-    };
-
-
-    
     
 
     $(document).ready(function() {
@@ -894,54 +854,10 @@ $arr_cartype = array(
 <script>
     var interior_count = 0;
     var exterior_count = 0;
+    var totalimage = 25;
+    var currentImageCount = 0;
     $(document).ready(function() {
-        $('#interior_pictures').change(function(event){
-            let files = event.target.files;
-            let hiddenInputs = $('#hidden-inputs');
-            let imagePreview = $('#image-preview');
-            hiddenInputs.empty(); // เคลียร์ค่าที่เก่าออก
-
-            $.each(files, function(index, file){
-                let reader = new FileReader();
-
-                reader.onload = function(){
-                    // console.log(reader.result);
-                    // let base64String = reader.result.split(',')[1]; // เอาเฉพาะส่วนที่เป็น base64
-                    let base64String = reader.result; // เอาเฉพาะส่วนที่เป็น base64
-                    
-                    // สร้าง input hidden
-                    interior_count++;
-                    let hiddenInput = '<input type="hidden" name="picture_interior[]" id="hidden_interior_'+interior_count+'" value="'+base64String+'">';
-                    hiddenInputs.append(hiddenInput);
-
-                    // สร้าง image tag
-                    // let imageTag = `<img src="data:image/jpeg;base64,${base64String}" width="100">`;
-                    // imagePreview.append(imageTag);
-
-                    let imageTag = '<div class="col-4 col-md-3 col-lg-2 col-photoupload" id="border_interior_'+interior_count+'"><div class="item-photoupload"><button type="button" id="picture_interior_'+interior_count+'" onClick="del(this.id);"><i class="bi bi-trash3-fill"></i></button><img src="'+base64String+'" alt=""></div></div>';
-                    imagePreview.append(imageTag);
-                }
-
-                reader.readAsDataURL(file);
-            });
-        });
         
-        $('#licenseplate').change(function(event){
-            let filelicenseplate = event.target.files[0];
-            let imagePreviewlicenseplate = $('#image-preview-licenseplate');
-
-            let readerlicenseplate = new FileReader();
-
-            readerlicenseplate.onload = function(){
-                let base64Stringlicenseplate = readerlicenseplate.result; // เอาเฉพาะส่วนที่เป็น base64
-
-                // สร้าง image tag
-                let imageTaglicenseplate = '<div class="col-4 col-md-3 col-lg-2 col-photoupload"><div class="item-photoupload"><img src="'+base64Stringlicenseplate+'" alt=""></div></div>';
-                imagePreviewlicenseplate.empty().append(imageTaglicenseplate); // เพิ่มรูปใหม่เข้าไปแทนที่รูปเดิม (ถ้ามี)
-            }
-
-            readerlicenseplate.readAsDataURL(filelicenseplate);
-        });
         $(".select2s").select2();
         $(document).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
@@ -962,37 +878,7 @@ $arr_cartype = array(
         });
     });
     $(function() {
-        $("#image-preview").sortable({
-            update: function(event, ui) {
-                // Get the id of the leftmost item after sorting
-                // var leftmostItemId = $("#image-preview .col-photoupload:first").attr("id");
-                
-                // Display the result
-                // console.log("Leftmost item id:", leftmostItemId);
-
-                // var base64StringExterior = $('#image-preview img').attr('src');
-                // let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
-                // hiddenInputsFeature.empty().append(hiddenInputFeature);
-                // console.log(base64StringExterior);
-            }
-        });
-        $('#image-preview').disableSelection();
-        $("#image-preview-exterior").sortable({
-            update: function(event, ui) {
-                // Get the id of the leftmost item after sorting
-                // var leftmostItemId = $("#image-preview-exterior .col-photoupload:first").attr("id");
-                
-                // Display the result
-                // console.log("Leftmost item id:", leftmostItemId);
-
-                let hiddenInputsFeature = $('#hidden-inputs-feature');
-                var base64StringExterior = $('#image-preview-exterior .col-photoupload:first img').attr('src');
-                let hiddenInputFeature = '<input type="hidden" name="picture_feature" id="hidden_feature" value="'+base64StringExterior+'">';
-                hiddenInputsFeature.empty().append(hiddenInputFeature);
-                // console.log(base64StringExterior);
-            }
-        });
-        $('#image-preview-exterior').disableSelection();
+        
     });
     function del(e) {
         id = e.replace("picture_interior_", "");
@@ -1006,7 +892,7 @@ $arr_cartype = array(
         $("#border_exterior_"+id).remove();
         exterior_count--;
     }
-
+    Dropzone.autoDiscover = true;
     var exteriorDropzone = new Dropzone("#exterior-dropzone", {
         paramName: "file",
         url: "/exterior-upload",
@@ -1057,6 +943,18 @@ $arr_cartype = array(
             this.on("sending", function (file, xhr, formData) {
                 formData.append("genname", $('#genname').val());
             });
+            var existingImageUrls = [];
+            @foreach ($exterior as $row)
+                existingImageUrls.push("{{url('/').'/'.$row->gallery}}");
+            @endforeach
+
+            // console.log(existingImageUrls);
+            // ตำแหน่งที่รูปภาพเก่าถูกแสดงใน Dropzone
+            
+            existingImageUrls.forEach(function(imageUrl) {
+                // Add existing images to Dropzone
+                exteriorDropzone.addFile(imageUrl);
+            });
         }
     });
 
@@ -1090,6 +988,210 @@ $arr_cartype = array(
 
             $.ajax({
                 url: '/exterior-rearrange',
+                method: 'POST',
+                data: {
+                    files: newQueue.map(file => file.name),
+                    genname: $('#genname').val()
+                },
+                success: function (response) {
+                    // console.log(response); // Handle the response from the server
+                },
+                error: function (error) {
+                    // console.error(error);
+                }
+            });
+
+
+        }
+    });
+    var interiorDropzone = new Dropzone("#interior-dropzone", {
+        paramName: "file",
+        url: "/interior-upload",
+        clickable: "#interior_pictures", // Attach the button to trigger file selection
+        // Additional configuration options as needed
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        addRemoveLinks: true,  // เพิ่มลิงก์ลบสำหรับแต่ละไฟล์
+        maxFilesize: 12,        // ขนาดไฟล์สูงสุด (MB)
+        acceptedFiles: ".jpeg,.jpg,.png", // ประเภทไฟล์ที่ยอมรับ
+        dictRemoveFile: '<i class="bi bi-trash3-fill"></i>', // Change the text for the remove link
+        parallelUploads: 1,
+
+        init: function () {
+            this.on("addedfile", function (file) {
+                currentImageCount++;
+                // Check if the current image count is less than the total allowed images
+                if (currentImageCount-1 < totalimage) {
+                    // Increment the current image count
+                } else {
+                    // If the limit is reached, remove the file from Dropzone
+                    this.removeFile(file);
+                }
+                
+            });
+
+            this.on("removedfile", function (file) {
+                currentImageCount--; // Decrease count when file is removed
+                // Add AJAX request to delete file from the database
+                $.ajax({
+                    url: '/interior-delete', // Replace with the actual endpoint to delete a file
+                    method: 'POST',
+                    data: {
+                        filename: file.name,
+                        genname: $('#genname').val()
+                    },
+                    success: function (response) {
+                        // Handle the response from the server (if needed)
+                    },
+                    error: function (error) {
+                        // Handle the error (if needed)
+                    }
+                });
+            });
+
+            // Set up the params to send additional data
+            this.on("sending", function (file, xhr, formData) {
+                formData.append("genname", $('#genname').val());
+            });
+        }
+    });
+
+    $(".interior-dropzone").sortable({
+        items:'.dz-preview',
+        containment: '.interior-dropzone',
+        cursor: 'grab',
+        opacity: 0.5,
+        distance: 5,
+        tolerance: 'pointer',
+
+        stop: function () {
+            var queue = interiorDropzone.getAcceptedFiles();
+            newQueue = [];
+            $('#interior-dropzone .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {           
+                    var name = el.innerHTML;
+                    queue.forEach(function(file) {
+                        if (file.name === name) {
+                            newQueue.push(file);
+                        }
+                    });
+            });
+            interiorDropzone.files = newQueue;
+
+            // Include the CSRF token in the AJAX request
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: '/interior-rearrange',
+                method: 'POST',
+                data: {
+                    files: newQueue.map(file => file.name),
+                    genname: $('#genname').val()
+                },
+                success: function (response) {
+                    // console.log(response); // Handle the response from the server
+                },
+                error: function (error) {
+                    // console.error(error);
+                }
+            });
+
+
+        }
+    });
+
+    var licenseplateDropzone = new Dropzone("#licenseplate-dropzone", {
+        paramName: "file",
+        url: "/licenseplate-upload",
+        clickable: "#licenseplate_pictures", // Attach the button to trigger file selection
+        // Additional configuration options as needed
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        addRemoveLinks: true,  // เพิ่มลิงก์ลบสำหรับแต่ละไฟล์
+        maxFilesize: 12,        // ขนาดไฟล์สูงสุด (MB)
+        acceptedFiles: ".jpeg,.jpg,.png", // ประเภทไฟล์ที่ยอมรับ
+        dictRemoveFile: '<i class="bi bi-trash3-fill"></i>', // Change the text for the remove link
+        parallelUploads: 1,
+
+        init: function () {
+            this.on("addedfile", function (file) {
+                currentImageCount++;
+                // Check if the current image count is less than the total allowed images
+                if (currentImageCount-1 < totalimage) {
+                    // Increment the current image count
+                } else {
+                    // If the limit is reached, remove the file from Dropzone
+                    this.removeFile(file);
+                }
+
+                if (this.files.length > 1) {
+                    // ถ้ามีไฟล์มากกว่า 1 ให้ลบไฟล์ทั้งหมดที่เพิ่มเข้ามา
+                    this.removeFile(this.files[0]);
+                }
+                
+            });
+
+            this.on("removedfile", function (file) {
+                currentImageCount--; // Decrease count when file is removed
+                // Add AJAX request to delete file from the database
+                $.ajax({
+                    url: '/licenseplate-delete', // Replace with the actual endpoint to delete a file
+                    method: 'POST',
+                    data: {
+                        filename: file.name,
+                        genname: $('#genname').val()
+                    },
+                    success: function (response) {
+                        // Handle the response from the server (if needed)
+                    },
+                    error: function (error) {
+                        // Handle the error (if needed)
+                    }
+                });
+            });
+
+            // Set up the params to send additional data
+            this.on("sending", function (file, xhr, formData) {
+                formData.append("genname", $('#genname').val());
+            });
+        }
+    });
+
+    $(".licenseplate-dropzone").sortable({
+        items:'.dz-preview',
+        containment: '.licenseplate-dropzone',
+        cursor: 'grab',
+        opacity: 0.5,
+        distance: 5,
+        tolerance: 'pointer',
+
+        stop: function () {
+            var queue = licenseplateDropzone.getAcceptedFiles();
+            newQueue = [];
+            $('#licenseplate-dropzone .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {           
+                    var name = el.innerHTML;
+                    queue.forEach(function(file) {
+                        if (file.name === name) {
+                            newQueue.push(file);
+                        }
+                    });
+            });
+            licenseplateDropzone.files = newQueue;
+
+            // Include the CSRF token in the AJAX request
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: '/licenseplate-rearrange',
                 method: 'POST',
                 data: {
                     files: newQueue.map(file => file.name),

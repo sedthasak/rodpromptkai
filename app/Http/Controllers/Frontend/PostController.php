@@ -126,101 +126,101 @@ class PostController extends Controller
         $cars->province = $request->province;
         $cars->update();
 
-        if($request->picture_feature){
+        // if($request->picture_feature){
 
-            $string_pieces = explode( ";base64,", $request->picture_feature);
+        //     $string_pieces = explode( ";base64,", $request->picture_feature);
          
-            $image_type_pieces = explode( "image/", $string_pieces[0] );
+        //     $image_type_pieces = explode( "image/", $string_pieces[0] );
          
-            $image_type = $image_type_pieces[1];
+        //     $image_type = $image_type_pieces[1];
 
-            // Decode the base64 string and save the image
-            $imageData = base64_decode($string_pieces[1]);
+        //     // Decode the base64 string and save the image
+        //     $imageData = base64_decode($string_pieces[1]);
             
-            // Generate a unique filename
-            $filename = 'feature-'.time() . '.' .$image_type;
+        //     // Generate a unique filename
+        //     $filename = 'feature-'.time() . '.' .$image_type;
 
-            // Define the path where you want to save the image
-            $path = public_path('uploads/feature/' . $filename);
-            $filepath1 = 'uploads/feature/' . $filename;
+        //     // Define the path where you want to save the image
+        //     $path = public_path('uploads/feature/' . $filename);
+        //     $filepath1 = 'uploads/feature/' . $filename;
 
-            // Save the image to the defined path
-            file_put_contents($path, $imageData);
-            carsModel::where("id", $cars->id)->update(["feature" => $filepath1]);
-        }
-        if($request->hasFile('licenseplate')){
-            $licenseplate = $request->file('licenseplate');
-            $destinationPath = public_path('/uploads/licenseplate');
-            $filename = $licenseplate->getClientOriginalName();
+        //     // Save the image to the defined path
+        //     file_put_contents($path, $imageData);
+        //     carsModel::where("id", $cars->id)->update(["feature" => $filepath1]);
+        // }
+        // if($request->hasFile('licenseplate')){
+        //     $licenseplate = $request->file('licenseplate');
+        //     $destinationPath = public_path('/uploads/licenseplate');
+        //     $filename = $licenseplate->getClientOriginalName();
 
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = 'licenseplate-'.time() . '.' .$ext;
-            $licenseplate->move($destinationPath, $newfilenam);
-            $filepath2 = 'uploads/licenseplate/'.$newfilenam;
-            carsModel::where("id", $cars->id)->update(["licenseplate" => $filepath2]);
-        }
+        //     $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        //     $newfilenam = 'licenseplate-'.time() . '.' .$ext;
+        //     $licenseplate->move($destinationPath, $newfilenam);
+        //     $filepath2 = 'uploads/licenseplate/'.$newfilenam;
+        //     carsModel::where("id", $cars->id)->update(["licenseplate" => $filepath2]);
+        // }
         
 
-        if($request->picture_exterior){
-            $exterior_image = $request->picture_exterior;
-            foreach($request->picture_exterior as $keyex => $extr){
-                // Decode the base64 string and save the image
+        // if($request->picture_exterior){
+        //     $exterior_image = $request->picture_exterior;
+        //     foreach($request->picture_exterior as $keyex => $extr){
+        //         // Decode the base64 string and save the image
                 
-                $string_pieces = explode( ";base64,", $extr);
+        //         $string_pieces = explode( ";base64,", $extr);
             
-                $image_type_pieces = explode( "image/", $string_pieces[0] );
+        //         $image_type_pieces = explode( "image/", $string_pieces[0] );
             
-                $image_type = $image_type_pieces[1];
+        //         $image_type = $image_type_pieces[1];
 
-                $imageData = base64_decode($string_pieces[1]);
+        //         $imageData = base64_decode($string_pieces[1]);
 
-                // Generate a unique filename
-                $filename = 'exterior-'.$keyex.'-'.time() . '.' .$image_type;
+        //         // Generate a unique filename
+        //         $filename = 'exterior-'.$keyex.'-'.time() . '.' .$image_type;
 
-                // Define the path where you want to save the image
-                $path = public_path('uploads/exterior/' . $filename);
-                $filepath = 'uploads/exterior/' . $filename;
+        //         // Define the path where you want to save the image
+        //         $path = public_path('uploads/exterior/' . $filename);
+        //         $filepath = 'uploads/exterior/' . $filename;
 
-                // Save the image to the defined path
-                file_put_contents($path, $imageData);
+        //         // Save the image to the defined path
+        //         file_put_contents($path, $imageData);
 
-                $gallery = new galleryModel;
-                $gallery->cars_id = $cars->id;
-                $gallery->gallery = $filepath;
-                $gallery->type = 'exterior';
-                $gallery->save();
-            }
-        }
-        if($request->picture_interior){
-            $interior_image = $request->picture_interior;
-            foreach($request->picture_interior as $keyin => $intr){
+        //         $gallery = new galleryModel;
+        //         $gallery->cars_id = $cars->id;
+        //         $gallery->gallery = $filepath;
+        //         $gallery->type = 'exterior';
+        //         $gallery->save();
+        //     }
+        // }
+        // if($request->picture_interior){
+        //     $interior_image = $request->picture_interior;
+        //     foreach($request->picture_interior as $keyin => $intr){
 
-                $string_pieces = explode( ";base64,", $intr);
+        //         $string_pieces = explode( ";base64,", $intr);
             
-                $image_type_pieces = explode( "image/", $string_pieces[0] );
+        //         $image_type_pieces = explode( "image/", $string_pieces[0] );
             
-                $image_type = $image_type_pieces[1];
+        //         $image_type = $image_type_pieces[1];
 
-                // Decode the base64 string and save the image
-                $imageData = base64_decode($string_pieces[1]);
+        //         // Decode the base64 string and save the image
+        //         $imageData = base64_decode($string_pieces[1]);
 
-                // Generate a unique filename
-                $filename = 'interior-'.$keyin.'-'.time() . '.' .$image_type;
+        //         // Generate a unique filename
+        //         $filename = 'interior-'.$keyin.'-'.time() . '.' .$image_type;
 
-                // Define the path where you want to save the image
-                $path = public_path('uploads/interior/' . $filename);
-                $filepath = 'uploads/interior/' . $filename;
+        //         // Define the path where you want to save the image
+        //         $path = public_path('uploads/interior/' . $filename);
+        //         $filepath = 'uploads/interior/' . $filename;
 
-                // Save the image to the defined path
-                file_put_contents($path, $imageData);
+        //         // Save the image to the defined path
+        //         file_put_contents($path, $imageData);
                 
-                $gallery = new galleryModel;
-                $gallery->cars_id = $cars->id;
-                $gallery->gallery = $filepath;
-                $gallery->type = 'interior';
-                $gallery->save();
-            }
-        }
+        //         $gallery = new galleryModel;
+        //         $gallery->cars_id = $cars->id;
+        //         $gallery->gallery = $filepath;
+        //         $gallery->type = 'interior';
+        //         $gallery->save();
+        //     }
+        // }
 
         $cars2 = carsModel::find($cars->id);
         $strtotime = strtotime($cars2->created_at);
@@ -232,6 +232,13 @@ class PostController extends Controller
         NoticeModel::where('resource', 'cars')
             ->where('resource_id', $resourceId)
             ->update(['status' => 'read']);
+
+        // update cars.feature
+        $genname = $request->input('genname');
+        $qrygallery = galleryModel::where("pre_id", $genname)->orderBy("id", "ASC")->first();
+        carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
+        // update gallery set cars_id
+        galleryModel::where("pre_id", $genname)->update(["cars_id" => $cars->id, "pre_id" => null]);
 
         return redirect(route('carpostregistersuccessPage'));
 
