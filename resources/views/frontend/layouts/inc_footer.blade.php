@@ -3,7 +3,7 @@
 <script src="{{asset('frontend/js/jquery.ui.touch-punch.min.js')}}"></script> 
 <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('frontend/js/owl.carousel.js')}}"></script>
-<script src="{{asset('frontend/js/wow.min.js')}}"></script>
+<!-- <script src="{{asset('frontend/js/wow.min.js')}}"></script> -->
 <script src="{{asset('frontend/js/fancybox.umd.js')}}"></script>
 <script src="{{asset('frontend/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('frontend/js/bootstrap-datepicker.th.min.js')}}"></script>
@@ -11,7 +11,9 @@
 <script src="{{asset('frontend/js/nouislider.min.js')}}"></script>
 <script src="{{asset('frontend/js/wNumb.min.js')}}"></script>
 <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
+
 <script src="{{asset('frontend/js/script.js')}}"></script>
+
 <script src="{{asset('frontend/js/dropzone-min.js')}}"></script>
 <script src="{{asset('frontend/js/select2.min.js')}}"></script>
 <script src="{{asset('frontend/js/ckeditor.js')}}"></script>
