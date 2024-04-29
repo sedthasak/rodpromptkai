@@ -1829,9 +1829,12 @@ class FrontendPageController extends Controller
     
             // $carshistory = array();
             if ($customer && isset($customer->history)) {
+                // dd($customer->history);
                 $history = json_decode($customer->history);
                 if (count($history) > 0) {
+                    // dd($carIds);
                     $carIds = $history ?? [];
+                    // dd($history);
                     if (!empty($carIds)) {
         
                         $carshistory = carsModel::whereIn('cars.id', $carIds)
