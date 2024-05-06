@@ -20,9 +20,13 @@ $(window).scroll(function() {
 
 
 // menu
-$(window).on('load', function () {
-    var mmH = $('.wrap_menu').outerHeight(true)
-    $('body').eq(0).css('padding-top', mmH);
+$(window).on('load resize', function () {
+    setTimeout(
+        function() 
+        {
+            var mmH = $('.wrap_menu').outerHeight(true)
+            $('body').eq(0).css('padding-top', mmH);
+        }, 0);
 });
 
 $( document ).ready(function() {

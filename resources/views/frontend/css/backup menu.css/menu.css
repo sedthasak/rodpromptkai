@@ -6,7 +6,7 @@
 	top:0;
     left: 0;
     right: 0;
-    z-index: 12;
+    z-index: 11;
     margin: 0;
     padding: 0;
     transition: 0.5s;
@@ -16,10 +16,10 @@
     position: fixed;
     top: 0;
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
-    /* transition: 0.5s; */
+    transition: 0.5s;
 }
 .wrap_menu .logo img{
-    /* transition: 0.5s; */
+    transition: 0.5s;
 }
 .wrap_menu.hide{
     transform: translate(0, -100%);
@@ -43,7 +43,7 @@
     position: relative;
     background-color: #F0F0F0;
     height: 50px;
-    /* transition: 0.5s; */
+    transition: 0.5s;
 }
 .mainmenu ul{
     padding: 0;
@@ -160,10 +160,10 @@
         left: -115%;
          width: 80%;
          transform: translate(0,0);
-        /* -webkit-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
         -moz-transition: all 1s ease-in-out;
         -o-transition: all 1s ease-in-out;
-        transition: all 1s ease-in-out; */
+        transition: all 1s ease-in-out;
     }
     .mainmenu.open{
         left: 0;
