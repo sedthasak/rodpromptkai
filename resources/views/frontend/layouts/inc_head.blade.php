@@ -16,12 +16,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="google-site-verification" content="zB-NLOTrfjHekXk1_VdtpY0WgV1oKVhFj_S_VDsDew8" />
 
 
     <link type="image/ico" rel="shortcut icon" href="{{asset('frontend/images/favicon.ico')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/layout.css')}}" />
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/dropzone.css')}}" />
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/select2.min.css')}}" />
+    
     
 
     @if(1==2)

@@ -22,6 +22,7 @@ License: You must have a valid license purchased only from themeforest(the above
         if(empty($_description)) 	$_description ='';
     ?>
 
+    
     <meta name="keywords" content="<?php echo $_keywords;?>" />
     <meta name="description" content="<?php echo $_description;?>" />
     <meta name="robot" content="index, follow" />
@@ -39,7 +40,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- <link rel="stylesheet" href="{{ mix('dist/css/app.css') }}" /> -->
     <!-- END: CSS Assets-->
 
-    <meta name="google-site-verification" content="zB-NLOTrfjHekXk1_VdtpY0WgV1oKVhFj_S_VDsDew8" />
+    
 </head>
 <!-- END: Head -->
 
