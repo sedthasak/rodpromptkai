@@ -38,6 +38,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- BEGIN: CSS Assets-->
     <!-- <link rel="stylesheet" href="{{ mix('dist/css/app.css') }}" /> -->
     <!-- END: CSS Assets-->
+
+    <meta name="google-site-verification" content="zB-NLOTrfjHekXk1_VdtpY0WgV1oKVhFj_S_VDsDew8" />
 </head>
 <!-- END: Head -->
 
