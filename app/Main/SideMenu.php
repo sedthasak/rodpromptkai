@@ -19,7 +19,6 @@ class SideMenu
                 'params' => [],
                 'title' => 'แดชบอร์ด'
             ],
-            
             'customers' => [
                 'icon' => 'Users',
                 'route_name' => 'BN_customers',
@@ -99,6 +98,12 @@ class SideMenu
                 'params' => [],
                 'title' => 'ติดต่อ'
             ],
+            'dev' => [
+                'icon' => 'Cloud-Lightning',
+                'route_name' => 'BN_dev',
+                'params' => [],
+                'title' => 'ผู้พัฒนาระบบ'
+            ],
             'setting' => [
                 'icon' => 'Settings',
                 // 'route_name' => 'BN_setting',
@@ -139,12 +144,7 @@ class SideMenu
                 'title' => 'Log'
             ],
             
-            'dev' => [
-                'icon' => 'Cloud-Lightning',
-                'route_name' => 'BN_dev',
-                'params' => [],
-                'title' => 'ผู้พัฒนาระบบ'
-            ],
+            
             // 'chat' => [
             //     'icon' => 'message-square',
             //     'route_name' => 'chat',

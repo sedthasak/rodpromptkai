@@ -275,6 +275,8 @@ Route::middleware('auth')->group(function() {
                 Route::get('brandsfetch', [BrandsController::class, 'BN_brandsFetch'])->name('BN_brandsFetch');
                 Route::get('brands-preview/{id}', [BrandsController::class, 'BN_brands_preview'])->name('BN_brands_preview');
 
+                // Route::get('brander/{$name}/{id}', [BrandsController::class, 'BN_brands_preview'])->name('BN_brands_preview');
+
                 Route::get('models', [ModelsController::class, 'BN_carmd'])->name('BN_carmd');
                 Route::get('models-add', [ModelsController::class, 'BN_carmd_add'])->name('BN_carmd_add');
                 Route::get('models-edit/{id}', [ModelsController::class, 'BN_carmd_edit'])->name('BN_carmd_edit');
