@@ -102,7 +102,7 @@ class SideMenu
                 'icon' => 'Cloud-Lightning',
                 'route_name' => 'BN_dev',
                 'params' => [],
-                'title' => 'ผู้พัฒนาระบบ'
+                'title' => 'ส่วนลด'
             ],
             'setting' => [
                 'icon' => 'Settings',
