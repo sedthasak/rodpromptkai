@@ -98,12 +98,39 @@ class SideMenu
                 'params' => [],
                 'title' => 'ติดต่อ'
             ],
-            'dev' => [
+
+
+            'discounts' => [
                 'icon' => 'Cloud-Lightning',
-                'route_name' => 'BN_dev',
+                'route_name' => 'BN_discounts',
                 'params' => [],
                 'title' => 'ส่วนลด'
             ],
+            'packages' => [
+                'icon' => 'Cloud-Lightning',
+                'route_name' => 'BN_packages',
+                'params' => [],
+                'title' => 'แพ็คเกจ'
+            ],
+            'deals' => [
+                'icon' => 'Cloud-Lightning',
+                'route_name' => 'BN_deals',
+                'params' => [],
+                'title' => 'ดีล'
+            ],
+            'orders' => [
+                'icon' => 'Cloud-Lightning',
+                'route_name' => 'BN_orders',
+                'params' => [],
+                'title' => 'ออเดอร์'
+            ],
+            'levels' => [
+                'icon' => 'Cloud-Lightning',
+                'route_name' => 'BN_levels',
+                'params' => [],
+                'title' => 'เลเวลเมมเบอร์'
+            ],
+
             'setting' => [
                 'icon' => 'Settings',
                 // 'route_name' => 'BN_setting',
@@ -142,6 +169,12 @@ class SideMenu
                 'route_name' => 'BN_logs',
                 'params' => [],
                 'title' => 'Log'
+            ],
+            'dev' => [
+                'icon' => 'Cloud-Lightning',
+                'route_name' => 'BN_dev',
+                'params' => [],
+                'title' => 'dev'
             ],
             
             

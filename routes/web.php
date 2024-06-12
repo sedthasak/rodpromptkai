@@ -19,6 +19,11 @@ use App\Http\Controllers\Backend\Sub_modelsController;
 use App\Http\Controllers\Backend\PostsController;
 use App\Http\Controllers\Backend\CustomersController;
 use App\Http\Controllers\Backend\ContactsController;
+use App\Http\Controllers\Backend\DealsController;
+use App\Http\Controllers\Backend\DiscountsController;
+use App\Http\Controllers\Backend\LevelMemberController;
+use App\Http\Controllers\Backend\OrdersController;
+use App\Http\Controllers\Backend\PackagesController;
 
 use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
@@ -232,6 +237,30 @@ Route::middleware('auth')->group(function() {
         Route::prefix('backend')->group(function () {
 
 
+            Route::prefix('discounts')->group(function () {
+                Route::get('', [DiscountsController::class, 'BN_discounts'])->name('BN_discounts');
+                Route::get('/add', [DiscountsController::class, 'BN_discounts_add'])->name('BN_discounts_add');
+                Route::post('/add-action', [DiscountsController::class, 'BN_discounts_add_action'])->name('BN_discounts_add_action');
+                Route::get('/edit/{id}', [DiscountsController::class, 'BN_discounts_edit'])->name('BN_discounts_edit');
+                Route::post('/edit-action', [DiscountsController::class, 'BN_discounts_edit_action'])->name('BN_discounts_edit_action');
+                Route::get('/detail/{id}', [DiscountsController::class, 'BN_discounts_detail'])->name('BN_discounts_detail');
+            });
+            Route::prefix('packages')->group(function () {
+
+                Route::get('', [BackendPageController::class, 'BN_packages'])->name('BN_packages');
+            });
+            Route::prefix('deals')->group(function () {
+
+                Route::get('', [BackendPageController::class, 'BN_deals'])->name('BN_deals');
+            });
+            Route::prefix('orders')->group(function () {
+
+                Route::get('', [BackendPageController::class, 'BN_orders'])->name('BN_orders');
+            });
+            Route::prefix('levels')->group(function () {
+
+                Route::get('', [BackendPageController::class, 'BN_levels'])->name('BN_levels');
+            });
             Route::prefix('customers')->group(function () {
 
                 Route::get('', [CustomersController::class, 'BN_customers'])->name('BN_customers');

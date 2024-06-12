@@ -16,7 +16,7 @@ class job_access
     public function handle($request, Closure $next)
     {   
         $access = [
-            'admin' =>['customers', 'posts', 'car', 'categories', 'tags', 'news', 'users', 'contacts', 'setting', 'logs', 'dev'],
+            'admin' =>['customers', 'posts', 'car', 'categories', 'tags', 'news', 'users', 'contacts', 'setting', 'logs', 'dev', 'discounts', 'packages', 'deals', 'orders', 'levels'],
             'manager' =>['customers', 'posts', 'car', 'categories', 'tags', 'news', 'contacts', 'logs'],
             'assistance' =>['customers', 'posts', 'car', 'categories', 'tags'],
             'editor' =>['news'],
