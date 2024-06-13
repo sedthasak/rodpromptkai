@@ -79,6 +79,13 @@
     text-decoration: none;
     color: #C60D0D;
 }
+.mainmenu ul li > a h1{
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0;
+    line-height: 1;
+    display: inline-block;
+}
 .mainmenu ul li:last-child > a{
     padding-right: 0;
     display: none;

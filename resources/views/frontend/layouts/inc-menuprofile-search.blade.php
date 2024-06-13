@@ -12,6 +12,7 @@
         <div><i class="bi bi-person"></i> ลูกค้ารอติดต่อกลับ</div>
         <div class="num-contactcus">{{count($contacts_back)}}</div>
     </a>
+    @include('frontend.layouts.inc-menu-deal')
     <div class="box-menuprofile box-menuprofile-hide">
         <div class="topic-menuprofile">รถที่ลงขาย</div>
         <ul>

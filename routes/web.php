@@ -29,6 +29,9 @@ use App\Http\Controllers\Frontend\QrCodeController;
 use App\Http\Controllers\Frontend\FrontendPageController;
 use App\Http\Controllers\Frontend\SmsController;
 use App\Http\Controllers\Frontend\PostController;
+use App\Http\Controllers\Frontend\LevelandPrivilegeController;
+use App\Http\Controllers\Frontend\PackagesAndDealsController;
+use App\Http\Controllers\Frontend\PaymentAndCheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -180,7 +183,18 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/searchprofilecheckpage', 'searchprofilecheckPage')->name('searchprofilecheckPage');
         Route::get('/searchprofileeditcarinfopage', 'searchprofileeditcarinfoPage')->name('searchprofileeditcarinfoPage');
         Route::get('/searchprofileexpirepage', 'searchprofileexpirePage')->name('searchprofileexpirePage');
+        
+        // Route::get('/searchprofileexpirepage', 'searchprofileexpirePage')->name('searchprofileexpirePage');
     });
+
+    Route::controller(LevelandPrivilegeController::class)->group(function() {
+
+        Route::get('/special-privileges', 'specialprivilegesPage')->name('specialprivilegesPage');
+        Route::get('/seeall-tiers', 'seealltiersPage')->name('seealltiersPage');
+        Route::get('/profile-member/{level}', 'profilememberPage')->name('profilememberPage');
+
+
+    });   
 });
 
 
@@ -236,6 +250,23 @@ Route::middleware('auth')->group(function() {
 
         Route::prefix('backend')->group(function () {
 
+            Route::prefix('packages')->group(function () {
+                
+                Route::get('', [PackagesController::class, 'BN_packages'])->name('BN_packages');
+                Route::get('/edit/{type}/{id}', [PackagesController::class, 'BN_packages_edit'])->name('BN_packages_edit');
+                Route::post('/edit-action', [PackagesController::class, 'BN_packages_edit_action'])->name('BN_packages_edit_action');
+                Route::get('/detail/dealer/{id}', [PackagesController::class, 'BN_packages_detail_dealer'])->name('BN_packages_detail_dealer');
+                Route::get('/detail/vip/{id}', [PackagesController::class, 'BN_packages_detail_vip'])->name('BN_packages_detail_vip');
+    
+            });
+
+            Route::prefix('levels')->group(function () {
+
+                Route::get('', [LevelMemberController::class, 'BN_levels'])->name('BN_levels');
+                Route::get('/edit/{id}', [LevelMemberController::class, 'BN_levels_edit'])->name('BN_levels_edit');
+                Route::post('/edit-action', [LevelMemberController::class, 'BN_levels_edit_action'])->name('BN_levels_edit_action');
+                Route::get('/detail/{id}', [LevelMemberController::class, 'BN_levels_detail'])->name('BN_levels_detail');
+            });
 
             Route::prefix('discounts')->group(function () {
                 Route::get('', [DiscountsController::class, 'BN_discounts'])->name('BN_discounts');
@@ -245,10 +276,7 @@ Route::middleware('auth')->group(function() {
                 Route::post('/edit-action', [DiscountsController::class, 'BN_discounts_edit_action'])->name('BN_discounts_edit_action');
                 Route::get('/detail/{id}', [DiscountsController::class, 'BN_discounts_detail'])->name('BN_discounts_detail');
             });
-            Route::prefix('packages')->group(function () {
-
-                Route::get('', [BackendPageController::class, 'BN_packages'])->name('BN_packages');
-            });
+            
             Route::prefix('deals')->group(function () {
 
                 Route::get('', [BackendPageController::class, 'BN_deals'])->name('BN_deals');
@@ -257,10 +285,7 @@ Route::middleware('auth')->group(function() {
 
                 Route::get('', [BackendPageController::class, 'BN_orders'])->name('BN_orders');
             });
-            Route::prefix('levels')->group(function () {
-
-                Route::get('', [BackendPageController::class, 'BN_levels'])->name('BN_levels');
-            });
+            
             Route::prefix('customers')->group(function () {
 
                 Route::get('', [CustomersController::class, 'BN_customers'])->name('BN_customers');
