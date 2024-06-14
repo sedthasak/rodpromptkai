@@ -25,10 +25,25 @@
                     <input id="name" type="text" name="name" class="form-control" value="{{ $package->name }}" required>
                 </div>
                 <div class="col-span-12 sm:col-span-6">
-                    <label for="price" class="form-label">ราคา</label>
+                    <label for="price" class="form-label">ราคาจริง</label>
                     <input id="price" type="number" name="price" class="form-control" value="{{ $package->price }}" required>
                 </div>
-                <div class="col-span-12">
+
+
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="price" class="form-label">ราคาฆ่าทิ้ง</label>
+                    <input id="price" type="number" name="old_price" class="form-control" value="{{ $package->old_price }}" placeholder="" >
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="price" class="form-label">โชว์เปอร์เซ็นพิเศษ</label>
+                    <input id="price" type="number" name="label_save" class="form-control" value="{{ $package->label_save }}" placeholder="ประหยัด %" >
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="price" class="form-label">ข้อความพิเศษ</label>
+                    <input id="text" type="text" name="label_bottom" class="form-control" value="{{ $package->label_bottom }}" placeholder="" >
+                </div>
+
+                <div class="col-span-12 sm:col-span-6">
                     <label for="limit" class="form-label">ลิมิต</label>
                     <input id="limit" type="number" name="limit" class="form-control" value="{{ $package->limit }}" required>
                 </div>

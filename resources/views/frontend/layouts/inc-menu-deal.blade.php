@@ -4,7 +4,7 @@
                 <a href="#"><div><img src="{{asset('frontend/images2/icon-code.svg')}}" alt=""> โค้ดส่วนลด</div> <div class="have-code">10+ โค้ด</div></a>
             </li>
             <li>
-                <a href="#"><div><img src="{{asset('frontend/images2/icon-menupack.svg')}}" alt="">แพ็คเกจลงขายรถ</div> <span><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></span></a>
+                <a href="{{route('packagePage')}}"><div><img src="{{asset('frontend/images2/icon-menupack.svg')}}" alt="">แพ็คเกจลงขายรถ</div> <span><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></span></a>
             </li>
             <li class="hide-pc">
                 <a href="#"><div><img src="{{asset('frontend/images2/icon-yourpackage.svg')}}" alt="">แพ็คเกจของคุณ</div></a>

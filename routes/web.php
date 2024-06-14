@@ -188,14 +188,24 @@ Route::middleware('sessionlogin')->group(function() {
     });
 
     Route::controller(LevelandPrivilegeController::class)->group(function() {
-
         Route::get('/special-privileges', 'specialprivilegesPage')->name('specialprivilegesPage');
         Route::get('/seeall-tiers', 'seealltiersPage')->name('seealltiersPage');
         Route::get('/profile-member/{level}', 'profilememberPage')->name('profilememberPage');
+    });
+    Route::controller(PackagesAndDealsController::class)->group(function() {
 
-
-    });   
+        Route::get('/package', 'packagePage')->name('packagePage');
+        Route::post('/cart', 'cartPage')->name('cartPage');
+        Route::post('/cart-action', 'cartactionPage')->name('cartactionPage');
+        
+    });
+    // Route::controller(PaymentAndCheckoutController::class)->group(function() {
+        
+    // });
+    
 });
+Route::get('/callback', [PackagesController::class, 'callbackAction'])->name('callbackAction');
+Route::get('/notify', [PackagesController::class, 'notifyAction'])->name('notifyAction');
 
 
 Route::get('login-system', [AuthController::class, 'backendLogin'])->name('backendLogin');

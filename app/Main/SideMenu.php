@@ -110,7 +110,7 @@ class SideMenu
                 'icon' => 'Cloud-Lightning',
                 'route_name' => 'BN_packages',
                 'params' => [],
-                'title' => 'แพ็คเกจ'
+                'title' => 'ข้อมูลแพ็คเกจ'
             ],
             'deals' => [
                 'icon' => 'Cloud-Lightning',

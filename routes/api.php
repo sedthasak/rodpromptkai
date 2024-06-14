@@ -19,3 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/smsreceived/{messages}', [\App\Http\Controllers\Frontend\SmsController::class, 'store']);
 Route::get('/sendsms', [\App\Http\Controllers\Frontend\SmsController::class, 'sendsms']);
+
+Route::get('/callback', [\App\Http\Controllers\Frontend\SmsController::class, 'callbackAction']);
+Route::get('/notify', [\App\Http\Controllers\Frontend\SmsController::class, 'notifyAction']);

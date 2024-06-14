@@ -12,6 +12,9 @@ use App\Models\VipPackageModel;
 
 class PackagesController extends Controller
 {
+    
+
+
     public function BN_packages(Request $request)
     {
         // Retrieve data from package_dealers table (Dealer packages)
@@ -64,6 +67,10 @@ class PackagesController extends Controller
             $package->name = $request->input('name');
             $package->price = $request->input('price');
             $package->limit = $request->input('limit');
+
+            $package->old_price = $request->input('old_price');
+            $package->label_save = $request->input('label_save');
+            $package->label_bottom = $request->input('label_bottom');
             // Update other attributes as needed
 
             // Save the updated package

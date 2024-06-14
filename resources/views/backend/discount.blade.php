@@ -46,6 +46,7 @@
                         <th class="whitespace-nowrap">สูงสุด</th>
                         <th class="whitespace-nowrap">หมดอายุ</th>
                         <th class="whitespace-nowrap">จำกัดจำนวน</th>
+                        <th class="whitespace-nowrap">คำอธิบาย</th>
                         <th class="whitespace-nowrap">เลเวล</th>
                         <th class="whitespace-nowrap">สถานะ</th>
                         <th class="text-center whitespace-nowrap"></th>
@@ -75,6 +76,9 @@
                             </td>
                             <td>
                                 <div class="font-medium whitespace-nowrap">{{$res->limit}}</div>
+                            </td>
+                            <td>
+                                <div class="font-medium whitespace-nowrap">{{$res->description}}</div>
                             </td>
                             
                             <td>

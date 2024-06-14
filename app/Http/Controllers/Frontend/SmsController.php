@@ -11,6 +11,17 @@ use App\Models\Sms_session;
 
 class SmsController extends Controller
 {
+
+    public function callbackAction(Request $request)
+    {
+        dd($request);
+    }
+    public function notifyAction(Request $request)
+    {
+        dd($request);
+    }
+
+    
     public function store($messages, Request $request) {
         // $data = ['messages' => $request->phone.'-'.$request->text.'-'.$request->sim.'--'.'-'];
         // Sms::create($data);
