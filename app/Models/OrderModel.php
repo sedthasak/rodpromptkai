@@ -26,18 +26,10 @@ class OrderModel extends Model
         'discount',
         'total',
         'accept',
-        'full_receipt',
-        'person_type',
 
-        // 'full_name',
-        // 'tax_id_no',
-        // 'full_telephone',
-        // 'full_email',
-        // 'full_address',
-        // 'full_province',
-        // 'full_district',
-        // 'full_subdistrict',
-        // 'full_zipcode',
+        'full_receipt',
+
+        'person_type',
 
         'individual_name',
         'individual_taxidno',
@@ -63,6 +55,7 @@ class OrderModel extends Model
 
 
         'short_receipt',
+        
         'short_name',
         'short_telephone',
         'short_email',

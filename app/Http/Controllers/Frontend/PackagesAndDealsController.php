@@ -9,9 +9,47 @@ use Illuminate\Support\Str;
 use App\Models\PackageDealerModel;
 use App\Models\DealModel;
 use App\Models\OrderModel;
+use App\Models\CouponModel;
 
 class PackagesAndDealsController extends Controller
 {
+    public function applyCouponAction(Request $request)
+    {
+        $code = $request->input('code');
+
+        $coupon = CouponModel::where('code', $code)->where('status', 'active')->first();
+
+        // if ($coupon && $coupon->expire->isFuture()) {
+        if ($coupon) {
+            return response()->json([
+                'success' => true,
+                'coupon_id' => $coupon->id,
+                'rate' => $coupon->rate,
+                'name' => $coupon->name,
+                'limit_rate' => $coupon->limit_rate,
+            ]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'โค้ดส่วนลดไม่สามารถใช้งานได้']);
+    }
+    public function cartPage(Request $request) {
+        $packageId = $request->input('package_id');
+        $type = $request->input('type');
+        
+        if ($type == 'package') {
+            $item = PackageDealerModel::find($packageId);
+        } elseif ($type == 'deal') {
+            $item = DealModel::find($packageId);
+        } else {
+            $item = null;
+        }
+        return view('frontend/cart', [
+            "item" => $item,
+            "type" => $type,
+        ]);
+    }
+
+
     public function cartactionPage(Request $request)
     {
         // Extract data from the request
@@ -58,22 +96,6 @@ class PackagesAndDealsController extends Controller
         ]);
     }
 
-    public function cartPage(Request $request) {
-        $packageId = $request->input('package_id');
-        $type = $request->input('type');
-        
-        if ($type == 'package') {
-            $item = PackageDealerModel::find($packageId);
-        } elseif ($type == 'deal') {
-            $item = DealModel::find($packageId);
-        } else {
-            $item = null;
-        }
-
-        return view('frontend/cart', [
-            "item" => $item,
-            "type" => $type,
-        ]);
-    }
+    
     
 }

@@ -197,7 +197,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/package', 'packagePage')->name('packagePage');
         Route::post('/cart', 'cartPage')->name('cartPage');
         Route::post('/cart-action', 'cartactionPage')->name('cartactionPage');
-        
+        Route::post('/apply-coupon', 'applyCouponAction')->name('applyCouponAction');
     });
     // Route::controller(PaymentAndCheckoutController::class)->group(function() {
         
