@@ -16,7 +16,7 @@ $facebook = $customerdata->facebook??'-';
 $line = $customerdata->line??'-';
 
 // echo "<per>";
-// print_r($data);
+// print_r($customerdata->level);
 // echo "</per>";
 
 ?>
@@ -62,9 +62,9 @@ $line = $customerdata->line??'-';
                 <div class="col-12">
                     <div class="txt-deal-slot">
                         <img src="{{asset('frontend/images/icon-car.svg')}}" alt="">
-                        Slot ลงขาย <div>50</div> คัน
+                        Slot ลงขาย <div>{{$customerdata->dealerpack}}</div> คัน
                         <span>|</span>
-                        สัญญาหมดอายุ <div>22/05/2024</div> 
+                        สัญญาหมดอายุ <div>{{$customerdata->dealerpack_expire}}</div> 
                     </div>
                 </div>
                 <div class="col-3 col-md-3 col-lg-2">
@@ -84,13 +84,18 @@ $line = $customerdata->line??'-';
                         <div class="profile-name">{{$firstname}} {{$lastname}}</div>
                         <!-- เพิ่มใหม่ -->
                         <div>
-                            <div class="level-member user_member">Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
-                            <div class="level-member user_silver">Silver Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
-                            <div class="level-member user_gold">Gold  Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
-                            <div class="level-member user_platinum">
-                                <img src="{{asset('frontend/images2/icon-platinum.svg')}}" class="icon-platinum" alt="">
-                                Platinum  Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow">
-                            </div>
+                            @if($customerdata->level == 'member')
+                                <div class="level-member user_member">Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
+                            @else
+                                <div class="level-member user_silver">Silver Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
+                                <div class="level-member user_gold">Gold  Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
+                                <div class="level-member user_platinum">
+                                    <img src="{{asset('frontend/images2/icon-platinum.svg')}}" class="icon-platinum" alt="">
+                                    Platinum  Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow">
+                                </div>
+                            @endif
+                            
+                            
                         </div>
                         <div class="profile-phone"><i class="bi bi-phone"></i> {{$phone}}</div>
                         <a href="{{route('editprofilePage')}}" class="btn-editprofile"><i class="bi bi-pencil-square"></i> แก้ไขโปรไฟล์</a>

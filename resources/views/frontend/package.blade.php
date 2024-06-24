@@ -44,7 +44,7 @@
                                 @endif
                             </div>
                             <div class="box-package-price">
-                                <span>฿6,000.00</span> / 4 เดือน
+                                <span>฿{{$pack1->price}}</span> / 4 เดือน
                             </div>
                             @if($pack1->label_bottom)
                             <div class="box-package-note">{{$pack1->label_bottom}}</div>
@@ -90,7 +90,7 @@
                                 @endif
                             </div>
                             <div class="box-package-price">
-                                <span>฿14,250.00</span> / 4 เดือน
+                                <span>฿{{$pack2->price}}</span> / 4 เดือน
                             </div>
                             @if($pack2->label_bottom)
                             <div class="box-package-note">{{$pack2->label_bottom}}</div>
@@ -137,7 +137,7 @@
                                 
                             </div>
                             <div class="box-package-price">
-                                <span>฿28,000.00</span> / 4 เดือน
+                                <span>฿{{$pack3->price}}</span> / 4 เดือน
                             </div>
                             @if($pack3->label_bottom)
                             <div class="box-package-note">{{$pack3->label_bottom}}</div>

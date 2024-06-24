@@ -28,7 +28,15 @@ class Customer extends Model
         'facebook',
         'line',
         'last_action',
-        'history'
+        'history',
+        'customer_quota',
+        'dealerpack',
+        'dealerpack_regis',
+        'dealerpack_expire',
+        'vippack',
+        'vippack_regis',
+        'vippack_expire',
+        'bigbrand',
     ];
 
     // public function index()

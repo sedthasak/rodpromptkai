@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 use App\Models\PackageDealerModel;
 use App\Models\DealModel;
 use App\Models\OrderModel;
 use App\Models\CouponModel;
+use App\Models\Customer;
 
 class PackagesAndDealsController extends Controller
 {
@@ -52,33 +54,60 @@ class PackagesAndDealsController extends Controller
 
     public function cartactionPage(Request $request)
     {
-        // Extract data from the request
-        $data = $request->only([
-            'customer_id',
-            'type',
-            'package_dealers_id',
-            'price',
-            'vat',
-            'net_price',
-            'total',
-            'accept'
-        ]);
+        // Retrieve the customer based on the provided customer_id
+        $customer = Customer::find($request->customer_id);
 
-        // Set default status and generate order number
-        $data['status'] = 'pending';
-        $data['order_number'] = 'ORD-' . Str::uuid(); // Using UUID to generate a unique order number
+        // Check if the customer has an active dealerpack
+        if ($customer && $customer->dealerpack_expire && Carbon::parse($customer->dealerpack_expire)->isFuture()) {
+            // If dealerpack_expire is in the future, return with an error message
+            return redirect()->route('profilePage')->with('error', 'คุณยังมีแพ็คเกจที่สมัครไว้อยู่ !');
+        }else{
+            // Extract data from the request
+            $data = $request->only([
+                'accept',
+                'customer_id',
+                'type',
+                'package_dealers_id',
+                'price',
+                'vat',
+                'discount',
+                'net_price',
+                'donate',
+                'total',
+                'coupons_id',
+                'coupons_rate',
+                'coupons',
+            ]);
 
-        // Create a new OrderModel instance
-        $order = new OrderModel();
+            // Set default status and generate order number
+            $data['status'] = 'pending';
+            $data['order_number'] = 'ORD-' . Str::uuid(); // Using UUID to generate a unique order number
 
-        // Fill the order instance with data
-        $order->fill($data);
+            // Create a new OrderModel instance
+            $order = new OrderModel();
 
-        // Save the order to the database
-        $order->save();
+            // Fill the order instance with data
+            $order->fill($data);
 
-        // Optionally, return a response or redirect
-        return redirect()->route('profilePage')->with('success', 'Order placed successfully.');
+            // Save the order to the database
+            $order->save();
+
+            // Retrieve the package details
+            $thispackage = PackageDealerModel::where('id', $order->package_dealers_id)->first();
+
+            // Update the customer's dealerpack details
+            if ($customer) {
+                $customer->dealerpack = $thispackage->limit;
+                $customer->dealerpack_regis = Carbon::now();
+                $customer->dealerpack_expire = Carbon::now()->addMonths(4);
+                $customer->save();
+            }
+
+            // Optionally, return a response or redirect
+            return redirect()->route('profilePage')->with('success', 'ทำการสั่งซื้อสำเร็จ !');
+        }
+
+            
     }
 
 
