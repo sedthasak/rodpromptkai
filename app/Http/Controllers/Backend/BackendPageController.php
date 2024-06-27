@@ -36,90 +36,89 @@ class BackendPageController extends Controller
     }
 
     public function BN_slideupdate(Request $request)
-    {
-        // Validate request data
-        $validated = $request->validate([
-            'slides.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'slides.*.link' => 'nullable|url',
-        ]);
+{
+    // Validate request data
+    $validated = $request->validate([
+        'slides.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'slides.*.link' => 'nullable|url',
+    ]);
 
-        // dd($validated);
+    try {
+        // Initialize an empty array to store processed slides
+        $slides = [];
 
-        try {
-            // Initialize an empty array to store processed slides
-            $slides = [];
+        // Check if slides data is present and is an array
+        if ($request->has('slides') && is_array($request->slides)) {
+            foreach ($request->slides as $index => $slideData) {
+                $slide = [
+                    'link' => $slideData['link'] ?? null,
+                    'image' => null,
+                ];
 
-            // Check if slides data is present and is an array
-            if ($request->has('slides') && is_array($request->slides)) {
-                foreach ($request->slides as $index => $slideData) {
-                    $slide = [
-                        'link' => $slideData['link'] ?? null,
-                        'image' => null,
-                    ];
+                // Handle image upload if a new file is provided
+                if (isset($slideData['image']) && $slideData['image'] instanceof \Illuminate\Http\UploadedFile) {
+                    $file = $slideData['image'];
+                    $destinationPath = public_path('/uploads/banner');
+                    $filename = $file->getClientOriginalName();
+                    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                    $newFilename = 'slide-'.$index.'-'.time().uniqid().'.'.$ext;
 
-                    // Handle image upload if a new file is provided
-                    if (isset($slideData['image']) && $slideData['image'] instanceof \Illuminate\Http\UploadedFile) {
-                        $file = $slideData['image'];
-                        $destinationPath = public_path('/uploads/banner');
-                        $filename = $file->getClientOriginalName();
-                        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-                        $newFilename = 'slide-'.$index.'-'.time().uniqid().'.'.$ext;
-
-                        // Check if file size is within the limit
-                        if ($file->getSize() > 2048 * 1024) {
-                            // Redirect back with error message if file size exceeds limit
-                            return redirect()->back()->with('error', 'File size exceeds the maximum limit of 2MB!');
-                        }
-
-                        // Move original image to destination path
-                        $file->move($destinationPath, $newFilename);
-
-                        // Check if image is JPEG or PNG to convert to WebP
-                        if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
-                            // Convert to WebP format using Intervention Image
-                            $webpFilename = 'slide-'.$index.'-'.time().uniqid().'.webp';
-                            $webpPath = $destinationPath.'/'.$webpFilename;
-
-                            // Open original image using Intervention Image
-                            $img = Image::make($destinationPath.'/'.$newFilename);
-
-                            // Save image as WebP
-                            $img->save($webpPath, 85, 'webp');
-
-                            // Set slide['image'] to WebP filename
-                            $slide['image'] = $webpFilename;
-
-                            // Delete original image after conversion if needed
-                            File::delete($destinationPath.'/'.$newFilename);
-                        } else {
-                            // Use original image filename if not JPEG or PNG
-                            $slide['image'] = $newFilename;
-                        }
-                    } elseif (isset($slideData['existing_image'])) {
-                        // Use existing image filename if provided
-                        $slide['image'] = $slideData['existing_image'];
+                    // Check if file size is within the limit
+                    if ($file->getSize() > 2048 * 1024) {
+                        // Redirect back with error message if file size exceeds limit
+                        return redirect()->back()->with('error', 'File size exceeds the maximum limit of 2MB!');
                     }
 
-                    // Save the slide if it has an image or both image and link
-                    if ($slide['image'] !== null) {
-                        $slides[] = $slide;
+                    // Move original image to destination path
+                    $file->move($destinationPath, $newFilename);
+
+                    // Check if image is JPEG or PNG to convert to WebP
+                    if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
+                        // Convert to WebP format using Intervention Image
+                        $webpFilename = 'slide-'.$index.'-'.time().uniqid().'.webp';
+                        $webpPath = $destinationPath.'/'.$webpFilename;
+
+                        // Open original image using Intervention Image
+                        $img = Image::make($destinationPath.'/'.$newFilename);
+
+                        // Save image as WebP
+                        $img->save($webpPath, 85, 'webp');
+
+                        // Set slide['image'] to WebP filename with relative path
+                        $slide['image'] = 'uploads/banner/' . $webpFilename;
+
+                        // Delete original image after conversion if needed
+                        File::delete($destinationPath.'/'.$newFilename);
+                    } else {
+                        // Use original image filename with relative path if not JPEG or PNG
+                        $slide['image'] = 'uploads/banner/' . $newFilename;
                     }
+                } elseif (isset($slideData['existing_image'])) {
+                    // Use existing image filename if provided
+                    $slide['image'] = $slideData['existing_image'];
+                }
+
+                // Save the slide if it has an image or both image and link
+                if ($slide['image'] !== null) {
+                    $slides[] = $slide;
                 }
             }
-
-            // Update or create the setting option in the database
-            setting_optionModel::updateOrCreate(
-                ['key_option' => 'slide'],
-                ['value_option' => json_encode($slides)]
-            );
-
-            // Redirect back with success message
-            return redirect()->back()->with('success', 'Slides updated successfully!');
-        } catch (\Exception $e) {
-            // Redirect back with error message
-            return redirect()->back()->with('error', 'There was an error updating the slides!');
         }
+
+        // Update or create the setting option in the database
+        setting_optionModel::updateOrCreate(
+            ['key_option' => 'slide'],
+            ['value_option' => json_encode($slides)]
+        );
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Slides updated successfully!');
+    } catch (\Exception $e) {
+        // Redirect back with error message
+        return redirect()->back()->with('error', 'There was an error updating the slides!');
     }
+}
+
 
 
 

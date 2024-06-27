@@ -548,6 +548,8 @@ class FrontendPageController extends Controller
         ->orderBy('id', 'desc')
         ->take(5)->get();
 
+        // dd($decde);
+
         return view('frontend/index-page', [
             'layout' => 'side-menu',
             'categories' => $categories,

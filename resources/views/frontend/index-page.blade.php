@@ -34,7 +34,7 @@ $arr_gear = array(
         <div class="owl-bannerslide owl-carousel owl-theme">
             @foreach($slide as $keyslide => $sld)
             <div class="items">
-                <figure><img src="{{asset($sld)}}" alt=""></figure>
+                <figure><img src="{{asset($sld->image)}}" alt=""></figure>
             </div>
             @endforeach
             <!-- <div class="items">

@@ -39,7 +39,7 @@
                                 <div class="col-span-6 lg:col-span-6 2xl:col-span-6">
                                     <label>Image</label>
                                     @if(isset($slide['image']) && $slide['image'])
-                                        <img  data-action="zoom" src="{{ asset('uploads/banner/' . $slide['image']) }}" alt="Slide Image" style="max-width: 100%; height: auto;">
+                                        <img data-action="zoom" src="{{ asset($slide['image']) }}" alt="Slide Image" style="max-width: 100%; height: auto;">
                                         <input type="hidden" name="slides[{{ $index }}][existing_image]" value="{{ $slide['image'] }}" />
                                         <!-- <button type="button" onclick="removeExistingImage({{ $index }})">Remove</button> -->
                                     @endif

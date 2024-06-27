@@ -76,10 +76,43 @@
 @section('script')
 <script>
 
+    // CKEDITOR.replace( 'content' );
     ClassicEditor
         .create( document.querySelector( '#content' ))
         .catch( error => {
         console.error( error );
     } );
-</script>
+    // ClassicEditor.defaultConfig = {
+    //     toolbar: {
+    //         items: [
+    //             'heading',
+    //             '|',
+    //             'bold',
+    //             'italic',
+    //             '|',
+    //             'bulletedList',
+    //             'numberedList',
+    //             '|',
+    //             'insertTable',
+    //             '|',
+    //             'imageUpload',
+    //             '|',
+    //             'undo',
+    //             'redo'
+    //         ]
+    //     },
+    //     image: {
+    //         toolbar: [
+    //             'imageStyle:full',
+    //             'imageStyle:side',
+    //             '|',
+    //             'imageTextAlternative'
+    //         ]
+    //     },
+    //     table: {
+    //         contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+    //     },
+    //     language: 'en'
+    // };
+</s>
 @endsection
