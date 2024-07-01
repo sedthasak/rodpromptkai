@@ -12,11 +12,12 @@
 <script src="{{asset('frontend/js/wNumb.min.js')}}"></script>
 <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
 
-<script src="{{asset('frontend/js/script.js')}}"></script>
+
 
 <script src="{{asset('frontend/js/dropzone-min.js')}}"></script>
 <script src="{{asset('frontend/js/select2.min.js')}}"></script>
 <script src="{{asset('frontend/js/ckeditor.js')}}"></script>
+<script src="{{asset('frontend/js/script.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->

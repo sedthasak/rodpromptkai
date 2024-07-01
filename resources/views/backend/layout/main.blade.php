@@ -23,15 +23,13 @@
         <script src="{{asset('frontend/js/datatables.min.js')}}"></script>
         <script src="{{asset('frontend/js/ckeditor.js')}}"></script>
         <script src="{{asset('frontend/js/select2.min.js')}}"></script>
+
+
         
         
 
-        
-        <!-- <script src="//cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js"></script> -->
 
-        <!-- <script src="//cdn.ckeditor.com/4.24.0-lts/standard/ckeditor.js"></script> -->
-        <!-- <script src="//cdn.ckeditor.com/4.24.0-lts/basic/ckeditor.js"></script> -->
-
+        <!-- <script src="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js"></script> -->
         <script src="{{ mix('dist/js/app.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
         <!-- END: JS Assets-->

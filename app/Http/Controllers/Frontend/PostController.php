@@ -21,6 +21,26 @@ use Image;
 
 class PostController extends Controller
 {
+    public function carpostregisterdragdropPage(Request $request)
+    {
+        // return view('frontend/carpost-register-dragdrop', [
+
+        // ]);
+
+        $provinces = provincesModel::all();
+        $brands = brandsModel::orderBy("sort_no", "ASC")->get();
+
+        return view('frontend/carpost-register-dragdrop', [
+            'provinces' => $provinces,
+            'brands' => $brands,
+        ]);
+    }
+    public function carpostregisterdragdropactionPage(Request $request)
+    {
+        dd($request);
+    }
+
+
 
     public function updateClickCount(Request $request, CarsModel $car)
     {

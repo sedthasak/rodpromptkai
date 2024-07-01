@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules;
 use Illuminate\Database\Eloquent\Builder;
+use Intervention\Image\Facades\Image;
 
 use App\DataTables\newsModelDataTable;
 use App\Models\newsModel;
@@ -23,6 +24,147 @@ use App\Models\User;
 
 class NewsController extends Controller
 {
+    public function BN_news_add(Request $request)
+    {
+        return view('backend/news-add', [ 
+            'default_pagename' => 'เพิ่มข่าวใหม่',
+        ]);
+    }
+    
+    
+    public function BN_news_add_action(Request $request)
+    {
+        $news = new newsModel;
+        $news->user_id = $request->user_id;
+        $news->title = $request->title;
+        $news->excerpt = $request->excerpt;
+        $news->content = $request->content;
+
+        // Process and save the featured image
+        if ($request->hasFile('feature')) {
+            $uploadedFile = $request->file('feature');
+            $destinationPath = public_path('/uploads/news-feature');
+            $filename = $uploadedFile->getClientOriginalName();
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+            // Generate unique filename
+            $newFileName = 'feature-' . time() . '-' . uniqid() . '.' . $ext;
+
+            // Move the uploaded file to the destination path
+            $uploadedFile->move($destinationPath, $newFileName);
+
+            // Check if the file is JPEG or PNG to convert to WebP
+            if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
+                // Convert to WebP format using Intervention Image
+                $webpFileName = 'feature-' . time() . '-' . uniqid() . '.webp';
+                $webpPath = $destinationPath . '/' . $webpFileName;
+
+                // Open original image using Intervention Image
+                $image = Image::make($destinationPath . '/' . $newFileName);
+
+                // Save image as WebP
+                $image->encode('webp')->save($webpPath);
+
+                // Optionally delete the original uploaded image
+                // unlink($destinationPath . '/' . $newFileName);
+
+                // Store the WebP file path in the database
+                $news->feature = 'uploads/news-feature/' . $webpFileName;
+            } else {
+                // Fallback to storing the original image path if not JPEG or PNG
+                $news->feature = 'uploads/news-feature/' . $newFileName;
+            }
+        }
+
+        $news->save();
+
+        return redirect(route('BN_news'))->with('success', 'สร้างสำเร็จ !!!');
+    }
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+    public function uploadImage(Request $request)
+{
+    // Validate the incoming request with the 'upload' file input
+    $request->validate([
+        'upload' => 'required|file|mimes:jpeg,png,gif|max:2048' // Adjust file types and size as needed
+    ]);
+
+    $uploadedFile = $request->file('upload'); // 'upload' is the default name for file input in CKEditor
+
+    if ($uploadedFile->isValid()) {
+        // Generate unique filename for WebP
+        $webpFileName = time() . '-' . uniqid() . '.webp';
+
+        // Define the destination path for WebP
+        $destinationPath = public_path('/uploads/news-content');
+        $webpPath = $destinationPath . '/' . $webpFileName;
+
+        // Open and resize the uploaded image and save as WebP
+        $image = Image::make($uploadedFile);
+        $image->encode('webp')->save($webpPath);
+
+        // Get the file URL for CKEditor response
+        $fileUrl = asset('uploads/news-content/' . $webpFileName);
+
+        // Return response to CKEditor
+        return response()->json([
+            'uploaded' => true,
+            'url' => $fileUrl
+        ]);
+    }
+
+    // Handle error if file upload fails
+    return response()->json([
+        'uploaded' => false,
+        'error' => [
+            'message' => 'File upload failed.'
+        ]
+    ]);
+}
+
+
+
+
+
+
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'feature' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'excerpt' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        // Handle the image upload
+        if ($request->hasFile('feature')) {
+            $fileName = time().'.'.$request->feature->extension();  
+            $request->feature->move(public_path('uploads'), $fileName);
+        }
+
+        // Save the news post
+        $news = new newsModel();
+        $news->title = $request->input('title');
+        $news->feature = $fileName;
+        $news->excerpt = $request->input('excerpt');
+        $news->content = $request->input('content');
+        $news->user_id = $request->input('user_id');
+        $news->save();
+
+        return redirect()->route('BN_news')->with('success', 'News created successfully');
+    }
 
     public function BN_news(Request $request)
     {
@@ -61,12 +203,7 @@ class NewsController extends Controller
         // return response(json_encode($data));
     }
     
-    public function BN_news_add(Request $request)
-    {
-        return view('backend/news-add', [ 
-            'default_pagename' => 'เพิ่มข่าวใหม่',
-        ]);
-    }
+    
     public function BN_news_edit(Request $request, $id)
     {
         $mynews = newsModel::find($id);
@@ -122,29 +259,7 @@ class NewsController extends Controller
     }
     
 
-    public function BN_news_add_actionss(Request $request)
-    {
-        // dd($request);
-        $news = new newsModel;
-        if($request->hasFile('feature')){
-            $file = $request->file('feature');
-            $destinationPath = public_path('/uploads/news-feature');
-            $filename = $file->getClientOriginalName();
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = time().'-'.uniqid().'.'.$ext;
-            $file->move($destinationPath, $newfilenam);
-            $filepath = 'uploads/news-feature/'.$newfilenam;
-            $news->feature = $filepath;
-        }
-        $news->user_id = $request->user_id;
-        $news->title = $request->title;
-        $news->excerpt = $request->excerpt;
-        $news->content = $request->content;
-
-        $news->save();
-        return redirect(route('BN_news'))->with('success', 'สร้างสำเร็จ !!!');
-
-    }
+    
     public function BN_news_edit_action(Request $request)
     {
         // dd($request);

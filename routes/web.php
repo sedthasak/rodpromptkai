@@ -82,6 +82,8 @@ Route::middleware('sessionlogin')->group(function() {
 
     Route::controller(PostController::class)->group(function() {
 
+        Route::get('/carpost-register-dragdrop', 'carpostregisterdragdropPage')->name('carpostregisterdragdropPage');
+        Route::post('/carpost-register-dragdrop-action', 'carpostregisterdragdropactionPage')->name('carpostregisterdragdropactionPage');
 
         // Route::delete('/carpost-delete/{id}', 'PostController@destroy')->name('carpost.destroy');
 
@@ -391,15 +393,16 @@ Route::middleware('auth')->group(function() {
 
                 Route::get('', [NewsController::class, 'BN_news'])->name('BN_news');
                 Route::get('add', [NewsController::class, 'BN_news_add'])->name('BN_news_add');
+                // Route::post('add', [NewsController::class, 'store'])->name('BN_news_add_action');
+                Route::post('/upload-image', [NewsController::class, 'uploadImage'])->name('upload.image');
+
+
                 Route::get('edit/{id}', [NewsController::class, 'BN_news_edit'])->name('BN_news_edit');
                 Route::post('add-action', [NewsController::class, 'BN_news_add_action'])->name('BN_news_add_action');
                 Route::post('edit-action', [NewsController::class, 'BN_news_edit_action'])->name('BN_news_edit_action');
                 Route::get('fetch', [NewsController::class, 'BN_newsFetch'])->name('BN_newsFetch');
                 Route::get('index', [NewsController::class, 'BN_newsIndex'])->name('BN_newsIndex');
                 Route::post('store', [NewsController::class, 'BN_news_store'])->name('BN_news_store');
-
-                // Route::post('news-upload', [NewsController::class, 'BN_news_upload'])->name('BN_news_upload');
-
             });
 
             Route::prefix('users')->group(function () {

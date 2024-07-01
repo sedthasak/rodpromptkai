@@ -55,7 +55,7 @@
                         <td class="w-40">
                             <div class="flex">
                                 <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                                    <img alt="{{$res->title}}" class="tooltip " src="{{$feature_img}}" >
+                                    <img alt="{{$res->title}}" data-action="zoom" src="{{$feature_img}}" >
                                 </div>
                             </div>
                         </td>
