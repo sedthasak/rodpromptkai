@@ -21,6 +21,19 @@ use Image;
 
 class PostController extends Controller
 {
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+        ]);
+
+        $imageName = time().'.'.$request->file->extension();
+        $request->file->move(public_path('images'), $imageName);
+
+        return response()->json(['url' => '/images/'.$imageName]);
+    }
+
+    
     public function carpostregisterdragdropPage(Request $request)
     {
         // return view('frontend/carpost-register-dragdrop', [

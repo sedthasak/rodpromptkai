@@ -82,6 +82,8 @@ Route::middleware('sessionlogin')->group(function() {
 
     Route::controller(PostController::class)->group(function() {
 
+        Route::post('/upload-image', 'upload')->name('upload.image');
+        Route::post('/posts', 'store')->name('post.store');
         Route::get('/carpost-register-dragdrop', 'carpostregisterdragdropPage')->name('carpostregisterdragdropPage');
         Route::post('/carpost-register-dragdrop-action', 'carpostregisterdragdropactionPage')->name('carpostregisterdragdropactionPage');
         Route::get('/carpost-register-upload', 'carpostregistertestuploadPage')->name('carpostregistertestuploadPage');

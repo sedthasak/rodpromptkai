@@ -21,8 +21,12 @@
 
     <link type="image/ico" rel="shortcut icon" href="{{asset('frontend/images/favicon.ico')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/layout.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/dropzone.css')}}" />
+    <!-- <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/dropzone.css')}}" /> -->
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/select2.min.css')}}" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css">
+   
+
     
     
 

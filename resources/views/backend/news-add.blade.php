@@ -60,6 +60,9 @@
                 .create( document.querySelector( '#content' ), {
                     toolbar: {
                         items: [
+                            'undo',
+                            'redo',
+                            '|',
                             'heading',
                             '|',
                             'bold',
@@ -82,9 +85,6 @@
                             'codeBlock',
                             '|',
                             'highlight',
-                            '|',
-                            'undo',
-                            'redo',
                             '|',
                             'imageUpload',
                             '|',
