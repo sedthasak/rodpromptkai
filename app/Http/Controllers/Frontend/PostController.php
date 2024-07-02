@@ -41,6 +41,17 @@ class PostController extends Controller
     }
 
 
+    public function carpostregistertestuploadsubmitPage(Request $request)
+    {
+        dd();
+    }
+
+    public function carpostregistertestuploadPage()
+    {
+        return view('frontend/carpost-register-upload', [
+
+        ]);
+    }
 
     public function updateClickCount(Request $request, CarsModel $car)
     {

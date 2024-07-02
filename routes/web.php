@@ -84,6 +84,8 @@ Route::middleware('sessionlogin')->group(function() {
 
         Route::get('/carpost-register-dragdrop', 'carpostregisterdragdropPage')->name('carpostregisterdragdropPage');
         Route::post('/carpost-register-dragdrop-action', 'carpostregisterdragdropactionPage')->name('carpostregisterdragdropactionPage');
+        Route::get('/carpost-register-upload', 'carpostregistertestuploadPage')->name('carpostregistertestuploadPage');
+        Route::post('/carpost-register-upload-submit', 'carpostregistertestuploadsubmitPage')->name('carpostregistertestuploadsubmitPage');
 
         // Route::delete('/carpost-delete/{id}', 'PostController@destroy')->name('carpost.destroy');
 
@@ -103,6 +105,9 @@ Route::middleware('sessionlogin')->group(function() {
 
         Route::get('/carpost-step1', 'carpoststep1Page')->name('carpoststep1Page');
         // Route::get('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
+
+        
+
         Route::post('/carpost-register', 'carpostregisterPage')->name('carpostregisterPage');
         Route::get('/carpost-register-edit/{post}', 'carpostregistereditPage')->name('carpostregistereditPage');
         Route::get('/carpost-register-success', 'carpostregistersuccessPage')->name('carpostregistersuccessPage');
