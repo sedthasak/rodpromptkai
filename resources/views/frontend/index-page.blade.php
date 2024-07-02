@@ -852,4 +852,51 @@ $customerdata = session('customer');
         }
     });
 </script>
+
+<!-- ตัวเลขวิ่ง -->
+<script>
+    $(document).ready(function() {
+
+			testScroll();
+
+            $(window).scroll(testScroll);
+            var viewedth = false;
+            var viewedvn = false;
+            function isScrolledIntoView(elem) {
+                var docViewTop = $(window).scrollTop();
+                var docViewBottom = docViewTop + $(window).height();
+
+                var elemTop = $(elem).offset().top;
+                var elemBottom = elemTop + $(elem).height();
+
+                return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+            }
+
+            function testScroll() {
+                if (isScrolledIntoView($(".numbers")) && !viewedth) {
+                    viewedth = true;
+                    $('.numbers').find('.txt-num').not('.active').each(function () {
+                        $(this).prop('Counter',0).addClass('active').animate({
+                            Counter: $(this).text()
+                        }, {
+                            duration: 1500,
+                            easing: 'swing',
+                            step: function (now) {
+                            // $(this).text(commaSeparateNumber(Math.ceil(now)));
+                            $(this).text(Math.ceil(now));
+                            }
+                        });
+                    });
+                } 
+
+                function commaSeparateNumber(val){
+                    while (/(\d+)(\d{3})/.test(val.toString())){
+                    val = val.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    }
+                    return val;
+                }
+            }
+    });
+
+</script>
 @endsection

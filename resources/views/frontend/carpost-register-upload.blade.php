@@ -158,7 +158,7 @@
                                                             <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                                 <div class="item-photoupload">
                                                                     <button><i class="bi bi-trash3-fill"></i></button>
-                                                                    <img src="images/Rectangle 2330.jpg" alt="">
+                                                                    <img src="#" alt="">
                                                                 </div>
                                                             </div>
 

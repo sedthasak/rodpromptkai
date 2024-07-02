@@ -314,7 +314,7 @@ var formatYear = [
 
 //แก้ script ตรงนี้ใหม่
 popupyearslider.noUiSlider.on('update', function (values, handle) {
-    console.log(values[1],values[2]);
+    // console.log(values[1],values[2]);
     if (values[0] == popupminyearrange && values[1] == popupmaxyearrange){
         formatYear[0].innerHTML = " ";
         formatYear[1].innerHTML = "ทุกปี";
