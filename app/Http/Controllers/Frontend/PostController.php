@@ -19,8 +19,64 @@ use Illuminate\Support\Facades\DB;
 use File;
 use Image;
 
+use Illuminate\Support\Facades\Log;
+
 class PostController extends Controller
 {
+    public function carpostregistertestuploadPage()
+    {
+        return view('frontend/carpost-register-upload');
+    }
+
+    public function carpostregistertestuploadsubmitPage(Request $request)
+{
+    $request->validate([
+        'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $images = [];
+    if ($request->hasFile('images')) {
+        $files = $request->file('images');
+
+        foreach ($files as $index => $file) {
+            $newFileName = 'image_' . ($index + 1) . '_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/testuploads'), $newFileName);
+
+            $path = 'uploads/testuploads/' . $newFileName;
+            $url = asset($path); // Generate URL to access the image
+            $images[] = [
+                'path' => $path,
+                'url' => $url,
+            ];
+        }
+    }
+
+    return view('frontend.carpost-register-upload', [
+        'images' => $images,
+    ])->with('success', 'Images uploaded successfully.');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function upload(Request $request)
     {
         $request->validate([
@@ -54,17 +110,9 @@ class PostController extends Controller
     }
 
 
-    public function carpostregistertestuploadsubmitPage(Request $request)
-    {
-        dd();
-    }
+    
 
-    public function carpostregistertestuploadPage()
-    {
-        return view('frontend/carpost-register-upload', [
-
-        ]);
-    }
+    
 
     public function updateClickCount(Request $request, CarsModel $car)
     {

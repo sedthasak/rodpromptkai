@@ -81,13 +81,16 @@ Route::controller(FrontendPageController::class)->group(function() {
 Route::middleware('sessionlogin')->group(function() {
 
     Route::controller(PostController::class)->group(function() {
+        Route::get('/carpost-register-upload', 'carpostregistertestuploadPage')->name('carpostregistertestuploadPage');
+        Route::post('/carpost-register-upload-submit', 'carpostregistertestuploadsubmitPage')->name('carpostregistertestuploadsubmitPage');
+
+
 
         Route::post('/upload-image', 'upload')->name('upload.image');
         Route::post('/posts', 'store')->name('post.store');
         Route::get('/carpost-register-dragdrop', 'carpostregisterdragdropPage')->name('carpostregisterdragdropPage');
         Route::post('/carpost-register-dragdrop-action', 'carpostregisterdragdropactionPage')->name('carpostregisterdragdropactionPage');
-        Route::get('/carpost-register-upload', 'carpostregistertestuploadPage')->name('carpostregistertestuploadPage');
-        Route::post('/carpost-register-upload-submit', 'carpostregistertestuploadsubmitPage')->name('carpostregistertestuploadsubmitPage');
+        
 
         // Route::delete('/carpost-delete/{id}', 'PostController@destroy')->name('carpost.destroy');
 

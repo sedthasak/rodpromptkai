@@ -1,4 +1,5 @@
-<script src="{{asset('frontend/js/jquery.min.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="{{asset('frontend/js/jquery.min.js')}}"></script> -->
 <script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script> 
 <script src="{{asset('frontend/js/jquery.ui.touch-punch.min.js')}}"></script> 
 <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
@@ -20,6 +21,10 @@
 <script src="{{asset('frontend/js/ckeditor.js')}}"></script>
 <script src="{{asset('frontend/js/script.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+
 
 <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
 <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
