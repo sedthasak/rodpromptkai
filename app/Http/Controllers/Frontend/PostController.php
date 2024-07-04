@@ -50,6 +50,7 @@ class PostController extends Controller
             ];
         }
     }
+    // dd($images);
 
     return view('frontend.carpost-register-upload', [
         'images' => $images,

@@ -111,6 +111,14 @@
                 formData.append('images[]', order[i]);
             }
 
+            // Log formData contents for debugging
+            // formData.forEach((value, key) => {
+            //     if (value instanceof File) {
+            //         console.log(key + ':', value.name); // Log file names instead of base64 data URLs
+            //     } else {
+            //         console.log(key + ':', value);
+            //     }
+            // });
             $.ajax({
                 url: '{{ route('carpostregistertestuploadsubmitPage') }}',
                 method: 'POST',
@@ -124,6 +132,8 @@
                     console.log(xhr.responseText);
                 }
             });
+
+
         });
     });
 </script>
