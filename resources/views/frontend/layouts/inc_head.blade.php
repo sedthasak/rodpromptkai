@@ -25,6 +25,7 @@
     <link type="text/css" rel="stylesheet" href="{{asset('frontend/css/select2.min.css')}}" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
    
 
     

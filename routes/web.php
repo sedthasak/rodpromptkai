@@ -83,6 +83,9 @@ Route::middleware('sessionlogin')->group(function() {
     Route::controller(PostController::class)->group(function() {
         Route::get('/carpost-register-upload', 'carpostregistertestuploadPage')->name('carpostregistertestuploadPage');
         Route::post('/carpost-register-upload-submit', 'carpostregistertestuploadsubmitPage')->name('carpostregistertestuploadsubmitPage');
+        
+        Route::get('/carpost-register-upload-edit/{id}', 'carpostregistertestuploadeditPage')->name('carpostregistertestuploadeditPage');
+        Route::post('/carpost-register-upload-edit-submit', 'carpostregistertestuploadeditsubmitPage')->name('carpostregistertestuploadeditsubmitPage');
 
 
 

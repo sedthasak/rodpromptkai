@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogsSaveController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use App\Models\Customer;
 use App\Models\Sms_session;
 use App\Models\provincesModel;
@@ -18,44 +20,119 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
 use Image;
+use App\Models\TestCreate;
+use App\Models\TestCreateUpload;
+use App\Jobs\ProcessFileUpload;
 
-use Illuminate\Support\Facades\Log;
+use App\Jobs\ProcessCarImages;
 
 class PostController extends Controller
 {
+
+
+    public function carpostregistertestuploadsubmitPage(Request $request)
+{
+    // Validate the incoming request
+    $validator = Validator::make($request->all(), [
+        'exterior.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:12288',
+        'interior.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:12288',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+    }
+
+    // Create a new TestCreate instance
+    $testCreate = TestCreate::create([
+        'number' => uniqid(), // Generate a unique identifier or use your own method
+    ]);
+
+    // Process exterior images
+    $exteriorPaths = $this->storeImages($request->file('exterior'), 'exterior', $testCreate);
+
+    // Process interior images
+    $interiorPaths = $this->storeImages($request->file('interior'), 'interior', $testCreate);
+
+    // Redirect with success message
+    return redirect()->back()->with('success', 'Car post registered successfully!');
+}
+
+    // Function to store images and return paths
+    protected function storeImages($files, $type, $testCreate)
+{
+    $paths = [];
+
+    foreach ($files as $index => $file) {
+        // Generate filename
+        $filename = time() . '_' . $type . '_' . ($index + 1) . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        // Store the image in the appropriate folder (interior or exterior)
+        $path = $file->storeAs('uploads/' . $type, $filename);
+
+        // Save to TestCreateUpload model
+        $upload = new TestCreateUpload([
+            'test_create_id' => $testCreate->id,
+            'path' => $path,
+            'type' => $type,
+            'sort_order' => $index + 1,
+        ]);
+        $upload->save();
+
+        $paths[] = $path;
+    }
+
+    return $paths;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function carpostregistertestuploadPage()
     {
         return view('frontend/carpost-register-upload');
     }
 
-    public function carpostregistertestuploadsubmitPage(Request $request)
-{
-    $request->validate([
-        'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    ]);
 
-    $images = [];
-    if ($request->hasFile('images')) {
-        $files = $request->file('images');
 
-        foreach ($files as $index => $file) {
-            $newFileName = 'image_' . ($index + 1) . '_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/testuploads'), $newFileName);
 
-            $path = 'uploads/testuploads/' . $newFileName;
-            $url = asset($path); // Generate URL to access the image
-            $images[] = [
-                'path' => $path,
-                'url' => $url,
-            ];
-        }
+
+
+
+
+
+
+
+
+
+
+
+    public function carpostregistertestuploadeditPage()
+    {
+        return view('frontend/carpost-register-upload-edit');
     }
-    // dd($images);
+    public function carpostregistertestuploadeditsubmitPage()
+    {
+        
+    }
 
-    return view('frontend.carpost-register-upload', [
-        'images' => $images,
-    ])->with('success', 'Images uploaded successfully.');
-}
+
+
+
+
+
 
 
 
