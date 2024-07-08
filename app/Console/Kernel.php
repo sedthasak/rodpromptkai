@@ -19,6 +19,10 @@ class Kernel extends ConsoleKernel
             $currentYear = date('Y');
             generationsModel::where("generations", "like", "%ปัจจุบัน%")->update(["yearlast" => $currentYear]);
         })->yearly()->on(1, 1, '00:00:01');
+
+
+        // Schedule cleanup command to run daily at midnight
+        $schedule->command('cleanup:rest-folder')->daily();
     }
 
     /**

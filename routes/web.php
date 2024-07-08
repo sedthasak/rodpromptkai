@@ -81,6 +81,21 @@ Route::controller(FrontendPageController::class)->group(function() {
 Route::middleware('sessionlogin')->group(function() {
 
     Route::controller(PostController::class)->group(function() {
+
+        Route::get('/carpost-browse', 'carpostbrowse')->name('carpostbrowse');
+        Route::post('/carpost-browse-submit', 'carpostbrowsesubmit')->name('carpostbrowsesubmit');
+        Route::post('/carpost-upload-image', 'carpostuploadimage')->name('carpostuploadimage');
+        Route::post('/carpost-delete-image', 'carpostdeleteimage')->name('carpostdeleteimage');
+
+        Route::get('/carpost-browse-edit/{id}', 'carpostbrowseedit')->name('carpostbrowseedit');
+        Route::post('/carpost-browse-edit-submit/{id}', 'carpostbrowseeditsubmit')->name('carpostbrowseeditsubmit');
+
+
+
+
+
+
+
         Route::get('/carpost-register-upload', 'carpostregistertestuploadPage')->name('carpostregistertestuploadPage');
         Route::post('/carpost-register-upload-submit', 'carpostregistertestuploadsubmitPage')->name('carpostregistertestuploadsubmitPage');
         

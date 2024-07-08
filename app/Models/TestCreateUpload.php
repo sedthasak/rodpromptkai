@@ -13,7 +13,7 @@ class TestCreateUpload extends Model
     protected $table = 'test_create_uploads';
 
     protected $fillable = [
-        'test_create_id', 'path',
+        'test_create_id', 'path', 'type',
     ];
 
     // Relationships

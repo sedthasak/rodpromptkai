@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str; // Import Str class here
 use App\Models\Customer;
 use App\Models\Sms_session;
 use App\Models\provincesModel;
@@ -28,63 +29,268 @@ use App\Jobs\ProcessCarImages;
 
 class PostController extends Controller
 {
+    public function carpostbrowseeditsubmit(Request $request, $id)
+    {
+        $request->validate([
+            'image_paths' => 'required|array',
+            'image_paths.*' => 'required|string',
+        ]);
+
+        // Retrieve the existing post
+        $post = TestCreate::findOrFail($id);
+
+        // Get old images
+        $oldImages = TestCreateUpload::where('test_create_id', $id)->get();
+
+        // Delete old images from storage and database
+        foreach ($oldImages as $oldImage) {
+            Storage::delete('public/' . $oldImage->path);
+            $oldImage->delete();
+        }
+
+        // Move new images from 'rest' to final destination and rename
+        foreach ($request->image_paths as $index => $path) {
+            $filename = basename($path);
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+            // Check if the image is already in WebP format
+            if ($extension === 'webp') {
+                $newPath = 'public/' . $path; // Use the original path for WebP images
+            } else {
+                // Convert the image to WebP format
+                $newPath = $this->convertToWebP('public/' . $path);
+            }
+
+            // Generate new filename
+            $newFilename = 'exterior-' . $id . '-' . ($index + 1) . '-' . uniqid() . '.webp';
+
+            try {
+                // Move file to 'public/uploads/exterior' folder
+                Storage::move($newPath, 'public/uploads/exterior/' . $newFilename);
+
+                // Update database with new path
+                TestCreateUpload::create([
+                    'test_create_id' => $post->id,
+                    'path' => 'uploads/exterior/' . $newFilename,
+                    'type' => 'exterior',
+                ]);
+            } catch (\Exception $e) {
+                // Log or handle the error if file moving fails
+                Log::error('Failed to move file: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to move one or more images. Error: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->route('carpostbrowse')->with('success', 'Post updated successfully.');
+    }
+    public function carpostbrowseedit($id)
+    {
+        // Retrieve existing post data and related images
+        $post = TestCreate::findOrFail($id);
+        $images = TestCreateUpload::where('test_create_id', $id)->orderBy('id')->get();
+
+        // Copy images to the 'rest' folder
+        $restImages = $this->copyImagesToRest($images);
+
+        return view('frontend.carpost-browse-edit', compact('post', 'images', 'restImages'));
+    }
+    // Copy images to the 'rest' folder without changing their names
+    private function copyImagesToRest($images)
+    {
+        $restImages = [];
+
+        foreach ($images as $image) {
+            $currentPath = 'public/' . $image->path;
+            $restPath = 'public/uploads/rest/' . basename($image->path);
+
+            if (Storage::exists($currentPath)) {
+                try {
+                    Storage::copy($currentPath, $restPath);
+                    $restImages[] = 'uploads/rest/' . basename($image->path);
+                } catch (\Exception $e) {
+                    // Handle errors if needed
+                    // return redirect()->back()->with('error', 'Failed to copy one or more images to rest folder.');
+                }
+            }
+        }
+
+        return $restImages;
+    }
+
+
+
+    public function carpostuploadimage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|max:12288', // Max 12MB
+            'type' => 'required|in:exterior,interior', // Validate type: exterior or interior
+        ]);
+
+        $extension = $request->file('image')->getClientOriginalExtension();
+        $filename = $request->type . '-' . uniqid() . '.' . $extension;
+
+        // Save original image to temporary 'rest' directory
+        $path = $request->file('image')->storeAs('public/uploads/rest', $filename);
+
+        // Check if the uploaded file is not already in WebP format
+        if ($extension !== 'webp') {
+            // Convert the image to WebP format
+            $webpPath = $this->convertToWebP($path);
+
+            // Delete the original file after conversion to WebP
+            Storage::delete($path);
+
+            // Return the path to the WebP image
+            return response()->json(['path' => str_replace('public/', '', $webpPath)]);
+        }
+
+        return response()->json(['path' => str_replace('public/', '', $path)]);
+    }
+
+    private function convertToWebP($path)
+    {
+        // Generate a new filename with .webp extension
+        $newPath = str_replace('.' . pathinfo($path, PATHINFO_EXTENSION), '.webp', $path);
+
+        // Convert the image to WebP format using Intervention Image
+        $image = Image::make(storage_path('app/' . $path));
+        $image->save(storage_path('app/' . $newPath), 80, 'webp');
+
+        // Return the path to the converted WebP image
+        return $newPath;
+    }
+
+    public function carpostbrowsesubmit(Request $request)
+    {
+        $request->validate([
+            'image_paths' => 'required|array',
+            'image_paths.*' => 'required|string',
+        ]);
+
+        // Create the post
+        $testCreate = TestCreate::create([
+            'number' => uniqid(),
+        ]);
+
+        // Move and rename files
+        foreach ($request->image_paths as $index => $path) {
+            // Extract filename from the path
+            $filename = basename($path);
+            // Get extension from original filename
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            // Generate new filename with post ID and sequence number
+            $newFilename = 'exterior-' . $testCreate->id . '-' . ($index + 1) . '-' . uniqid() . '.' . $extension;
+
+            try {
+                // Move file to 'public/uploads/exterior' folder
+                Storage::move('public/' . $path, 'public/uploads/exterior/' . $newFilename);
+
+                // Update database with new path
+                TestCreateUpload::create([
+                    'test_create_id' => $testCreate->id,
+                    'path' => 'uploads/exterior/' . $newFilename,
+                    'type' => 'exterior',
+                ]);
+            } catch (\Exception $e) {
+                // Log or handle the error if file moving fails
+                return redirect()->back()->with('error', 'Failed to move one or more images.');
+            }
+        }
+
+        return redirect()->route('carpostbrowse')->with('success', 'Post created successfully.');
+    }
+    public function carpostdeleteimage(Request $request)
+    {
+        $request->validate([
+            'path' => 'required|string',
+        ]);
+
+        Storage::disk('public')->delete($request->path);
+        
+        return response()->json(['status' => 'success']);
+    }
+    public function carpostbrowse(Request $request)
+    {
+
+        return view('frontend/carpost-browse');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public function carpostregistertestuploadsubmitPage(Request $request)
-{
-    // Validate the incoming request
-    $validator = Validator::make($request->all(), [
-        'exterior.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:12288',
-        'interior.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:12288',
-    ]);
-
-    if ($validator->fails()) {
-        return redirect()->back()
-            ->withErrors($validator)
-            ->withInput();
-    }
-
-    // Create a new TestCreate instance
-    $testCreate = TestCreate::create([
-        'number' => uniqid(), // Generate a unique identifier or use your own method
-    ]);
-
-    // Process exterior images
-    $exteriorPaths = $this->storeImages($request->file('exterior'), 'exterior', $testCreate);
-
-    // Process interior images
-    $interiorPaths = $this->storeImages($request->file('interior'), 'interior', $testCreate);
-
-    // Redirect with success message
-    return redirect()->back()->with('success', 'Car post registered successfully!');
-}
-
-    // Function to store images and return paths
-    protected function storeImages($files, $type, $testCreate)
-{
-    $paths = [];
-
-    foreach ($files as $index => $file) {
-        // Generate filename
-        $filename = time() . '_' . $type . '_' . ($index + 1) . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-        // Store the image in the appropriate folder (interior or exterior)
-        $path = $file->storeAs('uploads/' . $type, $filename);
-
-        // Save to TestCreateUpload model
-        $upload = new TestCreateUpload([
-            'test_create_id' => $testCreate->id,
-            'path' => $path,
-            'type' => $type,
-            'sort_order' => $index + 1,
+    {
+        // Validate the incoming request
+        $validator = Validator::make($request->all(), [
+            'exterior.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:12288',
+            'interior.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:12288',
         ]);
-        $upload->save();
 
-        $paths[] = $path;
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Create a new TestCreate instance
+        $testCreate = TestCreate::create([
+            'number' => uniqid(), // Generate a unique identifier or use your own method
+        ]);
+
+        // Process exterior images
+        $exteriorPaths = $this->storeImages($request->file('exterior'), 'exterior', $testCreate);
+
+        // Process interior images
+        $interiorPaths = $this->storeImages($request->file('interior'), 'interior', $testCreate);
+
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Car post registered successfully!');
     }
 
-    return $paths;
-}
+        // Function to store images and return paths
+        protected function storeImages($files, $type, $testCreate)
+    {
+        $paths = [];
+
+        foreach ($files as $index => $file) {
+            // Generate filename
+            $filename = time() . '_' . $type . '_' . ($index + 1) . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Store the image in the appropriate folder (interior or exterior)
+            $path = $file->storeAs('uploads/' . $type, $filename);
+
+            // Save to TestCreateUpload model
+            $upload = new TestCreateUpload([
+                'test_create_id' => $testCreate->id,
+                'path' => $path,
+                'type' => $type,
+                'sort_order' => $index + 1,
+            ]);
+            $upload->save();
+
+            $paths[] = $path;
+        }
+
+        return $paths;
+    }
 
 
 
