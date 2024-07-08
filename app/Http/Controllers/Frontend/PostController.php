@@ -122,6 +122,8 @@ private function processImages($paths, $type, $postId)
 
 
 
+
+
     public function carpostbrowseedit($id)
     {
         // Retrieve existing post data and related images
