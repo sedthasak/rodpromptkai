@@ -67,7 +67,7 @@
                                                     <label id="exterior_pictures_label">อัพโหลดรูปภายนอกรถยนต์<span>*</span></label>
                                                 </div>
                                                 <div id="exterior-preview" class="row row-photoupload"></div>
-                                                <div class="btn-uploadimg">
+                                                <div class="btn-uploadimg" id="exterior-upload-button">
                                                     <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                 </div>
                                                 <input type="file" id="upload-exterior-input" accept="image/*" multiple style="display: none;">
@@ -82,7 +82,7 @@
                                                     <label id="interior_pictures_label">อัพโหลดรูปห้องโดยสาร<span>*</span></label>
                                                 </div>
                                                 <div id="interior-preview" class="row row-photoupload"></div>
-                                                <div class="btn-uploadimg">
+                                                <div class="btn-uploadimg" id="interior-upload-button">
                                                     <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
                                                 </div>
                                                 <input type="file" id="upload-interior-input" accept="image/*" multiple style="display: none;">
@@ -101,95 +101,93 @@
         <button type="submit" class="btn btn-step btn-nextstep" id="submitBtn">สร้าง</button>
     </div>
 </form>
-
 @endsection
 
 @section('script')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const uploadExteriorInput = document.getElementById('upload-exterior-input');
-        const uploadExteriorButton = document.querySelector('.box-uploadphoto:nth-child(1) .btn-uploadimg');
+        const uploadExteriorButton = document.getElementById('exterior-upload-button');
         const exteriorPreviewContainer = document.getElementById('exterior-preview');
 
         const uploadInteriorInput = document.getElementById('upload-interior-input');
-        const uploadInteriorButton = document.querySelector('.box-uploadphoto:nth-child(2) .btn-uploadimg');
+        const uploadInteriorButton = document.getElementById('interior-upload-button');
         const interiorPreviewContainer = document.getElementById('interior-preview');
 
         const loadingBox = document.getElementById('wait');
         const submitButton = document.getElementById('submitBtn');
 
         // Function to handle image upload logic
-        function handleImageUpload(input, button, previewContainer) {
-            if (input && button && previewContainer) {
-                button.addEventListener('click', function () {
-                    input.click();
-                });
+        function handleImageUpload(input, button, previewContainer, type) {
+            button.addEventListener('click', function () {
+                input.click();
+            });
 
-                input.addEventListener('change', function (event) {
-                    const files = Array.from(event.target.files);
-                    if (files.length > 0) {
-                        loadingBox.style.display = 'flex'; // Show loading box
+            input.addEventListener('change', function (event) {
+                const files = Array.from(event.target.files);
+                if (files.length > 0) {
+                    loadingBox.style.display = 'flex'; // Show loading box
 
-                        const uploadPromises = files.map(file => {
-                            const formData = new FormData();
-                            formData.append('image', file);
+                    const uploadPromises = files.map(file => {
+                        const formData = new FormData();
+                        formData.append('image', file);
+                        formData.append('type', type);
 
-                            return fetch('{{ route('carpostuploadimage') }}', {
-                                method: 'POST',
-                                body: formData,
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.path) {
-                                    const imgWrapper = document.createElement('div');
-                                    imgWrapper.classList.add('col-4', 'col-md-3', 'col-lg-2', 'col-photoupload');
-                                    const imagePath = '{{ asset('storage') }}/' + data.path;
-                                    imgWrapper.innerHTML = `
-                                        <div class="item-photoupload">
-                                            <button type="button"><i class="bi bi-trash3-fill"></i></button>
-                                            <img src="${imagePath}" alt="Image" class="uploaded-image">
-                                            <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : 'interior_paths'}[]" value="${data.path}">
-                                        </div>
-                                    `;
-                                    previewContainer.appendChild(imgWrapper);
+                        return fetch('{{ route('carpostuploadimage') }}', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.path) {
+                                const imgWrapper = document.createElement('div');
+                                imgWrapper.classList.add('col-4', 'col-md-3', 'col-lg-2', 'col-photoupload');
+                                const imagePath = '{{ asset('storage') }}/' + data.path;
+                                imgWrapper.innerHTML = `
+                                    <div class="item-photoupload">
+                                        <button type="button"><i class="bi bi-trash3-fill"></i></button>
+                                        <img src="${imagePath}" alt="Image" class="uploaded-image">
+                                        <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : 'interior_paths'}[]" value="${data.path}">
+                                    </div>
+                                `;
+                                previewContainer.appendChild(imgWrapper);
 
-                                    imgWrapper.querySelector('button').addEventListener('click', function () {
-                                        const path = this.nextElementSibling.nextElementSibling.value;
-                                        fetch('{{ route('carpostdeleteimage') }}', {
-                                            method: 'POST',
-                                            body: JSON.stringify({ path: path }),
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                            }
-                                        })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.status === 'success') {
-                                                imgWrapper.remove();
-                                            }
-                                        });
+                                imgWrapper.querySelector('button').addEventListener('click', function () {
+                                    const path = this.nextElementSibling.nextElementSibling.value;
+                                    fetch('{{ route('carpostdeleteimage') }}', {
+                                        method: 'POST',
+                                        body: JSON.stringify({ path: path }),
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        }
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.status === 'success') {
+                                            imgWrapper.remove();
+                                        }
                                     });
-                                }
-                            });
+                                });
+                            }
                         });
+                    });
 
-                        Promise.all(uploadPromises)
-                            .then(() => loadingBox.style.display = 'none') // Hide loading box when all uploads are done
-                            .catch(() => loadingBox.style.display = 'none'); // Hide loading box in case of error
-                    }
-                });
-            }
+                    Promise.all(uploadPromises)
+                        .then(() => loadingBox.style.display = 'none') // Hide loading box when all uploads are done
+                        .catch(() => loadingBox.style.display = 'none'); // Hide loading box in case of error
+                }
+            });
         }
 
         // Call handleImageUpload for exterior images
-        handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer);
+        handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer, 'exterior');
 
         // Call handleImageUpload for interior images
-        handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer);
+        handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, 'interior');
 
         // Initialize SortableJS for exterior images
         new Sortable(exteriorPreviewContainer, {
@@ -222,6 +220,5 @@
             loadingBox.style.display = 'flex';
         });
     });
-
 </script>
 @endsection

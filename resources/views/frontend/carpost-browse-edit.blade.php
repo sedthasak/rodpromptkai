@@ -55,6 +55,7 @@
                                 <div class="box-frm-step">
                                     <div class="row">
                                         <div class="col-12 frm-step">
+                                            <!-- Exterior Images Section -->
                                             <div class="box-uploadphoto">
                                                 <div class="topic-uploadphoto">
                                                     <img src="{{ asset('frontend/images/icon-upload1.svg') }}" alt=""> รูปภายนอกรถ
@@ -63,20 +64,45 @@
                                                     <label id="exterior_pictures_label">อัพโหลดรูปภายนอกรถยนต์<span>*</span></label>
                                                 </div>
                                                 <div id="exterior-preview" class="row row-photoupload">
-                                                    @foreach ($restImages as $imagePath)
+                                                    @foreach ($images->where('type', 'exterior') as $image)
                                                         <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                             <div class="item-photoupload">
-                                                                <button type="button" class="remove-image-button" data-path="{{ $imagePath }}"><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Image" class="uploaded-image">
-                                                                <input type="hidden" name="image_paths[]" value="{{ $imagePath }}">
+                                                                <button type="button" class="remove-image-button" data-path="{{ $image->path }}"><i class="bi bi-trash3-fill"></i></button>
+                                                                <img src="{{ asset('storage/' . $image->path) }}" alt="Image" class="uploaded-image">
+                                                                <input type="hidden" name="image_paths[]" value="{{ $image->path }}">
                                                             </div>
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <div class="btn-uploadimg">
-                                                    <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
+                                                <div class="btn-uploadimg" id="exterior-upload-button">
+                                                    <i class="bi bi-plus-circle-fill"></i> เพิ่มรูปภายนอกรถ
                                                 </div>
-                                                <input type="file" id="upload-image-input" accept="image/*" multiple style="display: none;">
+                                                <input type="file" id="upload-exterior-input" accept="image/*" multiple style="display: none;">
+                                            </div>
+
+                                            <!-- Interior Images Section -->
+                                            <div class="box-uploadphoto">
+                                                <div class="topic-uploadphoto">
+                                                    <img src="{{ asset('frontend/images/icon-upload2.svg') }}" alt=""> รูปห้องโดยสาร
+                                                </div>
+                                                <div>
+                                                    <label id="interior_pictures_label">อัพโหลดรูปห้องโดยสาร<span>*</span></label>
+                                                </div>
+                                                <div id="interior-preview" class="row row-photoupload">
+                                                    @foreach ($images->where('type', 'interior') as $image)
+                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                            <div class="item-photoupload">
+                                                                <button type="button" class="remove-image-button" data-path="{{ $image->path }}"><i class="bi bi-trash3-fill"></i></button>
+                                                                <img src="{{ asset('storage/' . $image->path) }}" alt="Image" class="uploaded-image">
+                                                                <input type="hidden" name="interior_paths[]" value="{{ $image->path }}">
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <div class="btn-uploadimg" id="interior-upload-button">
+                                                    <i class="bi bi-plus-circle-fill"></i> เพิ่มรูปห้องโดยสาร
+                                                </div>
+                                                <input type="file" id="upload-interior-input" accept="image/*" multiple style="display: none;">
                                             </div>
                                         </div>
                                     </div>
@@ -98,105 +124,122 @@
 @section('script')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const uploadInput = document.getElementById('upload-image-input');
-        const uploadButton = document.querySelector('.btn-uploadimg');
-        const previewContainer = document.getElementById('exterior-preview');
+        const uploadExteriorInput = document.getElementById('upload-exterior-input');
+        const uploadExteriorButton = document.getElementById('exterior-upload-button');
+        const exteriorPreviewContainer = document.getElementById('exterior-preview');
+
+        const uploadInteriorInput = document.getElementById('upload-interior-input');
+        const uploadInteriorButton = document.getElementById('interior-upload-button');
+        const interiorPreviewContainer = document.getElementById('interior-preview');
+
         const loadingBox = document.getElementById('wait');
+        const submitButton = document.querySelector('.btn-nextstep');
 
-        // Function to add remove button event listener
-        function addRemoveButtonListener(button) {
+        // Function to handle image upload logic
+        function handleImageUpload(input, button, previewContainer, type) {
             button.addEventListener('click', function () {
-                const parentDiv = button.closest('.col-photoupload');
-                const path = button.getAttribute('data-path');
+                input.click();
+            });
 
-                // Remove from DOM
-                parentDiv.remove();
+            input.addEventListener('change', function (event) {
+                const files = Array.from(event.target.files);
+                if (files.length > 0) {
+                    loadingBox.style.display = 'flex'; // Show loading box
 
-                // Make AJAX call to delete image from 'rest' folder
-                fetch('{{ route('carpostdeleteimage') }}', {
-                    method: 'POST',
-                    body: JSON.stringify({ path: path }),
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status !== 'success') {
-                        // Handle error if deletion fails
-                        console.error('Failed to delete image');
-                    }
-                });
+                    const uploadPromises = files.map(file => {
+                        const formData = new FormData();
+                        formData.append('image', file);
+                        formData.append('type', type);
+
+                        return fetch('{{ route('carpostuploadimage') }}', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.path) {
+                                const imgWrapper = document.createElement('div');
+                                imgWrapper.classList.add('col-4', 'col-md-3', 'col-lg-2', 'col-photoupload');
+                                const imagePath = '{{ asset('storage') }}/' + data.path;
+                                imgWrapper.innerHTML = `
+                                    <div class="item-photoupload">
+                                        <button type="button" class="remove-image-button" data-path="${data.path}"><i class="bi bi-trash3-fill"></i></button>
+                                        <img src="${imagePath}" alt="Image" class="uploaded-image">
+                                        <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : 'interior_paths'}[]" value="${data.path}">
+                                    </div>
+                                `;
+                                previewContainer.appendChild(imgWrapper);
+
+                                imgWrapper.querySelector('.remove-image-button').addEventListener('click', function () {
+                                    const path = this.getAttribute('data-path');
+                                    fetch('{{ route('carpostdeleteimage') }}', {
+                                        method: 'POST',
+                                        body: JSON.stringify({ path: path }),
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        }
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.status === 'success') {
+                                            imgWrapper.remove();
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    });
+
+                    Promise.all(uploadPromises)
+                        .then(() => loadingBox.style.display = 'none') // Hide loading box when all uploads are done
+                        .catch(() => loadingBox.style.display = 'none'); // Hide loading box in case of error
+                }
             });
         }
 
-        // Add event listeners to existing remove buttons
-        document.querySelectorAll('.remove-image-button').forEach(button => {
-            addRemoveButtonListener(button);
-        });
+        // Call handleImageUpload for exterior images
+        handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer, 'exterior');
 
-        uploadButton.addEventListener('click', function () {
-            uploadInput.click();
-        });
+        // Call handleImageUpload for interior images
+        handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, 'interior');
 
-        uploadInput.addEventListener('change', function (event) {
-            const files = Array.from(event.target.files);
-            if (files.length > 0) {
-                loadingBox.style.display = 'flex'; // Show loading box
-
-                const uploadPromises = files.map(file => {
-                    const formData = new FormData();
-                    formData.append('image', file);
-
-                    return fetch('{{ route('carpostuploadimage') }}', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.path) {
-                            const imgWrapper = document.createElement('div');
-                            imgWrapper.classList.add('col-4', 'col-md-3', 'col-lg-2', 'col-photoupload');
-                            const imagePath = '{{ asset('storage') }}/' + data.path;
-                            imgWrapper.innerHTML = `
-                                <div class="item-photoupload">
-                                    <button type="button" class="remove-image-button" data-path="${data.path}"><i class="bi bi-trash3-fill"></i></button>
-                                    <img src="${imagePath}" alt="Image" class="uploaded-image">
-                                    <input type="hidden" name="image_paths[]" value="${data.path}">
-                                </div>
-                            `;
-                            previewContainer.appendChild(imgWrapper);
-
-                            // Add event listener to new remove button
-                            addRemoveButtonListener(imgWrapper.querySelector('.remove-image-button'));
-                        }
-                    });
-                });
-
-                Promise.all(uploadPromises)
-                    .then(() => loadingBox.style.display = 'none') // Hide loading box when all uploads are done
-                    .catch(() => loadingBox.style.display = 'none'); // Hide loading box in case of error
-            }
-        });
-
-        new Sortable(previewContainer, {
+        // Initialize SortableJS for exterior images
+        new Sortable(exteriorPreviewContainer, {
             animation: 150,
             ghostClass: 'sortable-ghost',
             onEnd: function (evt) {
-                const imageWrappers = previewContainer.querySelectorAll('.col-photoupload');
+                const imageWrappers = exteriorPreviewContainer.querySelectorAll('.col-photoupload');
                 imageWrappers.forEach((wrapper, index) => {
                     const input = wrapper.querySelector('input[type="hidden"]');
-                    input.name = `image_paths[${index}]`;
+                    if (input) {
+                        input.name = 'image_paths[]';
+                    }
                 });
             }
         });
-        // Show loading box when form is submitted
+
+        // Initialize SortableJS for interior images
+        new Sortable(interiorPreviewContainer, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onEnd: function (evt) {
+                const imageWrappers = interiorPreviewContainer.querySelectorAll('.col-photoupload');
+                imageWrappers.forEach((wrapper, index) => {
+                    const input = wrapper.querySelector('input[type="hidden"]');
+                    if (input) {
+                        input.name = 'interior_paths[]';
+                    }
+                });
+            }
+        });
+
+        // Form submission handling
         submitButton.addEventListener('click', function () {
-            loadingBox.style.display = 'flex';
+            loadingBox.style.display = 'flex'; // Show loading box when form is submitted
         });
     });
 </script>
