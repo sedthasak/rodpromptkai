@@ -240,6 +240,8 @@ class PostController extends Controller
             'image_paths.*' => 'required|string',
             'interior_paths' => 'sometimes|array',
             'interior_paths.*' => 'sometimes|string',
+            'registration_paths' => 'sometimes|array',
+            'registration_paths.*' => 'sometimes|string',
         ]);
 
         // Create the post
@@ -247,12 +249,18 @@ class PostController extends Controller
             'number' => uniqid(),
         ]);
 
+        
         // Move and rename exterior images
         $this->moveAndRenameFiles($request->image_paths, $testCreate->id, 'exterior');
 
         // Move and rename interior images
         if ($request->has('interior_paths')) {
             $this->moveAndRenameFiles($request->interior_paths, $testCreate->id, 'interior');
+        }
+
+        // Move and rename registration image (only one image)
+        if ($request->has('registration_paths')) {
+            $this->moveAndRenameFiles($request->registration_paths, $testCreate->id, 'registration');
         }
 
         return redirect()->route('carpostbrowse')->with('success', 'Post created successfully.');

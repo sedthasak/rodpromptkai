@@ -88,7 +88,20 @@
                                                 <input type="file" id="upload-interior-input" accept="image/*" multiple style="display: none;">
                                             </div>
 
-                                            
+                                            <!-- registration Images Section -->
+                                            <div class="box-uploadphoto">
+                                                <div class="topic-uploadphoto">
+                                                    <img src="{{ asset('frontend/images/icon-upload3.svg') }}" alt=""> เล่มทะเบียนรถ
+                                                </div>
+                                                <div>
+                                                    <label id="registration_pictures_label">เอกสารชุดนี้จะไม่แสดงในโพสต์<span>*</span></label>
+                                                </div>
+                                                <div id="registration-preview" class="row row-photoupload"></div>
+                                                <div class="btn-uploadimg" id="registration-upload-button">
+                                                    <i class="bi bi-plus-circle-fill"></i>  เพิ่มสำเนา/เล่มทะเบียนรถ
+                                                </div>
+                                                <input type="file" id="upload-registration-input" accept="image/*" style="display: none;">
+                                            </div>
 
 
                                         </div>
@@ -118,11 +131,15 @@
         const uploadInteriorButton = document.getElementById('interior-upload-button');
         const interiorPreviewContainer = document.getElementById('interior-preview');
 
+        const uploadRegistrationInput = document.getElementById('upload-registration-input');
+        const registrationPreviewContainer = document.getElementById('registration-preview');
+        const registrationUploadButton = document.getElementById('registration-upload-button');
+
         const loadingBox = document.getElementById('wait');
         const submitButton = document.getElementById('submitBtn');
 
         // Function to handle image upload logic
-        function handleImageUpload(input, button, previewContainer, type) {
+        function handleImageUpload(input, button, previewContainer, type, isSingleUpload = false) {
             button.addEventListener('click', function () {
                 input.click();
             });
@@ -154,9 +171,12 @@
                                     <div class="item-photoupload">
                                         <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                         <img src="${imagePath}" alt="Image" class="uploaded-image">
-                                        <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : 'interior_paths'}[]" value="${data.path}">
+                                        <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : previewContainer.id === 'interior-preview' ? 'interior_paths' : 'registration_paths'}[]" value="${data.path}">
                                     </div>
                                 `;
+                                if (isSingleUpload) {
+                                    previewContainer.innerHTML = ''; // Clear previous uploads for single upload
+                                }
                                 previewContainer.appendChild(imgWrapper);
 
                                 imgWrapper.querySelector('button').addEventListener('click', function () {
@@ -193,6 +213,9 @@
         // Call handleImageUpload for interior images
         handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, 'interior');
 
+        // Call handleImageUpload for registration image (single upload)
+        handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, 'registration', true);
+
         // Initialize SortableJS for exterior images
         new Sortable(exteriorPreviewContainer, {
             animation: 150,
@@ -226,3 +249,4 @@
     });
 </script>
 @endsection
+
