@@ -158,18 +158,20 @@ class PostController extends Controller
         // Retrieve existing post data and related images
         $post = TestCreate::findOrFail($id);
         $images = TestCreateUpload::where('test_create_id', $id)->orderBy('id')->get();
+        $registrationImage = TestCreateUpload::where('test_create_id', $id)->where('type', 'registration')->first();
 
         // Copy images to the 'rest' folder and group them by type (exterior or interior)
-        $restImages = $this->copyImagesToRest($images);
+        $restImages = $this->copyImagesToRest($images, $registrationImage);
 
         return view('frontend.carpost-browse-edit', compact('post', 'restImages'));
     }
 
     // Copy images to the 'rest' folder without changing their names
-    private function copyImagesToRest($images)
+    private function copyImagesToRest($images, $registrationImage)
     {
         $exteriorImages = [];
         $interiorImages = [];
+        $registrationImagePath = null;
 
         foreach ($images as $image) {
             $currentPath = 'public/' . $image->path;
@@ -190,7 +192,21 @@ class PostController extends Controller
             }
         }
 
-        return ['exterior' => $exteriorImages, 'interior' => $interiorImages];
+        if ($registrationImage) {
+            $currentPath = 'public/' . $registrationImage->path;
+            $restPath = 'public/uploads/rest/' . basename($registrationImage->path);
+
+            if (Storage::exists($currentPath)) {
+                try {
+                    Storage::copy($currentPath, $restPath);
+                    $registrationImagePath = 'uploads/rest/' . basename($registrationImage->path);
+                } catch (\Exception $e) {
+                    // Handle errors if needed
+                }
+            }
+        }
+
+        return ['exterior' => $exteriorImages, 'interior' => $interiorImages, 'registration' => $registrationImagePath ? [$registrationImagePath] : []];
     }
 
     public function carpostuploadimage(Request $request)
