@@ -87,6 +87,10 @@
                                                 </div>
                                                 <input type="file" id="upload-interior-input" accept="image/*" multiple style="display: none;">
                                             </div>
+
+                                            
+
+
                                         </div>
                                     </div>
                                 </div>

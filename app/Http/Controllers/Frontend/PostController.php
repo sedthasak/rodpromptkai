@@ -30,115 +30,146 @@ use App\Jobs\ProcessCarImages;
 class PostController extends Controller
 {
     public function carpostbrowseeditsubmit(Request $request, $id)
-{
-    // Validate incoming image paths
-    $request->validate([
-        'image_paths' => 'nullable|array',
-        'image_paths.*' => 'nullable|string',
-        'interior_paths' => 'nullable|array',
-        'interior_paths.*' => 'nullable|string',
-    ]);
-
-    // Retrieve the existing post
-    $post = TestCreate::findOrFail($id);
-
-    // Get old images associated with the post
-    $oldImages = TestCreateUpload::where('test_create_id', $id)->get();
-
-    // Delete old images from storage and database
-    foreach ($oldImages as $oldImage) {
-        Storage::delete('public/' . $oldImage->path);
-        $oldImage->delete();
-    }
-
-    // Process exterior images
-    if ($request->has('image_paths')) {
-        try {
-            $this->processImages($request->image_paths, 'exterior', $post->id);
-        } catch (\Exception $e) {
-            Log::error("Error processing exterior images: " . $e->getMessage());
-            throw new \Exception('Failed to update exterior images.');
-        }
-    }
-
-    // Process interior images
-    if ($request->has('interior_paths')) {
-        try {
-            $this->processImages($request->interior_paths, 'interior', $post->id);
-        } catch (\Exception $e) {
-            Log::error("Error processing interior images: " . $e->getMessage());
-            throw new \Exception('Failed to update interior images.');
-        }
-    }
-
-    // Redirect back to the car post browse page with success message
-    return redirect()->route('carpostbrowse')->with('success', 'Post updated successfully.');
-}
-
-// Process exterior and interior images
-private function processImages($paths, $type, $postId)
-{
-    foreach ($paths as $index => $path) {
-        // Source file path
-        $sourcePath = storage_path('app/public/' . $path);
-        Log::info("Source path: " . $sourcePath);
-
-        // Verify if source file exists
-        if (!file_exists($sourcePath)) {
-            Log::error("Source file does not exist: " . $sourcePath);
-            throw new \Exception("Failed to move {$type} image: Source file not found.");
-        }
-
-        // Destination directory
-        $destinationDir = storage_path('app/public/uploads/' . $type . '/' . $postId);
-        if (!file_exists($destinationDir)) {
-            mkdir($destinationDir, 0777, true);
-        }
-        Log::info("Destination directory: " . $destinationDir);
-
-        // Generate a unique filename with post ID, type, and sequence number
-        $newFilename = $type . '-' . $postId . '-' . ($index + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
-        $destinationPath = $destinationDir . '/' . $newFilename;
-        Log::info("Destination path: " . $destinationPath);
-
-        // Move file
-        if (!rename($sourcePath, $destinationPath)) {
-            Log::error("Failed to move file from $sourcePath to $destinationPath");
-            throw new \Exception("Failed to move {$type} image: File move operation failed.");
-        }
-
-        // Update database with new path
-        TestCreateUpload::create([
-            'test_create_id' => $postId,
-            'path' => 'uploads/' . $type . '/' . $postId . '/' . $newFilename,
-            'type' => $type,
+    {
+        // Validate incoming image paths
+        $request->validate([
+            'image_paths' => 'nullable|array',
+            'image_paths.*' => 'nullable|string',
+            'interior_paths' => 'nullable|array',
+            'interior_paths.*' => 'nullable|string',
         ]);
+
+        // Retrieve the existing post
+        $post = TestCreate::findOrFail($id);
+
+        // Get old images associated with the post
+        $oldImages = TestCreateUpload::where('test_create_id', $id)->get();
+
+        // Debugging: Log old image paths instead of deleting
+        foreach ($oldImages as $oldImage) {
+            Log::info('Old image path: ' . storage_path('app/public/' . $oldImage->path));
+            // Comment out the deletion code for debugging
+            Storage::delete('public/' . $oldImage->path);
+            $oldImage->delete();
+        }
+
+        // Debugging: Log exterior image paths instead of moving
+        if ($request->has('image_paths')) {
+            foreach ($request->image_paths as $index => $path) {
+                // Log source path
+                $sourcePath = storage_path('app/public/' . $path);
+                Log::info('Exterior image source path: ' . $sourcePath);
+
+                // Log destination path
+                $destinationDir = storage_path('app/public/uploads/exterior/' . $post->id);
+                $newFilename = 'exterior-' . $post->id . '-' . ($index + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
+                $destinationPath = $destinationDir . '/' . $newFilename;
+                Log::info('Exterior image destination path: ' . $destinationPath);
+
+                // Comment out the file move operation for debugging
+                if (!rename($sourcePath, $destinationPath)) {
+                    Log::error("Failed to move file from $sourcePath to $destinationPath");
+                    throw new \Exception('Failed to move one or more exterior images.');
+                }
+
+                // Comment out the database update for debugging
+                TestCreateUpload::create([
+                    'test_create_id' => $post->id,
+                    'path' => 'uploads/exterior/' . $post->id . '/' . $newFilename,
+                    'type' => 'exterior',
+                ]);
+            }
+        }
+
+        // Debugging: Log interior image paths instead of moving
+        if ($request->has('interior_paths')) {
+            foreach ($request->interior_paths as $index => $path) {
+                // Log source path
+                $sourcePath = storage_path('app/public/' . $path);
+                Log::info('Interior image source path: ' . $sourcePath);
+
+                // Log destination path
+                $destinationDir = storage_path('app/public/uploads/interior/' . $post->id);
+                $newFilename = 'interior-' . $post->id . '-' . ($index + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
+                $destinationPath = $destinationDir . '/' . $newFilename;
+                Log::info('Interior image destination path: ' . $destinationPath);
+
+                // Comment out the file move operation for debugging
+                if (!rename($sourcePath, $destinationPath)) {
+                    Log::error("Failed to move file from $sourcePath to $destinationPath");
+                    throw new \Exception('Failed to move one or more interior images.');
+                }
+
+                // Comment out the database update for debugging
+                TestCreateUpload::create([
+                    'test_create_id' => $post->id,
+                    'path' => 'uploads/interior/' . $post->id . '/' . $newFilename,
+                    'type' => 'interior',
+                ]);
+            }
+        }
+
+        // Redirect back to the car post browse page with success message
+        return redirect()->route('carpostbrowse')->with('success', 'Post updated successfully.');
     }
-}
 
+    // Process exterior and interior images
+    private function processImages($paths, $type, $postId)
+    {
+        foreach ($paths as $index => $path) {
+            // Source file path
+            $sourcePath = storage_path('app/public/' . $path);
+            Log::info("Source path: " . $sourcePath);
 
+            // Verify if source file exists
+            if (!file_exists($sourcePath)) {
+                Log::error("Source file does not exist: " . $sourcePath);
+                throw new \Exception("Failed to move {$type} image: Source file not found.");
+            }
 
+            // Destination directory
+            $destinationDir = storage_path('app/public/uploads/' . $type . '/' . $postId);
+            if (!file_exists($destinationDir)) {
+                mkdir($destinationDir, 0777, true);
+            }
+            Log::info("Destination directory: " . $destinationDir);
 
+            // Generate a unique filename with post ID, type, and sequence number
+            $newFilename = $type . '-' . $postId . '-' . ($index + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
+            $destinationPath = $destinationDir . '/' . $newFilename;
+            Log::info("Destination path: " . $destinationPath);
 
+            // Move file
+            if (!rename($sourcePath, $destinationPath)) {
+                Log::error("Failed to move file from $sourcePath to $destinationPath");
+                throw new \Exception("Failed to move {$type} image: File move operation failed.");
+            }
 
-
-
-
+            // Update database with new path
+            TestCreateUpload::create([
+                'test_create_id' => $postId,
+                'path' => 'uploads/' . $type . '/' . $postId . '/' . $newFilename,
+                'type' => $type,
+            ]);
+        }
+    }
     public function carpostbrowseedit($id)
     {
         // Retrieve existing post data and related images
         $post = TestCreate::findOrFail($id);
         $images = TestCreateUpload::where('test_create_id', $id)->orderBy('id')->get();
 
-        // Copy images to the 'rest' folder
+        // Copy images to the 'rest' folder and group them by type (exterior or interior)
         $restImages = $this->copyImagesToRest($images);
 
-        return view('frontend.carpost-browse-edit', compact('post', 'images', 'restImages'));
+        return view('frontend.carpost-browse-edit', compact('post', 'restImages'));
     }
+
     // Copy images to the 'rest' folder without changing their names
     private function copyImagesToRest($images)
     {
-        $restImages = [];
+        $exteriorImages = [];
+        $interiorImages = [];
 
         foreach ($images as $image) {
             $currentPath = 'public/' . $image->path;
@@ -147,7 +178,11 @@ private function processImages($paths, $type, $postId)
             if (Storage::exists($currentPath)) {
                 try {
                     Storage::copy($currentPath, $restPath);
-                    $restImages[] = 'uploads/rest/' . basename($image->path);
+                    if ($image->type === 'exterior') {
+                        $exteriorImages[] = 'uploads/rest/' . basename($image->path);
+                    } elseif ($image->type === 'interior') {
+                        $interiorImages[] = 'uploads/rest/' . basename($image->path);
+                    }
                 } catch (\Exception $e) {
                     // Handle errors if needed
                     // return redirect()->back()->with('error', 'Failed to copy one or more images to rest folder.');
@@ -155,16 +190,14 @@ private function processImages($paths, $type, $postId)
             }
         }
 
-        return $restImages;
+        return ['exterior' => $exteriorImages, 'interior' => $interiorImages];
     }
-
-
 
     public function carpostuploadimage(Request $request)
     {
         $request->validate([
             'image' => 'required|image|max:12288', // Max 12MB
-            'type' => 'required|in:exterior,interior', // Validate type: exterior or interior
+            'type' => 'required|in:exterior,interior,registration', // Validate type: exterior or interior
         ]);
 
         $extension = $request->file('image')->getClientOriginalExtension();
@@ -187,8 +220,6 @@ private function processImages($paths, $type, $postId)
 
         return response()->json(['path' => str_replace('public/', '', $path)]);
     }
-
-
     private function convertToWebP($path)
     {
         // Generate a new filename with .webp extension
@@ -201,7 +232,6 @@ private function processImages($paths, $type, $postId)
         // Return the path to the converted WebP image
         return $newPath;
     }
-
     public function carpostbrowsesubmit(Request $request)
     {
         // Validate image paths
@@ -227,8 +257,6 @@ private function processImages($paths, $type, $postId)
 
         return redirect()->route('carpostbrowse')->with('success', 'Post created successfully.');
     }
-
-
     public function moveAndRenameFiles($paths, $postId, $type)
     {
         try {
@@ -272,8 +300,6 @@ private function processImages($paths, $type, $postId)
 
         return $paths;
     }
-
-
     public function carpostdeleteimage(Request $request)
     {
         $request->validate([

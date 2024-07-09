@@ -61,15 +61,15 @@
                                                     <img src="{{ asset('frontend/images/icon-upload1.svg') }}" alt=""> รูปภายนอกรถ
                                                 </div>
                                                 <div>
-                                                    <label id="exterior_pictures_label">อัพโหลดรูปภายนอกรถยนต์<span>*</span></label>
+                                                    <label id="exterior_pictures_label">อัพโหลดรูปภายนอกรถ<span>*</span></label>
                                                 </div>
                                                 <div id="exterior-preview" class="row row-photoupload">
-                                                    @foreach ($images->where('type', 'exterior') as $image)
+                                                    @foreach ($restImages['exterior'] as $imagePath)
                                                         <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                             <div class="item-photoupload">
-                                                                <button type="button" class="remove-image-button" data-path="{{ $image->path }}"><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{ asset('storage/' . $image->path) }}" alt="Image" class="uploaded-image">
-                                                                <input type="hidden" name="image_paths[]" value="{{ $image->path }}">
+                                                                <button type="button" class="remove-image-button" data-path="{{ asset('storage/' . $imagePath) }}"><i class="bi bi-trash3-fill"></i></button>
+                                                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Image" class="uploaded-image">
+                                                                <input type="hidden" name="image_paths[]" value="{{ $imagePath }}">
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -89,12 +89,12 @@
                                                     <label id="interior_pictures_label">อัพโหลดรูปห้องโดยสาร<span>*</span></label>
                                                 </div>
                                                 <div id="interior-preview" class="row row-photoupload">
-                                                    @foreach ($images->where('type', 'interior') as $image)
+                                                    @foreach ($restImages['interior'] as $imagePath)
                                                         <div class="col-4 col-md-3 col-lg-2 col-photoupload">
                                                             <div class="item-photoupload">
-                                                                <button type="button" class="remove-image-button" data-path="{{ $image->path }}"><i class="bi bi-trash3-fill"></i></button>
-                                                                <img src="{{ asset('storage/' . $image->path) }}" alt="Image" class="uploaded-image">
-                                                                <input type="hidden" name="interior_paths[]" value="{{ $image->path }}">
+                                                                <button type="button" class="remove-image-button" data-path="{{ asset('storage/' . $imagePath) }}"><i class="bi bi-trash3-fill"></i></button>
+                                                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Image" class="uploaded-image">
+                                                                <input type="hidden" name="interior_paths[]" value="{{ $imagePath }}">
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -163,18 +163,18 @@
                             if (data.path) {
                                 const imgWrapper = document.createElement('div');
                                 imgWrapper.classList.add('col-4', 'col-md-3', 'col-lg-2', 'col-photoupload');
-                                const imagePath = '{{ asset('storage') }}/' + data.path;
+                                const imagePath = '{{ asset('storage') }}/' + data.path; // Update path if needed
                                 imgWrapper.innerHTML = `
                                     <div class="item-photoupload">
-                                        <button type="button" class="remove-image-button" data-path="${data.path}"><i class="bi bi-trash3-fill"></i></button>
+                                        <button type="button" class="remove-image-button" data-path="${imagePath}"><i class="bi bi-trash3-fill"></i></button>
                                         <img src="${imagePath}" alt="Image" class="uploaded-image">
                                         <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : 'interior_paths'}[]" value="${data.path}">
                                     </div>
                                 `;
                                 previewContainer.appendChild(imgWrapper);
 
-                                imgWrapper.querySelector('.remove-image-button').addEventListener('click', function () {
-                                    const path = this.getAttribute('data-path');
+                                imgWrapper.querySelector('button').addEventListener('click', function () {
+                                    const path = this.nextElementSibling.nextElementSibling.value;
                                     fetch('{{ route('carpostdeleteimage') }}', {
                                         method: 'POST',
                                         body: JSON.stringify({ path: path }),
@@ -196,16 +196,43 @@
 
                     Promise.all(uploadPromises)
                         .then(() => loadingBox.style.display = 'none') // Hide loading box when all uploads are done
-                        .catch(() => loadingBox.style.display = 'none'); // Hide loading box in case of error
+                        .catch(() => loadingBox.style.display = 'none'); // Hide loading box on error
                 }
             });
         }
 
-        // Call handleImageUpload for exterior images
         handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer, 'exterior');
-
-        // Call handleImageUpload for interior images
         handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, 'interior');
+
+        // Function to initialize remove functionality for existing images
+        function initializeRemoveButtons(previewContainer) {
+            const removeButtons = previewContainer.querySelectorAll('.remove-image-button');
+            removeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const path = this.nextElementSibling.nextElementSibling.value;
+                    fetch('{{ route('carpostdeleteimage') }}', {
+                        method: 'POST',
+                        body: JSON.stringify({ path: path }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            button.closest('.col-photoupload').remove();
+                        }
+                    });
+                });
+            });
+        }
+
+        // Initialize remove functionality for existing exterior images
+        initializeRemoveButtons(exteriorPreviewContainer);
+
+        // Initialize remove functionality for existing interior images
+        initializeRemoveButtons(interiorPreviewContainer);
 
         // Initialize SortableJS for exterior images
         new Sortable(exteriorPreviewContainer, {
@@ -236,11 +263,8 @@
                 });
             }
         });
-
-        // Form submission handling
-        submitButton.addEventListener('click', function () {
-            loadingBox.style.display = 'flex'; // Show loading box when form is submitted
-        });
     });
+
+
 </script>
 @endsection
