@@ -43,7 +43,7 @@
     </div>
 </div>
 
-<form action="{{ route('carpostbrowseeditsubmit', $post->id) }}" method="POST" enctype="multipart/form-data">
+<form id="carpostForm" action="{{ route('carpostbrowseeditsubmit', $post->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div id="step3">
         <section class="row">
@@ -104,6 +104,32 @@
                                                 </div>
                                                 <input type="file" id="upload-interior-input" accept="image/*" multiple style="display: none;">
                                             </div>
+
+                                            <!-- Registration Image Section -->
+                                            <div class="box-uploadphoto">
+                                                <div class="topic-uploadphoto">
+                                                    <img src="{{ asset('frontend/images/icon-upload3.svg') }}" alt=""> รูปทะเบียนรถ
+                                                </div>
+                                                <div>
+                                                    <label id="registration_pictures_label">อัพโหลดรูปทะเบียนรถ<span>*</span></label>
+                                                </div>
+                                                <div id="registration-preview" class="row row-photoupload">
+                                                    @if (!empty($restImages['registration']))
+                                                        <div class="col-4 col-md-3 col-lg-2 col-photoupload">
+                                                            <div class="item-photoupload">
+                                                                <button type="button" class="remove-image-button" data-path="{{ asset('storage/' . $restImages['registration'][0]) }}"><i class="bi bi-trash3-fill"></i></button>
+                                                                <img src="{{ asset('storage/' . $restImages['registration'][0]) }}" alt="Image" class="uploaded-image">
+                                                                <input type="hidden" name="registration_paths[]" value="{{ $restImages['registration'][0] }}">
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="btn-uploadimg" id="registration-upload-button">
+                                                    <i class="bi bi-plus-circle-fill"></i> เพิ่มรูปทะเบียนรถ
+                                                </div>
+                                                <input type="file" id="upload-registration-input" accept="image/*" style="display: none;">
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -132,11 +158,15 @@
         const uploadInteriorButton = document.getElementById('interior-upload-button');
         const interiorPreviewContainer = document.getElementById('interior-preview');
 
+        const uploadRegistrationInput = document.getElementById('upload-registration-input');
+        const registrationPreviewContainer = document.getElementById('registration-preview');
+        const registrationUploadButton = document.getElementById('registration-upload-button');
+
         const loadingBox = document.getElementById('wait');
         const submitButton = document.querySelector('.btn-nextstep');
 
         // Function to handle image upload logic
-        function handleImageUpload(input, button, previewContainer, type) {
+        function handleImageUpload(input, button, previewContainer, type, isSingleUpload = false) {
             button.addEventListener('click', function () {
                 input.click();
             });
@@ -163,14 +193,17 @@
                             if (data.path) {
                                 const imgWrapper = document.createElement('div');
                                 imgWrapper.classList.add('col-4', 'col-md-3', 'col-lg-2', 'col-photoupload');
-                                const imagePath = '{{ asset('storage') }}/' + data.path; // Update path if needed
+                                const imagePath = '{{ asset('storage') }}/' + data.path;
                                 imgWrapper.innerHTML = `
                                     <div class="item-photoupload">
-                                        <button type="button" class="remove-image-button" data-path="${imagePath}"><i class="bi bi-trash3-fill"></i></button>
+                                        <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                         <img src="${imagePath}" alt="Image" class="uploaded-image">
-                                        <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : 'interior_paths'}[]" value="${data.path}">
+                                        <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : previewContainer.id === 'interior-preview' ? 'interior_paths' : 'registration_paths'}[]" value="${data.path}">
                                     </div>
                                 `;
+                                if (isSingleUpload) {
+                                    previewContainer.innerHTML = ''; // Clear previous uploads for single upload
+                                }
                                 previewContainer.appendChild(imgWrapper);
 
                                 imgWrapper.querySelector('button').addEventListener('click', function () {
@@ -196,13 +229,14 @@
 
                     Promise.all(uploadPromises)
                         .then(() => loadingBox.style.display = 'none') // Hide loading box when all uploads are done
-                        .catch(() => loadingBox.style.display = 'none'); // Hide loading box on error
+                        .catch(() => loadingBox.style.display = 'none'); // Hide loading box in case of error
                 }
             });
         }
 
         handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer, 'exterior');
         handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, 'interior');
+        handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, 'registration', true);
 
         // Function to initialize remove functionality for existing images
         function initializeRemoveButtons(previewContainer) {
@@ -234,6 +268,9 @@
         // Initialize remove functionality for existing interior images
         initializeRemoveButtons(interiorPreviewContainer);
 
+        // Initialize remove functionality for existing registration image
+        initializeRemoveButtons(registrationPreviewContainer);
+
         // Initialize SortableJS for exterior images
         new Sortable(exteriorPreviewContainer, {
             animation: 150,
@@ -242,9 +279,7 @@
                 const imageWrappers = exteriorPreviewContainer.querySelectorAll('.col-photoupload');
                 imageWrappers.forEach((wrapper, index) => {
                     const input = wrapper.querySelector('input[type="hidden"]');
-                    if (input) {
-                        input.name = 'image_paths[]';
-                    }
+                    input.name = `image_paths[${index}]`;
                 });
             }
         });
@@ -257,13 +292,65 @@
                 const imageWrappers = interiorPreviewContainer.querySelectorAll('.col-photoupload');
                 imageWrappers.forEach((wrapper, index) => {
                     const input = wrapper.querySelector('input[type="hidden"]');
-                    if (input) {
-                        input.name = 'interior_paths[]';
-                    }
+                    input.name = `interior_paths[${index}]`;
                 });
             }
         });
+
+        // Form submission handler
+        submitButton.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // Check if any of the preview containers are empty
+            const isExteriorEmpty = exteriorPreviewContainer.children.length === 0;
+            const isInteriorEmpty = interiorPreviewContainer.children.length === 0;
+            const isRegistrationEmpty = registrationPreviewContainer.children.length === 0;
+
+            // Check if the registration input is required
+            const registrationInput = document.getElementById('upload-registration-input');
+            const isRegistrationRequired = registrationInput.hasAttribute('required');
+
+            let errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร, เล่มทะเบียนรถ)';
+
+            // Adjust error message based on registration requirement
+            if (isRegistrationRequired) {
+                if (isExteriorEmpty || isInteriorEmpty || isRegistrationEmpty) {
+                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร, เล่มทะเบียนรถ)';
+                } else {
+                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร)';
+                }
+            } else {
+                if (isExteriorEmpty || isInteriorEmpty) {
+                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร)';
+                }
+            }
+
+            if (isExteriorEmpty || isInteriorEmpty || (isRegistrationRequired && isRegistrationEmpty)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'กรุณาเพิ่มรูปภาพ',
+                    text: errorMessage,
+                    confirmButtonText: 'ตกลง'
+                });
+                return;
+            }
+
+            // Show loading box before submitting the form
+            loadingBox.style.display = 'flex';
+
+            // If not empty and validated, submit the form
+            const carpostForm = document.getElementById('carpostForm');
+            if (carpostForm) {
+                setTimeout(() => {
+                    carpostForm.submit();
+                }, 500); // Adjust timeout as needed
+            } else {
+                console.error('Form element with ID "carpostForm" not found.');
+            }
+        });
+
     });
+
 
 
 </script>

@@ -37,6 +37,8 @@ class PostController extends Controller
             'image_paths.*' => 'nullable|string',
             'interior_paths' => 'nullable|array',
             'interior_paths.*' => 'nullable|string',
+            'registration_paths' => 'nullable|array',
+            'registration_paths.*' => 'nullable|string',
         ]);
 
         // Retrieve the existing post
@@ -45,68 +47,25 @@ class PostController extends Controller
         // Get old images associated with the post
         $oldImages = TestCreateUpload::where('test_create_id', $id)->get();
 
-        // Debugging: Log old image paths instead of deleting
+        // Delete old images from storage and database
         foreach ($oldImages as $oldImage) {
-            Log::info('Old image path: ' . storage_path('app/public/' . $oldImage->path));
-            // Comment out the deletion code for debugging
             Storage::delete('public/' . $oldImage->path);
             $oldImage->delete();
         }
 
-        // Debugging: Log exterior image paths instead of moving
+        // Process exterior images
         if ($request->has('image_paths')) {
-            foreach ($request->image_paths as $index => $path) {
-                // Log source path
-                $sourcePath = storage_path('app/public/' . $path);
-                Log::info('Exterior image source path: ' . $sourcePath);
-
-                // Log destination path
-                $destinationDir = storage_path('app/public/uploads/exterior/' . $post->id);
-                $newFilename = 'exterior-' . $post->id . '-' . ($index + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
-                $destinationPath = $destinationDir . '/' . $newFilename;
-                Log::info('Exterior image destination path: ' . $destinationPath);
-
-                // Comment out the file move operation for debugging
-                if (!rename($sourcePath, $destinationPath)) {
-                    Log::error("Failed to move file from $sourcePath to $destinationPath");
-                    throw new \Exception('Failed to move one or more exterior images.');
-                }
-
-                // Comment out the database update for debugging
-                TestCreateUpload::create([
-                    'test_create_id' => $post->id,
-                    'path' => 'uploads/exterior/' . $post->id . '/' . $newFilename,
-                    'type' => 'exterior',
-                ]);
-            }
+            $this->processImages($request->image_paths, 'exterior', $post->id);
         }
 
-        // Debugging: Log interior image paths instead of moving
+        // Process interior images
         if ($request->has('interior_paths')) {
-            foreach ($request->interior_paths as $index => $path) {
-                // Log source path
-                $sourcePath = storage_path('app/public/' . $path);
-                Log::info('Interior image source path: ' . $sourcePath);
+            $this->processImages($request->interior_paths, 'interior', $post->id);
+        }
 
-                // Log destination path
-                $destinationDir = storage_path('app/public/uploads/interior/' . $post->id);
-                $newFilename = 'interior-' . $post->id . '-' . ($index + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
-                $destinationPath = $destinationDir . '/' . $newFilename;
-                Log::info('Interior image destination path: ' . $destinationPath);
-
-                // Comment out the file move operation for debugging
-                if (!rename($sourcePath, $destinationPath)) {
-                    Log::error("Failed to move file from $sourcePath to $destinationPath");
-                    throw new \Exception('Failed to move one or more interior images.');
-                }
-
-                // Comment out the database update for debugging
-                TestCreateUpload::create([
-                    'test_create_id' => $post->id,
-                    'path' => 'uploads/interior/' . $post->id . '/' . $newFilename,
-                    'type' => 'interior',
-                ]);
-            }
+        // Process registration image
+        if ($request->has('registration_paths')) {
+            $this->processImages($request->registration_paths, 'registration', $post->id);
         }
 
         // Redirect back to the car post browse page with success message
@@ -119,11 +78,9 @@ class PostController extends Controller
         foreach ($paths as $index => $path) {
             // Source file path
             $sourcePath = storage_path('app/public/' . $path);
-            Log::info("Source path: " . $sourcePath);
 
             // Verify if source file exists
             if (!file_exists($sourcePath)) {
-                Log::error("Source file does not exist: " . $sourcePath);
                 throw new \Exception("Failed to move {$type} image: Source file not found.");
             }
 
@@ -132,16 +89,13 @@ class PostController extends Controller
             if (!file_exists($destinationDir)) {
                 mkdir($destinationDir, 0777, true);
             }
-            Log::info("Destination directory: " . $destinationDir);
 
             // Generate a unique filename with post ID, type, and sequence number
             $newFilename = $type . '-' . $postId . '-' . ($index + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
             $destinationPath = $destinationDir . '/' . $newFilename;
-            Log::info("Destination path: " . $destinationPath);
 
             // Move file
             if (!rename($sourcePath, $destinationPath)) {
-                Log::error("Failed to move file from $sourcePath to $destinationPath");
                 throw new \Exception("Failed to move {$type} image: File move operation failed.");
             }
 
@@ -279,7 +233,7 @@ class PostController extends Controller
             $this->moveAndRenameFiles($request->registration_paths, $testCreate->id, 'registration');
         }
 
-        return redirect()->route('carpostbrowse')->with('success', 'Post created successfully.');
+        return redirect()->route('carpostbrowse')->with('success', 'Post '.$testCreate->id.' created successfully.');
     }
     public function moveAndRenameFiles($paths, $postId, $type)
     {
@@ -330,16 +284,44 @@ class PostController extends Controller
             'path' => 'required|string',
         ]);
 
-        Storage::disk('public')->delete($request->path);
-        
-        return response()->json(['status' => 'success']);
+        // Ensure the path matches the storage location
+        $filePath = str_replace('/storage', 'public', $request->path); // Adjust the path if necessary
+
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'File not found']);
+        }
     }
+    
     public function carpostbrowse(Request $request)
     {
-
-        return view('frontend/carpost-browse');
+        $provinces = provincesModel::all();
+        $brands = brandsModel::orderBy("sort_no", "ASC")->get();
+        return view('frontend/carpost-browse', [
+            'provinces' => $provinces,
+            'brands' => $brands,
+        ]);
     }
 
+
+
+    public function carpostregisterPage()
+    {
+        $provinces = provincesModel::all();
+        $brands = brandsModel::orderBy("sort_no", "ASC")->get();
+        // $models = modelsModel::all();
+        // $query = DB::table('generations')->where('id', 1)->first();
+
+
+        return view('frontend/carpost-register', [
+            'provinces' => $provinces,
+            'brands' => $brands,
+            // 'query' => $query,
+            // 'a' => 'test',
+        ]);
+    }
 
 
 
@@ -1115,21 +1097,7 @@ class PostController extends Controller
             // 'a' => 'test',
         ]);
     }
-    public function carpostregisterPage()
-    {
-        $provinces = provincesModel::all();
-        $brands = brandsModel::orderBy("sort_no", "ASC")->get();
-        // $models = modelsModel::all();
-        // $query = DB::table('generations')->where('id', 1)->first();
-
-
-        return view('frontend/carpost-register', [
-            'provinces' => $provinces,
-            'brands' => $brands,
-            // 'query' => $query,
-            // 'a' => 'test',
-        ]);
-    }
+    
 
     public function carpostregistereditPage(Request $request, $post)
     {

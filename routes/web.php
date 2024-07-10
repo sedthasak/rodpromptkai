@@ -82,13 +82,13 @@ Route::middleware('sessionlogin')->group(function() {
 
     Route::controller(PostController::class)->group(function() {
 
-        Route::get('/carpost-browse', 'carpostbrowse')->name('carpostbrowse');
-        Route::post('/carpost-browse-submit', 'carpostbrowsesubmit')->name('carpostbrowsesubmit');
+        Route::get('/regiser-sellcar', 'carpostbrowse')->name('carpostbrowse');
+        Route::post('/regiser-sellcar-submit', 'carpostbrowsesubmit')->name('carpostbrowsesubmit');
         Route::post('/carpost-upload-image', 'carpostuploadimage')->name('carpostuploadimage');
         Route::post('/carpost-delete-image', 'carpostdeleteimage')->name('carpostdeleteimage');
 
-        Route::get('/carpost-browse-edit/{id}', 'carpostbrowseedit')->name('carpostbrowseedit');
-        Route::post('/carpost-browse-edit-submit/{id}', 'carpostbrowseeditsubmit')->name('carpostbrowseeditsubmit');
+        Route::get('/regiser-sellcar-edit/{id}', 'carpostbrowseedit')->name('carpostbrowseedit');
+        Route::post('/regiser-sellcar-edit-submit/{id}', 'carpostbrowseeditsubmit')->name('carpostbrowseeditsubmit');
 
 
 
