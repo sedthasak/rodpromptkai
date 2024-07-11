@@ -54,8 +54,9 @@
                                         <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                         <img src="${imagePath}" alt="Image" class="uploaded-image" loading="lazy">
                                         <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : previewContainer.id === 'interior-preview' ? 'interior_paths' : 'registration_paths'}[]" value="${data.path}">
-                                    </div>
                                     <div class="spinner"></div> <!-- Spinner element -->
+                                    </div>
+                                    
                                 `;
                                 if (isSingleUpload) {
                                     previewContainer.innerHTML = ''; // Clear previous uploads for single upload
