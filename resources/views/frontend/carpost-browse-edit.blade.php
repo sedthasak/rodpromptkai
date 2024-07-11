@@ -38,7 +38,7 @@
 </style>
 
 <div id="wait" class="box-waiting" style="display:none;">
-    <div class="waiting-wrapper-image">
+    <div class="waiting-wrapper-image" style="display:none;">
         <img src="{{ asset('uploads/wait.gif') }}" />
     </div>
 </div>

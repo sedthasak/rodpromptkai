@@ -54,7 +54,7 @@
 
     <div id="wait" class="box-waiting" style="display:none;">
         <div class="waiting-wrapper-image">
-            <img src="{{ asset('uploads/wait.gif') }}" />
+            <img src="{{ asset('uploads/spin.gif') }}" />
         </div>
     </div>
 
@@ -238,7 +238,7 @@
                                                 <!-- Navigation Buttons -->
                                                 <div class="frm-step-button text-center">
                                                     <div class="btn btn-step btn-backstep btn_to_step2">ย้อนกลับ</div>
-                                                    <button type="submit" class="btn btn-step btn-nextstep">ต่อไป</button>
+                                                    <button type="submit" class="btn btn-step btn-nextstep" id="submitBtn">สร้าง</button>
                                                 </div>
                                             </div>
                                         </div>
