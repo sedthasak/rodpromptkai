@@ -61,7 +61,7 @@
     <form id="carpostForm" action="{{ route('carpostbrowsesubmit') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div id="topontop"></div>
-        <div id="step1">
+        <div id="step1" style="display:none;">
             <section class="row">
                 <div class="col-12 wrap-bgstep">
                     <div class="container">
@@ -112,7 +112,7 @@
             </section>
         </div>
 
-        <div id="step2">
+        <div id="step2" style="display:none;">
             <section class="row">
                 <div class="col-12 wrap-bgstep">
                     <div class="container">

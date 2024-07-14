@@ -29,7 +29,7 @@
             input.addEventListener('change', function (event) {
                 const files = Array.from(event.target.files);
                 if (files.length > 0) {
-                    loadingBox.style.display = 'flex'; // Show loading box
+                    //loadingBox.style.display = 'flex'; // Show loading box
 
                     const uploadPromises = files.map(file => {
                         const formData = new FormData();
@@ -54,7 +54,9 @@
                                         <button type="button"><i class="bi bi-trash3-fill"></i></button>
                                         <img src="${imagePath}" alt="Image" class="uploaded-image" loading="lazy">
                                         <input type="hidden" name="${previewContainer.id === 'exterior-preview' ? 'image_paths' : previewContainer.id === 'interior-preview' ? 'interior_paths' : 'registration_paths'}[]" value="${data.path}">
-                                    <div class="spinner"></div> <!-- Spinner element -->
+                                    </div>
+                                    <div class="wrapper-spinner">
+                                        <div class="spinner"></div>
                                     </div>
                                     
                                 `;
