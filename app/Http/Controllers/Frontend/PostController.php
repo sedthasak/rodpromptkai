@@ -71,7 +71,6 @@ class PostController extends Controller
         // Redirect back to the car post browse page with success message
         return redirect()->route('carpostbrowse')->with('success', 'Post updated successfully.');
     }
-
     // Process exterior and interior images
     private function processImages($paths, $type, $postId)
     {
@@ -119,7 +118,6 @@ class PostController extends Controller
 
         return view('frontend.carpost-browse-edit', compact('post', 'restImages'));
     }
-
     // Copy images to the 'rest' folder without changing their names
     private function copyImagesToRest($images, $registrationImage)
     {
@@ -162,7 +160,6 @@ class PostController extends Controller
 
         return ['exterior' => $exteriorImages, 'interior' => $interiorImages, 'registration' => $registrationImagePath ? [$registrationImagePath] : []];
     }
-
     public function carpostuploadimage(Request $request)
     {
         $request->validate([
@@ -204,6 +201,8 @@ class PostController extends Controller
     }
     public function carpostbrowsesubmit(Request $request)
     {
+        // dd($request->registration_paths);
+        // return response()->json(['request' => $request]);
         // Validate image paths
         $request->validate([
             'image_paths' => 'required|array',
@@ -294,7 +293,6 @@ class PostController extends Controller
             return response()->json(['status' => 'error', 'message' => 'File not found']);
         }
     }
-    
     public function carpostbrowse(Request $request)
     {
         $provinces = provincesModel::all();
@@ -304,9 +302,6 @@ class PostController extends Controller
             'brands' => $brands,
         ]);
     }
-
-
-
     public function carpostregisterPage()
     {
         $provinces = provincesModel::all();

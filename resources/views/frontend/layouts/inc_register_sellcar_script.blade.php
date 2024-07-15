@@ -1,3 +1,259 @@
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+</script>
+<script>
+    function formatNumber(input) {
+        // Remove all non-digit characters
+        const value = input.value.replace(/\D/g, '');
+        // Add comma as thousand separators
+        input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        ClassicEditor
+            .create(document.querySelector('#car_detail'))
+            .then(editor => {
+                var buttons = document.querySelectorAll('.clckads');
+                if (buttons) {
+                    buttons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            var buttonText = button.getAttribute('data-text');
+                            var editorInstance = editor;
+
+                            if (editorInstance) {
+                                var currentContent = editorInstance.getData();
+                                var newText = currentContent + buttonText;
+                                editorInstance.setData(newText);
+                            } else {
+                                console.error('CKEditor instance not found.');
+                            }
+                        });
+                    });
+                } else {
+                    console.error('Buttons with class "clckads" not found.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+
+    // CKEditor default configuration
+    ClassicEditor.defaultConfig = {
+        toolbar: {
+            items: [
+                'undo',
+                'redo',
+                '|',
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'link',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'insertTable',
+                '|',
+                'mediaEmbed',
+                '|',
+                'imageTextAlternative',
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+            ],
+            shouldNotGroupWhenFull: true
+        },
+        language: 'en',
+        image: {
+            toolbar: [
+                'imageTextAlternative',
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side'
+            ],
+            styles: [
+                'alignLeft', 'alignCenter', 'alignRight'
+            ]
+        },
+        table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
+    };
+    $(document).ready(function() {
+        // console.log("dddd");
+
+        $(".clckads").on( "click", function() {
+            var oldtext = $("#car_detail").val();
+            var thistext = $(this).text();
+            var newtext = oldtext+thistext;
+            add_text(newtext);
+        } );
+        function add_text(newtext){ 
+            document.getElementById("car_detail").value = newtext;
+        }
+        
+
+        $("#generations").on( "change", function() {
+            var generations_id = $(this).val();
+            if(generations_id){
+                $('#wait').show();
+                $.ajax({
+                    url: "{{route('carpostSelectGenerations')}}",
+                    type: "post",
+                    data: { 
+                        generations_id: generations_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#wait').hide();
+                        $('#sub_models').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+                $.ajax({
+                    url: "{{route('carpostSelectGenerationsYear')}}",
+                    type: "post",
+                    data: { 
+                        generations_id: generations_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#wait').hide();
+                        $('#years').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        } );
+
+        $("#models").on( "change", function() {
+            var models_id = $(this).val();
+            if(models_id){
+                $('#wait').show();
+                $.ajax({
+                    url: "{{route('carpostSelectModel')}}",
+                    type: "post",
+                    data: { 
+                        models_id: models_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#wait').hide();
+                        $('#generations').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        } );
+
+        $("#brands").on( "change", function() {
+            var brands_id = $(this).val();
+            if(brands_id){
+                $('#wait').show();
+                $.ajax({
+                    url: "{{route('carpostSelectBrand')}}",
+                    type: "post",
+                    data: { 
+                        brands_id: brands_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#wait').hide();
+                        $('#models').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        } );
+    }); 
+    document.addEventListener('DOMContentLoaded', function () {
+        const steps = document.querySelectorAll('.step');
+        let currentStep = 0;
+
+        const colorSelect = document.getElementById('color_select');
+        const otherColorInput = document.getElementById('other_color_input');
+
+        colorSelect.addEventListener('change', function () {
+            if (colorSelect.value === '99999999') {
+                otherColorInput.setAttribute('required', 'required');
+            } else {
+                otherColorInput.removeAttribute('required');
+            }
+        });
+
+        function showStep(step) {
+            steps.forEach((el, index) => {
+                el.classList.toggle('active', index === step);
+            });
+        }
+
+        function validateStep(step) {
+            const inputs = steps[step].querySelectorAll('input[required], textarea[required], select[required]');
+            const emptyFields = [];
+            
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    emptyFields.push(input.previousElementSibling.textContent);
+                }
+            });
+            
+            if (emptyFields.length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'แจ้งเตือน',
+                    html: `กรุณากรอกข้อมูลให้ครบถ้วน: <br> ${emptyFields.join('<br>')}`,
+                });
+                return false;
+            }
+            return true;
+        }
+
+        document.querySelectorAll('.btn-nextstep').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    if (currentStep < steps.length - 1) {
+                        currentStep++;
+                        showStep(currentStep);
+                        window.scrollTo(0, 0); // Scroll to top of the page
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-backstep').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                    window.scrollTo(0, 0); // Scroll to top of the page
+                }
+            });
+        });
+
+        showStep(currentStep);
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const uploadExteriorInput = document.getElementById('upload-exterior-input');
@@ -183,12 +439,18 @@
                 }
 
                 // Show loading box before submitting the form
-                loadingBox.style.display = 'flex';
+                // loadingBox.style.display = 'flex';
+
+                // Gather form data for debugging
+                const formData = new FormData(document.getElementById('carpostForm'));
+                for (const pair of formData.entries()) {
+                    console.log(pair[0] + ': ' + pair[1]);
+                }
 
                 // If not empty and validated, submit the form
-                setTimeout(() => {
-                    document.getElementById('carpostForm').submit();
-                }, 500); // Adjust timeout as needed
+                // setTimeout(() => {
+                //     document.getElementById('carpostForm').submit();
+                // }, 500); // Adjust timeout as needed
             });
         }
     });
