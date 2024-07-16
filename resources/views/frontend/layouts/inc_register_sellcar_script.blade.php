@@ -188,19 +188,23 @@
         } );
     }); 
     document.addEventListener('DOMContentLoaded', function () {
-        const steps = document.querySelectorAll('.step');
-        let currentStep = 0;
-
         const colorSelect = document.getElementById('color_select');
         const otherColorInput = document.getElementById('other_color_input');
 
-        colorSelect.addEventListener('change', function () {
-            if (colorSelect.value === '99999999') {
-                otherColorInput.setAttribute('required', 'required');
-            } else {
-                otherColorInput.removeAttribute('required');
-            }
-        });
+        if (colorSelect && otherColorInput) {
+            colorSelect.addEventListener('change', function () {
+                if (colorSelect.value === '99999999') {
+                    otherColorInput.setAttribute('required', 'required');
+                } else {
+                    otherColorInput.removeAttribute('required');
+                }
+            });
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const steps = document.querySelectorAll('.step');
+        let currentStep = 0;
+
 
         function showStep(step) {
             steps.forEach((el, index) => {
@@ -259,22 +263,37 @@
         const uploadExteriorInput = document.getElementById('upload-exterior-input');
         const uploadExteriorButton = document.getElementById('exterior-upload-button');
         const exteriorPreviewContainer = document.getElementById('exterior-preview');
+        const exteriorUploadingSpan = document.getElementById('exterior_uploading');
 
         const uploadInteriorInput = document.getElementById('upload-interior-input');
         const uploadInteriorButton = document.getElementById('interior-upload-button');
         const interiorPreviewContainer = document.getElementById('interior-preview');
+        const interiorUploadingSpan = document.getElementById('interior_uploading');
 
         const uploadRegistrationInput = document.getElementById('upload-registration-input');
         const registrationPreviewContainer = document.getElementById('registration-preview');
         const registrationUploadButton = document.getElementById('registration-upload-button');
+        const registrationUploadingSpan = document.getElementById('registration_uploading');
 
         const loadingBox = document.getElementById('wait');
         const submitButton = document.getElementById('submitBtn');
 
-        // Function to handle image upload logic
-        function handleImageUpload(input, button, previewContainer, type, isSingleUpload = false) {
-            if (!input || !button || !previewContainer) {
-                console.error('Required element not found:', { input, button, previewContainer });
+        function animateUploadingText(spanElement) {
+            let dots = '';
+            spanElement.style.display = 'inline'; // Show the span element
+            spanElement.innerHTML = 'กำลังอัปโหลด'; // Initial text
+
+            const interval = setInterval(() => {
+                dots = dots.length >= 3 ? '' : dots + '.';
+                spanElement.innerHTML = 'กำลังอัปโหลด' + dots;
+            }, 500); // Change text every 500ms
+
+            return interval;
+        }
+
+        function handleImageUpload(input, button, previewContainer, spanElement, type, isSingleUpload = false) {
+            if (!input || !button || !previewContainer || !spanElement) {
+                console.error('Required element not found:', { input, button, previewContainer, spanElement });
                 return;
             }
 
@@ -285,7 +304,7 @@
             input.addEventListener('change', function (event) {
                 const files = Array.from(event.target.files);
                 if (files.length > 0) {
-                    //loadingBox.style.display = 'flex'; // Show loading box
+                    const uploadInterval = animateUploadingText(spanElement); // Start text animation
 
                     const uploadPromises = files.map(file => {
                         const formData = new FormData();
@@ -314,7 +333,6 @@
                                     <div class="wrapper-spinner">
                                         <div class="spinner"></div>
                                     </div>
-                                    
                                 `;
                                 if (isSingleUpload) {
                                     previewContainer.innerHTML = ''; // Clear previous uploads for single upload
@@ -354,20 +372,26 @@
                     });
 
                     Promise.all(uploadPromises)
-                        .then(() => loadingBox.style.display = 'none') // Hide loading box when all uploads are done
-                        .catch(() => loadingBox.style.display = 'none'); // Hide loading box in case of error
+                        .then(() => {
+                            clearInterval(uploadInterval); // Stop text animation
+                            spanElement.style.display = 'none'; // Hide span element
+                        })
+                        .catch(() => {
+                            clearInterval(uploadInterval); // Stop text animation
+                            spanElement.style.display = 'none'; // Hide span element
+                        });
                 }
             });
         }
 
         // Call handleImageUpload for exterior images
-        handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer, 'exterior');
+        handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer, exteriorUploadingSpan, 'exterior');
 
         // Call handleImageUpload for interior images
-        handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, 'interior');
+        handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, interiorUploadingSpan, 'interior');
 
         // Call handleImageUpload for registration image (single upload)
-        handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, 'registration', true);
+        handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, registrationUploadingSpan, 'registration', true);
 
         // Initialize SortableJS for exterior images
         if (exteriorPreviewContainer) {
@@ -439,20 +463,20 @@
                 }
 
                 // Show loading box before submitting the form
-                // loadingBox.style.display = 'flex';
+                loadingBox.style.display = 'flex';
 
                 // Gather form data for debugging
-                const formData = new FormData(document.getElementById('carpostForm'));
-                for (const pair of formData.entries()) {
-                    console.log(pair[0] + ': ' + pair[1]);
-                }
+                // const formData = new FormData(document.getElementById('carpostForm'));
+                // for (const pair of formData.entries()) {
+                //     console.log(pair[0] + ': ' + pair[1]);
+                // }
 
                 // If not empty and validated, submit the form
-                // setTimeout(() => {
-                //     document.getElementById('carpostForm').submit();
-                // }, 500); // Adjust timeout as needed
+                setTimeout(() => {
+                    document.getElementById('carpostForm').submit();
+                }, 500); // Adjust timeout as needed
             });
         }
     });
-
 </script>
+

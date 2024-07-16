@@ -269,6 +269,7 @@
                                     <div class="topic-step"><span>2</span> ข้อมูลผู้ขาย</div>
                                     <div class="box-frm-step">
                                         <div class="row">
+                                            
                                             <div class="col-12 frm-step">
                                                 <label id="title_label">หัวข้อโฆษณา/โปรโมชั่น<span>*</span></label>
                                                 <input aria-labelledby="title_label" type="text" class="form-control" name="title" id="title_txt1" required >

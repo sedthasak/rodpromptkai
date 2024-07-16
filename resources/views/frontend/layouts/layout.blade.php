@@ -20,6 +20,11 @@
                         text: '{{ session('success') }}',
                         icon: 'success',
                         confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Clear the success session variable
+                            {{ session()->forget('success') }}
+                        }
                     });
                 });
             </script>
@@ -34,6 +39,11 @@
                         text: '{{ session('error') }}',
                         icon: 'error',
                         confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Clear the error session variable
+                            {{ session()->forget('error') }}
+                        }
                     });
                 });
             </script>

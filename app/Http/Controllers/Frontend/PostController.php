@@ -42,10 +42,10 @@ class PostController extends Controller
         ]);
 
         // Retrieve the existing post
-        $post = TestCreate::findOrFail($id);
+        $post = carsModel::findOrFail($id);
 
         // Get old images associated with the post
-        $oldImages = TestCreateUpload::where('test_create_id', $id)->get();
+        $oldImages = galleryModel::where('cars_id', $id)->get();
 
         // Delete old images from storage and database
         foreach ($oldImages as $oldImage) {
@@ -98,24 +98,44 @@ class PostController extends Controller
                 throw new \Exception("Failed to move {$type} image: File move operation failed.");
             }
 
+            
+            // Update carsModel based on type and index
+            if ($type === 'exterior' && $index === 0) {
+                $car = carsModel::find($postId);
+                if ($car) {
+                    $car->feature = 'uploads/' . $type . '/' . $postId . '/' . $newFilename;
+                    $car->save();
+                }
+            }
+
+            if ($type === 'registration') {
+                $car = carsModel::find($postId);
+                if ($car) {
+                    $car->licenseplate = 'uploads/' . $type . '/' . $postId . '/' . $newFilename;
+                    $car->save();
+                }
+            }
+
+
             // Update database with new path
-            TestCreateUpload::create([
-                'test_create_id' => $postId,
-                'path' => 'uploads/' . $type . '/' . $postId . '/' . $newFilename,
+            galleryModel::create([
+                'cars_id' => $postId,
+                'gallery' => 'uploads/' . $type . '/' . $postId . '/' . $newFilename,
                 'type' => $type,
             ]);
+            
         }
     }
     public function carpostbrowseedit($id)
     {
         // Retrieve existing post data and related images
-        $post = TestCreate::findOrFail($id);
-        $images = TestCreateUpload::where('test_create_id', $id)->orderBy('id')->get();
-        $registrationImage = TestCreateUpload::where('test_create_id', $id)->where('type', 'registration')->first();
+        $post = carsModel::findOrFail($id);
+        $images = galleryModel::where('cars_id', $id)->orderBy('id')->get();
+        $registrationImage = galleryModel::where('cars_id', $id)->where('type', 'registration')->first();
 
         // Copy images to the 'rest' folder and group them by type (exterior or interior)
         $restImages = $this->copyImagesToRest($images, $registrationImage);
-
+        // dd($images);
         return view('frontend.carpost-browse-edit', compact('post', 'restImages'));
     }
     // Copy images to the 'rest' folder without changing their names
@@ -126,16 +146,16 @@ class PostController extends Controller
         $registrationImagePath = null;
 
         foreach ($images as $image) {
-            $currentPath = 'public/' . $image->path;
-            $restPath = 'public/uploads/rest/' . basename($image->path);
+            $currentPath = 'public/' . $image->gallery;
+            $restPath = 'public/uploads/rest/' . basename($image->gallery);
 
             if (Storage::exists($currentPath)) {
                 try {
                     Storage::copy($currentPath, $restPath);
                     if ($image->type === 'exterior') {
-                        $exteriorImages[] = 'uploads/rest/' . basename($image->path);
+                        $exteriorImages[] = 'uploads/rest/' . basename($image->gallery);
                     } elseif ($image->type === 'interior') {
-                        $interiorImages[] = 'uploads/rest/' . basename($image->path);
+                        $interiorImages[] = 'uploads/rest/' . basename($image->gallery);
                     }
                 } catch (\Exception $e) {
                     // Handle errors if needed
@@ -145,13 +165,13 @@ class PostController extends Controller
         }
 
         if ($registrationImage) {
-            $currentPath = 'public/' . $registrationImage->path;
-            $restPath = 'public/uploads/rest/' . basename($registrationImage->path);
+            $currentPath = 'public/' . $registrationImage->gallery;
+            $restPath = 'public/uploads/rest/' . basename($registrationImage->gallery);
 
             if (Storage::exists($currentPath)) {
                 try {
                     Storage::copy($currentPath, $restPath);
-                    $registrationImagePath = 'uploads/rest/' . basename($registrationImage->path);
+                    $registrationImagePath = 'uploads/rest/' . basename($registrationImage->gallery);
                 } catch (\Exception $e) {
                     // Handle errors if needed
                 }
@@ -201,9 +221,7 @@ class PostController extends Controller
     }
     public function carpostbrowsesubmit(Request $request)
     {
-        // dd($request->registration_paths);
-        // return response()->json(['request' => $request]);
-        // Validate image paths
+        // dd($request);
         $request->validate([
             'image_paths' => 'required|array',
             'image_paths.*' => 'required|string',
@@ -214,25 +232,99 @@ class PostController extends Controller
         ]);
 
         // Create the post
-        $testCreate = TestCreate::create([
-            'number' => uniqid(),
-        ]);
+        // $testCreate = TestCreate::create([
+        //     'number' => uniqid(),
+        // ]);
+        $cars = new carsModel;
+
+        $cars->type = $request->type;
+        $cars->customer_id = $request->customer_id;
+        $cars->brand_id = $request->brands;
+        $cars->model_id = $request->models;
+        $cars->generations_id = $request->generations;
+        $cars->sub_models_id = $request->sub_models;
+        $cars->modelyear = $request->years;
+        $cars->mileage = $request->mileage;
+        if ($request->gear == "auto") {
+            $cars->gear = "auto";
+        }
+        else {
+            $cars->gear = "manual";
+        }
+        if ($request->gashas == "1") {
+            $cars->gas = "รถน้ำมัน / hybrid";
+            $cars->ev = "0";
+        }
+        else if ($request->gashas == "2") {
+            $cars->gas = "รถไฟฟ้า EV 100%";
+            $cars->ev = "1";
+        }
+        else {
+            $cars->gas = "รถติดแก๊ส";
+            $cars->ev = "0";
+        }
+        $cars->vehicle_code = $request->vehicle_code;
+        $cars->title = $request->title;
+        $cars->detail = $request->detail;
+        $cars->price = str_replace(",", "", $request->price);
+        
+        if ($request->has('warranty_1')) {
+            $cars->warranty_1 = 1;
+        }
+        else {
+            $cars->warranty_1 = 0;
+        }
+        if ($request->has('warranty_2')) {
+            $cars->warranty_2 = 1;
+        }
+        else {
+            $cars->warranty_2 = 0;
+        }
+        if ($request->has('warranty_3')) {
+            $cars->warranty_3 = 1;
+        }
+        else {
+            $cars->warranty_3 = 0;
+        }
+        $cars->warranty_2_input = $request->warranty_2_input;
+
+        if($request->customer_type == 'dealer'){
+            $cars->status = 'approved';
+            $cars->adddate = time();
+            $cars->approvedate = time();
+            $cars->expiredate = strtotime("+90 days", time());
+        }else{
+            $cars->status = 'created';
+            $cars->adddate = time();
+        }
+        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
+        $cars->province = $request->province;
+
+        $cars->feature = '';
+        $cars->licenseplate = '';
+
+        if (!empty($image_paths)) {
+            $cars->feature = $image_paths[0];
+        } else {
+            $cars->feature = '';
+        }
+        if (!empty($registration_path)) {
+            $cars->licenseplate = $registration_path;
+        } else {
+            $cars->licenseplate = '';
+        }
+        $cars->save();
+
 
         
-        // Move and rename exterior images
-        $this->moveAndRenameFiles($request->image_paths, $testCreate->id, 'exterior');
-
-        // Move and rename interior images
+        $this->moveAndRenameFiles($request->image_paths, $cars->id, 'exterior');
         if ($request->has('interior_paths')) {
-            $this->moveAndRenameFiles($request->interior_paths, $testCreate->id, 'interior');
+            $this->moveAndRenameFiles($request->interior_paths, $cars->id, 'interior');
         }
-
-        // Move and rename registration image (only one image)
         if ($request->has('registration_paths')) {
-            $this->moveAndRenameFiles($request->registration_paths, $testCreate->id, 'registration');
+            $this->moveAndRenameFiles($request->registration_paths, $cars->id, 'registration');
         }
-
-        return redirect()->route('carpostbrowse')->with('success', 'Post '.$testCreate->id.' created successfully.');
+        return redirect()->route('carpostregistersuccessPage')->with('success', 'Post '.$cars->id.' created successfully.');
     }
     public function moveAndRenameFiles($paths, $postId, $type)
     {
@@ -240,23 +332,16 @@ class PostController extends Controller
             foreach ($paths as $key => $path) {
                 // Source file path
                 $sourcePath = storage_path('app/public/' . $path);
-                Log::info("Source path: " . $sourcePath);
-
                 // Destination directory
                 $destinationDir = storage_path('app/public/uploads/' . $type . '/' . $postId);
                 if (!file_exists($destinationDir)) {
                     mkdir($destinationDir, 0777, true);
                 }
-                Log::info("Destination directory: " . $destinationDir);
-
                 // Generate a unique filename with post ID, type, and sequence number
                 $newFilename = $type . '-' . $postId . '-' . ($key + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
                 $destinationPath = $destinationDir . '/' . $newFilename;
-                Log::info("Destination path: " . $destinationPath);
-
                 // Move file
                 if (!rename($sourcePath, $destinationPath)) {
-                    Log::error("Failed to move file from $sourcePath to $destinationPath");
                     throw new \Exception('Failed to move one or more images.');
                 }
 
@@ -264,14 +349,27 @@ class PostController extends Controller
                 $paths[$key] = 'uploads/' . $type . '/' . $postId . '/' . $newFilename;
 
                 // Update database with new path
-                TestCreateUpload::create([
-                    'test_create_id' => $postId,
-                    'path' => $paths[$key],
+                galleryModel::create([
+                    'cars_id' => $postId,
+                    'gallery' => $paths[$key],
                     'type' => $type,
                 ]);
+
+                // Check if this is the first exterior path
+                if ($type === 'exterior' && $key === 0) {
+                    $car = carsModel::find($postId);
+                    $car->feature = $paths[$key];
+                    $car->save();
+                }
+
+                // Check if this is the registration path
+                if ($type === 'registration') {
+                    $car = carsModel::find($postId);
+                    $car->licenseplate = $paths[$key];
+                    $car->save();
+                }
             }
         } catch (\Exception $e) {
-            Log::error('Error in moveAndRenameFiles: ' . $e->getMessage());
             throw new \Exception('Failed to move one or more images.');
         }
 
@@ -317,6 +415,101 @@ class PostController extends Controller
             // 'a' => 'test',
         ]);
     }
+
+
+
+    public function carpostregisterSubmitPage(Request $request) {
+        ini_set('post_max_size', '500M');
+        ini_set('upload_max_filesize', '500M');
+        ini_set('memory_limit', '500M');
+        // dd($request);
+        $cars = new carsModel;
+
+        $cars->type = $request->type;
+        $cars->customer_id = $request->customer_id;
+        $cars->brand_id = $request->brands;
+        $cars->model_id = $request->models;
+        $cars->generations_id = $request->generations;
+        $cars->sub_models_id = $request->sub_models;
+        $cars->modelyear = $request->years;
+        $cars->mileage = $request->mileage;
+        if ($request->gear == "auto") {
+            $cars->gear = "auto";
+        }
+        else {
+            $cars->gear = "manual";
+        }
+        if ($request->gashas == "1") {
+            $cars->gas = "รถน้ำมัน / hybrid";
+            $cars->ev = "0";
+        }
+        else if ($request->gashas == "2") {
+            $cars->gas = "รถไฟฟ้า EV 100%";
+            $cars->ev = "1";
+        }
+        else {
+            $cars->gas = "รถติดแก๊ส";
+            $cars->ev = "0";
+        }
+        $cars->vehicle_code = $request->vehicle_code;
+        $cars->title = $request->title;
+        $cars->detail = $request->detail;
+        $cars->price = str_replace(",", "", $request->price);
+        
+        if ($request->has('warranty_1')) {
+            $cars->warranty_1 = 1;
+        }
+        else {
+            $cars->warranty_1 = 0;
+        }
+        if ($request->has('warranty_2')) {
+            $cars->warranty_2 = 1;
+        }
+        else {
+            $cars->warranty_2 = 0;
+        }
+        if ($request->has('warranty_3')) {
+            $cars->warranty_3 = 1;
+        }
+        else {
+            $cars->warranty_3 = 0;
+        }
+        $cars->warranty_2_input = $request->warranty_2_input;
+
+        if($request->customer_type == 'dealer'){
+            $cars->status = 'approved';
+            $cars->adddate = time();
+            $cars->approvedate = time();
+            $cars->expiredate = strtotime("+90 days", time());
+        }else{
+            $cars->status = 'created';
+            $cars->adddate = time();
+        }
+        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
+        $cars->province = $request->province;
+        $cars->save();
+
+
+        // update cars.feature
+        $genname = $request->input('genname');
+        $qrygallery = galleryModel::where("pre_id", $genname)->orderBy("id", "ASC")->first();
+        carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
+        // update gallery set cars_id
+        galleryModel::where("pre_id", $genname)->update(["cars_id" => $cars->id, "pre_id" => null]);
+
+        $cars2 = carsModel::find($cars->id);
+        $strtotime = strtotime($cars2->created_at);
+
+        $cars2->ref_code = $strtotime.$cars2->customer_id;
+        $cars2->update();
+
+        return redirect(route('carpostregistersuccessPage'));
+    }
+
+
+
+
+    
 
 
 
@@ -366,9 +559,8 @@ class PostController extends Controller
         // Redirect with success message
         return redirect()->back()->with('success', 'Car post registered successfully!');
     }
-
-        // Function to store images and return paths
-        protected function storeImages($files, $type, $testCreate)
+    // Function to store images and return paths
+    protected function storeImages($files, $type, $testCreate)
     {
         $paths = [];
 
@@ -393,76 +585,18 @@ class PostController extends Controller
 
         return $paths;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function carpostregistertestuploadPage()
     {
         return view('frontend/carpost-register-upload');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function carpostregistertestuploadeditPage()
     {
         return view('frontend/carpost-register-upload-edit');
     }
     public function carpostregistertestuploadeditsubmitPage()
     {
-        
+        return '';
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function upload(Request $request)
     {
         $request->validate([
@@ -474,8 +608,6 @@ class PostController extends Controller
 
         return response()->json(['url' => '/images/'.$imageName]);
     }
-
-    
     public function carpostregisterdragdropPage(Request $request)
     {
         // return view('frontend/carpost-register-dragdrop', [
@@ -507,7 +639,6 @@ class PostController extends Controller
 
         return response()->json(['success' => true]);
     }
-
 
     public function carpostdeleteactionPage(Request $request)
     {
@@ -721,313 +852,7 @@ class PostController extends Controller
         return redirect(route('carpostregistersuccessPage'));
 
     }  
-    public function carpostregisterSubmitPage(Request $request) {
-        ini_set('post_max_size', '500M');
-        ini_set('upload_max_filesize', '500M');
-        ini_set('memory_limit', '500M');
-        // dd($request);
-        // $validatedData = $request->validate([
-        //     'title' => ['required', 'unique:posts', 'max:255'],
-        //     'body' => ['required'],
-        // ]);
-
-        // dd($request);
-        $cars = new carsModel;
-
-        $cars->type = $request->type;
-        $cars->customer_id = $request->customer_id;
-        $cars->brand_id = $request->brands;
-        $cars->model_id = $request->models;
-        $cars->generations_id = $request->generations;
-        $cars->sub_models_id = $request->sub_models;
-        $cars->modelyear = $request->years;
-        $cars->mileage = $request->mileage;
-        if ($request->gear == "auto") {
-            $cars->gear = "auto";
-        }
-        else {
-            $cars->gear = "manual";
-        }
-        if ($request->gashas == "1") {
-            $cars->gas = "รถน้ำมัน / hybrid";
-            $cars->ev = "0";
-        }
-        else if ($request->gashas == "2") {
-            $cars->gas = "รถไฟฟ้า EV 100%";
-            $cars->ev = "1";
-        }
-        else {
-            $cars->gas = "รถติดแก๊ส";
-            $cars->ev = "0";
-        }
-        $cars->vehicle_code = $request->vehicle_code;
-        $cars->title = $request->title;
-        $cars->detail = $request->detail;
-        $cars->price = str_replace(",", "", $request->price);
-        // $cars->licenseplate = $request->licenseplate;
-        
-        if ($request->has('warranty_1')) {
-            $cars->warranty_1 = 1;
-        }
-        else {
-            $cars->warranty_1 = 0;
-        }
-        if ($request->has('warranty_2')) {
-            $cars->warranty_2 = 1;
-        }
-        else {
-            $cars->warranty_2 = 0;
-        }
-        if ($request->has('warranty_3')) {
-            $cars->warranty_3 = 1;
-        }
-        else {
-            $cars->warranty_3 = 0;
-        }
-        $cars->warranty_2_input = $request->warranty_2_input;
-
-        if($request->customer_type == 'dealer'){
-            $cars->status = 'approved';
-            $cars->adddate = time();
-            $cars->approvedate = time();
-            $cars->expiredate = strtotime("+90 days", time());
-        }else{
-            $cars->status = 'created';
-            $cars->adddate = time();
-        }
-        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
-        $cars->province = $request->province;
-        $cars->save();
-
-        // if($request->picture_feature){
-
-        //     $string_pieces = explode( ";base64,", $request->picture_feature);
-         
-        //     $image_type_pieces = explode( "image/", $string_pieces[0] );
-         
-        //     $image_type = $image_type_pieces[1];
-
-        //     // Decode the base64 string and save the image
-        //     $imageData = base64_decode($string_pieces[1]);
-            
-        //     // Generate a unique filename
-        //     $filename = 'feature-'.time() . '.' .$image_type;
-
-        //     // Define the path where you want to save the image
-        //     $path = public_path('uploads/feature/' . $filename);
-        //     $filepath1 = 'uploads/feature/' . $filename;
-
-        //     // Save the image to the defined path
-        //     file_put_contents($path, $imageData);
-
-
-        //     // ทำ ลายน้ำ
-        //     $watermarkPath = public_path('frontend/images/watermark.png');
-        //     $imagePath = public_path('uploads/feature'.'/'.$filename);
-
-        //     $img = Image::make($imagePath);
-
-        //     // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-        //     $watermark = Image::make($watermarkPath);
-        //     $watermarkWidth = $img->width() / 3;
-        //     $watermark->resize($watermarkWidth, null, function ($constraint) {
-        //         $constraint->aspectRatio();
-        //     });
-
-        //     // เพิ่ม watermark ลงในรูป
-        //     $img->insert($watermark, 'top-left', 40, 60);
-
-        //     // บันทึกรูปที่มี watermark
-        //     $img->save(public_path('uploads/feature'.'/'.$filename));
-
-
-
-
-
-
-
-        //     carsModel::where("id", $cars->id)->update(["feature" => $filepath1]);
-        // }
-
-
-
-
-
-        // // ใส่ลายน้ำ
-        // $qrygallery = galleryModel::where("pre_id", $request->customer_id)->orderBy("id")->get();
-        // if (!empty($qrygallery)) {
-        //     foreach ($qrygallery as $rows) {
-        //         // ทำ ลายน้ำ feature
-        //         $watermarkPath = public_path('frontend/images/watermark.png');
-        //         $imagePath = public_path($rows->gallery);
-
-        //         $img = Image::make($imagePath);
-
-        //         // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-        //         $watermark = Image::make($watermarkPath);
-        //         $watermarkWidth = $img->width() / 3;
-        //         $watermark->resize($watermarkWidth, null, function ($constraint) {
-        //             $constraint->aspectRatio();
-        //         });
-
-        //         // เพิ่ม watermark ลงในรูป
-        //         $img->insert($watermark, 'top-left', ceil($img->width()*0.10), ceil($img->height()*0.20));
-
-        //         // บันทึกรูปที่มี watermark
-        //         $img->save(public_path($rows->gallery));
-        //     }
-            
-        // }
-
-
-        // update cars.feature
-        $genname = $request->input('genname');
-        $qrygallery = galleryModel::where("pre_id", $genname)->orderBy("id", "ASC")->first();
-        carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
-        // update gallery set cars_id
-        galleryModel::where("pre_id", $genname)->update(["cars_id" => $cars->id, "pre_id" => null]);
-        
-        
-        
-
-
-
-        // if($request->hasFile('licenseplate')){
-        //     $licenseplate = $request->file('licenseplate');
-        //     $destinationPath = public_path('/uploads/licenseplate');
-        //     $filename = $licenseplate->getClientOriginalName();
-
-        //     $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        //     $newfilenam = 'licenseplate-'.time() . '.' .$ext;
-        //     $licenseplate->move($destinationPath, $newfilenam);
-        //     $filepath2 = 'uploads/licenseplate/'.$newfilenam;
-
-
-        //     // ทำ ลายน้ำ
-        //     $watermarkPath = public_path('frontend/images/watermark.png');
-        //     $imagePath = public_path('uploads/licenseplate'.'/'.$newfilenam);
-
-        //     $img = Image::make($imagePath);
-
-        //     // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-        //     $watermark = Image::make($watermarkPath);
-        //     $watermarkWidth = $img->width() / 3;
-        //     $watermark->resize($watermarkWidth, null, function ($constraint) {
-        //         $constraint->aspectRatio();
-        //     });
-
-        //     // เพิ่ม watermark ลงในรูป
-        //     $img->insert($watermark, 'top-left', 40, 60);
-
-        //     // บันทึกรูปที่มี watermark
-        //     $img->save(public_path('uploads/feature'.'/'.$newfilenam));
-
-
-
-        //     carsModel::where("id", $cars->id)->update(["licenseplate" => $filepath2]);
-        // }
-        
-
-        // if($request->picture_exterior){
-        //     $exterior_image = $request->picture_exterior;
-        //     foreach($request->picture_exterior as $keyex => $extr){
-        //         // Decode the base64 string and save the image
-                
-        //         $string_pieces = explode( ";base64,", $extr);
-            
-        //         $image_type_pieces = explode( "image/", $string_pieces[0] );
-            
-        //         $image_type = $image_type_pieces[1];
-
-        //         $imageData = base64_decode($string_pieces[1]);
-
-        //         // Generate a unique filename
-        //         $filename = 'exterior-'.$keyex.'-'.time() . '.' .$image_type;
-
-        //         // Define the path where you want to save the image
-        //         $path = public_path('uploads/exterior/' . $filename);
-        //         $filepath = 'uploads/exterior/' . $filename;
-
-        //         // Save the image to the defined path
-        //         file_put_contents($path, $imageData);
-
-
-
-        //         // ทำ ลายน้ำ
-        //         $watermarkPath = public_path('frontend/images/watermark.png');
-        //         $imagePath = public_path('uploads/exterior'.'/'.$filename);
-
-        //         $img = Image::make($imagePath);
-
-        //         // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-        //         $watermark = Image::make($watermarkPath);
-        //         $watermarkWidth = $img->width() / 3;
-        //         $watermark->resize($watermarkWidth, null, function ($constraint) {
-        //             $constraint->aspectRatio();
-        //         });
-
-        //         // เพิ่ม watermark ลงในรูป
-        //         $img->insert($watermark, 'top-left', 40, 60);
-
-        //         // บันทึกรูปที่มี watermark
-        //         $img->save(public_path('uploads/exterior'.'/'.$filename));
-
-
-
-
-
-        //         $gallery = new galleryModel;
-        //         $gallery->cars_id = $cars->id;
-        //         $gallery->gallery = $filepath;
-        //         $gallery->type = 'exterior';
-        //         $gallery->save();
-        //     }
-        // }
-        // if($request->hasFile('interior_pictures')){
-
-        //     // version 2
-        //     foreach ($request->file('interior_pictures') as $keyin => $image) {
-        //         // บันทึกไฟล์
-        //         $imageName = 'interior-'.$keyin.'-'.time() . '_' . $image->getClientOriginalName();
-        //         $image->move(public_path('uploads/interior'), $imageName);
-
-
-        //         // ทำ ลายน้ำ
-        //         $watermarkPath = public_path('frontend/images/watermark.png');
-        //         $imagePath = public_path('uploads/interior'.'/'.$imageName);
-
-        //         $img = Image::make($imagePath);
-
-        //         // ปรับขนาดของ watermark เท่ากับ ค่าความกว้างของภาพ imageName หาร 10
-        //         $watermark = Image::make($watermarkPath);
-        //         $watermarkWidth = $img->width() / 3;
-        //         $watermark->resize($watermarkWidth, null, function ($constraint) {
-        //             $constraint->aspectRatio();
-        //         });
-
-        //         // เพิ่ม watermark ลงในรูป
-        //         $img->insert($watermark, 'top-left', 40, 60);
-
-        //         // บันทึกรูปที่มี watermark
-        //         $img->save(public_path('uploads/interior'.'/'.$imageName));
-
-
-        //         $gallery = new galleryModel;
-        //         $gallery->cars_id = $cars->id;
-        //         $gallery->gallery = 'uploads/interior/' . $imageName;
-        //         $gallery->type = 'interior';
-        //         $gallery->save();
-        //     }
-        // }
-
-        $cars2 = carsModel::find($cars->id);
-        $strtotime = strtotime($cars2->created_at);
-
-        $cars2->ref_code = $strtotime.$cars2->customer_id;
-        $cars2->update();
-
-        return redirect(route('carpostregistersuccessPage'));
-    }
+    
 
 
     public function carpostSelectBrand(Request $request) {
