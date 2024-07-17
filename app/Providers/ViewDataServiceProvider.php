@@ -12,6 +12,7 @@ use App\Models\contacts_backModel;
 use App\Models\noticeModel;
 use App\Models\carsModel;
 use App\Models\provincesModel;
+use App\Models\LevelModel;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -30,15 +31,7 @@ class ViewDataServiceProvider extends ServiceProvider
             // Retrieve $customerdata from the session
             $customerdata = session('customer');
 
-            // Check if $customerdata is set
             if ($customerdata && isset($customerdata->id)) {
-                // $contacts_back = contacts_backModel::orderBy('id', 'desc')
-                //     ->where([
-                //         ["customer_id", $customerdata->id],
-                //         ["status", 'create'],
-                //     ])
-                //     ->get();
-
                 $contacts_back = DB::table('contacts_back')
                     ->select('contacts_back.*', 'cars.id', 'cars.status', 'cars.customer_id', 'cars.user_id', 
                     'cars.type', 'cars.brand_id', 'cars.model_id', 'cars.modelyear', 'brands.title as brand_title', 
@@ -58,8 +51,6 @@ class ViewDataServiceProvider extends ServiceProvider
                         ["status", 'create'],
                     ])
                     ->get();
-
-
                 $mycars = DB::table('cars')
                     ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
                     ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
@@ -89,6 +80,40 @@ class ViewDataServiceProvider extends ServiceProvider
                 $view->with('notice', $notice);
                 $view->with('customer_id', $customerdata->id);
                 $view->with('allprovince', $allprovince);
+
+                $customer_login = Customer::find($customerdata->id);
+                $customer_role = $customer_login->role;
+                $customer_role = [
+                    'role' => $customer_login->role,
+                    'quota' => $customer_login->customer_quota,
+                    'dealerpack' => $customer_login->dealerpack,
+                    'dealerpack_regis' => $customer_login->dealerpack_regis,
+                    'dealerpack_expire' => $customer_login->dealerpack_expire,
+                    'vippack' => $customer_login->vippack,
+                    'vippack_regis' => $customer_login->vippack_regis,
+                    'vippack_expire' => $customer_login->vippack_expire,
+                ];
+
+                $levels = LevelModel::orderBy('accumulate', 'asc')->get();
+                $customerAccumulate = $customer_login->accumulate;
+                $customer_level = [
+                    'accumulate' => $customerAccumulate ?$customerAccumulate: 0,
+                    'level' => 'member', // Default to member if accumulate is below all thresholds
+                    'slug' => 'member', // Default to member if accumulate is below all thresholds
+                ];
+                foreach ($levels as $level) {
+                    if ($customerAccumulate >= $level->accumulate) {
+                        $customer_level['level'] = $level->name;
+                        $customer_level['slug'] = $level->slug;
+
+                    } else {
+                        break; // Exit loop as soon as we find the correct level
+                    }
+                }
+
+                $view->with('customer_role', $customer_role);
+                $view->with('customer_login', $customer_login);
+                $view->with('customer_level', $customer_level);
             }
         });
     }

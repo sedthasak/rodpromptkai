@@ -50,7 +50,12 @@
         'dealer' => 'ดีลเลอร์ / ลงแบบฝากขาย',
         'lady' => 'รถคุณผู้หญิง',
     ];
-    $_POST['type'] = 'home';
+    
+    $formtype = $_POST['type'];
+    // $_POST['type'] = 'home';
+    // echo "<pre>";
+    // print_r($formtype);
+    // echo "</pre>";
     ?>
 
     <div id="wait" class="box-waiting" style="display:none;">
@@ -91,7 +96,7 @@
                                 <div class="wrap-boxstep">
                                     <div class="topic-step"><span>1.1</span> ข้อมูลทั่วไป</div>
                                     <input type="hidden" name="customer_id" value="{{$customerid}}" />
-                                    <input type="hidden" name="customer_type" value="{{$_POST['type']}}" />
+                                    <input type="hidden" name="customer_type" value="{{$formtype}}" />
                                     <div class="box-frm-step">
                                         <div class="row">
                                             <div class="col-12 col-md-6 frm-step">
@@ -383,27 +388,28 @@
                                                     <input type="file" id="upload-interior-input" accept="image/*" multiple style="display: none;">
                                                 </div>
 
-                                                @if($_POST['type']=='home')
-                                                <!-- Registration Image Section -->
-                                                <div class="box-uploadphoto">
-                                                    <div class="topic-uploadphoto">
-                                                        <img src="{{ asset('frontend/images/icon-upload3.svg') }}" alt=""> รูปเอกสารทะเบียนรถยนต์&emsp;
-                                                        <span id="registration_uploading" style="display:none;">กำลังอัปโหลด</span>
+                                                @if($formtype == 'home')
+                                                    <!-- Registration Image Section -->
+                                                    <div class="box-uploadphoto">
+                                                        <div class="topic-uploadphoto">
+                                                            <img src="{{ asset('frontend/images/icon-upload3.svg') }}" alt=""> รูปเอกสารทะเบียนรถยนต์&emsp;
+                                                            <span id="registration_uploading" style="display:none;">กำลังอัปโหลด</span>
+                                                        </div>
+                                                        <div id="registration-preview" class="row row-photoupload"></div>
+                                                        <div class="btn-uploadimg" id="registration-upload-button">
+                                                            <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
+                                                        </div>
+                                                        <input type="file" id="upload-registration-input" accept="image/*" style="display: none;" required >
                                                     </div>
-                                                    <div id="registration-preview" class="row row-photoupload"></div>
-                                                    <div class="btn-uploadimg" id="registration-upload-button">
-                                                        <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
-                                                    </div>
-                                                    <input type="file" id="upload-registration-input" accept="image/*" style="display: none;">
-                                                </div>
                                                 @endif
+
 
                                                 
 
                                                 
                                             </div>
                                         </div>
-                                        @if($_POST['type']=='dealer')
+                                        @if($formtype=='dealer')
                                         <div class="step-chceckbox dealerstepcheck">
                                             <div class="topic-notephoto">การรับประกันหลังการขาย</div>
                                             <div class="login-checkbox">
@@ -430,7 +436,7 @@
                                         <div class="step-chceckbox">
                                             <div class="login-checkbox">
                                                 <label class="list-checkbox"><a href="{{route('termconditionPage')}}" target="_blank">ยอมรับเงื่อนไขการใช้งาน</a> และ <a href="{{route('privacypolicyPage')}}" target="_blank">นโยบายของเว็บไซต์</a> RodPromptkai.com
-                                                    <input type="checkbox" value="1"  checked>
+                                                    <input id="acceptance-checkbox" type="checkbox" name="acception" value="1"  checked required >
                                                     <span class="checkmark"></span>
                                                 </label>
                                             </div>

@@ -40,7 +40,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
 
                         @foreach($carfromstatus2['approved'] as $keycarsModel => $cars)
                         @php
-                        $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
+                        $profilecar_img = ($cars->feature)?asset('storage/' . $cars->feature):asset('public/uploads/default-car.jpg');
                         $resve_state = ($cars->reserve==1)?'active':'';
                         @endphp
                         <div class="item-mycar">
@@ -94,7 +94,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                 </div>
                             </div>
                             <div class="item-mycar-button">
-                                <a href="{{route('carpostregistereditPage', ['post' => $cars->id])}}" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
+                                <a href="{{route('carpostbrowseedit', ['id' => $cars->id])}}" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
                                 <button class="btn-mycar btn-mycar-delete button-delete" data-carsid="{{ $cars->id }}">
                                     <i class="bi bi-trash3-fill"></i> ลบ
                                 </button>

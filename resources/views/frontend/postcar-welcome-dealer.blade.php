@@ -21,7 +21,7 @@
                             <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> รูปถ่ายหน้าโชว์รูม/รูปถ่ายของผู้ขาย</div>
                             <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> ที่อยู่เพื่อปักหมุด</div>
                         </div>
-                        <form method="post" action="{{route('carpostregisterPage')}}" >
+                        <form method="post" action="{{route('carpostbrowse')}}" >
                         @csrf
                             <input type="hidden" name="type" value="dealer" />
                             <button class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ</button>

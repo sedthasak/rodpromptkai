@@ -1,3 +1,263 @@
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+</script>
+<script>
+    function formatNumber(input) {
+        // Remove all non-digit characters
+        const value = input.value.replace(/\D/g, '');
+        // Add comma as thousand separators
+        input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        ClassicEditor
+            .create(document.querySelector('#car_detail'))
+            .then(editor => {
+                var buttons = document.querySelectorAll('.clckads');
+                if (buttons) {
+                    buttons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            var buttonText = button.getAttribute('data-text');
+                            var editorInstance = editor;
+
+                            if (editorInstance) {
+                                var currentContent = editorInstance.getData();
+                                var newText = currentContent + buttonText;
+                                editorInstance.setData(newText);
+                            } else {
+                                console.error('CKEditor instance not found.');
+                            }
+                        });
+                    });
+                } else {
+                    console.error('Buttons with class "clckads" not found.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+
+    // CKEditor default configuration
+    ClassicEditor.defaultConfig = {
+        toolbar: {
+            items: [
+                'undo',
+                'redo',
+                '|',
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'link',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'insertTable',
+                '|',
+                'mediaEmbed',
+                '|',
+                'imageTextAlternative',
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+            ],
+            shouldNotGroupWhenFull: true
+        },
+        language: 'en',
+        image: {
+            toolbar: [
+                'imageTextAlternative',
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side'
+            ],
+            styles: [
+                'alignLeft', 'alignCenter', 'alignRight'
+            ]
+        },
+        table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
+    };
+    $(document).ready(function() {
+        // console.log("dddd");
+
+        $(".clckads").on( "click", function() {
+            var oldtext = $("#car_detail").val();
+            var thistext = $(this).text();
+            var newtext = oldtext+thistext;
+            add_text(newtext);
+        } );
+        function add_text(newtext){ 
+            document.getElementById("car_detail").value = newtext;
+        }
+        
+
+        $("#generations").on( "change", function() {
+            var generations_id = $(this).val();
+            if(generations_id){
+                $('#wait').show();
+                $.ajax({
+                    url: "{{route('carpostSelectGenerations')}}",
+                    type: "post",
+                    data: { 
+                        generations_id: generations_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#wait').hide();
+                        $('#sub_models').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+                $.ajax({
+                    url: "{{route('carpostSelectGenerationsYear')}}",
+                    type: "post",
+                    data: { 
+                        generations_id: generations_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#wait').hide();
+                        $('#years').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        } );
+
+        $("#models").on( "change", function() {
+            var models_id = $(this).val();
+            if(models_id){
+                $('#wait').show();
+                $.ajax({
+                    url: "{{route('carpostSelectModel')}}",
+                    type: "post",
+                    data: { 
+                        models_id: models_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#wait').hide();
+                        $('#generations').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        } );
+
+        $("#brands").on( "change", function() {
+            var brands_id = $(this).val();
+            if(brands_id){
+                $('#wait').show();
+                $.ajax({
+                    url: "{{route('carpostSelectBrand')}}",
+                    type: "post",
+                    data: { 
+                        brands_id: brands_id, 
+                        _token: '{{csrf_token()}}'
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $('#wait').hide();
+                        $('#models').html(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#wait').hide();
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        } );
+    }); 
+    document.addEventListener('DOMContentLoaded', function () {
+        const colorSelect = document.getElementById('color_select');
+        const otherColorInput = document.getElementById('other_color_input');
+
+        if (colorSelect && otherColorInput) {
+            colorSelect.addEventListener('change', function () {
+                if (colorSelect.value === '99999999') {
+                    otherColorInput.setAttribute('required', 'required');
+                } else {
+                    otherColorInput.removeAttribute('required');
+                }
+            });
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const steps = document.querySelectorAll('.step');
+        let currentStep = 0;
+
+
+        function showStep(step) {
+            steps.forEach((el, index) => {
+                el.classList.toggle('active', index === step);
+            });
+        }
+
+        function validateStep(step) {
+            const inputs = steps[step].querySelectorAll('input[required], textarea[required], select[required]');
+            const emptyFields = [];
+            
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    emptyFields.push(input.previousElementSibling.textContent);
+                }
+            });
+            
+            if (emptyFields.length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'แจ้งเตือน',
+                    html: `กรุณากรอกข้อมูลให้ครบถ้วน: <br> ${emptyFields.join('<br>')}`,
+                });
+                return false;
+            }
+            return true;
+        }
+
+        document.querySelectorAll('.btn-nextstep').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    if (currentStep < steps.length - 1) {
+                        currentStep++;
+                        showStep(currentStep);
+                        window.scrollTo(0, 0); // Scroll to top of the page
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-backstep').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                    window.scrollTo(0, 0); // Scroll to top of the page
+                }
+            });
+        });
+
+        showStep(currentStep);
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const uploadExteriorInput = document.getElementById('upload-exterior-input');
@@ -15,8 +275,10 @@
         const registrationUploadButton = document.getElementById('registration-upload-button');
         const registrationUploadingSpan = document.getElementById('registration_uploading');
 
+        const formType = '{{ $formtype }}';
+
         const loadingBox = document.getElementById('wait');
-        const submitButton = document.querySelector('.btn-nextstep');
+        const submitButton = document.getElementById('submitBtn');
 
         function animateUploadingText(spanElement) {
             let dots = '';
@@ -31,7 +293,6 @@
             return interval; // Return interval ID
         }
 
-        // Function to handle image upload logic
         function handleImageUpload(input, button, previewContainer, spanElement, type, isSingleUpload = false) {
             if (!input || !button || !previewContainer || !spanElement) {
                 console.error('Required element not found:', { input, button, previewContainer, spanElement });
@@ -125,10 +386,12 @@
 
         handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer, exteriorUploadingSpan, 'exterior');
         handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, interiorUploadingSpan, 'interior');
-        handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, registrationUploadingSpan, 'registration', true);
+        if (formType === 'home') {
+            handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, registrationUploadingSpan, 'registration', true);
+        }
 
-        // Function to initialize remove functionality for existing images
         function initializeRemoveButtons(previewContainer) {
+            if (!previewContainer) return; // Ensure previewContainer exists
             const removeButtons = previewContainer.querySelectorAll('.remove-image-button');
             removeButtons.forEach(button => {
                 button.addEventListener('click', function () {
@@ -151,16 +414,10 @@
             });
         }
 
-        // Initialize remove functionality for existing exterior images
-        initializeRemoveButtons(exteriorPreviewContainer);
+        if (exteriorPreviewContainer) initializeRemoveButtons(exteriorPreviewContainer);
+        if (interiorPreviewContainer) initializeRemoveButtons(interiorPreviewContainer);
+        if (registrationPreviewContainer) initializeRemoveButtons(registrationPreviewContainer);
 
-        // Initialize remove functionality for existing interior images
-        initializeRemoveButtons(interiorPreviewContainer);
-
-        // Initialize remove functionality for existing registration image
-        initializeRemoveButtons(registrationPreviewContainer);
-
-        // Initialize SortableJS for exterior images
         if (exteriorPreviewContainer) {
             new Sortable(exteriorPreviewContainer, {
                 animation: 150,
@@ -175,7 +432,6 @@
             });
         }
 
-        // Initialize SortableJS for interior images
         if (interiorPreviewContainer) {
             new Sortable(interiorPreviewContainer, {
                 animation: 150,
@@ -190,22 +446,18 @@
             });
         }
 
-        // Form submission handler
         submitButton.addEventListener('click', function (event) {
             event.preventDefault();
 
-            // Check if any of the preview containers are empty
             const isExteriorEmpty = exteriorPreviewContainer.children.length === 0;
             const isInteriorEmpty = interiorPreviewContainer.children.length === 0;
-            const isRegistrationEmpty = registrationPreviewContainer.children.length === 0;
+            const isRegistrationEmpty = formType === 'home' && registrationPreviewContainer.children.length === 0;
 
-            // Check if the registration input is required
             const registrationInput = document.getElementById('upload-registration-input');
-            const isRegistrationRequired = registrationInput.hasAttribute('required');
+            const isRegistrationRequired = registrationInput && registrationInput.hasAttribute('required');
 
             let errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร, เล่มทะเบียนรถ)';
 
-            // Adjust error message based on registration requirement
             if (isRegistrationRequired) {
                 if (isExteriorEmpty || isInteriorEmpty || isRegistrationEmpty) {
                     errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร, เล่มทะเบียนรถ)';
@@ -218,6 +470,16 @@
                 }
             }
 
+            const acceptanceCheckbox = document.getElementById('acceptance-checkbox');
+            if (!acceptanceCheckbox || !acceptanceCheckbox.checked) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'กรุณาอ่านและยอมรับเงื่อนไขการใช้งานก่อนลงทะเบียนขาย',
+                });
+                return;
+            }
+
             if (isExteriorEmpty || isInteriorEmpty || (isRegistrationRequired && isRegistrationEmpty)) {
                 Swal.fire({
                     icon: 'error',
@@ -228,23 +490,17 @@
                 return;
             }
 
-            // Show loading box before submitting the form
             loadingBox.style.display = 'flex';
 
-            // If not empty and validated, submit the form
             const carpostForm = document.getElementById('carpostForm');
             if (carpostForm) {
                 setTimeout(() => {
                     carpostForm.submit();
-                }, 500); // Adjust timeout as needed
+                }, 500);
             } else {
                 console.error('Form element with ID "carpostForm" not found.');
             }
         });
 
     });
-
-
-
-
 </script>

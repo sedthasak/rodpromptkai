@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\generationsModel;
+use App\Models\carsModel;
+
 class sub_modelsModel extends Model
 {
     use HasFactory;
@@ -17,4 +20,14 @@ class sub_modelsModel extends Model
         'description',
         'feature'
     ];
+
+    public function generation()
+    {
+        return $this->belongsTo(generationsModel::class, 'generations_id');
+    }
+
+    public function cars()
+    {
+        return $this->hasMany(carsModel::class, 'sub_models_id');
+    }
 }

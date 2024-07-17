@@ -82,7 +82,7 @@ Route::middleware('sessionlogin')->group(function() {
 
     Route::controller(PostController::class)->group(function() {
 
-        Route::get('/regiser-sellcar', 'carpostbrowse')->name('carpostbrowse');
+        Route::post('/regiser-sellcar', 'carpostbrowse')->name('carpostbrowse');
         Route::post('/regiser-sellcar-submit', 'carpostbrowsesubmit')->name('carpostbrowsesubmit');
         Route::post('/carpost-upload-image', 'carpostuploadimage')->name('carpostuploadimage');
         Route::post('/carpost-delete-image', 'carpostdeleteimage')->name('carpostdeleteimage');

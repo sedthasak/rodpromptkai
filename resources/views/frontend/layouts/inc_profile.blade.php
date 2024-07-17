@@ -15,9 +15,7 @@ $google_map = $customerdata->google_map??'-';
 $facebook = $customerdata->facebook??'-';
 $line = $customerdata->line??'-';
 
-// echo "<per>";
-// print_r($customerdata->level);
-// echo "</per>";
+
 
 ?>
 <!-- <section class="row">
@@ -62,9 +60,18 @@ $line = $customerdata->line??'-';
                 <div class="col-12">
                     <div class="txt-deal-slot">
                         <img src="{{asset('frontend/images/icon-car.svg')}}" alt="">
-                        Slot ลงขาย <div>{{$customerdata->dealerpack}}</div> คัน
+                        Slot ลงขาย <div>{{$customer_role['quota']}}</div> คัน
                         <span>|</span>
-                        สัญญาหมดอายุ <div>{{$customerdata->dealerpack_expire}}</div> 
+                        @if ($customer_role['role'] == 'normal' || $customer_role['role'] == 'admin')
+                            <div>สัญญาหมดอายุ : ไม่จำกัด</div>
+                        @elseif ($customer_role['role'] == 'dealer' && $customer_role['dealerpack_expire'])
+                            <div>สัญญาหมดอายุ : {{ $customer_role['dealerpack_expire'] }}</div>
+                        @elseif ($customer_role['role'] == 'vip' && $customer_role['vippack_expire'])
+                            <div>สัญญาหมดอายุ : {{ $customer_role['vippack_expire'] }}</div>
+                        @else
+                            <div>สัญญาหมดอายุ : ไม่จำกัด</div>
+                        @endif
+
                     </div>
                 </div>
                 <div class="col-3 col-md-3 col-lg-2">
@@ -84,16 +91,21 @@ $line = $customerdata->line??'-';
                         <div class="profile-name">{{$firstname}} {{$lastname}}</div>
                         <!-- เพิ่มใหม่ -->
                         <div>
-                            @if($customerdata->level == 'member')
-                                <div class="level-member user_member">Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
-                            @else
-                                <div class="level-member user_silver">Silver Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
-                                <div class="level-member user_gold">Gold  Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow"></div>
-                                <div class="level-member user_platinum">
-                                    <img src="{{asset('frontend/images2/icon-platinum.svg')}}" class="icon-platinum" alt="">
-                                    Platinum  Member <img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt="" class="member-arrow">
-                                </div>
-                            @endif
+                        @if ($customer_level['slug'] === 'member')
+                            <div class="level-member user_member">Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow"></div>
+                        @elseif ($customer_level['slug'] === 'silver')
+                            <div class="level-member user_silver">Silver Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow"></div>
+                        @elseif ($customer_level['slug'] === 'gold')
+                            <div class="level-member user_gold">Gold Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow"></div>
+                        @elseif ($customer_level['slug'] === 'platinum')
+                            <div class="level-member user_platinum">
+                                <img src="{{ asset('frontend/images2/icon-platinum.svg') }}" class="icon-platinum" alt="">
+                                Platinum Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow">
+                            </div>
+                        @else
+                            <div class="level-member user_member">Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow"></div>
+                        @endif
+
                             
                             
                         </div>
@@ -128,7 +140,7 @@ $line = $customerdata->line??'-';
 <?php
 
 // echo "<pre>";
-// print_r($data);
+// print_r($customer_role);
 // echo "</pre>";
 ?>
 

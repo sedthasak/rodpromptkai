@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Models\carsModel;
+
 class Customer extends Model
 {
     //
@@ -13,11 +15,19 @@ class Customer extends Model
     // public $incrementing = false;
     // protected $keyType = 'string';
     protected $fillable = [
-        'phone', 
-        'sp_role', 
+        'phone',
+        'sp_role',
+        'role',
+        'customer_quota',
+        'dealerpack',
+        'dealerpack_regis',
+        'dealerpack_expire',
+        'vippack',
+        'vippack_regis',
+        'vippack_expire',
+        'accumulate', // Adding the new field here
         'username',
         'email',
-        'remember',
         'image',
         'firstname',
         'lastname',
@@ -28,16 +38,17 @@ class Customer extends Model
         'facebook',
         'line',
         'last_action',
-        'history',
-        'customer_quota',
-        'dealerpack',
-        'dealerpack_regis',
-        'dealerpack_expire',
-        'vippack',
-        'vippack_regis',
-        'vippack_expire',
         'bigbrand',
+        'history',
+        'remember',
+        'created_at',
+        'updated_at'
     ];
+
+    public function cars()
+    {
+        return $this->hasMany(carsModel::class, 'customer_id');
+    }
 
     // public function index()
     // {

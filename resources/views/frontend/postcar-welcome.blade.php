@@ -21,7 +21,7 @@
                             <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> หรือสามารถลงขายแทนสมาชิกในครอบครัวได้ (นามสกุลเดียวกัน)</div>
                             <div><img src="{{asset('frontend/images/icon-tick.svg')}}" alt=""> เบอร์ที่ลงขายต้องเป็นเบอร์ promptpay</div>
                         </div>
-                        <form method="post" action="{{route('carpostregisterPage')}}" >
+                        <form method="post" action="{{route('carpostbrowse')}}" >
                         @csrf
                             <input type="hidden" name="type" value="home" />
                             <button class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> ลงขายรถของคุณ</button>

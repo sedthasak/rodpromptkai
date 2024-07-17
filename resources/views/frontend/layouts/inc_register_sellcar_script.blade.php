@@ -271,13 +271,13 @@
         const interiorUploadingSpan = document.getElementById('interior_uploading');
 
         const uploadRegistrationInput = document.getElementById('upload-registration-input');
-        const registrationPreviewContainer = document.getElementById('registration-preview');
         const registrationUploadButton = document.getElementById('registration-upload-button');
+        const registrationPreviewContainer = document.getElementById('registration-preview');
         const registrationUploadingSpan = document.getElementById('registration_uploading');
 
-        const loadingBox = document.getElementById('wait');
-        const submitButton = document.getElementById('submitBtn');
+        const formType = '{{ $formtype }}';
 
+        // Function to animate uploading text
         function animateUploadingText(spanElement) {
             let dots = '';
             spanElement.style.display = 'inline'; // Show the span element
@@ -291,6 +291,7 @@
             return interval;
         }
 
+        // Function to handle image uploads
         function handleImageUpload(input, button, previewContainer, spanElement, type, isSingleUpload = false) {
             if (!input || !button || !previewContainer || !spanElement) {
                 console.error('Required element not found:', { input, button, previewContainer, spanElement });
@@ -391,7 +392,9 @@
         handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, interiorUploadingSpan, 'interior');
 
         // Call handleImageUpload for registration image (single upload)
-        handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, registrationUploadingSpan, 'registration', true);
+        if (formType === 'home') {
+            handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, registrationUploadingSpan, 'registration', true);
+        }
 
         // Initialize SortableJS for exterior images
         if (exteriorPreviewContainer) {
@@ -424,6 +427,9 @@
         }
 
         // Form submission handler
+        const submitButton = document.getElementById('submitBtn');
+        const loadingBox = document.getElementById('wait');
+
         if (submitButton) {
             submitButton.addEventListener('click', function (event) {
                 event.preventDefault();
@@ -431,13 +437,13 @@
                 // Check if any of the preview containers are empty
                 const isExteriorEmpty = exteriorPreviewContainer.children.length === 0;
                 const isInteriorEmpty = interiorPreviewContainer.children.length === 0;
-                const isRegistrationEmpty = registrationPreviewContainer.children.length === 0;
+                const isRegistrationEmpty = formType === 'home' && registrationPreviewContainer.children.length === 0;
 
                 // Check if the registration input is required
                 const registrationInput = document.getElementById('upload-registration-input');
-                const isRegistrationRequired = registrationInput.hasAttribute('required');
+                const isRegistrationRequired = registrationInput && registrationInput.hasAttribute('required');
 
-                let errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร, เล่มทะเบียนรถ)';
+                let errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร)';
 
                 // Adjust error message based on registration requirement
                 if (isRegistrationRequired) {
@@ -452,31 +458,41 @@
                     }
                 }
 
-                if (isExteriorEmpty || isInteriorEmpty || (isRegistrationRequired && isRegistrationEmpty)) {
+                // Check acceptance checkbox
+                const acceptanceCheckbox = document.getElementById('acceptance-checkbox');
+                if (!acceptanceCheckbox || !acceptanceCheckbox.checked) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'กรุณาเพิ่มรูปภาพ',
-                        text: errorMessage,
-                        confirmButtonText: 'ตกลง'
+                        title: 'ผิดพลาด',
+                        text: 'กรุณาอ่านและยอมรับเงื่อนไขการใช้งานก่อนลงทะเบียนขาย',
                     });
                     return;
                 }
 
-                // Show loading box before submitting the form
-                loadingBox.style.display = 'flex';
+                // Show error message and prevent form submission if necessary
+                if (isExteriorEmpty || isInteriorEmpty || (isRegistrationRequired && isRegistrationEmpty)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ผิดพลาด',
+                        text: errorMessage,
+                    });
+                    return;
+                }
 
-                // Gather form data for debugging
-                // const formData = new FormData(document.getElementById('carpostForm'));
-                // for (const pair of formData.entries()) {
-                //     console.log(pair[0] + ': ' + pair[1]);
-                // }
+                // Show loading indicator
+                if (loadingBox) {
+                    loadingBox.style.display = 'block';
+                }
 
-                // If not empty and validated, submit the form
-                setTimeout(() => {
-                    document.getElementById('carpostForm').submit();
-                }, 500); // Adjust timeout as needed
+                // Submit the form
+                document.getElementById('carpostForm').submit();
             });
         }
     });
 </script>
+
+
+
+
+
 

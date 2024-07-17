@@ -5,6 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\brandsModel;
+use App\Models\modelsModel;
+use App\Models\generationsModel;
+use App\Models\sub_modelsModel;
+use App\Models\User;
+use App\Models\Customer;
+
 class carsModel extends Model
 {
     use HasFactory;
@@ -55,4 +62,35 @@ class carsModel extends Model
         'meta_description',
         'meta_keyword'
     ];
+    
+
+    public function brand()
+    {
+        return $this->belongsTo(brandsModel::class, 'brand_id');
+    }
+
+    public function model()
+    {
+        return $this->belongsTo(modelsModel::class, 'model_id');
+    }
+
+    public function generation()
+    {
+        return $this->belongsTo(generationsModel::class, 'generations_id');
+    }
+
+    public function subModel()
+    {
+        return $this->belongsTo(sub_modelsModel::class, 'sub_models_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
 }
