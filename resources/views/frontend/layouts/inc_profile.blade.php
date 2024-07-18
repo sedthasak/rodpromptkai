@@ -116,11 +116,11 @@ $line = $customerdata->line??'-';
                         <div style="display: none;" id="logout">
                             <div class="popup-logout">
                                 <h2>ออกจากระบบ</h2>
-                                <button class="btn-logout logout-user">ออกจากระบบ <i class="bi bi-box-arrow-right"></i></button>
+                                <a href="{{route('logout')}}" class="btn-logout logout-user">ออกจากระบบ <i class="bi bi-box-arrow-right"></i></a>
                                 <div class="logout-note">
                                     หากคุณต้องการออกจากระบบทุกบัญชีการใช้งาน กรุณากดที่ปุ่ม <div>ออกจากระบบทุกบัญชี</div>
                                 </div>
-                                <button class="btn-logout logout-all">ออกจากระบบทุกบัญชี <i class="bi bi-box-arrow-right"></i></button>
+                                <a class="btn-logout logout-all">ออกจากระบบทุกบัญชี <i class="bi bi-box-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
