@@ -60,8 +60,8 @@ $line = $customerdata->line??'-';
                 <div class="col-12">
                     <div class="txt-deal-slot">
                         <img src="{{asset('frontend/images/icon-car.svg')}}" alt="">
-                        Slot ลงขาย <div>{{$customer_role['quota']}}</div> คัน
-                        <span>|</span>
+                        Slot ลงขายรถบ้านฟรี <div>{{$customer_role['quota']}}</div> คัน
+                        <!-- <span>|</span>
                         @if ($customer_role['role'] == 'normal' || $customer_role['role'] == 'admin')
                             <div>สัญญาหมดอายุ : ไม่จำกัด</div>
                         @elseif ($customer_role['role'] == 'dealer' && $customer_role['dealerpack_expire'])
@@ -70,7 +70,7 @@ $line = $customerdata->line??'-';
                             <div>สัญญาหมดอายุ : {{ $customer_role['vippack_expire'] }}</div>
                         @else
                             <div>สัญญาหมดอายุ : ไม่จำกัด</div>
-                        @endif
+                        @endif -->
 
                     </div>
                 </div>
@@ -140,7 +140,7 @@ $line = $customerdata->line??'-';
 <?php
 
 // echo "<pre>";
-// print_r($customer_role);
+// print_r($customer_level);
 // echo "</pre>";
 ?>
 
