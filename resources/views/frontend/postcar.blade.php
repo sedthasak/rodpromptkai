@@ -7,11 +7,20 @@
 @section('content')
 
 <?php
-$customerdata = session('customer');
-$sp_role = $customerdata->sp_role;
-// echo "<pre>";
-// print_r($customer_role);
-// echo "</pre>";
+$quota = $customer_login->customer_quota;
+$role = $customer_login->role;
+$post = $customer_post;
+
+// Determine routes based on conditions
+$homeCarRoute = ($post < $quota) ? route('postcarwelcomePage') : route('packagePage');
+$ladyCarRoute = ($post < $quota) ? route('postcarwelcomeladyPage') : route('packagePage');
+
+// Conditional logic for ดีลเลอร์
+if (in_array($role, ['dealer', 'vip', 'admin'])) {
+    $dealerRoute = ($post < $quota) ? route('postcarwelcomedealerPage') : route('packagePage');
+} else {
+    $dealerRoute = route('packagePage');
+}
 ?>
 <section class="row">
     <div class="col-12 wrap-postcar">
@@ -25,59 +34,23 @@ $sp_role = $customerdata->sp_role;
                     </div>
                     <div class="wrap-itempost">
 
-
-                        <!-- <a href="{{route('postcarwelcomePage')}}" class="item-postcar item-homecar">
+                        <a href="{{ $homeCarRoute }}" class="item-postcar item-homecar">
                             <img src="{{asset('frontend/images/icon-post01.svg')}}" alt="">
                             <h2>รถบ้าน<br>เจ้าของขายเอง</h2>
                             <div class="btn-select-post">เลือก</div>
                         </a>
-                        
-                        <a href="{{route('postcarwelcomedealerPage')}}" class="item-postcar item-dealer">
+
+                        <a href="{{ $dealerRoute }}" class="item-postcar item-dealer">
                             <img src="{{asset('frontend/images/icon-post02.svg')}}" alt="">
                             <h2>ดีลเลอร์/<br>ลงแบบฝากขาย</h2>
                             <div class="btn-select-post">เลือก</div>
                         </a>
-                        
-                        <a href="{{route('postcarwelcomeladyPage')}}" class="item-postcar item-lady">
+
+                        <a href="{{ $ladyCarRoute }}" class="item-postcar item-lady">
                             <img src="{{asset('frontend/images/icon-post03.svg')}}" alt="">
                             <h2>คุณผู้หญิงลงขายรถ</h2>
                             <div class="btn-select-post">เลือก</div>
-                        </a> -->
-
-                        @if($customer_role['role'] == 'normal')
-                            <a href="{{ route('postcarwelcomePage') }}" class="item-postcar item-homecar">
-                                <img src="{{ asset('frontend/images/icon-post01.svg') }}" alt="">
-                                <h2>รถบ้าน<br>เจ้าของขายเอง</h2>
-                                <div class="btn-select-post">เลือก</div>
-                            </a>
-                            
-                            <a href="{{ route('postcarwelcomeladyPage') }}" class="item-postcar item-lady">
-                                <img src="{{ asset('frontend/images/icon-post03.svg') }}" alt="">
-                                <h2>คุณผู้หญิงลงขายรถ</h2>
-                                <div class="btn-select-post">เลือก</div>
-                            </a>
-                        @elseif($customer_role['role'] == 'dealer' || $customer_role['role'] == 'vip' || $customer_role['role'] == 'admin')
-                            <a href="{{ route('postcarwelcomePage') }}" class="item-postcar item-homecar">
-                                <img src="{{ asset('frontend/images/icon-post01.svg') }}" alt="">
-                                <h2>รถบ้าน<br>เจ้าของขายเอง</h2>
-                                <div class="btn-select-post">เลือก</div>
-                            </a>
-                            
-                            <a href="{{ route('postcarwelcomedealerPage') }}" class="item-postcar item-dealer">
-                                <img src="{{ asset('frontend/images/icon-post02.svg') }}" alt="">
-                                <h2>ดีลเลอร์/<br>ลงแบบฝากขาย</h2>
-                                <div class="btn-select-post">เลือก</div>
-                            </a>
-                            
-                            <a href="{{ route('postcarwelcomeladyPage') }}" class="item-postcar item-lady">
-                                <img src="{{ asset('frontend/images/icon-post03.svg') }}" alt="">
-                                <h2>คุณผู้หญิงลงขายรถ</h2>
-                                <div class="btn-select-post">เลือก</div>
-                            </a>
-                        @endif
-
-
-
+                        </a>
 
                     </div>
                     <div class="txt-postcontact">สอบถามข้อมูลเพิ่มเติม ติดต่อ 02-123-4567</div>
@@ -86,6 +59,8 @@ $sp_role = $customerdata->sp_role;
         </div>
     </div>
 </section>
+
+
 
 
 @endsection

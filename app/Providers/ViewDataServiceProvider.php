@@ -13,6 +13,8 @@ use App\Models\noticeModel;
 use App\Models\carsModel;
 use App\Models\provincesModel;
 use App\Models\LevelModel;
+use App\Models\PackageDealerModel;
+use App\Models\VipPackageModel;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -81,6 +83,9 @@ class ViewDataServiceProvider extends ServiceProvider
                 $view->with('customer_id', $customerdata->id);
                 $view->with('allprovince', $allprovince);
 
+                /**************************************************************/
+                /*************************************************************s*/
+
                 $customer_login = Customer::find($customerdata->id);
                 $customer_role = $customer_login->role;
                 $customer_role = [
@@ -92,7 +97,23 @@ class ViewDataServiceProvider extends ServiceProvider
                     'vippack' => $customer_login->vippack,
                     'vippack_regis' => $customer_login->vippack_regis,
                     'vippack_expire' => $customer_login->vippack_expire,
+                    'pack' => '',
                 ];
+                
+                // Determine the package ID to fetch
+                $packageId = $customer_login->dealerpack ?: $customer_login->vippack;
+
+                if ($packageId) {
+                    // Fetch the appropriate package model
+                    $package = $customer_login->dealerpack 
+                        ? PackageDealerModel::find($packageId) 
+                        : VipPackageModel::find($packageId);
+                    
+                    // Update customer_role with the package name if found
+                    if ($package) {
+                        $customer_role['pack'] = strtoupper($package->name);
+                    }
+                }
 
                 $levels = LevelModel::orderBy('accumulate', 'asc')->get();
                 $customerAccumulate = $customer_login->accumulate;
@@ -111,9 +132,13 @@ class ViewDataServiceProvider extends ServiceProvider
                     }
                 }
 
+                $customer_post = carsModel::where('customer_id', $customer_login->id)->count();
+
+
                 $view->with('customer_role', $customer_role);
                 $view->with('customer_login', $customer_login);
                 $view->with('customer_level', $customer_level);
+                $view->with('customer_post', $customer_post);
             }
         });
     }

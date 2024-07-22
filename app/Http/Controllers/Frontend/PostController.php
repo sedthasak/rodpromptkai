@@ -215,7 +215,7 @@ class PostController extends Controller
         // Copy images to the 'rest' folder and group them by type (exterior or interior)
         $restImages = $this->copyImagesToRest($images, $registrationImage);
         // dd($mycars);
-        return view('frontend.carpost-browse-edit', [
+        return view('frontend.regiser-sellcar-edit', [
             'provinces' => $provinces,
             'brands' => $brands,
             'post' => $post,
@@ -481,7 +481,7 @@ class PostController extends Controller
     {
         $provinces = provincesModel::all();
         $brands = brandsModel::orderBy("sort_no", "ASC")->get();
-        return view('frontend/carpost-browse', [
+        return view('frontend/regiser-sellcar', [
             'provinces' => $provinces,
             'brands' => $brands,
         ]);

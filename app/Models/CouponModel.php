@@ -16,7 +16,7 @@ class CouponModel extends Model
         'code',
         'rate',
         'limit_rate',
-        'expire',
+        'expirecoupon',
         'description',
         'limit',
         'status',
@@ -24,7 +24,7 @@ class CouponModel extends Model
     ];
 
     protected $casts = [
-        'expire' => 'datetime',
+        'expirecoupon' => 'datetime',
     ];
 
     public function level()

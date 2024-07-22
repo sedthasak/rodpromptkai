@@ -13,24 +13,27 @@
         // Add comma as thousand separators
         input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
+    function updateCKEditorInstances() {
+        for (let instanceName in CKEDITOR.instances) {
+            CKEDITOR.instances[instanceName].updateElement();
+        }
+    }
+
+    let carDetailEditor;
     document.addEventListener('DOMContentLoaded', function () {
         ClassicEditor
             .create(document.querySelector('#car_detail'))
             .then(editor => {
+                carDetailEditor = editor; // Store the editor instance globally
+
                 var buttons = document.querySelectorAll('.clckads');
                 if (buttons) {
                     buttons.forEach(button => {
                         button.addEventListener('click', function () {
                             var buttonText = button.getAttribute('data-text');
-                            var editorInstance = editor;
-
-                            if (editorInstance) {
-                                var currentContent = editorInstance.getData();
-                                var newText = currentContent + buttonText;
-                                editorInstance.setData(newText);
-                            } else {
-                                console.error('CKEditor instance not found.');
-                            }
+                            var currentContent = carDetailEditor.getData();
+                            var newText = currentContent + buttonText;
+                            carDetailEditor.setData(newText);
                         });
                     });
                 } else {
@@ -41,6 +44,8 @@
                 console.error(error);
             });
     });
+
+
 
     // CKEditor default configuration
     ClassicEditor.defaultConfig = {
@@ -86,6 +91,10 @@
     };
     $(document).ready(function() {
         // console.log("dddd");
+        $(".select2s").select2();
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
 
         $(".clckads").on( "click", function() {
             var oldtext = $("#car_detail").val();
@@ -212,16 +221,23 @@
             });
         }
 
+        
+
         function validateStep(step) {
+            // Update CKEditor content
+            if (carDetailEditor) {
+                document.querySelector('#car_detail').value = carDetailEditor.getData();
+            }
+
             const inputs = steps[step].querySelectorAll('input[required], textarea[required], select[required]');
             const emptyFields = [];
-            
+
             inputs.forEach(input => {
                 if (input.value.trim() === '') {
                     emptyFields.push(input.previousElementSibling.textContent);
                 }
             });
-            
+
             if (emptyFields.length > 0) {
                 Swal.fire({
                     icon: 'warning',
@@ -232,6 +248,13 @@
             }
             return true;
         }
+
+
+
+
+
+
+
 
         document.querySelectorAll('.btn-nextstep').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -434,27 +457,29 @@
             submitButton.addEventListener('click', function (event) {
                 event.preventDefault();
 
-                // Check if any of the preview containers are empty
-                const isExteriorEmpty = exteriorPreviewContainer.children.length === 0;
-                const isInteriorEmpty = interiorPreviewContainer.children.length === 0;
+                // Check the number of images in the preview containers
+                const exteriorImageCount = exteriorPreviewContainer.children.length;
+                const interiorImageCount = interiorPreviewContainer.children.length;
+                const isExteriorValid = exteriorImageCount >= 3 && exteriorImageCount <= 15;
+                const isInteriorValid = interiorImageCount >= 3 && interiorImageCount <= 15;
                 const isRegistrationEmpty = formType === 'home' && registrationPreviewContainer.children.length === 0;
 
                 // Check if the registration input is required
                 const registrationInput = document.getElementById('upload-registration-input');
                 const isRegistrationRequired = registrationInput && registrationInput.hasAttribute('required');
 
-                let errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร)';
+                let errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ 3-15 รูป, รูปห้องโดยสาร 3-15 รูป)';
 
                 // Adjust error message based on registration requirement
                 if (isRegistrationRequired) {
-                    if (isExteriorEmpty || isInteriorEmpty || isRegistrationEmpty) {
-                        errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร, เล่มทะเบียนรถ)';
+                    if (!isExteriorValid || !isInteriorValid || isRegistrationEmpty) {
+                        errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ 3-15 รูป, รูปห้องโดยสาร 3-15 รูป, เล่มทะเบียนรถ)';
                     } else {
-                        errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร)';
+                        errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ 3-15 รูป, รูปห้องโดยสาร 3-15 รูป)';
                     }
                 } else {
-                    if (isExteriorEmpty || isInteriorEmpty) {
-                        errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร)';
+                    if (!isExteriorValid || !isInteriorValid) {
+                        errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ 3-15 รูป, รูปห้องโดยสาร 3-15 รูป)';
                     }
                 }
 
@@ -470,7 +495,7 @@
                 }
 
                 // Show error message and prevent form submission if necessary
-                if (isExteriorEmpty || isInteriorEmpty || (isRegistrationRequired && isRegistrationEmpty)) {
+                if (!isExteriorValid || !isInteriorValid || (isRegistrationRequired && isRegistrationEmpty)) {
                     Swal.fire({
                         icon: 'error',
                         title: 'ผิดพลาด',
@@ -481,13 +506,14 @@
 
                 // Show loading indicator
                 if (loadingBox) {
-                    loadingBox.style.display = 'block';
+                    loadingBox.style.display = 'flex';
                 }
 
                 // Submit the form
                 document.getElementById('carpostForm').submit();
             });
         }
+
     });
 </script>
 

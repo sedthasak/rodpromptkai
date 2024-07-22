@@ -19,18 +19,18 @@ class OrderModel extends Model
         'package_dealers_id',
         'price',
         'vat',
-        'net_price',
         'coupons_id',
         'coupons_rate',
         'coupons',
         'discount',
+        'net_price',
+        'donate',
+        'donation',
         'total',
         'accept',
-
+        'invoiceform',
         'full_receipt',
-
         'person_type',
-
         'individual_name',
         'individual_taxidno',
         'individual_telephone',
@@ -40,7 +40,6 @@ class OrderModel extends Model
         'individual_district',
         'individual_subdistrict',
         'individual_zipcode',
-
         'corporation_name',
         'corporation_taxidno',
         'corporation_branch',
@@ -52,10 +51,7 @@ class OrderModel extends Model
         'corporation_district',
         'corporation_subdistrict',
         'corporation_zipcode',
-
-
         'short_receipt',
-        
         'short_name',
         'short_telephone',
         'short_email',
@@ -64,10 +60,7 @@ class OrderModel extends Model
         'short_district',
         'short_subdistrict',
         'short_zipcode',
-
         'no_receipt',
-        
-        'donate',
         'donate_amount',
         'payment_method',
         'payment_date',

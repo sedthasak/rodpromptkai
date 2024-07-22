@@ -86,6 +86,10 @@
     };
     $(document).ready(function() {
         // console.log("dddd");
+        $(".select2s").select2();
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
 
         $(".clckads").on( "click", function() {
             var oldtext = $("#car_detail").val();
@@ -449,24 +453,26 @@
         submitButton.addEventListener('click', function (event) {
             event.preventDefault();
 
-            const isExteriorEmpty = exteriorPreviewContainer.children.length === 0;
-            const isInteriorEmpty = interiorPreviewContainer.children.length === 0;
+            const exteriorImageCount = exteriorPreviewContainer.children.length;
+            const interiorImageCount = interiorPreviewContainer.children.length;
+            const isExteriorValid = exteriorImageCount >= 3 && exteriorImageCount <= 15;
+            const isInteriorValid = interiorImageCount >= 3 && interiorImageCount <= 15;
             const isRegistrationEmpty = formType === 'home' && registrationPreviewContainer.children.length === 0;
 
             const registrationInput = document.getElementById('upload-registration-input');
             const isRegistrationRequired = registrationInput && registrationInput.hasAttribute('required');
 
-            let errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร, เล่มทะเบียนรถ)';
+            let errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ 3-15 รูป, รูปห้องโดยสาร 3-15 รูป, เล่มทะเบียนรถ)';
 
             if (isRegistrationRequired) {
-                if (isExteriorEmpty || isInteriorEmpty || isRegistrationEmpty) {
-                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร, เล่มทะเบียนรถ)';
+                if (!isExteriorValid || !isInteriorValid || isRegistrationEmpty) {
+                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ 3-15 รูป, รูปห้องโดยสาร 3-15 รูป, เล่มทะเบียนรถ)';
                 } else {
-                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร)';
+                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ 3-15 รูป, รูปห้องโดยสาร 3-15 รูป)';
                 }
             } else {
-                if (isExteriorEmpty || isInteriorEmpty) {
-                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ, รูปห้องโดยสาร)';
+                if (!isExteriorValid || !isInteriorValid) {
+                    errorMessage = 'โปรดอัพโหลดรูปภาพทั้งหมดที่จำเป็น (รูปภายนอกรถ 3-15 รูป, รูปห้องโดยสาร 3-15 รูป)';
                 }
             }
 
@@ -480,7 +486,7 @@
                 return;
             }
 
-            if (isExteriorEmpty || isInteriorEmpty || (isRegistrationRequired && isRegistrationEmpty)) {
+            if (!isExteriorValid || !isInteriorValid || (isRegistrationRequired && isRegistrationEmpty)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'กรุณาเพิ่มรูปภาพ',
@@ -501,6 +507,7 @@
                 console.error('Form element with ID "carpostForm" not found.');
             }
         });
+
 
     });
 </script>

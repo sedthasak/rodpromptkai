@@ -224,10 +224,17 @@ Route::middleware('sessionlogin')->group(function() {
     });
     Route::controller(PackagesAndDealsController::class)->group(function() {
 
+        Route::post('/cart-select-district', 'cartselectdistrict')->name('cartselectdistrict');
+        Route::post('/cart-select-subdistrict', 'cartselectsubdistrict')->name('cartselectsubdistrict');
+
         Route::get('/package', 'packagePage')->name('packagePage');
+        Route::get('/orderpay/{order}', 'orderpayPage')->name('orderpayPage');
+        Route::post('/orderpay-action', 'orderpayaction')->name('orderpayaction');
         Route::post('/cart', 'cartPage')->name('cartPage');
         Route::post('/cart-action', 'cartactionPage')->name('cartactionPage');
         Route::post('/apply-coupon', 'applyCouponAction')->name('applyCouponAction');
+
+        
     });
     // Route::controller(PaymentAndCheckoutController::class)->group(function() {
         
