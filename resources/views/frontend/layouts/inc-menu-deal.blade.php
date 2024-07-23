@@ -24,8 +24,8 @@
                 <a href="#"><div><img src="{{asset('frontend/images2/icon-yourpackage.svg')}}" alt="">แพ็คเกจของคุณ</div></a>
             </li>
             <li>
-                <a href="#" class="btn-adddeal btn-adddeal-pc"><div><img src="{{asset('frontend/images2/icon-adddeal-white.svg')}}" alt="">เพิ่มการมองเห็น</div> <span><img src="images/icon-chev-white.svg" alt=""></span></a>
-                <a href="#" class="btn-adddeal btn-adddeal-mb"><div><img src="{{asset('frontend/images2/icon-adddeal.svg')}}" alt=""> เพิ่มดีลพิเศษ</div> <span><img src="images/icon-chev-white.svg" alt=""></span></a>
+                <a href="{{route('specialdealPage')}}" class="btn-adddeal btn-adddeal-pc"><div><img src="{{asset('frontend/images2/icon-adddeal-white.svg')}}" alt="">เพิ่มการมองเห็น</div> <span><img src="images/icon-chev-white.svg" alt=""></span></a>
+                <a href="{{route('specialdealPage')}}" class="btn-adddeal btn-adddeal-mb"><div><img src="{{asset('frontend/images2/icon-adddeal.svg')}}" alt=""> เพิ่มการมองเห็น</div> <span><img src="images/icon-chev-white.svg" alt=""></span></a>
             </li>
         </ul>
     </div>
@@ -37,19 +37,19 @@
                 </a>
             </li> -->
             <li>
-                <a href="#">สถานะปัจจุบัน <span>{{$rolearray[$customer_role['role']]}}</span></a>
+                <a>สถานะปัจจุบัน <span>{{$rolearray[$customer_role['role']]}}</span></a>
             </li>
             <li>
-                <a href="#">แพ็คเกจปัจจุบัน <span>{{ $customer_role['pack'] ?: '-' }}</span></a>
+                <a>แพ็คเกจปัจจุบัน <span>{{ $customer_role['pack'] ?: '-' }}</span></a>
             </li>
 
             <li>
-                <a href="#">Slot ลงขาย <span>{{$customer_post}} / {{$customer_role['quota']}} คัน</span></a>
+                <a>Slot ลงขาย <span>{{$customer_post}} / {{$customer_role['quota']}} คัน</span></a>
             </li>
             
             <li>
                 @if ($customer_role['role'] == 'normal' || $customer_role['role'] == 'admin')
-                    <a href="#">สัญญาหมดอายุ <span>ไม่จำกัด</span></a>
+                    <a>สัญญาหมดอายุ <span>ไม่จำกัด</span></a>
                 @elseif ($customer_role['role'] == 'dealer' && $customer_role['dealerpack_expire'])
                     @php
                         $dealerpackExpire = new DateTime($customer_role['dealerpack_expire']);
@@ -61,7 +61,7 @@
                         $vippackExpire = new DateTime($customer_role['vippack_expire']);
                         $vippackExpireFormatted = $vippackExpire->format('d/m/Y');
                     @endphp
-                    <a href="#">สัญญาหมดอายุ <span>{{ $vippackExpireFormatted }}</span></a>
+                    <a>สัญญาหมดอายุ <span>{{ $vippackExpireFormatted }}</span></a>
                 @else
                     <div>สัญญาหมดอายุ : ไม่จำกัด</div>
                 @endif

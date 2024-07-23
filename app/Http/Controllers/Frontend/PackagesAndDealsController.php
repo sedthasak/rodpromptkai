@@ -23,6 +23,32 @@ use App\Models\SubDistrict;
 
 class PackagesAndDealsController extends Controller
 {
+
+    public function specialchangedealPage(Request $request) 
+    {
+        // dd($pv);
+        return view('frontend.specialchangedeal', [
+            // "item" => $item,
+        ]);
+    }
+    public function specialadddealPage(Request $request) 
+    {
+        // dd($pv);
+        return view('frontend.specialadddeal', [
+            // "item" => $item,
+        ]);
+    }
+    public function specialdealPage(Request $request) 
+    {
+        // dd($pv);
+        return view('frontend.specialdeal', [
+            // "item" => $item,
+        ]);
+    }
+
+
+
+
     public function applyCouponAction(Request $request)
     {
         $code = $request->input('code');

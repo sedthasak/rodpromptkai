@@ -224,17 +224,18 @@ Route::middleware('sessionlogin')->group(function() {
     });
     Route::controller(PackagesAndDealsController::class)->group(function() {
 
+        Route::get('/special-deal', 'specialdealPage')->name('specialdealPage');
+        Route::get('/special-adddeal', 'specialadddealPage')->name('specialadddealPage');
+        Route::get('/special-changedeal', 'specialchangedealPage')->name('specialchangedealPage');
+
         Route::post('/cart-select-district', 'cartselectdistrict')->name('cartselectdistrict');
         Route::post('/cart-select-subdistrict', 'cartselectsubdistrict')->name('cartselectsubdistrict');
-
         Route::get('/package', 'packagePage')->name('packagePage');
         Route::get('/orderpay/{order}', 'orderpayPage')->name('orderpayPage');
         Route::post('/orderpay-action', 'orderpayaction')->name('orderpayaction');
         Route::post('/cart', 'cartPage')->name('cartPage');
         Route::post('/cart-action', 'cartactionPage')->name('cartactionPage');
         Route::post('/apply-coupon', 'applyCouponAction')->name('applyCouponAction');
-
-        
     });
     // Route::controller(PaymentAndCheckoutController::class)->group(function() {
         
@@ -297,6 +298,16 @@ Route::middleware('auth')->group(function() {
 
         Route::prefix('backend')->group(function () {
 
+            Route::prefix('deals')->group(function () {
+
+                Route::get('', [DealsController::class, 'BN_deals'])->name('BN_deals');
+                Route::get('/add', [DealsController::class, 'BN_deals_add'])->name('BN_deals_add');
+                Route::post('/add-action', [DealsController::class, 'BN_deals_add_action'])->name('BN_deals_add_action');
+                Route::get('/edit/{id}', [DealsController::class, 'BN_deals_edit'])->name('BN_deals_edit');
+                Route::post('/edit-action', [DealsController::class, 'BN_deals_edit_action'])->name('BN_deals_edit_action');
+                Route::get('/detail/{id}', [DealsController::class, 'BN_deals_detail'])->name('BN_deals_detail');
+            });
+
             Route::prefix('packages')->group(function () {
                 
                 Route::get('', [PackagesController::class, 'BN_packages'])->name('BN_packages');
@@ -324,10 +335,7 @@ Route::middleware('auth')->group(function() {
                 Route::get('/detail/{id}', [DiscountsController::class, 'BN_discounts_detail'])->name('BN_discounts_detail');
             });
             
-            Route::prefix('deals')->group(function () {
-
-                Route::get('', [BackendPageController::class, 'BN_deals'])->name('BN_deals');
-            });
+            
             Route::prefix('orders')->group(function () {
 
                 Route::get('', [BackendPageController::class, 'BN_orders'])->name('BN_orders');
