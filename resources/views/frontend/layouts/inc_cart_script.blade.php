@@ -161,14 +161,17 @@
     });
 </script>
 
+
+
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         function updateDisplayedPrices() {
-            var price = parseFloat(document.getElementById('price').value);
-            var priceNotVat = parseFloat(document.getElementById('price_not_vat').value);
-            var vat = parseFloat(document.getElementById('vat').value);
+            var price = parseFloat(document.getElementById('price').value) || 0;
+            var priceNotVat = parseFloat(document.getElementById('price_not_vat').value) || 0;
+            var vat = parseFloat(document.getElementById('vat').value) || 0;
             var discount = parseFloat(document.getElementById('discount').value) || 0;
             var donateInput = parseFloat(document.getElementById('donate_input').value) || 0;
+
             var totalResult = price - discount; // Total before donation, after discount
             var total = totalResult + donateInput; // Final total including donation
 
@@ -176,12 +179,14 @@
             document.getElementById('total_result').value = totalResult;
             document.getElementById('total').value = total;
 
+            // Update displayed price information
             document.getElementById('price_not_vat_show').textContent = '฿' + priceNotVat.toFixed(2);
             document.getElementById('vat_show').textContent = '฿' + vat.toFixed(2);
             document.getElementById('price_show').textContent = '฿' + price.toFixed(2);
             document.getElementById('discount_amount').textContent = '฿' + discount.toFixed(2);
             document.getElementById('total_show').textContent = '฿' + total.toFixed(2);
 
+            // Show or hide donation info
             if (donateInput > 0) {
                 document.getElementById('donate_info').style.display = 'block';
                 document.getElementById('donate_amount').textContent = '฿' + donateInput.toFixed(2);
@@ -193,39 +198,34 @@
 
         function applyCoupon(data) {
             var price = parseFloat(document.getElementById('price').value);
-            var discountRate = parseFloat(data.rate);
+            var discountRate = parseFloat(document.getElementById('coupons_rate').value) || parseFloat(data.rate);
             var limitRate = parseFloat(data.limit_rate) || 0;
 
-            // Calculate the discount amount based on the rate
+            // Calculate discount amount
             var discountAmount = price * (discountRate / 100);
 
-            // Apply the limit_rate if it exists
+            // Apply limit_rate if provided
             if (limitRate > 0) {
                 discountAmount = Math.min(discountAmount, limitRate);
             }
 
-            // Update the hidden fields
+            // Update hidden fields and displayed values
             document.getElementById('discount').value = discountAmount;
-
-            // Calculate total price after applying discount
             var totalResult = price - discountAmount; // Total after discount but before donation
-
-            document.getElementById('total_result').value = totalResult; // Update total_result
-
-            // Add donate input to the total price
             var donateInput = parseFloat(document.getElementById('donate_input').value) || 0;
             var totalPrice = totalResult + donateInput; // Final total after donation
 
-            document.getElementById('total').value = totalPrice; // Update total
+            document.getElementById('total_result').value = totalResult;
+            document.getElementById('total').value = totalPrice;
             document.getElementById('discount_amount').textContent = '฿' + discountAmount.toFixed(2);
             document.getElementById('total_show').textContent = '฿' + totalPrice.toFixed(2);
 
             // Update coupon fields
             document.getElementById('coupons_id').value = data.id;
             document.getElementById('coupons_rate').value = data.rate;
+            document.getElementById('coupons_limit_rate').value = data.limit_rate;
             document.getElementById('coupons').value = data.name;
             document.getElementById('coupon-name').textContent = data.code;
-
             document.getElementById('discount_span').textContent = data.rate + '%';
 
             document.getElementById('coupon_info').style.display = 'block';
@@ -233,8 +233,7 @@
             document.getElementById('coupon_add').style.display = 'none';
             document.querySelector('.code-warning').style.display = 'none';
 
-            // Update displayed prices to reflect the changes
-            updateDisplayedPrices();
+            updateDisplayedPrices(); // Refresh prices to reflect coupon application
         }
 
         document.getElementById('submit-code').addEventListener('click', function() {
@@ -272,14 +271,13 @@
             var originalPrice = parseFloat(document.getElementById('price').value);
             document.getElementById('total_result').value = originalPrice;
 
-            // Add donate input to the original price to calculate total
             var donateInput = parseFloat(document.getElementById('donate_input').value) || 0;
             var totalPrice = originalPrice + donateInput;
 
-            document.getElementById('total').value = totalPrice; // Update total
+            document.getElementById('total').value = totalPrice;
             document.getElementById('total_show').textContent = '฿' + totalPrice.toFixed(2);
 
-            updateDisplayedPrices();
+            updateDisplayedPrices(); // Refresh prices to reflect coupon cancellation
 
             document.getElementById('coupon_add').style.display = 'block';
             document.getElementById('coupon_info').style.display = 'none';
@@ -297,30 +295,84 @@
 
         calculateInitialPrices();
 
-        // Handle changes to the donation select box
+        var dealAmountElement = document.getElementById('deal_amount');
+        if (dealAmountElement) {
+            dealAmountElement.addEventListener('input', function() {
+                var dealAmount = parseFloat(this.value) || 0;
+                var price = dealAmount * 500;
+                var priceNotVat = price - (price * 0.07);
+                var vat = price * 0.07;
+
+                document.getElementById('price').value = price;
+                document.getElementById('price_not_vat').value = priceNotVat;
+                document.getElementById('vat').value = vat;
+
+                updateDisplayedPrices();
+            });
+        }
+
+        var dealAmountInput = document.getElementById('deal_amount');
+        if (dealAmountInput) {
+            dealAmountInput.addEventListener('input', function() {
+                var dealAmount = parseFloat(this.value) || 0;
+                var price = dealAmount * 500;
+                var priceNotVat = price - (price * 0.07);
+                var vat = price * 0.07;
+
+                document.getElementById('price').value = price;
+                document.getElementById('price_not_vat').value = priceNotVat;
+                document.getElementById('vat').value = vat;
+
+                // Recalculate discount based on updated amount
+                var discountRate = parseFloat(document.getElementById('coupons_rate').value) || 0;
+                var discountAmount = price * (discountRate / 100);
+                var limitRate = parseFloat(document.getElementById('coupons_limit_rate').value) || 0;
+                if (limitRate > 0) {
+                    discountAmount = Math.min(discountAmount, limitRate);
+                }
+
+                document.getElementById('discount').value = discountAmount;
+                var totalResult = price - discountAmount; // Total after discount but before donation
+                var donateInput = parseFloat(document.getElementById('donate_input').value) || 0;
+                var totalPrice = totalResult + donateInput; // Final total after donation
+
+                document.getElementById('total_result').value = totalResult;
+                document.getElementById('total').value = totalPrice;
+                document.getElementById('discount_amount').textContent = '฿' + discountAmount.toFixed(2);
+                document.getElementById('total_show').textContent = '฿' + totalPrice.toFixed(2);
+
+                // Update displayed price information
+                updateDisplayedPrices();
+            });
+        }
+
+        // Handle changes to donation amount
         document.querySelector('select[name="donation"]').addEventListener('change', function() {
             var donateInput = document.getElementById('donate_input');
-            var donationValue = this.value || '0'; // Use '0' if empty
-            
-            donateInput.value = donationValue;
-            
-            // Update displayed prices to reflect any changes
-            updateDisplayedPrices();
-        });
+            var selectedValue = this.value;
 
-        // Handle the 'notdonate' radio button click
-        document.getElementById('notdonate').addEventListener('click', function() {
-            var donationSelect = document.querySelector('select[name="donation"]');
-            var donateInput = document.getElementById('donate_input');
+            if (selectedValue === '0') {
+                donateInput.value = 0;
+                document.getElementById('donate_info').style.display = 'none';
+            } else {
+                donateInput.value = selectedValue;
+                document.getElementById('donate_info').style.display = 'block';
+                document.getElementById('donate_amount').textContent = '฿' + selectedValue;
+            }
 
-            donationSelect.value = ''; // Reset to "กรุณาเลือก"
-            donateInput.value = '0'; // Reset donate_input to 0
-
-            // Update displayed prices to reflect the changes
-            updateDisplayedPrices();
+            updateDisplayedPrices(); // Refresh prices to reflect donation changes
         });
     });
+
 </script>
+
+
+
+
+
+
+
+
 
 
 

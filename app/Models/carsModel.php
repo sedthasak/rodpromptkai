@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use App\Models\brandsModel;
 use App\Models\modelsModel;
 use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 use App\Models\User;
 use App\Models\Customer;
+use App\Models\MyDeal;
 
 class carsModel extends Model
 {
@@ -60,9 +60,9 @@ class carsModel extends Model
         'tag',
         'meta_title',
         'meta_description',
-        'meta_keyword'
+        'meta_keyword',
+        'mydeals'  // Add the new field here
     ];
-    
 
     public function brand()
     {
@@ -92,5 +92,10 @@ class carsModel extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function myDeals()
+    {
+        return $this->hasMany(MyDeal::class, 'cars_id');
     }
 }

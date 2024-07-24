@@ -24,8 +24,8 @@
                 <a href="#"><div><img src="{{asset('frontend/images2/icon-yourpackage.svg')}}" alt="">แพ็คเกจของคุณ</div></a>
             </li>
             <li>
-                <a href="{{route('specialdealPage')}}" class="btn-adddeal btn-adddeal-pc"><div><img src="{{asset('frontend/images2/icon-adddeal-white.svg')}}" alt="">เพิ่มการมองเห็น</div> <span><img src="images/icon-chev-white.svg" alt=""></span></a>
-                <a href="{{route('specialdealPage')}}" class="btn-adddeal btn-adddeal-mb"><div><img src="{{asset('frontend/images2/icon-adddeal.svg')}}" alt=""> เพิ่มการมองเห็น</div> <span><img src="images/icon-chev-white.svg" alt=""></span></a>
+                <a href="{{route('specialdealPage')}}" class="btn-adddeal btn-adddeal-pc"><div><img src="{{asset('frontend/images2/icon-adddeal-white.svg')}}" alt="">เพิ่มการมองเห็น</div> <span><img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt=""></span></a>
+                <a href="{{route('specialdealPage')}}" class="btn-adddeal btn-adddeal-mb"><div><img src="{{asset('frontend/images2/icon-adddeal.svg')}}" alt=""> เพิ่มการมองเห็น</div> <span><img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt=""></span></a>
             </li>
         </ul>
     </div>

@@ -15,6 +15,7 @@ use App\Models\provincesModel;
 use App\Models\LevelModel;
 use App\Models\PackageDealerModel;
 use App\Models\VipPackageModel;
+use App\Models\MyDeal;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -134,11 +135,23 @@ class ViewDataServiceProvider extends ServiceProvider
 
                 $customer_post = carsModel::where('customer_id', $customer_login->id)->count();
 
+                
+                $getdeal = MyDeal::where('customer_id', $customer_login->id)->count();
+                $dealsInUse = MyDeal::where('customer_id', $customer_login->id)
+                                    ->whereNotNull('cars_id')
+                                    ->count();
+                $freeDeals = $getdeal - $dealsInUse;
+                $customer_deal = [
+                    'all' => $getdeal ?: 0,
+                    'use' => $dealsInUse,
+                    'free' => $freeDeals,
+                ];
 
                 $view->with('customer_role', $customer_role);
                 $view->with('customer_login', $customer_login);
                 $view->with('customer_level', $customer_level);
                 $view->with('customer_post', $customer_post);
+                $view->with('customer_deal', $customer_deal);
             }
         });
     }

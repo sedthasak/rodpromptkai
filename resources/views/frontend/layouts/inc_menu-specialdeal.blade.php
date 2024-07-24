@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="col-12 col-sm-4">
-            <div class="txt-deal-remaining">จำนวนดีลคงเหลือ <span>0</span> ดีล</div>
+            <div class="txt-deal-remaining">จำนวนดีลคงเหลือ <span>{{$customer_deal['free']}}</span> ดีล</div>
         </div>
     </div>
 </div>

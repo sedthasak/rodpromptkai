@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Models\MyDeal;
+
 class OrderModel extends Model
 {
     use HasFactory;
@@ -16,6 +18,7 @@ class OrderModel extends Model
         'order_number',
         'customer_id',
         'type',
+        'amount', // Add the amount field here
         'package_dealers_id',
         'price',
         'vat',
@@ -78,4 +81,9 @@ class OrderModel extends Model
         'donate' => 'boolean',
         'payment_date' => 'datetime',
     ];
+    // Relationship with MyDeal
+    public function myDeals()
+    {
+        return $this->hasMany(MyDeal::class, 'orders_id');
+    }
 }

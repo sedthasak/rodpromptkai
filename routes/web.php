@@ -299,12 +299,11 @@ Route::middleware('auth')->group(function() {
         Route::prefix('backend')->group(function () {
 
             Route::prefix('deals')->group(function () {
-
                 Route::get('', [DealsController::class, 'BN_deals'])->name('BN_deals');
                 Route::get('/add', [DealsController::class, 'BN_deals_add'])->name('BN_deals_add');
                 Route::post('/add-action', [DealsController::class, 'BN_deals_add_action'])->name('BN_deals_add_action');
                 Route::get('/edit/{id}', [DealsController::class, 'BN_deals_edit'])->name('BN_deals_edit');
-                Route::post('/edit-action', [DealsController::class, 'BN_deals_edit_action'])->name('BN_deals_edit_action');
+                Route::put('/edit-action', [DealsController::class, 'BN_deals_edit_action'])->name('BN_deals_edit_action'); // Updated to PUT
                 Route::get('/detail/{id}', [DealsController::class, 'BN_deals_detail'])->name('BN_deals_detail');
             });
 

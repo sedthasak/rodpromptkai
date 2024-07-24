@@ -31,6 +31,7 @@ class DealsController extends Controller
             'font1' => 'required|string|max:7',
             'font2' => 'required|string|max:7',
             'font3' => 'required|string|max:7',
+            'font4' => 'nullable|string|max:7', // Added font4 validation
             'image_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
@@ -39,9 +40,6 @@ class DealsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            // Log the validation errors
-            \Log::error('Validation failed', $validator->errors()->toArray());
-
             // Retrieve error messages
             $errors = $validator->errors()->all();
 
@@ -95,6 +93,7 @@ class DealsController extends Controller
     }
 
 
+
     public function BN_deals_add(Request $request)
     {
         return view('backend.deals-add', [ 
@@ -110,19 +109,16 @@ class DealsController extends Controller
             'font1' => 'required|string|max:7',
             'font2' => 'required|string|max:7',
             'font3' => 'required|string|max:7',
+            'font4' => 'nullable|string|max:7', // Added font4 validation
             'image_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'expire' => 'required|date',
             'bigbrand' => 'required|boolean',
         ]);
+
         if ($validator->fails()) {
-            // Log the validation errors
-    
-            // Retrieve error messages
             $errors = $validator->errors()->all();
-    
-            // Return back with validation errors and old input
             return redirect()->back()
                             ->withErrors($validator)
                             ->withInput()
@@ -130,22 +126,29 @@ class DealsController extends Controller
         }
         $data = $request->all();
         $uploadPath = 'public/uploads/deal';
-
         if ($request->hasFile('image_background')) {
             $imageName = 'image_background_' . Str::random(10) . '.' . $request->file('image_background')->getClientOriginalExtension();
             $data['image_background'] = $request->file('image_background')->storeAs($uploadPath, $imageName);
         }
+
         if ($request->hasFile('topleft')) {
             $imageName = 'topleft_' . Str::random(10) . '.' . $request->file('topleft')->getClientOriginalExtension();
             $data['topleft'] = $request->file('topleft')->storeAs($uploadPath, $imageName);
         }
+
         if ($request->hasFile('bottomright')) {
             $imageName = 'bottomright_' . Str::random(10) . '.' . $request->file('bottomright')->getClientOriginalExtension();
             $data['bottomright'] = $request->file('bottomright')->storeAs($uploadPath, $imageName);
         }
+
+        // Create a new deal
         DealModel::create($data);
+
         return redirect()->route('BN_deals')->with('success', 'Deal created successfully!');
     }
+
+
+
     public function BN_deals(Request $request)
     {
         $deals = DealModel::get();

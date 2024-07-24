@@ -18,6 +18,7 @@ use App\Models\CouponModel;
 use App\Models\CouponUse;
 use App\Models\Customer;
 use App\Models\carsModel;
+use App\Models\MyDeal;
 
 use App\Models\Province;
 use App\Models\District;
@@ -35,9 +36,14 @@ class PackagesAndDealsController extends Controller
     }
     public function specialadddealPage(Request $request) 
     {
-        // dd($pv);
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+        $results = carsModel::where('status', 'approved')
+                    ->whereNull('mydeals')
+                    ->orderBy('id', 'desc')
+                    ->get();
         return view('frontend.specialadddeal', [
-            // "item" => $item,
+            "results" => $results,
         ]);
     }
     public function specialdealPage(Request $request) 
@@ -86,25 +92,31 @@ class PackagesAndDealsController extends Controller
         $pvs = Province::orderBy('name_th', 'asc')->get();
         $packageId = $request->input('package_id');
         $type = $request->input('type');
-        
+        $amount = $request->input('amount');
+    
         if ($type == 'package') {
             $item = PackageDealerModel::find($packageId);
         } elseif ($type == 'deal') {
             $item = DealModel::find($packageId);
+            $amount = $request->input('amount', 1); // Default to 1 if not provided
         } else {
             $item = null;
         }
-        // dd($pv);
+    
         return view('frontend/cart', [
             "item" => $item,
             "type" => $type,
             "pvs" => $pvs,
+            "amount" => $amount,
         ]);
     }
+    
 
     public function cartactionPage(Request $request)
     {
+        // Find customer
         $customer = Customer::find($request->customer_id);
+
         // Validate coupon if provided
         if ($request->coupons_id) {
             $coupon = CouponModel::find($request->coupons_id);
@@ -112,13 +124,13 @@ class PackagesAndDealsController extends Controller
                 if ($coupon->limit) {
                     $totalUses = CouponUse::where('coupons_id', $coupon->id)->count();
                     if ($totalUses >= $coupon->limit) {
-                        // return redirect()->back()->withErrors(['coupon' => 'Coupon use limit exceeded.']);
-                        return redirect()->route('profilePage')->with('error', 'Coupon use limit exceeded !');
+                        return redirect()->route('profilePage')->with('error', 'Coupon use limit exceeded!');
                     }
                 }
             }
         }
-        // Proceed with creating the order
+
+        // Prepare order data
         $data = [
             'status' => 'pending',
             'order_number' => 'ORD-' . uniqid(),
@@ -135,55 +147,37 @@ class PackagesAndDealsController extends Controller
             'donation' => $request->donate_input,
             'total' => $request->total,
             'accept' => $request->accept,
-            'invoiceform' => $request->invoiceform
+            'invoiceform' => $request->invoiceform,
+            'amount' => $request->type === 'deal' ? $request->amount : null, // Only include if type is 'deal'
         ];
 
-        if ($request->type == 'package') {
+        // Handle type-specific data
+        if ($request->type === 'package') {
             $data['package_dealers_id'] = $request->package_dealers_id;
         }
 
+        // Handle invoice form
         switch ($request->invoiceform) {
             case 'full_receipt':
                 $data['full_receipt'] = true;
-                $data['person_type'] = $request->person_type ?? 'individual';
                 $data = array_merge($data, $request->person_type === 'individual'
                     ? $request->only([
-                        'individual_name',
-                        'individual_taxidno',
-                        'individual_telephone',
-                        'individual_email',
-                        'individual_address',
-                        'individual_province',
-                        'individual_district',
-                        'individual_subdistrict',
-                        'individual_zipcode'
+                        'individual_name', 'individual_taxidno', 'individual_telephone', 'individual_email',
+                        'individual_address', 'individual_province', 'individual_district', 'individual_subdistrict', 'individual_zipcode'
                     ])
                     : $request->only([
-                        'corporation_name',
-                        'corporation_taxidno',
-                        'corporation_branchid',
-                        'corporation_telephone',
-                        'corporation_email',
-                        'corporation_address',
-                        'corporation_province',
-                        'corporation_district',
-                        'corporation_subdistrict',
-                        'corporation_zipcode'
+                        'corporation_name', 'corporation_taxidno', 'corporation_branchid', 'corporation_telephone',
+                        'corporation_email', 'corporation_address', 'corporation_province', 'corporation_district', 'corporation_subdistrict', 'corporation_zipcode'
                     ])
                 );
+                $data['person_type'] = $request->person_type ?? 'individual';
                 break;
 
             case 'short_receipt':
                 $data['short_receipt'] = true;
                 $data = array_merge($data, $request->only([
-                    'short_name',
-                    'short_telephone',
-                    'short_email',
-                    'short_address',
-                    'short_province',
-                    'short_district',
-                    'short_subdistrict',
-                    'short_zipcode'
+                    'short_name', 'short_telephone', 'short_email', 'short_address', 'short_province',
+                    'short_district', 'short_subdistrict', 'short_zipcode'
                 ]));
                 break;
 
@@ -192,9 +186,11 @@ class PackagesAndDealsController extends Controller
                 break;
         }
 
+        // Create order
         $order = OrderModel::create($data);
 
-        if ($request->type == 'package' && $order->package_dealers_id) {
+        // Handle package type
+        if ($request->type === 'package' && $order->package_dealers_id) {
             $thispackage = PackageDealerModel::find($order->package_dealers_id);
             if ($customer && $thispackage) {
                 $customer->update([
@@ -206,6 +202,22 @@ class PackagesAndDealsController extends Controller
                     'accumulate' => $customer->accumulate + $thispackage->price
                 ]);
             }
+        }
+
+        // Handle deal type
+        if ($request->type === 'deal' && $request->amount > 0) {
+            for ($lp = 1; $lp <= $request->amount; $lp++) {
+                $dealData = [
+                    'customer_id' => $request->customer_id,
+                    'orders_id' => $order->id,
+                    'deal_register' => now(),
+                    'deal_expire' => now()->addMonths(3), // Correct expiration calculation
+                ];
+                MyDeal::create($dealData);
+            }
+            $customer->update([
+                'accumulate' => $customer->accumulate + $order->price
+            ]);
         }
 
         // Save coupon usage history
@@ -234,6 +246,8 @@ class PackagesAndDealsController extends Controller
 
 
 
+
+
     public function orderpayaction(Request $request)
     {
         // dd($request);
@@ -247,7 +261,12 @@ class PackagesAndDealsController extends Controller
             'payment_date' => now(),
             'payment_status' => 'success',
         ]);
-        return redirect()->route('profilePage')->with('success', 'ทำการสั่งซื้อสำเร็จ !');
+        if($order->type =='package'){
+            return redirect()->route('profilePage')->with('success', 'ทำการสั่งซื้อสำเร็จ !');
+        }elseif($order->type =='deal'){
+            return redirect()->route('specialdealPage')->with('success', 'ทำการสั่งซื้อสำเร็จ !');
+        }   
+        
     }
 
 

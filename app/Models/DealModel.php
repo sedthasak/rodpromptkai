@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Models\MyDeal;
+
 class DealModel extends Model
 {
     use HasFactory;
@@ -19,6 +21,7 @@ class DealModel extends Model
         'font1',
         'font2',
         'font3',
+        'font4',
         'topleft',
         'bottomright',
         'expire',
@@ -29,4 +32,10 @@ class DealModel extends Model
         'expire' => 'datetime',
         'bigbrand' => 'boolean',
     ];
+
+    // Define the hasMany relationship
+    public function myDeals()
+    {
+        return $this->hasMany(MyDeal::class, 'deals_id');
+    }
 }

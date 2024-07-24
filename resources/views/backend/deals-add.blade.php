@@ -8,11 +8,6 @@
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
         <h2 class="mr-auto text-lg font-medium">Create New Deal</h2>
     </div>
-    @if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
 
     <form method="post" action="{{ route('BN_deals_add_action') }}" enctype="multipart/form-data">
         @csrf
@@ -20,99 +15,155 @@
             <div class="intro-y col-span-12 lg:col-span-12">
                 <div class="intro-y box p-5">
                     <div class="p-5">
-                        <div class="grid grid-cols-12 gap-x-5">
+                        <!-- Deal Name -->
+                        <div class="grid grid-cols-12 gap-6">
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control w-full" name="name" value="{{ old('name') }}" autocomplete="off" required/>
+                                    <label for="name" class="form-label">Deal Name</label>
+                                    <input type="text" id="name" name="name" class="form-control w-full" value="{{ old('name') }}" />
+                                    @error('name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
+                            <!-- Border Color -->
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="border" class="form-label">Border Color</label>
-                                    <input type="color" class="form-control w-full" name="border" value="{{ old('border') }}" required/>
+                                    <input type="color" id="border" name="border" class="form-control w-full" value="{{ old('border') }}" />
+                                    @error('border')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-12 gap-x-5">
+
+                        <!-- Background Color -->
+                        <div class="grid grid-cols-12 gap-6">
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="background" class="form-label">Background Color</label>
-                                    <input type="color" class="form-control w-full" name="background" value="{{ old('background') }}" required/>
+                                    <input type="color" id="background" name="background" class="form-control w-full" value="{{ old('background') }}" />
+                                    @error('background')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
+                            <!-- Font Color 1 -->
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="font1" class="form-label">Font Color 1</label>
-                                    <input type="color" class="form-control w-full" name="font1" value="{{ old('font1') }}" required/>
+                                    <input type="color" id="font1" name="font1" class="form-control w-full" value="{{ old('font1') }}" />
+                                    @error('font1')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-12 gap-x-5">
+
+                        <!-- Font Colors 2 & 3 -->
+                        <div class="grid grid-cols-12 gap-6">
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="font2" class="form-label">Font Color 2</label>
-                                    <input type="color" class="form-control w-full" name="font2" value="{{ old('font2') }}" required/>
+                                    <input type="color" id="font2" name="font2" class="form-control w-full" value="{{ old('font2') }}" />
+                                    @error('font2')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="font3" class="form-label">Font Color 3</label>
-                                    <input type="color" class="form-control w-full" name="font3" value="{{ old('font3') }}" required/>
+                                    <input type="color" id="font3" name="font3" class="form-control w-full" value="{{ old('font3') }}" />
+                                    @error('font3')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-12 gap-x-5">
+
+                        <!-- Font Color 4 -->
+                        <div class="grid grid-cols-12 gap-6">
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
-                                    <label for="image_background" class="form-label">Image Background</label>
-                                    <input type="file" class="form-control w-full" name="image_background" />
+                                    <label for="font4" class="form-label">Font Color 4</label>
+                                    <input type="color" id="font4" name="font4" class="form-control w-full" value="{{ old('font4') }}" />
+                                    @error('font4')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Image Background -->
+                        <div class="grid grid-cols-12 gap-6">
+                            <div class="col-span-12 xl:col-span-6">
+                                <div class="mt-3">
+                                    <label for="image_background" class="form-label">Background Image</label>
+                                    <input type="file" id="image_background" name="image_background" class="form-control" />
+                                    @error('image_background')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- Top Left Image -->
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="topleft" class="form-label">Top Left Image</label>
-                                    <input type="file" class="form-control w-full" name="topleft" />
+                                    <input type="file" id="topleft" name="topleft" class="form-control" />
+                                    @error('topleft')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-12 gap-x-5">
+
+                        <!-- Bottom Right Image -->
+                        <div class="grid grid-cols-12 gap-6">
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="bottomright" class="form-label">Bottom Right Image</label>
-                                    <input type="file" class="form-control w-full" name="bottomright" />
-                                </div>
-                            </div>
-                            <div class="col-span-12 xl:col-span-6">
-                                <div class="mt-3">
-                                    <label for="expire" class="form-label">Expiration Date</label>
-                                    <input type="date" class="form-control w-full" name="expire" value="{{ old('expire') }}" required/>
+                                    <input type="file" id="bottomright" name="bottomright" class="form-control" />
+                                    @error('bottomright')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-12 gap-x-5">
+
+                        <!-- Expiry Date -->
+                        <div class="grid grid-cols-12 gap-6">
+                            <div class="col-span-12 xl:col-span-6">
+                                <div class="mt-3">
+                                    <label for="expire" class="form-label">Expiry Date</label>
+                                    <input type="date" id="expire" name="expire" class="form-control w-full" value="{{ old('expire') }}" />
+                                    @error('expire')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- Big Brand -->
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="bigbrand" class="form-label">Big Brand</label>
-                                    <select class="form-control w-full" name="bigbrand" required>
-                                        <option value="0" {{ old('bigbrand') == '0' ? 'selected' : '' }}>ไม่</option>
-                                        <option value="1" {{ old('bigbrand') == '1' ? 'selected' : '' }}>ใช่</option>
+                                    <select id="bigbrand" name="bigbrand" class="form-select w-full">
+                                        <option value="1" {{ old('bigbrand') == 1 ? 'selected' : '' }}>Yes</option>
+                                        <option value="0" {{ old('bigbrand') == 0 ? 'selected' : '' }}>No</option>
                                     </select>
+                                    @error('bigbrand')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-right mt-5">
-                        <button type="submit" class="btn btn-primary w-24">Save</button>
+
+                        <div class="text-right mt-5">
+                            <button type="submit" class="btn btn-primary w-24">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-@endsection
-
-@section('script')
-<script>
-    // Add any custom scripts here
-</script>
 @endsection

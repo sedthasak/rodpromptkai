@@ -3,17 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\carsModel;
+use App\Models\MyDeal;
 
 class Customer extends Model
 {
-    //
-    protected $table = 'customer';
-    // protected $primaryKey = 'position_id';
-    // public $incrementing = false;
-    // protected $keyType = 'string';
+    use HasFactory;
+
+    protected $table = 'customer'; // Ensure this matches your table name
+
     protected $fillable = [
         'phone',
         'sp_role',
@@ -25,7 +24,7 @@ class Customer extends Model
         'vippack',
         'vippack_regis',
         'vippack_expire',
-        'accumulate', // Adding the new field here
+        'accumulate',
         'username',
         'email',
         'image',
@@ -50,12 +49,8 @@ class Customer extends Model
         return $this->hasMany(carsModel::class, 'customer_id');
     }
 
-    // public function index()
-    // {
-    //     $Customer = Customer::query()->paginate(4);
-
-    //     if (Input::has('s')){
-    //         $Customer->where('phone',Input::get('s'));
-    //     }
-    // }
+    public function myDeals()
+    {
+        return $this->hasMany(MyDeal::class, 'customer_id');
+    }
 }
