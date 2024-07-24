@@ -8,6 +8,11 @@
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
         <h2 class="mr-auto text-lg font-medium">Create New Deal</h2>
     </div>
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 
     <form method="post" action="{{ route('BN_deals_add_action') }}" enctype="multipart/form-data">
         @csrf

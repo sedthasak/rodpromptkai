@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\DealModel;
 
@@ -109,17 +110,23 @@ class DealsController extends Controller
             'font1' => 'required|string|max:7',
             'font2' => 'required|string|max:7',
             'font3' => 'required|string|max:7',
-            'image_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'expire' => 'required|date',
             'bigbrand' => 'required|boolean',
         ]);
         if ($validator->fails()) {
+            // Log the validation errors
+    
+            // Retrieve error messages
+            $errors = $validator->errors()->all();
+    
+            // Return back with validation errors and old input
             return redirect()->back()
                             ->withErrors($validator)
                             ->withInput()
-                            ->with('error', 'Deal created false!');
+                            ->with('error', implode(' ', $errors)); // Show all errors as a single string
         }
         $data = $request->all();
         $uploadPath = 'public/uploads/deal';

@@ -148,7 +148,6 @@ a{
 }
 .top-menu{
     font-size: 1.05rem;
-    padding: 0 5%;
     .row{
         align-items: center;
     }
@@ -579,9 +578,6 @@ a{
             .owl-item{
                 figure{
                     opacity: 0.3;
-                }
-                .item-car{
-                    height: 100%;
                 }
                 &.active{
                     figure{
@@ -1409,9 +1405,8 @@ a{
 }
 .content-editor{
     img{
-        width: auto !important;
-        max-width: 100% !important;
-        height: auto !important;
+        width: auto;
+        max-width: 100%;
         margin: 15px 0;
     }
     a{
@@ -2493,7 +2488,7 @@ a{
     .txt-numresult{
         color: $black-color;
         font-weight: 500;
-        margin:20px 0 10px;
+        margin-bottom: 10px;
         span{
             color: $red-color;
         }
@@ -2545,7 +2540,7 @@ a{
     }
 }
 .btn-boxfilter{
-    display: none;
+    display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 13px;
@@ -4127,7 +4122,7 @@ a{
         width: 3px;
     }
     &::-webkit-scrollbar-thumb {
-        background: #979BA9; 
+        background: #979BA9;
         border-radius: 50px;
     }
     .list-mycarsearch{
@@ -6248,23 +6243,7 @@ a{
                 }
             }
         }
-       
     }
-}
-.mycar-waitcontact{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 0.9rem;
-    background-color: #DE7605;
-    border: 1px solid #DE7605;
-    border-radius: 50px;
-    width: 127px;
-    height: 40px;
-    transition: 0.5s;
-    white-space: nowrap;
-    margin-bottom: 13px;
 }
 .carsold-select{
     margin-top: 30px;
@@ -7378,372 +7357,7 @@ a{
         }
     }
 }
-.menu-specialdeal{
-    &.menu-mycar{
-        border-bottom: 0;
-        ul{
-            li{
-                a{
-                    min-width: 120px;
-                    justify-content: center;
-                    text-align: center;
-                    br{
-                        display: none;
-                    }
-                }
-            }
-        }
-    }
-}
-.wrap-menu-specialdeal{
-    border-bottom: 1px solid #D9D9D9;
-    margin-bottom: 50px;
-}
-.txt-deal-remaining{
-    text-align: right;
-    color: $black-color;
-    margin-top: 40px;
-    span{
-        color: $red-color;
-        font-weight: 500;
-    }
-}
-.topic-dealspecial{
-    color: $black-color;
-    font-weight: 500;
-    font-size: 1.5rem;
-}
-.wrpa-topic-dealspecial{
-    margin-bottom: 20px;
-    .btn-default{
-        img{
-            width: 18px;
-            height: auto;
-            margin-left: 5px;
-        }
-    }
-    p{
-        span{
-            color: $red-color;
-        }
-    }
-}
-.wrap-topic-changedeal{
-    margin-bottom: 0;
-    &.wrpa-topic-dealspecial{
-        margin-bottom: 0;
-    }
-}
-.deal-nametype{
-    color: $black-color;
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 10px;
-}
-.box-item-cardeal{
-    .item-car{
-        height: auto;
-        figure{
-            figcaption{
-                .car-name{
-                    font-size: 1rem;
-                }
-                .car-series{
-                    font-size: 0.95rem;
-                }
-                .car-price{
-                    font-size: 1.2rem;
-                }
-            }
-    }
-        }
-}
-#popup-adddeal, #popup-editprice{
-    width: 650px;
-    max-width: 100%;
-    .popup-logout{
-        border-radius: 20px;
-        .logo-top{
-            width: 350px;
-            height: auto;
-            max-width: 100%;
-            margin: 0 auto 40px;
-        }
-        h3{
-            font-size: 1.55rem;
-            font-weight: 400;
-            color: $white-color;
-        }
-        p{
-            color: #D4D4D4;
-            font-size: 1.1rem;
-        }
-    }
-}
-#popup-adddeal.fancybox-content,
-#popup-editprice.fancybox-content {
-    background: transparent !important;
-}
-#popup-adddeal .fancybox-button svg,
-#popup-editprice .fancybox-button svg{
-    top: 20px;
-    right: 20px;
-}
-#popup-editprice .popupdeal-totalprice{
-    margin-top: 25px;
-}
-#popup-editprice{
-    .wrap-btn-thx{
-        button, a{
-            width: 140px;
-        }
-    }
-}
-.popupdeal-txt-amount{
-    color: $white-color;
-    text-align: left;
-    span{
-        color: $red-color;
-    }
-}
-.popupdeal-txt-note{
-    color: #9D9D9D;
-    font-size: 0.95rem;
-    text-align: left;
-}
-.popupdeal-input{
-    input{
-        border-radius: 50px;
-        width: 100%;
-        border: 1px solid #444444;
-        background: rgba(251,251,251,0.1);
-        padding: 7px 15px;
-        color: $white-color;
-        &:focus-visible{
-            outline: none;
-        }
-    }
-}
-.popupdeal-totalprice{
-    border-top: 1px solid #3F3F3F;
-    border-bottom: 1px solid #3F3F3F;
-    text-align: left;
-    font-size: 1.1rem;
-    margin: 15px 0 25px;
-    padding: 25px 0;
-    span{
-        font-size: 1.25rem;
-        font-weight: 500;
-    }
-}
-.popupdeal-amount{
-    margin-top: 30px;
-    
-}
-.txt-amount-car{
-    margin-top: 10px;
-    text-align: left;
-}
-.head-cartdeal{
-    border-bottom: 1px solid #444;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-.table-list-cartdeal{
-    color: #ccc;
-    font-size: 0.9rem;
-    div{
-        font-size: 1.1rem;
-        color: $white-color;
-    }
-}
-.list-cartdeal{
-    input{
-        border-radius: 50px;
-        width: 130px;
-        border: 1px solid #444444;
-        background: rgba(251,251,251,0.1);
-        padding: 7px 15px;
-        color: $white-color;
-        text-align: center;
-        &:focus-visible{
-            outline: none;
-        }
-    }
-}
-.adddeal-item{
-    .item-mycar-cover{
-        width: 100%;
-    }
-    .adddeal-desc{
-        width: 100%;
-        padding: 15px;
-    }
-    .mycar-name{
-        font-size: 0.95rem;
-        line-height: 1.5;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;  
-        overflow: hidden;
-    }
-}
-.deal-selectcar{
-    border-radius: 50px;
-    border: 1px solid #DFDFDF;
-    background-color: #E6E6E6;
-    color: $main-color;
-    display: inline-flex;
-    align-items: center;
-    width: auto;
-    height: 33px;
-    padding: 0 10px 0 5px;
-    margin-top: 10px;
-    transition: 0.5s;
-    font-size: 0.9rem;
-    i{
-        color: #979797;
-        font-size: 1.35rem;
-        margin-right: 8px;
-        transition: 0.5s;
-    }
-    &.selected,
-    &:hover{
-        background-color: $red-color;
-        border: 1px solid $red-color;
-        color: $white-color;
-        i{
-            color: $white-color;
-        }
-    }
-}
-.btn-changedeal{
-    &.deal-selectcar{
-        width: auto;
-        padding:0 15px;
-        display: inline-flex;
-        min-width: 80px;
-        justify-content: center;
-        margin-right: 5px;
-    }
-}
 
-.note-notdeal{
-    margin-top: 15px;
-}
-.btn-backdeal{
-    background-color: #8B8B8B;
-    border: 1px solid #B7B7B7;
-    color: $white-color;
-    display: inline-flex;
-    align-items: center;
-    height: 40px;
-    border-radius: 50px;
-    padding: 0 20px;
-    font-size: 0.95rem;
-    transition: 0.5s;
-    &:hover{
-        background-color: #333;
-    }
-}
-.item-changedeal{
-    margin-bottom: 60px;
-    .item-car{
-        margin-bottom: 15px;
-    }
-}
-.wrap-breadcrumb{
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 25px;
-    h1{
-        font-size: 1.1rem;
-        color: $black-color;
-        line-height: 1.6;
-    }
-    .breadcrumb{
-        margin-bottom: 10px;
-        font-size: 0.9rem;
-        white-space: nowrap;
-        .breadcrumb-item{
-            position: relative;
-            a{
-                color: $main-color;
-                transition: 0.5s;
-                &:hover{
-                    color: $red-color;
-                }
-                span{
-                    padding-left: 2px;
-                }
-            }
-            &.active{
-                color: $black-color;
-                span{
-                    padding-left: 2px;
-                }
-            }
-            &:first-child{
-                a{
-                    padding-left: 0;
-                }
-            }
-        }
-    }
-    .breadcrumb-item+.breadcrumb-item::before{
-        content: "";
-        background-image: url(../images/icon-chev-grey.svg);
-        background-size: 100%;
-        background-repeat: no-repeat;
-        width: 10px;
-        height: 10px;
-        margin-top: 8px;
-        transform: rotate(-90deg);
-    }
-}
-@keyframes blinker {
-    from {background-color: #DE7605;}
-    to {background-color: #C60D0D;}
-}
-.blink{
-    text-decoration: blink;
-    animation-name: blinker;
-    animation-duration: 0.6s;
-    animation-iteration-count:infinite;
-    animation-timing-function:ease-in-out;
-    animation-direction: alternate;
-}
-.wrap-errorpage{
-    margin-top: 70px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 35px;
-    h1 {
-        color: #000;
-        font-size: 1.5rem;
-        margin-bottom: 7px;
-    }
-    a.more-link {
-        text-transform: uppercase;
-        font-size: 16px;
-          background-color: #C60D0D;
-          padding: 10px 35px;
-          border-radius: 50px;
-          color: #fff;
-          display: inline-block;
-          margin-right: 5px;
-          margin-bottom: 5px;
-          line-height: 1.5;
-          text-decoration: none;
-        margin-top: 15px;
-      }
-}
-.wrap-content-seo{
-   border-bottom: 1px solid #eee;
-   padding: 45px 15px 20px;
-   line-height: 2;
-   h2{
-    color: $red-color;
-   }
-}
 
 
 /*responsive*/
@@ -7960,9 +7574,7 @@ a{
     .package-premium-padding{
         padding: 30px 10px;
     }
-    .box-menudeal, .btn-customer{
-        margin-right: 20px;
-    }
+
 }
 @media (max-width: 1380px){
     .container{
@@ -8696,13 +8308,6 @@ a{
     .box-sum-cart{
         margin-top: 25px;
     }
-    .mycar-waitcontact{
-        font-size: 0.9rem;
-        width: 105px;
-        height: 37px;
-        margin-bottom: 13px;
-        margin-right: 10px;
-    }
 }
 @media (max-width: 991px){
     body{
@@ -8831,7 +8436,7 @@ a{
         margin-bottom: 25px;
         figure{
             figcaption{
-                padding: 10px 10px 15px;
+                padding: 10px 10px 5px;
                 .car-name{
                     font-size: 1rem;
                 }
@@ -9642,46 +9247,8 @@ a{
             display: none;
         }
     }
-    .adddeal-item{
-        .item-mycar-cover{
-            padding-right: 0;
-        }
-        .adddeal-desc{
-            .mycar-name{
-                font-size: 0.95rem;
-            }
-        }
-    }
-    .deal-selectcar{
-        height: 33px;
-        width: 85px;
-        font-size: 0.9rem;
-        margin-top: 10px;
-        i{
-            font-size: 1.2rem;
-        }
-    }
-    .wrap-errorpage{
-        margin-top: 50px;
-        text-align: center;
-        .order-errorpage-1{
-            order: 1;
-        }
-        .order-errorpage-2{
-            order: 2;
-        }
-    }
-    .btn-boxfilter{
-        display: inline-flex;
-    }
-    .top-menu{
-        padding: 0 0 0 10px;
-    }
 }
 @media (max-width: 767px){
-    .top-menu{
-        padding: 0 0 0 15px;
-    }
     .listdesc-contact.text-end{
         text-align: left !important;
         margin-top: 15px;
@@ -11843,166 +11410,6 @@ a{
         margin-top: 10px;
         .mycar-soldout{
             margin-left: 0;
-        }
-    }
-    .menu-specialdeal{
-        &.menu-mycar{
-            ul{
-                justify-content: flex-start;
-                li{
-                    width: 33.33%;
-                    padding-right: 5px;
-                    a{
-                        min-width: 100%;
-                        font-size: 0.9rem;
-                        height: 48px;
-                        br{
-                            display: block;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .txt-deal-remaining{
-        text-align: left;
-        margin: 5px 0 10px;
-    }
-    .wrap-menu-specialdeal{
-        margin-bottom: 25px;
-    }
-    .topic-dealspecial{
-        font-size: 1.15rem;
-    }
-    .deal-nametype{
-        font-size: 1rem;
-    }
-    .box-item-cardeal{
-        .item-car{
-            figure{
-                figcaption{
-                    .car-name, .car-series{
-                        font-size: 0.9rem;
-                    }
-                }
-            }
-        }
-    }
-    #popup-adddeal{
-        .popup-logout{
-            border-radius: 10px;
-            .logo-top{
-                width: 100%;
-                img{
-                    width: 70%;
-                }
-            }
-            h3{
-                font-size: 1.3rem;
-            }
-            p{
-                font-size: 0.9rem;
-            }
-            .wrap-btn-thx a{
-                height: 43px;
-            }
-        }
-    }
-    .popupdeal-amount{
-        margin-top: 10px;
-    }
-    .popupdeal-txt-note{
-        font-size: 0.85rem;
-    }
-    .popupdeal-totalprice{
-        padding: 20px 0;
-        font-size: 1rem;
-        span{
-            font-size: 1rem;
-        }
-    }
-    .list-cartdeal{
-        input{
-            width: 55px;
-            border-radius: 5px;
-        }
-    }
-    .table-list-cartdeal{
-        div{
-            font-size: 1rem;
-        }
-    }
-    .adddeal-item{
-        .item-mycar-cover{
-            width: 150px;
-        }
-        .adddeal-desc{
-            padding: 10px 0 0 10px;
-            width: calc(100% - 160px);
-            .mycar-name{
-                font-size: 0.9rem;
-            }
-        }
-        .item-mycar{
-            margin: 10px 0 15px;
-        }
-    }
-    .deal-selectcar{
-        margin: 5px 0 10px;
-        height: 30px;
-        width: 75px;
-        i{
-            margin-right: 5px;
-            font-size: 1.1rem;
-        }
-    }
-    .item-changedeal {
-        margin-bottom: 30px;
-    }
-    .wrap-breadcrumb{
-        .breadcrumb{
-            font-size: 0.85rem;
-            .breadcrumb-item{
-                padding: 0;
-                a{
-                    span{
-                        padding-right: 15px;
-                    }
-                }
-                &::before{
-                    width: 8px;
-                    height: 8px;
-                }
-                &:first-child{
-                    a{
-                        span{
-                            padding-right: 10px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .btn-changedeal{
-        &.deal-selectcar{
-            padding: 0 7px;
-            font-size: 0.85rem;
-        }
-    }
-    .wrap-errorpage{
-        h1{
-            font-size: 1.3rem;
-        }
-    }
-    .wrap-breadcrumb{
-        h1{
-            font-size: 1rem;
-        }
-    }
-    .wrap-content-seo{
-        padding: 30px 5px 10px;
-        h2{
-            font-size: 1.35rem;
         }
     }
 }

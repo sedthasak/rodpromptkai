@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\PackageDealerModel;
 use App\Models\VipPackageModel;
@@ -16,6 +17,7 @@ use App\Models\OrderModel;
 use App\Models\CouponModel;
 use App\Models\CouponUse;
 use App\Models\Customer;
+use App\Models\carsModel;
 
 use App\Models\Province;
 use App\Models\District;
@@ -41,8 +43,9 @@ class PackagesAndDealsController extends Controller
     public function specialdealPage(Request $request) 
     {
         // dd($pv);
+        $alldeals = DealModel::orderBy('id', 'desc')->get();
         return view('frontend.specialdeal', [
-            // "item" => $item,
+            'alldeals' => $alldeals,
         ]);
     }
 

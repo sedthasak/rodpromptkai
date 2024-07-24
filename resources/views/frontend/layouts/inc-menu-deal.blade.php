@@ -31,17 +31,17 @@
     </div>
     <div class="box-menudeal">
         <ul>
-            <!-- <li class="hide-mpack">
+            <li class="hide-mpack">
                 <a class="btn-yourpack">แพ็คเกจของคุณ 
                     <span><img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt=""></span>
                 </a>
-            </li> -->
-            <li>
+            </li>
+            <!-- <li>
                 <a>สถานะปัจจุบัน <span>{{$rolearray[$customer_role['role']]}}</span></a>
             </li>
             <li>
                 <a>แพ็คเกจปัจจุบัน <span>{{ $customer_role['pack'] ?: '-' }}</span></a>
-            </li>
+            </li> -->
 
             <li>
                 <a>Slot ลงขาย <span>{{$customer_post}} / {{$customer_role['quota']}} คัน</span></a>
