@@ -26,6 +26,39 @@ use App\Models\SubDistrict;
 
 class PackagesAndDealsController extends Controller
 {
+    public function adddealaction(Request $request)
+    {
+        $validated = $request->validate([
+            'car_id' => 'required|exists:cars,id',
+            'promotion_price' => 'required|numeric|lte:' . $request->current_price,
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $car = carsModel::findOrFail($request->car_id);
+            $deal = DealModel::latest('id')->firstOrFail();
+            $mydeal = MyDeal::whereNull('cars_id')->orderBy('deal_expire', 'asc')->firstOrFail();
+            $mydeal->update([
+                'deals_id' => $deal->id,
+                'cars_id' => $car->id,
+            ]);
+            $car->update([
+                'mydeals' => $mydeal->id,
+                'price' => $request->promotion_price,
+                'old_price' => $request->current_price,
+            ]);
+            DB::commit();
+
+            return redirect()->back()->with('success', 'ราคาถูกปรับเรียบร้อยแล้ว');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'ไม่สามารถปรับราคาได้');
+        }
+    }
+
+
+
+
 
     public function specialchangedealPage(Request $request) 
     {
@@ -42,6 +75,7 @@ class PackagesAndDealsController extends Controller
                     ->whereNull('mydeals')
                     ->orderBy('id', 'desc')
                     ->get();
+        // dd($results);    
         return view('frontend.specialadddeal', [
             "results" => $results,
         ]);

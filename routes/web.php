@@ -223,10 +223,12 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/profile-member/{level}', 'profilememberPage')->name('profilememberPage');
     });
     Route::controller(PackagesAndDealsController::class)->group(function() {
+        Route::post('/adddeal-action', 'adddealaction')->name('adddealaction');
 
         Route::get('/special-deal', 'specialdealPage')->name('specialdealPage');
         Route::get('/special-adddeal', 'specialadddealPage')->name('specialadddealPage');
         Route::get('/special-changedeal', 'specialchangedealPage')->name('specialchangedealPage');
+
 
         Route::post('/cart-select-district', 'cartselectdistrict')->name('cartselectdistrict');
         Route::post('/cart-select-subdistrict', 'cartselectsubdistrict')->name('cartselectsubdistrict');
