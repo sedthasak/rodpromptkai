@@ -330,6 +330,7 @@ class PostController extends Controller
         $cars->sub_models_id = $request->sub_models;
         $cars->modelyear = $request->years;
         $cars->mileage = $request->mileage;
+        $cars->yearregis = $request->yearregis;
         if ($request->gear == "auto") {
             $cars->gear = "auto";
         }
@@ -521,6 +522,7 @@ class PostController extends Controller
         $cars->sub_models_id = $request->sub_models;
         $cars->modelyear = $request->years;
         $cars->mileage = $request->mileage;
+        $cars->yearregis = $request->yearregis;
         if ($request->gear == "auto") {
             $cars->gear = "auto";
         }

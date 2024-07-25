@@ -153,6 +153,8 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/update-reserve', 'updatereservePage')->name('updatereservePage');
         Route::post('/update-contackback', 'updatecontackbackPage')->name('updatecontackbackPage');
         Route::post('/update-price', 'updatepricePage')->name('updatepricePage');
+        Route::post('/updateMyDeal', 'updateMyDeal')->name('updateMyDeal');
+
 
 
 
@@ -228,6 +230,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/special-deal', 'specialdealPage')->name('specialdealPage');
         Route::get('/special-adddeal', 'specialadddealPage')->name('specialadddealPage');
         Route::get('/special-changedeal', 'specialchangedealPage')->name('specialchangedealPage');
+        Route::get('/special-selectdeal/{car}', 'specialselectdealPage')->name('specialselectdealPage');
 
 
         Route::post('/cart-select-district', 'cartselectdistrict')->name('cartselectdistrict');

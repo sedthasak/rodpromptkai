@@ -227,7 +227,11 @@
                                                     <option value="{{$pv->name_th}}" {{($pv->name_th == $mycars->province)?'selected':''}}  >{{$pv->name_th}}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>                                        
+                                            </div>  
+                                            <div class="col-12 col-md-6 frm-step">
+                                                <label>ปีที่จดทะเบียน</label>
+                                                <input type="text" name="yearregis" class="form-control" value="{{$mycars->yearregis??''}}" >
+                                            </div>                                      
                                         </div>
                                     </div>
                                     <div class="frm-step-button text-center">

@@ -26,6 +26,41 @@ use App\Models\SubDistrict;
 
 class PackagesAndDealsController extends Controller
 {
+    public function updateMyDeal(Request $request)
+    {
+        try {
+            $dealId = $request->input('deal_id');
+            $carId = $request->input('car_id');
+
+            // Get the car instance by ID
+            $myCar = carsModel::find($carId);
+
+            if ($myCar) {
+                // Get the myDeal associated with the car
+                $myDeal = $myCar->myDeals()->first();  // Assuming each car has one myDeal
+
+                if ($myDeal) {
+                    // Update the myDeal with the new deal_id
+                    $myDeal->deals_id = $dealId;
+                    $myDeal->save();
+
+                    Session::flash('success', 'ดีลนี้ถูกเลือกสำหรับรถคันนี้แล้ว.');
+                    return response()->json(['success' => true]);
+                } else {
+                    Session::flash('error', 'ไม่พบดีลที่เกี่ยวข้อง.');
+                    return response()->json(['success' => false], 404);
+                }
+            } else {
+                Session::flash('error', 'ไม่พบรถที่เกี่ยวข้อง.');
+                return response()->json(['success' => false], 404);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error updating MyDeal: ' . $e->getMessage());
+            Session::flash('error', 'เกิดข้อผิดพลาดในการอัปเดตดีล.');
+            return response()->json(['success' => false], 500);
+        }
+    }
+
     public function adddealaction(Request $request)
     {
         $validated = $request->validate([
@@ -60,11 +95,28 @@ class PackagesAndDealsController extends Controller
 
 
 
+    public function specialselectdealPage(Request $request, $car) 
+    {
+        $car = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeals'])
+                ->findOrFail($car);
+        $alldeals = DealModel::orderBy('id', 'desc')->get();
+        // dd($car);
+        return view('frontend.specialselectdeal', [
+            'alldeals' => $alldeals,
+            'car' => $car,
+        ]);
+    }
     public function specialchangedealPage(Request $request) 
     {
         // dd($pv);
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+        $results = carsModel::where('status', 'approved')
+                    ->whereNotNull('mydeals')
+                    ->orderBy('id', 'desc')
+                    ->get();
         return view('frontend.specialchangedeal', [
-            // "item" => $item,
+            "results" => $results,
         ]);
     }
     public function specialadddealPage(Request $request) 

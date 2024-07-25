@@ -19,10 +19,10 @@
 @include('frontend.layouts.inc_profile')	
 <?php
 
-$default_image = asset('frontend/deal-example.webp');
-echo "<pre>";
-print_r($customer_deal);
-echo "</pre>";
+$default_feature = asset('frontend/deal-example.webp');
+// echo "<pre>";
+// print_r($customer_deal);
+// echo "</pre>";
 ?>
 <section class="row">
     <div class="col-12 page-profile">
@@ -57,9 +57,9 @@ echo "</pre>";
                                     <div class="item-car" style="border: 2px solid {{ $deal->border ?? '#000000' }}; 
                                         @if($deal->image_background) 
                                             @php
-                                                $imagePath = str_replace('public/uploads/deal/', '', $deal->image_background);
+                                                $imagePathbg = str_replace('public/uploads/deal/', '', $deal->image_background);
                                             @endphp
-                                            background-image: url('{{ asset('storage/uploads/deal/' . $imagePath) }}');
+                                            background-image: url('{{ asset('storage/uploads/deal/' . $imagePathbg) }}');
                                         @elseif($deal->background) 
                                             background-color: {{ $deal->background }};
                                         @endif">
@@ -70,9 +70,6 @@ echo "</pre>";
                                             <div class="tag-top-left"><img src="{{ asset('storage/uploads/deal/' . $topleftPath) }}" alt=""></div>
                                         @endif
 
-                                        @if($deal->bigbrand == 1)
-                                            <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div>
-                                        @endif
 
                                         <figure>
                                             <div class="cover-car">
@@ -85,7 +82,7 @@ echo "</pre>";
                                                         <div class="tag-bottom-right"><img src="{{ asset('storage/uploads/deal/' . $bottomrightPath) }}" alt=""></div>
                                                     @endif
                                                 </div>
-                                                <img src="{{$default_image}}" alt="">
+                                                <img src="{{$default_feature}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">

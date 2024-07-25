@@ -131,17 +131,7 @@
                             @enderror
                         </div>
 
-                        <!-- Big Brand -->
-                        <div class="col-span-2 sm:col-span-1">
-                            <label for="bigbrand" class="form-label">Big Brand</label>
-                            <select id="bigbrand" name="bigbrand" class="form-select w-full">
-                                <option value="1" {{ old('bigbrand', $query->bigbrand) == 1 ? 'selected' : '' }}>Yes</option>
-                                <option value="0" {{ old('bigbrand', $query->bigbrand) == 0 ? 'selected' : '' }}>No</option>
-                            </select>
-                            @error('bigbrand')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+
 
                         <div class="col-span-2">
                             <div class="text-right mt-5">

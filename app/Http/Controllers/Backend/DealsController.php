@@ -35,8 +35,7 @@ class DealsController extends Controller
             'image_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'expire' => 'required|date',
-            'bigbrand' => 'required|boolean',
+            // 'expire' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -113,8 +112,7 @@ class DealsController extends Controller
             'image_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'expire' => 'required|date',
-            'bigbrand' => 'required|boolean',
+            // 'expire' => 'required|date',
         ]);
 
         if ($validator->fails()) {

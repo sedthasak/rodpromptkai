@@ -134,9 +134,6 @@ $line = $customerdata->line??'-';
         </div>
     </div>
 </section>
-<script>
-    // console.log("TES");
-</script>
 <?php
 
 // echo "<pre>";

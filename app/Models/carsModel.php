@@ -26,6 +26,7 @@ class carsModel extends Model
         'generations_id',
         'sub_models_id',
         'modelyear',
+        'yearregis',
         'vehicle_code',
         'gear',
         'color',
