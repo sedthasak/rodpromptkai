@@ -5,7 +5,7 @@ $customerdata = session('customer');
 $phone = $customerdata->phone??'-';
 $username = $customerdata->username??'-';
 $email = $customerdata->email??'-';
-$image = $customerdata->image??asset('frontend/images/avatar.jpeg');
+$image = asset($customerdata->image)??asset('frontend/images/avatar.jpeg');
 $firstname = $customerdata->firstname??'-';
 $lastname = $customerdata->lastname??'';
 $place = $customerdata->place??'-';
@@ -15,6 +15,12 @@ $google_map = $customerdata->google_map??'-';
 $facebook = $customerdata->facebook??'-';
 $line = $customerdata->line??'-';
 
+// echo "<pre>";
+// print_r($image);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($customer_login);
+// echo "</pre>";
 
 
 ?>

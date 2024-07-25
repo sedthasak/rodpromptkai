@@ -24,7 +24,7 @@ $arr_gear = array(
     'manual' => 'เกียร์ธรรมดา',
 );
 ?>
-<!-- @if(Session::has('success'))
+@if(Session::has('success'))
     <div class="alert alert-success">
         {{ Session::get('success') }}
     </div>
@@ -34,7 +34,7 @@ $arr_gear = array(
     <div class="alert alert-danger">
         {{ Session::get('error') }}
     </div>
-@endif -->
+@endif
 
 <section class="row">
     <div class="col-12 page-profile">
