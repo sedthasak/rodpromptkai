@@ -273,7 +273,9 @@ Route::get('/phpinfo', function () {
 Route::get('/news', [FrontendPageController::class, 'newsPage'])->name('newsPage');
 Route::get('/news-detail/{news_id}', [FrontendPageController::class, 'newsdetailPage'])->name('newsdetailPage');
 Route::get('/car', [FrontendPageController::class, 'carPage'])->name('carPage');
-Route::get('/car-detail/{post}', [FrontendPageController::class, 'cardetailPage'])->name('cardetailPage');
+
+Route::get('/car-detail/{slug}', [FrontendPageController::class, 'cardetailPage'])->name('cardetailPage');
+
 Route::get('/popup-carsearch-model/{id}', [FrontendPageController::class, 'popupcarsearchmodel'])->name('popupcarsearchmodel');
 Route::get('/popup-carsearch-generation/{id}', [FrontendPageController::class, 'popupcarsearchgeneration'])->name('popupcarsearchgeneration');
 Route::get('/popup-carsearch-submodel/{id}', [FrontendPageController::class, 'popupcarsearchsubmodel'])->name('popupcarsearchsubmodel');

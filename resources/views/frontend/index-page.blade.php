@@ -37,151 +37,179 @@ $arr_gear = array(
                 <figure><img src="{{asset($sld->image)}}" alt=""></figure>
             </div>
             @endforeach
-            <!-- <div class="items">
-                <figure><img src="{{asset('frontend/images/banner02.png')}}" alt=""></figure>
-            </div>
-            <div class="items">
-                <figure><img src="{{asset('frontend/images/banner01.png')}}" alt=""></figure>
-            </div>
-            <div class="items">
-                <figure><img src="{{asset('frontend/images/banner03.png')}}" alt=""></figure>
-            </div>
-            <div class="items">
-                <figure><img src="{{asset('frontend/images/banner04.png')}}" alt=""></figure>
-            </div> -->
         </div>
     </div>
     <div class="col-12 col-xl-3 box-search-car">
-        
-            <div class="bg-searchcar">
-                <form action="/search2" id="my_form" method="GET">
-                    @csrf
-                <div class="topic-carsearch"><img class="svg" src="{{asset('frontend/images/icon-carred.svg')}}" alt=""> ค้นหารถยนต์</div>
-                <span class="short-desc-search">ค้นหารถมือสอง รถใหม่ ราคาโดนใจในรถพร้อมขายกับเรา</span>
-                <div class="carsearch-input">
-                    <input type="text" readonly value="ยี่ห้อรถ">
-                    <input type="hidden" name="brand_id">
-                    <input type="hidden" name="model_id">
-                    <input type="hidden" name="generation_id">
-                    <input type="hidden" name="submodel_id">
-                </div>
-                <div class="home-popup-search">@include('frontend.layouts.inc-popup-carsearch')</div> 
-                <div class="carsearch-radio">
-                    <label class="car-radio">ซื้อสด
-                        <input type="radio" name="payment" value="สด" checked>
-                        <span class="checkmark"></span>
-                    </label>
-                    {{-- <label class="car-radio">จัดไฟแนนซ์
-                        <input type="radio" name="payment" value="ผ่อน">
-                        <span class="checkmark"></span>
-                    </label> --}}
-                </div>
-
-                <div class="box-searchrange">
-                    <div class="search-range">
-                        <div class="topic-range">
-                            <div>งบประมาณ</div>
-                            <div>
-                                <div id="minprice" class="pricelow"></div>
-                                <input type="hidden" name="pricelow">
-                                <span>-</span>
-                                <div id="maxprice" class="pricehigh"></div>
-                                <input type="hidden" name="pricehigh">
-                            </div>
-                        </div>
-                        <div class="box-priceslider">
-                            <div id="priceslider"></div>
-                        </div>
+        <div class="bg-searchcar">
+            <div class="topic-carsearch"><img class="svg" src="images/icon-carred.svg" alt=""> ค้นหารถยนต์</div>
+            <span class="short-desc-search">ค้นหารถมือสอง รถใหม่ ราคาโดนใจในรถพร้อมขายกับเรา</span>
+            <div class="carsearch-input">
+                <input type="text" readonly value="ยี่ห้อรถ">
+            </div>
+            <div class="home-popup-search">@include('frontend.layouts.inc-popup-carsearch')</div> 
+            
+            <!-- เพิ่มใหม่ -->
+            <div class="wrap-budget">
+                <a href="#" class="btn-budget">งบประมาณที่ต้องการ <img src="images/icon-chev-white.svg" alt=""></a>
+                <div class="box-budget">
+                    <h2>งบประมาณที่ต้องการ</h2>
+                    <div class="tab_article_btn">
+                        <div class="active btn-default">ราคาซื้อสด</div>
+                        <div class="btn-default">จัดไฟแนนซ์</div>
                     </div>
-                    <div class="search-range">
-                        <div class="topic-range">
-                            <div>ปี</div>
-                            <div>
-                                <div id="minyear" class="yearlow"></div>
-                                <input type="hidden" name="yearlow">
-                                <div id="maxyear" class="yearhigh"></div>
-                                <input type="hidden" name="yearhigh">
-                            </div>
-                        </div>
-                        <div class="box-priceslider">
-                            <div id="yearslider"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="wrap-boxadvance">
-                    <a href="#" class="btn-advancesearch">ค้นหารถยนต์แบบละเอียด <img src="{{asset('frontend/images/chevron-red.svg')}}" alt=""></a>
-                    <div class="box-advancesearch">
-                        <div class="box-advancesearch-head">
-                            <span>ค้นหารถยนต์แบบละเอียด</span>
-                            <button type="button" class="advance-exit">ยกเลิก</button>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6 col-lg-4 col-xl-12">
-                                <select name="province" id="province" class="form-select">
-                                    <option value="">จังหวัด</option>
-                                    @if (isset($province))
-                                        @foreach ($province as $rows)
-                                            <option value="{{$rows->name_th}}"> {{$rows->name_th}}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-4 col-xl-12">
-                                <select name="color" id="color" class="form-select">
-                                <option value="">สี</option>
-                                <option value="">ทุกสี</option>
-                                <option value="ขาว">ขาว</option>
-                                <option value="เขียว">เขียว</option>
-                                <option value="ครีม">ครีม</option>
-                                <option value="ชมพู">ชมพู</option>
-                                <option value="ดำ">ดำ</option>
-                                <option value="แดง">แดง</option>
-                                <option value="เทา">เทา</option>
-                                <option value="น้ำเงิน">น้ำเงิน</option>
-                                <option value="น้ำตาล">น้ำตาล</option>
-                                <option value="บรอนซ์เงิน">บรอนซ์เงิน</option>
-                                <option value="บรอนซ์ทอง">บรอนซ์ทอง</option>
-                                <option value="ฟ้า">ฟ้า</option>
-                                <option value="ม่วง">ม่วง</option>
-                                <option value="ส้ม">ส้ม</option>
-                                <option value="เหลือง">เหลือง</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-4 col-xl-12">
-                                <div class="advance-boxgear">
-                                    <div>เกียร์</div>
-                                    <div>
-                                        <label><input type="radio" name="gear" id="advance-gear" value="auto"> <span>อัตโนมัติ</span></label>
-                                        <label><input type="radio" name="gear" value="manual"> <span>ธรรมดา</span></label>
+                    <div>
+                        <div class="tab_pdetail">
+                            <div class="price-select-wrap">
+                                <div class="box-inputyear">
+                                    <input type="text" readonly class="price-select-value" placeholder="ราคา">
+                                </div>
+                                <div class="price-select-dropdown">
+                                    <div class="price-select-input-flex">
+                                        <input type="text" class="price-select-input price-minimum" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ต่ำสุด">
+                                        <span>-</span>
+                                        <input type="text" class="price-select-input price-maximum" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="สูงสุด">
+                                        <ul class="price-select-option price-minimum">
+                                            <li>1,000 บาท</li>
+                                            <li>2,000 บาท</li>
+                                            <li>3,000 บาท</li>
+                                            <li>4,000 บาท</li>
+                                            <li>5,000 บาท</li>
+                                        </ul>
+                                        <ul class="price-select-option price-maximum">
+                                            <li>1,000 บาท</li>
+                                            <li>2,000 บาท</li>
+                                            <li>3,000 บาท</li>
+                                            <li>4,000 บาท</li>
+                                            <li>5,000 บาท</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-9 col-xl-12">
-                                <select name="power" id="power" class="form-select">
-                                    <option value="">เลือกเชื้อเพลิง</option>
-                                    <option value="1">รถน้ำมัน / hybrid</option>
-                                    <option value="2">รถไฟฟ้า EV 100%</option>
-                                    <option value="3">รถติดแก๊ส</option>
+                            <div class="box-submit-select">
+                                <button class="advance-exit btn-searchcar">ยืนยัน</button>
+                            </div>
+                        </div>
+                        <div class="tab_pdetail">
+                            <div class="sel">
+                                <select>
+                                    <option value="">เลือกราคาผ่อนต่อเดือน</option>
+                                    <option value="">ต่ำกว่า 3,000 บาท</option>
+                                    <option value="">ต่ำกว่า 5,000 บาท</option>
+                                    <option value="">ต่ำกว่า 10,000 บาท</option>
+                                    <option value="">ต่ำกว่า 15,000 บาท</option>
+                                    <option value="">ต่ำกว่า 20,000 บาท</option>
+                                    <option value="">ต่ำกว่า 30,000 บาท</option>
+                                    <option value="">ต่ำกว่า 35,000 บาท</option>
+                                    <option value="">ต่ำกว่า 40,000 บาท</option>
+                                    <option value="">ผ่อนได้มากกว่า 40,000 บาท</option>
                                 </select>
                             </div>
-                            <div class="col-12 col-lg-3 col-xl-12">
-                                <a href="#" class="btn-submitsearch btn-searchcar" onclick="submit1()">ยืนยัน</a>
+                            <div class="box-submit-select">
+                                <button class="advance-exit btn-searchcar">ยืนยัน</button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="boxshow-advance">
-                        <button type="button" class="btn-resetsearch" onClick="delall()"><img src="{{asset('frontend/images/icon-reset-white.svg')}}" alt="">ล้าง</button>
-                    </div>
-
-                    <a href="javascript:void(0);" onclick="search4();" class="btn-searchcar">ค้นหารถยนต์</a>
                 </div>
-                </form>
             </div>
-        
+
+            <div class="year-select-wrap">
+                <div class="box-inputyear">
+                    <input type="text" readonly class="year-select-value" placeholder="ปีเริ่มต้น - ปีสิ้นสุด">
+                </div>
+                
+                <div class="year-select-dropdown">
+                    <div class="year-select-input-flex">
+                        <input type="text" class="year-select-input year-minimum" maxlength="4" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ปีเริ่มต้น">
+                        <span>-</span>
+                        <input type="text" class="year-select-input year-maximum" maxlength="4" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ปีสิ้นสุด">
+                        <ul class="year-select-option year-minimum">
+                            <li>2024</li>
+                            <li>2023</li>
+                            <li>2022</li>
+                            <li>2021</li>
+                            <li>2020</li>
+                        </ul>
+                        <ul class="year-select-option year-maximum">
+                            <li>2024</li>
+                            <li>2023</li>
+                            <li>2022</li>
+                            <li>2021</li>
+                            <li>2020</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- เพิ่มใหม่ -->
+            
+            <div class="wrap-boxadvance">
+                <a href="#" class="btn-advancesearch">ค้นหารถยนต์แบบละเอียด <img src="images/chevron-red.svg" alt=""></a>
+                <div class="box-advancesearch">
+                    <div class="box-advancesearch-head">
+                        <span>ค้นหารถยนต์แบบละเอียด</span>
+                        <button class="advance-exit">ยกเลิก</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-12">
+                            <select name="" id="" class="form-select">
+                                <option>จังหวัด</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-12">
+                            <select name="" id="" class="form-select">
+                                <option>สี</option>
+                                <option>ทุกสี</option>
+                                <option>ขาว</option>
+                                <option>เขียว</option>
+                                <option>ครีม</option>
+                                <option>ชมพู</option>
+                                <option>ดำ</option>
+                                <option>แดง</option>
+                                <option>เทา</option>
+                                <option>น้ำเงิน</option>
+                                <option>น้ำตาล</option>
+                                <option>บรอนซ์เงิน</option>
+                                <option>บรอนซ์ทอง</option>
+                                <option>ฟ้า</option>
+                                <option>ม่วง</option>
+                                <option>ส้ม</option>
+                                <option>เหลือง</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-12">
+                            <div class="advance-boxgear">
+                                <div>เกียร์</div>
+                                <div>
+                                    <label><input type="radio" name="advance-gear"> <span>อัตโนมัติ</span></label>
+                                    <label><input type="radio" name="advance-gear"> <span>ธรรมดา</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-9 col-xl-12">
+                            <select name="" id="" class="form-select">
+                                <option>แก๊ส</option>
+                                <option>ติดแก๊ส</option>
+                                <option>ไม่ติดแก๊ส</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-lg-3 col-xl-12">
+                            <a href="#" class="btn-submitsearch btn-searchcar">ยืนยัน</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="boxshow-advance">
+                    <button class="btn-resetsearch"><img src="images/icon-reset-white.svg" alt="">ล้าง</button>
+                    <button>กรุงเทพฯ <i class="bi bi-x"></i></button>
+                    <button>สีขาว<i class="bi bi-x"></i></button>
+                    <button>เกียร์อัตโนมัติ<i class="bi bi-x"></i></button>
+                </div>
+
+                <a href="#" class="btn-searchcar">ค้นหารถยนต์</a>
+            </div>
+        </div>
     </div>
 </section>
+
 
 <section class="row wow fadeInDown">
     <div class="col-12 col-lg-4 col-xl-3 bg-findcar">
@@ -240,7 +268,7 @@ $arr_gear = array(
                         if($car1count <= 5){
                         $profilecar_img = ($car1->feature)?asset($car1->feature):asset('public/uploads/default-car.jpg');
                         @endphp
-                        <a href="{{route('cardetailPage', ['post' => $car1->id])}}" class="item-car">
+                        <a href="{{route('cardetailPage', ['slug' => $car1->slug])}}" class="item-car">
                             <figure>
                                 <div class="cover-car"><img src="{{$profilecar_img}}" alt=""></div>
                                 <figcaption>
@@ -278,7 +306,6 @@ $arr_gear = array(
         </div>
     </div>
 </section>
-
 <section class="box-sessioncar">
     <div class="sessioncar-order2">
         <section class="row">
@@ -384,7 +411,7 @@ $arr_gear = array(
                         $post6post_img = ($post6post->feature)?asset($post6post->feature):asset('public/uploads/default-car.jpg');
                         @endphp
                         <div class="col-6 col-md-4 col-itemcar">
-                            <a href="{{route('cardetailPage', ['post' => $post6post->id])}}" class="item-car">
+                            <a href="{{route('cardetailPage', ['slug' => $post6post->slug])}}" class="item-car">
                                 <figure>
                                     <div class="cover-car">
                                         <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
@@ -417,166 +444,6 @@ $arr_gear = array(
                         </div>
                         @endforeach
                         
-                        <!-- <div class="col-6 col-md-4 col-itemcar">
-                            <a href="#" class="item-car">
-                                <figure>
-                                    <div class="cover-car">
-                                        <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
-                                        <img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="car-name">2016 Honda CR-V </div>
-                                        <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                        <div class="car-province">กรุงเทพมหานคร</div>
-                                        <div class="row">
-                                            <div class="col-12 col-md-8 col-xl-9">
-                                                <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                            </div>
-                                            <div class="col-12 col-md-4 col-xl-3 text-end">
-                                                <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                            </div>
-                                        </div>
-                                        <div class="linecontent"></div>
-                                        <div class="row caritem-price">
-                                            <div class="col-12 col-md-6">
-                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                            </div>
-                                            <div class="col-12 col-md-6 text-end">
-                                                <div class="car-price">599,000.-</div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-4 col-itemcar">
-                            <a href="#" class="item-car">
-                                <figure>
-                                    <div class="cover-car">
-                                        <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
-                                        <img src="{{asset('frontend/images/CAR202304290032_Mini_Cooper_20230429_133309985_WATERMARK.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="car-name">2016 Honda CR-V </div>
-                                        <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                        <div class="car-province">กรุงเทพมหานคร</div>
-                                        <div class="row">
-                                            <div class="col-12 col-md-8 col-xl-9">
-                                                <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                            </div>
-                                            <div class="col-12 col-md-4 col-xl-3 text-end">
-                                                <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                            </div>
-                                        </div>
-                                        <div class="linecontent"></div>
-                                        <div class="row caritem-price">
-                                            <div class="col-12 col-md-6">
-                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                            </div>
-                                            <div class="col-12 col-md-6 text-end">
-                                                <div class="car-price">599,000.-</div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-4 col-itemcar">
-                            <a href="#" class="item-car">
-                                <figure>
-                                    <div class="cover-car">
-                                        <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
-                                        <img src="{{asset('frontend/images/CAR202305090085_MG_HS_20230509_180516497_WATERMARK.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="car-name">2016 Honda CR-V </div>
-                                        <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                        <div class="car-province">กรุงเทพมหานคร</div>
-                                        <div class="row">
-                                            <div class="col-12 col-md-8 col-xl-9">
-                                                <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                            </div>
-                                            <div class="col-12 col-md-4 col-xl-3 text-end">
-                                                <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                            </div>
-                                        </div>
-                                        <div class="linecontent"></div>
-                                        <div class="row caritem-price">
-                                            <div class="col-12 col-md-6">
-                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                            </div>
-                                            <div class="col-12 col-md-6 text-end">
-                                                <div class="car-price">599,000.-</div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-4 col-itemcar">
-                            <a href="#" class="item-car">
-                                <figure>
-                                    <div class="cover-car">
-                                        <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
-                                        <img src="{{asset('frontend/images/CAR202306220012_MG_ZS_20230622_094740224_WATERMARK.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="car-name">2016 Honda CR-V </div>
-                                        <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                        <div class="car-province">กรุงเทพมหานคร</div>
-                                        <div class="row">
-                                            <div class="col-12 col-md-8 col-xl-9">
-                                                <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                            </div>
-                                            <div class="col-12 col-md-4 col-xl-3 text-end">
-                                                <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                            </div>
-                                        </div>
-                                        <div class="linecontent"></div>
-                                        <div class="row caritem-price">
-                                            <div class="col-12 col-md-6">
-                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                            </div>
-                                            <div class="col-12 col-md-6 text-end">
-                                                <div class="car-price">599,000.-</div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-4 col-itemcar">
-                            <a href="#" class="item-car">
-                                <figure>
-                                    <div class="cover-car">
-                                        <div class="tag-newcar"><img src="{{asset('frontend/images/icon-tagnew.svg')}}" alt=""> รถมาใหม่</div>
-                                        <img src="{{asset('frontend/images/CAR202306210019_MG_HS_20230621_105157543_WATERMARK.png')}}" alt="">
-                                    </div>
-                                    <figcaption>
-                                        <div class="car-name">2016 Honda CR-V </div>
-                                        <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                        <div class="car-province">กรุงเทพมหานคร</div>
-                                        <div class="row">
-                                            <div class="col-12 col-md-8 col-xl-9">
-                                                <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                            </div>
-                                            <div class="col-12 col-md-4 col-xl-3 text-end">
-                                                <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                            </div>
-                                        </div>
-                                        <div class="linecontent"></div>
-                                        <div class="row caritem-price">
-                                            <div class="col-12 col-md-6">
-                                                <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
-                                            </div>
-                                            <div class="col-12 col-md-6 text-end">
-                                                <div class="car-price">599,000.-</div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        </div> -->
 
                     </div>
                 </div>
@@ -584,11 +451,6 @@ $arr_gear = array(
         </section>
     </div>
 </section>
-<?php
-// echo "<pre>";
-// print_r($news);
-// echo "</pre>";
-?>
 @if(isset($news) && (count($news) > 0))
 <section class="row">
     <div class="col-12 home-news wow fadeInDown">
@@ -648,16 +510,10 @@ $arr_gear = array(
     </div>
 </section>
 @endif
-
 @include('frontend.layouts.inc_carseo')	
-
 <?php
-
 $data = session()->all();
 $customerdata = session('customer');
-// echo "<pre>";
-// print_r($customerdata);
-// echo "</pre>";
 ?>
 <div style="display: none;" id="help-carsearch">
     <div class="frm-helpcarsearch">
@@ -676,9 +532,9 @@ $customerdata = session('customer');
 </div>
 
 
-
 @endsection
 @section('script')
+
 <script>
     function submit1() {
         // console.log($('#province').find('option:selected').text());
@@ -753,106 +609,6 @@ $customerdata = session('customer');
     }
 </script>
 
-<script>
-        
-    var priceslider = document.getElementById('priceslider');
-
-    var minrange = 0;
-    var maxrange = 3000000;
-
-    noUiSlider.create(priceslider, {
-        start: [minrange, maxrange],
-        connect: true,
-        snap: true,
-        range: {
-            'min': minrange,
-            '8%': 100000,
-            '16%': 200000,
-            '24%': 300000,
-            '32%': 400000,
-            '40%': 500000,
-            '48%': 600000,
-            '56%': 700000,
-            '64%': 800000,
-            '72%': 900000,
-            '80%': 1000000,
-            '88%': 2000000,
-            'max': maxrange
-        },
-        format: wNumb({
-            decimals: 0,
-            thousand: ',',
-            postfix: '',
-        })
-    });
-
-    var formatValues = [
-        document.getElementById('minprice'),
-        document.getElementById('maxprice')
-    ];
-
-    priceslider.noUiSlider.on('update', function (values, handle) {
-        if (values[handle].replace(/[^0-9.-]+/g,"") == minrange){
-            formatValues[handle].innerHTML = "ต่ำสุด"
-        }else if (values[handle].replace(/[^0-9.-]+/g,"") == maxrange){
-            formatValues[handle].innerHTML = "สูงสุด"
-        }else{
-            formatValues[handle].innerHTML = values[handle];
-        }
-        
-    });
-
-    //year
-
-    var yearslider = document.getElementById('yearslider');
-
-    var minyearrange = 2010;
-    var maxyearrange = 2023;
-
-
-    noUiSlider.create(yearslider, {
-        start: [minyearrange, maxyearrange],
-        connect: true,
-        snap: true,
-        range: {
-            'min': minyearrange,
-            '10%': 2012,
-            '20%': 2013,
-            '30%': 2015,
-            '50%': 2017,
-            '60%': 2019,
-            '70%': 2020,
-            '90%': 2021,
-            'max': maxyearrange
-        },
-        format: wNumb({
-            decimals: 0,
-        })
-    });
-
-    var formatYear = [
-        document.getElementById('minyear'),
-        document.getElementById('maxyear')
-    ];
-
-    yearslider.noUiSlider.on('update', function (values, handle) {
-        console.log(values[1],values[2]);
-        if (values[0] == minyearrange && values[1] == maxyearrange){
-            formatYear[0].innerHTML = " ";
-            formatYear[1].innerHTML = "ทุกปี";
-        }else if (values[0] != minyearrange && values[1] == maxyearrange){
-            formatYear[0].innerHTML = values[0] + " - ";
-            formatYear[1].innerHTML = maxyearrange;
-        }else if (values[0] == minyearrange && values[1] != maxyearrange){
-            formatYear[0].innerHTML = "ต่ำสุด - ";
-            formatYear[1].innerHTML = values[1];
-        }else {
-            formatYear[0].innerHTML = values[0] + " - ";
-            formatYear[1].innerHTML = values[1];
-        }
-    });
-</script>
-
 <!-- ตัวเลขวิ่ง -->
 <script>
     $(document).ready(function() {
@@ -899,4 +655,23 @@ $customerdata = session('customer');
     });
 
 </script>
+<!-- // phase 2 -->
+<script>
+    $( document ).ready(function() {
+
+        $('.box-search-car .btn-budget').click(function (event) {
+            if (  $( ".box-search-car .box-budget" ).is( ":hidden" ) ) {
+                $( ".box-search-car .box-budget" ).effect('slide', { direction: 'right', mode: 'show' }, 500);
+            }
+            event.preventDefault();
+        });
+
+        $('.box-search-car .advance-exit').click(function (event) {
+            $( ".box-search-car .box-budget" ).effect('slide', { direction: 'right', mode: 'hide' }, 500);
+            event.stopPropagation();
+        });
+        
+    });
+</script>
+<!-- // END phase 2 -->
 @endsection

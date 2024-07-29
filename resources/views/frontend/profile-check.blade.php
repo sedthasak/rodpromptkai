@@ -46,10 +46,10 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         @endphp
                         <div class="item-mycar">
                             <div class="item-mycar-cover">
-                                <a href="{{route('cardetailPage', ['post' => $cars->id])}}"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
+                                <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
                             </div>
                             <div class="mycar-detail-mb">
-                                <a href="{{route('cardetailPage', ['post' => $cars->id])}}">
+                                <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}">
                                     <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
                                     <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
                                     <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
@@ -58,7 +58,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                             <div class="item-mycar-detail">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
-                                        <a href="{{route('cardetailPage', ['post' => $cars->id])}}">
+                                        <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}">
                                             <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
                                             <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
                                             <div class="mycar-idcar">{{$cars->vehicle_code}}</div>

@@ -5,9 +5,13 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use voku\helper\ASCII;
 
 use App\Models\Customer;
 use App\Models\brandsModel;
+use App\Models\modelsModel;
+use App\Models\generationsModel;
+use App\Models\sub_modelsModel;
 use App\Models\contacts_backModel;
 use App\Models\noticeModel;
 use App\Models\carsModel;
@@ -86,9 +90,11 @@ class ViewDataServiceProvider extends ServiceProvider
                 $view->with('allprovince', $allprovince);
 
                 /**************************************************************/
-                /*************************************************************s*/
+                /******************************KONG****************************/
+                /**************************************************************/
 
                 $customer_login = Customer::find($customerdata->id);
+                $customerId = $customer_login->id;
                 $customer_role = $customer_login->role;
                 $customer_role = [
                     'role' => $customer_login->role,
@@ -159,11 +165,150 @@ class ViewDataServiceProvider extends ServiceProvider
                     'free' => $freeDeals,
                 ];
 
+                $carcontact = [];
+
+                $carcontact = carsModel::where('customer_id', $customer_login->id)
+                    ->whereHas('contacts', function ($query) {
+                        $query->where('status', 'create');
+                    })
+                    ->pluck('id')
+                    ->toArray();
+
+                /**********************************************/    
+                $carsCollection = carsModel::with(['brand', 'model'])
+                    ->where('customer_id', $customerId)
+                    ->get();
+
+                // Group the cars by brand_id and then by model_id
+                $cars = $carsCollection->groupBy('brand_id')->map(function ($groupByBrandId) {
+                    return $groupByBrandId->groupBy('model_id')->map(function ($groupByModelId) {
+                        return $groupByModelId;
+                    });
+                });
+
+                // Pre-fetch all brands and models
+                $brands = brandsModel::whereIn('id', $cars->keys())->get()->keyBy('id');
+                $modelIds = $cars->flatMap(function ($modelsByBrand) {
+                    return $modelsByBrand->keys();
+                })->unique();
+                $models = modelsModel::whereIn('id', $modelIds)->get()->keyBy('id');
+
+                // Structure the data with counts
+                $structuredCars = $cars->mapWithKeys(function ($modelsByBrand, $brandId) use ($brands, $models) {
+                    $brand = $brands->get($brandId);
+                    
+                    $modelCounts = $modelsByBrand->mapWithKeys(function ($carsByModel, $modelId) use ($models) {
+                        $model = $models->get($modelId);
+                        return [
+                            $modelId => [
+                                'id' => $modelId,
+                                'modelname' => $model->model,
+                                'car_count_model' => $carsByModel->count(), // Count of cars for this model
+                                'cars' => $carsByModel
+                            ]
+                        ];
+                    });
+                    
+                    // Calculate total number of cars for this brand
+                    $totalCarsForBrand = $modelsByBrand->map(function ($carsByModel) {
+                        return $carsByModel->count(); // Count of cars in each model
+                    })->sum(); // Sum the counts of cars for this brand
+                    
+                    return [
+                        $brandId => [
+                            'id' => $brandId,
+                            'title' => $brand->title,
+                            'feature' => $brand->feature,
+                            'car_count_brand' => $totalCarsForBrand, // Total count of cars for the brand
+                            'models' => $modelCounts
+                        ]
+                    ];
+                });
+                /*****************************************************************/
+                // Get distinct statuses from the carsModel table
+                $carAllStatuses = carsModel::where('customer_id', $customerId)
+                    ->distinct()
+                    ->pluck('status')
+                    ->toArray();
+
+                // Initialize an array to hold the structured cars data by status
+                $structuredCarsByStatus = [];
+
+                // Loop through each status
+                foreach ($carAllStatuses as $status) {
+                    // Fetch cars for the current status
+                    $carsCollection = carsModel::with(['brand', 'model'])
+                        ->where('customer_id', $customerId)
+                        ->where('status', $status)
+                        ->get();
+
+                    // Count total cars for this status
+                    $totalCarsForStatus = $carsCollection->count();
+
+                    // Group the cars by brand_id and then by model_id
+                    $cars = $carsCollection->groupBy('brand_id')->map(function ($groupByBrandId) {
+                        return $groupByBrandId->groupBy('model_id')->map(function ($groupByModelId) {
+                            return $groupByModelId;
+                        });
+                    });
+
+                    // Pre-fetch all brands and models
+                    $brands = brandsModel::whereIn('id', $cars->keys())->get()->keyBy('id');
+                    $modelIds = $cars->flatMap(function ($modelsByBrand) {
+                        return $modelsByBrand->keys();
+                    })->unique();
+                    $models = modelsModel::whereIn('id', $modelIds)->get()->keyBy('id');
+
+                    // Structure the data with counts
+                    $structuredCarsByStatus[$status] = [
+                        'total_cars' => $totalCarsForStatus, // Total count of cars for this status
+                        'brands' => $cars->mapWithKeys(function ($modelsByBrand, $brandId) use ($brands, $models) {
+                            $brand = $brands->get($brandId);
+
+                            $modelCounts = $modelsByBrand->mapWithKeys(function ($carsByModel, $modelId) use ($models) {
+                                $model = $models->get($modelId);
+                                return [
+                                    $modelId => [
+                                        'id' => $modelId,
+                                        'modelname' => $model->model,
+                                        'car_count_model' => $carsByModel->count(), // Count of cars for this model
+                                        'cars' => $carsByModel
+                                    ]
+                                ];
+                            });
+
+                            // Calculate total number of cars for this brand
+                            $totalCarsForBrand = $modelsByBrand->map(function ($carsByModel) {
+                                return $carsByModel->count(); // Count of cars in each model
+                            })->sum(); // Sum the counts of cars for this brand
+
+                            return [
+                                $brandId => [
+                                    'id' => $brandId,
+                                    'title' => $brand->title,
+                                    'feature' => $brand->feature,
+                                    'car_count_brand' => $totalCarsForBrand, // Total count of cars for the brand
+                                    'models' => $modelCounts
+                                ]
+                            ];
+                        })
+                    ];
+                }
+
+                // Pass the structured data by status to the view
+
+                $view->with('customer_cars_by_status', $structuredCarsByStatus);
+                $view->with('carcontact', $carcontact);
                 $view->with('customer_role', $customer_role);
                 $view->with('customer_login', $customer_login);
                 $view->with('customer_level', $customer_level);
                 $view->with('customer_post', $customer_post);
                 $view->with('customer_deal', $customer_deal);
+                $view->with('customer_cars', $structuredCars);
+
+                /**************************************************************/
+                /******************************KONG****************************/
+                /**************************************************************/
             }
         });
     }

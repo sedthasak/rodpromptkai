@@ -435,18 +435,20 @@ class FrontendPageController extends Controller
         $postId = $request->id;
         $currentValue = $request->currentValue;
         $newValue = $currentValue == 'create' ? 'contact' : 'create';
-        $newValuefornotice = $currentValue == 'create' ? 'read' : 'create';
-        contacts_backModel::where('id', $postId)->update([
-            'status' => $newValue,
-        ]);
-        noticeModel::where('resource_id', $postId)
-        ->where('resource', 'contacts_back')
-        ->update([
-            'status' => $newValuefornotice,
-        ]);
+
+        // Update the contacts_backModel status
+        $contact = contacts_backModel::findOrFail($postId);
+        $contact->update(['status' => $newValue]);
+
+        // Check and update the noticeModel status if necessary
+        $notices = $contact->notices()->where('status', '!=', 'read')->get();
+        foreach ($notices as $notice) {
+            $notice->update(['status' => 'read']);
+        }
 
         return response()->json(['status' => 'success', 'newValue' => $newValue]);
     }
+
     public function updatesoldoutAction(Request $request)
     {
         try {
@@ -479,36 +481,41 @@ class FrontendPageController extends Controller
 
     public function contactcaractionPage(Request $request)
     {
-        // dd($request);
+        if (!$request->filled('cars_id')) {
+            return redirect()->back()->with('error', 'ผิดพลาด !');
+        }
 
-        if(isset($request->cars_id)){
-            $contacts = new contacts_backModel;
-            $contacts->customer_id = $request->customer_id??999999;
-            $contacts->name = $request->name;
-            $contacts->tel = $request->tel;
-            $contacts->time = $request->time;
-            $contacts->remark = $request->remark;
-            $contacts->cars_id = $request->cars_id;
-            $contacts->status = 'create';
-            $contacts->save();
+        $contactsData = [
+            'status' => 'create',
+            'cars_id' => $request->cars_id,
+            'name' => $request->name,
+            'tel' => $request->tel,
+            'time' => $request->time,
+            'remark' => $request->remark,
+            'customer_id' => $request->customer_id ?? null,
+        ];
 
-            if(isset($contacts->id)){
-                $notice = new noticeModel;
-                $notice->customer_id = $request->customer_id??999999;
-                $notice->status = 'create';
-                $notice->title = 'มีลูกค้ารอติดต่อกลับ';
-                $notice->detail = 'ชื่อลูกค้า: '.$request->name;
-                $notice->resource = 'contacts_back';
-                $notice->resource_id = $contacts->id;
-                $notice->save();
-            }
+        $contacts = contacts_backModel::create($contactsData);
+
+        if ($contacts->exists) {
+            $noticeData = [
+                'status' => 'create',
+                'type' => 'contact',
+                'contacts_back_id' => $contacts->id,
+                'customer_id' => $request->customer_id ?? null,
+                'title' => 'มีลูกค้ารอติดต่อกลับ',
+                'detail' => 'ชื่อลูกค้า: ' . $request->name,
+                'reference' => $contacts->id,
+            ];
+
+            noticeModel::create($noticeData);
 
             return redirect()->back()->with('success', 'ส่งข้อมูลสำเร็จ !');
-        }else{
-            return redirect()->back()->with('error', 'ผิดพลาด !');
-        }   
-            
+        }
+
+        return redirect()->back()->with('error', 'ผิดพลาด !');
     }
+
     public function helpcaractionPage(Request $request)
     {
         // dd($request);
@@ -1490,124 +1497,117 @@ class FrontendPageController extends Controller
     /****************************************************************/
     /****************************************************************/
 
-    public function cardetailPage(Request $request, $post)
-    {
-        $allcars = DB::table('cars')
-            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            // ->orderBy('id', 'desc')
-            ->take(12)
-            ->get();
+    public function cardetailPage(Request $request, $slug)
+{
+    $post = carsModel::where('slug', $slug)->first();
 
-        $allcars2 = DB::table('cars')
-            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->orderBy('id', 'desc')
-            // ->random()
-            ->take(4)
-            ->get();
+    if (!$post) {
+        return abort(404, 'Car not found');
+    }
 
-        $mycars = DB::table('cars')
-            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->where('cars.id', $post)
-            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 
-                'customer.province as customer_proveince', 'customer.place as customer_place', 
-                'customer.map as customer_map', 'customer.google_map as customer_google_map', 
-                'customer.phone as customer_phone', 'customer.line as customer_line', 
-                'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name',
-                'brands.feature as brands_feature')
-            ->orderBy('id', 'desc')
-            ->first();
+    // Fetch related cars and details
+    $allcars = DB::table('cars')
+        ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+        ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+        ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+        ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 
+            'brands.title as brands_title', 'models.model as model_name', 'generations.generations as generations_name', 
+            'sub_models.sub_models as sub_models_name')
+        ->take(12)
+        ->get();
 
-        $gallery = DB::table('gallery')->where('cars_id', $post)->get();
-        $interior = [];
-        $exterior = [];
-        foreach($gallery as $gal){
-            if($gal->type=='interior'){
-                $interior[] = $gal;
-            }
-            if($gal->type=='exterior'){
-                $exterior[] = $gal;
-            }
+    $allcars2 = DB::table('cars')
+        ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+        ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+        ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+        ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 
+            'brands.title as brands_title', 'models.model as model_name', 'generations.generations as generations_name', 
+            'sub_models.sub_models as sub_models_name')
+        ->orderBy('id', 'desc')
+        ->take(4)
+        ->get();
+
+    $mycars = DB::table('cars')
+        ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+        ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+        ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+        ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+        ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+        ->where('cars.id', $post->id)
+        ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 
+            'customer.place as customer_place', 'customer.map as customer_map', 'customer.google_map as customer_google_map', 
+            'customer.phone as customer_phone', 'customer.line as customer_line', 'brands.title as brands_title', 
+            'models.model as model_name', 'generations.generations as generations_name', 
+            'sub_models.sub_models as sub_models_name', 'brands.feature as brands_feature')
+        ->orderBy('id', 'desc')
+        ->first();
+
+    $gallery = DB::table('gallery')->where('cars_id', $post->id)->get();
+    $interior = [];
+    $exterior = [];
+    foreach($gallery as $gal){
+        if($gal->type == 'interior'){
+            $interior[] = $gal;
         }
-        $history = [];
-        $customerdata = session('customer');
-        if(isset($customerdata)){
-            $Customer = Customer::find($customerdata->id);
-            $history = $Customer->history;
+        if($gal->type == 'exterior'){
+            $exterior[] = $gal;
+        }
+    }
 
-            if($history){
-                $jdecd = json_decode($history);
-                if(is_array($jdecd)){
-                    if(in_array($post, $jdecd)){
-                        // if (($key = array_search($post, $jdecd)) !== false) {
-                        //     unset($jdecd[$key]);
-                        // }
+    $history = [];
+    $customerdata = session('customer');
+    if(isset($customerdata)){
+        $Customer = Customer::find($customerdata->id);
+        if ($Customer) {
+            $history = $Customer->history;
+            if ($history) {
+                $jdecd = json_decode($history, true); // Ensure it is decoded to array
+                if (is_array($jdecd)) {
+                    // Ensure $post->id is an integer
+                    $postId = (int) $post->id;
+
+                    if (in_array($postId, $jdecd)) {
                         $createloop = [];
-                        foreach($jdecd as $keyloop => $loop){
-                            if($loop != $post){
+                        foreach ($jdecd as $loop) {
+                            if ($loop != $postId) {
                                 $createloop[] = $loop;
                             }
                         }
-                        array_unshift($createloop,$post);
-
+                        array_unshift($createloop, $postId);
                         $jencd = json_encode($createloop, true);
                         $Customer->history = $jencd;
                         $Customer->update();
-                        // $rrr = 'ccc';
-                    }else{
-                        array_unshift($jdecd,$post);
-
+                    } else {
+                        array_unshift($jdecd, $postId);
                         $jencd = json_encode($jdecd, true);
                         $Customer->history = $jencd;
                         $Customer->update();
-                        // $rrr = 'dddd';
                     }
-                    // $histry = '';
-                    
-
-                    
-                    
                 }
-                    
-            }else{
-                $val_history = [];
-                $val_history[] = $post;
-                // $rrr = 'bbb';
-
+            } else {
+                $val_history = [(int) $post->id];
                 $jencd = json_encode($val_history, true);
                 $Customer->history = $jencd;
                 $Customer->update();
             }
         }
-            
-        
-        
-        
+    }
 
-        $carcountget = carsModel::find($post);
-        $oldcount = $carcountget->viewcount??0;
-        $newcount = $oldcount+1;
+    // Update view count
+    $carcountget = carsModel::find($post->id);
+    if ($carcountget) {
+        $oldcount = $carcountget->viewcount ?? 0;
+        $newcount = $oldcount + 1;
         $carcountget->viewcount = $newcount;
         $carcountget->update();
+    }
 
-
-        $qryyearprice = DB::table('cars')
+    // Query for year and price
+    $qryyearprice = DB::table('cars')
         ->select('modelyear', DB::raw('MAX(price) as max_price, MIN(price) as min_price, AVG(price) as avg_price'))
         ->where("brand_id", $mycars->brand_id)
         ->where("model_id", $mycars->model_id)
@@ -1616,17 +1616,17 @@ class FrontendPageController extends Controller
         ->orderBy('modelyear', 'DESC')
         ->get();
 
-        return view('frontend/car-detail', [
-            'cars' => $mycars,
-            'allcars' => $allcars,
-            'allcars2' => $allcars2,
-            'interior' => $interior,
-            'exterior' => $exterior,
-            'gallery' => $gallery,
-            'gallery' => $gallery,
-            'yearprice' => $qryyearprice
-        ]);
-    }
+    return view('frontend/car-detail', [
+        'cars' => $mycars,
+        'allcars' => $allcars,
+        'allcars2' => $allcars2,
+        'interior' => $interior,
+        'exterior' => $exterior,
+        'gallery' => $gallery,
+        'yearprice' => $qryyearprice
+    ]);
+}
+
 
     public function editdealercarpoststep4Page()
     {

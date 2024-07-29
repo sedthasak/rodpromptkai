@@ -543,7 +543,7 @@ $arr_gear = array(
             <div class="row">
                 @foreach($allcars as $allcar)
                 <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="{{route('cardetailPage', ['post' => $allcar->id])}}" class="item-recentlist">
+                    <a href="{{route('cardetailPage', ['slug' => $allcar->slug])}}" class="item-recentlist">
                         <figure>
                             <div class="cover-recentlist"><img src="{{asset($allcar->feature)}}" alt=""></div>
                             <figcaption>
@@ -575,7 +575,7 @@ $arr_gear = array(
                 $profilecar2_img = ($allcar2->feature)?asset($allcar2->feature):asset('public/uploads/default-car.jpg');
                 @endphp
                 <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="{{route('cardetailPage', ['post' => $allcar2->id])}}" class="item-car">
+                    <a href="{{route('cardetailPage', ['slug' => $allcar2->slug])}}" class="item-car">
                         <figure>
                             <div class="cover-car">
                                 <img src="{{$profilecar2_img}}" alt="">

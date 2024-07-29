@@ -36,7 +36,7 @@
                         $resve_state = ($cars->reserve==1)?'active':'';
                         @endphp
 
-                        <a href="{{route('cardetailPage', ['post' => $cars->id])}}" class="item-mycar">
+                        <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}" class="item-mycar">
                             <div class="item-mycar-cover">
                                 <figure><img src="{{$profilecar_img}}" alt=""></figure>
                             </div>

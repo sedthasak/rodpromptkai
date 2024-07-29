@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\carsModel;
+use App\Models\noticeModel;
+
 class contacts_backModel extends Model
 {
     use HasFactory;
@@ -18,7 +21,16 @@ class contacts_backModel extends Model
         'time',
         'remark',
         'cars_id',
-        'status'
+        'status',
     ];
 
+    public function car()
+    {
+        return $this->belongsTo(carsModel::class, 'cars_id');
+    }
+
+    public function notices()
+    {
+        return $this->hasMany(noticeModel::class, 'contacts_back_id');
+    }
 }

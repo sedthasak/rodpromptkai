@@ -163,7 +163,7 @@
                 @php
                 $profilecar_imgcarshis = ($carshis->feature)?asset($carshis->feature):asset('public/uploads/default-car.jpg');
                 @endphp
-                <a href="{{route('cardetailPage', ['post' => $carshis->id])}}" class="item-car">
+                <a href="{{route('cardetailPage', ['slug' => $carshis->slug])}}" class="item-car">
                     <figure>
                         <div class="cover-car"><img src="{{$profilecar_imgcarshis}}" alt=""></div>
                         <figcaption>

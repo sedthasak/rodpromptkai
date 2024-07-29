@@ -150,6 +150,13 @@ class PackagesAndDealsController extends Controller
     }
     public function specialdealPage(Request $request) 
     {
+        // $cars = carsModel::whereNull('slug')->get();
+
+        // foreach ($cars as $car) {
+        //     // Generate unique slug with the post ID and save
+        //     $car->slug = $car->generateUniqueSlug($car->id);
+        //     $car->save();
+        // }
         // dd($pv);
         $alldeals = DealModel::orderBy('id', 'desc')->get();
         return view('frontend.specialdeal', [

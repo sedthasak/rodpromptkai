@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use voku\helper\ASCII;
+
 use App\Models\brandsModel;
 use App\Models\modelsModel;
 use App\Models\generationsModel;
@@ -11,6 +14,8 @@ use App\Models\sub_modelsModel;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\MyDeal;
+use App\Models\contacts_backModel;
+use App\Models\provincesModel;
 
 class carsModel extends Model
 {
@@ -19,6 +24,7 @@ class carsModel extends Model
     protected $table = 'cars';
 
     protected $fillable = [
+        'status',
         'title',
         'feature',
         'brand_id',
@@ -49,7 +55,6 @@ class carsModel extends Model
         'stock',
         'type',
         'promotion_id',
-        'status',
         'payment',
         'detail',
         'reserve',
@@ -63,7 +68,8 @@ class carsModel extends Model
         'meta_title',
         'meta_description',
         'meta_keyword',
-        'mydeals'  // Add the new field here
+        'mydeals',
+        'slug',
     ];
 
     public function brand()
@@ -101,4 +107,36 @@ class carsModel extends Model
         return $this->hasOne(MyDeal::class, 'cars_id');
     }
 
+    public function contacts()
+    {
+        return $this->hasMany(contacts_backModel::class, 'cars_id');
+    }
+
+    public function generateUniqueSlug($id)
+    {
+        // Get the related brand, model, and submodel names
+        $brandName = $this->brand ? $this->brand->title : '';
+        $modelName = $this->model ? $this->model->model : '';
+        $subModelName = $this->subModel ? $this->subModel->sub_models : '';
+
+        // Fetch the English name of the province
+        $provinceModel = provincesModel::where('name_th', $this->province)->first();
+        $province = $provinceModel ? $provinceModel->name_en : $this->province;
+
+        // Create the slug base using modelyear, brand, model, submodel, province, title, customer ID, and id
+        $baseSlug = trim("{$this->modelyear} {$brandName} {$modelName} {$subModelName} {$province} {$this->title} {$this->customer_id} {$id}");
+
+        // Generate the slug from the base text
+        $generatedSlug = Str::slug($baseSlug, '-');
+
+        // Ensure uniqueness
+        $originalSlug = $generatedSlug;
+        $count = 1;
+
+        while (self::where('slug', $generatedSlug)->exists()) {
+            $generatedSlug = $originalSlug . '-' . $count++;
+        }
+
+        return $generatedSlug;
+    }
 }

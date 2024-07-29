@@ -14,6 +14,29 @@
 </style>
 
 @section('content')
+<?php
+
+// echo "<pre>";
+// print_r($customer_cars_by_status);
+// echo "</pre>";
+// foreach ($cars as $brandTitle => $models) {
+//     echo "Brand: $brandTitle\n";
+//     foreach ($models as $modelName => $cars) {
+//         echo "  Model: $modelName\n";
+//         foreach ($cars as $car) {
+//             echo "    Car ID: {$car->id}, Title: {$car->title}\n";
+//         }
+//     }
+//     echo "<br>";
+// }
+
+?>
+
+
+
+
+
+
 
 @include('frontend.layouts.inc_profile')    
 

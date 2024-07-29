@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str; // Import Str class here
+use Illuminate\Support\Str;
 use App\Models\Customer;
 use App\Models\Sms_session;
 use App\Models\provincesModel;
@@ -306,7 +306,6 @@ class PostController extends Controller
     }
     public function carpostbrowsesubmit(Request $request)
     {
-        // dd($request);
         $request->validate([
             'image_paths' => 'required|array',
             'image_paths.*' => 'required|string',
@@ -316,12 +315,9 @@ class PostController extends Controller
             'registration_paths.*' => 'sometimes|string',
         ]);
 
-        // Create the post
-        // $testCreate = TestCreate::create([
-        //     'number' => uniqid(),
-        // ]);
         $cars = new carsModel;
 
+        // Set attributes from request
         $cars->type = $request->type;
         $cars->customer_id = $request->customer_id;
         $cars->brand_id = $request->brands;
@@ -331,78 +327,48 @@ class PostController extends Controller
         $cars->modelyear = $request->years;
         $cars->mileage = $request->mileage;
         $cars->yearregis = $request->yearregis;
-        if ($request->gear == "auto") {
-            $cars->gear = "auto";
-        }
-        else {
-            $cars->gear = "manual";
-        }
-        if ($request->gashas == "1") {
-            $cars->gas = "รถน้ำมัน / hybrid";
-            $cars->ev = "0";
-        }
-        else if ($request->gashas == "2") {
-            $cars->gas = "รถไฟฟ้า EV 100%";
-            $cars->ev = "1";
-        }
-        else {
-            $cars->gas = "รถติดแก๊ส";
-            $cars->ev = "0";
-        }
+        $cars->gear = $request->gear == "auto" ? "auto" : "manual";
+        $cars->gas = $request->gashas == "1" ? "รถน้ำมัน / hybrid" : ($request->gashas == "2" ? "รถไฟฟ้า EV 100%" : "รถติดแก๊ส");
+        $cars->ev = $request->gashas == "2" ? "1" : "0";
         $cars->vehicle_code = $request->vehicle_code;
         $cars->title = $request->title;
         $cars->detail = $request->detail;
         $cars->price = str_replace(",", "", $request->price);
-        
-        if ($request->has('warranty_1')) {
-            $cars->warranty_1 = 1;
-        }
-        else {
-            $cars->warranty_1 = 0;
-        }
-        if ($request->has('warranty_2')) {
-            $cars->warranty_2 = 1;
-        }
-        else {
-            $cars->warranty_2 = 0;
-        }
-        if ($request->has('warranty_3')) {
-            $cars->warranty_3 = 1;
-        }
-        else {
-            $cars->warranty_3 = 0;
-        }
+        $cars->warranty_1 = $request->has('warranty_1') ? 1 : 0;
+        $cars->warranty_2 = $request->has('warranty_2') ? 1 : 0;
+        $cars->warranty_3 = $request->has('warranty_3') ? 1 : 0;
         $cars->warranty_2_input = $request->warranty_2_input;
 
-        if($request->customer_type == 'dealer'){
+        if ($request->customer_type == 'dealer') {
             $cars->status = 'approved';
             $cars->adddate = time();
             $cars->approvedate = time();
             $cars->expiredate = strtotime("+90 days", time());
-        }else{
+        } else {
             $cars->status = 'created';
             $cars->adddate = time();
         }
-        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
+
+        $cars->color = $request->color == '9999999999' ? $request->other_color : $request->color;
         $cars->province = $request->province;
 
         $cars->feature = '';
         $cars->licenseplate = '';
 
-        if (!empty($image_paths)) {
-            $cars->feature = $image_paths[0];
-        } else {
-            $cars->feature = '';
+        if (!empty($request->image_paths)) {
+            $cars->feature = $request->image_paths[0];
         }
-        if (!empty($registration_path)) {
-            $cars->licenseplate = $registration_path;
-        } else {
-            $cars->licenseplate = '';
+
+        if (!empty($request->registration_paths)) {
+            $cars->licenseplate = $request->registration_paths[0];
         }
+
         $cars->save();
 
+        // Generate unique slug with the post ID and save again
+        $cars->slug = $cars->generateUniqueSlug($cars->id);
+        $cars->save();
 
-        
         $this->moveAndRenameFiles($request->image_paths, $cars->id, 'exterior');
         if ($request->has('interior_paths')) {
             $this->moveAndRenameFiles($request->interior_paths, $cars->id, 'interior');
@@ -410,9 +376,12 @@ class PostController extends Controller
         if ($request->has('registration_paths')) {
             $this->moveAndRenameFiles($request->registration_paths, $cars->id, 'registration');
         }
-        // return redirect()->route('carpostregistersuccessPage')->with('success', 'Post '.$cars->id.' created successfully.');
+
         return redirect()->route('carpostregistersuccessPage');
     }
+
+
+
     public function moveAndRenameFiles($paths, $postId, $type)
     {
         try {
@@ -502,6 +471,84 @@ class PostController extends Controller
             // 'a' => 'test',
         ]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    public function generateUniqueSlug()
+    {
+        // Get the related brand and model names
+        $brandName = $this->brand ? $this->brand->title : '';
+        $modelName = $this->model ? $this->model->model : '';
+        
+        // Create the slug base using year, brand, model, and title
+        $baseSlug = trim("{$this->yearregis} {$brandName} {$modelName} {$this->title}");
+        
+        // Generate the initial slug
+        $slug = Str::slug($baseSlug, '-');
+        
+        // Ensure uniqueness
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (carsModel::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
+        return $slug;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
