@@ -24,11 +24,42 @@ use App\Models\newsModel;
 use App\Models\noticeModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use File;
+// use File;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 
 class FrontendPageController extends Controller
 {
+    public function logoutone_session() {
+        session()->forget('customer_session');
+        session()->flush();
+        return redirect("/");
+    }
+    public function logoutall_session() {
+        $customer_session = session('customer_session');
+        if ($customer_session) {
+            $sms_session = Sms_session::where('customer_session', $customer_session)->first();
+            if ($sms_session) {
+                $customer_id = $sms_session->customer_id;
+                Sms_session::where('customer_id', $customer_id)->delete();
+                session()->forget('customer_session');
+                session()->flush();
+                $customer = Customer::find($customer_id);
+                if ($customer) {
+                    $phone = $customer->phone; // Retrieve the phone field
+                    return redirect("/")->with('success', 'หมายเลข ' . $phone . ' ลงชื่อออกจากระบบทุกบัญชีเรียบร้อย!');
+                } else {
+                    return redirect("/")->with('error', 'ไม่พบข้อมูลลูกค้าสำหรับ customer_id ' . $customer_id);
+                }
+            } else {
+                return redirect("/")->with('error', 'ไม่พบข้อมูลสำหรับ customer_session ที่ระบุ');
+            }
+        } else {
+            return redirect("/")->with('error', 'ไม่พบ customer_session ใน session');
+        }
+    }
+
 
     public function performanceviewPage()
     {
@@ -416,6 +447,24 @@ class FrontendPageController extends Controller
 
         return response()->json(['status' => 'success', 'newValue' => $newValue]);
     }
+    public function updatesoldoutAction(Request $request)
+    {
+        try {
+            $postId = $request->input('id');
+            $currentStatus = $request->input('currentStatus');
+            
+            if ($currentStatus == 'approved') {
+                carsModel::where('id', $postId)->update([
+                    'status' => 'soldout',
+                ]);
+            }
+
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    }
+
     public function updatereservePage(Request $request)
     {
         $postId = $request->id;
@@ -895,6 +944,18 @@ class FrontendPageController extends Controller
             'carstatus' => "rejected",
             "brandsum" => $qrybrandsum,
             'carfromstatus2' => $carfromstatus2,
+        ]);
+    }
+    public function profilesoldoutPage()
+    {
+        return view('frontend/profile-soldout', [
+            // 'customer_id' => $customer_id,
+            // 'mycars' => $mycars,
+            // 'carfromstatus' => $carfromstatus,
+            // 'brandsearch' => $qrybrandsearch,
+            // 'carstatus' => "rejected",
+            // "brandsum" => $qrybrandsum,
+            // 'carfromstatus2' => $carfromstatus2,
         ]);
     }
     public function profileexpirePage()
@@ -1665,19 +1726,19 @@ class FrontendPageController extends Controller
                     File::delete($oldPath);
                 }
             }
-                
 
             $file = $request->file('image');
             $destinationPath = public_path('/uploads/profile/');
-            $filename = $file->getClientOriginalName();
+            $filename = 'profile-' . time() . '.webp';
 
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = 'profile-'.time() . '.' .$ext;
-            $file->move($destinationPath, $newfilenam);
-            $filepath = 'uploads/profile/'.$newfilenam;
+            $image = Image::make($file);
+            $image->encode('webp', 90); // Encode image to WebP format with 90% quality
+            $image->save($destinationPath . $filename);
 
+            $filepath = 'uploads/profile/' . $filename;
             $Customer->image = $filepath;
         }
+        
         if($request->hasFile('map')){
 
             if(isset($Customer->map)){
@@ -1689,13 +1750,13 @@ class FrontendPageController extends Controller
 
             $file = $request->file('map');
             $destinationPath = public_path('/uploads/map/');
-            $filename = $file->getClientOriginalName();
+            $filename = 'map-' . time() . '.webp';
 
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = 'map-'.time() . '.' .$ext;
-            $file->move($destinationPath, $newfilenam);
-            $filepath = 'uploads/map/'.$newfilenam;
+            $image = Image::make($file);
+            $image->encode('webp', 90); // Encode image to WebP format with 90% quality
+            $image->save($destinationPath . $filename);
 
+            $filepath = 'uploads/map/' . $filename;
             $Customer->map = $filepath;
         }
 
@@ -1709,9 +1770,7 @@ class FrontendPageController extends Controller
         $Customer->google_map = $request->google_map;
         $Customer->update();
 
-        // dd($request);
         if(isset($Customer->id)){
-            // $usersavelog = auth()->user();
             $idsavelog = $request->id; 
             $phonesavelog = $request->phone; 
             $para = array(
@@ -1725,6 +1784,7 @@ class FrontendPageController extends Controller
         }
         return redirect(route('editprofilePage'))->with('success', 'แก้ไขข้อมูลสำเร็จ !');
     }
+
     public function editprofilePage_afterregis()
     {
         $provinces = provincesModel::all();

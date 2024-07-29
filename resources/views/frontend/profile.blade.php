@@ -20,8 +20,9 @@
 <?php
 
 $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png');
+// $data = session()->all();
 // echo "<pre>";
-// print_r($_POST);
+// print_r($data);
 // echo "</pre>";
 ?>
 <section class="row">
@@ -74,7 +75,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                 </div>
                                 <div class="mycar-boxline">
                                     <div class="row">
-                                        <div class="col-8 col-md-8">
+                                        <div class="col-12 col-md-6">
                                             <div class="mycar-boxprice">
                                                 <div class="mycar-price">{{number_format($cars->price, 0, '.', ',')}}.-</div>
                                                 @if (isset($cars->edit_price))
@@ -86,10 +87,22 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-4 col-md-4 text-end">
-                                            <button class="mycar-reserve {{$resve_state}}" data-post-id="{{ $cars->id }}" data-current-value="{{ $cars->reserve }}" >
-                                            <img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt=""> จองแล้ว</button>
+                                        <div class="col-12 col-md-6 text-end">
+                                            
+                                            <div class="wrap-btn-carsold">
+
+                                                <button class="mycar-soldout" data-post-id="{{ $cars->id }}" data-current-status="{{ $cars->status }}">
+                                                    <img src="{{asset('frontend/images2/icon-soldout.svg')}}" class="svg" alt="">
+                                                    ขายแล้ว
+                                                </button>
+                                                
+                                                <button class="mycar-reserve {{$resve_state}}" data-post-id="{{ $cars->id }}" data-current-value="{{ $cars->reserve }}" >
+                                                    <img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt="">
+                                                     จองแล้ว
+                                                </button>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -139,55 +152,6 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                             </div>
                         </div>
                         @endforeach
-
-                        
-
-                        <!-- <div class="item-mycar">
-                            <div class="item-mycar-cover">
-                                <a href="car-detail.php"><figure><img src="{{asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png')}}" alt=""></figure></a>
-                            </div>
-                            <div class="mycar-detail-mb">
-                                <a href="car-detail.php">
-                                    <div class="mycar-name">2023 BMW X1</div>
-                                    <div class="mycar-type">X1 2.0 sDrive18i</div>
-                                    <div class="mycar-idcar">4กข 8113</div>
-                                </a>
-                            </div>
-                            <div class="item-mycar-detail">
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
-                                        <a href="car-detail.php">
-                                            <div class="mycar-name">2023 BMW X1</div>
-                                            <div class="mycar-type">X1 2.0 sDrive18i</div>
-                                            <div class="mycar-idcar">4กข 8113</div>
-                                        </a>
-                                    </div>
-                                    <div class="col-12 col-md-6 text-end">
-                                        <div class="mycar-post">วันที่ลงขาย :  16 มิ.ย. 66</div>
-                                        <div class="mycar-expire">วันที่หมดอายุ :  16 ธ.ค. 66</div>
-                                    </div>
-                                </div>
-                                <div class="mycar-boxline">
-                                    <div class="row">
-                                        <div class="col-8 col-md-8">
-                                            <div class="mycar-boxprice">
-                                                <div class="mycar-price">599,000.-</div>
-                                                <a data-fancybox data-src="#edit-carprice" href="javascript:;" class="mycar-editprice"><i class="bi bi-pencil-square"></i> แก้ไขราคา</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 col-md-4 text-end">
-                                            <button class="mycar-reserve"><img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt=""> จองแล้ว</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item-mycar-button">
-                                <a href="#" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
-                                <button class="btn-mycar btn-mycar-delete button-delete"><i class="bi bi-trash3-fill"></i> ลบ</button>
-                            </div>
-                        </div> -->
-
-
                         
                     </div>
 
@@ -264,6 +228,47 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
         });
     });
 
+
+
+
+    document.querySelectorAll('.mycar-soldout').forEach(button => {
+        button.addEventListener('click', function () {
+            var postId = this.getAttribute('data-post-id');
+            var currentStatus = this.getAttribute('data-current-status');
+
+            Swal.fire({
+                title: 'เปลี่ยนสถานะเป็นขายแล้ว ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post('{{ route('updatesoldoutAction') }}', {
+                        id: postId,
+                        currentStatus: currentStatus,
+                    })
+                    .then((response) => {
+                        Swal.fire({
+                            title: 'สำเร็จ !',
+                            icon: 'success'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    })
+                    .catch((error) => {
+                        Swal.fire(
+                            'ล้มเหลว!',
+                            'ไม่สามารถทำตามที่ร้องขอได้ !!!',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    });
 
     document.querySelectorAll('.mycar-reserve').forEach(button => {
         button.addEventListener('click', function () {

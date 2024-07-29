@@ -31,6 +31,7 @@ class carsModel extends Model
         'gear',
         'color',
         'price',
+        'old_price',
         'province',
         'gas',
         'ev',
@@ -95,8 +96,9 @@ class carsModel extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-    public function myDeals()
+    public function myDeal()
     {
-        return $this->hasMany(MyDeal::class, 'cars_id');
+        return $this->hasOne(MyDeal::class, 'cars_id');
     }
+
 }

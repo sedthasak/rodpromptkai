@@ -44,7 +44,7 @@
             </li> -->
 
             <li>
-                <a>Slot ลงขาย <span>{{$customer_post}} / {{$customer_role['quota']}} คัน</span></a>
+                <a>Slot ลงขาย <span>{{$customer_post['dealer']}} / {{$customer_role['customer_quota']}} คัน</span></a>
             </li>
             
             <li>

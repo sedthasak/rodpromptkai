@@ -38,11 +38,12 @@ class MyDeal extends Model
     {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
-
+    
     public function car()
     {
         return $this->belongsTo(carsModel::class, 'cars_id');
     }
+
 
     public function deal()
     {

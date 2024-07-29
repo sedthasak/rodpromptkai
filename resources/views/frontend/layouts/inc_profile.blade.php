@@ -19,7 +19,7 @@ $line = $customerdata->line??'-';
 // print_r($image);
 // echo "</pre>";
 // echo "<pre>";
-// print_r($customer_login);
+// print_r($customer_role);
 // echo "</pre>";
 
 
@@ -66,7 +66,7 @@ $line = $customerdata->line??'-';
                 <div class="col-12">
                     <div class="txt-deal-slot">
                         <img src="{{asset('frontend/images/icon-car.svg')}}" alt="">
-                        Slot ลงขายรถบ้านฟรี <div>{{$customer_role['quota']}}</div> คัน
+                        Slot ลงขายรถบ้านฟรี <div>{{$customer_post['normal']}} / {{$customer_role['customer_quota']}}</div> คัน
                         <!-- <span>|</span>
                         @if ($customer_role['role'] == 'normal' || $customer_role['role'] == 'admin')
                             <div>สัญญาหมดอายุ : ไม่จำกัด</div>
@@ -122,11 +122,11 @@ $line = $customerdata->line??'-';
                         <div style="display: none;" id="logout">
                             <div class="popup-logout">
                                 <h2>ออกจากระบบ</h2>
-                                <a href="#" class="btn-logout logout-user">ออกจากระบบ <i class="bi bi-box-arrow-right"></i></a>
+                                <a href="{{route('logoutone_session')}}" class="btn-logout logout-user">ออกจากระบบ <i class="bi bi-box-arrow-right"></i></a>
                                 <div class="logout-note">
                                     หากคุณต้องการออกจากระบบทุกบัญชีการใช้งาน กรุณากดที่ปุ่ม <div>ออกจากระบบทุกบัญชี</div>
                                 </div>
-                                <a class="btn-logout logout-all">ออกจากระบบทุกบัญชี <i class="bi bi-box-arrow-right"></i></a>
+                                <a href="{{route('logoutall_session')}}" class="btn-logout logout-all">ออกจากระบบทุกบัญชี <i class="bi bi-box-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>

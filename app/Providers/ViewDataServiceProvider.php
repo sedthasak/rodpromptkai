@@ -71,6 +71,7 @@ class ViewDataServiceProvider extends ServiceProvider
                     'approved' => [],
                     'rejected' => [],
                     'expired' => [],
+                    'soldout' => [],
                 );
                 foreach($mycars as $keystatus => $carstatus){
                     $carfromstatus[$carstatus->status][] = $carstatus;
@@ -91,11 +92,13 @@ class ViewDataServiceProvider extends ServiceProvider
                 $customer_role = $customer_login->role;
                 $customer_role = [
                     'role' => $customer_login->role,
-                    'quota' => $customer_login->customer_quota,
+                    'customer_quota' => $customer_login->customer_quota,
                     'dealerpack' => $customer_login->dealerpack,
+                    'dealerpack_quota' => $customer_login->dealerpack_quota,
                     'dealerpack_regis' => $customer_login->dealerpack_regis,
                     'dealerpack_expire' => $customer_login->dealerpack_expire,
                     'vippack' => $customer_login->vippack,
+                    'vippack_quota' => $customer_login->vippack_quota,
                     'vippack_regis' => $customer_login->vippack_regis,
                     'vippack_expire' => $customer_login->vippack_expire,
                     'pack' => '',
@@ -132,8 +135,17 @@ class ViewDataServiceProvider extends ServiceProvider
                         break; // Exit loop as soon as we find the correct level
                     }
                 }
+                $customer_post = carsModel::where('customer_id', $customer_login->id)
+                    ->select(DB::raw("
+                        SUM(CASE WHEN type IN ('home', 'lady') THEN 1 ELSE 0 END) as normal,
+                        SUM(CASE WHEN type = 'dealer' THEN 1 ELSE 0 END) as dealer
+                    "))
+                    ->first();
 
-                $customer_post = carsModel::where('customer_id', $customer_login->id)->count();
+                $customer_post = [
+                    'normal' => $customer_post->normal,
+                    'dealer' => $customer_post->dealer
+                ];
 
                 
                 $getdeal = MyDeal::where('customer_id', $customer_login->id)->count();

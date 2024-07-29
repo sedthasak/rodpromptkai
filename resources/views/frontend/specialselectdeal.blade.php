@@ -59,35 +59,30 @@ $arr_gear = array(
                         </div>
 
                         <div class="row box-item-cardeal">
-
                             @foreach($alldeals as $deal)    
                                 @php
-                                $feature = ($car->feature)?asset('storage/' . $car->feature):asset('frontend/deal-example.webp');
-                                $oldPrice = $car->old_price;
-                                $newPrice = $car->price;
-                                $discountPercentage = 0;
+                                    $feature = $car->feature ? asset('storage/' . $car->feature) : asset('frontend/deal-example.webp');
+                                    $oldPrice = $car->old_price;
+                                    $newPrice = $car->price;
+                                    $discountPercentage = $oldPrice > 0 ? floor((($oldPrice - $newPrice) / $oldPrice) * 100) : 0;
+                                    $isSelected = $deal->id == $car->mydeal->deals_id;
 
-                                if ($oldPrice > 0) {
-                                    $discountPercentage = (($oldPrice - $newPrice) / $oldPrice) * 100;
-                                }
-                                $isSelected = $deal->id == $car->mydeals;
+                                    $border = $deal->border ?? '#000000';
+                                    $imagePath = $deal->image_background ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $deal->image_background)) : null;
+                                    $background = $deal->background ?? null;
+                                    $topleftPath = $deal->topleft ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $deal->topleft)) : null;
+                                    $bottomrightPath = $deal->bottomright ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $deal->bottomright)) : null;
+                                    $font1 = $deal->font1 ?? '#FFFFFF';
+                                    $font2 = $deal->font2 ?? '#FFDADA';
+                                    $font3 = $deal->font3 ?? '#FFFFFF';
+                                    $font4 = $deal->font4 ?? '#FFE500';
                                 @endphp
-                                <div class="col-6 col-xl-4 col-itemcar">
-                                    <div class="deal-nametype">{{$deal->name}}</div>
-                                    <div class="item-car" style="border: 2px solid {{ $deal->border ?? '#000000' }}; 
-                                        @if($deal->image_background) 
-                                            @php
-                                                $imagePath = str_replace('public/uploads/deal/', '', $deal->image_background);
-                                            @endphp
-                                            background-image: url('{{ asset('storage/uploads/deal/' . $imagePath) }}');
-                                        @elseif($deal->background) 
-                                            background-color: {{ $deal->background }};
-                                        @endif">
-                                        @if($deal->topleft)
-                                            @php
-                                                $topleftPath = str_replace('public/uploads/deal/', '', $deal->topleft);
-                                            @endphp
-                                            <div class="tag-top-left"><img src="{{ asset('storage/uploads/deal/' . $topleftPath) }}" alt=""></div>
+
+                                <div class="col-6 col-xl-4 item-changedeal col-itemcar">
+                                    <div class="deal-nametype">{{ $deal->name }}</div>
+                                    <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
+                                        @if($topleftPath)
+                                            <div class="tag-top-left"><img src="{{ $topleftPath }}" alt=""></div>
                                         @endif
 
                                         @if($deal->bigbrand == 1)
@@ -97,42 +92,38 @@ $arr_gear = array(
                                         <figure>
                                             <div class="cover-car">
                                                 <div class="box-timeout">
-                                                    <!-- <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก 3 วัน 18 ชม.</div> -->
                                                     <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก ???</div>
-                                                    @if($deal->bottomright)
-                                                        @php
-                                                            $bottomrightPath = str_replace('public/uploads/deal/', '', $deal->bottomright);
-                                                        @endphp
-                                                        <div class="tag-bottom-right"><img src="{{ asset('storage/uploads/deal/' . $bottomrightPath) }}" alt=""></div>
+                                                    @if($bottomrightPath)
+                                                        <div class="tag-bottom-right"><img src="{{ $bottomrightPath }}" alt=""></div>
                                                     @endif
                                                 </div>
-                                                <img src="{{$feature}}" alt="">
+                                                <img src="{{ $feature }}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">
-                                                    <div class="car-name" style="color: {{ $deal->font1 ?? '#FFFFFF' }}">{{$car->modelyear}} {{$car->brand->title}} {{$car->model->model}} </div>
-                                                    <div class="car-series" style="color: {{ $deal->font2 ?? '#FFDADA' }}">{{$car->generation->generations}} {{$car->subModel->sub_models}}</div>
-                                                    <div class="car-province" style="color: {{ $deal->font2 ?? '#FFDADA' }}">{{$car->province}}</div>
+                                                    <div class="car-name" style="color: {{ $font1 }}">{{ $car->modelyear }} {{ $car->brand->title }} {{ $car->model->model }}</div>
+                                                    <div class="car-series" style="color: {{ $font2 }}">{{ $car->generation->generations }} {{ $car->subModel->sub_models }}</div>
+                                                    <div class="car-province" style="color: {{ $font2 }}">{{ $car->province }}</div>
                                                     <div class="row">
                                                         <div class="col-12 col-md-8">
-                                                            <div class="descpro-car" style="color: {{ $deal->font1 ?? '#FFFFFF' }}">{{ strip_tags($car->detail) }}</div>
+                                                            <div class="descpro-car" style="color: {{ $font1 }}">{{ strip_tags($car->detail) }}</div>
                                                         </div>
                                                         <div class="col-12 col-md-4 text-end">
-                                                            <div class="txt-readmore" style="color: {{ $deal->font1 ?? '#FFFFFF' }}">ดูเพิ่มเติม</div>
+                                                            <div class="txt-readmore" style="color: {{ $font1 }}">ดูเพิ่มเติม</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="linecontent"></div>
                                                 <div class="row caritem-price">
                                                     <div class="col-12 col-md-6">
-                                                        <div class="txt-gear" style="color: {{ $deal->font3 ?? '#FFFFFF' }}"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{$arr_gear[$car->gear]}}</div>
+                                                        <div class="txt-gear" style="color: {{ $font3 }}"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
                                                     </div>
                                                     <div class="col-12 col-md-6 text-end">
-                                                        <div class="car-price" style="color: {{ $deal->font4 ?? '#FFE500' }}">
+                                                        <div class="car-price" style="color: {{ $font4 }}">
                                                             {{ $newPrice }}.-
                                                         </div>
-                                                        <div class="car-price-discount" style="color: {{ $deal->font3 ?? '#FFFFFF' }}">
-                                                            <span>{{ $oldPrice }}.-</span> {{ round($discountPercentage, 2) }}%
+                                                        <div class="car-price-discount" style="color: {{ $font3 }}">
+                                                            <span>{{ $oldPrice }}.-</span> {{ floor($discountPercentage) }}%
                                                         </div>
                                                     </div>
                                                 </div>
@@ -142,10 +133,12 @@ $arr_gear = array(
                                     <button class="btn-changedeal deal-selectcar {{ $isSelected ? 'selected' : '' }}" data-deal-id="{{ $deal->id }}" data-car-id="{{ $car->id }}" {{ $isSelected ? 'disabled' : '' }}>
                                         <i class="bi bi-check-circle-fill"></i> {{ $isSelected ? 'ดีลที่เลือกแล้ว' : 'เลือกใช้รูปแบบนี้' }}
                                     </button>
-                                    
                                 </div>
                             @endforeach
                         </div>
+
+                        
+
                     </div>
                     <div class="totop-mb"><a id="button-top">กลับสู่ด้านบน</a></div>
                 </div>
@@ -157,6 +150,13 @@ $arr_gear = array(
 @endsection
 
 @section('script')
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 <script>
     $(document).ready(function() {
         $('.deal-selectcar').click(function() {
@@ -183,6 +183,7 @@ $arr_gear = array(
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
+                            console.log('Response:', response); // Log the response to the console
                             if (response.success) {
                                 Swal.fire(
                                     'สำเร็จ!',
@@ -199,10 +200,11 @@ $arr_gear = array(
                                 );
                             }
                         },
-                        error: function(xhr) {
+                        error: function(xhr, status, error) {
+                            console.error('Error:', status, error); // Log the error details to the console
                             Swal.fire(
                                 'เกิดข้อผิดพลาด!',
-                                'ไม่สามารถเลือกดีลนี้ได้ กรุณาลองใหม่อีกครั้ง.',
+                                'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง.',
                                 'error'
                             );
                         }
@@ -213,3 +215,4 @@ $arr_gear = array(
     });
 </script>
 @endsection
+

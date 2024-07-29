@@ -7,21 +7,61 @@
 @section('content')
 
 <?php
-$quota = $customer_login->customer_quota;
-$role = $customer_login->role;
-$post = $customer_post;
+$homeCarRoute = '';
+$dealerRoute = '';
+$ladyCarRoute = '';
 
-// Determine routes based on conditions
-$homeCarRoute = ($post < $quota) ? route('postcarwelcomePage') : route('packagePage');
-$ladyCarRoute = ($post < $quota) ? route('postcarwelcomeladyPage') : route('packagePage');
+$customerRole = $customer_role['role'];
+$normalPosts = $customer_post['normal'];
+$dealerPosts = $customer_post['dealer'];
+$dealerPackQuota = $customer_role['dealerpack_quota'];
+$vipPackQuota = $customer_role['vippack_quota'];
 
-// Conditional logic for ดีลเลอร์
-if (in_array($role, ['dealer', 'vip', 'admin'])) {
-    $dealerRoute = ($post < $quota) ? route('postcarwelcomedealerPage') : route('packagePage');
-} else {
-    $dealerRoute = route('packagePage');
+// Set homeCarRoute and ladyCarRoute
+if (in_array($customerRole, ['normal', 'dealer', 'vip', 'admin']) && $normalPosts < $customer_role['customer_quota']) {
+    $homeCarRoute = route('postcarwelcomePage');
+    $ladyCarRoute = route('postcarwelcomeladyPage');
 }
+
+// Set dealerRoute
+if ($customerRole == 'normal') {
+    $dealerRoute = route('packagePage');
+} elseif ($customerRole == 'admin') {
+    $dealerRoute = route('postcarwelcomedealerPage');
+} elseif ($customerRole == 'dealer') {
+    if ($dealerPosts < $dealerPackQuota) {
+        $dealerRoute = route('postcarwelcomedealerPage');
+    } else {
+        $dealerRoute = route('packagePage');
+    }
+} elseif ($customerRole == 'vip') {
+    if ($dealerPosts < $vipPackQuota) {
+        $dealerRoute = route('postcarwelcomedealerPage');
+    } else {
+        $dealerRoute = route('packagePage');
+    }
+}
+
+// Button clickability
+$homeDisabled = ($homeCarRoute == '') ? 'disabled' : '';
+$ladyDisabled = ($ladyCarRoute == '') ? 'disabled' : '';
+$dealerDisabled = ($dealerRoute == '') ? 'disabled' : '';
+
+// echo "<pre>";
+// print_r($customer_role);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($customer_post);
+// echo "</pre>";
 ?>
+
+<style>
+    .disabled {
+        pointer-events: none;
+        opacity: 0.6; /* Optional: Make the disabled buttons look visually disabled */
+    }
+</style>
+
 <section class="row">
     <div class="col-12 wrap-postcar">
         <div class="container">
@@ -34,19 +74,19 @@ if (in_array($role, ['dealer', 'vip', 'admin'])) {
                     </div>
                     <div class="wrap-itempost">
 
-                        <a href="{{ $homeCarRoute }}" class="item-postcar item-homecar">
+                        <a href="{{ $homeCarRoute ?: '#' }}" class="item-postcar item-homecar {{ $homeDisabled }}">
                             <img src="{{asset('frontend/images/icon-post01.svg')}}" alt="">
                             <h2>รถบ้าน<br>เจ้าของขายเอง</h2>
                             <div class="btn-select-post">เลือก</div>
                         </a>
 
-                        <a href="{{ $dealerRoute }}" class="item-postcar item-dealer">
+                        <a href="{{ $dealerRoute ?: '#' }}" class="item-postcar item-dealer {{ $dealerDisabled }}">
                             <img src="{{asset('frontend/images/icon-post02.svg')}}" alt="">
                             <h2>ดีลเลอร์/<br>ลงแบบฝากขาย</h2>
                             <div class="btn-select-post">เลือก</div>
                         </a>
 
-                        <a href="{{ $ladyCarRoute }}" class="item-postcar item-lady">
+                        <a href="{{ $ladyCarRoute ?: '#' }}" class="item-postcar item-lady {{ $ladyDisabled }}">
                             <img src="{{asset('frontend/images/icon-post03.svg')}}" alt="">
                             <h2>คุณผู้หญิงลงขายรถ</h2>
                             <div class="btn-select-post">เลือก</div>
@@ -59,8 +99,5 @@ if (in_array($role, ['dealer', 'vip', 'admin'])) {
         </div>
     </div>
 </section>
-
-
-
 
 @endsection

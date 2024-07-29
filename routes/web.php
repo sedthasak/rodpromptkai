@@ -151,6 +151,7 @@ Route::middleware('sessionlogin')->group(function() {
 
         Route::get('/profile', 'profilePage')->name('profilePage');
         Route::post('/update-reserve', 'updatereservePage')->name('updatereservePage');
+        Route::post('/update-soldout', 'updatesoldoutAction')->name('updatesoldoutAction');
         Route::post('/update-contackback', 'updatecontackbackPage')->name('updatecontackbackPage');
         Route::post('/update-price', 'updatepricePage')->name('updatepricePage');
         Route::post('/updateMyDeal', 'updateMyDeal')->name('updateMyDeal');
@@ -182,6 +183,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/profile-check', 'profilecheckPage')->name('profilecheckPage');
         Route::get('/profile-editcarinfo', 'profileeditcarinfoPage')->name('profileeditcarinfoPage');
         Route::get('/profile-expire', 'profileexpirePage')->name('profileexpirePage');
+        Route::get('/profile-soldout', 'profilesoldoutPage')->name('profilesoldoutPage');
         Route::get('/performance', 'performancePage')->name('performancePage');
         Route::get('/performance-viewpost', 'performanceviewpostPage')->name('performanceviewpostPage');
         Route::get('/performance-view', 'performanceviewPage')->name('performanceviewPage');
@@ -225,6 +227,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/profile-member/{level}', 'profilememberPage')->name('profilememberPage');
     });
     Route::controller(PackagesAndDealsController::class)->group(function() {
+        Route::post('/updateMyDeal', 'updateMyDeal')->name('updateMyDeal');
         Route::post('/adddeal-action', 'adddealaction')->name('adddealaction');
 
         Route::get('/special-deal', 'specialdealPage')->name('specialdealPage');
@@ -259,6 +262,10 @@ Route::get('/login', [FrontendPageController::class, 'loginPage'])->name('loginP
 Route::get('/', [FrontendPageController::class, 'indexPage'])->name('indexPage');
 Route::post('helpcaraction', [FrontendPageController::class, 'helpcaractionPage'])->name('helpcaractionPage');
 Route::post('contactcaraction', [FrontendPageController::class, 'contactcaractionPage'])->name('contactcaractionPage');
+
+Route::get('/logoutone', [FrontendPageController::class, 'logoutone_session'])->name('logoutone_session');
+Route::get('/logoutall', [FrontendPageController::class, 'logoutall_session'])->name('logoutall_session');
+
 Route::get('/phpinfo', function () {
     return phpinfo();
 });

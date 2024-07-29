@@ -29,6 +29,12 @@ class PackagesAndDealsController extends Controller
     public function updateMyDeal(Request $request)
     {
         try {
+            // Validate request data
+            $request->validate([
+                'deal_id' => 'required|integer',
+                'car_id' => 'required|integer',
+            ]);
+
             $dealId = $request->input('deal_id');
             $carId = $request->input('car_id');
 
@@ -36,30 +42,37 @@ class PackagesAndDealsController extends Controller
             $myCar = carsModel::find($carId);
 
             if ($myCar) {
-                // Get the myDeal associated with the car
-                $myDeal = $myCar->myDeals()->first();  // Assuming each car has one myDeal
+                // Get the existing myDeal for this car
+                $myDeal = $myCar->myDeal;
 
                 if ($myDeal) {
-                    // Update the myDeal with the new deal_id
+                    // Update the existing myDeal with the new deal_id
                     $myDeal->deals_id = $dealId;
                     $myDeal->save();
-
-                    Session::flash('success', 'ดีลนี้ถูกเลือกสำหรับรถคันนี้แล้ว.');
-                    return response()->json(['success' => true]);
                 } else {
-                    Session::flash('error', 'ไม่พบดีลที่เกี่ยวข้อง.');
-                    return response()->json(['success' => false], 404);
+                    // Create a new myDeal if none exists
+                    MyDeal::create([
+                        'cars_id' => $carId,
+                        'deals_id' => $dealId,
+                        // Add other fields as necessary
+                    ]);
                 }
+
+                return response()->json(['success' => true]);
             } else {
-                Session::flash('error', 'ไม่พบรถที่เกี่ยวข้อง.');
+                // Debugging: Log this case
+                Log::warning('No car found with ID: ' . $carId);
                 return response()->json(['success' => false], 404);
             }
         } catch (\Exception $e) {
+            // Log detailed error
             Log::error('Error updating MyDeal: ' . $e->getMessage());
-            Session::flash('error', 'เกิดข้อผิดพลาดในการอัปเดตดีล.');
             return response()->json(['success' => false], 500);
         }
     }
+
+
+
 
     public function adddealaction(Request $request)
     {
@@ -97,11 +110,12 @@ class PackagesAndDealsController extends Controller
 
     public function specialselectdealPage(Request $request, $car) 
     {
-        $car = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeals'])
+        $car = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal'])
                 ->findOrFail($car);
         $alldeals = DealModel::orderBy('id', 'desc')->get();
         // dd($car);
         return view('frontend.specialselectdeal', [
+            'page' => 'special-changedeal',
             'alldeals' => $alldeals,
             'car' => $car,
         ]);
@@ -116,6 +130,7 @@ class PackagesAndDealsController extends Controller
                     ->orderBy('id', 'desc')
                     ->get();
         return view('frontend.specialchangedeal', [
+            'page' => 'special-changedeal',
             "results" => $results,
         ]);
     }
@@ -129,6 +144,7 @@ class PackagesAndDealsController extends Controller
                     ->get();
         // dd($results);    
         return view('frontend.specialadddeal', [
+            'page' => 'special-adddeal',
             "results" => $results,
         ]);
     }
@@ -137,6 +153,7 @@ class PackagesAndDealsController extends Controller
         // dd($pv);
         $alldeals = DealModel::orderBy('id', 'desc')->get();
         return view('frontend.specialdeal', [
+            'page' => 'special-deal',
             'alldeals' => $alldeals,
         ]);
     }
@@ -281,7 +298,7 @@ class PackagesAndDealsController extends Controller
             if ($customer && $thispackage) {
                 $customer->update([
                     'role' => 'dealer',
-                    'customer_quota' => $thispackage->limit,
+                    'dealerpack_quota' => $thispackage->limit,
                     'dealerpack' => $thispackage->id,
                     'dealerpack_regis' => now(),
                     'dealerpack_expire' => now()->addMonths(4),
@@ -297,7 +314,7 @@ class PackagesAndDealsController extends Controller
                     'customer_id' => $request->customer_id,
                     'orders_id' => $order->id,
                     'deal_register' => now(),
-                    'deal_expire' => now()->addMonths(3), // Correct expiration calculation
+                    'deal_expire' => now()->addMonths(1), // Correct expiration calculation
                 ];
                 MyDeal::create($dealData);
             }
