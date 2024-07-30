@@ -66,7 +66,7 @@ $line = $customerdata->line??'-';
                 <div class="col-12">
                     <div class="txt-deal-slot">
                         <img src="{{asset('frontend/images/icon-car.svg')}}" alt="">
-                        Slot ลงขายรถบ้านฟรี <div>{{$customer_post['normal']}} / {{$customer_role['customer_quota']}}</div> คัน
+                        Slot ลงขายรถบ้านฟรี <div>{{$customer_post['normal']??0}} / {{$customer_role['customer_quota']}}</div> คัน
                         <!-- <span>|</span>
                         @if ($customer_role['role'] == 'normal' || $customer_role['role'] == 'admin')
                             <div>สัญญาหมดอายุ : ไม่จำกัด</div>

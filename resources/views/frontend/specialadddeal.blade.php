@@ -100,6 +100,27 @@
 
 @section('script')
 <script>
+    function filterBrands() {
+        // Get the search input value
+        var input = document.getElementById('search-input').value.toLowerCase();
+        var brandList = document.getElementById('brand-list');
+        var buttons = brandList.getElementsByClassName('list-mycarsearch');
+
+        // Loop through all brand buttons and hide those that don't match the search query
+        for (var i = 0; i < buttons.length; i++) {
+            var brandTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
+            console.log(brandTitle);
+            if (brandTitle.indexOf(input) > -1) {
+                buttons[i].style.display = '';
+            } else {
+                buttons[i].style.display = 'none';
+            }
+        }
+    }
+</script>
+
+
+<script>
     $(document).ready(function() {
         $('.deal-selectcar').on('click', function() {
             var price = $(this).data('price');
@@ -129,5 +150,5 @@
             }
         });
     });
-</script>
+</>
 @endsection

@@ -6,7 +6,9 @@
 
 @section('content')
 
+<?php
 
+?>
 <section class="row">
     <div class="col-12 banner-slidecar">
         <div class="owl-bannercar owl-carousel owl-theme">
@@ -29,6 +31,21 @@
 <section class="row">
     <div class="col-12 wrap-carpage">
         <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="wrap-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{route('indexPage')}}"><span>หน้าแรก</span></a></li>
+                                <li class="breadcrumb-item"><a href="{{route('carPage')}}"><span>ดูรถพร้อมขาย</span></a></li>
+                                <!-- <li class="breadcrumb-item"><a href="#"><span>Mercedez-Benz</span></a></li>
+                                <li class="breadcrumb-item active text-truncate" aria-current="page"><span>2020 Mercedez-Benz C-CLASS 2020 Mercedez-Benz C-CLASS</span></li> -->
+                            </ol>
+                        </nav>
+                        <h1>ดูรถพร้อมขาย</h1>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12 col-lg-4 col-xl-3 hide-search-mb">
                     <?php 

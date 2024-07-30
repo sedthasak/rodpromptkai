@@ -44,15 +44,17 @@
             </li> -->
 
             <li>
-                <a>Slot ลงขาย <span>{{$customer_post['dealer']}} / 
+                <a>Slot ลงขาย <span>{{$customer_post['dealer']??0}}
                     @if ($customer_role['role'] == 'dealer')
-                        {{$customer_role['dealerpack_quota']}}
+                        {{" / ".$customer_role['dealerpack_quota']." คัน"}}
                     @elseif ($customer_role['role'] == 'vip')
-                        {{$customer_role['vippack_quota']}}
+                        {{" / ".$customer_role['vippack_quota']." คัน"}}
+                    @elseif ($customer_role['role'] == 'normal')
+                        0
                     @else
                         {{$customer_role['customer_quota']}}
                     @endif
-                คัน</span></a>
+                </span></a>
             </li>
 
             

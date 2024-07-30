@@ -11,25 +11,26 @@
 
     <div class="box-menuprofile">
         <div class="topic-menuprofile"><img src="{{asset('frontend/images/carred2.svg')}}" alt="" class="svg"> ค้นหารถในบัญชี</div>
+        
+
         <div class="wrap-mycarsearch">
             <div class="item_mycarsearch">
-                <div class="topicmycarsearch"> ยี่ห้อรถ</div>
+                <div class="topicmycarsearch">ยี่ห้อรถ</div>
                 <div class="content_mycarsearch">
-                    <input type="text" class="form-control" placeholder="ค้นหา...">
-                    <div class="mycarsearch-type">
+                    <input type="text" id="search-input" class="form-control" placeholder="ค้นหา..." onkeyup="filterBrands()">
+                    <div class="mycarsearch-type" id="brand-list">
                         @foreach ($customer_cars_by_status['approved']['brands'] as $brandId => $brandData)
                             <button class="list-mycarsearch">
                                 <div><img src="{{ asset($brandData['feature']) }}" alt=""> {{ $brandData['title'] }}</div>
                                 <div class="num-mycarsearch">({{ $brandData['car_count_brand'] }})</div>
                             </button>
                         @endforeach
-                        
-
-
                     </div>
                 </div>
             </div>
         </div>
+
+
         <div class="wrap-mycarsearch-sub">
             <div class="item_mycarsearch-sub">
                 <div class="topicmycarsearch-sub"> เลือกรุ่น</div>

@@ -259,7 +259,7 @@ $(document).ready(function() {
     });
 });
 
-// wow
+
 $( document ).ready(function() {
 
     $(function(){
@@ -298,13 +298,13 @@ $( document ).ready(function() {
         });
     });
 
-    wow = new WOW(
-        {
-    animateClass: 'animated',
-    offset: 100
-        }
-    );
-        wow.init();    
+    // wow = new WOW(
+    //     {
+    // animateClass: 'animated',
+    // offset: 100
+    //     }
+    // );
+    //     wow.init();    
 });
   
 
@@ -426,6 +426,379 @@ $( '.item_mycarsearch > .topicmycarsearch' ).click(function (event) {
 		});
     
 });
+
+//phase2
+
+$(document).ready(function(){
+    $('.price-select-value').click(function (event) {
+        $('.price-select-dropdown').fadeIn();
+        $('.year-select-dropdown').fadeOut();
+        event.stopPropagation();
+    });
+
+    $('.price-select-dropdown').click(function (event) {
+        event.stopPropagation();
+    });
+
+    $( ".price-select-input.price-minimum" ).on( "focus", function(event) {
+        $( '.price-select-option.price-minimum' ).fadeIn();
+        event.stopPropagation();
+    });
+
+    $(".price-select-input.price-minimum").focusout(function(event){
+        $( '.price-select-option.price-minimum' ).fadeOut();
+        event.stopPropagation();
+    });
+
+    $( ".price-select-input.price-maximum" ).on( "focus", function(event) {
+        $( '.price-select-option.price-maximum' ).fadeIn();
+        event.stopPropagation();
+    });
+
+    $(".price-select-input.price-maximum").focusout(function(event){
+        $( '.price-select-option.price-maximum' ).fadeOut();
+        event.stopPropagation();
+    });
+    
+    $(".price-select-input.price-minimum").keyup(function(event){
+        $('.price-select-option.price-minimum li').removeClass('disabled-option');
+        // Retrieve the input field text and reset the count to zero
+        var filter = $(this).val(), count = 0;
+        //$("#no-count").text('');
+        // Loop through the comment list
+        $(".price-select-option.price-minimum li").each(function(){
+
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).fadeOut();
+
+            // Show the list item if the phrase matches and increase the count by 1
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+        var key = event.which;
+        if(key == 13)  // the enter key code
+        {
+            $('.price-select-input.price-maximum').focus();
+        }
+        var maximuntext = $('.price-select-input.price-maximum').val();
+        var minimumtext = $('.price-select-input.price-minimum').val();
+        $('.price-select-value').val(minimumtext + " - " + maximuntext);
+        event.stopPropagation();
+    });
+
+    $(".price-select-input.price-maximum").keyup(function(event){
+        $('.price-select-option.price-maximum li').removeClass('disabled-option');
+        // Retrieve the input field text and reset the count to zero
+        var filter = $(this).val(), count = 0;
+        //$("#no-count").text('');
+        // Loop through the comment list
+        $(".price-select-option.price-maximum li").each(function(){
+
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).fadeOut();
+
+            // Show the list item if the phrase matches and increase the count by 1
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+        var maximuntext = $('.price-select-input.price-maximum').val();
+        var minimumtext = $('.price-select-input.price-minimum').val();
+        $('.price-select-value').val(minimumtext + " - " + maximuntext);
+        event.stopPropagation();
+    });
+
+    $('.price-select-option.price-minimum li').click(function (event) {
+        var optionindex = $(this).index();
+        var optiontext = $(this).text();
+        var maximuntext = $('.price-select-input.price-maximum').val();
+        $('.price-select-option.price-maximum li').removeClass('disabled-option').eq(optionindex).prevAll('li').addClass('disabled-option');
+        $('.price-select-input.price-minimum').val(optiontext);
+        $( '.price-select-option.price-minimum' ).fadeOut();
+        $('.price-select-input.price-maximum').focus();
+        $('.price-select-value').val(optiontext + " - " + maximuntext);
+        event.stopPropagation();
+    });
+
+    $('.price-select-option.price-maximum li').click(function (event) {
+        var optionindex = $(this).index();
+        var optiontext = $(this).text();
+        var minimumtext = $('.price-select-input.price-minimum').val();
+        $('.price-select-option.price-minimum li').removeClass('disabled-option').eq(optionindex).nextAll('li').addClass('disabled-option');
+        $('.price-select-input.price-maximum').val(optiontext) ;
+        $( '.price-select-option.price-maximum' ).fadeOut();
+        $('.price-select-dropdown').fadeOut();
+        $('.price-select-value').val(minimumtext + " - " + optiontext);
+        event.stopPropagation();
+    });
+
+    //year
+
+    $('.year-select-value').click(function (event) {
+        $('.year-select-dropdown').fadeIn();
+        $('.price-select-dropdown').fadeOut();
+        event.stopPropagation();
+    });
+
+    $('.year-select-dropdown').click(function (event) {
+        event.stopPropagation();
+    });
+
+    $( ".year-select-input.year-minimum" ).on( "focus", function(event) {
+        $( '.year-select-option.year-minimum' ).fadeIn();
+        event.stopPropagation();
+    });
+
+    $(".year-select-input.year-minimum").focusout(function(event){
+        $( '.year-select-option.year-minimum' ).fadeOut();
+        event.stopPropagation();
+    });
+
+    $( ".year-select-input.year-maximum" ).on( "focus", function(event) {
+        $( '.year-select-option.year-maximum' ).fadeIn();
+        event.stopPropagation();
+    });
+
+    $(".year-select-input.year-maximum").focusout(function(event){
+        $( '.year-select-option.year-maximum' ).fadeOut();
+        event.stopPropagation();
+    });
+    
+    $(".year-select-input.year-minimum").keyup(function(event){
+        $('.year-select-option.year-minimum li').removeClass('disabled-option');
+        // Retrieve the input field text and reset the count to zero
+        var filter = $(this).val(), count = 0;
+        //$("#no-count").text('');
+        // Loop through the comment list
+        $(".year-select-option.year-minimum li").each(function(){
+
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).fadeOut();
+
+            // Show the list item if the phrase matches and increase the count by 1
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+        var key = event.which;
+        if(key == 13)  // the enter key code
+        {
+            $('.year-select-input.year-maximum').focus();
+        }
+        var maximuntext = $('.year-select-input.year-maximum').val();
+        var minimumtext = $('.year-select-input.year-minimum').val();
+        if(minimumtext === ""){
+            $('.year-select-value').val(" - ปี " + maximuntext);
+        }else if(maximuntext === ""){
+            $('.year-select-value').val("ปี " + minimumtext + " -");
+        }else{
+            $('.year-select-value').val("ปี " + minimumtext + " - ปี " + maximuntext);
+        }
+        event.stopPropagation();
+    });
+
+    $(".year-select-input.year-maximum").keyup(function(event){
+        $('.year-select-option.year-maximum li').removeClass('disabled-option');
+        // Retrieve the input field text and reset the count to zero
+        var filter = $(this).val(), count = 0;
+        //$("#no-count").text('');
+        // Loop through the comment list
+        $(".year-select-option.year-maximum li").each(function(){
+
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).fadeOut();
+
+            // Show the list item if the phrase matches and increase the count by 1
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+        var maximuntext = $('.year-select-input.year-maximum').val();
+        var minimumtext = $('.year-select-input.year-minimum').val();
+        if(minimumtext === ""){
+            $('.year-select-value').val(" - ปี " + maximuntext);
+        }else if(maximuntext === ""){
+            $('.year-select-value').val("ปี " + minimumtext + " -");
+        }else{
+            $('.year-select-value').val("ปี " + minimumtext + " - ปี " + maximuntext);
+        }
+        event.stopPropagation();
+    });
+
+    $('.year-select-option.year-minimum li').click(function (event) {
+        var optionindex = $(this).index();
+        var optiontext = $(this).text();
+        var maximuntext = $('.year-select-input.year-maximum').val();
+        $('.year-select-option.year-maximum li').removeClass('disabled-option').eq(optionindex).prevAll('li').addClass('disabled-option');
+        $('.year-select-input.year-minimum').val(optiontext);
+        $( '.year-select-option.year-minimum' ).fadeOut();
+        $('.year-select-input.year-maximum').focus();
+        if(maximuntext === ""){
+            $('.year-select-value').val("ปี " + optiontext + " -");
+        }else{
+            $('.year-select-value').val("ปี " + optiontext + " - ปี " + maximuntext);
+        }
+        event.stopPropagation();
+    });
+
+    $('.year-select-option.year-maximum li').click(function (event) {
+        var optionindex = $(this).index();
+        var optiontext = $(this).text();
+        var minimumtext = $('.year-select-input.year-minimum').val();
+        $('.year-select-option.year-minimum li').removeClass('disabled-option').eq(optionindex).nextAll('li').addClass('disabled-option');
+        $('.year-select-input.year-maximum').val(optiontext) ;
+        $( '.year-select-option.year-maximum' ).fadeOut();
+        $('.year-select-dropdown').fadeOut();
+        if(minimumtext === ""){
+            $('.year-select-value').val(" - ปี " + optiontext);
+        }else{
+            $('.year-select-value').val("ปี " + minimumtext + " - ปี " + optiontext);
+        }
+        event.stopPropagation();
+    });
+
+    $('html').click(function(){
+        $('.price-select-dropdown').fadeOut();
+        $('.year-select-dropdown').fadeOut();
+    });
+
+    $('.sel').each(function() {
+        $(this).children('select').css('display', 'none');
+        
+        var $current = $(this);
+        
+            $(this).find('option').each(function(i) {
+                if (i == 0) {
+                    $current.prepend($('<div>', {
+                        class: $current.attr('class').replace(/sel/g, 'sel__box')
+                    }));
+                    var placeholder = $(this).text();
+                    $current.prepend($('<span>', {
+                        class: $current.attr('class').replace(/sel/g, 'sel__placeholder'),
+                        text: placeholder,
+                        'data-placeholder': placeholder
+                    }));
+                    
+                    return;
+                }
+                if ($(this).is(':selected'))  {
+                    var placeholder = $(this).text();
+                    $current.children('.sel__placeholder').text(placeholder);
+                    $current.children('div').append($('<span>', {
+                        class: $current.attr('class').replace(/sel/g, 'sel__box__options selected'),
+                        text: $(this).text()
+                    }));
+                } else{
+                    $current.children('div').append($('<span>', {
+                        class: $current.attr('class').replace(/sel/g, 'sel__box__options'),
+                        text: $(this).text()
+                    }));
+                }
+            });
+        });
+    
+        // Toggling the .active state on the `.sel`.
+        $('.sel').click(function(event) {
+            if (  $( this ).hasClass( "active" ) ) {
+                $('.checkout-form').removeClass('active');
+                $('.sel').removeClass('active');
+            } else{
+                $('.sel').removeClass('active');
+                $('.checkout-form').removeClass('active');
+                $(this).parent('.checkout-form').addClass('active');
+                $(this).addClass('active');
+            }
+            event.stopPropagation();
+        });
+    
+        // Toggling the .selected state on the options.
+        $('.sel__box__options').click(function() {
+        var txt = $(this).text();
+        var index = $(this).index();
+        
+        $(this).siblings('.sel__box__options').removeClass('selected');
+        $(this).addClass('selected');
+        
+        var $currentSel = $(this).closest('.sel');
+            $currentSel.children('.sel__placeholder').text(txt);
+            $currentSel.children('select').prop('selectedIndex', index + 1);
+        });
+        
+}); 
+
+// tab
+$( '.tab_footer_btn > div' ).click(function (event) {
+    var idarticle = $(this).index();
+    if( $('.tab_footer').eq(idarticle).is(':hidden') ) {
+        $('.tab_footer').hide();
+        $('.tab_footer').eq(idarticle).fadeIn();
+        $('.tab_footer_btn > div').removeClass('active');
+        $(this).addClass('active');
+    }else{
+    }
+    event.stopPropagation();
+});
+$( '.tab_footer_btn > div' ).click(function (event) {
+    var idarticle = $(this).index();
+    if( $('.tab_footer').eq(idarticle).is(':hidden') ) {
+        $('.tab_footer').hide();
+        $('.tab_footer').eq(idarticle).fadeIn();
+        $('.tab_footer_btn > div').removeClass('active');
+        $(this).addClass('active');
+    }else{
+    }
+    event.stopPropagation();
+});
+$( '.tab_vip_btn > div' ).click(function (event) {
+    var idarticle = $(this).index();
+    if( $('.tab_vipdetail').eq(idarticle).is(':hidden') ) {
+        $('.tab_vipdetail').hide();
+        $('.tab_vipdetail').eq(idarticle).fadeIn();
+        $('.tab_vip_btn > div').removeClass('active');
+        $(this).addClass('active');
+    }else{
+    }
+    event.stopPropagation();
+});
+
+// owl
+$(document).ready(function() {
+    $('.owl-package').owlCarousel({
+        loop: false,
+        rewind: true,
+        margin: 20,
+        autoplay: false,
+        autoplayTimeout: 8000,
+        autoplayHoverPause: false,
+        smartSpeed: 2000,
+        nav: true,
+        dots: false,
+        navText: ['&nbsp;', '&nbsp;'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            768: {
+                items: 1
+            },
+            1000: {
+                items: 1
+            }
+        }
+    });
+});
+
+
+
 
 
 
