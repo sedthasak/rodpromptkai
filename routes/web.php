@@ -229,6 +229,7 @@ Route::middleware('sessionlogin')->group(function() {
     Route::controller(PackagesAndDealsController::class)->group(function() {
         Route::post('/updateMyDeal', 'updateMyDeal')->name('updateMyDeal');
         Route::post('/adddeal-action', 'adddealaction')->name('adddealaction');
+        Route::post('/editprice-action', 'editpriceaction')->name('editpriceaction');
 
         Route::get('/special-deal', 'specialdealPage')->name('specialdealPage');
         Route::get('/special-adddeal', 'specialadddealPage')->name('specialadddealPage');

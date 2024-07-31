@@ -1405,94 +1405,92 @@ class FrontendPageController extends Controller
         $customerdata = session('customer');
         $customer_id = $customerdata->id;
 
-        $mycars = DB::table('cars')
-            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->where('customer_id', $customer_id)
-            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->orderBy('id', 'desc')
-            ->get();
+        // Fetch contacts with related car and notices, and paginate the results
+        $query_contact_back = contacts_backModel::with([
+            'car.brand', 
+            'car.model', 
+            'car.generation', 
+            'car.subModel', 
+            'car.user', 
+            'car.customer', 
+            'car.myDeal', 
+            'notices'
+        ])
+        ->where('customer_id', $customer_id)
+        ->orderBy('id', 'desc') // Order by id in descending order
+        ->paginate(24);
+    
 
-        $carfromstatus = array(
-            'created' => [],
-            'approved' => [],
-            'rejected' => [],
-            'expired' => [],
-        );
-        if (isset($mycars)) {
-            foreach($mycars as $keystatus => $carstatus){
-                $carfromstatus[$carstatus->status][] = $carstatus;
-            }
-        }
-
-        // $contacts_back = contacts_backModel::where("customer_id", $customer_id)->get();
-        // $contacts_back = DB::table('contacts_back')
-        // ->select('contacts_back.*', 'cars.*', 'brands.title as brand_title', 'models.model as model_name', 'customer.*')
-        // ->where('contacts_back.customer_id', '=', $customer_id)
-        // ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
-        // ->join('brands', 'cars.brand_id', '=', 'brands.id')
-        // ->join('models', 'cars.model_id', '=', 'models.id')
-        // ->join('customer', 'contacts_back.customer_id', '=', 'customer.id')
-        // ->get();
-
-
-        $query_contact_back = DB::table('contacts_back')
-            ->select('contacts_back.id as contact_id', 'contacts_back.status as contact_status', 'contacts_back.*', 'cars.id', 'cars.status', 'cars.customer_id', 'cars.user_id', 
-            'cars.type', 'cars.brand_id', 'cars.model_id', 'cars.modelyear', 'brands.title as brand_title', 
-            'models.model as model_name', 'customer.*', 'contacts_back.created_at')
-            ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
-            ->join('brands', 'cars.brand_id', '=', 'brands.id')
-            ->join('models', 'cars.model_id', '=', 'models.id')
-            ->join('customer', 'cars.customer_id', '=', 'customer.id')
-            ->where('cars.customer_id', '=', $customer_id)
-            ->orderBy('contacts_back.id', 'desc')
-            ->paginate(24);
-
-
-        // $mycontacts = contacts_backModel::select(
-        //     'contacts_back.*', // Select all fields from contacts_back
-        //     'customer.id as customer_id',
-        //     'cars.*', // Select all fields from cars
-        //     'brands.title as brand',
-        //     'models.model as model', // Replace models.title with models.model
-        //     'generations.generations as generation', // Replace generations.title with generations.generations
-        //     'sub_models.sub_models as sub_model' // Replace sub_models.title with sub_models.sub_models
-        // )
-        // ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
-        // ->join('customer', 'contacts_back.customer_id', '=', 'customer.id')
-        // ->join('brands', 'cars.brand_id', '=', 'brands.id')
-        // ->join('models', 'cars.model_id', '=', 'models.id')
-        // ->join('generations', 'cars.generations_id', '=', 'generations.id')
-        // ->join('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-        // ->orderBy('contacts_back.created_at', 'desc')
-        // ->get();
-
-
-        
-
-        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
-        ->select("brands.id", "brands.title", "brands.feature")
-        ->where("cars.status", 'approved')
-        ->where('cars.customer_id', $customer_id)
-        // ->groupBy("brands.id", "brands.title", "brands.feature")
-        ->orderBy("brands.sort_no")
-        ->get();
-
-        return view('frontend/customer-contact', [
-            'customer_id' => $customer_id,
-            'mycars' => $mycars,
-            'carfromstatus' => $carfromstatus,
-            // 'contacts_back' => $contacts_back,
-            // 'mycontacts' => $mycontacts,
-            'carstatus' => "approved",
-            'brandsearch' => $qrybrandsearch,
+        // dd($query_contact_back);
+        // Return the view with paginated contacts and their relationships
+        return view('frontend.customer-contact', [
             'query_contact_back' => $query_contact_back,
         ]);
     }
+
+
+    // public function customercontactPage()
+    // {
+    //     $customerdata = session('customer');
+    //     $customer_id = $customerdata->id;
+
+    //     $mycars = DB::table('cars')
+    //         ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+    //         ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+    //         ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+    //         ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+    //         ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+    //         ->where('customer_id', $customer_id)
+    //         ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+    //             'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+    //         ->orderBy('id', 'desc')
+    //         ->get();
+
+    //     $carfromstatus = array(
+    //         'created' => [],
+    //         'approved' => [],
+    //         'rejected' => [],
+    //         'expired' => [],
+    //     );
+    //     if (isset($mycars)) {
+    //         foreach($mycars as $keystatus => $carstatus){
+    //             $carfromstatus[$carstatus->status][] = $carstatus;
+    //         }
+    //     }
+
+    //     $query_contact_back = DB::table('contacts_back')
+    //         ->select('contacts_back.id as contact_id', 'contacts_back.status as contact_status', 'contacts_back.*', 'cars.id', 'cars.status', 'cars.customer_id', 'cars.user_id', 
+    //         'cars.type', 'cars.brand_id', 'cars.model_id', 'cars.modelyear', 'brands.title as brand_title', 
+    //         'models.model as model_name', 'customer.*', 'contacts_back.created_at')
+    //         ->join('cars', 'contacts_back.cars_id', '=', 'cars.id')
+    //         ->join('brands', 'cars.brand_id', '=', 'brands.id')
+    //         ->join('models', 'cars.model_id', '=', 'models.id')
+    //         ->join('customer', 'cars.customer_id', '=', 'customer.id')
+    //         ->where('cars.customer_id', '=', $customer_id)
+    //         ->orderBy('contacts_back.id', 'desc')
+    //         ->paginate(24);
+
+    //     $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+    //     ->select("brands.id", "brands.title", "brands.feature")
+    //     ->where("cars.status", 'approved')
+    //     ->where('cars.customer_id', $customer_id)
+    //     // ->groupBy("brands.id", "brands.title", "brands.feature")
+    //     ->orderBy("brands.sort_no")
+    //     ->get();
+
+    //     return view('frontend/customer-contact', [
+    //         'customer_id' => $customer_id,
+    //         'mycars' => $mycars,
+    //         'carfromstatus' => $carfromstatus,
+    //         // 'contacts_back' => $contacts_back,
+    //         // 'mycontacts' => $mycontacts,
+    //         'carstatus' => "approved",
+    //         'brandsearch' => $qrybrandsearch,
+    //         'query_contact_back' => $query_contact_back,
+
+
+    //     ]);
+    // }
     /****************************************************************/
     /****************************************************************/
     /****************************************************************/

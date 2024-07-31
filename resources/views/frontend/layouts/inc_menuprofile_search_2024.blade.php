@@ -6,13 +6,9 @@
     </a>
     @include('frontend.layouts.inc-menu-deal')
 
-
-
-
     <div class="box-menuprofile">
         <div class="topic-menuprofile"><img src="{{asset('frontend/images/carred2.svg')}}" alt="" class="svg"> ค้นหารถในบัญชี</div>
         
-
         <div class="wrap-mycarsearch">
             <div class="item_mycarsearch">
                 <div class="topicmycarsearch">ยี่ห้อรถ</div>
@@ -20,7 +16,7 @@
                     <input type="text" id="search-input" class="form-control" placeholder="ค้นหา..." onkeyup="filterBrands()">
                     <div class="mycarsearch-type" id="brand-list">
                         @foreach ($customer_cars_by_status['approved']['brands'] as $brandId => $brandData)
-                            <button class="list-mycarsearch">
+                            <button class="list-mycarsearch" data-brand-id="{{ $brandId }}">
                                 <div><img src="{{ asset($brandData['feature']) }}" alt=""> {{ $brandData['title'] }}</div>
                                 <div class="num-mycarsearch">({{ $brandData['car_count_brand'] }})</div>
                             </button>
@@ -30,48 +26,23 @@
             </div>
         </div>
 
-
         <div class="wrap-mycarsearch-sub">
             <div class="item_mycarsearch-sub">
                 <div class="topicmycarsearch-sub"> เลือกรุ่น</div>
                 <div class="content_mycarsearch-sub">
-                    <input type="text" class="form-control" placeholder="ค้นหา...">
-                    <div class="mycarsearch-type">
-
-                        <!-- <button class="list-mycarsearch">
-                            <div>C-CLASS</div>
-                            <div class="num-mycarsearch">(5)</div>
-                        </button> -->
-
-                    </div>
+                    <input type="text" class="form-control" id="model-search-input" placeholder="ค้นหา..." onkeyup="filterModels()">
+                    <div class="mycarsearch-type" id="model-list"></div>
                 </div>
             </div>
         </div>
+
         <div class="search-carid">
             <label>เลขทะเบียน | รหัสรถ</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" id="car-id-input">
+            <button class="btn-red" id="search-button">ค้นหารถยนต์</button>
+            <button class="btn-red" id="reset-button">รีเซท</button>
         </div>
-        <button class="btn-red">ค้นหารถยนต์</button>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="box-menuprofile box-menuprofile-hide">
         <div class="topic-menuprofile">รถที่ลงขาย</div>
         <ul>
@@ -82,12 +53,4 @@
             <li><a href="{{route('profilesoldoutPage')}}">ขายแล้ว <span>({{count($carfromstatus['soldout'])??0}})</span></a></li>
         </ul>
     </div>
-
-
 </div>
-
-
-
-
-
-    

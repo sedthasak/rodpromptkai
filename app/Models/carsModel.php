@@ -123,8 +123,11 @@ class carsModel extends Model
         $provinceModel = provincesModel::where('name_th', $this->province)->first();
         $province = $provinceModel ? $provinceModel->name_en : $this->province;
 
-        // Create the slug base using modelyear, brand, model, submodel, province, title, customer ID, and id
-        $baseSlug = trim("{$this->modelyear} {$brandName} {$modelName} {$subModelName} {$province} {$this->title} {$this->customer_id} {$id}");
+        // Generate a unique number for the slug
+        $uniqueNumber = uniqid(); // Generates a unique ID based on the current time in microseconds
+
+        // Create the slug base using modelyear, brand, model, submodel, province, title, and unique number
+        $baseSlug = trim("{$this->modelyear} {$brandName} {$modelName} {$subModelName} {$province} {$this->title} {$uniqueNumber}");
 
         // Generate the slug from the base text
         $generatedSlug = Str::slug($baseSlug, '-');
@@ -139,4 +142,5 @@ class carsModel extends Model
 
         return $generatedSlug;
     }
+
 }

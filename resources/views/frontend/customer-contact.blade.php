@@ -30,7 +30,7 @@ foreach($query_contact_back as $kkkk => $QRY){
     <div class="col-12 page-profile">
         <div class="container">
             <div class="row">
-                @include('frontend.layouts.inc-menuprofile-search')
+                @include('frontend.layouts.inc_menuprofile_search_2024')
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="desc-pageprofile">
                         <div class="wraptopic-pageprofile">
@@ -47,59 +47,83 @@ foreach($query_contact_back as $kkkk => $QRY){
                         </div> -->
 
                         <div class="wrap-detailcustomer mt-5">
-
                             @php 
-                            $cont_count = 0;
+                            $cont_count = 0; 
                             @endphp
+                            
                             @foreach($query_contact_back as $keycont => $contact)
-                            @php 
-                            $cont_count++;
-                            $resve_state = ($contact->contact_status=='contact')?'active':'';
-                            @endphp
-                            <div class="item_customer">
-                                <div class="box-topiccustomer">
-                                    <div class="row">
-                                        <div class="col-12 col-md-5 col-xl-6">
-                                            <div class="customer-carname">{{(($query_contact_back->currentPage()-1)*24)+$cont_count}}. <a href="{{route('cardetailPage', ['slug' => $contact->cars_id])}}">{{strtoupper($contact->modelyear." ".$contact->brand_title." ".$contact->model_name)}}</a></div>
-                                        </div>
-                                        <div class="col-3 col-md-2 col-xl-2">
-                                            <div class="customer-date">{{date('d/m/Y', strtotime($contact->created_at))}}</div>
-                                        </div>
-                                        <div class="col-9 col-md-5 col-xl-4 text-end">
-                                            <button class="mycar-reserve contact-already  {{$resve_state}}" data-post-id="{{$contact->contact_id}}" data-current-value="{{$contact->contact_status}}" >
-                                                <img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt=""> 
-                                                ติดต่อแล้ว
-                                            </button>
-                                        </div>
+                                @php 
+                                $cont_count++;
+                                $resve_state = ($contact->status == 'contact') ? 'active' : '';
 
-                                    </div>
-                                </div>
-                                <div class="btn-contactcus"><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></div>
-                                <div class="detail-contactcus">
-                                    <p>ชื่อ - นามสกุล :  <span>{{$contact->name}}</span> </p> 
-                                    <p>เบอร์โทรติดต่อ : <span><a href="tel:0812345678" target="_blank">{{$contact->tel}}</a></span> </p> 
-                                    <p>เวลาที่สะดวกให้ติดต่อกลับ : <span>{{$contact->time}}</span></p> 
-                                    <p>หมายเหตุ : <span>{{$contact->remark}}</span></p>
-                                    <div class="share-contactcus">
-                                        <div class="wrap-btnshare">
-                                            แชร์ : 
-                                            <a href="#" class="btn-popupshare icon-fb"><i class="bi bi-facebook"></i></a>
-                                            <a href="#" class="btn-popupshare icon-messenger"><i class="bi bi-messenger"></i></a>
-                                            <a href="#" class="btn-popupshare icon-line"><i class="bi bi-line"></i></a>
-                                            <a class="btn-copy" data-link="{{route('cardetailPage', ['slug' => $contact->cars_id])}}<br>ชื่อ - นามสกุล : {{$contact->name}}<br>เบอร์โทรติดต่อ : {{$contact->tel}}<br>เวลาที่สะดวกให้ติดต่อกลับ : {{$contact->time}}<br>หมายเหตุ : {{$contact->remark}}" ><i class="bi bi-link-45deg"></i> copy</a>
+                                $shareUrl = route('cardetailPage', ['slug' => $contact->cars_id]);
+                                @endphp
+                                
+                                <div class="item_customer">
+                                    <div class="box-topiccustomer">
+                                        <div class="row">
+                                            <div class="col-12 col-md-5 col-xl-6">
+                                                <div class="customer-carname">
+                                                    {{ (($query_contact_back->currentPage() - 1) * 24) + $cont_count }}.
+                                                    <a target="_blank" href="{{ route('cardetailPage', ['slug' => $contact->car->slug]) }}">
+                                                        {{ strtoupper($contact->car->modelyear . " " . $contact->car->brand->title . " " . $contact->car->model->model) }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 col-md-2 col-xl-2">
+                                                <div class="customer-date">{{ date('d/m/Y', strtotime($contact->created_at)) }}</div>
+                                            </div>
+                                            <div class="col-9 col-md-5 col-xl-4 text-end">
+                                                <button class="mycar-reserve contact-already {{ $resve_state }}" 
+                                                        data-post-id="{{ $contact->id }}" 
+                                                        data-current-value="{{ $contact->contact_status }}">
+                                                    <img src="{{ asset('frontend/images/icon-check.svg') }}" class="svg" alt=""> 
+                                                    ติดต่อแล้ว
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
+                                    
+                                    <div class="btn-contactcus">
+                                        <img src="{{ asset('frontend/images/icon-chev-grey.svg') }}" alt="">
+                                    </div>
+                                    
+                                    <div class="detail-contactcus">
+                                        <p>ชื่อ - นามสกุล : <span>{{ $contact->name }}</span></p> 
+                                        <p>เบอร์โทรติดต่อ : <span><a href="tel:{{ $contact->tel }}" target="_blank">{{ $contact->tel }}</a></span></p> 
+                                        <p>เวลาที่สะดวกให้ติดต่อกลับ : <span>{{ $contact->time }}</span></p> 
+                                        <p>หมายเหตุ : <span>{{ $contact->remark }}</span></p>
+                                        
+                                        <div class="share-contactcus">
+                                            <div class="wrap-btnshare">
+                                                แชร์ : 
+                                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($shareUrl) }}" target="_blank" class="btn-popupshare icon-fb">
+                                                    <i class="bi bi-facebook"></i>
+                                                </a>
+                                                <a href="https://www.messenger.com/t/?link={{ urlencode($shareUrl) }}" target="_blank" class="btn-popupshare icon-messenger">
+                                                    <i class="bi bi-messenger"></i>
+                                                </a>
+                                                <a href="https://social-plugins.line.me/lineit/share?url={{ urlencode($shareUrl) }}" target="_blank" class="btn-popupshare icon-line">
+                                                    <i class="bi bi-line"></i>
+                                                </a>
+                                                <a class="btn-copy" 
+                                                data-link="{{ route('cardetailPage', ['slug' => $contact->car->slug]) }}<br>ชื่อ - นามสกุล : {{ $contact->name }}<br>เบอร์โทรติดต่อ : {{ $contact->tel }}<br>เวลาที่สะดวกให้ติดต่อกลับ : {{ $contact->time }}<br>หมายเหตุ : {{ $contact->remark }}">
+                                                <i class="bi bi-link-45deg"></i> copy
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
                             @endforeach
-
-
-
                         </div>
+
                         <div class="d-flex">
                             {!! $query_contact_back->links() !!}
                         </div>
+
+
+
+
                     </div>
                     <div class="totop-mb"><a id="button-top">กลับสู่ด้านบน</a></div>
                     

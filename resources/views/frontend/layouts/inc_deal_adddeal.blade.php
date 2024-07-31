@@ -2,7 +2,7 @@
     <div class="popup-logout">
         <h3>แก้ไขราคา</h3>
         <p>ท่านสามารถแก้ไขราคาที่ต้องการในช่องด้านล่าง</p>
-        <form id="editprice_form" method="POST" action="{{ route('editpriceaction') }}">
+        <form id="editprice_form" method="POST" action="{{ route('adddealaction') }}">
             @csrf
             <input type="hidden" id="car_id" name="car_id" value="">
             <div class="row popupdeal-amount">
@@ -23,7 +23,7 @@
                         <div class="txt-amount-car">ราคาโปรโมชั่น</div>
                     </div>
                     <div class="col-6 col-sm-6">
-                        <div class="popupdeal-input"><input type="number" id="promotion_price" name="promotion_price" value="" required ></div>
+                        <div class="popupdeal-input"><input type="number" id="promotion_price" name="promotion_price" value="" ></div>
                     </div>
                     <div class="col-2">
                         <div class="txt-amount-car">บาท</div>

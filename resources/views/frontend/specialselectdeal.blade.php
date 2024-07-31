@@ -92,7 +92,7 @@ $arr_gear = array(
                                         <figure>
                                             <div class="cover-car">
                                                 <div class="box-timeout">
-                                                    <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก ???</div>
+                                                    <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก {{ $deal->remaining_time }}</div>
                                                     @if($bottomrightPath)
                                                         <div class="tag-bottom-right"><img src="{{ $bottomrightPath }}" alt=""></div>
                                                     @endif
@@ -118,14 +118,20 @@ $arr_gear = array(
                                                     <div class="col-12 col-md-6">
                                                         <div class="txt-gear" style="color: {{ $font3 }}"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
                                                     </div>
+
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price" style="color: {{ $font4 }}">
-                                                            {{ $newPrice }}.-
+                                                            {{ number_format($newPrice, 2, '.', ',') }}.-
                                                         </div>
-                                                        <div class="car-price-discount" style="color: {{ $font3 }}">
-                                                            <span>{{ $oldPrice }}.-</span> {{ floor($discountPercentage) }}%
-                                                        </div>
+
+                                                        @if($oldPrice > 0)
+                                                            <div class="car-price-discount" style="color: {{ $font3 }}">
+                                                                <span>{{ number_format($oldPrice, 2, '.', ',') }}.-</span> {{ floor($discountPercentage) }}%
+                                                            </div>
+                                                        @endif
                                                     </div>
+
+
                                                 </div>
                                             </figcaption>
                                         </figure>

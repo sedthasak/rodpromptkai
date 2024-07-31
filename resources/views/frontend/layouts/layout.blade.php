@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
 <head>
-    @include('frontend.layouts.inc_head')	
+    @yield('subhead')
+    @include('frontend.layouts.inc_head')
 </head>
 <body>
     <div class="container-fluid">

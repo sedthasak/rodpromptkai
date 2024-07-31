@@ -78,6 +78,46 @@ class PackagesAndDealsController extends Controller
     {
         $validated = $request->validate([
             'car_id' => 'required|exists:cars,id',
+            'promotion_price' => 'nullable|numeric|lte:' . $request->current_price,
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $car = carsModel::findOrFail($request->car_id);
+            $deal = DealModel::latest('id')->firstOrFail();
+            $mydeal = MyDeal::whereNull('cars_id')->orderBy('deal_expire', 'asc')->firstOrFail();
+
+            if ($request->filled('promotion_price')) {
+                $promotionPrice = $request->promotion_price;
+                $oldPrice = $request->current_price;
+            } else {
+                $promotionPrice = $car->price;
+                $oldPrice = null;
+            }
+
+            $mydeal->update([
+                'deals_id' => $deal->id,
+                'cars_id' => $car->id,
+            ]);
+
+            $car->update([
+                'mydeals' => $mydeal->id,
+                'price' => $promotionPrice,
+                'old_price' => $oldPrice,
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'ใส่กล่องเพิ่มการมองเห็นเรียบร้อย! คุณสามารถเปลี่่ยนรูปแบบได้ที่หน้า เปลี่ยนรูปแบบโปรโมชั่น');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'ไม่สามารถใส่กล่องเพิ่มการมองเห็นได้');
+        }
+    }
+    public function editpriceaction(Request $request)
+    {
+        $validated = $request->validate([
+            'car_id' => 'required|exists:cars,id',
             'promotion_price' => 'required|numeric|lte:' . $request->current_price,
         ]);
 
@@ -86,33 +126,127 @@ class PackagesAndDealsController extends Controller
             $car = carsModel::findOrFail($request->car_id);
             $deal = DealModel::latest('id')->firstOrFail();
             $mydeal = MyDeal::whereNull('cars_id')->orderBy('deal_expire', 'asc')->firstOrFail();
-            $mydeal->update([
-                'deals_id' => $deal->id,
-                'cars_id' => $car->id,
-            ]);
+
+            if ($request->filled('promotion_price')) {
+                $promotionPrice = $request->promotion_price;
+                $oldPrice = $request->current_price;
+            } else {
+                $promotionPrice = $car->price;
+                $oldPrice = null;
+            }
+
             $car->update([
-                'mydeals' => $mydeal->id,
-                'price' => $request->promotion_price,
-                'old_price' => $request->current_price,
+                'price' => $promotionPrice,
+                'old_price' => $oldPrice,
             ]);
+
             DB::commit();
 
-            return redirect()->back()->with('success', 'ราคาถูกปรับเรียบร้อยแล้ว');
+            return redirect()->back()->with('success', 'ปรับราคาสำเร็จ!');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'ไม่สามารถปรับราคาได้');
         }
     }
+    
+    public function specialchangedealPage(Request $request) 
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
 
+        // Retrieve parameters from the request
+        $brandId = $request->input('brand_id');
+        $modelId = $request->input('model_id');
+        $keyword = $request->input('keyword');
 
+        // Initialize the query
+        $query = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'])
+                    ->where('status', 'approved')
+                    ->whereNotNull('mydeals')
+                    ->orderBy('id', 'desc');
 
+        // Add conditions based on the presence of brand_id and model_id
+        if ($brandId) {
+            $query->where('brand_id', $brandId);
+        }
 
+        if ($modelId) {
+            $query->where('model_id', $modelId);
+        }
+
+        // Add keyword search if present
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('modelyear', 'like', '%' . $keyword . '%')
+                ->orWhere('yearregis', 'like', '%' . $keyword . '%')
+                ->orWhere('vehicle_code', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        // Execute the query to get the results
+        $results = $query->get();
+
+        // Return the view with the results
+        return view('frontend.specialchangedeal', [
+            'page' => 'special-changedeal',
+            'results' => $results,
+        ]);
+    }
+    public function specialadddealPage(Request $request) 
+    {
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        // Retrieve parameters from the request
+        $brandId = $request->input('brand_id');
+        $modelId = $request->input('model_id');
+        $keyword = $request->input('keyword');
+
+        // Initialize the query
+        $query = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'])
+                    ->where('status', 'approved')
+                    ->whereNull('mydeals')
+                    ->orderBy('id', 'desc');
+
+        // Add conditions based on the presence of brand_id and model_id
+        if ($brandId) {
+            $query->where('brand_id', $brandId);
+        }
+
+        if ($modelId) {
+            $query->where('model_id', $modelId);
+        }
+
+        // Add keyword search if present
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('modelyear', 'like', '%' . $keyword . '%')
+                ->orWhere('yearregis', 'like', '%' . $keyword . '%')
+                ->orWhere('vehicle_code', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        // Execute the query to get the results
+        $results = $query->get();
+        // dd($results);
+        // Return the view with the results
+        return view('frontend.specialadddeal', [
+            'page' => 'special-adddeal',
+            'results' => $results,
+        ]);
+    }
 
     public function specialselectdealPage(Request $request, $car) 
     {
         $car = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal'])
                 ->findOrFail($car);
         $alldeals = DealModel::orderBy('id', 'desc')->get();
+
+        // Calculate remaining time for each deal
+        foreach ($alldeals as $deal) {
+            $deal->remaining_time = $this->getRemainingTime($deal->expire);
+        }
+
         // dd($car);
         return view('frontend.specialselectdeal', [
             'page' => 'special-changedeal',
@@ -120,34 +254,21 @@ class PackagesAndDealsController extends Controller
             'car' => $car,
         ]);
     }
-    public function specialchangedealPage(Request $request) 
+
+    private function getRemainingTime($expireDate)
     {
-        // dd($pv);
-        $customerdata = session('customer');
-        $customer_id = $customerdata->id;
-        $results = carsModel::where('status', 'approved')
-                    ->whereNotNull('mydeals')
-                    ->orderBy('id', 'desc')
-                    ->get();
-        return view('frontend.specialchangedeal', [
-            'page' => 'special-changedeal',
-            "results" => $results,
-        ]);
+        $expire = Carbon::parse($expireDate);
+        $now = Carbon::now();
+        $diffInDays = $expire->diffInDays($now);
+        $diffInHours = $expire->diffInHours($now) % 24;
+
+        return "{$diffInDays} วัน {$diffInHours} ชม.";
     }
-    public function specialadddealPage(Request $request) 
-    {
-        $customerdata = session('customer');
-        $customer_id = $customerdata->id;
-        $results = carsModel::where('status', 'approved')
-                    ->whereNull('mydeals')
-                    ->orderBy('id', 'desc')
-                    ->get();
-        // dd($results);    
-        return view('frontend.specialadddeal', [
-            'page' => 'special-adddeal',
-            "results" => $results,
-        ]);
-    }
+
+
+
+
+
     public function specialdealPage(Request $request) 
     {
         // $cars = carsModel::whereNull('slug')->get();

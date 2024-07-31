@@ -54,11 +54,19 @@ $default_image = asset('frontend/deal-example.webp');
                                         <figure><img src="{{$profilecar_img}}" alt=""></figure>
                                     </div>
                                     <div class="adddeal-desc">
-                                        <div class="mycar-name">{{$car->modelyear." ".$car->brands_title." ".$car->model_name}}</div>
-                                        <div class="mycar-type">{{$car->generations_name." ".$car->sub_models_name}}</div>
-                                        <div class="mycar-type">{{$car->price}}</div>
+                                        <div class="mycar-name">
+                                            {{ $car->modelyear . ' ' . ($car->brand->title ?? 'N/A') . ' ' . ($car->model->model ?? 'N/A') }}
+                                        </div>
+                                        <div class="mycar-type">
+                                            {{ ($car->generation->generation ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}
+                                        </div>
+                                        <div class="mycar-type">
+                                            {{ number_format($car->price, 2, '.', ',') }} บาท
+                                        </div>
                                         <a href="{{route('specialselectdealPage', ['car' => $car->id])}}" class="btn-changedeal deal-selectcar">เปลี่ยนรูปแบบ</a>
-                                        <a data-fancybox data-src="#popup-editprice" href="javascript:;" class="btn-changedeal deal-selectcar"> แก้ไขราคา</a>
+                                        <a data-fancybox data-src="#popup-editprice" href="javascript:;" class="deal-selectcar" data-id="{{ $car->id }}" data-price="{{ $car->price }}">
+                                            <i class="bi bi-check-circle-fill"></i> แก้ไขราคา
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -111,6 +119,162 @@ $default_image = asset('frontend/deal-example.webp');
                 e.preventDefault();
             }
         });
+    });
+</script>
+
+
+
+
+
+
+
+
+<script>
+    var selectedBrandId = null;
+    var selectedModelId = null;
+
+    function filterBrands() {
+        var input = document.getElementById('search-input').value.toLowerCase();
+        var brandList = document.getElementById('brand-list');
+        var buttons = brandList.getElementsByClassName('list-mycarsearch');
+
+        for (var i = 0; i < buttons.length; i++) {
+            var brandTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
+            if (brandTitle.indexOf(input) > -1) {
+                buttons[i].style.display = '';
+            } else {
+                buttons[i].style.display = 'none';
+            }
+        }
+    }
+
+    function filterModels() {
+        var input = document.getElementById('model-search-input').value.toLowerCase();
+        var modelList = document.getElementById('model-list');
+        var buttons = modelList.getElementsByClassName('list-mycarsearch');
+
+        for (var i = 0; i < buttons.length; i++) {
+            var modelTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
+            if (modelTitle.indexOf(input) > -1) {
+                buttons[i].style.display = '';
+            } else {
+                buttons[i].style.display = 'none';
+            }
+        }
+    }
+
+    document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
+        button.addEventListener('click', function() {
+            selectedBrandId = this.getAttribute('data-brand-id');
+            var modelList = document.getElementById('model-list');
+            modelList.innerHTML = '';
+
+            document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            this.classList.add('active');
+
+            var brandData = @json($customer_cars_by_status['approved']['brands']);
+            if (brandData[selectedBrandId]) {
+                var models = brandData[selectedBrandId].models;
+                for (var modelId in models) {
+                    if (models.hasOwnProperty(modelId)) {
+                        var model = models[modelId];
+                        var modelButton = document.createElement('button');
+                        modelButton.className = 'list-mycarsearch';
+                        modelButton.setAttribute('data-model-id', modelId);
+                        modelButton.innerHTML = '<div>' + model.modelname + '</div><div class="num-mycarsearch">(' + model.car_count_model + ')</div>';
+                        modelButton.addEventListener('click', function() {
+                            selectedModelId = this.getAttribute('data-model-id');
+                            document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(btn) {
+                                btn.classList.remove('active');
+                            });
+                            this.classList.add('active');
+                            // Redirect to the specialchangedealPage route with selected parameters
+                            window.location.href = `{{ route('specialchangedealPage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
+                        });
+                        modelList.appendChild(modelButton);
+                    }
+                }
+            }
+        });
+    });
+
+    document.getElementById('search-button').addEventListener('click', function() {
+        var keyword = document.getElementById('car-id-input').value;
+        var url = new URL(window.location.href);
+        
+        // Remove brand_id and model_id from the URL
+        url.searchParams.delete('brand_id');
+        url.searchParams.delete('model_id');
+        
+        // Add keyword to the URL
+        url.searchParams.set('keyword', keyword);
+        
+        window.location.href = url.toString();
+    });
+
+    document.getElementById('reset-button').addEventListener('click', function() {
+        var url = new URL(window.location.href);
+        
+        // Remove all parameters from the URL
+        url.search = '';
+        
+        window.location.href = url.toString();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var brandId = urlParams.get('brand_id');
+        var modelId = urlParams.get('model_id');
+
+        // Set the active class on brand buttons if brand_id is present
+        if (brandId) {
+            document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
+                if (button.getAttribute('data-brand-id') === brandId) {
+                    button.classList.add('active');
+                    selectedBrandId = brandId;
+
+                    // Populate models based on selected brand
+                    var brandData = @json($customer_cars_by_status['approved']['brands']);
+                    if (brandData[selectedBrandId]) {
+                        var models = brandData[selectedBrandId].models;
+                        var modelList = document.getElementById('model-list');
+                        modelList.innerHTML = '';
+
+                        for (var modelId in models) {
+                            if (models.hasOwnProperty(modelId)) {
+                                var model = models[modelId];
+                                var modelButton = document.createElement('button');
+                                modelButton.className = 'list-mycarsearch';
+                                modelButton.setAttribute('data-model-id', modelId);
+                                modelButton.innerHTML = '<div>' + model.modelname + '</div><div class="num-mycarsearch">(' + model.car_count_model + ')</div>';
+                                modelButton.addEventListener('click', function() {
+                                    selectedModelId = this.getAttribute('data-model-id');
+                                    document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(btn) {
+                                        btn.classList.remove('active');
+                                    });
+                                    this.classList.add('active');
+                                    // Redirect to the specialchangedealPage route with selected parameters
+                                    window.location.href = `{{ route('specialchangedealPage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
+                                });
+                                modelList.appendChild(modelButton);
+                            }
+                        }
+
+                        // Set active class on model buttons if model_id is present
+                        if (modelId) {
+                            document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(button) {
+                                if (button.getAttribute('data-model-id') === modelId) {
+                                    button.classList.add('active');
+                                    selectedModelId = modelId;
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
     });
 </script>
 @endsection

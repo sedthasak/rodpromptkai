@@ -224,6 +224,18 @@ class ViewDataServiceProvider extends ServiceProvider
                         ]
                     ];
                 });
+
+
+
+
+
+
+
+
+
+
+
+                
                 /*****************************************************************/
                 // Get distinct statuses from the carsModel table
                 $carAllStatuses = carsModel::where('customer_id', $customerId)
@@ -294,8 +306,7 @@ class ViewDataServiceProvider extends ServiceProvider
                         })
                     ];
                 }
-
-                // Pass the structured data by status to the view
+                /*****************************************************************/
 
                 $view->with('customer_cars_by_status', $structuredCarsByStatus);
                 $view->with('carcontact', $carcontact);

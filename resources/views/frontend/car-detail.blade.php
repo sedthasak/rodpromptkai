@@ -1,7 +1,13 @@
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
-    <title>รถพร้อมขาย - car detail</title>
+    <title>รถพร้อมขาย | {{$cars->title}}</title>
+    <meta property="og:title" content="{{$cars->title}}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:image" content="{{asset('storage/' . $cars->feature)}}" />
+    <meta property="og:description" content="{{ strip_tags($cars->detail) }}" />
+    <meta name="keywords" content="ดกด" />
 @endsection
 
 @section('content')
@@ -37,7 +43,7 @@ $arr_gear = array(
                                 </div> -->
                                 @foreach($exterior as $ext)
                                 <div class="item">
-                                    <a href="{{asset($ext->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($ext->gallery)}}"></a>
+                                    <a href="{{asset('storage/' . $ext->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('storage/' . $ext->gallery)}}"></a>
                                 </div>
                                 @endforeach
                                 <!-- <div class="item">
@@ -69,7 +75,7 @@ $arr_gear = array(
                                 </div> -->
                                 @foreach($interior as $int)
                                 <div class="item">
-                                    <a href="{{asset($int->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset($int->gallery)}}"></a>
+                                    <a href="{{asset('storage/' . $int->gallery)}}" data-fancybox="gallery" class="cover-carthumb"><img src="{{asset('storage/' . $int->gallery)}}"></a>
                                 </div>
                                 @endforeach
                                 <!-- <div class="item">
@@ -111,7 +117,7 @@ $arr_gear = array(
                                     @endif -->
                                     @foreach($exterior as $index => $ext)
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset($ext->gallery)}}">
+                                        <img src="{{asset('storage/' . $ext->gallery)}}">
                                     </div>
                                     @endforeach
                                     <!-- <div class="item cover-carthumb">
@@ -139,7 +145,7 @@ $arr_gear = array(
                                 <div id="sync2" class="owl-carousel owl-theme navigation-thumbs">
                                     @foreach($interior as $int)
                                     <div class="item cover-carthumb">
-                                        <img src="{{asset($int->gallery)}}">
+                                        <img src="{{asset('storage/' . $int->gallery)}}">
                                     </div>
                                     @endforeach
                                     <!-- <div class="item cover-carthumb">
@@ -545,7 +551,7 @@ $arr_gear = array(
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="{{route('cardetailPage', ['slug' => $allcar->slug])}}" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="{{asset($allcar->feature)}}" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{asset('storage/' . $allcar->feature)}}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">{{number_format($allcar->price, 0, '.', ',')}}.-</div>
                                 <span>{{$allcar->modelyear}}</span>
@@ -572,7 +578,7 @@ $arr_gear = array(
             <div class="row">
                 @foreach($allcars2 as $allcar2)
                 @php
-                $profilecar2_img = ($allcar2->feature)?asset($allcar2->feature):asset('public/uploads/default-car.jpg');
+                $profilecar2_img = ($allcar2->feature)?asset('storage/' . $allcar2->feature):asset('public/uploads/default-car.jpg');
                 @endphp
                 <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
                     <a href="{{route('cardetailPage', ['slug' => $allcar2->slug])}}" class="item-car">
