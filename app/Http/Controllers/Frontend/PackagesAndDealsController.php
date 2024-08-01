@@ -162,6 +162,7 @@ class PackagesAndDealsController extends Controller
         // Initialize the query
         $query = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'])
                     ->where('status', 'approved')
+                    ->where('customer_id', $customer_id)
                     ->whereNotNull('mydeals')
                     ->orderBy('id', 'desc');
 
@@ -205,6 +206,7 @@ class PackagesAndDealsController extends Controller
         // Initialize the query
         $query = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'])
                     ->where('status', 'approved')
+                    ->where('customer_id', $customer_id)
                     ->whereNull('mydeals')
                     ->orderBy('id', 'desc');
 

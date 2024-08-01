@@ -678,104 +678,144 @@ class FrontendPageController extends Controller
             'othernews' => $othernews,
         ]);
     }
-    public function profilePage()
+
+    public function profilePage(Request $request) 
     {
+        // dd($request);
         $customerdata = session('customer');
         $customer_id = $customerdata->id;
 
-        // $mycars = DB::table('cars')
-        //     ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-        //     ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-        //     ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-        //     ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-        //     ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-        //     ->where('customer_id', $customer_id)
-        //     ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
-        //         'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-        //     ->orderBy('id', 'desc')
-        //     ->get();
+        $brandId = $request->input('brand_id');
+        $modelId = $request->input('model_id');
+        $keyword = $request->input('keyword');
 
-        $mycars = null;
-        $mycars2 = DB::table('cars')
-            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->where("cars.status", "approved");
-            if (isset($request->profile_brand_id)) {
-                echo $request->profile_brand_id;
-                $mycars2 = $mycars2->where("cars.brand_id", $request->profile_brand_id);
-            }
-            if (isset($request->profile_model_id)) {
-                echo $request->profile_model_id;
-                $mycars2 = $mycars2->where("cars.model_id", $request->profile_model_id);
-            }
-            if (isset($request->profile_vehicle_code)) {
-                $mycars2 = $mycars2->where("cars.vehicle_code", $request->profile_vehicle_code);
-            }
-            if (isset($request->profile_customer_id)) {
-                $mycars2 = $mycars2->where("cars.customer_id", $request->profile_customer_id);
-            }
-            else {
-                $mycars2 = $mycars2->where("cars.customer_id", $customer_id);
-            }
-            $mycars2 = $mycars2->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->orderBy('id', 'desc')
-            ->get();
+        $query = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'])
+                    ->where('status', 'approved')
+                    ->where('customer_id', $customer_id)
+                    ->orderBy('id', 'desc');
 
-        $carfromstatus = array(
-            'created' => [],
-            'approved' => [],
-            'rejected' => [],
-            'expired' => [],
-        );
-        if (isset($mycars)) {
-            foreach($mycars as $keystatus => $carstatus){
-                $carfromstatus[$carstatus->status][] = $carstatus;
-            }
-        }
-        $carfromstatus2 = array(
-            'created' => [],
-            'approved' => [],
-            'rejected' => [],
-            'expired' => [],
-        );
-        if (isset($mycars2)) {
-            foreach($mycars2 as $keystatus => $carstatus){
-                $carfromstatus2[$carstatus->status][] = $carstatus;
-            }
+        if ($brandId) {
+            $query->where('brand_id', $brandId);
         }
 
-        $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
-        ->select("brands.id", "brands.title", "brands.feature")
-        ->where("cars.status", 'approved')
-        ->where('cars.customer_id', $customer_id)
-        // ->groupBy("brands.id", "brands.title", "brands.feature")
-        ->orderBy("brands.sort_no")
-        ->get();
+        if ($modelId) {
+            $query->where('model_id', $modelId);
+        }
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('modelyear', 'like', '%' . $keyword . '%')
+                ->orWhere('yearregis', 'like', '%' . $keyword . '%')
+                ->orWhere('vehicle_code', 'like', '%' . $keyword . '%');
+            });
+        }
 
-        $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
-        ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
-        ->where("cars.status", 'approved')
-        ->where('cars.customer_id', $customer_id)
-        ->groupBy("brands.id", "brands.title", "brands.feature")
-        ->orderBy("brands.sort_no")
-        ->get();
-        // ->getBindings();
+        // Execute the query to get the results
+        $results = $query->get();
 
-
-        return view('frontend/profile', [
-            'customer_id' => $customer_id,
-            'mycars' => $mycars,
-            'carfromstatus' => $carfromstatus,
-            'brandsearch' => $qrybrandsearch,
-            'carstatus' => "approved",
-            'brandsum' => $qrybrandsum,
-            'carfromstatus2' => $carfromstatus2,
+        // Return the view with the results
+        return view('frontend.profile', [
+            'page' => 'profile',
+            'results' => $results,
         ]);
     }
+    // public function profilePage()
+    // {
+    //     $customerdata = session('customer');
+    //     $customer_id = $customerdata->id;
+
+    //     // $mycars = DB::table('cars')
+    //     //     ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+    //     //     ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+    //     //     ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+    //     //     ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+    //     //     ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+    //     //     ->where('customer_id', $customer_id)
+    //     //     ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+    //     //         'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+    //     //     ->orderBy('id', 'desc')
+    //     //     ->get();
+
+    //     $mycars = null;
+    //     $mycars2 = DB::table('cars')
+    //         ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+    //         ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+    //         ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+    //         ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+    //         ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+    //         ->where("cars.status", "approved");
+    //         if (isset($request->profile_brand_id)) {
+    //             echo $request->profile_brand_id;
+    //             $mycars2 = $mycars2->where("cars.brand_id", $request->profile_brand_id);
+    //         }
+    //         if (isset($request->profile_model_id)) {
+    //             echo $request->profile_model_id;
+    //             $mycars2 = $mycars2->where("cars.model_id", $request->profile_model_id);
+    //         }
+    //         if (isset($request->profile_vehicle_code)) {
+    //             $mycars2 = $mycars2->where("cars.vehicle_code", $request->profile_vehicle_code);
+    //         }
+    //         if (isset($request->profile_customer_id)) {
+    //             $mycars2 = $mycars2->where("cars.customer_id", $request->profile_customer_id);
+    //         }
+    //         else {
+    //             $mycars2 = $mycars2->where("cars.customer_id", $customer_id);
+    //         }
+    //         $mycars2 = $mycars2->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+    //             'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+    //         ->orderBy('id', 'desc')
+    //         ->get();
+
+    //     $carfromstatus = array(
+    //         'created' => [],
+    //         'approved' => [],
+    //         'rejected' => [],
+    //         'expired' => [],
+    //     );
+    //     if (isset($mycars)) {
+    //         foreach($mycars as $keystatus => $carstatus){
+    //             $carfromstatus[$carstatus->status][] = $carstatus;
+    //         }
+    //     }
+    //     $carfromstatus2 = array(
+    //         'created' => [],
+    //         'approved' => [],
+    //         'rejected' => [],
+    //         'expired' => [],
+    //     );
+    //     if (isset($mycars2)) {
+    //         foreach($mycars2 as $keystatus => $carstatus){
+    //             $carfromstatus2[$carstatus->status][] = $carstatus;
+    //         }
+    //     }
+
+    //     $qrybrandsearch = carsModel::leftJoin("brands", "cars.brand_id", "brands.id")
+    //     ->select("brands.id", "brands.title", "brands.feature")
+    //     ->where("cars.status", 'approved')
+    //     ->where('cars.customer_id', $customer_id)
+    //     // ->groupBy("brands.id", "brands.title", "brands.feature")
+    //     ->orderBy("brands.sort_no")
+    //     ->get();
+
+    //     $qrybrandsum = DB::table("cars")->leftJoin("brands", "cars.brand_id", "brands.id")
+    //     ->selectRaw("brands.id, brands.title, brands.feature, COUNT(brands.title) as brandcount")
+    //     ->where("cars.status", 'approved')
+    //     ->where('cars.customer_id', $customer_id)
+    //     ->groupBy("brands.id", "brands.title", "brands.feature")
+    //     ->orderBy("brands.sort_no")
+    //     ->get();
+    //     // ->getBindings();
+
+
+    //     return view('frontend/profile', [
+    //         'customer_id' => $customer_id,
+    //         'mycars' => $mycars,
+    //         'carfromstatus' => $carfromstatus,
+    //         'brandsearch' => $qrybrandsearch,
+    //         'carstatus' => "approved",
+    //         'brandsum' => $qrybrandsum,
+    //         'carfromstatus2' => $carfromstatus2,
+    //     ]);
+    // }
     public function profilecheckPage()
     {
         $customerdata = session('customer');

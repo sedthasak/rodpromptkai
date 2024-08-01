@@ -19,28 +19,32 @@
 <?php
 
 // $default_image = asset('frontend/deal-example.webp');
+$usesearchbox  = 'off';
 $arr_gear = array(
     'auto' => 'เกียร์อัตโนมัติ',
     'manual' => 'เกียร์ธรรมดา',
 );
 ?>
-@if(Session::has('success'))
-    <div class="alert alert-success">
-        {{ Session::get('success') }}
-    </div>
-@endif
 
-@if(Session::has('error'))
-    <div class="alert alert-danger">
-        {{ Session::get('error') }}
-    </div>
-@endif
+@php
+    $usestatus = $usestatus ?? 'approved';
+    $usewithdeal = $usewithdeal ?? null;
+    $usesearchbox = $usesearchbox ?? 'on';
 
+    if ($usewithdeal === 'yes') {
+        $customerCars = $customer_cars_with_deals[$usestatus] ?? [];
+    } elseif ($usewithdeal === 'no') {
+        $customerCars = $customer_cars_without_deals[$usestatus] ?? [];
+    } else {
+        $customerCars = $customer_cars_by_status[$usestatus] ?? [];
+    }
+    $brandData = $customerCars['brands'] ?? [];
+@endphp
 <section class="row">
     <div class="col-12 page-profile">
         <div class="container">
             <div class="row">
-                @include('frontend.layouts.inc_menuprofile_search_2024')
+                @include('frontend.layouts.inc_menuprofile_search_2024', ['customerCars' => $customerCars])
                 <div class="col-12 col-lg-8 col-xl-9">
 
                     <div class="desc-pageprofile">
@@ -121,12 +125,12 @@ $arr_gear = array(
 
                                                     <div class="col-12 col-md-6 text-end">
                                                         <div class="car-price" style="color: {{ $font4 }}">
-                                                            {{ number_format($newPrice, 2, '.', ',') }}.-
+                                                            {{ number_format($newPrice, 0, '.', ',') }}.-
                                                         </div>
 
                                                         @if($oldPrice > 0)
                                                             <div class="car-price-discount" style="color: {{ $font3 }}">
-                                                                <span>{{ number_format($oldPrice, 2, '.', ',') }}.-</span> {{ floor($discountPercentage) }}%
+                                                                <span>{{ number_format($oldPrice, 0, '.', ',') }}.-</span> {{ floor($discountPercentage) }}%
                                                             </div>
                                                         @endif
                                                     </div>

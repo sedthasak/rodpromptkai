@@ -18,17 +18,31 @@
 
 @include('frontend.layouts.inc_profile')	
 <?php
-
+$usesearchbox  = 'off';
 $default_feature = asset('frontend/deal-example.webp');
 // echo "<pre>";
 // print_r($customer_deal);
 // echo "</pre>";
 ?>
+@php
+    $usestatus = $usestatus ?? 'approved';
+    $usewithdeal = $usewithdeal ?? null;
+    $usesearchbox = $usesearchbox ?? 'on';
+
+    if ($usewithdeal === 'yes') {
+        $customerCars = $customer_cars_with_deals[$usestatus] ?? [];
+    } elseif ($usewithdeal === 'no') {
+        $customerCars = $customer_cars_without_deals[$usestatus] ?? [];
+    } else {
+        $customerCars = $customer_cars_by_status[$usestatus] ?? [];
+    }
+    $brandData = $customerCars['brands'] ?? [];
+@endphp
 <section class="row">
     <div class="col-12 page-profile">
         <div class="container">
             <div class="row">
-                @include('frontend.layouts.inc_menuprofile_search_2024')
+                @include('frontend.layouts.inc_menuprofile_search_2024', ['customerCars' => $customerCars])
                 <div class="col-12 col-lg-8 col-xl-9">
                     
 

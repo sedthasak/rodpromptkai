@@ -5,10 +5,9 @@
 @endsection
 
 @section('content')
-
+@include('frontend.layouts.inc_profile')	
 <?php
-
-
+$usesearchbox  = 'off';
 // $qqq = 7;
 // echo "<pre>";
 // print_r(count($query_contact_back));
@@ -16,16 +15,22 @@
 // echo "<pre>";
 // print_r($query_contact_back);
 // echo "</pre>";
-
-foreach($query_contact_back as $kkkk => $QRY){
-    
-    // echo strtoupper($QRY->modelyear." ".$QRY->brand_title." ".$QRY->model_name."<br>");
-    // echo "<pre>";
-    // print_r($QRY);
-    // echo "</pre>";
-}
 ?>
-@include('frontend.layouts.inc_profile')	
+
+@php
+    $usestatus = $usestatus ?? 'approved';
+    $usewithdeal = $usewithdeal ?? null;
+    $usesearchbox = $usesearchbox ?? 'on';
+
+    if ($usewithdeal === 'yes') {
+        $customerCars = $customer_cars_with_deals[$usestatus] ?? [];
+    } elseif ($usewithdeal === 'no') {
+        $customerCars = $customer_cars_without_deals[$usestatus] ?? [];
+    } else {
+        $customerCars = $customer_cars_by_status[$usestatus] ?? [];
+    }
+    $brandData = $customerCars['brands'] ?? [];
+@endphp
 <section class="row">
     <div class="col-12 page-profile">
         <div class="container">
@@ -76,7 +81,7 @@ foreach($query_contact_back as $kkkk => $QRY){
                                             <div class="col-9 col-md-5 col-xl-4 text-end">
                                                 <button class="mycar-reserve contact-already {{ $resve_state }}" 
                                                         data-post-id="{{ $contact->id }}" 
-                                                        data-current-value="{{ $contact->contact_status }}">
+                                                        data-current-value="{{ $contact->status }}">
                                                     <img src="{{ asset('frontend/images/icon-check.svg') }}" class="svg" alt=""> 
                                                     ติดต่อแล้ว
                                                 </button>
@@ -96,7 +101,7 @@ foreach($query_contact_back as $kkkk => $QRY){
                                         
                                         <div class="share-contactcus">
                                             <div class="wrap-btnshare">
-                                                แชร์ : 
+                                                <!-- แชร์ : 
                                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($shareUrl) }}" target="_blank" class="btn-popupshare icon-fb">
                                                     <i class="bi bi-facebook"></i>
                                                 </a>
@@ -105,7 +110,7 @@ foreach($query_contact_back as $kkkk => $QRY){
                                                 </a>
                                                 <a href="https://social-plugins.line.me/lineit/share?url={{ urlencode($shareUrl) }}" target="_blank" class="btn-popupshare icon-line">
                                                     <i class="bi bi-line"></i>
-                                                </a>
+                                                </a> -->
                                                 <a class="btn-copy" 
                                                 data-link="{{ route('cardetailPage', ['slug' => $contact->car->slug]) }}<br>ชื่อ - นามสกุล : {{ $contact->name }}<br>เบอร์โทรติดต่อ : {{ $contact->tel }}<br>เวลาที่สะดวกให้ติดต่อกลับ : {{ $contact->time }}<br>หมายเหตุ : {{ $contact->remark }}">
                                                 <i class="bi bi-link-45deg"></i> copy

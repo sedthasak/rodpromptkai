@@ -16,19 +16,37 @@
     }
 </style>
 @section('content')
+@include('frontend.layouts.inc_profile')   
 <?php
+$usestatus = 'approved';
+$usewithdeal  = 'no';
+
 // echo "<pre>";
 // print_r($customer_deal);
 // echo "</pre>";
+
 ?>
 
-@include('frontend.layouts.inc_profile')    
+ 
+@php
+    $usestatus = $usestatus ?? 'approved';
+    $usewithdeal = $usewithdeal ?? null;
+    $usesearchbox = $usesearchbox ?? 'on';
 
+    if ($usewithdeal === 'yes') {
+        $customerCars = $customer_cars_with_deals[$usestatus] ?? [];
+    } elseif ($usewithdeal === 'no') {
+        $customerCars = $customer_cars_without_deals[$usestatus] ?? [];
+    } else {
+        $customerCars = $customer_cars_by_status[$usestatus] ?? [];
+    }
+    $brandData = $customerCars['brands'] ?? [];
+@endphp
 <section class="row">
     <div class="col-12 page-profile">
         <div class="container">
             <div class="row">
-                @include('frontend.layouts.inc_menuprofile_search_2024')
+                @include('frontend.layouts.inc_menuprofile_search_2024', ['customerCars' => $customerCars])
                 <div class="col-12 col-lg-8 col-xl-9">
                     
                     <div class="desc-pageprofile">
@@ -72,7 +90,7 @@
                                             {{ ($car->generation->generation ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}
                                         </div>
                                         <div class="mycar-type">
-                                            {{ number_format($car->price, 2, '.', ',') }} บาท
+                                            {{ number_format($car->price, 0, '.', ',') }} บาท
                                         </div>
                                         @if($customer_deal['free'] > 0)
                                         <a data-fancybox data-src="#popup-editprice" href="javascript:;" class="deal-selectcar" data-id="{{ $car->id }}" data-price="{{ $car->price }}">
@@ -203,7 +221,7 @@
             });
             this.classList.add('active');
 
-            var brandData = @json($customer_cars_by_status['approved']['brands']);
+            var brandData = @json($brandData);
             if (brandData[selectedBrandId]) {
                 var models = brandData[selectedBrandId].models;
                 for (var modelId in models) {
@@ -219,7 +237,6 @@
                                 btn.classList.remove('active');
                             });
                             this.classList.add('active');
-                            // Redirect to the specialadddealPage route with selected parameters
                             window.location.href = `{{ route('specialadddealPage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
                         });
                         modelList.appendChild(modelButton);
@@ -232,23 +249,17 @@
     document.getElementById('search-button').addEventListener('click', function() {
         var keyword = document.getElementById('car-id-input').value;
         var url = new URL(window.location.href);
-        
-        // Remove brand_id and model_id from the URL
+
         url.searchParams.delete('brand_id');
         url.searchParams.delete('model_id');
-        
-        // Add keyword to the URL
         url.searchParams.set('keyword', keyword);
-        
+
         window.location.href = url.toString();
     });
 
     document.getElementById('reset-button').addEventListener('click', function() {
         var url = new URL(window.location.href);
-        
-        // Remove all parameters from the URL
         url.search = '';
-        
         window.location.href = url.toString();
     });
 
@@ -257,15 +268,13 @@
         var brandId = urlParams.get('brand_id');
         var modelId = urlParams.get('model_id');
 
-        // Set the active class on brand buttons if brand_id is present
         if (brandId) {
             document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
                 if (button.getAttribute('data-brand-id') === brandId) {
                     button.classList.add('active');
                     selectedBrandId = brandId;
 
-                    // Populate models based on selected brand
-                    var brandData = @json($customer_cars_by_status['approved']['brands']);
+                    var brandData = @json($brandData);
                     if (brandData[selectedBrandId]) {
                         var models = brandData[selectedBrandId].models;
                         var modelList = document.getElementById('model-list');
@@ -284,14 +293,12 @@
                                         btn.classList.remove('active');
                                     });
                                     this.classList.add('active');
-                                    // Redirect to the specialadddealPage route with selected parameters
                                     window.location.href = `{{ route('specialadddealPage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
                                 });
                                 modelList.appendChild(modelButton);
                             }
                         }
 
-                        // Set active class on model buttons if model_id is present
                         if (modelId) {
                             document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(button) {
                                 if (button.getAttribute('data-model-id') === modelId) {
@@ -306,6 +313,9 @@
         }
     });
 </script>
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const amountInput = document.getElementById('deal-amount');

@@ -307,8 +307,200 @@ class ViewDataServiceProvider extends ServiceProvider
                     ];
                 }
                 /*****************************************************************/
+                // $view->with('customer_cars_by_status', $structuredCarsByStatus);
 
+
+
+
+
+
+
+
+
+                /*****************************************************************/
+                // Get distinct statuses from the carsModel table
+                $carAllStatuses = carsModel::where('customer_id', $customerId)
+                ->distinct()
+                ->pluck('status')
+                ->toArray();
+
+                // Initialize arrays to hold the structured cars data by status
+                $structuredCarsByStatus = [];
+                $structuredCarsWithDeals = [];
+                $structuredCarsWithoutDeals = [];
+
+                // Loop through each status
+                foreach ($carAllStatuses as $status) {
+                // Fetch cars for the current status
+                $carsCollection = carsModel::with(['brand', 'model'])
+                    ->where('customer_id', $customerId)
+                    ->where('status', $status)
+                    ->get();
+
+                // Count total cars for this status
+                $totalCarsForStatus = $carsCollection->count();
+
+                // Group the cars by brand_id and then by model_id
+                $cars = $carsCollection->groupBy('brand_id')->map(function ($groupByBrandId) {
+                    return $groupByBrandId->groupBy('model_id')->map(function ($groupByModelId) {
+                        return $groupByModelId;
+                    });
+                });
+
+                // Pre-fetch all brands and models
+                $brands = brandsModel::whereIn('id', $cars->keys())->get()->keyBy('id');
+                $modelIds = $cars->flatMap(function ($modelsByBrand) {
+                    return $modelsByBrand->keys();
+                })->unique();
+                $models = modelsModel::whereIn('id', $modelIds)->get()->keyBy('id');
+
+                // Structure the data with counts
+                $structuredCarsByStatus[$status] = [
+                    'total_cars' => $totalCarsForStatus, // Total count of cars for this status
+                    'brands' => $cars->mapWithKeys(function ($modelsByBrand, $brandId) use ($brands, $models) {
+                        $brand = $brands->get($brandId);
+
+                        $modelCounts = $modelsByBrand->mapWithKeys(function ($carsByModel, $modelId) use ($models) {
+                            $model = $models->get($modelId);
+                            return [
+                                $modelId => [
+                                    'id' => $modelId,
+                                    'modelname' => $model->model,
+                                    'car_count_model' => $carsByModel->count(), // Count of cars for this model
+                                    'cars' => $carsByModel
+                                ]
+                            ];
+                        });
+
+                        // Calculate total number of cars for this brand
+                        $totalCarsForBrand = $modelsByBrand->map(function ($carsByModel) {
+                            return $carsByModel->count(); // Count of cars in each model
+                        })->sum(); // Sum the counts of cars for this brand
+
+                        return [
+                            $brandId => [
+                                'id' => $brandId,
+                                'title' => $brand->title,
+                                'feature' => $brand->feature,
+                                'car_count_brand' => $totalCarsForBrand, // Total count of cars for the brand
+                                'models' => $modelCounts
+                            ]
+                        ];
+                    })
+                ];
+
+                // For cars with mydeals
+                $carsWithDealsCollection = $carsCollection->filter(function ($car) {
+                    return $car->mydeals !== null;
+                });
+
+                if ($carsWithDealsCollection->isNotEmpty()) {
+                    $totalCarsWithDeals = $carsWithDealsCollection->count();
+
+                    $carsWithDeals = $carsWithDealsCollection->groupBy('brand_id')->map(function ($groupByBrandId) {
+                        return $groupByBrandId->groupBy('model_id')->map(function ($groupByModelId) {
+                            return $groupByModelId;
+                        });
+                    });
+
+                    $structuredCarsWithDeals[$status] = [
+                        'total_cars' => $totalCarsWithDeals,
+                        'brands' => $carsWithDeals->mapWithKeys(function ($modelsByBrand, $brandId) use ($brands, $models) {
+                            $brand = $brands->get($brandId);
+
+                            $modelCounts = $modelsByBrand->mapWithKeys(function ($carsByModel, $modelId) use ($models) {
+                                $model = $models->get($modelId);
+                                return [
+                                    $modelId => [
+                                        'id' => $modelId,
+                                        'modelname' => $model->model,
+                                        'car_count_model' => $carsByModel->count(),
+                                        'cars' => $carsByModel
+                                    ]
+                                ];
+                            });
+
+                            $totalCarsForBrand = $modelsByBrand->map(function ($carsByModel) {
+                                return $carsByModel->count();
+                            })->sum();
+
+                            return [
+                                $brandId => [
+                                    'id' => $brandId,
+                                    'title' => $brand->title,
+                                    'feature' => $brand->feature,
+                                    'car_count_brand' => $totalCarsForBrand,
+                                    'models' => $modelCounts
+                                ]
+                            ];
+                        })
+                    ];
+                }
+
+                // For cars without mydeals
+                $carsWithoutDealsCollection = $carsCollection->filter(function ($car) {
+                    return $car->mydeals === null;
+                });
+
+                if ($carsWithoutDealsCollection->isNotEmpty()) {
+                    $totalCarsWithoutDeals = $carsWithoutDealsCollection->count();
+
+                    $carsWithoutDeals = $carsWithoutDealsCollection->groupBy('brand_id')->map(function ($groupByBrandId) {
+                        return $groupByBrandId->groupBy('model_id')->map(function ($groupByModelId) {
+                            return $groupByModelId;
+                        });
+                    });
+
+                    $structuredCarsWithoutDeals[$status] = [
+                        'total_cars' => $totalCarsWithoutDeals,
+                        'brands' => $carsWithoutDeals->mapWithKeys(function ($modelsByBrand, $brandId) use ($brands, $models) {
+                            $brand = $brands->get($brandId);
+
+                            $modelCounts = $modelsByBrand->mapWithKeys(function ($carsByModel, $modelId) use ($models) {
+                                $model = $models->get($modelId);
+                                return [
+                                    $modelId => [
+                                        'id' => $modelId,
+                                        'modelname' => $model->model,
+                                        'car_count_model' => $carsByModel->count(),
+                                        'cars' => $carsByModel
+                                    ]
+                                ];
+                            });
+
+                            $totalCarsForBrand = $modelsByBrand->map(function ($carsByModel) {
+                                return $carsByModel->count();
+                            })->sum();
+
+                            return [
+                                $brandId => [
+                                    'id' => $brandId,
+                                    'title' => $brand->title,
+                                    'feature' => $brand->feature,
+                                    'car_count_brand' => $totalCarsForBrand,
+                                    'models' => $modelCounts
+                                ]
+                            ];
+                        })
+                    ];
+                }
+                }
+
+                // dd($structuredCarsWithoutDeals);
+                /*****************************************************************/
                 $view->with('customer_cars_by_status', $structuredCarsByStatus);
+                $view->with('customer_cars_with_deals', $structuredCarsWithDeals);
+                $view->with('customer_cars_without_deals', $structuredCarsWithoutDeals);
+
+
+
+
+
+
+
+
+
+
                 $view->with('carcontact', $carcontact);
                 $view->with('customer_role', $customer_role);
                 $view->with('customer_login', $customer_login);

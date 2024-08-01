@@ -14,22 +14,34 @@
 </style>
 
 @section('content')
-
-
 @include('frontend.layouts.inc_profile')	
 <?php
-
+$usestatus = 'approved';
 $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png');
 // $data = session()->all();
 // echo "<pre>";
 // print_r($carcontact);
 // echo "</pre>";
 ?>
+@php
+    $usestatus = $usestatus ?? 'approved';
+    $usewithdeal = $usewithdeal ?? null;
+    $usesearchbox = $usesearchbox ?? 'on';
+
+    if ($usewithdeal === 'yes') {
+        $customerCars = $customer_cars_with_deals[$usestatus] ?? [];
+    } elseif ($usewithdeal === 'no') {
+        $customerCars = $customer_cars_without_deals[$usestatus] ?? [];
+    } else {
+        $customerCars = $customer_cars_by_status[$usestatus] ?? [];
+    }
+    $brandData = $customerCars['brands'] ?? [];
+@endphp
 <section class="row">
     <div class="col-12 page-profile">
         <div class="container">
             <div class="row">
-                @include('frontend.layouts.inc-menuprofile-search')
+                @include('frontend.layouts.inc_menuprofile_search_2024', ['customerCars' => $customerCars])
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="desc-pageprofile">
                         <div class="wraptopic-pageprofile">
@@ -39,37 +51,37 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         
                         @include('frontend.layouts.inc_menu-mycar')
 
-                        @foreach($carfromstatus2['approved'] as $keycarsModel => $cars)
+                        @foreach($results as $keycarsModel => $car)
                         @php
-                        $profilecar_img = ($cars->feature)?asset('storage/' . $cars->feature):asset('public/uploads/default-car.jpg');
-                        $resve_state = ($cars->reserve==1)?'active':'';
+                        $profilecar_img = ($car->feature)?asset('storage/' . $car->feature):asset('public/uploads/default-car.jpg');
+                        $resve_state = ($car->reserve==1)?'active':'';
                         @endphp
                         <div class="item-mycar">
                             <div class="item-mycar-cover">
-                                <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}" target="_blank"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
+                                <a href="{{route('cardetailPage', ['slug' => $car->slug])}}" target="_blank"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
                             </div>
                             <div class="mycar-detail-mb">
-                                <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}">
-                                    <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
-                                    <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
-                                    <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
+                                <a href="{{route('cardetailPage', ['slug' => $car->slug])}}">
+                                    <div class="mycar-name">{{ $car->modelyear . ' ' . ($car->brand->title ?? 'N/A') . ' ' . ($car->model->model ?? 'N/A') }}</div>
+                                    <div class="mycar-type">{{ ($car->generation->generation ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}</div>
+                                    <div class="mycar-idcar">{{$car->vehicle_code}}</div>
                                 </a>
                             </div>
                             <div class="item-mycar-detail">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
-                                        <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}">
-                                            <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
-                                            <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
-                                            <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
+                                        <a href="{{route('cardetailPage', ['slug' => $car->slug])}}">
+                                            <div class="mycar-name">{{ $car->modelyear . ' ' . ($car->brand->title ?? 'N/A') . ' ' . ($car->model->model ?? 'N/A') }}</div>
+                                            <div class="mycar-type">{{ ($car->generation->generation ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}</div>
+                                            <div class="mycar-idcar">{{$car->vehicle_code}}</div>
                                         </a>
                                     </div>
                                     <div class="col-12 col-md-6 text-end">
-                                        @if(isset($cars->approvedate))
-                                            <div class="mycar-post">วันที่ลงขาย :  {{date('d/m/Y', $cars->approvedate)}}</div>
+                                        @if(isset($car->approvedate))
+                                            <div class="mycar-post">วันที่ลงขาย :  {{date('d/m/Y', $car->approvedate)}}</div>
                                         @endif
-                                        @if(isset($cars->expiredate))
-                                            <div class="mycar-expire">วันที่หมดอายุ :  {{date('d/m/Y', $cars->expiredate)}}</div>
+                                        @if(isset($car->expiredate))
+                                            <div class="mycar-expire">วันที่หมดอายุ :  {{date('d/m/Y', $car->expiredate)}}</div>
                                         @endif
                                     </div>
                                 </div>
@@ -77,10 +89,10 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="mycar-boxprice">
-                                                <div class="mycar-price">{{number_format($cars->price, 0, '.', ',')}}.-</div>
-                                                @if (isset($cars->edit_price))
-                                                    @if((2 - $cars->edit_price) > 0)
-                                                    <a data-fancybox data-src="#edit-carprice{{$cars->id}}" href="javascript:;" class="mycar-editprice">
+                                                <div class="mycar-price">{{number_format($car->price, 0, '.', ',')}}.-</div>
+                                                @if (isset($car->edit_price))
+                                                    @if((2 - $car->edit_price) > 0)
+                                                    <a data-fancybox data-src="#edit-carprice{{$car->id}}" href="javascript:;" class="mycar-editprice">
                                                         <i class="bi bi-pencil-square"></i> แก้ไขราคา
                                                     </a>
                                                     @endif 
@@ -91,12 +103,12 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                             
                                             <div class="wrap-btn-carsold">
 
-                                                <button class="mycar-soldout" data-post-id="{{ $cars->id }}" data-current-status="{{ $cars->status }}">
+                                                <button class="mycar-soldout" data-post-id="{{ $car->id }}" data-current-status="{{ $car->status }}">
                                                     <img src="{{asset('frontend/images2/icon-soldout.svg')}}" class="svg" alt="">
                                                     ขายแล้ว
                                                 </button>
                                                 
-                                                <button class="mycar-reserve {{$resve_state}}" data-post-id="{{ $cars->id }}" data-current-value="{{ $cars->reserve }}" >
+                                                <button class="mycar-reserve {{$resve_state}}" data-post-id="{{ $car->id }}" data-current-value="{{ $car->reserve }}" >
                                                     <img src="{{asset('frontend/images/icon-check.svg')}}" class="svg" alt="">
                                                      จองแล้ว
                                                 </button>
@@ -107,18 +119,18 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                 </div>
                             </div>
                             <div class="item-mycar-button">
-                                @if(in_array($cars->id, $carcontact))
+                                @if(in_array($car->id, $carcontact))
                                     <a href="{{route('customercontactPage')}}"><div class="mycar-waitcontact blink">รอติดต่อ</div></a>
                                 @endif
-                                <a href="{{route('carpostbrowseedit', ['id' => $cars->id])}}" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
-                                <button class="btn-mycar btn-mycar-delete button-delete" data-carsid="{{ $cars->id }}">
+                                <a href="{{route('carpostbrowseedit', ['id' => $car->id])}}" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
+                                <button class="btn-mycar btn-mycar-delete button-delete" data-carsid="{{ $car->id }}">
                                     <i class="bi bi-trash3-fill"></i> ลบ
                                 </button>
 
                             </div>
                         </div>
 
-                        <div style="display: none;" id="edit-carprice{{$cars->id}}" class="box-edit-carprice">
+                        <div style="display: none;" id="edit-carprice{{$car->id}}" class="box-edit-carprice">
                             <div class="frm-edit-carprice">
                                 <div class="text-center">
                                     <div class="txt-editprices">แก้ไขราคา</div>
@@ -126,13 +138,13 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                 </div>
                                 <form method="post" action="{{ route('updatepricePage') }}">
                                 @csrf
-                                    <input type="hidden" name="id" value="{{$cars->id}}" />
+                                    <input type="hidden" name="id" value="{{$car->id}}" />
                                     <div class="row">
                                         <div class="col-4 col-md-3">
                                             <label>ราคาเดิม</label>
                                         </div>
                                         <div class="col-8 col-md-9">
-                                            <div class="txt-editprices3">{{number_format($cars->price, 0, '.', ',')}}.-</div>
+                                            <div class="txt-editprices3">{{number_format($car->price, 0, '.', ',')}}.-</div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -141,7 +153,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                         </div>
                                         <div class="col-8 col-md-9">
                                             <input type="number" name="newprice" class="form-control">
-                                            <div>จำนวนครั้งที่ท่านสามารถแก้ไขได้  @if(isset($cars->edit_price)){{2 - $cars->edit_price}}/2 @else 2/2 @endif</div>
+                                            <div>จำนวนครั้งที่ท่านสามารถแก้ไขได้  @if(isset($car->edit_price)){{2 - $car->edit_price}}/2 @else 2/2 @endif</div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -171,6 +183,147 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
 @endsection
 
 @section('script')
+<script>
+    var selectedBrandId = null;
+    var selectedModelId = null;
+
+    function filterBrands() {
+        var input = document.getElementById('search-input').value.toLowerCase();
+        var brandList = document.getElementById('brand-list');
+        var buttons = brandList.getElementsByClassName('list-mycarsearch');
+
+        for (var i = 0; i < buttons.length; i++) {
+            var brandTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
+            if (brandTitle.indexOf(input) > -1) {
+                buttons[i].style.display = '';
+            } else {
+                buttons[i].style.display = 'none';
+            }
+        }
+    }
+
+    function filterModels() {
+        var input = document.getElementById('model-search-input').value.toLowerCase();
+        var modelList = document.getElementById('model-list');
+        var buttons = modelList.getElementsByClassName('list-mycarsearch');
+
+        for (var i = 0; i < buttons.length; i++) {
+            var modelTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
+            if (modelTitle.indexOf(input) > -1) {
+                buttons[i].style.display = '';
+            } else {
+                buttons[i].style.display = 'none';
+            }
+        }
+    }
+
+    document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
+        button.addEventListener('click', function() {
+            selectedBrandId = this.getAttribute('data-brand-id');
+            var modelList = document.getElementById('model-list');
+            modelList.innerHTML = '';
+
+            document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            this.classList.add('active');
+
+            var brandData = @json($brandData);
+            if (brandData[selectedBrandId]) {
+                var models = brandData[selectedBrandId].models;
+                for (var modelId in models) {
+                    if (models.hasOwnProperty(modelId)) {
+                        var model = models[modelId];
+                        var modelButton = document.createElement('button');
+                        modelButton.className = 'list-mycarsearch';
+                        modelButton.setAttribute('data-model-id', modelId);
+                        modelButton.innerHTML = '<div>' + model.modelname + '</div><div class="num-mycarsearch">(' + model.car_count_model + ')</div>';
+                        modelButton.addEventListener('click', function() {
+                            selectedModelId = this.getAttribute('data-model-id');
+                            document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(btn) {
+                                btn.classList.remove('active');
+                            });
+                            this.classList.add('active');
+                            window.location.href = `{{ route('profilePage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
+                        });
+                        modelList.appendChild(modelButton);
+                    }
+                }
+            }
+        });
+    });
+
+    document.getElementById('search-button').addEventListener('click', function() {
+        var keyword = document.getElementById('car-id-input').value;
+        var url = new URL(window.location.href);
+
+        url.searchParams.delete('brand_id');
+        url.searchParams.delete('model_id');
+        url.searchParams.set('keyword', keyword);
+
+        window.location.href = url.toString();
+    });
+
+    document.getElementById('reset-button').addEventListener('click', function() {
+        var url = new URL(window.location.href);
+        url.search = '';
+        window.location.href = url.toString();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var brandId = urlParams.get('brand_id');
+        var modelId = urlParams.get('model_id');
+
+        if (brandId) {
+            document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
+                if (button.getAttribute('data-brand-id') === brandId) {
+                    button.classList.add('active');
+                    selectedBrandId = brandId;
+
+                    var brandData = @json($brandData);
+                    if (brandData[selectedBrandId]) {
+                        var models = brandData[selectedBrandId].models;
+                        var modelList = document.getElementById('model-list');
+                        modelList.innerHTML = '';
+
+                        for (var modelId in models) {
+                            if (models.hasOwnProperty(modelId)) {
+                                var model = models[modelId];
+                                var modelButton = document.createElement('button');
+                                modelButton.className = 'list-mycarsearch';
+                                modelButton.setAttribute('data-model-id', modelId);
+                                modelButton.innerHTML = '<div>' + model.modelname + '</div><div class="num-mycarsearch">(' + model.car_count_model + ')</div>';
+                                modelButton.addEventListener('click', function() {
+                                    selectedModelId = this.getAttribute('data-model-id');
+                                    document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(btn) {
+                                        btn.classList.remove('active');
+                                    });
+                                    this.classList.add('active');
+                                    window.location.href = `{{ route('profilePage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
+                                });
+                                modelList.appendChild(modelButton);
+                            }
+                        }
+
+                        if (modelId) {
+                            document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(button) {
+                                if (button.getAttribute('data-model-id') === modelId) {
+                                    button.classList.add('active');
+                                    selectedModelId = modelId;
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+
+
+
 <script>
     $( ".box-menuprofile > ul > li:nth-child(1) > a" ).addClass( "here" );
     $( ".menu-mycar > ul > li:nth-child(1) > a" ).addClass( "here" );
