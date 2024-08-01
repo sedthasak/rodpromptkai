@@ -339,7 +339,7 @@ $arr_gear = array(
                         <div class="col-12 col-lg-4 item-postcar">
                             <a href="{{route('postcarwelcomePage')}}">
                                 <figure>
-                                    <div class="cover-itempost"><img src="{{asset('frontend/images/banner-carhome.webp')}}" alt=""></div>
+                                    <div class="cover-itempost"><img src="{{asset('frontend/images/66ab16642431e.webp')}}" alt=""></div>
                                     <figcaption>
                                         <h3>ลงขายรถของคุณ ฟรี!</h3>
                                         <p>รถมือเดียว รถบ้านเจ้าของขายเอง</p>
@@ -351,7 +351,7 @@ $arr_gear = array(
                         <div class="col-12 col-lg-4 item-postcar">
                             <a href="{{route('postcarwelcomedealerPage')}}">
                                 <figure>
-                                    <div class="cover-itempost"><img src="{{asset('frontend/images/banner-cardealer.webp')}}" alt=""></div>
+                                    <div class="cover-itempost"><img src="{{asset('frontend/images/66ab16642ade9.webp')}}" alt=""></div>
                                     <figcaption>
                                         <h3>ลงขายสำหรับดีลเลอร์</h3>
                                         <p>เต็นท์รถที่น่าเชื่อถือ มีรับประกัน ขับได้สบายใจ</p>
@@ -363,7 +363,7 @@ $arr_gear = array(
                         <div class="col-12 col-lg-4 item-postcar">
                             <a href="{{route('postcarwelcomeladyPage')}}">
                                 <figure>
-                                    <div class="cover-itempost"><img src="{{asset('frontend/images/banner-carlady.webp')}}" alt=""></div>
+                                    <div class="cover-itempost"><img src="{{asset('frontend/images/66ab16642ea0e.webp')}}" alt=""></div>
                                     <figcaption>
                                         <h3>คุณผู้หญิงลงขายรถ</h3>
                                         <p>เจ้าของเล่มรถเป็นผู้หญิง จอดมากกว่าขับ</p>

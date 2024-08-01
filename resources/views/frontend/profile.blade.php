@@ -46,7 +46,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         @endphp
                         <div class="item-mycar">
                             <div class="item-mycar-cover">
-                                <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
+                                <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}" target="_blank"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
                             </div>
                             <div class="mycar-detail-mb">
                                 <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}">
@@ -108,7 +108,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                             </div>
                             <div class="item-mycar-button">
                                 @if(in_array($cars->id, $carcontact))
-                                    <div class="mycar-waitcontact blink">รอติดต่อ</div>
+                                    <a href="{{route('customercontactPage')}}"><div class="mycar-waitcontact blink">รอติดต่อ</div></a>
                                 @endif
                                 <a href="{{route('carpostbrowseedit', ['id' => $cars->id])}}" class="btn-mycar btn-mycar-edit"><i class="bi bi-pencil-square"></i> แก้ไข</a>
                                 <button class="btn-mycar btn-mycar-delete button-delete" data-carsid="{{ $cars->id }}">
