@@ -19,7 +19,7 @@
                         @if (!empty($customerCars['brands']))
                             @foreach ($customerCars['brands'] as $brandId => $brandData)
                                 <button class="list-mycarsearch" data-brand-id="{{ $brandId }}">
-                                    <div><img src="{{ asset($brandData['feature']) }}" alt=""> {{ $brandData['title'] }}</div>
+                                    <div><img src="{{ $brandData['feature']?asset($brandData['feature']):asset('frontend/images/icon-car2.svg') }}" alt=""> {{ $brandData['title'] }}</div>
                                     <div class="num-mycarsearch">({{ $brandData['car_count_brand'] }})</div>
                                 </button>
                             @endforeach

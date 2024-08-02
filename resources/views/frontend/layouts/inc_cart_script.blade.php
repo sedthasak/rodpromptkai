@@ -84,11 +84,13 @@
                 // Determine which confirmation message to show based on invoiceFormType
                 if (invoiceFormType === 'no_receipt') {
                     Swal.fire({
-                        title: 'ยืนยันการดำเนินการ',
+                        title: 'ยืนยัน',
                         text: 'คุณแน่ใจหรือไม่ที่จะทำรายการต่อโดยไม่ต้องการรับใบกำกับภาษีหรือใบเสร็จ',
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonText: 'ใช่, ดำเนินการต่อ',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'ยืนยัน',
                         cancelButtonText: 'ยกเลิก'
                     }).then((result) => {
                         if (result.isConfirmed) {
@@ -101,11 +103,13 @@
                     });
                 } else {
                     Swal.fire({
-                        title: 'ยืนยันการดำเนินการ',
-                        text: 'กรุณาตรวจสอบข้อมูลก่อนดำเนินการต่อ',
+                        title: 'ยืนยัน',
+                        text: 'ตรวจสอบข้อมูลเรียบร้อย ต้องการดำเนินการต่อ',
                         icon: 'question',
                         showCancelButton: true,
-                        confirmButtonText: 'ใช่, ดำเนินการต่อ',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'ยืนยัน',
                         cancelButtonText: 'ยกเลิก'
                     }).then((result) => {
                         if (result.isConfirmed) {

@@ -11,6 +11,9 @@
     .list-mycarsearch.model.active {
         background-color: #E4EEFA;
     }
+    .swal2-container {
+        z-index: 99995 !important; /* Adjust this value if needed */
+    }
 </style>
 
 @section('content')
@@ -20,9 +23,18 @@
 <?php
 $usewithdeal  = 'yes';
 $default_image = asset('frontend/deal-example.webp');
+$arr_gear = array(
+    'auto' => 'เกียร์อัตโนมัติ',
+    'manual' => 'เกียร์ธรรมดา',
+);
 // echo "<pre>";
-// print_r($default_image);
+// print_r($results);
 // echo "</pre>";
+// foreach($results as $resultsss){
+//     echo "<pre>";
+//     print_r($resultsss->myDeal->deal);
+//     echo "</pre>";
+// }
 ?>
 @php
     $usestatus = $usestatus ?? 'approved';
@@ -60,27 +72,83 @@ $default_image = asset('frontend/deal-example.webp');
                             @foreach($results as $car)
                             @php
                             $profilecar_img = ($car->feature)?asset('storage/' . $car->feature):asset('public/uploads/default-car.jpg');
+                            
+                            $feature = $car->feature ? asset('storage/' . $car->feature) : asset('frontend/deal-example.webp');
+                            $oldPrice = $car->old_price;
+                            $newPrice = $car->price;
+                            $discountPercentage = $oldPrice > 0 ? floor((($oldPrice - $newPrice) / $oldPrice) * 100) : 0;
+                            $isSelected = $car->myDeal->deal->id == $car->mydeal->deals_id;
+
+                            $border = $car->myDeal->deal->border ?? '#000000';
+                            $imagePath = $car->myDeal->deal->image_background ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->image_background)) : null;
+                            $background = $car->myDeal->deal->background ?? null;
+                            $topleftPath = $car->myDeal->deal->topleft ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->topleft)) : null;
+                            $bottomrightPath = $car->myDeal->deal->bottomright ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->bottomright)) : null;
+                            $font1 = $car->myDeal->deal->font1 ?? '#FFFFFF';
+                            $font2 = $car->myDeal->deal->font2 ?? '#FFDADA';
+                            $font3 = $car->myDeal->deal->font3 ?? '#FFFFFF';
+                            $font4 = $car->myDeal->deal->font4 ?? '#FFE500';
                             @endphp
-                            <div class="col-12 col-md-6 col-xl-4 adddeal-item">
-                                <div class="item-mycar">
-                                    <div class="item-mycar-cover">
-                                        <figure><img src="{{$profilecar_img}}" alt=""></figure>
-                                    </div>
-                                    <div class="adddeal-desc">
-                                        <div class="mycar-name">
-                                            {{ $car->modelyear . ' ' . ($car->brand->title ?? 'N/A') . ' ' . ($car->model->model ?? 'N/A') }}
+
+                            <div class="col-12 col-xl-4 item-changedeal col-itemcar">
+                                <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
+                                    @if($topleftPath)
+                                        <div class="tag-top-left"><img src="{{ $topleftPath }}" alt=""></div>
+                                    @endif
+
+                                    <figure>
+                                        <div class="cover-car">
+                                            <div class="box-timeout">
+                                                <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก {{ $car->remaining_time }}</div>
+                                                @if($bottomrightPath)
+                                                    <div class="tag-bottom-right"><img src="{{ $bottomrightPath }}" alt=""></div>
+                                                @endif
+                                            </div>
+                                            <img src="{{ $feature }}" alt="">
                                         </div>
-                                        <div class="mycar-type">
-                                            {{ ($car->generation->generation ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}
-                                        </div>
-                                        <div class="mycar-type">
-                                            {{ number_format($car->price, 0, '.', ',') }} บาท
-                                        </div>
-                                        <a href="{{route('specialselectdealPage', ['car' => $car->id])}}" class="btn-changedeal deal-selectcar">เปลี่ยนรูปแบบ</a>
-                                        <a data-fancybox data-src="#popup-editprice" href="javascript:;" class="deal-selectcar" data-id="{{ $car->id }}" data-price="{{ $car->price }}">
-                                            <i class="bi bi-check-circle-fill"></i> แก้ไขราคา
-                                        </a>
-                                    </div>
+                                        <figcaption>
+                                            <div class="grid-desccar">
+                                                <div class="car-name" style="color: {{ $font1 }}">{{ $car->modelyear }} {{ $car->brand->title }} {{ $car->model->model }}</div>
+                                                <div class="car-series" style="color: {{ $font2 }}">{{ $car->generation->generations }} {{ $car->subModel->sub_models }}</div>
+                                                <div class="car-province" style="color: {{ $font2 }}">{{ $car->province }}</div>
+                                                <div class="row">
+                                                    <div class="col-12 col-md-8">
+                                                        <div class="descpro-car" style="color: {{ $font1 }}">{{ strip_tags($car->detail) }}</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4 text-end">
+                                                        <div class="txt-readmore" style="color: {{ $font1 }}">ดูเพิ่มเติม</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="linecontent"></div>
+                                            <div class="row caritem-price">
+                                                <div class="col-12 col-md-6">
+                                                    <div class="txt-gear" style="color: {{ $font3 }}"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6 text-end">
+                                                    <div class="car-price" style="color: {{ $font4 }}">
+                                                        {{ number_format($newPrice, 0, '.', ',') }}.-
+                                                    </div>
+
+                                                    @if($oldPrice > 0)
+                                                        <div class="car-price-discount" style="color: {{ $font3 }}">
+                                                            <span>{{ number_format($oldPrice, 0, '.', ',') }}.-</span> {{ floor($discountPercentage) }}%
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                                <div class="adddeal-desc">
+                                    <a href="{{route('specialselectdealPage', ['car' => $car->id])}}" class="btn-changedeal deal-selectcar">เปลี่ยนรูปแบบ</a>
+                                    <a data-fancybox data-src="#popup-editprice" href="javascript:;" class="deal-selectcar" data-id="{{ $car->id }}" data-price="{{ number_format($car->price, 0, '', '') }}">
+                                        <i class="bi bi-check-circle-fill"></i> แก้ไขราคา
+                                    </a>
+                                    
                                 </div>
                             </div>
                             @endforeach
@@ -105,35 +173,84 @@ $default_image = asset('frontend/deal-example.webp');
 @section('script')
 <script>
     $(document).ready(function() {
+        function formatNumberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         $('.deal-selectcar').on('click', function() {
             var price = $(this).data('price');
-            var id = $(this).data('id');
-            $('#current_price').val(price);
+            var id = $(this).data('id');           
+            var formattedPrice = formatNumberWithCommas(parseFloat(price).toFixed(0));
+            $('#current_price').val(formattedPrice);
             $('#car_id').val(id);
             $('#promotion_price').val('');
         });
 
         $('#promotion_price').on('input', function() {
             var currentPrice = parseFloat($('#current_price').val().replace(/,/g, ''));
-            var promoPrice = parseFloat($(this).val());
-
-            if (promoPrice > currentPrice) {
-                alert('ราคาโปรโมชั่นไม่สามารถสูงกว่าราคาเดิมได้');
-                $(this).val(currentPrice);
+            var promoPrice = $(this).val().replace(/,/g, '');
+            
+            if (isNaN(promoPrice) || promoPrice === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณาใส่ตัวเลขที่ถูกต้อง',
+                    text: 'กรุณาใส่ราคาที่เป็นตัวเลข',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก'
+                }).then(() => {
+                    $(this).val('');
+                });
+            } else {
+                promoPrice = parseFloat(promoPrice);
+                $(this).val(formatNumberWithCommas(promoPrice));
             }
         });
 
         $('#editprice_form').on('submit', function(e) {
             var currentPrice = parseFloat($('#current_price').val().replace(/,/g, ''));
-            var promoPrice = parseFloat($('#promotion_price').val());
-            
+            var promoPrice = parseFloat($('#promotion_price').val().replace(/,/g, ''));
+
             if (promoPrice > currentPrice) {
-                alert('ราคาโปรโมชั่นไม่สามารถสูงกว่าราคาเดิมได้');
                 e.preventDefault();
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ราคาโปรโมชั่นสูงกว่าราคาเดิม',
+                    text: 'ราคาโปรโมชั่นที่กรอกสูงกว่าราคาเดิม ท่านต้องการดำเนินการต่อหรือไม่?',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).off('submit').submit(); // Proceed with the form submission
+                    }
+                });
+            } else {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'info',
+                    title: 'ยืนยันการเปลี่ยนแปลงราคา',
+                    text: 'ท่านต้องการบันทึกการเปลี่ยนแปลงราคาหรือไม่?',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).off('submit').submit(); // Proceed with the form submission
+                    }
+                });
             }
         });
     });
 </script>
+
+
+
 
 
 

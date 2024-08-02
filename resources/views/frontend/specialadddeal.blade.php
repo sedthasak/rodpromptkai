@@ -14,20 +14,14 @@
     .swal2-container {
         z-index: 99995 !important; /* Adjust this value if needed */
     }
+    .pointer {
+        cursor: pointer;
+    }
+
 </style>
+
 @section('content')
-@include('frontend.layouts.inc_profile')   
-<?php
-$usestatus = 'approved';
-$usewithdeal  = 'no';
-
-// echo "<pre>";
-// print_r($customer_deal);
-// echo "</pre>";
-
-?>
-
- 
+@include('frontend.layouts.inc_profile')
 @php
     $usestatus = $usestatus ?? 'approved';
     $usewithdeal = $usewithdeal ?? null;
@@ -48,7 +42,6 @@ $usewithdeal  = 'no';
             <div class="row">
                 @include('frontend.layouts.inc_menuprofile_search_2024', ['customerCars' => $customerCars])
                 <div class="col-12 col-lg-8 col-xl-9">
-                    
                     <div class="desc-pageprofile">
                         <div class="wraptopic-pageprofile">
                             <div class="topic-profilepage"><i class="bi bi-circle-fill"></i> เพิ่มการมองเห็น</div>
@@ -58,24 +51,35 @@ $usewithdeal  = 'no';
 
                         <div class="row wrpa-topic-dealspecial">
                             <div class="col-6">
-                                <h3 class="topic-dealspecial">ใส่โปรโมชั่น</h3>
+                                <h3 class="topic-dealspecial">เลือกรถ
+                                    @if($customer_deal['free'] > 0)
+                                    <span id="car_selected">0</span> / {{$customer_deal['free']}}
+                                    @endif
+                                </h3>
                             </div>
                             <div class="col-6 text-end">
-                                @include('frontend.layouts.inc_btn_adddeal')
+                                @if($customer_deal['free'] > 0)
+                                <div class="btn-default btn-red" id="smt_btn" data-quota="{{$customer_deal['free']}}">
+                                    ใส่ดีลรถที่เลือก
+                                </div>
+                                @endif
                             </div>
                             @if($customer_deal['free'] < 1)
-                                <div class="col-12">
+                                <div class="col-8">
                                     <div class="note-notdeal">ท่านไม่สามารถใส่ดีลเพิ่มเติมได้ โควต้ารถของท่านไม่เพียงพอ กรุณาซื้อดีลเพิ่ม</div>
                                 </div>
+                                <div class="col-4 text-end">
+                                    <a href="{{route('specialdealPage')}}" class="btn-default btn-red" >
+                                        ซื้อดีล
+                                    </a>
+                                </div>
                             @endif
-
-                            
                         </div>
 
                         <div class="row">
                             @foreach($results as $car)
                             @php
-                            $profilecar_img = ($car->feature)?asset('storage/' . $car->feature):asset('public/uploads/default-car.jpg');
+                            $profilecar_img = ($car->feature) ? asset('storage/' . $car->feature) : asset('public/uploads/default-car.jpg');
                             @endphp
                             <div class="col-12 col-md-6 col-xl-4 adddeal-item">
                                 <div class="item-mycar">
@@ -93,12 +97,11 @@ $usewithdeal  = 'no';
                                             {{ number_format($car->price, 0, '.', ',') }} บาท
                                         </div>
                                         @if($customer_deal['free'] > 0)
-                                        <a data-fancybox data-src="#popup-editprice" href="javascript:;" class="deal-selectcar" data-id="{{ $car->id }}" data-price="{{ $car->price }}">
+                                        <div class="deal-selectcar pointer" data-id="{{ $car->id }}">
                                             <i class="bi bi-check-circle-fill"></i> เลือก
-                                        </a>
+                                        </div>
                                         @endif
                                     </div>
-
                                 </div>
                             </div>
                             @endforeach
@@ -112,241 +115,71 @@ $usewithdeal  = 'no';
     </div>
 </section>
 @include('frontend.layouts.inc_deal_adddeal')
-
 @endsection
 
 @section('script')
-
+@include('frontend.layouts.inc_specialadddeal_search_script')
 <script>
-    $(document).ready(function() {
-        $('.deal-selectcar').on('click', function() {
-            var price = $(this).data('price');
-            var id = $(this).data('id');
-            $('#current_price').val(price);
-            $('#car_id').val(id);
-            $('#promotion_price').val('');
+    document.addEventListener('DOMContentLoaded', function () {
+        const smtBtn = document.getElementById('smt_btn');
+        if (!smtBtn) return;
+        
+        const quota = parseInt(smtBtn.getAttribute('data-quota'), 10);
+        if (quota <= 0) return;
+        
+        let selectedCars = [];
+        const carElements = document.querySelectorAll('.deal-selectcar.pointer');
+
+        carElements.forEach(car => {
+            car.addEventListener('click', function () {
+                const carId = this.getAttribute('data-id');
+
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                    selectedCars = selectedCars.filter(id => id !== carId);
+                } else if (selectedCars.length < quota) {
+                    this.classList.add('selected');
+                    selectedCars.push(carId);
+                }
+
+                document.getElementById('car_selected').innerText = selectedCars.length;
+
+                if (selectedCars.length > 0) {
+                    smtBtn.classList.add('clickable');
+                    smtBtn.addEventListener('click', handleSubmit);
+                } else {
+                    smtBtn.classList.remove('clickable');
+                    smtBtn.removeEventListener('click', handleSubmit);
+                }
+            });
         });
 
-        $('#promotion_price').on('input', function() {
-            var currentPrice = parseFloat($('#current_price').val().replace(/,/g, ''));
-            var promoPrice = parseFloat($(this).val());
-
-            if (promoPrice > currentPrice) {
-                alert('ราคาโปรโมชั่นไม่สามารถสูงกว่าราคาเดิมได้');
-                $(this).val(currentPrice);
-            }
-        });
-
-        $('#editprice_form').on('submit', function(e) {
-            var currentPrice = parseFloat($('#current_price').val().replace(/,/g, ''));
-            var promoPrice = parseFloat($('#promotion_price').val());
-            
-            if (isNaN(promoPrice)) {
-                e.preventDefault(); // Prevent form submission
+        function handleSubmit() {
+            if (selectedCars.length > 0) {
                 Swal.fire({
                     title: 'ยืนยัน',
-                    text: 'คุณแน่ใจว่าจะไม่กรอก "ราคาโปรโมชั่น"?',
-                    icon: 'warning',
+                    html: `คุณได้เลือกใส่รูปแบบดีลรถ ${selectedCars.length} คัน.<br>ดำเนินการต่อ ?`,
+                    icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'ยืนยัน',
+                    confirmButtonText: 'ตกลง',
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#editprice_form').off('submit').submit(); // Allow form submission
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = "{{ route('adddealgroupaction') }}";
+                        form.innerHTML = `
+                            @csrf
+                            <input type="hidden" name="car_ids" value="${selectedCars.join(',')}">
+                        `;
+                        document.body.appendChild(form);
+                        form.submit();
                     }
                 });
-            } else if (promoPrice > currentPrice) {
-                alert('ราคาโปรโมชั่นไม่สามารถสูงกว่าราคาเดิมได้');
-                e.preventDefault(); // Prevent form submission
             }
-        });
-    });
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-    var selectedBrandId = null;
-    var selectedModelId = null;
-
-    function filterBrands() {
-        var input = document.getElementById('search-input').value.toLowerCase();
-        var brandList = document.getElementById('brand-list');
-        var buttons = brandList.getElementsByClassName('list-mycarsearch');
-
-        for (var i = 0; i < buttons.length; i++) {
-            var brandTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
-            if (brandTitle.indexOf(input) > -1) {
-                buttons[i].style.display = '';
-            } else {
-                buttons[i].style.display = 'none';
-            }
-        }
-    }
-
-    function filterModels() {
-        var input = document.getElementById('model-search-input').value.toLowerCase();
-        var modelList = document.getElementById('model-list');
-        var buttons = modelList.getElementsByClassName('list-mycarsearch');
-
-        for (var i = 0; i < buttons.length; i++) {
-            var modelTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
-            if (modelTitle.indexOf(input) > -1) {
-                buttons[i].style.display = '';
-            } else {
-                buttons[i].style.display = 'none';
-            }
-        }
-    }
-
-    document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
-        button.addEventListener('click', function() {
-            selectedBrandId = this.getAttribute('data-brand-id');
-            var modelList = document.getElementById('model-list');
-            modelList.innerHTML = '';
-
-            document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(btn) {
-                btn.classList.remove('active');
-            });
-            this.classList.add('active');
-
-            var brandData = @json($brandData);
-            if (brandData[selectedBrandId]) {
-                var models = brandData[selectedBrandId].models;
-                for (var modelId in models) {
-                    if (models.hasOwnProperty(modelId)) {
-                        var model = models[modelId];
-                        var modelButton = document.createElement('button');
-                        modelButton.className = 'list-mycarsearch';
-                        modelButton.setAttribute('data-model-id', modelId);
-                        modelButton.innerHTML = '<div>' + model.modelname + '</div><div class="num-mycarsearch">(' + model.car_count_model + ')</div>';
-                        modelButton.addEventListener('click', function() {
-                            selectedModelId = this.getAttribute('data-model-id');
-                            document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(btn) {
-                                btn.classList.remove('active');
-                            });
-                            this.classList.add('active');
-                            window.location.href = `{{ route('specialadddealPage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
-                        });
-                        modelList.appendChild(modelButton);
-                    }
-                }
-            }
-        });
-    });
-
-    document.getElementById('search-button').addEventListener('click', function() {
-        var keyword = document.getElementById('car-id-input').value;
-        var url = new URL(window.location.href);
-
-        url.searchParams.delete('brand_id');
-        url.searchParams.delete('model_id');
-        url.searchParams.set('keyword', keyword);
-
-        window.location.href = url.toString();
-    });
-
-    document.getElementById('reset-button').addEventListener('click', function() {
-        var url = new URL(window.location.href);
-        url.search = '';
-        window.location.href = url.toString();
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        var urlParams = new URLSearchParams(window.location.search);
-        var brandId = urlParams.get('brand_id');
-        var modelId = urlParams.get('model_id');
-
-        if (brandId) {
-            document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
-                if (button.getAttribute('data-brand-id') === brandId) {
-                    button.classList.add('active');
-                    selectedBrandId = brandId;
-
-                    var brandData = @json($brandData);
-                    if (brandData[selectedBrandId]) {
-                        var models = brandData[selectedBrandId].models;
-                        var modelList = document.getElementById('model-list');
-                        modelList.innerHTML = '';
-
-                        for (var modelId in models) {
-                            if (models.hasOwnProperty(modelId)) {
-                                var model = models[modelId];
-                                var modelButton = document.createElement('button');
-                                modelButton.className = 'list-mycarsearch';
-                                modelButton.setAttribute('data-model-id', modelId);
-                                modelButton.innerHTML = '<div>' + model.modelname + '</div><div class="num-mycarsearch">(' + model.car_count_model + ')</div>';
-                                modelButton.addEventListener('click', function() {
-                                    selectedModelId = this.getAttribute('data-model-id');
-                                    document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(btn) {
-                                        btn.classList.remove('active');
-                                    });
-                                    this.classList.add('active');
-                                    window.location.href = `{{ route('specialadddealPage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
-                                });
-                                modelList.appendChild(modelButton);
-                            }
-                        }
-
-                        if (modelId) {
-                            document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(button) {
-                                if (button.getAttribute('data-model-id') === modelId) {
-                                    button.classList.add('active');
-                                    selectedModelId = modelId;
-                                }
-                            });
-                        }
-                    }
-                }
-            });
         }
     });
 </script>
-
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const amountInput = document.getElementById('deal-amount');
-        const totalPriceSpan = document.getElementById('total-price');
-
-        // Function to update the total price based on the amount
-        function updateTotalPrice() {
-            const amount = parseInt(amountInput.value, 10) || 0;
-            const pricePerUnit = 500; // Price per car
-            const totalPrice = amount * pricePerUnit;
-            totalPriceSpan.textContent = totalPrice.toLocaleString();
-        }
-
-        // Event listener for amount input changes
-        amountInput.addEventListener('input', updateTotalPrice);
-
-        // Form submission
-        const form = document.getElementById('deal-form');
-        form.addEventListener('submit', function (e) {
-            e.preventDefault(); // Prevent default form submission
-            const amount = amountInput.value;
-
-            if (!amount) {
-                alert('กรุณาระบุจำนวนรถ');
-                return;
-            }
-
-            form.submit(); // Submit the form if amount is valid
-        });
-    });
-</script>
-
-
 @endsection

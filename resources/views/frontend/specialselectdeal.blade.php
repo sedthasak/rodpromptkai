@@ -96,7 +96,7 @@ $arr_gear = array(
                                         <figure>
                                             <div class="cover-car">
                                                 <div class="box-timeout">
-                                                    <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก {{ $deal->remaining_time }}</div>
+                                                    <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก {{ $car->remaining_time }}</div>
                                                     @if($bottomrightPath)
                                                         <div class="tag-bottom-right"><img src="{{ $bottomrightPath }}" alt=""></div>
                                                     @endif
@@ -200,7 +200,8 @@ $arr_gear = array(
                                     'ดีลนี้ถูกเลือกสำหรับรถคันนี้แล้ว.',
                                     'success'
                                 ).then(() => {
-                                    window.location.reload();
+                                    // Redirect to the specialchangedealPage route
+                                    window.location.href = '{{ route("specialchangedealPage") }}';
                                 });
                             } else {
                                 Swal.fire(

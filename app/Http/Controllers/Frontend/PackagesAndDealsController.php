@@ -73,6 +73,34 @@ class PackagesAndDealsController extends Controller
 
 
 
+    public function adddealgroupaction(Request $request)
+    {
+        $deal = DealModel::latest('id')->firstOrFail();
+        $mydealcount = MyDeal::whereNull('cars_id')->count();
+        $carIds = explode(',', $request->car_ids);
+
+        // Check if mydealcount is greater than or equal to the number of car IDs
+        if ($mydealcount < count($carIds)) {
+            return redirect()->back()->with('error', 'จำนวนดีลไม่เพียงพอสำหรับรถที่เลือก !');
+        }
+        foreach ($carIds as $carId) {
+            $car = carsModel::findOrFail($carId);
+            $mydeal = MyDeal::whereNull('cars_id')->orderBy('deal_expire', 'asc')->firstOrFail();
+
+            $mydeal->update([
+                'deals_id' => $deal->id,
+                'cars_id' => $car->id,
+            ]);
+            $car->update([
+                'mydeals' => $mydeal->id,
+                'updated_at' => now(),
+            ]);
+        }
+
+        return redirect()->route('specialchangedealPage')->with('success', 'ใส่รูปแบบดีลสำเร็จ !');
+    }
+
+
 
     public function adddealaction(Request $request)
     {
@@ -109,6 +137,7 @@ class PackagesAndDealsController extends Controller
             DB::commit();
 
             return redirect()->back()->with('success', 'ใส่กล่องเพิ่มการมองเห็นเรียบร้อย! คุณสามารถเปลี่่ยนรูปแบบได้ที่หน้า เปลี่ยนรูปแบบโปรโมชั่น');
+            //เปลี่ยน ไป specialchangedealPage
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'ไม่สามารถใส่กล่องเพิ่มการมองเห็นได้');
@@ -118,26 +147,24 @@ class PackagesAndDealsController extends Controller
     {
         $validated = $request->validate([
             'car_id' => 'required|exists:cars,id',
-            'promotion_price' => 'required|numeric|lte:' . $request->current_price,
+            'promotion_price' => 'required',
         ]);
+
+        $promotionPrice = str_replace(',', '', $request->promotion_price);
+        $currentPrice = str_replace(',', '', $request->current_price);
+
+        $promotionPrice = (float)$promotionPrice;
+        $currentPrice = (float)$currentPrice;
 
         DB::beginTransaction();
         try {
             $car = carsModel::findOrFail($request->car_id);
-            $deal = DealModel::latest('id')->firstOrFail();
-            $mydeal = MyDeal::whereNull('cars_id')->orderBy('deal_expire', 'asc')->firstOrFail();
 
-            if ($request->filled('promotion_price')) {
-                $promotionPrice = $request->promotion_price;
-                $oldPrice = $request->current_price;
-            } else {
-                $promotionPrice = $car->price;
-                $oldPrice = null;
-            }
+            $newOldPrice = $promotionPrice > $currentPrice ? null : $currentPrice;
 
             $car->update([
                 'price' => $promotionPrice,
-                'old_price' => $oldPrice,
+                'old_price' => $newOldPrice,
             ]);
 
             DB::commit();
@@ -145,9 +172,12 @@ class PackagesAndDealsController extends Controller
             return redirect()->back()->with('success', 'ปรับราคาสำเร็จ!');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return redirect()->back()->with('error', 'ไม่สามารถปรับราคาได้');
         }
     }
+
+
     
     public function specialchangedealPage(Request $request) 
     {
@@ -160,11 +190,20 @@ class PackagesAndDealsController extends Controller
         $keyword = $request->input('keyword');
 
         // Initialize the query
-        $query = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'])
-                    ->where('status', 'approved')
-                    ->where('customer_id', $customer_id)
-                    ->whereNotNull('mydeals')
-                    ->orderBy('id', 'desc');
+        $query = carsModel::with([
+            'brand', 
+            'model', 
+            'generation', 
+            'subModel', 
+            'user', 
+            'customer', 
+            'myDeal.deal', // Eager load the nested 'deal' relationship
+            'contacts'
+        ])
+        ->where('status', 'approved')
+        ->where('customer_id', $customer_id)
+        ->whereNotNull('mydeals')
+        ->orderBy('id', 'desc');
 
         // Add conditions based on the presence of brand_id and model_id
         if ($brandId) {
@@ -186,7 +225,15 @@ class PackagesAndDealsController extends Controller
 
         // Execute the query to get the results
         $results = $query->get();
-
+        // Calculate remaining time for each car
+        foreach ($results as $car) {
+            if ($car->myDeal && $car->myDeal->deal) {
+                $car->remaining_time = $this->getRemainingTime($car->myDeal->deal_expire);
+            } else {
+                $car->remaining_time = null;
+            }
+        }
+        // dd($results);
         // Return the view with the results
         return view('frontend.specialchangedeal', [
             'page' => 'special-changedeal',
@@ -238,24 +285,40 @@ class PackagesAndDealsController extends Controller
         ]);
     }
 
-    public function specialselectdealPage(Request $request, $car) 
+    public function specialselectdealPage(Request $request, $carId) 
     {
-        $car = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal'])
-                ->findOrFail($car);
+        // Fetch the car with its related data
+        $car = carsModel::with([
+            'brand', 
+            'model', 
+            'generation', 
+            'subModel', 
+            'user', 
+            'customer', 
+            'myDeal.deal' // Load nested deal relationship
+        ])->findOrFail($carId);
+
+        // Get all deals
         $alldeals = DealModel::orderBy('id', 'desc')->get();
 
-        // Calculate remaining time for each deal
-        foreach ($alldeals as $deal) {
-            $deal->remaining_time = $this->getRemainingTime($deal->expire);
+        // Calculate remaining time if car has a myDeal and the associated deal
+        $remaining_time = null;
+        if ($car->myDeal && $car->myDeal->deal) {
+            $remaining_time = $this->getRemainingTime($car->myDeal->deal_expire);
         }
 
-        // dd($car);
+        // Add remaining_time as a custom attribute to the car object
+        $car->remaining_time = $remaining_time;
+
+        // Return the view with the results
         return view('frontend.specialselectdeal', [
             'page' => 'special-changedeal',
             'alldeals' => $alldeals,
             'car' => $car,
         ]);
     }
+
+
 
     private function getRemainingTime($expireDate)
     {
@@ -321,7 +384,8 @@ class PackagesAndDealsController extends Controller
             return response()->json(['success' => false, 'message' => 'ไม่พบคูปอง']);
         }
     }
-    public function cartPage(Request $request) {
+    public function cartPage(Request $request) 
+    {
         $pvs = Province::orderBy('name_th', 'asc')->get();
         $packageId = $request->input('package_id');
         $type = $request->input('type');
@@ -343,8 +407,6 @@ class PackagesAndDealsController extends Controller
             "amount" => $amount,
         ]);
     }
-    
-
     public function cartactionPage(Request $request)
     {
         // Find customer
@@ -497,7 +559,7 @@ class PackagesAndDealsController extends Controller
         if($order->type =='package'){
             return redirect()->route('profilePage')->with('success', 'ทำการสั่งซื้อสำเร็จ !');
         }elseif($order->type =='deal'){
-            return redirect()->route('specialdealPage')->with('success', 'ทำการสั่งซื้อสำเร็จ !');
+            return redirect()->route('specialadddealPage')->with('success', 'ทำการสั่งซื้อสำเร็จ !');
         }   
         
     }

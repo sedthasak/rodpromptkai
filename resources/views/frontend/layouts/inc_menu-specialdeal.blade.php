@@ -4,7 +4,7 @@
             <div class="menu-specialdeal menu-mycar">
                 <ul>
                     <li><a href="{{ route('specialdealPage') }}" data-page="special-deal" class="{{ $page == 'special-deal' ? 'here' : '' }}">เพิ่มรูปแบบ<br>การขาย</a></li>
-                    <li><a href="{{ route('specialadddealPage') }}" data-page="special-adddeal" class="{{ $page == 'special-adddeal' ? 'here' : '' }}">ใส่โปรโมชั่น </a></li>
+                    <li><a href="{{ route('specialadddealPage') }}" data-page="special-adddeal" class="{{ $page == 'special-adddeal' ? 'here' : '' }}">เลือกรถ </a></li>
                     <li><a href="{{ route('specialchangedealPage') }}" data-page="special-changedeal" class="{{ $page == 'special-changedeal' ? 'here' : '' }}">เปลี่ยนรูปแบบ<br>โปรโมชั่น </a></li>
                 </ul>
             </div>
