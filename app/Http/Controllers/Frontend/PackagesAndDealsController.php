@@ -26,6 +26,51 @@ use App\Models\SubDistrict;
 
 class PackagesAndDealsController extends Controller
 {
+    public function getcouponPage(Request $request) 
+    {
+        // Get current date and time
+        $currentDateTime = now();
+
+        // Retrieve only active coupons that are not expired
+        $allcoupon = CouponModel::where('status', 'active')
+                                ->where('expirecoupon', '>=', $currentDateTime)
+                                ->get();
+
+        // Get customer data from session
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+
+        // Loop through each coupon to set the 'usage' attribute
+        foreach ($allcoupon as $coupon) {
+            // Set default usage to 'normal'
+            $coupon->usage = 'normal';
+
+            // Check if coupon usage exceeds limit
+            $couponUsageCount = CouponUse::where('coupons_id', $coupon->id)->count();
+            if ($couponUsageCount >= $coupon->limit) {
+                $coupon->usage = 'gone';
+            }
+
+            // Check if the coupon has been used by the current customer
+            // $customerCouponUsage =  CouponUse::where('coupons_id', $coupon->id)
+            //                                             ->where('customer_id', $customer_id)
+            //                                             ->exists();
+            // if ($customerCouponUsage) {
+            //     $coupon->usage = 'used';
+            // }
+        }
+        // dd($allcoupon);
+        return view('frontend.getcoupon', [
+            "page" => 'getcoupon',
+            "allcoupon" => $allcoupon,
+        ]);
+    }
+
+
+
+
+
+
     public function updateMyDeal(Request $request)
     {
         try {
@@ -534,15 +579,6 @@ class PackagesAndDealsController extends Controller
 
         return redirect()->route('orderpayPage', ['order' => $order->id]);
     }
-
-
-
-
-
-
-
-
-
     public function orderpayaction(Request $request)
     {
         // dd($request);
@@ -563,11 +599,8 @@ class PackagesAndDealsController extends Controller
         }   
         
     }
-
-
-
-
-    public function orderpayPage(Request $request, $order) {
+    public function orderpayPage(Request $request, $order) 
+    {
         // dd($order);
         $myorder = OrderModel::find($order);
         return view('frontend/orderpay', [
@@ -575,7 +608,8 @@ class PackagesAndDealsController extends Controller
         ]);
     }
 
-    public function packagePage(Request $request) {
+    public function packagePage(Request $request) 
+    {
         // return dd($request->yearhigh);
         $pack1 = PackageDealerModel::find(1);
         $pack2 = PackageDealerModel::find(2);
@@ -587,7 +621,8 @@ class PackagesAndDealsController extends Controller
             "pack3" => $pack3,
         ]);
     }
-    public function cartselectdistrict(Request $request) {
+    public function cartselectdistrict(Request $request) 
+    {
 
         $ech = '';
         $query = DB::table('geo_districts')->where('province_id', $request->province_id)->get();
@@ -599,7 +634,8 @@ class PackagesAndDealsController extends Controller
         }
         return response()->json($ech);
     }
-    public function cartselectsubdistrict(Request $request) {
+    public function cartselectsubdistrict(Request $request) 
+    {
 
         $ech = '';
         $query = DB::table('geo_subdistricts')->where('district_id', $request->district_id)->get();
@@ -611,6 +647,4 @@ class PackagesAndDealsController extends Controller
         }
         return response()->json($ech);
     }
-    
-    
 }

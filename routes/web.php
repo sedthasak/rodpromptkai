@@ -227,12 +227,12 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/profile-member/{level}', 'profilememberPage')->name('profilememberPage');
     });
     Route::controller(PackagesAndDealsController::class)->group(function() {
+        Route::get('/getcoupon', 'getcouponPage')->name('getcouponPage');
+
         Route::post('/adddealgroup-action', 'adddealgroupaction')->name('adddealgroupaction');
-        
         Route::post('/updateMyDeal', 'updateMyDeal')->name('updateMyDeal');
         Route::post('/adddeal-action', 'adddealaction')->name('adddealaction');
         Route::post('/editprice-action', 'editpriceaction')->name('editpriceaction');
-
         Route::get('/special-deal', 'specialdealPage')->name('specialdealPage');
         Route::get('/special-adddeal', 'specialadddealPage')->name('specialadddealPage');
         Route::get('/special-changedeal', 'specialchangedealPage')->name('specialchangedealPage');
