@@ -5,6 +5,19 @@
 @endsection
 
 @section('content')
+<?php
+
+// echo "<pre>";
+// print_r($allcoupon);
+// echo "</pre>";
+// foreach($allcoupon as $allcouponsss){
+
+//     echo "<pre>";
+//     print_r($allcouponsss->usage);
+//     echo "</pre>";
+// }
+
+?>
 <section class="row">
     <div class="col-12 page-member levelclass-{{$customer_level['slug']}}">
         <div class="container">
@@ -52,7 +65,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-3 nopad">
-                                                @if($coupon->usage=='active')
+                                                @if($coupon->usage=='normal')
                                                 <div class="boxcode-boxbutton">
                                                     <div class="coupon-code">
                                                         <h5 id="coupon-code-{{$coupon->id}}">{{$coupon->code}}</h5>
@@ -63,7 +76,7 @@
                                                 <div class="boxcode-boxbutton">
                                                     <div class="coupon-used">ใช้โค้ดนี้แล้ว</div>
                                                 </div>
-                                                @elseif($coupon->usage=='inactive')
+                                                @elseif($coupon->usage=='used')
                                                 <div class="boxcode-boxbutton">
                                                     <div class="coupon-soldout"><img src="{{asset('frontend/images2/coupon-soldout.svg')}}" alt=""></div>
                                                 </div>
@@ -77,7 +90,7 @@
                         </div>
                     </div>
 
-                    <div class="wrap-boxcode wrap-boxcode-{{$customer_level['slug']}}">
+                    <!-- <div class="wrap-boxcode wrap-boxcode-{{$customer_level['slug']}}">
                         <h3>โค้ดพิเศษสำหรับคุณ</h3>
                         <div class="bg-boxcode">
                             <div class="row">
@@ -96,7 +109,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-3 nopad">
-                                                @if($coupon->usage=='active')
+                                                @if($coupon->usage=='normal')
                                                 <div class="boxcode-boxbutton">
                                                     <div class="coupon-code">
                                                         <h5 id="coupon-code-{{$coupon->id}}">{{$coupon->code}}</h5>
@@ -107,7 +120,7 @@
                                                 <div class="boxcode-boxbutton">
                                                     <div class="coupon-used">ใช้โค้ดนี้แล้ว</div>
                                                 </div>
-                                                @elseif($coupon->usage=='inactive')
+                                                @elseif($coupon->usage=='used')
                                                 <div class="boxcode-boxbutton">
                                                     <div class="coupon-soldout"><img src="{{asset('frontend/images2/coupon-soldout.svg')}}" alt=""></div>
                                                 </div>
@@ -119,7 +132,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>

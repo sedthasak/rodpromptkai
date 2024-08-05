@@ -18,11 +18,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-2 col-md-3">
-                        <a href="#" class="btn-tiers-back"><img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt=""><span>ย้อนกลับ</span></a>
+                        <a href="{{route('profilePage')}}" class="btn-tiers-back"><img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt=""><span>ย้อนกลับ</span></a>
                     </div>
                     <div class="col-10 col-md-9">
                         <div class="wrap-btntiers">
-                            <a href="special-privileges.php" class="btn-tiers-back"><img src="{{asset('frontend/images2/icon-wink.svg')}}" class="svg" alt=""><span>สิทธิพิเศษ</span></a>
+                            <a href="{{route('specialprivilegesPage')}}" class="btn-tiers-back"><img src="{{asset('frontend/images2/icon-wink.svg')}}" class="svg" alt=""><span>สิทธิพิเศษ</span></a>
                             <a class="btn-tiers-back active"><img src="{{asset('frontend/images2/icon-tiers.svg')}}" class="svg" alt=""><span>การปรับระดับ</span></a>
                         </div>
                     </div>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Models\MyDeal;
+use App\Models\CouponUse;
 
 class OrderModel extends Model
 {
@@ -86,4 +87,9 @@ class OrderModel extends Model
     {
         return $this->hasMany(MyDeal::class, 'orders_id');
     }
+    public function couponUses()
+    {
+        return $this->hasMany(CouponUse::class, 'orders_id');
+    }
+
 }

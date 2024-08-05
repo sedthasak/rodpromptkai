@@ -13,7 +13,7 @@
     <div class="box-menudeal box-menudeal-mb">
         <ul>
             <li class="box-m-code">
-                <a href="#"><div><img src="{{asset('frontend/images2/icon-code.svg')}}" alt=""> โค้ดส่วนลด</div> 
+                <a href="{{route('getcouponPage')}}"><div><img src="{{asset('frontend/images2/icon-code.svg')}}" alt=""> โค้ดส่วนลด</div> 
                     <!-- <div class="have-code">10+ โค้ด</div> -->
                 </a>
             </li>

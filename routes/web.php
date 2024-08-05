@@ -32,6 +32,7 @@ use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\LevelandPrivilegeController;
 use App\Http\Controllers\Frontend\PackagesAndDealsController;
 use App\Http\Controllers\Frontend\PaymentAndCheckoutController;
+use App\Http\Controllers\Frontend\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -248,6 +249,17 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/cart-action', 'cartactionPage')->name('cartactionPage');
         Route::post('/apply-coupon', 'applyCouponAction')->name('applyCouponAction');
     });
+
+
+
+    Route::controller(SearchController::class)->group(function() {
+        Route::get('/carsearch/{brand?}/{model?}/{generation?}/{sub_model?}/{modelyear?}/{province?}', 'carsearchPage')->name('carsearchPage');
+    });
+
+    
+    
+    
+    
     // Route::controller(PaymentAndCheckoutController::class)->group(function() {
         
     // });

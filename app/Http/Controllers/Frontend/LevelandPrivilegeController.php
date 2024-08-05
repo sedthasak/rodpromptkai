@@ -16,8 +16,10 @@ class LevelandPrivilegeController extends Controller
 {
     public function specialprivilegesPage(Request $request) {
         // return dd($request->yearhigh);
+        $levels = LevelModel::get();
+        // dd($levels);
         return view('frontend/special-privileges', [
-            // "brand" => $brand,
+            "levels" => $levels,
         ]);
     }
     public function seealltiersPage(Request $request) {

@@ -28,36 +28,35 @@ class PackagesAndDealsController extends Controller
 {
     public function getcouponPage(Request $request) 
     {
-        // Get current date and time
         $currentDateTime = now();
 
-        // Retrieve only active coupons that are not expired
         $allcoupon = CouponModel::where('status', 'active')
                                 ->where('expirecoupon', '>=', $currentDateTime)
                                 ->get();
 
-        // Get customer data from session
         $customerdata = session('customer');
         $customer_id = $customerdata->id;
 
-        // Loop through each coupon to set the 'usage' attribute
         foreach ($allcoupon as $coupon) {
-            // Set default usage to 'normal'
             $coupon->usage = 'normal';
-
-            // Check if coupon usage exceeds limit
-            $couponUsageCount = CouponUse::where('coupons_id', $coupon->id)->count();
-            if ($couponUsageCount >= $coupon->limit) {
-                $coupon->usage = 'gone';
+            //check limit
+            if($coupon->limit){
+                $couponUsageCount = CouponUse::where('coupons_id', $coupon->id)->count();
+                if ($couponUsageCount >= $coupon->limit) {
+                    $coupon->usage = 'gone';
+                }
             }
+            // Check if the coupon was used by this customer via OrderModel relationship
+            $couponUsedByCustomer = CouponUse::where('coupons_id', $coupon->id)
+                    ->whereHas('order', function ($query) use ($customer_id) {
+                        $query->where('customer_id', $customer_id);
+                    })
+                    ->exists();
+            if ($couponUsedByCustomer) {
+            $coupon->usage = 'used';
+            }
+            
 
-            // Check if the coupon has been used by the current customer
-            // $customerCouponUsage =  CouponUse::where('coupons_id', $coupon->id)
-            //                                             ->where('customer_id', $customer_id)
-            //                                             ->exists();
-            // if ($customerCouponUsage) {
-            //     $coupon->usage = 'used';
-            // }
         }
         // dd($allcoupon);
         return view('frontend.getcoupon', [

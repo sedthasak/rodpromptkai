@@ -6,12 +6,6 @@
 
 @section('content')
 
-<?php
-// $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png');
-// echo "<pre>";
-// print_r($_POST);
-// echo "</pre>";
-?>
 <section class="row">
     <div class="col-12 wrap-seetier wrap-seetier-card">
         <div class="menu-seetiers">
@@ -37,22 +31,15 @@
                         <div class="seetiers-topic-gold">ตามระดับสมาชิกของคุณ</div>
                         <div class="box-detail-tiers box-detail-tiers-card">
                             <div class="row row-cardmember">
-                                <div class="col-3 col-card-member member-past">
-                                    <div class="photo-membercard"><img src="{{asset('frontend/images2/card-level1.svg')}}" alt=""></div>
-                                    <div class="txt-cardlevel">member</div>
-                                </div>
-                                <div class="col-3 col-card-member member-past">
-                                    <div class="photo-membercard"><img src="{{asset('frontend/images2/card-level2.svg')}}" alt=""></div>
-                                    <div class="txt-cardlevel">classic</div>
-                                </div>
-                                <div class="col-3 col-card-member member-active">
-                                    <div class="photo-membercard"><img src="{{asset('frontend/images2/card-level3.svg')}}" alt=""></div>
-                                    <div class="txt-cardlevel">gold</div>
-                                </div>
-                                <div class="col-3 col-card-member">
-                                    <div class="photo-membercard"><img src="{{asset('frontend/images2/card-level4.svg')}}" alt=""></div>
-                                    <div class="txt-cardlevel">platinum</div>
-                                </div>
+                                @foreach ($levels as $index => $level)
+                                    @php
+                                        $activeClass = $customer_level['slug'] == $level->slug ? 'member-active' : ($index < array_search($customer_level['slug'], array_column($levels->toArray(), 'slug')) ? 'member-past' : '');
+                                    @endphp
+                                    <div class="col-3 col-card-member {{ $activeClass }}">
+                                        <div class="photo-membercard"><img src="{{ asset('frontend/images2/card-level' . $level->id . '.svg') }}" alt=""></div>
+                                        <div class="txt-cardlevel">{{ $level->name }}</div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -73,19 +60,30 @@
                     <div class="member-boxpad">
                         <div class="row">
                             <div class="col-4"><h3>ระดับสมาชิก</h3></div>
-                            <div class="col-2 card-colpad"><div class="tab-member tab-member-lv1">Member</div></div>
-                            <div class="col-2 card-colpad"><div class="tab-member tab-member-lv2">Classic</div></div>
-                            <div class="col-2 card-colpad"><div class="tab-member tab-member-lv3">Gold</div></div>
-                            <div class="col-2 card-colpad"><div class="tab-member tab-member-lv4">Platinum</div></div>
+                            @foreach ($levels as $level)
+                                <div class="col-2 card-colpad text-center">
+                                    <div class="tab-member tab-member-lv{{ $level->id }}">{{ $level->name }}</div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="member-boxpad bgwhite-member">
                         <div class="row">
                             <div class="col-4"><h4>ยอดสั่งซื้อ</h4></div>
-                            <div class="col-2 card-colpad text-center"><div class="txt-point point-lv1">0</div></div>
-                            <div class="col-2 card-colpad text-center"><div class="txt-point point-lv2">< 299,999</div></div>
-                            <div class="col-2 card-colpad text-center"><div class="txt-point point-lv3">300,000</div></div>
-                            <div class="col-2 card-colpad text-center"><div class="txt-point point-lv4">500,000</div></div>
+                            @foreach ($levels as $index => $level)
+                                <div class="col-2 card-colpad text-center">
+                                    <div class="txt-point point-lv{{ $level->id }}">
+                                        @if ($index == 0)
+                                            0 - {{ $levels[$index + 1]->accumulate - 1 }}
+                                        @elseif ($index == count($levels) - 1)
+                                            {{ $level->accumulate }}+
+                                        @else
+                                            {{ $level->accumulate }} - {{ $levels[$index + 1]->accumulate - 1 }}
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+
                         </div>
                         <div class="row">
                             <div class="col-12">
@@ -95,75 +93,39 @@
                         <div class="special-list">
                             <div class="row">
                                 <div class="col-4"><h5>โค้ดส่วนลด</h5></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv1"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv2"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv3"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv4"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
+                                @foreach ($levels as $level)
+                                    <div class="col-2 card-colpad text-center">
+                                        <div class="txt-point point-lv{{ $level->id }}">
+                                            @if ($level->coupon)
+                                                <img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt="">
+                                            @else
+                                                <img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg not-special" alt="">
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="special-list">
                             <div class="row">
                                 <div class="col-4"><h5>Movie & Popcorn</h5></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv1 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv2"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv3"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv4"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
+                                @foreach ($levels as $level)
+                                    <div class="col-2 card-colpad text-center">
+                                        <div class="txt-point point-lv{{ $level->id }} {{ $level->id < 2 ? 'not-special' : '' }}">
+                                            <img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt="">
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                        <div class="special-list">
-                            <div class="row">
-                                <div class="col-4"><h5>โค้ดดีลอาหารใช้หน้าร้าน</h5></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv1 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv2 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv3"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv4"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                            </div>
-                        </div>
-                        <div class="special-list">
-                            <div class="row">
-                                <div class="col-4"><h5>ส่วนลดตั๋วเครื่องบิน</h5></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv1 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv2 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv3"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv4"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                            </div>
-                        </div>
-                        <div class="special-list">
-                            <div class="row">
-                                <div class="col-4"><h5>Coins แลกโค้ด</h5></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv1 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv2 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv3"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv4"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                            </div>
-                        </div>
-                        <div class="special-list">
-                            <div class="row">
-                                <div class="col-4"><h5>โค้ดจ่ายบิล</h5></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv1 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv2 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv3 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv4"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                            </div>
-                        </div>
-                        <div class="special-list">
-                            <div class="row">
-                                <div class="col-4"><h5>E-Voucher</h5></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv1 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv2 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv3 not-special"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                                <div class="col-2 card-colpad text-center"><div class="txt-point point-lv4"><img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt=""></div></div>
-                            </div>
-                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-
-
 
 @endsection
 
