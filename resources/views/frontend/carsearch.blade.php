@@ -1,13 +1,19 @@
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
-    <title>รถพร้อมขาย - car</title>
+    <title>รถพร้อมขาย - ค้นหารถ</title>
 @endsection
 
 @section('content')
 
 <?php
 
+// echo "<pre>";
+// print_r($breadcrumb);
+// echo "</pre>";
+// echo "<pre>";
+// print_r(count($results));
+// echo "</pre>";
 ?>
 <section class="row">
     <div class="col-12 banner-slidecar">
@@ -71,10 +77,6 @@
                             ในตลาดรถยนต์ไทย
                         </h1>
                     </div>
-
-                </div>
-            </div>
-
 
                 </div>
             </div>

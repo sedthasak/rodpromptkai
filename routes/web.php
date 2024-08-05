@@ -253,7 +253,8 @@ Route::middleware('sessionlogin')->group(function() {
 
 
     Route::controller(SearchController::class)->group(function() {
-        Route::get('/carsearch/{brand?}/{model?}/{generation?}/{sub_model?}/{modelyear?}/{province?}', 'carsearchPage')->name('carsearchPage');
+       
+        Route::get('/carsearch/{kw1?}/{kw2?}/{kw3?}/{kw4?}/{kw5?}', 'carsearchPage')->name('carsearchPage');
     });
 
     
