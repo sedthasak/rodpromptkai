@@ -15,6 +15,9 @@ class categoriesModel extends Model
         'name',
         'slug',
         'description',
-        'feature'
+        'feature',
+        'meta_title',
+        'meta_description',
+        'meta_keyword'
     ];
 }

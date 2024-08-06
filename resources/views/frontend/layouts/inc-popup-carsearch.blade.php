@@ -8,7 +8,7 @@
         <ul class="carsearch-ul">   
             @if (isset($brand))
                 @foreach ($brand as $rows)
-                <li><button type="button" rel="{{$rows->title}}" onclick="brand2({{$rows->id}}, '{{$rows->title}}')"> {{$rows->title}}</button></li>
+                <li><button  class="kk" type="button" rel="{{$rows->title}}" onclick="brand2({{$rows->id}}, '{{$rows->title}}')"> {{$rows->title}}</button></li>
                 @endforeach
             @endif
         </ul>
@@ -67,9 +67,9 @@
         $.get('/searchbrandtext/'+id1, function(data, status) {
             // console.log(data);
             var param2 = "";
-            var html='<li><button type="button" rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+            var html='<li><button class="ll" type="button" rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
             $.each(data, function(index, value){
-                html+='<li><button type="button" rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                html+='<li><button class="mm" type="button" rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
             });
             $('.carsearch-lv1 .carsearch-ul').empty().append(html);
         });

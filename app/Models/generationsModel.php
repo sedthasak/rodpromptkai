@@ -21,7 +21,10 @@ class generationsModel extends Model
         'yearfirst',
         'yearlast',
         'description',
-        'feature'
+        'feature',
+        'meta_keyword',
+        'meta_title',
+        'meta_description',
     ];
 
     public function model()

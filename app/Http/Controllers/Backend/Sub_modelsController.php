@@ -99,6 +99,9 @@ class Sub_modelsController extends Controller
         $sub_modelsModel->generations_id = $request->generations_id;
         $sub_modelsModel->sub_models = $request->sub_models;
         $sub_modelsModel->description = $request->description;
+        $sub_modelsModel->meta_title = $request->meta_title;
+        $sub_modelsModel->meta_keyword = $request->meta_keyword;
+        $sub_modelsModel->meta_description = $request->meta_description;
         $sub_modelsModel->save();
 
         return redirect(route('BN_sub_models'))->with('success', 'เพิ่มสำเร็จ !');
@@ -159,6 +162,9 @@ class Sub_modelsController extends Controller
         $sub_modelsModel->generations_id = $request->generations_id;
         $sub_modelsModel->sub_models = $request->sub_models;
         $sub_modelsModel->description = $request->description;
+        $sub_modelsModel->meta_title = $request->meta_title;
+        $sub_modelsModel->meta_keyword = $request->meta_keyword;
+        $sub_modelsModel->meta_description = $request->meta_description;
         $sub_modelsModel->save();
 
         return redirect(route('BN_sub_models'))->with('success', 'แก้ไขสำเร็จ !');

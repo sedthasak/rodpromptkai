@@ -78,6 +78,9 @@ class GenerationsController extends Controller
         $generationsModel->yearfirst = $request->yearfirst;
         $generationsModel->yearlast = $request->yearlast;
         $generationsModel->description = $request->description;
+        $generationsModel->meta_title = $request->meta_title;
+        $generationsModel->meta_keyword = $request->meta_keyword;
+        $generationsModel->meta_description = $request->meta_description;
         $generationsModel->save();
 
         return redirect(route('BN_generations'))->with('success', 'เพิ่มสำเร็จ !');
@@ -125,6 +128,9 @@ class GenerationsController extends Controller
         $generationsModel->yearfirst = $request->yearfirst;
         $generationsModel->yearlast = $request->yearlast;
         $generationsModel->description = $request->description;
+        $generationsModel->meta_title = $request->meta_title;
+        $generationsModel->meta_keyword = $request->meta_keyword;
+        $generationsModel->meta_description = $request->meta_description;
         $generationsModel->save();
 
         return redirect(route('BN_generations'))->with('success', 'แก้ไขสำเร็จ !');

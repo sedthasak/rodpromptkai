@@ -18,7 +18,10 @@ class sub_modelsModel extends Model
         'generations_id',
         'sub_models',
         'description',
-        'feature'
+        'feature',
+        'meta_keyword',
+        'meta_title',
+        'meta_description',
     ];
 
     public function generation()

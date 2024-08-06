@@ -369,9 +369,9 @@
             $.get('/brandev', function(data, status) {
                 // console.log(data);
                 var param2 = "";
-                var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+                var html='<li><button class="gg" rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
                 $.each(data, function(index, value){
-                    html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                    html+='<li><button class="hh" rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
                 });
                 $('.carsearch-lv1 .carsearch-ul').empty().append(html);
             });
@@ -380,9 +380,9 @@
             $.get('/brandnotev', function(data, status) {
                 // console.log(data);
                 var param2 = "";
-                var html='<li><button rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
+                var html='<li><button  class="ii" rel="ทุกยี่ห้อ" onclick="brand2(0, \'ทุกยี่ห้อ\')">ทุกยี่ห้อ</button></li>';
                 $.each(data, function(index, value){
-                    html+='<li><button rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
+                    html+='<li><button  class="jj" rel="'+value.title+'" onclick="brand2('+value.id+', \''+value.title+'\')"> '+value.title+'</button></li>';
                 });
                 $('.carsearch-lv1 .carsearch-ul').empty().append(html);
             });

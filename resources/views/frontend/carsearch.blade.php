@@ -74,7 +74,7 @@
                             @if ($provincesearch)
                                 {{ $provincesearch }}
                             @endif
-                            ในตลาดรถยนต์ไทย
+                            ในตลาดรถยนต์ไทย{{count($results)}}{{$searchFailed}}
                         </h1>
                     </div>
 

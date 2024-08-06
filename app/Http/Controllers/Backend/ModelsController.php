@@ -76,6 +76,9 @@ class ModelsController extends Controller
         $models->evtype = $request->evtype;
         // $models->submodel = $request->submodel;
         $models->description = $request->description;
+        $models->meta_title = $request->meta_title;
+        $models->meta_keyword = $request->meta_keyword;
+        $models->meta_description = $request->meta_description;
         $models->save();
 
         return redirect(route('BN_carmd'))->with('success', 'เพิ่มสำเร็จ !');
@@ -124,6 +127,9 @@ class ModelsController extends Controller
         $models->model = $request->model;
         $models->evtype = $request->evtype;
         $models->description = $request->description;
+        $models->meta_title = $request->meta_title;
+        $models->meta_keyword = $request->meta_keyword;
+        $models->meta_description = $request->meta_description;
 
         $models->update();
 

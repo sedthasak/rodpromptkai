@@ -103,6 +103,9 @@ class BrandsController extends Controller
         $brands->excerpt = $request->excerpt;
         $brands->content = $request->content;
         $brands->user_id = $request->user_id;
+        $brands->meta_title = $request->meta_title;
+        $brands->meta_keyword = $request->meta_keyword;
+        $brands->meta_description = $request->meta_description;
         $brands->save();
 
         return redirect(route('BN_brands'))->with('success', 'เพิ่มสำเร็จ !');
@@ -146,6 +149,9 @@ class BrandsController extends Controller
         $brands->excerpt = $request->excerpt;
         $brands->content = $request->content;
         $brands->user_id = $request->user_id;
+        $brands->meta_title = $request->meta_title;
+        $brands->meta_keyword = $request->meta_keyword;
+        $brands->meta_description = $request->meta_description;
         $brands->update();
 
         return redirect(route('BN_brands'))->with('success', 'แก้ไขสำเร็จ !');

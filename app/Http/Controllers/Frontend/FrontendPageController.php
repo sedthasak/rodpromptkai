@@ -2134,6 +2134,14 @@ class FrontendPageController extends Controller
             ->orderBy("sort_no", "ASC")
             ->get();
         }
+        // Transform the result to add the car count field
+        $result = $qrybrand->map(function($brand) {
+            return [
+                'title' => $brand->title,
+                'id' => $brand->id,
+                'carcount' => $brand->cars_count,
+            ];
+        });
         return response()->json($qrybrand);
     }
 

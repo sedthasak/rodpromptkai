@@ -51,6 +51,26 @@
                                 <textarea class="form-control" id="content" rows="5" name="content"></textarea>
                             </div>
                         </div>
+
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="" class="form-label">meta_title</label>
+                                <input type="text" class="form-control w-full" id="" name="meta_title" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="" class="form-label">meta_keyword</label>
+                                <input type="text" class="form-control w-full" id="" name="meta_keyword" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="" class="form-label">meta_description</label>
+                                <input type="text" class="form-control w-full" id="" name="meta_description" autocomplete="off" />
+                            </div>
+                        </div>
+
                     </div>
 
 

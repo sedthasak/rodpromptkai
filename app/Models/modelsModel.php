@@ -20,7 +20,10 @@ class modelsModel extends Model
         'model',
         'description',
         'feature',
-        'evtype'
+        'evtype',
+        'meta_keyword',
+        'meta_title',
+        'meta_description',
     ];
 
     public function brand()

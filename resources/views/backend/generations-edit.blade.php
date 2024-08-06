@@ -69,6 +69,24 @@
                                 </div>
                             </div> -->
                         </div>
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="" class="form-label">meta_title</label>
+                                <input type="text" class="form-control w-full" id="" name="meta_title" value="{{$mygeneration->meta_title}}"  autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="" class="form-label">meta_keyword</label>
+                                <input type="text" class="form-control w-full" id="" name="meta_keyword" value="{{$mygeneration->meta_keyword}}"  autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="" class="form-label">meta_description</label>
+                                <input type="text" class="form-control w-full" id="" name="meta_description" value="{{$mygeneration->meta_description}}"  autocomplete="off" />
+                            </div>
+                        </div>
                         <!-- <div class="flex justify-end mt-4">
                             <button type="submit" class="btn btn-primary w-20 mr-auto">บันทึก</button>
                             <a href="" class="text-danger flex items-center">
