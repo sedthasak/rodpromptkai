@@ -160,15 +160,15 @@
                     </div>
                 </div>
 
-                <div class="carsearch-radio">
+                <!-- <div class="carsearch-radio">
                     <label class="car-radio">ซื้อสด 
                         <input type="radio" name="payment" value="สด" checked>
                         <span class="checkmark"></span>
                     </label>
-                    {{-- <label class="car-radio">จัดไฟแนนซ์
+                    <label class="car-radio">จัดไฟแนนซ์
                         <input type="radio" name="payment" value="ผ่อน">
                         <span class="checkmark"></span>
-                    </label> --}}
+                    </label>
                 </div>
 
                 <div class="box-searchrange">
@@ -201,7 +201,103 @@
                             <div id="popup-yearslider"></div>
                         </div>
                     </div>
+                </div> -->
+
+                <!-- เพิ่มใหม่ -->
+                <div class="box-budget-footer">
+                    <div class="left-boxsearch-topic2">งบประมาณที่ต้องการ</div>
+                    <div class="tab_footer_btn">
+                        <div class="active btn-default">ราคาซื้อสด</div>
+                        <div class="btn-default">จัดไฟแนนซ์</div>
+                    </div>
+                    <div>
+                        <div class="tab_footer">
+                            <div class="price-select-wrap">
+                                <div class="box-inputyear">
+                                    <input type="text" readonly class="price-select-value" placeholder="ราคา">
+                                </div>
+                                <div class="price-select-dropdown">
+                                    <div class="price-select-input-flex">
+                                        <input type="text" class="price-select-input price-minimum" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ต่ำสุด">
+                                        <span>-</span>
+                                        <input type="text" class="price-select-input price-maximum" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="สูงสุด">
+                                        <!-- Minimum Price Options -->
+                                        <ul class="price-select-option price-minimum">
+                                            @foreach ($priceOptions as $option)
+                                                <li data-value="{{ $option['value'] }}">{{ $option['label'] }}</li>
+                                            @endforeach
+                                        </ul>
+
+                                        <!-- Maximum Price Options -->
+                                        <ul class="price-select-option price-maximum">
+                                            @foreach ($priceOptions as $option)
+                                                <li data-value="{{ $option['value'] }}">{{ $option['label'] }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_footer">
+                            <div class="sel">
+                                <select>
+                                    <option value="">เลือกราคาผ่อนต่อเดือน</option>
+                                    <option value="3000">ต่ำกว่า 3,000 บาท</option>
+                                    <option value="5000">ต่ำกว่า 5,000 บาท</option>
+                                    <option value="10000">ต่ำกว่า 10,000 บาท</option>
+                                    <option value="15000">ต่ำกว่า 15,000 บาท</option>
+                                    <option value="20000">ต่ำกว่า 20,000 บาท</option>
+                                    <option value="30000">ต่ำกว่า 30,000 บาท</option>
+                                    <option value="35000">ต่ำกว่า 35,000 บาท</option>
+                                    <option value="40000">ต่ำกว่า 40,000 บาท</option>
+                                    <option value="40000+">ผ่อนได้มากกว่า 40,000 บาท</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="box-budget-footer">
+                    <div class="year-select-wrap">
+                        <div class="left-boxsearch-topic2">เลือกปี</div>
+                        <div class="box-inputyear">
+                            <input type="text" readonly class="year-select-value" placeholder="ปีเริ่มต้น - ปีสิ้นสุด">
+                        </div>
+                        
+                        <div class="year-select-dropdown">
+                            <div class="year-select-input-flex">
+                                <input type="text" class="year-select-input year-minimum" maxlength="4" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ปีเริ่มต้น">
+                                <span>-</span>
+                                <input type="text" class="year-select-input year-maximum" maxlength="4" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ปีสิ้นสุด">
+                                <!-- Minimum Year Options -->
+                                <ul class="year-select-option year-minimum">
+                                    @php
+                                        $currentYear = date('Y');
+                                        $startYear = $currentYear - 16;
+                                    @endphp
+                                    @for ($year = $currentYear; $year >= $startYear; $year--)
+                                        <li>{{ $year }}</li>
+                                    @endfor
+                                </ul>
+
+                                <!-- Maximum Year Options -->
+                                <ul class="year-select-option year-maximum">
+                                    @php
+                                        $currentYear = date('Y');
+                                        $startYear = $currentYear - 16;
+                                    @endphp
+                                    @for ($year = $currentYear; $year >= $startYear; $year--)
+                                        <li>{{ $year }}</li>
+                                    @endfor
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- เพิ่มใหม่ -->
+
+
+
                 <div class="wrap-advancesearch">
                     <div class="item_advancesearch">
                         <div class="left-boxsearch-topic2">ค้นหารถยนต์แบบละเอียด <img src="{{asset('frontend/images/chevron-red.svg')}}" alt=""></div>
@@ -280,6 +376,7 @@
 
 @include('frontend.layouts.inc_javascript')
 @include('frontend.layouts.footer_script')
+<!-- footer_script -->
 
 
 <script type="text/javascript">

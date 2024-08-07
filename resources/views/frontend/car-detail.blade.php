@@ -1,13 +1,13 @@
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
-    <title>รถพร้อมขาย | {{$cars->title}}</title>
+    <title>{{$cars->title}} | รถพร้อมขาย</title>
     <meta property="og:title" content="{{$cars->title}}" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:url" content="{{ decode_url(url()->current()) }}" />
     <meta property="og:image" content="{{asset('storage/' . $cars->feature)}}" />
     <meta property="og:description" content="{{ strip_tags($cars->detail) }}" />
-    <meta name="keywords" content="ดกด" />
+    <!-- <meta name="keywords" content="" /> -->
 @endsection
 
 @section('content')

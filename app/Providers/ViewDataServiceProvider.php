@@ -36,6 +36,42 @@ class ViewDataServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
             // Retrieve $customerdata from the session
+            $priceOptions = [
+                ['value' => 25000, 'label' => '25,000 บาท'],
+                ['value' => 50000, 'label' => '50,000 บาท'],
+                ['value' => 75000, 'label' => '75,000 บาท'],
+                ['value' => 100000, 'label' => '1 แสนบาท'],
+                ['value' => 200000, 'label' => '2 แสนบาท'],
+                ['value' => 300000, 'label' => '3 แสนบาท'],
+                ['value' => 400000, 'label' => '4 แสนบาท'],
+                ['value' => 500000, 'label' => '5 แสนบาท'],
+                ['value' => 600000, 'label' => '6 แสนบาท'],
+                ['value' => 700000, 'label' => '7 แสนบาท'],
+                ['value' => 800000, 'label' => '8 แสนบาท'],
+                ['value' => 900000, 'label' => '9 แสนบาท'],
+                ['value' => 1000000, 'label' => '1 ล้านบาท'],
+                ['value' => 1500000, 'label' => '1.5 ล้านบาท'],
+                ['value' => 2000000, 'label' => '2 ล้านบาท'],
+                ['value' => 2500000, 'label' => '2.5 ล้านบาท'],
+                ['value' => 3000000, 'label' => '3 ล้านบาท'],
+                ['value' => 3500000, 'label' => '3.5 ล้านบาท'],
+                ['value' => 4000000, 'label' => '4 ล้านบาท'],
+                ['value' => 4500000, 'label' => '4.5 ล้านบาท'],
+                ['value' => 5000000, 'label' => '5 ล้านบาท'],
+                ['value' => 6000000, 'label' => '6 ล้านบาท'],
+                ['value' => 7000000, 'label' => '7 ล้านบาท'],
+                ['value' => 8000000, 'label' => '8 ล้านบาท'],
+                ['value' => 9000000, 'label' => '9 ล้านบาท'],
+                ['value' => 10000000, 'label' => '10 ล้านบาท'],
+                ['value' => 20000000, 'label' => '20 ล้านบาท'],
+                ['value' => 30000000, 'label' => '30 ล้านบาท'],
+                ['value' => 40000000, 'label' => '40 ล้านบาท'],
+                ['value' => 50000000, 'label' => '50 ล้านบาท'],
+            ];
+
+            $view->with('priceOptions', $priceOptions);
+
+
             $customerdata = session('customer');
 
             if ($customerdata && isset($customerdata->id)) {
@@ -92,6 +128,8 @@ class ViewDataServiceProvider extends ServiceProvider
                 /**************************************************************/
                 /******************************KONG****************************/
                 /**************************************************************/
+
+                
 
                 $customer_login = Customer::find($customerdata->id);
                 $customerId = $customer_login->id;

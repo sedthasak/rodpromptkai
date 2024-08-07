@@ -267,31 +267,6 @@
 var minrange = 0;
 var maxrange = 3000000;
 
-// noUiSlider.create(priceslider, {
-//     start: [minrange, maxrange],
-//     connect: true,
-//     snap: true,
-//     range: {
-//         'min': minrange,
-//         '8%': 100000,
-//         '16%': 200000,
-//         '24%': 300000,
-//         '32%': 400000,
-//         '40%': 500000,
-//         '48%': 600000,
-//         '56%': 700000,
-//         '64%': 800000,
-//         '72%': 900000,
-//         '80%': 1000000,
-//         '88%': 2000000,
-//         'max': maxrange
-//     },
-//       format: wNumb({
-//         decimals: 0,
-//         thousand: ',',
-//         postfix: '',
-//     })
-// });
 
 var formatValues = [
     document.getElementById('minprice'),
@@ -317,25 +292,6 @@ var minyearrange = 2010;
 var maxyearrange = 2023;
 
 
-// noUiSlider.create(yearslider, {
-//     start: [minyearrange, maxyearrange],
-//     connect: true,
-//     snap: true,
-//     range: {
-//         'min': minyearrange,
-//         '10%': 2012,
-//         '20%': 2013,
-//         '30%': 2015,
-//         '50%': 2017,
-//         '60%': 2019,
-//         '70%': 2020,
-//         '90%': 2021,
-//         'max': maxyearrange
-//     },
-//       format: wNumb({
-//         decimals: 0,
-//     })
-// });
 
 var formatYear = [
     document.getElementById('minyear'),

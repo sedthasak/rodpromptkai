@@ -1,7 +1,18 @@
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
-    <title>รถพร้อมขาย - ค้นหารถ</title>
+    <title>ซื้อรถ {{$mytitle}} ในตลาดรถยนต์ทั่วประเทศไทย | รถพร้อมขาย</title>
+    <meta property="og:title" content="ซื้อรถ {{$mytitle}} ในตลาดรถยนต์ทั่วประเทศไทย | รถพร้อมขาย" />
+    <meta property="og:type" content="product" />
+    <meta property="og:url" content="{{ decode_url(url()->current()) }}" />
+    <meta property="og:image" content="{{asset('frontend/images/66ab16642431e.webp')}}" />
+    <meta property="og:site_name" content="rodpromptkai.com - รถพร้อมขาย เว็บไซต์รถยนต์">
+    <meta property="og:description" content="รวมรถมือสอง {{$mytitle}}  จำนวน  คัน สภาพดี ซื้อรถ ขายรถ ทุกรุ่นทุกยี่ห้อ ราคาถูกกว่านี้ไม่มีอีกแล้ว" />
+    <meta property="og:locale" content="th_TH">
+
+    <meta name="keywords" content="{{$mykeyword}}" />
+    <meta name="description" content="รวมรถมือสอง {{$mytitle}}  จำนวน  คัน สภาพดี ซื้อรถ ขายรถ ทุกรุ่นทุกยี่ห้อ ราคาถูกกว่านี้ไม่มีอีกแล้ว" />
+
 @endsection
 
 @section('content')
@@ -9,7 +20,7 @@
 <?php
 
 // echo "<pre>";
-// print_r($breadcrumb);
+// print_r($priceOptions);
 // echo "</pre>";
 // echo "<pre>";
 // print_r(count($results));
@@ -58,23 +69,7 @@
                             </ol>
                         </nav>
                         <h1>
-                            ค้นหารถ
-                            @if ($brand_breadcrumb)
-                                {{ $brand_breadcrumb }}
-                            @endif
-                            @if ($model_breadcrumb)
-                                {{ $model_breadcrumb }}
-                            @endif
-                            @if ($generation_breadcrumb)
-                                {{ $generation_breadcrumb }}
-                            @endif
-                            @if ($sub_model_breadcrumb)
-                                {{ $sub_model_breadcrumb }}
-                            @endif
-                            @if ($provincesearch)
-                                {{ $provincesearch }}
-                            @endif
-                            ในตลาดรถยนต์ไทย{{count($results)}}{{$searchFailed}}
+                            ซื้อรถมือสอง {{$mytitle}} ในตลาดรถยนต์ไทย 
                         </h1>
                     </div>
 
@@ -87,8 +82,8 @@
                 </div>
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="wrap-allitem-car">
-                        <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย</div>
-                        <div class="txt-numresult">ทั้งหมด <span>345</span> รายการ</div>
+                        <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย | {{count($results)}} | {{$searchFailed}}</div>
+                        <div class="txt-numresult">ทั้งหมด <span>{{count($results)}}</span> รายการ</div>
                         <div class="btn-boxfilter">
                             <button>F48 ปี16-ปัจจุบัน</button>
                             <button>E84 ปี09-16</button>
@@ -254,6 +249,94 @@
 @endsection
 @section('script')
 <script>
+    document.querySelector('.btn-searchcar').addEventListener('click', () => {
+        // console.log(brand_id);
+        // console.log(model_id);
+        // console.log(generation_id);
+        // console.log(submodel_id);
+
+        
+        const formData = new FormData();
+
+        // Collecting checkbox value
+        const isEVChecked = document.getElementById('searchev').checked;
+        formData.append('ev', isEVChecked);
+        console.log('Electric Vehicle:', isEVChecked);
+
+        // Collecting hidden inputs
+        const brandId = brand_id;
+        const modelId = model_id;
+        const generationId = generation_id;
+        const submodelId = submodel_id;
+        formData.append('brand_id', brandId);
+        formData.append('model_id', modelId);
+        formData.append('generation_id', generationId);
+        formData.append('submodel_id', submodelId);
+        console.log('Brand ID:', brandId);
+        console.log('Model ID:', modelId);
+        console.log('Generation ID:', generationId);
+        console.log('Submodel ID:', submodelId);
+
+        // Collecting price and year values
+        const priceMinimum = document.querySelector('input[name="price_minimum"]').value;
+        const priceMaximum = document.querySelector('input[name="price_maximum"]').value;
+        const monthlyPayment = document.querySelector('.sel select').value;
+        const yearStart = document.querySelector('input.year-minimum').value;
+        const yearEnd = document.querySelector('input.year-maximum').value;
+        formData.append('price_minimum', priceMinimum);
+        formData.append('price_maximum', priceMaximum);
+        formData.append('monthly_payment', monthlyPayment);
+        formData.append('year_start', yearStart);
+        formData.append('year_end', yearEnd);
+        console.log('Price Minimum:', priceMinimum);
+        console.log('Price Maximum:', priceMaximum);
+        console.log('Monthly Payment:', monthlyPayment);
+        console.log('Year Start:', yearStart);
+        console.log('Year End:', yearEnd);
+
+        // Collecting advanced search values
+        const color = document.querySelector('#color-select').value;
+        const gear = document.querySelector('input[name="advance-gear"]:checked')?.value || '';
+        const gas = document.querySelector('#gas-select').value;
+        const province = document.querySelector('#province').value;
+        formData.append('color', color);
+        formData.append('gear', gear);
+        formData.append('gas', gas);
+        formData.append('province', province);
+        console.log('Color:', color);
+        console.log('Gear:', gear);
+        console.log('Gas:', gas);
+        console.log('Province:', province);
+
+        // Optionally log the complete formData (for debugging)
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+        // If you want to send the data, you can uncomment the fetch call
+        /*
+        fetch('/carsearch', { // Adjust endpoint as needed
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle the search results
+            console.log(data); // Replace with actual handling code
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+        */
+    });
 
 </script>
 @endsection

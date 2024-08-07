@@ -5,11 +5,9 @@
 	if(empty($_description)) 	$_description ='';
 ?>
 
-    <title>
-        <?php echo $_title;?>
-    </title>
-    <meta name="keywords" content="<?php echo $_keywords;?>" />
-    <meta name="description" content="<?php echo $_description;?>" />
+    <!-- <title>echo $_title;</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" /> -->
     <meta name="robot" content="index, follow" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
