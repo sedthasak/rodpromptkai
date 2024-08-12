@@ -1,76 +1,8 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- <script src="{{asset('frontend/js/jquery.min.js')}}"></script> -->
-<script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script> 
-<script src="{{asset('frontend/js/jquery.ui.touch-punch.min.js')}}"></script> 
-<script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('frontend/js/owl.carousel.js')}}"></script>
-<script src="{{asset('frontend/js/wow.min.js')}}"></script>
-<script src="{{asset('frontend/js/fancybox.umd.js')}}"></script>
-<script src="{{asset('frontend/js/bootstrap-datepicker.min.js')}}"></script>
-<script src="{{asset('frontend/js/bootstrap-datepicker.th.min.js')}}"></script>
-<script src="{{asset('frontend/js/modernizr.custom.js')}}"></script>
-<script src="{{asset('frontend/js/nouislider.min.js')}}"></script>
-<script src="{{asset('frontend/js/wNumb.min.js')}}"></script>
-<script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
-
-
-
-<!-- <script src="{{asset('frontend/js/dropzone-min.js')}}"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.js"></script>
-<script src="{{asset('frontend/js/select2.min.js')}}"></script>
-<script src="{{asset('frontend/js/ckeditor.js')}}"></script>
-<script src="{{asset('frontend/js/script.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/compressorjs/1.1.1/compressor.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/resumablejs@1.0.3/resumable.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
-
-
-<!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-<!-- <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
-<script type="text/javascript" charset="UTF-8">
-    document.addEventListener('DOMContentLoaded', function () {
-    cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"light","language":"en","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"rodpromptkai","website_privacy_policy_url":"https://rodpromptkai.com/privacypolicy"});
-    });
-</script> -->
-
-<!-- Google Analytics -->
-<!-- Google tag (gtag.js) -->
-<!-- <script type="text/plain" data-cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=G-4X91LQDB17"></script>
-<script type="text/plain" data-cookie-consent="tracking">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-4X91LQDB17');
-</script> -->
-<!-- end of Google Analytics-->
-
-<!-- <noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/">Free Privacy Policy Generator</a></noscript> -->
-<!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-
-
-
-
-
-<!-- Below is the link that users can use to open Preferences Center to change their preferences. Do not modify the ID parameter. Place it where appropriate, style it as needed. -->
-
-<!-- <a href="#" id="open_preferences_center">Update cookies preferences</a> -->
-<script src="{{asset('frontend/js/jquery.jscroll.min.js')}}"></script>
-
-
-
 <?php
-
 // echo "<pre>";
 // print_r($setFooterModel);
 // echo "</pre>";
 ?>
-
 <section class="row">
     <div class="col-12 wrap-footer">
         <div class="container">
@@ -129,242 +61,192 @@
         <div class="left-boxsearch">
             <form action="/search2" id="my_form" method="GET">
                 @csrf
-            <div class="left-boxsearch-topic"><img src="{{asset('frontend/images/carred.svg')}}" alt=""> ค้นหารถยนต์</div> 
-            
-            <div class="left-boxsearch-desc">
-                <div class="hide-carsearch left-boxsearch-topic2">รายละเอียดรถยนต์</div>
-                <div class="row box-ecocar">
-                    <div class="col-9">
-                        <div class="topic-careco"><img src="{{asset('frontend/images/icon-careco.svg')}}" alt=""> รถยนต์ไฟฟ้า</div>
-                    </div>
-                    <div class="col-3 text-end">
-                        <label class="switch">
-                            <input type="checkbox" id="searchev">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="carsearch-input">
-                    <a data-fancybox data-src="#popup-searchcar" href="javascript:;">
-                        <input type="text" id="textsearchfooter" readonly value="ยี่ห้อรถ">
-                        <input type="hidden" name="brand_id">
-                        <input type="hidden" name="model_id">
-                        <input type="hidden" name="generation_id">
-                        <input type="hidden" name="submodel_id">
-                    </a>
-                    
-                    <div style="display: none;" id="popup-searchcar">
-                        <div class="cardesc-frmcontact frm-contactback">
-                            @include('frontend.layouts.inc-popup-carsearch')	
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <div class="carsearch-radio">
-                    <label class="car-radio">ซื้อสด 
-                        <input type="radio" name="payment" value="สด" checked>
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="car-radio">จัดไฟแนนซ์
-                        <input type="radio" name="payment" value="ผ่อน">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-
-                <div class="box-searchrange">
-                    <div class="search-range">
-                        <div class="topic-range">
-                            <div>งบประมาณ</div>
-                            <div>
-                                <div id="popup-minprice" class="pricelowfooter"></div>
-                                <input type="hidden" name="pricelow">
-                                <span>-</span>
-                                <div id="popup-maxprice" class="pricehighfooter"></div>
-                                <input type="hidden" name="pricehigh">
+                <div class="left-boxsearch-topic"><img src="{{asset('frontend/images/carred.svg')}}" alt=""> ค้นหารถยนต์</div> 
+                
+                <div class="left-boxsearch-desc my-box-search-mobile">
+                    <div class="hide-carsearch left-boxsearch-topic2">รายละเอียดรถยนต์</div>
+                    <div class="row box-ecocar">
+                        <div class="col-9">
+                            <div class="topic-careco">
+                                <img src="{{asset('frontend/images/icon-careco.svg')}}" alt=""> รถยนต์ไฟฟ้า
                             </div>
                         </div>
-                        <div class="box-priceslider">
-                            <div id="popup-priceslider"></div>
+                        <div class="col-3 text-end">
+                            <label class="switch">
+                                <input class="evcheck evcheck-mobile" type="checkbox" name="ev_mobile" value="1">
+                                <span class="slider"></span>
+                            </label>
                         </div>
                     </div>
-                    <div class="search-range">
-                        <div class="topic-range">
-                            <div>ปี</div>
-                            <div>
-                                <div id="popup-minyear" class="yearlowfooter"></div>
-                                <input type="hidden" name="yearlow">
-                                <div id="popup-maxyear" class="yearhighfooter"></div>
-                                <input type="hidden" name="yearhigh">
-                            </div>
-                        </div>
-                        <div class="box-priceslider">
-                            <div id="popup-yearslider"></div>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- เพิ่มใหม่ -->
-                <div class="box-budget-footer">
-                    <div class="left-boxsearch-topic2">งบประมาณที่ต้องการ</div>
-                    <div class="tab_footer_btn">
-                        <div class="active btn-default">ราคาซื้อสด</div>
-                        <div class="btn-default">จัดไฟแนนซ์</div>
-                    </div>
-                    <div>
-                        <div class="tab_footer">
-                            <div class="price-select-wrap">
-                                <div class="box-inputyear">
-                                    <input type="text" readonly class="price-select-value" placeholder="ราคา">
-                                </div>
-                                <div class="price-select-dropdown">
-                                    <div class="price-select-input-flex">
-                                        <input type="text" class="price-select-input price-minimum" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ต่ำสุด">
-                                        <span>-</span>
-                                        <input type="text" class="price-select-input price-maximum" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="สูงสุด">
-                                        <!-- Minimum Price Options -->
-                                        <ul class="price-select-option price-minimum">
-                                            @foreach ($priceOptions as $option)
-                                                <li data-value="{{ $option['value'] }}">{{ $option['label'] }}</li>
-                                            @endforeach
-                                        </ul>
-
-                                        <!-- Maximum Price Options -->
-                                        <ul class="price-select-option price-maximum">
-                                            @foreach ($priceOptions as $option)
-                                                <li data-value="{{ $option['value'] }}">{{ $option['label'] }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab_footer">
-                            <div class="sel">
-                                <select>
-                                    <option value="">เลือกราคาผ่อนต่อเดือน</option>
-                                    <option value="3000">ต่ำกว่า 3,000 บาท</option>
-                                    <option value="5000">ต่ำกว่า 5,000 บาท</option>
-                                    <option value="10000">ต่ำกว่า 10,000 บาท</option>
-                                    <option value="15000">ต่ำกว่า 15,000 บาท</option>
-                                    <option value="20000">ต่ำกว่า 20,000 บาท</option>
-                                    <option value="30000">ต่ำกว่า 30,000 บาท</option>
-                                    <option value="35000">ต่ำกว่า 35,000 บาท</option>
-                                    <option value="40000">ต่ำกว่า 40,000 บาท</option>
-                                    <option value="40000+">ผ่อนได้มากกว่า 40,000 บาท</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="box-budget-footer">
-                    <div class="year-select-wrap">
-                        <div class="left-boxsearch-topic2">เลือกปี</div>
-                        <div class="box-inputyear">
-                            <input type="text" readonly class="year-select-value" placeholder="ปีเริ่มต้น - ปีสิ้นสุด">
-                        </div>
+                    <div class="carsearch-input">
+                        <a data-fancybox data-src="#popup-searchcar" href="javascript:;">
+                            <input type="text" id="textsearchfooter" readonly value="ยี่ห้อรถ">
+                            <input type="hidden" name="brand_id">
+                            <input type="hidden" name="model_id">
+                            <input type="hidden" name="generation_id">
+                            <input type="hidden" name="submodel_id">
+                        </a>
                         
-                        <div class="year-select-dropdown">
-                            <div class="year-select-input-flex">
-                                <input type="text" class="year-select-input year-minimum" maxlength="4" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ปีเริ่มต้น">
-                                <span>-</span>
-                                <input type="text" class="year-select-input year-maximum" maxlength="4" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ปีสิ้นสุด">
-                                <!-- Minimum Year Options -->
-                                <ul class="year-select-option year-minimum">
-                                    @php
-                                        $currentYear = date('Y');
-                                        $startYear = $currentYear - 16;
-                                    @endphp
-                                    @for ($year = $currentYear; $year >= $startYear; $year--)
-                                        <li>{{ $year }}</li>
-                                    @endfor
-                                </ul>
-
-                                <!-- Maximum Year Options -->
-                                <ul class="year-select-option year-maximum">
-                                    @php
-                                        $currentYear = date('Y');
-                                        $startYear = $currentYear - 16;
-                                    @endphp
-                                    @for ($year = $currentYear; $year >= $startYear; $year--)
-                                        <li>{{ $year }}</li>
-                                    @endfor
-                                </ul>
+                        <div style="display: none;" id="popup-searchcar">
+                            <div class="cardesc-frmcontact frm-contactback">
+                                @include('frontend.layouts.inc-popup-carsearch')	
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- เพิ่มใหม่ -->
 
+                    <!-- Updated Budget Section -->
+                    <div class="box-budget-footer">
+                        <div class="left-boxsearch-topic2">งบประมาณที่ต้องการ</div>
+                        <div class="tab_footer_btn">
+                            <div class="active btn-default">ราคาซื้อสด</div>
+                            <div class="btn-default">จัดไฟแนนซ์</div>
+                        </div>
+                        <div>
+                            <div class="tab_footer">
+                                <div class="price-select-wrap">
+                                    <div class="box-inputyear">
+                                        <input type="text" readonly class="price-select-value" placeholder="ราคา">
+                                    </div>
+                                    <div class="price-select-dropdown">
+                                        <div class="price-select-input-flex">
+                                            <input type="text" name="price_minimum_mobile" class="price-select-input price-minimum" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ต่ำสุด">
+                                            <span>-</span>
+                                            <input type="text" name="price_maximum_mobile" class="price-select-input price-maximum" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="สูงสุด">
+                                            <!-- Minimum Price Options -->
+                                            <ul class="price-select-option price-minimum">
+                                                @foreach ($priceOptions as $option)
+                                                    <li data-value="{{ $option['value'] }}">{{ $option['label'] }}</li>
+                                                @endforeach
+                                            </ul>
 
-
-                <div class="wrap-advancesearch">
-                    <div class="item_advancesearch">
-                        <div class="left-boxsearch-topic2">ค้นหารถยนต์แบบละเอียด <img src="{{asset('frontend/images/chevron-red.svg')}}" alt=""></div>
-                        <div class="content_advancesearch">
-                            <div class="boxfrm-advancesearch">
-                                <label>สี</label>
-                                <select name="color" id="color" class="form-select">
-                                    <option value="">สี</option>
-                                    <option value="">ทุกสี</option>
-                                    <option value="ขาว">ขาว</option>
-                                    <option value="เขียว">เขียว</option>
-                                    <option value="ครีม">ครีม</option>
-                                    <option value="ชมพู">ชมพู</option>
-                                    <option value="ดำ">ดำ</option>
-                                    <option value="แดง">แดง</option>
-                                    <option value="เทา">เทา</option>
-                                    <option value="น้ำเงิน">น้ำเงิน</option>
-                                    <option value="น้ำตาล">น้ำตาล</option>
-                                    <option value="บรอนซ์เงิน">บรอนซ์เงิน</option>
-                                    <option value="บรอนซ์ทอง">บรอนซ์ทอง</option>
-                                    <option value="ฟ้า">ฟ้า</option>
-                                    <option value="ม่วง">ม่วง</option>
-                                    <option value="ส้ม">ส้ม</option>
-                                    <option value="เหลือง">เหลือง</option>
-                                </select>
-                            </div>
-                            <div class="boxfrm-advancesearch">
-                                <div class="advance-boxgear">
-                                    <div class="txt-label">เกียร์</div>
-                                    <div>
-                                        <label><input type="radio" name="gear" id="advance-gear" value="auto"> <span>อัตโนมัติ</span></label>
-                                        <label><input type="radio" name="gear" value="manual"> <span>ธรรมดา</span></label>
+                                            <!-- Maximum Price Options -->
+                                            <ul class="price-select-option price-maximum">
+                                                @foreach ($priceOptions as $option)
+                                                    <li data-value="{{ $option['value'] }}">{{ $option['label'] }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="boxfrm-advancesearch">
-                                <label>เชื้อเพลิง</label>
-                                <select name="power" id="power" class="form-select">
-                                    <option value="">เลือกเชื้อเพลิง</option>
-                                    <option value="1">รถน้ำมัน / hybrid</option>
-                                    <option value="2">รถไฟฟ้า EV 100%</option>
-                                    <option value="3">รถติดแก๊ส</option>
-                                </select>
-                            </div>
-                            
-                            <div class="boxfrm-advancesearch">
-                                <label>จังหวัด</label>
-                                <select name="province" id="province" class="form-select">
-                                    <option value="">จังหวัด</option>
-                                    @if (isset($allprovince))
-                                    @foreach ($allprovince as $rows)
-                                    <option value="{{$rows->name_th}}">{{$rows->name_th}}</option>
-                                    @endforeach
-                                    @else
-                                        @if (isset($province))
-                                            @foreach ($province as $rows)
-                                            <option value="{{$rows->name_th}}">{{$rows->name_th}}</option>
-                                            @endforeach
-                                        @endif
-                                    @endif
-                                </select>
+                            <div class="tab_footer">
+                                <div class="sel">
+                                    <select name="installment_price_mobile">
+                                        <option value="">เลือกราคาผ่อนต่อเดือน</option>
+                                        <option value="3000">ต่ำกว่า 3,000 บาท</option>
+                                        <option value="5000">ต่ำกว่า 5,000 บาท</option>
+                                        <option value="10000">ต่ำกว่า 10,000 บาท</option>
+                                        <option value="15000">ต่ำกว่า 15,000 บาท</option>
+                                        <option value="20000">ต่ำกว่า 20,000 บาท</option>
+                                        <option value="30000">ต่ำกว่า 30,000 บาท</option>
+                                        <option value="35000">ต่ำกว่า 35,000 บาท</option>
+                                        <option value="40000">ต่ำกว่า 40,000 บาท</option>
+                                        <option value="40000+">ผ่อนได้มากกว่า 40,000 บาท</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Updated Year Section -->
+                    <div class="left-boxsearch-year">
+                        <div class="left-boxsearch-topic2">เลือกปี</div>
+                        <div class="year-select-wrap">
+                            <div class="box-inputyear">
+                                <input type="text" readonly class="year-select-value" placeholder="ปีเริ่มต้น - ปีสิ้นสุด">
+                            </div>
+                            <div class="year-select-dropdown">
+                                <div class="year-select-input-flex">
+                                    <input type="text" class="year-select-input year-minimum" maxlength="4" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ปีเริ่มต้น">
+                                    <span>-</span>
+                                    <input type="text" class="year-select-input year-maximum" maxlength="4" oninput="this.value = this.value.replace(/\D+/g, '')" placeholder="ปีสิ้นสุด">
+                                    <!-- Minimum Year Options -->
+                                    <ul class="year-select-option year-minimum">
+                                        @php
+                                            $currentYear = date('Y');
+                                            $startYear = $currentYear - 16;
+                                        @endphp
+                                        @for ($year = $currentYear; $year >= $startYear; $year--)
+                                            <li>{{ $year }}</li>
+                                        @endfor
+                                    </ul>
+
+                                    <!-- Maximum Year Options -->
+                                    <ul class="year-select-option year-maximum">
+                                        @for ($year = $currentYear; $year >= $startYear; $year--)
+                                            <li>{{ $year }}</li>
+                                        @endfor
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Search Section -->
+                    <div class="wrap-advancesearch">
+                        <div class="item_advancesearch">
+                            <div class="left-boxsearch-topic2">ค้นหารถยนต์แบบละเอียด
+                                <img src="{{ asset('frontend/images/chevron-red.svg') }}" alt="">
+                            </div>
+                            <div class="content_advancesearch">
+                                <div class="boxfrm-advancesearch">
+                                    <label for="color-select-mobile">สี</label>
+                                    <select name="color_mobile" id="color-select-mobile" class="form-select">
+                                        <option value="">สี</option>
+                                        <option value="">ทุกสี</option>
+                                        <option value="ขาว">ขาว</option>
+                                        <option value="เขียว">เขียว</option>
+                                        <option value="ครีม">ครีม</option>
+                                        <option value="ชมพู">ชมพู</option>
+                                        <option value="ดำ">ดำ</option>
+                                        <option value="แดง">แดง</option>
+                                        <option value="เทา">เทา</option>
+                                        <option value="น้ำเงิน">น้ำเงิน</option>
+                                        <option value="น้ำตาล">น้ำตาล</option>
+                                        <option value="บรอนซ์เงิน">บรอนซ์เงิน</option>
+                                        <option value="บรอนซ์ทอง">บรอนซ์ทอง</option>
+                                        <option value="ฟ้า">ฟ้า</option>
+                                        <option value="ม่วง">ม่วง</option>
+                                        <option value="ส้ม">ส้ม</option>
+                                        <option value="เหลือง">เหลือง</option>
+                                    </select>
+                                </div>
+                                <div class="boxfrm-advancesearch">
+                                    <div class="advance-boxgear">
+                                        <div class="txt-label">เกียร์</div>
+                                        <div>
+                                            <label><input type="radio" name="advance-gear-mobile" value="auto"> <span>อัตโนมัติ</span></label>
+                                            <label><input type="radio" name="advance-gear-mobile" value="manual"> <span>ธรรมดา</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="boxfrm-advancesearch">
+                                    <label for="gas-select-mobile">เลือกเชื้อเพลิง</label>
+                                    <select name="gas_mobile" id="gas-select-mobile" class="form-select">
+                                        <option value="">เลือกเชื้อเพลิง</option>
+                                        <option value="1">รถน้ำมัน / hybrid</option>
+                                        <option value="2">รถไฟฟ้า EV 100%</option>
+                                        <option value="3">รถติดแก๊ส</option>
+                                    </select>
+                                </div>
+                                <div class="boxfrm-advancesearch">
+                                    <label for="province-mobile">จังหวัด</label>
+                                    <select name="province_mobile" id="province-mobile" class="form-select">
+                                        <option value="">จังหวัด</option>
+                                        @foreach ($province as $rows)
+                                            <option value="{{ $rows->name_th }}">{{ $rows->name_th }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="btn-searchcar">ค้นหารถยนต์ผ่านมือถือ</a>
                 </div>
-                <a href="javascript:void(0);" onclick="search5();" class="btn-searchcar">ค้นหารถยนต์</a>
-            </div>
+                
+
+
             </form>
         </div>
     </div>
@@ -374,6 +256,69 @@
 
 <a id="button-top"><img src="{{asset('frontend/images/totop.svg')}}" alt=""></a>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="{{asset('frontend/js/jquery.min.js')}}"></script> -->
+<script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script> 
+<script src="{{asset('frontend/js/jquery.ui.touch-punch.min.js')}}"></script> 
+<script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('frontend/js/owl.carousel.js')}}"></script>
+<script src="{{asset('frontend/js/wow.min.js')}}"></script>
+<script src="{{asset('frontend/js/fancybox.umd.js')}}"></script>
+<script src="{{asset('frontend/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('frontend/js/bootstrap-datepicker.th.min.js')}}"></script>
+<script src="{{asset('frontend/js/modernizr.custom.js')}}"></script>
+<script src="{{asset('frontend/js/nouislider.min.js')}}"></script>
+<script src="{{asset('frontend/js/wNumb.min.js')}}"></script>
+<script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
+
+
+
+<!-- <script src="{{asset('frontend/js/dropzone-min.js')}}"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.js"></script>
+<script src="{{asset('frontend/js/select2.min.js')}}"></script>
+<script src="{{asset('frontend/js/ckeditor.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/compressorjs/1.1.1/compressor.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/resumablejs@1.0.3/resumable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="{{asset('frontend/js/script.js')}}"></script>
+
+
+
+
+<!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
+<!-- <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
+<script type="text/javascript" charset="UTF-8">
+    document.addEventListener('DOMContentLoaded', function () {
+    cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"light","language":"en","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"rodpromptkai","website_privacy_policy_url":"https://rodpromptkai.com/privacypolicy"});
+    });
+</script> -->
+
+<!-- Google Analytics -->
+<!-- Google tag (gtag.js) -->
+<!-- <script type="text/plain" data-cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=G-4X91LQDB17"></script>
+<script type="text/plain" data-cookie-consent="tracking">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-4X91LQDB17');
+</script> -->
+<!-- end of Google Analytics-->
+
+<!-- <noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/">Free Privacy Policy Generator</a></noscript> -->
+<!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
+
+
+
+
+
+<!-- Below is the link that users can use to open Preferences Center to change their preferences. Do not modify the ID parameter. Place it where appropriate, style it as needed. -->
+
+<!-- <a href="#" id="open_preferences_center">Update cookies preferences</a> -->
+<script src="{{asset('frontend/js/jquery.jscroll.min.js')}}"></script>
 @include('frontend.layouts.inc_javascript')
 @include('frontend.layouts.footer_script')
 <!-- footer_script -->

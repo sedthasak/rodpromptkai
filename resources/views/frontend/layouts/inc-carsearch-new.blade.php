@@ -4,7 +4,7 @@
             <img src="{{ asset('frontend/images/carred.svg') }}" alt=""> ค้นหารถยนต์
         </div>
 
-        <div class="left-boxsearch-desc">
+        <div class="left-boxsearch-desc my-box-search-desktop">
             <div class="left-boxsearch-topic2">รายละเอียดรถยนต์</div>
             <div class="row box-ecocar">
                 <div class="col-9">
@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-3 text-end">
                     <label class="switch">
-                        <input type="checkbox" id="searchev">
+                        <input class="evcheck evcheck-desktop" type="checkbox" name="ev" value="1" >
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -33,10 +33,12 @@
             <!-- เพิ่มใหม่ -->
             <div class="left-boxsearch-money">
                 <div class="left-boxsearch-topic2">งบประมาณที่ต้องการ</div>
+
                 <div class="tab_article_btn">
-                    <div class="active btn-default">ราคาซื้อสด</div>
+                    <div class="btn-default active">ราคาซื้อสด</div>
                     <div class="btn-default">จัดไฟแนนซ์</div>
                 </div>
+
                 <div>
                     <div class="tab_pdetail">
                         <div class="price-select-wrap">
@@ -161,12 +163,14 @@
                             </div>
                         </div>
                         <div class="boxfrm-advancesearch">
-                            <label for="gas-select">แก๊ส</label>
+                            <label for="gas-select">เลือกเชื่อเพลิง</label>
                             <select name="gas" id="gas-select" class="form-select">
-                                <option value="">เลือกแก๊ส</option>
-                                <option value="gas">ติดแก๊ส</option>
-                                <option value="no-gas">ไม่ติดแก๊ส</option>
+                                <option value="">เลือกเชื้อเพลิง</option>
+                                <option value="1">รถน้ำมัน / hybrid</option>
+                                <option value="2">รถไฟฟ้า EV 100%</option>
+                                <option value="3">รถติดแก๊ส</option>
                             </select>
+
                         </div>
                         <div class="boxfrm-advancesearch">
                             <label for="province">จังหวัด</label>
@@ -182,6 +186,8 @@
             </div>
             <a href="#" class="btn-searchcar">ค้นหารถยนต์</a>
         </div>
+
+
     </div>
     <a href="#" target="_blank" class="banner-adv">
         <img src="{{ asset('frontend/images/bannera.jpg') }}" alt="">

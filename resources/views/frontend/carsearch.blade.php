@@ -249,96 +249,292 @@
 @endsection
 @section('script')
 <script>
-    document.querySelector('.btn-searchcar').addEventListener('click', () => {
-        // console.log(brand_id);
-        // console.log(model_id);
-        // console.log(generation_id);
-        // console.log(submodel_id);
+    $(document).ready(function() {
 
-        
-        const formData = new FormData();
+        // Handle search button click for mobile and desktop
+        $('.btn-searchcar').click(function(e) {
+            e.preventDefault();
 
-        // Collecting checkbox value
-        const isEVChecked = document.getElementById('searchev').checked;
-        formData.append('ev', isEVChecked);
-        console.log('Electric Vehicle:', isEVChecked);
+            var isMobile = $(this).closest('.my-box-search-mobile').length > 0;
 
-        // Collecting hidden inputs
-        const brandId = brand_id;
-        const modelId = model_id;
-        const generationId = generation_id;
-        const submodelId = submodel_id;
-        formData.append('brand_id', brandId);
-        formData.append('model_id', modelId);
-        formData.append('generation_id', generationId);
-        formData.append('submodel_id', submodelId);
-        console.log('Brand ID:', brandId);
-        console.log('Model ID:', modelId);
-        console.log('Generation ID:', generationId);
-        console.log('Submodel ID:', submodelId);
+            // Define route names
+            var getBrandNameUrl = "{{ route('getBrandName', ['id' => ':id']) }}";
+            var getModelNameUrl = "{{ route('getModelName', ['id' => ':id']) }}";
+            var getGenerationNameUrl = "{{ route('getGenerationName', ['id' => ':id']) }}";
+            var getSubmodelNameUrl = "{{ route('getSubmodelName', ['id' => ':id']) }}";
 
-        // Collecting price and year values
-        const priceMinimum = document.querySelector('input[name="price_minimum"]').value;
-        const priceMaximum = document.querySelector('input[name="price_maximum"]').value;
-        const monthlyPayment = document.querySelector('.sel select').value;
-        const yearStart = document.querySelector('input.year-minimum').value;
-        const yearEnd = document.querySelector('input.year-maximum').value;
-        formData.append('price_minimum', priceMinimum);
-        formData.append('price_maximum', priceMaximum);
-        formData.append('monthly_payment', monthlyPayment);
-        formData.append('year_start', yearStart);
-        formData.append('year_end', yearEnd);
-        console.log('Price Minimum:', priceMinimum);
-        console.log('Price Maximum:', priceMaximum);
-        console.log('Monthly Payment:', monthlyPayment);
-        console.log('Year Start:', yearStart);
-        console.log('Year End:', yearEnd);
+            // Fetch data from the correct box (desktop or mobile)
+            var isEVChecked = isMobile ? $('input[name="ev_mobile"]').is(':checked') : $('input[name="ev"]').is(':checked');
+            const brandId = brand_id;
+            const modelId = model_id;
+            const generationId = generation_id;
+            const submodelId = submodel_id;
 
-        // Collecting advanced search values
-        const color = document.querySelector('#color-select').value;
-        const gear = document.querySelector('input[name="advance-gear"]:checked')?.value || '';
-        const gas = document.querySelector('#gas-select').value;
-        const province = document.querySelector('#province').value;
-        formData.append('color', color);
-        formData.append('gear', gear);
-        formData.append('gas', gas);
-        formData.append('province', province);
-        console.log('Color:', color);
-        console.log('Gear:', gear);
-        console.log('Gas:', gas);
-        console.log('Province:', province);
+            // Initialize variables
+            var brandName = '';
+            var modelName = '';
+            var generationName = '';
+            var submodelName = '';
+            var province = isMobile ? $('select[name="province_mobile"]').val() : $('select[name="province"]').val();
+            var kw1, kw2, kw3, kw4, kw5;
 
-        // Optionally log the complete formData (for debugging)
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
+            // Other parameters
+            var priceMinimum = isMobile ? $('input[name="price_minimum_mobile"]').val() : $('input[name="price_minimum"]').val();
+            var priceMaximum = isMobile ? $('input[name="price_maximum_mobile"]').val() : $('input[name="price_maximum"]').val();
+            var monthlyPayment = isMobile ? $('.tab_footer select[name="installment_price_mobile"]').val() : $('.tab_pdetail select').val();
 
-        // If you want to send the data, you can uncomment the fetch call
-        /*
-        fetch('/carsearch', { // Adjust endpoint as needed
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            // Function to fetch name from server
+            function fetchName(url, id, callback) {
+                $.ajax({
+                    url: url.replace(':id', id),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        callback(response.name);
+                    },
+                    error: function() {
+                        callback('empty');
+                    }
+                });
             }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+
+            // Fetch names
+            function fetchNamesAndRedirect() {
+                var fetchCount = 0;
+                var totalFetches = 4;
+
+                function checkCompletion() {
+                    fetchCount++;
+                    if (fetchCount === totalFetches) {
+                        constructAndRedirect();
+                    }
+                }
+
+                if (brandId) {
+                    fetchName(getBrandNameUrl, brandId, function(name) {
+                        brandName = name;
+                        checkCompletion();
+                    });
+                } else {
+                    brandName = 'empty';
+                    checkCompletion();
+                }
+
+                if (modelId) {
+                    fetchName(getModelNameUrl, modelId, function(name) {
+                        modelName = name;
+                        checkCompletion();
+                    });
+                } else {
+                    modelName = 'empty';
+                    checkCompletion();
+                }
+
+                if (generationId) {
+                    fetchName(getGenerationNameUrl, generationId, function(name) {
+                        generationName = name;
+                        checkCompletion();
+                    });
+                } else {
+                    generationName = 'empty';
+                    checkCompletion();
+                }
+
+                if (submodelId) {
+                    fetchName(getSubmodelNameUrl, submodelId, function(name) {
+                        submodelName = name;
+                        checkCompletion();
+                    });
+                } else {
+                    submodelName = 'empty';
+                    checkCompletion();
+                }
             }
-            return response.json();
-        })
-        .then(data => {
-            // Handle the search results
-            console.log(data); // Replace with actual handling code
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+
+            function constructAndRedirect() {
+                // Construct the URL based on the criteria
+                var url = '/carsearch';
+
+                if (brandName !== 'empty') {
+                    url += '/' + encodeURIComponent(brandName);
+                }
+                if (modelName !== 'empty') {
+                    url += '/' + encodeURIComponent(modelName);
+                }
+                if (generationName !== 'empty') {
+                    url += '/' + encodeURIComponent(generationName);
+                }
+                if (submodelName !== 'empty') {
+                    url += '/' + encodeURIComponent(submodelName);
+                }
+                if (province && province !== 'empty') {
+                    url += '/' + encodeURIComponent(province);
+                }
+
+                // Construct query parameters
+                var queryParams = [];
+                if (priceMinimum) {
+                    queryParams.push('price_minimum=' + encodeURIComponent(priceMinimum));
+                }
+                if (priceMaximum) {
+                    queryParams.push('price_maximum=' + encodeURIComponent(priceMaximum));
+                }
+                if (monthlyPayment) {
+                    queryParams.push('monthly_payment=' + encodeURIComponent(monthlyPayment));
+                }
+
+                // Add query parameters to the URL
+                if (queryParams.length > 0) {
+                    url += '?' + queryParams.join('&');
+                }
+
+                // Redirect to the constructed URL
+                window.location.href = url;
+            }
+
+            // Fetch names and then redirect
+            fetchNamesAndRedirect();
         });
-        */
-    });
 
+    });
 </script>
+
+
+
+
+
+
+
+
+
+<!-- <script>
+    $(document).ready(function() {
+
+        // Handle search button click for mobile and desktop
+        $('.btn-searchcar').click(function(e) {
+            e.preventDefault();
+
+            var isMobile = $(this).closest('.my-box-search-mobile').length > 0;
+
+            // Define route names
+            var getBrandNameUrl = "{{ route('getBrandName', ['id' => ':id']) }}";
+            var getModelNameUrl = "{{ route('getModelName', ['id' => ':id']) }}";
+            var getGenerationNameUrl = "{{ route('getGenerationName', ['id' => ':id']) }}";
+            var getSubmodelNameUrl = "{{ route('getSubmodelName', ['id' => ':id']) }}";
+
+            // Fetch data from the correct box (desktop or mobile)
+            var isEVChecked = isMobile ? $('input[name="ev_mobile"]').is(':checked') : $('input[name="ev"]').is(':checked');
+            const brandId = brand_id;
+            const modelId = model_id;
+            const generationId = generation_id;
+            const submodelId = submodel_id;
+
+            // Initialize variables
+            var brandName = '';
+            var modelName = '';
+            var generationName = '';
+            var submodelName = '';
+
+            // Function to fetch name from server
+            function fetchName(url, id, callback) {
+                $.ajax({
+                    url: url.replace(':id', id),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        callback(response.name);
+                    },
+                    error: function() {
+                        callback('empty');
+                    }
+                });
+            }
+
+            // Fetch names
+            if (brandId) {
+                fetchName(getBrandNameUrl, brandId, function(name) {
+                    brandName = name;
+                    fetchModelName();
+                });
+            } else {
+                fetchModelName();
+            }
+
+            function fetchModelName() {
+                if (modelId) {
+                    fetchName(getModelNameUrl, modelId, function(name) {
+                        modelName = name;
+                        fetchGenerationName();
+                    });
+                } else {
+                    fetchGenerationName();
+                }
+            }
+
+            function fetchGenerationName() {
+                if (generationId) {
+                    fetchName(getGenerationNameUrl, generationId, function(name) {
+                        generationName = name;
+                        fetchSubmodelName();
+                    });
+                } else {
+                    fetchSubmodelName();
+                }
+            }
+
+            function fetchSubmodelName() {
+                if (submodelId) {
+                    fetchName(getSubmodelNameUrl, submodelId, function(name) {
+                        submodelName = name;
+                        // Log all data after fetching names
+                        logAllData();
+                    });
+                } else {
+                    // Log all data after fetching names
+                    logAllData();
+                }
+            }
+
+            function logAllData() {
+                var purchaseType = isMobile
+                    ? $('.tab_footer_btn .btn-default.active').text().trim() // Mobile
+                    : $('.tab_article_btn .btn-default.active').text().trim(); // Desktop
+
+                var monthlyPayment = isMobile 
+                    ? $('.tab_footer select[name="installment_price_mobile"]').val() // Mobile
+                    : $('.tab_pdetail select').val(); // Desktop
+
+                var priceMinimum = isMobile ? $('input[name="price_minimum_mobile"]').val() : $('input[name="price_minimum"]').val();
+                var priceMaximum = isMobile ? $('input[name="price_maximum_mobile"]').val() : $('input[name="price_maximum"]').val();
+                var yearStart = isMobile ? $('.year-select-input.year-minimum').val() : $('.year-select-input.year-minimum').val();
+                var yearEnd = isMobile ? $('.year-select-input.year-maximum').val() : $('.year-select-input.year-maximum').val();
+                var color = isMobile ? $('select[name="color_mobile"]').val() : $('select[name="color"]').val();
+                var gear = isMobile ? $('input[name="advance-gear-mobile"]:checked').val() : $('input[name="advance-gear"]:checked').val();
+                var gas = isMobile ? $('select[name="gas_mobile"]').val() : $('select[name="gas"]').val();
+                var province = isMobile ? $('select[name="province_mobile"]').val() : $('select[name="province"]').val();
+
+                // Log the collected data
+                console.log('1. Electric Vehicle:', isEVChecked);
+                console.log('2. Brand ID:', brandId, 'Brand Name:', brandName || 'empty');
+                console.log('3. Model ID:', modelId, 'Model Name:', modelName || 'empty');
+                console.log('4. Generation ID:', generationId, 'Generation Name:', generationName || 'empty');
+                console.log('5. Submodel ID:', submodelId, 'Submodel Name:', submodelName || 'empty');
+                console.log('6. Purchase Type:', purchaseType);
+                console.log('7. Price Minimum:', priceMinimum);
+                console.log('8. Price Maximum:', priceMaximum);
+                console.log('9. Monthly Payment:', monthlyPayment);
+                console.log('10. Year Start:', yearStart);
+                console.log('11. Year End:', yearEnd);
+                console.log('12. Color:', color);
+                console.log('13. Gear:', gear);
+                console.log('14. Gas:', gas);
+                console.log('15. Province:', province);
+            }
+        });
+
+    });
+</script> -->
+
 @endsection
 
 

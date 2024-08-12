@@ -152,6 +152,32 @@ class SearchController extends Controller
         ]);
     }
 
+
+    public function getBrandName($id)
+    {
+        $brand = brandsModel::find($id);
+        return response()->json(['name' => $brand ? $brand->title : 'empty']);
+    }
+    
+    public function getModelName($id)
+    {
+        $model = modelsModel::find($id);
+        return response()->json(['name' => $model ? $model->model : 'empty']);
+    }
+    
+    public function getGenerationName($id)
+    {
+        $generation = generationsModel::find($id);
+        return response()->json(['name' => $generation ? $generation->generations : 'empty']);
+    }
+    
+    public function getSubmodelName($id)
+    {
+        $submodel = sub_modelsModel::find($id);
+        return response()->json(['name' => $submodel ? $submodel->sub_models : 'empty']);
+    }
+    
+
     private function generateBreadcrumbs($parameters)
     {
         $breadcrumb = [];
