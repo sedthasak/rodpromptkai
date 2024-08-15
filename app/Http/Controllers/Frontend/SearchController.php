@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use App\Models\carsModel;
 
@@ -19,7 +20,6 @@ class SearchController extends Controller
     
     public function carsearchPage(Request $request, $kw1 = null, $kw2 = null, $kw3 = null, $kw4 = null, $kw5 = null)
     {
-        // dd($request);
         $query = carsModel::query();
         $brand = $model = $generation = $sub_model = $province = $category = null;
         $parameters = [];
@@ -120,11 +120,89 @@ class SearchController extends Controller
             $query->where('province', 'like', '%' . $province->name_th . '%');
         }
 
-        // Fetch cars
-        $cars = $searchFailed ? collect() : $query->with([
-            'brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'
-        ])->get();
+        // Apply additional filters from query parameters
+        // EV filter
+        if ($request->has('ev') && $request->query('ev') === 'yes') {
+            $query->where('ev', '!=', 1);
+        }
 
+        // Price filter
+        if ($request->has('min_price')) {
+            $query->where('price', '>=', (int) $request->query('min_price'));
+        }
+        if ($request->has('max_price')) {
+            $query->where('price', '<=', (int) $request->query('max_price'));
+        }
+
+        // Year filter
+        if ($request->has('min_year')) {
+            $query->where('modelyear', '>=', (int) $request->query('min_year'));
+        }
+        if ($request->has('max_year')) {
+            $query->where('modelyear', '<=', (int) $request->query('max_year'));
+        }
+
+        // Color filter
+        if ($request->has('color')) {
+            $query->where('color', $request->query('color'));
+        }
+
+        // Gear filter
+        if ($request->has('gear')) {
+            $query->where('gear', $request->query('gear'));
+        }
+
+        // Gas filter with value mapping
+        if ($request->has('fuel_type')) {
+            $gasValue = $request->query('fuel_type');
+            switch ($gasValue) {
+                case '1':
+                    $gasValue = 'รถน้ำมัน / hybrid';
+                    break;
+                case '2':
+                    $gasValue = 'รถไฟฟ้า EV 100%';
+                    break;
+                case '3':
+                    $gasValue = 'รถติดแก๊ส';
+                    break;
+                default:
+                    $gasValue = null;
+            }
+
+            if ($gasValue) {
+                $query->where('gas', $gasValue);
+            }
+        }
+
+        // Fetch cars grouped by modelyear and ordered by updated_at
+        $carsQuery = $searchFailed ? collect() : $query->with([
+            'brand', 
+            'model', 
+            'generation', 
+            'subModel', 
+            'user', 
+            'customer', 
+            'myDeal.deal', // Eager load the 'deal' relationship within 'myDeal'
+            'contacts'
+        ]);
+        
+        $countcar = $searchFailed ? 0 : $carsQuery->count();
+        $cars = $searchFailed ? collect() : $carsQuery->orderBy('modelyear', 'desc')
+            ->orderBy('updated_at', 'desc')
+            ->get()
+            ->groupBy('modelyear');
+        
+        // Calculate remaining time for each car
+        foreach ($cars as $modelyear => $carsByYear) {
+            foreach ($carsByYear as $car) {
+                if ($car->myDeal && $car->myDeal->deal) {
+                    $car->remaining_time = $this->calculateRemainingTime($car->myDeal->deal_expire);
+                } else {
+                    $car->remaining_time = null;
+                }
+            }
+        }
+        
         // Fetch recommendations
         $recommendations = $this->getRecommendedCars()->load([
             'brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'
@@ -141,16 +219,49 @@ class SearchController extends Controller
 
         // Convert keywords to a comma-separated string
         $formattedKeywords = implode(', ', $mykeyword['keywordall']);
-        // dd($formattedKeywords);
+
         return view('frontend.carsearch', [
             'results' => $cars,
             'recommendations' => $recommendations,
             'breadcrumb' => $breadcrumb,
             'mytitle' => $mytitle,
             'mykeyword' => $formattedKeywords, // Now a formatted string
+            'countcar' => $countcar,
             'searchFailed' => $searchFailed
         ]);
     }
+    private function calculateRemainingTime($dealExpire)
+    {
+        $now = Carbon::now();
+        $expire = Carbon::parse($dealExpire);
+
+        $diffInDays = $expire->diffInDays($now);
+        $diffInHours = $expire->copy()->subDays($diffInDays)->diffInHours($now);
+        $diffInMinutes = $expire->copy()->subDays($diffInDays)->subHours($diffInHours)->diffInMinutes($now);
+
+        $remainingTime = '';
+        if ($diffInDays > 0) {
+            $remainingTime .= $diffInDays . ' วัน ';
+        }
+        if ($diffInHours > 0) {
+            $remainingTime .= $diffInHours . ' ชม. ';
+        }
+        // if ($diffInMinutes > 0) {
+        //     $remainingTime .= $diffInMinutes . ' นาที';
+        // }
+
+        return trim($remainingTime);
+    }
+
+    private function getRemainingTime($dealExpire)
+    {
+        // Calculate the remaining time until the deal expires
+        $now = Carbon::now();
+        $expire = Carbon::parse($dealExpire);
+
+        return $expire->diffForHumans($now, true); // returns time difference in a human-readable format
+    }
+
 
 
     public function getBrandName($id)
@@ -294,8 +405,8 @@ class SearchController extends Controller
 
 
 
-
-
+    
+    
 
 
 

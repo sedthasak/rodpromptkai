@@ -18,10 +18,7 @@
 @section('content')
 
 <?php
-$arr_gear = array(
-    'auto' => 'เกียร์อัตโนมัติ',
-    'manual' => 'เกียร์ธรรมดา',
-);
+
 // echo "<pre>";
 // print_r($priceOptions);
 // echo "</pre>";
@@ -83,11 +80,10 @@ $arr_gear = array(
                 <div class="col-12 col-lg-4 col-xl-3 hide-search-mb">
                     @include('frontend.layouts.inc-carsearch-new')
                 </div>
-
                 <div class="col-12 col-lg-8 col-xl-9">
-                <div class="wrap-allitem-car">
-                        <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย | {{$searchFailed}}</div>
-                        <div class="txt-numresult">ทั้งหมด <span>{{$countcar}}</span> รายการ</div>
+                    <div class="wrap-allitem-car">
+                        <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย | {{count($results)}} | {{$searchFailed}}</div>
+                        <div class="txt-numresult">ทั้งหมด <span>{{count($results)}}</span> รายการ</div>
                         <div class="btn-boxfilter">
                             <button>F48 ปี16-ปัจจุบัน</button>
                             <button>E84 ปี09-16</button>
@@ -137,159 +133,112 @@ $arr_gear = array(
                                             <button class="btn-grid-item active"><img src="{{asset('frontend/images/icon-grid.svg')}}" class="svg" alt=""></button>
                                         </div>
                                     </div>
-
-
-                                    
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div>
-                        @foreach ($results as $modelyear => $carsByYear)
-                            <div class="box-itemcar">
-                                <div class="car-year">{{ $modelyear }}</div>
-                                <div class="row row-itemcar carlist-page">
-                                    @foreach ($carsByYear as $car)
-                                        @if ($car->myDeal)
-                                            @php
-                                                $profilecar_img = $car->feature ? asset('storage/' . $car->feature) : asset('public/uploads/default-car.jpg');
-                                                $feature = $car->feature ? asset('storage/' . $car->feature) : asset('frontend/deal-example.webp');
-                                                $oldPrice = $car->old_price;
-                                                $newPrice = $car->price;
-                                                $discountPercentage = $oldPrice > 0 ? floor((($oldPrice - $newPrice) / $oldPrice) * 100) : 0;
+                        <div class="box-itemcar">
+                            <div class="car-year">2023</div>
+                            <div class="row row-itemcar carlist-page">
 
-                                                $border = $car->myDeal->deal->border ?? '#000000';
-                                                $imagePath = $car->myDeal->deal->image_background ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->image_background)) : null;
-                                                $background = $car->myDeal->deal->background ?? '#BC0000';
-                                                $topleftPath = $car->myDeal->deal->topleft ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->topleft)) : null;
-                                                $bottomrightPath = $car->myDeal->deal->bottomright ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->bottomright)) : null;
-                                                $font1 = $car->myDeal->deal->font1 ?? '#FFFFFF';
-                                                $font2 = $car->myDeal->deal->font2 ?? '#FFDADA';
-                                                $font3 = $car->myDeal->deal->font3 ?? '#FFFFFF';
-                                                $font4 = $car->myDeal->deal->font4 ?? '#FFE500';
-                                            @endphp
-
-                                            <div class="col-6 col-xl-4 col-itemcar">
-                                                <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
-                                                    @if($topleftPath)
-                                                        <div class="tag-top-left"><img src="{{ $topleftPath }}" alt=""></div>
-                                                    @endif
-                                                    <!-- <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div> -->
-                                                    <figure>
-                                                        <div class="cover-car">
-                                                            <div class="box-timeout">
-                                                                <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก {{ $car->remaining_time ?? '3 วัน 18 ชม.' }}</div>
-                                                                @if($bottomrightPath)
-                                                                    <div class="tag-bottom-right"><img src="{{ $bottomrightPath }}" alt=""></div>
-                                                                @endif
-                                                            </div>
-                                                            <img src="{{ $feature }}" alt="">
-                                                        </div>
-                                                        <figcaption>
-                                                            <div class="grid-desccar">
-                                                                <div class="car-name" style="color: {{ $font1 }}">{{ $car->modelyear }} {{ $car->brand->title }} {{ $car->model->model }}</div>
-                                                                <div class="car-series" style="color: {{ $font2 }}">{{ $car->generation->generations }} {{ $car->subModel->sub_models }}</div>
-                                                                <div class="car-province" style="color: {{ $font2 }}">{{ $car->province }}</div>
-                                                                <div class="row">
-                                                                    <div class="col-12 col-md-8">
-                                                                        <div class="descpro-car" style="color: {{ $font1 }}">{{ strip_tags($car->detail) }}</div>
-                                                                    </div>
-                                                                    <div class="col-12 col-md-4 text-end">
-                                                                        <div class="txt-readmore" style="color: {{ $font1 }}">ดูเพิ่มเติม</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="linecontent"></div>
-                                                            <div class="row caritem-price">
-                                                                <div class="col-12 col-md-6">
-                                                                    <div class="txt-gear" style="color: {{ $font3 }}"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
-                                                                </div>
-
-                                                                <div class="col-12 col-md-6 text-end">
-                                                                    <div class="car-price" style="color: {{ $font4 }}">
-                                                                        {{ number_format($newPrice, 0, '.', ',') }}.-
-                                                                    </div>
-
-                                                                    @if($oldPrice > 0)
-                                                                        <div class="car-price-discount" style="color: {{ $font3 }}">
-                                                                            <span>{{ number_format($oldPrice, 0, '.', ',') }}.-</span> {{ floor($discountPercentage) }}%
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </figcaption>
-                                                    </figure>
+                                <div class="col-6 col-xl-4 col-itemcar">
+                                    <a href="car-detail.php" class="item-car" style="background-color: #BC0000; border: 2px solid #BC0000">
+                                        <div class="tag-top-left"><img src="{{asset('frontend/images2/tag-specialprice.svg')}}" alt=""></div>
+                                        <div class="logo-bigbrand"><img src="{{asset('frontend/images2/logo-bigbrand.svg')}}" alt=""></div>
+                                        <figure>
+                                            <div class="cover-car">
+                                                <div class="box-timeout">
+                                                    <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก 3 วัน 18 ชม.</div>
+                                                    <div class="tag-bottom-right"><img src="{{asset('frontend/images2/tag-44.png')}}" alt=""></div>
                                                 </div>
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
                                             </div>
-
-                                        @else
-                                            <!-- Default design when there is no myDeal but use dynamic text -->
-                                            @php
-                                                $profilecar_img = $car->feature ? asset('storage/' . $car->feature) : asset('public/uploads/default-car.jpg');
-                                                $feature = $car->feature ? asset('storage/' . $car->feature) : asset('frontend/deal-example.webp');
-                                                $oldPrice = $car->old_price;
-                                                $newPrice = $car->price;
-                                                $discountPercentage = $oldPrice > 0 ? floor((($oldPrice - $newPrice) / $oldPrice) * 100) : 0;
-                                            @endphp
-
-                                            <div class="col-6 col-xl-4 col-itemcar">
-                                                <a href="car-detail.php" class="item-car">
-                                                    <figure>
-                                                        <div class="cover-car">
-                                                            <img src="{{ $feature }}" alt="">
+                                            <figcaption>
+                                                <div class="grid-desccar">
+                                                    <div class="car-name" style="color: #FFFFFF">2016 Honda CR-V </div>
+                                                    <div class="car-series" style="color: #FFDADA">CR-V 2.0 E (MY12) (MNC)</div>
+                                                    <div class="car-province" style="color: #FFDADA">กรุงเทพมหานคร</div>
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-8">
+                                                            <div class="descpro-car" style="color: #FFFFFF">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
                                                         </div>
-                                                        <figcaption>
-                                                            <div class="grid-desccar">
-                                                                <div class="car-name">{{ $car->modelyear }} {{ $car->brand->title }} {{ $car->model->model }}</div>
-                                                                <div class="car-series">{{ $car->generation->generations }} {{ $car->subModel->sub_models }}</div>
-                                                                <div class="car-province">{{ $car->province }}</div>
-                                                                <div class="row">
-                                                                    <div class="col-12 col-md-8">
-                                                                        <div class="descpro-car">{{ strip_tags($car->detail) }}</div>
-                                                                    </div>
-                                                                    <div class="col-12 col-md-4 text-end">
-                                                                        <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="linecontent"></div>
-                                                            <div class="row caritem-price">
-                                                                <div class="col-12 col-md-6">
-                                                                    <div class="txt-gear"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
-                                                                </div>
-
-                                                                <div class="col-12 col-md-6 text-end">
-                                                                    <div class="car-price">
-                                                                        {{ number_format($newPrice, 0, '.', ',') }}.-
-                                                                    </div>
-
-                                                                    @if($oldPrice > 0)
-                                                                        <div class="car-price-discount">
-                                                                            <span>{{ number_format($oldPrice, 0, '.', ',') }}.-</span> {{ floor($discountPercentage) }}%
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </figcaption>
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    @endforeach
+                                                        <div class="col-12 col-md-4 text-end">
+                                                            <div class="txt-readmore" style="color: #FFFFFF">ดูเพิ่มเติม</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="linecontent"></div>
+                                                <div class="row caritem-price">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="txt-gear" style="color: #fff"><img src="{{asset('frontend/images2/icon-gear.svg')}}" alt="" class="svg"> เกียร์อัตโนมัติ</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 text-end">
+                                                        <div class="car-price" style="color: #FFE500">599,000.-</div>
+                                                        <div class="car-price-discount" style="color: #fff">
+                                                            <span>999,000.-</span> 15%
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </a>
                                 </div>
+
+
                             </div>
-                        @endforeach
+                        </div>
+
+                        <div class="box-itemcar">
+                            <div class="car-year">2021</div>
+                            <div class="row row-itemcar">
+                                <div class="col-6 col-xl-4 col-itemcar">
+                                    <a href="car-detail.php" class="item-car">
+                                        <figure>
+                                            <div class="cover-car">
+                                                <img src="{{asset('frontend/images/CAR202304060092_Mini_Cooper_20230406_153757523_WATERMARK.png')}}" alt="">
+                                            </div>
+                                            <figcaption>
+                                                <div class="grid-desccar">
+                                                    <div class="car-name">2016 Honda CR-V </div>
+                                                    <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
+                                                    <div class="car-province">กรุงเทพมหานคร</div>
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-8">
+                                                            <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 text-end">
+                                                            <div class="txt-readmore">ดูเพิ่มเติม</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="linecontent"></div>
+                                                <div class="row caritem-price">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> เกียร์อัตโนมัติ</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 text-end">
+                                                        <div class="car-price">599,000.-</div>
+                                                    </div>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
                     </div>
+
+                    
+                    
+
                 </div>
-
-
-
-
-
-
-                
             </div>
         </div>
     </div>
@@ -299,49 +248,6 @@ $arr_gear = array(
 
 @endsection
 @section('script')
-<script>
-    $(document).on("click", ".btn-grid-item", function () {
-    //    if ( !$( this ).hasClass( "active" ) ) {
-    //         $('.btn-list-item').removeClass('active');
-    //         $(this).addClass('active');
-    //         $('.col-itemcar').removeClass('col-12 list-item').addClass('col-6 col-xl-4');
-    //       }
-        if ($(".btn-list-item").hasClass("active")) {
-            $(".btn-list-item").removeClass('active');
-        }
-        else {
-            
-        }
-        if ($(".btn-grid-item").hasClass("active")) {
-            // console.log("has class");
-        }
-        else {
-            $(".btn-grid-item").addClass('active');
-            $(".list-item").addClass('col-6 col-xl-4').removeClass('col-12 list-item');
-        }
-    });
-    $('.btn-list-item').click(function (event) {
-        // if ( !$( this ).hasClass( "active" ) ) {
-        //         $('.btn-grid-item').removeClass('active');
-        //         $(this).addClass('active');
-        //         $('.col-itemcar').removeClass('col-6 col-xl-4').addClass('col-12 list-item');
-        //     }
-        if ($(".btn-grid-item").hasClass("active")) {
-            $(".btn-grid-item").removeClass('active');
-        }
-        else {
-            
-        }
-        if ($(".btn-list-item").hasClass("active")) {
-            
-        }
-        else {
-            $(".btn-list-item").addClass('active');
-            $(".col-xl-4").addClass('col-12 list-item').removeClass('col-6 col-xl-4');
-        }
-    });
-
-</script>
 <script>
     $(document).ready(function() {
 
@@ -501,7 +407,7 @@ $arr_gear = array(
                     queryParams.push('gear=' + encodeURIComponent(gear));
                 }
                 if (gas) {
-                    queryParams.push('fuel_type=' + encodeURIComponent(gas));
+                    queryParams.push('gas=' + encodeURIComponent(gas));
                 }
 
                 // Add query parameters to the URL
