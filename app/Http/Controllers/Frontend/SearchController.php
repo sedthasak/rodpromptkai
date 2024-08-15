@@ -187,10 +187,19 @@ class SearchController extends Controller
         ]);
         
         $countcar = $searchFailed ? 0 : $carsQuery->count();
-        $cars = $searchFailed ? collect() : $carsQuery->orderBy('modelyear', 'desc')
+        // $cars = $searchFailed ? collect() : $carsQuery->orderBy('modelyear', 'desc')
+        //     ->orderBy('updated_at', 'desc')
+        //     ->get()
+        //     ->groupBy('modelyear');
+
+        // First, paginate the query
+        $paginatedCars = $searchFailed ? collect() : $carsQuery->orderBy('modelyear', 'desc')
             ->orderBy('updated_at', 'desc')
-            ->get()
-            ->groupBy('modelyear');
+            ->paginate(8);
+
+        // Then, group the paginated items by modelyear
+        $cars = $paginatedCars->getCollection()->groupBy('modelyear');
+
         
         // Calculate remaining time for each car
         foreach ($cars as $modelyear => $carsByYear) {
@@ -202,6 +211,9 @@ class SearchController extends Controller
                 }
             }
         }
+
+
+
         
         // Fetch recommendations
         $recommendations = $this->getRecommendedCars()->load([

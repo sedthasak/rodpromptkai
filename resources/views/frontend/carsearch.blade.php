@@ -281,6 +281,21 @@ $arr_gear = array(
                                 </div>
                             </div>
                         @endforeach
+
+                        <div class="box-frmhelpcar">
+                            <div class="topic-frmhelpcar">
+                                <img src="{{asset('frontend/images/carred.svg')}}" alt=""> <span>ช่วยคุณหารถที่ใช่</span> ให้รถพร้อมขายช่วยหารถให้คุณ
+                            </div>
+                            <form action="">
+                                <div>
+                                    <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
+                                    <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
+                                    <input type="text" class="form-control" placeholder="Line ID">
+                                    <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
+                                </div>
+                                <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
