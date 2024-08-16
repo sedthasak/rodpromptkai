@@ -701,6 +701,7 @@ class FrontendPageController extends Controller
         if ($modelId) {
             $query->where('model_id', $modelId);
         }
+        
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('modelyear', 'like', '%' . $keyword . '%')
@@ -709,15 +710,16 @@ class FrontendPageController extends Controller
             });
         }
 
-        // Execute the query to get the results
-        $results = $query->get();
+        // Paginate the results, 48 items per page
+        $results = $query->paginate(96);
 
-        // Return the view with the results
+        // Return the view with the paginated results
         return view('frontend.profile', [
             'page' => 'profile',
             'results' => $results,
         ]);
     }
+
     // public function profilePage()
     // {
     //     $customerdata = session('customer');

@@ -123,8 +123,9 @@ class carsModel extends Model
         $provinceModel = provincesModel::where('name_th', $this->province)->first();
         $province = $provinceModel ? $provinceModel->name_en : $this->province;
 
-        // Generate a unique number for the slug
-        $uniqueNumber = uniqid(); // Generates a unique ID based on the current time in microseconds
+        // Generate an 8-digit unique identifier
+        $uniqueNumber = substr(time(), -5) . rand(100, 999); // Combining last 5 digits of the timestamp with a 3-digit random number
+
 
         // Create the slug base using modelyear, brand, model, submodel, province, title, and unique number
         $baseSlug = trim("{$this->modelyear} {$brandName} {$modelName} {$subModelName} {$province} {$this->title} {$uniqueNumber}");

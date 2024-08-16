@@ -195,7 +195,7 @@ class SearchController extends Controller
         // First, paginate the query
         $paginatedCars = $searchFailed ? collect() : $carsQuery->orderBy('modelyear', 'desc')
             ->orderBy('updated_at', 'desc')
-            ->paginate(8);
+            ->paginate(40);
 
         // Then, group the paginated items by modelyear
         $cars = $paginatedCars->getCollection()->groupBy('modelyear');
