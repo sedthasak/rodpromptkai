@@ -10,7 +10,7 @@
         @if (isset($catequery))
         @foreach ($catequery as $rows)
         <div class="col-4 col-lg-6 boxsearch-cartype">
-            <a href="{{route('carsearchPage').'/'}}">
+            <a href="{{route('carsearchPage').'/'.$rows->name}}">
                 <img src="{{asset($rows->feature)}}" alt="">
             </a>
         </div>

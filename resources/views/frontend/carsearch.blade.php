@@ -230,6 +230,8 @@ $arr_gear = array(
                                                 $font2 = $car->myDeal->deal->font2 ?? '#FFDADA';
                                                 $font3 = $car->myDeal->deal->font3 ?? '#FFFFFF';
                                                 $font4 = $car->myDeal->deal->font4 ?? '#FFE500';
+
+                                                $finance = (($newPrice - 0) + (($newPrice - 0) * 5.75 / 100) * (84 / 12)) / 84;
                                             @endphp
 
                                             <div class="col-6 col-xl-4 col-itemcar">
