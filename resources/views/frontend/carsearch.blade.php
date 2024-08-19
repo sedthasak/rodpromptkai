@@ -14,6 +14,62 @@
     <meta name="description" content="รวมรถมือสอง {{$mytitle}}  จำนวน  คัน สภาพดี ซื้อรถ ขายรถ ทุกรุ่นทุกยี่ห้อ ราคาถูกกว่านี้ไม่มีอีกแล้ว" />
 
 @endsection
+<style>
+
+    .pagination-wrapper {
+        overflow-x: auto;
+        padding: 10px 0;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .pagination-wrapper .pagination {
+        display: inline-flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+    }
+
+    .pagination-wrapper .page-item {
+        margin: 0 2px;
+    }
+
+    .pagination-wrapper .page-link {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        padding: 0;
+        border: 1px solid #c60d0d; /* Updated border color */
+        border-radius: 5px;
+        color: #c60d0d; /* Updated text color */
+        text-decoration: none;
+        background-color: #fff;
+    }
+
+    .pagination-wrapper .page-item.active .page-link {
+        background-color: #c60d0d; /* Updated background color */
+        color: #fff;
+        border-color: #c60d0d; /* Updated border color */
+    }
+
+    .pagination-wrapper .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+
+    @media (max-width: 768px) {
+        .pagination-wrapper .page-link {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+
+
+
+</style>
 
 @section('content')
 
@@ -85,8 +141,12 @@ $arr_gear = array(
                 </div>
 
                 <div class="col-12 col-lg-8 col-xl-9">
-                <div class="wrap-allitem-car">
-                        <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย | {{$searchFailed}}</div>
+
+                    
+
+                    @if($countcar > 0)
+                    <div class="wrap-allitem-car">
+                        <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย</div>
                         <div class="txt-numresult">ทั้งหมด <span>{{$countcar}}</span> รายการ</div>
                         <div class="btn-boxfilter">
                             <button>F48 ปี16-ปัจจุบัน</button>
@@ -112,21 +172,22 @@ $arr_gear = array(
                             <div class="row">
                                 <div class="col-4 col-md-4">
                                     <div class="item-filter">
-                                        <div><img src="{{asset('frontend/images/icon-filter.svg')}}" alt=""> <span class="filter-hidetxt">เรียงตาม</span></div>
+                                        <!-- <div><img src="{{asset('frontend/images/icon-filter.svg')}}" alt=""> <span class="filter-hidetxt">เรียงตาม</span></div>
                                         <div>
-                                            <select class="form-select">
-                                                <option value="">ปีล่าสุด</option>
+                                            <select class="form-select" name="orderby">
+                                                <option value="new">ปีล่าสุด</option>
+                                                <option value="old">ปีที่เก่ากว่า</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="col-8 col-md-8 text-end">
                                     <div class="item-filter">
                                         <div class="filter-hidetxt">แสดงราคา</div>
                                         <div>
-                                            <select class="form-select">
-                                                <option value="">เงินสด</option>
-                                                <option value="">ผ่อน</option>
+                                            <select class="form-select" id="sel_showcash">
+                                                <option value="cash">เงินสด</option>
+                                                <option value="finance">ผ่อน</option>
                                             </select>
                                         </div>
                                     </div>
@@ -151,7 +212,7 @@ $arr_gear = array(
                             <div class="box-itemcar">
                                 <div class="car-year">{{ $modelyear }}</div>
                                 <div class="row row-itemcar carlist-page">
-                                    @foreach ($carsByYear as $car)
+                                    @foreach ($carsByYear as $carsByYearKey => $car)
                                         @if ($car->myDeal)
                                             @php
                                                 $profilecar_img = $car->feature ? asset('storage/' . $car->feature) : asset('public/uploads/default-car.jpg');
@@ -204,7 +265,10 @@ $arr_gear = array(
                                                             <div class="linecontent"></div>
                                                             <div class="row caritem-price">
                                                                 <div class="col-12 col-md-6">
-                                                                    <div class="txt-gear" style="color: {{ $font3 }}"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
+                                                                    <div class="txt-gear" style="color: {{ $font3 }}">
+                                                                        <img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> 
+                                                                        {{ $arr_gear[$car->gear] }}
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class="col-12 col-md-6 text-end">
@@ -214,11 +278,25 @@ $arr_gear = array(
 
                                                                     @if($oldPrice > 0)
                                                                         <div class="car-price-discount" style="color: {{ $font3 }}">
-                                                                            <span>{{ number_format($oldPrice, 0, '.', ',') }}.-</span> {{ floor($discountPercentage) }}%
+                                                                            <span>{{ number_format($oldPrice, 0, '.', ',') }}.-</span> 
+                                                                            {{ floor($discountPercentage) }}%
                                                                         </div>
                                                                     @endif
                                                                 </div>
                                                             </div>
+                                                            <div class="row caritem-price caritem-price-finance" style="display:none;">
+                                                                <div class="col-12 col-md-6">
+                                                                    <div class="txt-gear"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
+                                                                </div>
+                                                                <div class="col-12 col-md-6 text-end">
+                                                                    <div class="car-price">
+                                                                        {{ number_format($finance, 0, '.', ',') }}.-
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            
                                                         </figcaption>
                                                     </figure>
                                                 </div>
@@ -232,6 +310,8 @@ $arr_gear = array(
                                                 $oldPrice = $car->old_price;
                                                 $newPrice = $car->price;
                                                 $discountPercentage = $oldPrice > 0 ? floor((($oldPrice - $newPrice) / $oldPrice) * 100) : 0;
+                                            
+                                                $finance = (($newPrice - 0) + (($newPrice - 0) * 5.75 / 100) * (84 / 12)) / 84;
                                             @endphp
 
                                             <div class="col-6 col-xl-4 col-itemcar">
@@ -255,7 +335,7 @@ $arr_gear = array(
                                                                 </div>
                                                             </div>
                                                             <div class="linecontent"></div>
-                                                            <div class="row caritem-price">
+                                                            <div class="row caritem-price caritem-price-cash">
                                                                 <div class="col-12 col-md-6">
                                                                     <div class="txt-gear"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
                                                                 </div>
@@ -272,6 +352,17 @@ $arr_gear = array(
                                                                     @endif
                                                                 </div>
                                                             </div>
+                                                            <div class="row caritem-price caritem-price-finance" style="display:none;">
+                                                                <div class="col-12 col-md-6">
+                                                                    <div class="txt-gear"><img src="{{ asset('frontend/images2/icon-gear.svg') }}" alt="" class="svg"> {{ $arr_gear[$car->gear] }}</div>
+                                                                </div>
+                                                                <div class="col-12 col-md-6 text-end">
+                                                                    <div class="car-price">
+                                                                        {{ number_format($finance, 0, '.', ',') }}.-
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
                                                         </figcaption>
                                                     </figure>
                                                 </a>
@@ -281,6 +372,10 @@ $arr_gear = array(
                                 </div>
                             </div>
                         @endforeach
+                        <!-- Pagination Links -->
+                        <div class="pagination-wrapper">
+                            {{ $paginatedCars->onEachSide(1)->links('pagination::bootstrap-4') }}
+                        </div>
 
                         <div class="box-frmhelpcar">
                             <div class="topic-frmhelpcar">
@@ -297,6 +392,205 @@ $arr_gear = array(
                             </form>
                         </div>
                     </div>
+                    @else
+                    <div class="box-text-notfound">
+                        <img src="{{asset('frontend/images/car-notfound.svg')}}" alt="">
+                        <h1>ไม่พบการค้นหา</h1>
+                        <p>เพื่อผลลัพธ์ที่ดีกว่าให้ลองค้นหาโดยใช้ตัวเลือกการค้นหาอื่น หรือส่งข้อความมาหาเราเพื่อช่วยหา</p>
+                    </div>
+
+                    <div class="box-linkcarseo wow fadeInDown">
+                        <h2 class="txt-carseo-notfound">การค้นหายอดนิยม</h2>
+                        <div class="row">
+                            <div class="col-3 box-linkcar">
+                                <h2>ขายรถ Toyota มือสอง สภาพดี</h2>
+                                <ul>
+                                    <li><a href="car.php" target="_blank">ฟอร์จูนเนอร์มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">ยาริสมือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">วีออสมือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">วีโก้มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">คัมรี่มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Toyota commuter มือสอง</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-3 box-linkcar">
+                                <h2>ขายรถ Honda มือสอง สภาพดี</h2>
+                                <ul>
+                                    <li><a href="car.php" target="_blank">ซีวิคมือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">ฮอนด้าแจ๊สมือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">แอคคอร์ด มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">CR-V มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Honda City มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">HR-V มือสอง</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-3 box-linkcar">
+                                <h2>ขายรถ Mazda มือสอง สภาพดี</h2>
+                                <ul>
+                                    <li><a href="car.php" target="_blank">Mazda 3 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Mazda 2 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">CX-5 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">CX-3 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">BT-50 PRO มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">BT-50 มือสอง</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-3 box-linkcar">
+                                <h2>ขายรถ Mitsubishi มือสอง สภาพดี</h2>
+                                <ul>
+                                    <li><a href="car.php" target="_blank">Xpander มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Pajero Sport มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Lancer EX มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">มิราจมือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Mitsubishi Attrage มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Mitsubishi Triton มือสอง</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-3 box-linkcar">
+                                <h2>ขายรถ Isuzu มือสอง สภาพดี</h2>
+                                <ul>
+                                    <li><a href="car.php" target="_blank">ดีแม็กมือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">MU-7 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">MU-X มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Isuzu Vega มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">ดราก้อนอายมือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Isuzu Elf มือสอง</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-3 box-linkcar">
+                                <h2>ขายรถ Nissan มือสอง สภาพดี</h2>
+                                <ul>
+                                    <li><a href="car.php" target="_blank">Nissan Teana มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Nissan Almera มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Nissan X-Trail มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">นิสสัน นาวาร่า NP300 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Nissan March มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Nissan Juke มือสอง</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-3 box-linkcar">
+                                <h2>ขายรถ Bmw มือสอง สภาพดี</h2>
+                                <ul>
+                                    <li><a href="car.php" target="_blank">BMW X1 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">BMW 320D มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">BMW 520D มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">BMW X3 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">BMW 320I มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">BMW Z4 มือสอง</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-3 box-linkcar">
+                                <h2>ขายรถ Mercedes-Benz มือสอง สภาพดี</h2>
+                                <ul>
+                                    <li><a href="car.php" target="_blank">BMW X1 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Benz CLA250 AMG</a></li>
+                                    <li><a href="car.php" target="_blank">Benz C350 มือสอง</a></li>
+                                    <li><a href="car.php" target="_blank">Mercedes-Benz C250</a></li>
+                                    <li><a href="car.php" target="_blank">Benz E300</a></li>
+                                    <li><a href="car.php" target="_blank">Benz GLC 250</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 box-linkcarseo-mb box-linkcarseo">
+                            <h2 class="txt-carseo-notfound">การค้นหายอดนิยม</h2>
+                            <div class="owl-linkcarseo owl-carousel owl-theme">
+                                <div class="box-linkcar">
+                                    <h2>ขายรถ Toyota มือสอง สภาพดี</h2>
+                                    <ul>
+                                        <li><a href="car.php" target="_blank">ฟอร์จูนเนอร์มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">ยาริสมือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">วีออสมือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">วีโก้มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">คัมรี่มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Toyota commuter มือสอง</a></li>
+                                    </ul>
+                                </div>
+                                <div class="box-linkcar">
+                                    <h2>ขายรถ Honda มือสอง สภาพดี</h2>
+                                    <ul>
+                                        <li><a href="car.php" target="_blank">ซีวิคมือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">ฮอนด้าแจ๊สมือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">แอคคอร์ด มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">CR-V มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Honda City มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">HR-V มือสอง</a></li>
+                                    </ul>
+                                </div>
+                                <div class="box-linkcar">
+                                    <h2>ขายรถ Mazda มือสอง สภาพดี</h2>
+                                    <ul>
+                                        <li><a href="car.php" target="_blank">Mazda 3 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Mazda 2 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">CX-5 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">CX-3 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">BT-50 PRO มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">BT-50 มือสอง</a></li>
+                                    </ul>
+                                </div>
+                                <div class="box-linkcar">
+                                    <h2>ขายรถ Mitsubishi มือสอง สภาพดี</h2>
+                                    <ul>
+                                        <li><a href="car.php" target="_blank">Xpander มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Pajero Sport มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Lancer EX มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">มิราจมือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Mitsubishi Attrage มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Mitsubishi Triton มือสอง</a></li>
+                                    </ul>
+                                </div>
+                                <div class="box-linkcar">
+                                    <h2>ขายรถ Isuzu มือสอง สภาพดี</h2>
+                                    <ul>
+                                        <li><a href="car.php" target="_blank">ดีแม็กมือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">MU-7 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">MU-X มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Isuzu Vega มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">ดราก้อนอายมือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Isuzu Elf มือสอง</a></li>
+                                    </ul>
+                                </div>
+                                <div class="box-linkcar">
+                                    <h2>ขายรถ Nissan มือสอง สภาพดี</h2>
+                                    <ul>
+                                        <li><a href="car.php" target="_blank">Nissan Teana มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Nissan Almera มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Nissan X-Trail มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">นิสสัน นาวาร่า NP300 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Nissan March มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Nissan Juke มือสอง</a></li>
+                                    </ul>
+                                </div>
+                                <div class="box-linkcar">
+                                    <h2>ขายรถ Bmw มือสอง สภาพดี</h2>
+                                    <ul>
+                                        <li><a href="car.php" target="_blank">BMW X1 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">BMW 320D มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">BMW 520D มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">BMW X3 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">BMW 320I มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">BMW Z4 มือสอง</a></li>
+                                    </ul>
+                                </div>
+                                <div class="box-linkcar">
+                                    <h2>ขายรถ Mercedes-Benz มือสอง สภาพดี</h2>
+                                    <ul>
+                                        <li><a href="car.php" target="_blank">BMW X1 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Benz CLA250 AMG</a></li>
+                                        <li><a href="car.php" target="_blank">Benz C350 มือสอง</a></li>
+                                        <li><a href="car.php" target="_blank">Mercedes-Benz C250</a></li>
+                                        <li><a href="car.php" target="_blank">Benz E300</a></li>
+                                        <li><a href="car.php" target="_blank">Benz GLC 250</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                
+
+                    
                 </div>
 
 
@@ -315,6 +609,52 @@ $arr_gear = array(
 @endsection
 @section('script')
 <script>
+    $(document).ready(function() {
+        // Listen for change events on the orderby select box
+        $('select[name="orderby"]').change(function() {
+            var selectedValue = $(this).val();
+            var currentUrl = window.location.href;
+
+            // Check if there's already a query string in the URL
+            if (currentUrl.includes('?')) {
+                // If the orderby parameter already exists, replace it
+                if (currentUrl.includes('orderby=')) {
+                    currentUrl = currentUrl.replace(/(orderby=)[^\&]+/, '$1' + selectedValue);
+                } else {
+                    // Add the orderby parameter to the existing query string
+                    currentUrl += '&orderby=' + selectedValue;
+                }
+            } else {
+                // No query string exists, add the orderby parameter
+                currentUrl += '?orderby=' + selectedValue;
+            }
+
+            // Redirect to the new URL
+            window.location.href = currentUrl;
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Listen for change events on the select box with id sel_showcash
+        $('#sel_showcash').change(function() {
+            var selectedValue = $(this).val();
+
+            if (selectedValue === 'cash') {
+                // Show cash prices and hide finance prices
+                $('.caritem-price-cash').show();
+                $('.caritem-price-finance').hide();
+            } else if (selectedValue === 'finance') {
+                // Show finance prices and hide cash prices
+                $('.caritem-price-finance').show();
+                $('.caritem-price-cash').hide();
+            }
+        });
+
+        // Trigger the change event on page load to set the correct state
+        $('#sel_showcash').trigger('change');
+    });
     $(document).on("click", ".btn-grid-item", function () {
     //    if ( !$( this ).hasClass( "active" ) ) {
     //         $('.btn-list-item').removeClass('active');
@@ -359,6 +699,7 @@ $arr_gear = array(
 </script>
 <script>
     $(document).ready(function() {
+        var priceOptions = @json($priceOptions);
 
         // Handle search button click for mobile and desktop
         $('.btn-searchcar').click(function(e) {
@@ -395,6 +736,25 @@ $arr_gear = array(
             var color = isMobile ? $('select[name="color_mobile"]').val() : $('select[name="color"]').val();
             var gear = isMobile ? $('input[name="advance-gear-mobile"]:checked').val() : $('input[name="advance-gear"]:checked').val();
             var gas = isMobile ? $('select[name="gas_mobile"]').val() : $('select[name="gas"]').val();
+
+            // Function to find the numeric value based on the label
+            function findPriceValue(label) {
+                let found = priceOptions.find(option => option.label === label);
+                return found ? found.value : 0;
+            }
+
+            // Convert price values to numbers using the labels
+            priceMinimum = findPriceValue(priceMinimum);
+            priceMaximum = findPriceValue(priceMaximum);
+
+            // Ensure that min_year is less than or equal to max_year
+            if (parseInt(yearStart) > parseInt(yearEnd)) {
+                // Swap the values if they are in the wrong order
+                [yearStart, yearEnd] = [yearEnd, yearStart];
+            }
+
+            // console.log(priceMinimum); // Correct numeric value
+            // console.log(priceMaximum); // Correct numeric value
 
             // Function to fetch name from server
             function fetchName(url, id, callback) {
@@ -465,10 +825,6 @@ $arr_gear = array(
             }
 
             function constructAndRedirect() {
-                // Sanitize price inputs to remove non-numeric characters
-                priceMinimum = priceMinimum.replace(/\D/g, '');
-                priceMaximum = priceMaximum.replace(/\D/g, '');
-
                 // Construct the URL based on the criteria
                 var url = '/carsearch';
 
@@ -534,133 +890,7 @@ $arr_gear = array(
 
     });
 </script>
-<!-- <script>
-    $(document).ready(function() {
 
-        // Handle search button click for mobile and desktop
-        $('.btn-searchcar').click(function(e) {
-            e.preventDefault();
-
-            var isMobile = $(this).closest('.my-box-search-mobile').length > 0;
-
-            // Define route names
-            var getBrandNameUrl = "{{ route('getBrandName', ['id' => ':id']) }}";
-            var getModelNameUrl = "{{ route('getModelName', ['id' => ':id']) }}";
-            var getGenerationNameUrl = "{{ route('getGenerationName', ['id' => ':id']) }}";
-            var getSubmodelNameUrl = "{{ route('getSubmodelName', ['id' => ':id']) }}";
-
-            // Fetch data from the correct box (desktop or mobile)
-            var isEVChecked = isMobile ? $('input[name="ev_mobile"]').is(':checked') : $('input[name="ev"]').is(':checked');
-            const brandId = brand_id;
-            const modelId = model_id;
-            const generationId = generation_id;
-            const submodelId = submodel_id;
-
-            // Initialize variables
-            var brandName = '';
-            var modelName = '';
-            var generationName = '';
-            var submodelName = '';
-
-            // Function to fetch name from server
-            function fetchName(url, id, callback) {
-                $.ajax({
-                    url: url.replace(':id', id),
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(response) {
-                        callback(response.name);
-                    },
-                    error: function() {
-                        callback('empty');
-                    }
-                });
-            }
-
-            // Fetch names
-            if (brandId) {
-                fetchName(getBrandNameUrl, brandId, function(name) {
-                    brandName = name;
-                    fetchModelName();
-                });
-            } else {
-                fetchModelName();
-            }
-
-            function fetchModelName() {
-                if (modelId) {
-                    fetchName(getModelNameUrl, modelId, function(name) {
-                        modelName = name;
-                        fetchGenerationName();
-                    });
-                } else {
-                    fetchGenerationName();
-                }
-            }
-
-            function fetchGenerationName() {
-                if (generationId) {
-                    fetchName(getGenerationNameUrl, generationId, function(name) {
-                        generationName = name;
-                        fetchSubmodelName();
-                    });
-                } else {
-                    fetchSubmodelName();
-                }
-            }
-
-            function fetchSubmodelName() {
-                if (submodelId) {
-                    fetchName(getSubmodelNameUrl, submodelId, function(name) {
-                        submodelName = name;
-                        // Log all data after fetching names
-                        logAllData();
-                    });
-                } else {
-                    // Log all data after fetching names
-                    logAllData();
-                }
-            }
-
-            function logAllData() {
-                var purchaseType = isMobile
-                    ? $('.tab_footer_btn .btn-default.active').text().trim() // Mobile
-                    : $('.tab_article_btn .btn-default.active').text().trim(); // Desktop
-
-                var monthlyPayment = isMobile 
-                    ? $('.tab_footer select[name="installment_price_mobile"]').val() // Mobile
-                    : $('.tab_pdetail select').val(); // Desktop
-
-                var priceMinimum = isMobile ? $('input[name="price_minimum_mobile"]').val() : $('input[name="price_minimum"]').val();
-                var priceMaximum = isMobile ? $('input[name="price_maximum_mobile"]').val() : $('input[name="price_maximum"]').val();
-                var yearStart = isMobile ? $('.year-select-input.year-minimum').val() : $('.year-select-input.year-minimum').val();
-                var yearEnd = isMobile ? $('.year-select-input.year-maximum').val() : $('.year-select-input.year-maximum').val();
-                var color = isMobile ? $('select[name="color_mobile"]').val() : $('select[name="color"]').val();
-                var gear = isMobile ? $('input[name="advance-gear-mobile"]:checked').val() : $('input[name="advance-gear"]:checked').val();
-                var gas = isMobile ? $('select[name="gas_mobile"]').val() : $('select[name="gas"]').val();
-                var province = isMobile ? $('select[name="province_mobile"]').val() : $('select[name="province"]').val();
-
-                // Log the collected data
-                console.log('1. Electric Vehicle:', isEVChecked);
-                console.log('2. Brand ID:', brandId, 'Brand Name:', brandName || 'empty');
-                console.log('3. Model ID:', modelId, 'Model Name:', modelName || 'empty');
-                console.log('4. Generation ID:', generationId, 'Generation Name:', generationName || 'empty');
-                console.log('5. Submodel ID:', submodelId, 'Submodel Name:', submodelName || 'empty');
-                console.log('6. Purchase Type:', purchaseType);
-                console.log('7. Price Minimum:', priceMinimum);
-                console.log('8. Price Maximum:', priceMaximum);
-                console.log('9. Monthly Payment:', monthlyPayment);
-                console.log('10. Year Start:', yearStart);
-                console.log('11. Year End:', yearEnd);
-                console.log('12. Color:', color);
-                console.log('13. Gear:', gear);
-                console.log('14. Gas:', gas);
-                console.log('15. Province:', province);
-            }
-        });
-
-    });
-</script> -->
 @endsection
 
 

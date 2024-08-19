@@ -20,6 +20,7 @@ use App\Models\LevelModel;
 use App\Models\PackageDealerModel;
 use App\Models\VipPackageModel;
 use App\Models\MyDeal;
+use App\Models\categoriesModel;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -524,6 +525,28 @@ class ViewDataServiceProvider extends ServiceProvider
                 }
                 }
 
+                $catequery = categoriesModel::all();
+
+                $history_post = [];
+                if ($customerdata) {
+                    // Find the customer in the database
+                    $customer = Customer::find($customerdata->id);
+
+                    if ($customer && $customer->history) {
+                        // Decode the JSON history to an array
+                        $history_ids = json_decode($customer->history, true);
+
+                        // Fetch the related posts/cars based on the history in the order of the IDs in $history_ids
+                        if (is_array($history_ids) && !empty($history_ids)) {
+                            $history_post = carsModel::whereIn('id', $history_ids)
+                                ->orderByRaw('FIELD(id, ' . implode(',', $history_ids) . ')')
+                                ->get();
+                        }
+                    }
+                }
+
+
+
                 // dd($structuredCarsWithoutDeals);
                 /*****************************************************************/
                 $view->with('customer_cars_by_status', $structuredCarsByStatus);
@@ -539,6 +562,8 @@ class ViewDataServiceProvider extends ServiceProvider
 
 
 
+                $view->with('history_post', $history_post);
+                $view->with('catequery', $catequery);
                 $view->with('carcontact', $carcontact);
                 $view->with('customer_role', $customer_role);
                 $view->with('customer_login', $customer_login);

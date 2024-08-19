@@ -155,11 +155,11 @@
             </div>
         </div>
 
-        @if(isset($carshistory) && count($carshistory) > 0)
+        @if(isset($history_post) && count($history_post) > 0)
         <div class="left-boxsearch-item search-carview">
             <div class="left-boxsearch-topic2">รถที่คุณดูล่าสุด</div>
             <div>
-                @foreach($carshistory as $keycarshistory => $carshis)
+                @foreach($history_post as $keycarshistory => $carshis)
                 @php
                 $profilecar_imgcarshis = ($carshis->feature)?asset($carshis->feature):asset('public/uploads/default-car.jpg');
                 @endphp

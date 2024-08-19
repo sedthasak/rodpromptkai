@@ -233,7 +233,7 @@
                                     <label for="province-mobile">จังหวัด</label>
                                     <select name="province_mobile" id="province-mobile" class="form-select">
                                         <option value="">จังหวัด</option>
-                                        @foreach ($province as $rows)
+                                        @foreach ($allprovince as $rows)
                                             <option value="{{ $rows->name_th }}">{{ $rows->name_th }}</option>
                                         @endforeach
                                     </select>

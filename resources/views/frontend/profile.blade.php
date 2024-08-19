@@ -11,6 +11,63 @@
     .list-mycarsearch.model.active {
         background-color: #E4EEFA;
     }
+
+    .pagination-wrapper {
+        overflow-x: auto;
+        padding: 10px 0;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .pagination-wrapper .pagination {
+        display: inline-flex;
+        justify-content: flex-start; /* Or 'center' based on your preference */
+        flex-wrap: nowrap;
+    }
+
+    .pagination-wrapper .page-item {
+        margin: 0 2px;
+    }
+
+    .pagination-wrapper .page-link {
+        width: 40px; /* Set a fixed width for the buttons */
+        height: 40px; /* Set a fixed height for the buttons */
+        line-height: 40px; /* Center the text vertically */
+        text-align: center; /* Center the text horizontally */
+        padding: 0; /* Remove default padding */
+        display: inline-block; /* Ensure the element remains inline */
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        color: #007bff;
+        text-decoration: none;
+        background-color: #fff;
+    }
+
+    .pagination-wrapper .page-item.active .page-link {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+
+    .pagination-wrapper .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+
+    @media (max-width: 768px) {
+        .pagination-wrapper .page-link {
+            width: 30px; /* Smaller width for mobile */
+            height: 30px; /* Smaller height for mobile */
+            line-height: 30px; /* Adjusted line height */
+        }
+    }
+
+
+
+
+
 </style>
 
 @section('content')
@@ -167,6 +224,15 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                             </div>
                         </div>
                         @endforeach
+                        <hr>
+                        <!-- Add pagination links -->
+                        <!-- <div class="pagination-wrapper">
+                            {{ $results->links('pagination::bootstrap-4') }}
+                        </div> -->
+                        <div class="pagination-wrapper">
+                            {{ $results->onEachSide(1)->links() }}
+                        </div>
+
                         
                     </div>
 
@@ -551,6 +617,6 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
         });
       });
     });
-    </script>
+</script>
 
 @endsection

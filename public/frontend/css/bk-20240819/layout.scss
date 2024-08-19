@@ -5219,8 +5219,6 @@ a{
         margin: 10px 0 0 0;
         padding: 10px;
         z-index: 9;
-        height: 300px;
-        overflow-y: auto;
         &.price-maximum, &.year-maximum{
             text-align: right;
         }
@@ -5502,7 +5500,7 @@ a{
         margin: 0;
     }
     .price-select-option, .year-select-option{
-        li{ 
+        li{
             color: $white-color;
         }
     }
@@ -7787,61 +7785,6 @@ a{
         }
     }
 }
-.list-yourpack{
-    &-bg{
-        background-color: $white-color;
-        border: 1px solid #E8E8E8;
-        border-radius: 5px;
-        padding: 10px 15px 15px;
-        margin: 20px 0 5px;
-        &-grey{
-            background-color: #F8F8F8;
-            border-radius: 5px;
-            margin-top: 7px;
-            padding: 7px 12px;
-            font-size: 0.85rem;
-            color: $main-color;
-            span{
-                color: $black-color;
-            }
-        }
-        &-name{
-            font-size: 0.85rem;
-            color: $black-color;
-            span{
-                color: $red-color;
-                font-weight: 500;
-                padding-right: 5px;
-                font-size: 0.9rem;
-            }
-        } 
-        &-time{
-            color: $black-color;
-            font-weight: 500;
-            font-size: 0.9rem;
-            span{ 
-                color: $red-color;
-            }
-        }
-    }
-}
-.box-text-notfound{
-    text-align: center;
-    img{
-        height: 150px;
-        margin:25px 0 30px;
-    }
-    h1{
-        color: $red-color;
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-    }
-}
-.txt-carseo-notfound{
-    color: $red-color;
-    font-size: 1.3rem;
-    margin-bottom: 25px;
-}
 
 
 /*responsive*/
@@ -9774,11 +9717,6 @@ a{
     }
     .top-menu{
         padding: 0 0 0 10px;
-    }
-    .list-yourpack{
-        &-bg{
-            margin-bottom: 0;
-        }
     }
 }
 @media (max-width: 767px){
@@ -12101,7 +12039,7 @@ a{
         h1{
             font-size: 1rem;
         }
-    } 
+    }
     .wrap-desc-yourpack{
         padding-top: 0;
     }
@@ -12111,49 +12049,12 @@ a{
             text-align: left;
         }
         &-detail{
-            margin-top: 12px; 
+            margin-top: 12px;
             padding: 0 10px;
             &-list{
                 padding: 10px 0;
                 font-size: 0.9rem;
             }
-        }
-    }
-    .list-yourpack{
-        &-bg{
-            padding: 5px 8px 8px;
-            margin-top: 15px;
-            &-name{
-                line-height: 1.5;
-                span{
-                    display: block;
-                }
-            }
-            &-time{
-                font-size: 0.8rem;
-                line-height: 1.5;
-                padding-top: 3px;
-                span{
-                    display: block;
-                }
-            }
-            &-grey{
-                padding: 5px;
-                font-size: 0.8rem;
-            }
-        }
-    }
-    .txt-carseo-notfound{
-        font-size: 1.2rem;
-        text-align: center;
-    }
-    .box-text-notfound{
-        img{
-            height: 120px;
-            margin:25px 0;
-        }
-        h1{
-            font-size: 1.2rem;
         }
     }
 }

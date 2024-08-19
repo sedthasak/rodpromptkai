@@ -237,11 +237,14 @@ class SearchController extends Controller
             'recommendations' => $recommendations,
             'breadcrumb' => $breadcrumb,
             'mytitle' => $mytitle,
-            'mykeyword' => $formattedKeywords, // Now a formatted string
+            'mykeyword' => $formattedKeywords,
             'countcar' => $countcar,
-            'searchFailed' => $searchFailed
+            'searchFailed' => $searchFailed,
+            'paginatedCars' => $paginatedCars, // Add this line
         ]);
+        
     }
+
     private function calculateRemainingTime($dealExpire)
     {
         $now = Carbon::now();

@@ -65,6 +65,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                     <div class="tab_pdetail">
@@ -135,23 +136,23 @@
                             <label for="color-select">สี</label>
                             <select name="color" id="color-select" class="form-select">
                                 <option value="">เลือกสี</option>
-                                <option value="all">ทุกสี</option>
-                                <option value="white">ขาว</option>
-                                <option value="green">เขียว</option>
-                                <option value="cream">ครีม</option>
-                                <option value="pink">ชมพู</option>
-                                <option value="black">ดำ</option>
-                                <option value="red">แดง</option>
-                                <option value="gray">เทา</option>
-                                <option value="blue">น้ำเงิน</option>
-                                <option value="brown">น้ำตาล</option>
-                                <option value="silver">บรอนซ์เงิน</option>
-                                <option value="gold">บรอนซ์ทอง</option>
-                                <option value="skyblue">ฟ้า</option>
-                                <option value="purple">ม่วง</option>
-                                <option value="orange">ส้ม</option>
-                                <option value="yellow">เหลือง</option>
+                                <option value="ขาว">ขาว</option>
+                                <option value="เขียว">เขียว</option>
+                                <option value="ครีม">ครีม</option>
+                                <option value="ชมพู">ชมพู</option>
+                                <option value="ดำ">ดำ</option>
+                                <option value="แดง">แดง</option>
+                                <option value="เทา">เทา</option>
+                                <option value="น้ำเงิน">น้ำเงิน</option>
+                                <option value="น้ำตาล">น้ำตาล</option>
+                                <option value="บรอนซ์เงิน">บรอนซ์เงิน</option>
+                                <option value="บรอนซ์ทอง">บรอนซ์ทอง</option>
+                                <option value="ฟ้า">ฟ้า</option>
+                                <option value="ม่วง">ม่วง</option>
+                                <option value="ส้ม">ส้ม</option>
+                                <option value="เหลือง">เหลือง</option>
                             </select>
+
                         </div>
                         <div class="boxfrm-advancesearch">
                             <div class="advance-boxgear">
@@ -186,7 +187,7 @@
             </div>
             <a href="#" class="btn-searchcar">ค้นหารถยนต์</a>
         </div>
-
+        @include('frontend.layouts.inc-carsearch-new-moremenu')
 
     </div>
     <a href="#" target="_blank" class="banner-adv">

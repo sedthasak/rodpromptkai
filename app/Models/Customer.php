@@ -55,4 +55,30 @@ class Customer extends Model
     {
         return $this->hasMany(MyDeal::class, 'customer_id');
     }
+
+    /**
+     * Update the visit history of the customer.
+     *
+     * @param int $postId
+     * @return void
+     */
+    public function updateHistory($postId)
+    {
+        $history = $this->history ? json_decode($this->history, true) : [];
+        
+        // Remove the post if it already exists
+        if (($key = array_search($postId, $history)) !== false) {
+            unset($history[$key]);
+        }
+
+        // Add the new post to the beginning
+        array_unshift($history, $postId);
+
+        // Limit the history to the last 10 posts
+        $history = array_slice($history, 0, 10);
+
+        // Encode back to JSON and update the customer's history
+        $this->history = json_encode($history);
+        $this->save();
+    }
 }
