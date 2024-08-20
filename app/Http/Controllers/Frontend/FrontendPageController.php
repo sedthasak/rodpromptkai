@@ -22,6 +22,8 @@ use App\Models\contactsModel;
 use App\Models\contacts_backModel;
 use App\Models\newsModel;
 use App\Models\noticeModel;
+
+use App\Models\Province;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 // use File;
@@ -558,53 +560,44 @@ class FrontendPageController extends Controller
         ]);
     }
 
+
     public function indexPage(Request $request)
     {
         $categories = categoriesModel::all();
-        $cars = DB::table('cars')
-            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->where('cars.status', '=', 'approved')
-            ->orderBy('id', 'desc')
-            ->get();
+        
+        // Fetch cars with relationships using Eloquent and eager loading
+        $cars = carsModel::with([
+            'customer:id,firstname,lastname,sp_role,province,place,map,google_map,phone,line',
+            'brand:id,title',
+            'model:id,model',
+            'generation:id,generations',
+            'subModel:id,sub_models'
+        ])
+        ->where('status', 'approved')
+        ->orderBy('id', 'desc')
+        ->get();
 
-        $allcarcount = DB::table('cars')->count();
-        $allcars6 = DB::table('cars')
-            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 
-                'customer.province as customer_proveince', 'customer.place as customer_place', 
-                'customer.map as customer_map', 'customer.google_map as customer_google_map', 
-                'customer.phone as customer_phone', 'customer.line as customer_line', 
-                'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
-            ->where('cars.status', '=', 'approved')
-            ->orderBy('id', 'desc')
-            ->take(6)
-            ->get();
+        // Count all cars
+        $allcarcount = carsModel::count();
+
+        // Get the first 6 approved cars
+        $allcars6 = $cars->take(6);
+
+        // Query brands with ordering
         $qrybrand = brandsModel::orderBy("sort_no")->get();
 
+        // Fetch all footer settings
         $setFooterModel = setFooterModel::all();
 
-        $decde = array();
+        // Decode slide options if available
         $slide = DB::table('setting_option')->where('key_option', 'slide')->first();
-        if(isset($slide)){$decde = json_decode($slide->value_option);}
-        
-        $province = provincesModel::orderBy("name_th", "ASC")->get();
+        $decde = isset($slide) ? json_decode($slide->value_option) : [];
 
-        $news = newsModel::query()
-        ->orderBy('id', 'desc')
-        ->take(5)->get();
+        // Fetch provinces
+        $province = Province::orderBy("name_th", "ASC")->get();
 
-        // dd($decde);
+        // Fetch latest news
+        $news = newsModel::orderBy('id', 'desc')->take(5)->get();
 
         return view('frontend/index-page', [
             'layout' => 'side-menu',
@@ -619,6 +612,68 @@ class FrontendPageController extends Controller
             'province' => $province
         ]);
     }
+
+    // public function indexPage(Request $request)
+    // {
+    //     $categories = categoriesModel::all();
+    //     $cars = DB::table('cars')
+    //         ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+    //         ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+    //         ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+    //         ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+    //         ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+    //         ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'customer.province as customer_proveince', 'brands.title as brands_title', 'models.model as model_name', 
+    //             'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+    //         ->where('cars.status', '=', 'approved')
+    //         ->orderBy('id', 'desc')
+    //         ->get();
+
+    //     $allcarcount = DB::table('cars')->count();
+    //     $allcars6 = DB::table('cars')
+    //         ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
+    //         ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
+    //         ->leftjoin('models', 'cars.model_id', '=', 'models.id')
+    //         ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
+    //         ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
+    //         ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 
+    //             'customer.province as customer_proveince', 'customer.place as customer_place', 
+    //             'customer.map as customer_map', 'customer.google_map as customer_google_map', 
+    //             'customer.phone as customer_phone', 'customer.line as customer_line', 
+    //             'brands.title as brands_title', 'models.model as model_name', 
+    //             'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+    //         ->where('cars.status', '=', 'approved')
+    //         ->orderBy('id', 'desc')
+    //         ->take(6)
+    //         ->get();
+    //     $qrybrand = brandsModel::orderBy("sort_no")->get();
+
+    //     $setFooterModel = setFooterModel::all();
+
+    //     $decde = array();
+    //     $slide = DB::table('setting_option')->where('key_option', 'slide')->first();
+    //     if(isset($slide)){$decde = json_decode($slide->value_option);}
+        
+    //     $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+    //     $news = newsModel::query()
+    //     ->orderBy('id', 'desc')
+    //     ->take(5)->get();
+
+    //     // dd($decde);
+
+    //     return view('frontend/index-page', [
+    //         'layout' => 'side-menu',
+    //         'categories' => $categories,
+    //         'cars' => $cars,
+    //         'allcarcount' => $allcarcount,
+    //         'allcars6' => $allcars6,
+    //         'brand' => $qrybrand,
+    //         'slide' => $decde,
+    //         'setFooterModel' => $setFooterModel,
+    //         'news' => $news,
+    //         'province' => $province
+    //     ]);
+    // }
     public function newsPage()
     {
 

@@ -739,6 +739,11 @@ $arr_gear = array(
             var gear = isMobile ? $('input[name="advance-gear-mobile"]:checked').val() : $('input[name="advance-gear"]:checked').val();
             var gas = isMobile ? $('select[name="gas_mobile"]').val() : $('select[name="gas"]').val();
 
+            // Determine the cash type (สด or ผ่อน) based on the current view
+            var cashType = isMobile
+                ? $('.tab_footer_btn .active').text().trim() === "ราคาซื้อสด" ? 'cash' : 'finance'
+                : $('.tab_article_btn .active').text().trim() === "ราคาซื้อสด" ? 'cash' : 'finance';
+
             // Function to find the numeric value based on the label
             function findPriceValue(label) {
                 let found = priceOptions.find(option => option.label === label);
@@ -751,12 +756,8 @@ $arr_gear = array(
 
             // Ensure that min_year is less than or equal to max_year
             if (parseInt(yearStart) > parseInt(yearEnd)) {
-                // Swap the values if they are in the wrong order
                 [yearStart, yearEnd] = [yearEnd, yearStart];
             }
-
-            // console.log(priceMinimum); // Correct numeric value
-            // console.log(priceMaximum); // Correct numeric value
 
             // Function to fetch name from server
             function fetchName(url, id, callback) {
@@ -842,24 +843,35 @@ $arr_gear = array(
                 if (submodelName !== 'empty') {
                     url += '/' + encodeURIComponent(submodelName);
                 }
-                if (province && province !== 'empty') {
+                if (province && province !== 'จังหวัด') {
                     url += '/' + encodeURIComponent(province);
                 }
 
                 // Construct query parameters
                 var queryParams = [];
 
+                // Add the cash type to the query string
+                if (cashType) {
+                    queryParams.push('cashtype=' + encodeURIComponent(cashType));
+                }
+
+                // Add price filters based on the cash type
+                if (cashType === 'cash') {
+                    if (priceMinimum) {
+                        queryParams.push('min_price=' + encodeURIComponent(priceMinimum));
+                    }
+                    if (priceMaximum) {
+                        queryParams.push('max_price=' + encodeURIComponent(priceMaximum));
+                    }
+                } else if (cashType === 'finance') {
+                    if (monthlyPayment) {
+                        queryParams.push('monthly=' + encodeURIComponent(monthlyPayment));
+                    }
+                }
+
+                // Add other filters to the query string if they are present
                 if (isEVChecked) {
                     queryParams.push('ev=yes');
-                }
-                if (priceMinimum) {
-                    queryParams.push('min_price=' + encodeURIComponent(priceMinimum));
-                }
-                if (priceMaximum) {
-                    queryParams.push('max_price=' + encodeURIComponent(priceMaximum));
-                }
-                if (monthlyPayment) {
-                    queryParams.push('monthly=' + encodeURIComponent(monthlyPayment));
                 }
                 if (yearStart) {
                     queryParams.push('min_year=' + encodeURIComponent(yearStart));
@@ -867,13 +879,13 @@ $arr_gear = array(
                 if (yearEnd) {
                     queryParams.push('max_year=' + encodeURIComponent(yearEnd));
                 }
-                if (color) {
+                if (color && color !== 'สี') {
                     queryParams.push('color=' + encodeURIComponent(color));
                 }
-                if (gear) {
+                if (gear && gear !== 'empty') {
                     queryParams.push('gear=' + encodeURIComponent(gear));
                 }
-                if (gas) {
+                if (gas && gas !== '') {
                     queryParams.push('fuel_type=' + encodeURIComponent(gas));
                 }
 
@@ -892,6 +904,7 @@ $arr_gear = array(
 
     });
 </script>
+
 
 @endsection
 
