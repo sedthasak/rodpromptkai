@@ -239,7 +239,6 @@ $arr_gear = array(
                                                     @if($topleftPath)
                                                         <div class="tag-top-left"><img src="{{ $topleftPath }}" alt=""></div>
                                                     @endif
-                                                    <!-- <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div> -->
                                                     <figure>
                                                         <div class="cover-car">
                                                             <div class="box-timeout">
@@ -252,8 +251,15 @@ $arr_gear = array(
                                                         </div>
                                                         <figcaption>
                                                             <div class="grid-desccar">
-                                                                <div class="car-name" style="color: {{ $font1 }}">{{ $car->modelyear }} {{ $car->brand->title }} {{ $car->model->model }}</div>
-                                                                <div class="car-series" style="color: {{ $font2 }}">{{ $car->generation->generations }} {{ $car->subModel->sub_models }}</div>
+                                                                <div class="car-name" style="color: {{ $font1 }}">
+                                                                    {{ $car->modelyear }} 
+                                                                    {{ $car->brand ? $car->brand->title : 'N/A' }} 
+                                                                    {{ $car->model ? $car->model->model : 'N/A' }}
+                                                                </div>
+                                                                <div class="car-series" style="color: {{ $font2 }}">
+                                                                    {{ $car->generation ? $car->generation->generations : 'N/A' }} 
+                                                                    {{ $car->subModel ? $car->subModel->sub_models : 'N/A' }}
+                                                                </div>
                                                                 <div class="car-province" style="color: {{ $font2 }}">{{ $car->province }}</div>
                                                                 <div class="row">
                                                                     <div class="col-12 col-md-8">
@@ -296,16 +302,12 @@ $arr_gear = array(
                                                                     </div>
                                                                 </div>
                                                             </div>
-
-
-                                                            
                                                         </figcaption>
                                                     </figure>
                                                 </div>
                                             </div>
 
                                         @else
-                                            <!-- Default design when there is no myDeal but use dynamic text -->
                                             @php
                                                 $profilecar_img = $car->feature ? asset('storage/' . $car->feature) : asset('public/uploads/default-car.jpg');
                                                 $feature = $car->feature ? asset('storage/' . $car->feature) : asset('frontend/deal-example.webp');
@@ -324,8 +326,15 @@ $arr_gear = array(
                                                         </div>
                                                         <figcaption>
                                                             <div class="grid-desccar">
-                                                                <div class="car-name">{{ $car->modelyear }} {{ $car->brand->title }} {{ $car->model->model }}</div>
-                                                                <div class="car-series">{{ $car->generation->generations }} {{ $car->subModel->sub_models }}</div>
+                                                                <div class="car-name">
+                                                                    {{ $car->modelyear }} 
+                                                                    {{ $car->brand ? $car->brand->title : 'N/A' }} 
+                                                                    {{ $car->model ? $car->model->model : 'N/A' }}
+                                                                </div>
+                                                                <div class="car-series">
+                                                                    {{ $car->generation ? $car->generation->generations : 'N/A' }} 
+                                                                    {{ $car->subModel ? $car->subModel->sub_models : 'N/A' }}
+                                                                </div>
                                                                 <div class="car-province">{{ $car->province }}</div>
                                                                 <div class="row">
                                                                     <div class="col-12 col-md-8">
@@ -364,7 +373,6 @@ $arr_gear = array(
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
                                                         </figcaption>
                                                     </figure>
                                                 </a>
@@ -394,6 +402,8 @@ $arr_gear = array(
                             </form>
                         </div>
                     </div>
+
+
                     @else
                     <div class="box-text-notfound">
                         <img src="{{asset('frontend/images/car-notfound.svg')}}" alt="">
