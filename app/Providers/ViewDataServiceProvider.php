@@ -69,7 +69,7 @@ class ViewDataServiceProvider extends ServiceProvider
                 ['value' => 40000000, 'label' => '40 ล้านบาท'],
                 ['value' => 50000000, 'label' => '50 ล้านบาท'],
             ];
-
+            $allprovince = provincesModel::all();
             $view->with('priceOptions', $priceOptions);
 
 
@@ -117,14 +117,14 @@ class ViewDataServiceProvider extends ServiceProvider
                 foreach($mycars as $keystatus => $carstatus){
                     $carfromstatus[$carstatus->status][] = $carstatus;
                 }   
-                $allprovince = provincesModel::all();
+                
 
                 // Share the variables with all views
                 $view->with('carfromstatus', $carfromstatus);
                 $view->with('contacts_back', $contacts_back);
                 $view->with('notice', $notice);
                 $view->with('customer_id', $customerdata->id);
-                $view->with('allprovince', $allprovince);
+                
 
                 /**************************************************************/
                 /******************************KONG****************************/
@@ -571,7 +571,7 @@ class ViewDataServiceProvider extends ServiceProvider
                 $view->with('customer_post', $customer_post);
                 $view->with('customer_deal', $customer_deal);
                 $view->with('customer_cars', $structuredCars);
-
+                $view->with('allprovince', $allprovince);
                 /**************************************************************/
                 /******************************KONG****************************/
                 /**************************************************************/
