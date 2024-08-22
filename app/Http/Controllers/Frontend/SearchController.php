@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Image;
+use Illuminate\Support\Facades\Artisan;
 
 use App\Models\carsModel;
+use App\Models\galleryModel;
 
 use App\Models\categoriesModel;
 use App\Models\brandsModel;
@@ -15,8 +18,147 @@ use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 use App\Models\Province;
 
+use App\Models\temp_carsModel;
+use App\Models\temp_galleryModel;
+
 class SearchController extends Controller
 {
+
+    public function convertcar()
+    {
+        $cars = temp_carsModel::with('galleries')->whereNull('convert')->limit(3)->get();
+        $convertedCarIds = [];
+
+        foreach ($cars as $car) {
+            $postId = $car->id;
+
+            try {
+                // Insert data into carsModel
+                $newCar = new carsModel();
+                $newCar->fill($car->only($newCar->getFillable()));
+                $newCar->slug = $newCar->generateUniqueSlug($car->id);
+                $newCar->save();
+
+                $slug = $newCar->slug;
+
+                // Convert and store the feature image
+                if ($car->feature) {
+                    $this->convertAndStoreImage($car->feature, $newCar->id, 'feature', "{$slug}-feature.webp");
+                    $newCar->feature = "uploads/feature/{$newCar->id}/{$slug}-feature.webp";
+                }
+
+                // Convert and store the license plate image
+                if ($car->licenseplate) {
+                    $this->convertAndStoreImage($car->licenseplate, $newCar->id, 'licenseplate', "{$slug}-licenseplate.webp");
+                    $newCar->licenseplate = "uploads/licenseplate/{$newCar->id}/{$slug}-licenseplate.webp";
+                }
+
+                // Convert and store gallery images
+                foreach ($car->galleries as $index => $gallery) {
+                    $galleryFilename = "{$slug}-{$gallery->type}-{$newCar->id}-" . ($index + 1) . ".webp";
+                    $galleryPath = $this->convertAndStoreImage($gallery->gallery, $newCar->id, $gallery->type, $galleryFilename);
+
+                    // Insert the converted gallery path into the galleryModel
+                    galleryModel::create([
+                        'cars_id' => $newCar->id,
+                        'gallery' => "uploads/{$gallery->type}/{$newCar->id}/{$galleryFilename}",
+                        'type' => $gallery->type,
+                        'pre_id' => $gallery->pre_id,
+                    ]);
+                }
+
+                // Update paths in carsModel
+                $newCar->save();
+
+                // Mark as converted in temp_carsModel
+                $car->convert = 1;
+                $car->save();
+
+                // Collect converted car IDs
+                $convertedCarIds[] = $newCar->id;
+
+            } catch (\Exception $e) {
+                // Log the error message for debugging if needed
+                \Log::error("Skipping post ID {$postId} due to error: " . $e->getMessage());
+
+                // Mark the post as failed by setting convert field to 2
+                $car->convert = 2;
+                $car->save();
+
+                // Skip this post and continue to the next one
+                continue;
+            }
+        }
+
+        return response()->json(['convertedCarIds' => $convertedCarIds]);
+    }
+
+    private function convertAndStoreImage($imagePath, $postId, $type, $filename)
+    {
+        // Full URL of the image
+        $imageUrl = 'https://www.rodpromptkai.com/' . $imagePath;
+
+        // Retrieve the image content from the URL without encoding
+        $imageContent = @file_get_contents($imageUrl);
+        if ($imageContent === false) {
+            throw new \Exception("Unable to retrieve the image from the URL: " . $imageUrl);
+        }
+
+        // Create an image instance from the content
+        $image = Image::make($imageContent);
+
+        // Define the save directory based on type and post ID
+        $saveDir = storage_path("app/public/uploads/{$type}/{$postId}/");
+
+        // Ensure the directory exists
+        if (!file_exists($saveDir)) {
+            mkdir($saveDir, 0777, true);
+        }
+
+        // Define the save path
+        $savePath = $saveDir . $filename;
+
+        // Save the image as WebP
+        $image->save($savePath, 80, 'webp');
+
+        return $savePath;
+    }
+
+
+
+
+
+
+
+
+
+
+    public function testdev(Request $requestl)
+    {
+
+        return view('frontend.testdev', [
+            // 'car' => $car,
+        ]);
+    }
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     public function carsearchPage(Request $request, $kw1 = null, $kw2 = null, $kw3 = null, $kw4 = null, $kw5 = null)
     {

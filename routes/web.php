@@ -253,6 +253,10 @@ Route::middleware('sessionlogin')->group(function() {
 
 
     Route::controller(SearchController::class)->group(function() {
+        Route::get('/testdev', 'testdev')->name('testdev');
+        Route::get('/convertcar', 'convertcar')->name('convertcar'); // New route for AJAX
+
+
         Route::get('/carsearch/{kw1?}/{kw2?}/{kw3?}/{kw4?}/{kw5?}', 'carsearchPage')->name('carsearchPage');
         
         Route::get('/get-brand-name/{id}', 'getBrandName')->name('getBrandName');
