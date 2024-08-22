@@ -70,6 +70,7 @@ class ViewDataServiceProvider extends ServiceProvider
                 ['value' => 50000000, 'label' => '50 ล้านบาท'],
             ];
             $allprovince = provincesModel::all();
+            $view->with('allprovince', $allprovince);
             $view->with('priceOptions', $priceOptions);
 
 
@@ -571,7 +572,7 @@ class ViewDataServiceProvider extends ServiceProvider
                 $view->with('customer_post', $customer_post);
                 $view->with('customer_deal', $customer_deal);
                 $view->with('customer_cars', $structuredCars);
-                $view->with('allprovince', $allprovince);
+                
                 /**************************************************************/
                 /******************************KONG****************************/
                 /**************************************************************/
