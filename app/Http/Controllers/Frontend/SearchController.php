@@ -24,9 +24,35 @@ use App\Models\temp_galleryModel;
 class SearchController extends Controller
 {
 
+
+    public function testdev(Request $request)
+    {
+        $tempCars = carsModel::where('convert', '=', 4)->limit(200)->get();
+        return view('frontend.testdev');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function convertcar()
     {
-        $cars = temp_carsModel::with('galleries')->whereNull('convert')->limit(3)->get();
+        $cars = temp_carsModel::with('galleries')->whereNull('convert')->limit(2)->get();
         $convertedCarIds = [];
 
         foreach ($cars as $car) {
@@ -133,13 +159,7 @@ class SearchController extends Controller
 
 
 
-    public function testdev(Request $requestl)
-    {
-
-        return view('frontend.testdev', [
-            // 'car' => $car,
-        ]);
-    }
+    
         
 
 
@@ -572,4 +592,211 @@ class SearchController extends Controller
     {
         return carsModel::latest()->limit(4)->get(); // Example: returning the latest 4 cars
     }
+
+
+
+
+
+        // public function testdevs(Request $request)
+    // {
+    //     $tempCars = temp_carsModel::where('convert', '=', 4)->limit(200)->get();
+        
+    //     foreach ($tempCars as $car) {
+    //         $matchingCars = carsModel::where('status', $car->status)
+    //             ->where('customer_id', $car->customer_id)
+    //             ->where('type', $car->type)
+    //             ->where('brand_id', $car->brand_id)
+    //             ->where('model_id', $car->model_id)
+    //             ->where('generations_id', $car->generations_id)
+    //             ->where('sub_models_id', $car->sub_models_id)
+    //             ->where('modelyear', $car->modelyear)
+    //             ->where('vehicle_code', $car->vehicle_code)
+    //             ->where('mileage', $car->mileage)
+    //             ->select('id', 'feature', 'licenseplate') // Select only the feature and licenseplate fields
+    //             ->limit(100) // Limit to 100 matching records
+    //             ->get();
+
+    //         foreach ($matchingCars as $matchingCar) {
+    //             $featurePath = storage_path("app/public/uploads/feature/{$car->id}/*");
+    //             $exteriorPath = storage_path("app/public/uploads/exterior/{$car->id}/*");
+    //             $interiorPath = storage_path("app/public/uploads/interior/{$car->id}/*");
+    //             $licenseplatePath = storage_path("app/public/uploads/licenseplate/{$car->id}/*");
+    //             $registrationPath = storage_path("app/public/uploads/registration/{$car->id}/*");
+
+    //             $featureFiles = glob($featurePath);
+    //             $exteriorFiles = glob($exteriorPath);
+    //             $interiorFiles = glob($interiorPath);
+    //             $licenseplateFiles = glob($licenseplatePath);
+    //             $registrationFiles = glob($registrationPath);
+    //             echo "<br>";
+    //             echo 'matchingCar '.$matchingCar->id;
+    //             echo "<br>";
+    //             echo 'featureFiles '.count($featureFiles);
+    //             echo "<br>";
+    //             echo 'exteriorFiles '.count($exteriorFiles);
+    //             echo "<br>";
+    //             echo 'interiorFiles '.count($interiorFiles);
+    //             echo "<br>";
+    //             if (count($featureFiles) >= 1 && count($exteriorFiles) >= 3 && count($interiorFiles) >= 3) {
+    //                 $featureFilePath = str_replace(storage_path('app/public/'), '', $featureFiles[0]);
+    //                 $matchingCar->feature = $featureFilePath;
+
+    //                 if (count($licenseplateFiles) >= 1) {
+    //                     $licenseplateFilePath = str_replace(storage_path('app/public/'), '', $licenseplateFiles[0]);
+    //                     $matchingCar->licenseplate = $licenseplateFilePath;
+    //                 }
+
+    //                 $matchingCar->save();
+
+    //                 Create entries in galleryModel for interior, exterior, and registration files
+    //                 foreach ($interiorFiles as $file) {
+    //                     galleryModel::create([
+    //                         'cars_id' => $matchingCar->id,
+    //                         'gallery' => str_replace(storage_path('app/public/'), '', $file),
+    //                         'type' => 'interior',
+    //                     ]);
+    //                 }
+
+    //                 foreach ($exteriorFiles as $file) {
+    //                     galleryModel::create([
+    //                         'cars_id' => $matchingCar->id,
+    //                         'gallery' => str_replace(storage_path('app/public/'), '', $file),
+    //                         'type' => 'exterior',
+    //                     ]);
+    //                 }
+
+    //                 foreach ($registrationFiles as $file) {
+    //                     galleryModel::create([
+    //                         'cars_id' => $matchingCar->id,
+    //                         'gallery' => str_replace(storage_path('app/public/'), '', $file),
+    //                         'type' => 'registration',
+    //                     ]);
+    //                 }
+
+    //                 $car->convert = 1;
+    //                 $car->save();
+
+    //                 echo "Successfully processed Temp Car ID: {$car->id} and updated Car ID: {$matchingCar->id}<br>";
+    //                 echo "Feature Path: {$matchingCar->feature}<br>";
+    //                 echo "Licenseplate Path: " . ($matchingCar->licenseplate ?? 'No licenseplate file found') . "<br>";
+
+    //                 echo "Interior Files:<br>";
+    //                 foreach ($interiorFiles as $file) {
+    //                     echo "- " . str_replace(storage_path('app/public/'), '', $file) . "<br>";
+    //                 }
+
+    //                 echo "Exterior Files:<br>";
+    //                 foreach ($exteriorFiles as $file) {
+    //                     echo "- " . str_replace(storage_path('app/public/'), '', $file) . "<br>";
+    //                 }
+
+    //                 echo "Registration Files:<br>";
+    //                 foreach ($registrationFiles as $file) {
+    //                     echo "- " . str_replace(storage_path('app/public/'), '', $file) . "<br>";
+    //                 }
+    //             } else {
+    //                 $car->convert = 4;
+    //                 $car->save();
+    //                 echo "Required files not found for Temp Car ID: {$car->id}<br>";
+    //             }
+
+    //             echo "<br>";
+    //         }
+    //     }
+
+    //     return view('frontend.testdev');
+    // }
+
+    // public function testdev(Request $request)
+    // {
+    //     // Get the current page or set it to 1 by default
+    //     $page = $request->input('page', 5);
+
+    //     // Retrieve temp_carsModel records with pagination (limit 500 per page)
+    //     $getcarsModels = temp_carsModel::paginate(500, ['*'], 'page', $page);
+
+    //     $results = [];
+
+    //     foreach ($getcarsModels as $car) {
+    //         // Search in carsModel for matching records
+    //         $matchingIds = carsModel::where('status', $car->status)
+    //             ->where('customer_id', $car->customer_id)
+    //             ->where('type', $car->type)
+    //             ->where('title', $car->title)
+    //             ->where('brand_id', $car->brand_id)
+    //             ->where('model_id', $car->model_id)
+    //             ->where('generations_id', $car->generations_id)
+    //             ->where('sub_models_id', $car->sub_models_id)
+    //             ->where('modelyear', $car->modelyear)
+    //             ->where('vehicle_code', $car->vehicle_code)
+    //             ->where('mileage', $car->mileage)
+    //             ->pluck('id'); // Get the IDs of matching rows
+
+    //         // Filter only if the matching IDs count is more than 1 or 0 (no matches)
+    //         if ($matchingIds->count() > 1 || $matchingIds->isEmpty()) {
+    //             // Store the result with the car ID as the key and matching IDs as the value
+    //             $results[$car->id] = $matchingIds->toArray();
+
+    //             // Check if the feature field matches between the source and any of the found records
+    //             foreach ($matchingIds as $matchingId) {
+    //                 $matchedCar = carsModel::find($matchingId);
+    //                 if ($matchedCar && $car->feature == $matchedCar->feature) {
+    //                     // Update the mydeals field of the matching record
+    //                     $matchedCar->update(['mydeals' => 'abnormal']);
+    //                     break; // Stop checking further once a match is found
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     // Output the results for debugging
+    //     dd($results);
+
+    //     return view('frontend.testdev', [
+    //         'results' => $results, // Pass results to the view if needed
+    //         'getcarsModels' => $getcarsModels, // Pass paginated carsModels to the view if needed
+    //     ]);
+    // }
+
+    // public function testdev(Request $request)
+    // {
+    //     // Get the current page or set it to 1 by default
+    //     $page = $request->input('page', 22);
+
+    //     // Retrieve carsModel records with pagination
+    //     $getcarsModels = carsModel::paginate(200, ['*'], 'page', $page);
+
+    //     $results = [];
+
+    //     foreach ($getcarsModels as $car) {
+    //         // Search in temp_carsModel for matching records
+    //         $matchingCount = temp_carsModel::where('status', $car->status)
+    //             ->where('customer_id', $car->customer_id)
+    //             ->where('type', $car->type)
+    //             ->where('brand_id', $car->brand_id)
+    //             ->where('model_id', $car->model_id)
+    //             ->where('generations_id', $car->generations_id)
+    //             ->where('sub_models_id', $car->sub_models_id)
+    //             ->where('modelyear', $car->modelyear)
+    //             ->where('vehicle_code', $car->vehicle_code)
+    //             ->where('mileage', $car->mileage)
+    //             ->count(); // Get the count of matching rows
+
+    //         // Store the result with the car ID as the key
+    //         $results[$car->id] = $matchingCount;
+    //     }
+
+    //     // Output the results for debugging
+    //     dd($results);
+
+    //     return view('frontend.testdev', [
+    //         'results' => $results, // Pass results to the view if needed
+    //         'getcarsModels' => $getcarsModels, // Pass paginated carsModels to the view if needed
+    //     ]);
+    // }
+
+
+
+
+    
 }

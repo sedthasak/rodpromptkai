@@ -7,8 +7,8 @@
 @section('content')
 @include('frontend.layouts.inc_profile')	
 
-<div class="button btn btn-success" id="loop" data-loop="">Loop</div>
-<div class="button btn btn-success" id="start" data-process="">START</div>
+<!-- <div class="button btn btn-success" id="loop" data-loop="">Loop</div>
+<div class="button btn btn-success" id="start" data-process="">START</div> -->
 <section class="row"><div class="col-12 page-profile"></div></section>
 @endsection
 
