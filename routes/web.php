@@ -252,18 +252,7 @@ Route::middleware('sessionlogin')->group(function() {
 
 
 
-    Route::controller(SearchController::class)->group(function() {
-        Route::get('/testdev', 'testdev')->name('testdev');
-        Route::get('/convertcar', 'convertcar')->name('convertcar'); // New route for AJAX
-
-
-        Route::get('/carsearch/{kw1?}/{kw2?}/{kw3?}/{kw4?}/{kw5?}', 'carsearchPage')->name('carsearchPage');
-        
-        Route::get('/get-brand-name/{id}', 'getBrandName')->name('getBrandName');
-        Route::get('/get-model-name/{id}', 'getModelName')->name('getModelName');
-        Route::get('/get-generation-name/{id}', 'getGenerationName')->name('getGenerationName');
-        Route::get('/get-submodel-name/{id}', 'getSubmodelName')->name('getSubmodelName');
-    });
+    
 
     
     
@@ -274,6 +263,21 @@ Route::middleware('sessionlogin')->group(function() {
     // });
     
 });
+Route::controller(SearchController::class)->group(function() {
+    Route::get('/testdev', 'testdev')->name('testdev');
+    Route::get('/convertcar', 'convertcar')->name('convertcar'); // New route for AJAX
+
+
+    Route::get('/carsearch/{kw1?}/{kw2?}/{kw3?}/{kw4?}/{kw5?}', 'carsearchPage')->name('carsearchPage');
+    
+    Route::get('/get-brand-name/{id}', 'getBrandName')->name('getBrandName');
+    Route::get('/get-model-name/{id}', 'getModelName')->name('getModelName');
+    Route::get('/get-generation-name/{id}', 'getGenerationName')->name('getGenerationName');
+    Route::get('/get-submodel-name/{id}', 'getSubmodelName')->name('getSubmodelName');
+});
+
+
+
 Route::get('/callback', [PackagesController::class, 'callbackAction'])->name('callbackAction');
 Route::get('/notify', [PackagesController::class, 'notifyAction'])->name('notifyAction');
 
