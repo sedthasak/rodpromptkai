@@ -19,10 +19,69 @@ use Illuminate\Validation\Rules;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Customer;
 use App\Models\provincesModel;
+use App\Models\VipPackageModel;
+use App\Models\OrderModel;
 
 class CustomersController extends Controller
 {
-    
+    public function BN_customers_register_vip_action(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:customer,id',
+            'vip' => 'required|exists:package_vips,id',
+            'accept_payment' => 'accepted'
+        ]);
+
+        $vipPackage = VipPackageModel::find($request->vip);
+
+        $orderNumber = 'VIP-' . strtoupper(uniqid());
+
+        $inputPrice = $vipPackage->price;
+        $vat = $inputPrice * 0.07; // 7% VAT
+        $netPrice = $inputPrice - $vat;
+        $total = $inputPrice;
+
+        $order = OrderModel::create([
+            'status' => 'success',
+            'order_number' => $orderNumber,
+            'customer_id' => $request->id,
+            'type' => 'vip',
+            'net_price' => $total,
+            'vat' => $vat,
+            'price' => $netPrice,
+            'total' => $total,
+            'accept' => 1,
+            'no_receipt' => 1,
+            'payment_method' => 'registration',
+            'payment_date' => now(),
+            'payment_status' => 'success',
+        ]);
+
+        $customer = Customer::find($request->id);
+        $customer->vippack = $vipPackage->id;
+        $customer->vippack_quota = $vipPackage->limit;
+        $customer->vippack_regis = now();
+        $customer->vippack_expire = now()->addYear();
+
+        $customer->accumulate = $customer->accumulate + $total;
+        $customer->save();
+
+        return redirect()->route('BN_customers_detail', ['id' => $customer->id])
+                        ->with('success', 'VIP package registered successfully!');
+    }
+
+
+
+    public function BN_customers_register_vip(Request $request, $id)
+    {
+        $customer = Customer::find($id);
+        $vips = VipPackageModel::get();
+        return view('backend/customer-register-vip', [ 
+            'default_pagename' => 'ลงทะเบียนวีไอพี',
+            'customer' => $customer,
+            'vips' => $vips,
+        ]);
+    }
     public function BN_customers(Request $request)
     {
         // $Customer = Customer::query()
@@ -40,11 +99,15 @@ class CustomersController extends Controller
                     ->orWhere('phone', 'LIKE', '%' . $keyword . '%');
             });
         }
+        if ($request->filled('status')) {
+            $status = $request->input('status');
+            $query->where('customer.role', '=', $status);
+        }
 
         $resultPerPage = 24;
         $query = $query->paginate($resultPerPage);
 
-
+        // dd($query);
         return view('backend/customer', [ 
             'default_pagename' => 'ลูกค้า',
             'query' => $query,

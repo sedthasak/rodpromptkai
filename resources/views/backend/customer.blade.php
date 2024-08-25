@@ -26,7 +26,12 @@
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg> 
         </div>
-
+        <select id="status" name="status" onchange="applyFilters()" class="form-select py-3 px-4 box w-full lg:w-auto mt-3 lg:mt-0 ml-auto">
+            <option value="">ทุกสถานะ&emsp;&emsp;</option>
+            <option value="normal" @if(request()->input('status') == 'normal') selected @endif>ลูกค้าทั่วไป&emsp;&emsp;</option>
+            <option value="dealer" @if(request()->input('status') == 'dealer') selected @endif>ดีลเลอร์&emsp;&emsp;</option>
+            <option value="vip" @if(request()->input('status') == 'vip') selected @endif>วีไอพี&emsp;&emsp;</option>
+        </select>
     </div>
     <!-- <div id="fetchCustomerss"></div> -->
 
@@ -42,6 +47,7 @@
                         <th class="whitespace-nowrap">เบอร์โทร</th>
                         <th class="whitespace-nowrap">ชื่อ</th>
                         <th class="whitespace-nowrap">อีเมล</th>
+                        <th class="whitespace-nowrap">สถานะ</th>
                         <th class="text-center whitespace-nowrap"></th>
                     </tr>
                 </thead>
@@ -68,6 +74,9 @@
                             </td>
                             <td>
                                 <div class="font-medium whitespace-nowrap">{{$res->email}}</div>
+                            </td>
+                            <td>
+                                <div class="font-medium whitespace-nowrap">{{$res->role}}</div>
                             </td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
@@ -104,29 +113,19 @@
 <script>
 
     function applyFilters() {
+        var status = document.getElementById('status').value;
         var keyword = document.getElementById('keyword').value;
-        var newUrl = `{{ route('BN_customers') }}?keyword=${keyword}`;
+        var newUrl = `{{ route('BN_customers') }}?status=${status}&keyword=${keyword}`;
         window.location.href = newUrl;
     }
+
+    // Add event listeners to the select boxes
+    document.getElementById('status').addEventListener('change', applyFilters);
     function handleEnter(event) {
         if (event.key === 'Enter') {
             applyFilters();
         }
     }
-
-    // jQuery(function() {
-    //     fetchCustomers();
-    //     function fetchCustomers(){
-    //         jQuery.ajax({
-    //             url: '{{route('BN_customersFetch')}}',
-    //             method: 'get',
-    //             success: function(response){
-    //                 jQuery('#fetchCustomers').html(response);
-    //             }
-    //         });
-    //     }
-    // });
-    
 
 </script>
 

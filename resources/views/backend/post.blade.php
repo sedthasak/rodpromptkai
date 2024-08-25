@@ -154,11 +154,8 @@ $arrtype = array(
         var type = document.getElementById('type').value;
         var keyword = document.getElementById('keyword').value;
 
-        // Build the new URL with the selected filter parameters
-        // var newUrl = `{{ route('BN_posts') }}?status=${status}`;
         var newUrl = `{{ route('BN_posts') }}?status=${status}&type=${type}&keyword=${keyword}`;
 
-        // Reload the page with the new URL
         window.location.href = newUrl;
     }
 
@@ -171,17 +168,5 @@ $arrtype = array(
         }
     }
 
-    // jQuery(function() {
-    //     fetchPosts();
-    //     function fetchPosts(){
-    //         jQuery.ajax({
-    //             url: '{{route('BN_postsFetch')}}',
-    //             method: 'get',
-    //             success: function(response){
-    //                 jQuery('#fetchPosts').html(response);
-    //             }
-    //         });
-    //     }
-    // });
 </script>
 @endsection

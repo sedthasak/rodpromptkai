@@ -31,8 +31,6 @@ class PostController extends Controller
 {
     public function carpostbrowseeditsubmit(Request $request, $id)
     {
-        // dd($request);
-        // Validate incoming image paths
         $request->validate([
             'image_paths' => 'nullable|array',
             'image_paths.*' => 'nullable|string',
@@ -45,62 +43,46 @@ class PostController extends Controller
         // Retrieve the existing post
         $cars = carsModel::findOrFail($id);
 
+        // Update car attributes from the request
         $cars->customer_id = $request->customer_id;
         $cars->type = $request->type;
-        
         $cars->brand_id = $request->brands;
         $cars->model_id = $request->models;
         $cars->generations_id = $request->generations;
         $cars->sub_models_id = $request->sub_models;
         $cars->modelyear = $request->years;
-        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
+        $cars->color = ($request->color == '9999999999') ? $request->other_color : $request->color;
         $cars->mileage = $request->mileage;
-
-        if ($request->gear == "auto") {
-            $cars->gear = "auto";
-        }
-        else {
-            $cars->gear = "manual";
-        }
-        if ($request->gashas == "1") {
-            $cars->gas = "รถน้ำมัน / hybrid";
-            $cars->ev = "0";
-        }
-        else if ($request->gashas == "2") {
-            $cars->gas = "รถไฟฟ้า EV 100%";
-            $cars->ev = "1";
-        }
-        else {
-            $cars->gas = "รถติดแก๊ส";
-            $cars->ev = "0";
-        }
+        $cars->gear = $request->gear == "auto" ? "auto" : "manual";
+        $cars->gas = $request->gashas == "1" ? "รถน้ำมัน / hybrid" : ($request->gashas == "2" ? "รถไฟฟ้า EV 100%" : "รถติดแก๊ส");
+        $cars->ev = $request->gashas == "2" ? "1" : "0";
         $cars->vehicle_code = $request->vehicle_code;
         $cars->licenseplate = $request->licenseplate;
+
         if ($request->has('warranty_1')) {
             $cars->warranty_1 = 1;
-        }
-        else {
+        } else {
             $cars->warranty_1 = 0;
         }
         if ($request->has('warranty_2')) {
             $cars->warranty_2 = 1;
-        }
-        else {
+        } else {
             $cars->warranty_2 = 0;
         }
         if ($request->has('warranty_3')) {
             $cars->warranty_3 = 1;
-        }
-        else {
+        } else {
             $cars->warranty_3 = 0;
         }
+
         $cars->warranty_2_input = $request->warranty_2_input;
 
-        if($request->status == 'approved'){
+        if ($request->status == 'approved') {
             $cars->status = 'approved';
-        }elseif($request->status == 'rejected'){
+        } elseif ($request->status == 'rejected') {
             $cars->status = 'created';
         }
+
         $cars->province = $request->province;
         $cars->title = $request->title;
         $cars->detail = $request->detail;
@@ -108,35 +90,30 @@ class PostController extends Controller
         $cars->feature = '';
         $cars->licenseplate = '';
 
-        if (!empty($image_paths)) {
-            $cars->feature = $image_paths[0];
-        } else {
-            $cars->feature = '';
+        if (!empty($request->image_paths)) {
+            $cars->feature = $request->image_paths[0];
         }
-        if (!empty($registration_path)) {
-            $cars->licenseplate = $registration_path;
-        } else {
-            $cars->licenseplate = '';
+        if (!empty($request->registration_paths)) {
+            $cars->licenseplate = $request->registration_paths[0];
         }
-        // dd($cars);
+
         $cars->update();
 
         $cars2 = carsModel::find($cars->id);
         $strtotime = strtotime($cars2->created_at);
-        $cars2->ref_code = $strtotime.$cars2->customer_id;
+        $cars2->ref_code = $strtotime . $cars2->customer_id;
         $cars2->update();
 
-
-
-
+        // Delete old images
         $oldImages = galleryModel::where('cars_id', $id)->get();
         foreach ($oldImages as $oldImage) {
             Storage::delete('public/' . $oldImage->path);
             $oldImage->delete();
         }
 
+        // Process new images
         if ($request->has('image_paths')) {
-            $this->processImages($request->image_paths, 'exterior', $cars->id);
+            $this->processImages($request->image_paths, 'exterior', $cars->id, true);
         }
         if ($request->has('interior_paths')) {
             $this->processImages($request->interior_paths, 'interior', $cars->id);
@@ -144,43 +121,57 @@ class PostController extends Controller
         if ($request->has('registration_paths')) {
             $this->processImages($request->registration_paths, 'registration', $cars->id);
         }
-        // return redirect()->route('carpostregistersuccessPage')->with('success', 'Post updated successfully.');
+
         return redirect()->route('carpostregistersuccessPage');
     }
+
     // Process exterior and interior images
-    private function processImages($paths, $type, $postId)
+    private function processImages($paths, $type, $postId, $copyAsFeature = false)
     {
         foreach ($paths as $index => $path) {
-            // Source file path
             $sourcePath = storage_path('app/public/' . $path);
 
-            // Verify if source file exists
             if (!file_exists($sourcePath)) {
                 throw new \Exception("Failed to move {$type} image: Source file not found.");
             }
 
-            // Destination directory
             $destinationDir = storage_path('app/public/uploads/' . $type . '/' . $postId);
             if (!file_exists($destinationDir)) {
                 mkdir($destinationDir, 0777, true);
             }
 
-            // Generate a unique filename with post ID, type, and sequence number
-            $newFilename = $type . '-' . $postId . '-' . ($index + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+            $newFilename = "{$type}-{$postId}-" . ($index + 1) . '-' . uniqid() . ".{$extension}";
             $destinationPath = $destinationDir . '/' . $newFilename;
 
-            // Move file
             if (!rename($sourcePath, $destinationPath)) {
                 throw new \Exception("Failed to move {$type} image: File move operation failed.");
             }
 
-            
-            // Update carsModel based on type and index
+            // Update the carsModel based on type and index
             if ($type === 'exterior' && $index === 0) {
                 $car = carsModel::find($postId);
                 if ($car) {
                     $car->feature = 'uploads/' . $type . '/' . $postId . '/' . $newFilename;
                     $car->save();
+
+                    // Clone the first exterior image to the feature directory
+                    if ($copyAsFeature) {
+                        $featureDir = storage_path('app/public/uploads/feature/' . $postId);
+                        if (!file_exists($featureDir)) {
+                            mkdir($featureDir, 0777, true);
+                        }
+                        $featureFilename = "{$car->slug}-feature-{$postId}.{$extension}";
+                        $featurePath = $featureDir . '/' . $featureFilename;
+
+                        if (!copy($destinationPath, $featurePath)) {
+                            throw new \Exception('Failed to copy exterior image to feature folder.');
+                        }
+
+                        // Update the feature field with the new path
+                        $car->feature = 'uploads/feature/' . $postId . '/' . $featureFilename;
+                        $car->save();
+                    }
                 }
             }
 
@@ -192,16 +183,15 @@ class PostController extends Controller
                 }
             }
 
-
             // Update database with new path
             galleryModel::create([
                 'cars_id' => $postId,
                 'gallery' => 'uploads/' . $type . '/' . $postId . '/' . $newFilename,
                 'type' => $type,
             ]);
-            
         }
     }
+
     public function carpostbrowseedit($id)
     {
         $provinces = provincesModel::all();
@@ -268,42 +258,48 @@ class PostController extends Controller
     public function carpostuploadimage(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|max:12288', // Max 12MB
-            'type' => 'required|in:exterior,interior,registration', // Validate type: exterior or interior
+            'image' => 'required|image|max:12288',
+            'type' => 'required|in:exterior,interior,registration',
         ]);
 
         $extension = $request->file('image')->getClientOriginalExtension();
         $filename = $request->type . '-' . uniqid() . '.' . $extension;
 
-        // Save original image to temporary 'rest' directory
         $path = $request->file('image')->storeAs('public/uploads/rest', $filename);
 
-        // Check if the uploaded file is not already in WebP format
-        if ($extension !== 'webp') {
-            // Convert the image to WebP format
-            $webpPath = $this->convertToWebP($path);
+        $webpPath = $this->convertToWebP($path);
 
-            // Delete the original file after conversion to WebP
+        if (Storage::exists($path)) {
             Storage::delete($path);
-
-            // Return the path to the WebP image
-            return response()->json(['path' => str_replace('public/', '', $webpPath)]);
         }
 
-        return response()->json(['path' => str_replace('public/', '', $path)]);
+        return response()->json(['path' => str_replace('public/', '', $webpPath)]);
     }
+
+
     private function convertToWebP($path)
     {
-        // Generate a new filename with .webp extension
-        $newPath = str_replace('.' . pathinfo($path, PATHINFO_EXTENSION), '.webp', $path);
-
-        // Convert the image to WebP format using Intervention Image
         $image = Image::make(storage_path('app/' . $path));
+        $watermark = Image::make(public_path('frontend/images/watermark.png'));
+        $watermarkSize = $image->width() * 0.4;
+        $watermark->resize($watermarkSize, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $image->insert($watermark, 'bottom-right', 100, 50);
+
+        $filenameWithoutExtension = pathinfo($path, PATHINFO_FILENAME);
+        $newFilename = $filenameWithoutExtension . '_watermarked.webp';
+        $newPath = dirname($path) . '/' . $newFilename;
+
         $image->save(storage_path('app/' . $newPath), 80, 'webp');
 
-        // Return the path to the converted WebP image
         return $newPath;
     }
+
+
+
+
+
     public function carpostbrowsesubmit(Request $request)
     {
         $request->validate([
@@ -317,7 +313,6 @@ class PostController extends Controller
 
         $cars = new carsModel;
 
-        // Set attributes from request
         $cars->type = $request->type;
         $cars->customer_id = $request->customer_id;
         $cars->brand_id = $request->brands;
@@ -365,11 +360,11 @@ class PostController extends Controller
 
         $cars->save();
 
-        // Generate unique slug with the post ID and save again
         $cars->slug = $cars->generateUniqueSlug($cars->id);
         $cars->save();
 
-        $this->moveAndRenameFiles($request->image_paths, $cars->id, 'exterior');
+        // Move and rename files, and clone the first exterior image as feature
+        $this->moveAndRenameFiles($request->image_paths, $cars->id, 'exterior', true);
         if ($request->has('interior_paths')) {
             $this->moveAndRenameFiles($request->interior_paths, $cars->id, 'interior');
         }
@@ -382,45 +377,69 @@ class PostController extends Controller
 
 
 
-    public function moveAndRenameFiles($paths, $postId, $type)
+
+    public function moveAndRenameFiles($paths, $postId, $type, $copyAsFeature = false)
     {
         try {
+            $car = carsModel::findOrFail($postId);
+            $slug = $car->slug;
+
             foreach ($paths as $key => $path) {
-                // Source file path
                 $sourcePath = storage_path('app/public/' . $path);
-                // Destination directory
                 $destinationDir = storage_path('app/public/uploads/' . $type . '/' . $postId);
+
                 if (!file_exists($destinationDir)) {
                     mkdir($destinationDir, 0777, true);
                 }
-                // Generate a unique filename with post ID, type, and sequence number
-                $newFilename = $type . '-' . $postId . '-' . ($key + 1) . '-' . uniqid() . '.' . pathinfo($path, PATHINFO_EXTENSION);
+
+                $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+                $number = $key + 1;
+                if (in_array($type, ['interior', 'exterior'])) {
+                    $newFilename = "{$slug}-{$type}-{$postId}-{$number}.{$extension}";
+                } else {
+                    $newFilename = "{$slug}-{$type}-{$postId}.{$extension}";
+                }
+
                 $destinationPath = $destinationDir . '/' . $newFilename;
-                // Move file
+
                 if (!rename($sourcePath, $destinationPath)) {
                     throw new \Exception('Failed to move one or more images.');
                 }
 
-                // Update the path in the array to the new location
                 $paths[$key] = 'uploads/' . $type . '/' . $postId . '/' . $newFilename;
 
-                // Update database with new path
                 galleryModel::create([
                     'cars_id' => $postId,
                     'gallery' => $paths[$key],
                     'type' => $type,
                 ]);
 
-                // Check if this is the first exterior path
+                // Check if this is the first exterior image
                 if ($type === 'exterior' && $key === 0) {
-                    $car = carsModel::find($postId);
                     $car->feature = $paths[$key];
                     $car->save();
+
+                    // Clone the first exterior image to the feature directory
+                    if ($copyAsFeature) {
+                        $featureDir = storage_path('app/public/uploads/feature/' . $postId);
+                        if (!file_exists($featureDir)) {
+                            mkdir($featureDir, 0777, true);
+                        }
+                        $featureFilename = "{$slug}-feature-{$postId}.{$extension}";
+                        $featurePath = $featureDir . '/' . $featureFilename;
+
+                        if (!copy($destinationPath, $featurePath)) {
+                            throw new \Exception('Failed to copy exterior image to feature folder.');
+                        }
+
+                        // Update the feature field with the new path
+                        $car->feature = 'uploads/feature/' . $postId . '/' . $featureFilename;
+                        $car->save();
+                    }
                 }
 
-                // Check if this is the registration path
                 if ($type === 'registration') {
-                    $car = carsModel::find($postId);
                     $car->licenseplate = $paths[$key];
                     $car->save();
                 }
@@ -431,6 +450,8 @@ class PostController extends Controller
 
         return $paths;
     }
+
+
     public function carpostdeleteimage(Request $request)
     {
         $request->validate([
@@ -483,28 +504,40 @@ class PostController extends Controller
 
 
 
-    public function generateUniqueSlug()
-    {
-        // Get the related brand and model names
-        $brandName = $this->brand ? $this->brand->title : '';
-        $modelName = $this->model ? $this->model->model : '';
-        
-        // Create the slug base using year, brand, model, and title
-        $baseSlug = trim("{$this->yearregis} {$brandName} {$modelName} {$this->title}");
-        
-        // Generate the initial slug
-        $slug = Str::slug($baseSlug, '-');
-        
-        // Ensure uniqueness
-        $originalSlug = $slug;
-        $count = 1;
+    // private function convertToWebP($path)
+    // {
+    //     // Generate a new filename with .webp extension
+    //     $newPath = str_replace('.' . pathinfo($path, PATHINFO_EXTENSION), '.webp', $path);
 
-        while (carsModel::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $count++;
-        }
+    //     // Convert the image to WebP format using Intervention Image
+    //     $image = Image::make(storage_path('app/' . $path));
+    //     $image->save(storage_path('app/' . $newPath), 80, 'webp');
 
-        return $slug;
-    }
+    //     // Return the path to the converted WebP image
+    //     return $newPath;
+    // }
+    // public function generateUniqueSlug()
+    // {
+    //     // Get the related brand and model names
+    //     $brandName = $this->brand ? $this->brand->title : '';
+    //     $modelName = $this->model ? $this->model->model : '';
+        
+    //     // Create the slug base using year, brand, model, and title
+    //     $baseSlug = trim("{$this->yearregis} {$brandName} {$modelName} {$this->title}");
+        
+    //     // Generate the initial slug
+    //     $slug = Str::slug($baseSlug, '-');
+        
+    //     // Ensure uniqueness
+    //     $originalSlug = $slug;
+    //     $count = 1;
+
+    //     while (carsModel::where('slug', $slug)->exists()) {
+    //         $slug = $originalSlug . '-' . $count++;
+    //     }
+
+    //     return $slug;
+    // }
 
 
 

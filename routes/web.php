@@ -392,6 +392,9 @@ Route::middleware('auth')->group(function() {
                 Route::post('/edit-action', [CustomersController::class, 'BN_customers_edit_action'])->name('BN_customers_edit_action');
                 Route::get('/detail/{id}', [CustomersController::class, 'BN_customers_detail'])->name('BN_customers_detail');
 
+                Route::get('/register-vip/{id}', [CustomersController::class, 'BN_customers_register_vip'])->name('BN_customers_register_vip');
+                Route::post('/register-vip-action', [CustomersController::class, 'BN_customers_register_vip_action'])->name('BN_customers_register_vip_action');
+
             });
 
             Route::prefix('posts')->group(function () {
