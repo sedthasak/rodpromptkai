@@ -34,11 +34,12 @@
                             @endif
                             
                             @if($pack1->old_price)
-                            <div class="box-package-sale-pricesave">฿ {{$pack1->old_price}}</div>
+                            <div class="box-package-sale-pricesave">฿ {{ number_format($pack1->old_price, 2) }}</div>
                             @endif
                         </div>
+
                         <div class="box-package-price">
-                            <span>฿{{$pack1->price}}</span> / 4 เดือน
+                            <span>฿{{ number_format($pack1->price, 2) }}</span> / 4 เดือน
                         </div>
                         @if($pack1->label_bottom)
                         <div class="box-package-note">{{$pack1->label_bottom}}</div>
@@ -50,7 +51,8 @@
                             <input type="hidden" name="type" value="package">
                             <button type="submit" class="btn-default btn-red" 
                                     @if(($customer_role['role'] == 'dealer' && $customer_role['dealerpack'] >= $pack1->id) || $customer_role['role'] == 'vip')
-                                    disabled
+                                    disabled 
+                                    style="background-color: #333;olor: #fff;" 
                                     @endif
                                     >ซื้อเลย</button>
                         </form>
@@ -79,11 +81,11 @@
                             <div class="box-package-sale-save">ประหยัด {{$pack2->label_save}}%</div>
                             @endif
                             @if($pack2->old_price)
-                            <div class="box-package-sale-pricesave">฿ {{$pack2->old_price}}</div>
+                            <div class="box-package-sale-pricesave">฿ {{ number_format($pack2->old_price, 2) }}</div>
                             @endif
                         </div>
                         <div class="box-package-price">
-                            <span>฿{{$pack2->price}}</span> / 4 เดือน
+                            <span>฿{{ number_format($pack2->price, 2) }}</span> / 4 เดือน
                         </div>
                         @if($pack2->label_bottom)
                         <div class="box-package-note">{{$pack2->label_bottom}}</div>
@@ -123,11 +125,11 @@
                             <div class="box-package-sale-save">ประหยัด {{$pack3->label_save}}%</div>
                             @endif
                             @if($pack3->old_price)
-                            <div class="box-package-sale-pricesave">฿ {{$pack3->old_price}}</div>
+                            <div class="box-package-sale-pricesave">฿ {{ number_format($pack3->old_price, 2) }}</div>
                             @endif
                         </div>
                         <div class="box-package-price">
-                            <span>฿{{$pack3->price}}</span> / 4 เดือน
+                            <span>฿{{ number_format($pack3->price, 2) }}</span> / 4 เดือน
                         </div>
                         @if($pack3->label_bottom)
                         <div class="box-package-note">{{$pack3->label_bottom}}</div>

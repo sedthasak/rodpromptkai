@@ -179,7 +179,8 @@
                                             </div>
                                             <div class="col-12 col-md-6 frm-step">
                                                 <label id="mileage_label">เลขไมล์<span>*</span></label>
-                                                <input  aria-labelledby="mileage_label"  type="text" name="mileage" class="form-control" required>
+                                                <!-- <input  aria-labelledby="mileage_label"  type="text" name="mileage" class="form-control" required> -->
+                                                <input aria-labelledby="mileage_label" type="text" class="form-control" name="mileage" id="mileage" required oninput="formatNumber(this)">
                                             </div>
                                             <div class="col-12 col-lg-6 frm-step">
                                                 <label>เกียร์<span>*</span></label>
@@ -282,6 +283,7 @@
                                                 <label id="detail_label">รายละเอียดรถ<span>*</span></label>
                                                 <!-- <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt=""> -->
                                                 <textarea aria-labelledby="detail_label" class="form-control" id="car_detail"  rows="10" name="detail" required ></textarea>
+                                                
                                                 <div class="box-introtext">
                                                     <div class="topic-introtext">ข้อความแนะนำ</div>
                                                     <div class="btn-introtext">
@@ -371,6 +373,9 @@
                                                     <div>
                                                         <label id="exterior_pictures_label">อัพโหลดรูปภายนอกรถยนต์<span>*</span></label>
                                                     </div>
+                                                    <div>
+                                                        <label >ลากและวางรูปภาพเพื่อปรับเปลี่ยนลำดับการแสดงผล</label>
+                                                    </div>
                                                     <div id="exterior-preview" class="row row-photoupload"></div>
                                                     <div class="btn-uploadimg" id="exterior-upload-button">
                                                         <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
@@ -387,6 +392,9 @@
                                                     <div>
                                                         <label id="interior_pictures_label">อัพโหลดรูปห้องโดยสาร<span>*</span></label>
                                                     </div>
+                                                    <div>
+                                                        <label >ลากและวางรูปภาพเพื่อปรับเปลี่ยนลำดับการแสดงผล</label>
+                                                    </div>
                                                     <div id="interior-preview" class="row row-photoupload"></div>
                                                     <div class="btn-uploadimg" id="interior-upload-button">
                                                         <i class="bi bi-plus-circle-fill"></i> อัพโหลดรูปรถ
@@ -400,6 +408,9 @@
                                                         <div class="topic-uploadphoto">
                                                             <img src="{{ asset('frontend/images/icon-upload3.svg') }}" alt=""> รูปเอกสารทะเบียนรถยนต์&emsp;
                                                             <span id="registration_uploading" style="display:none;">กำลังอัปโหลด</span>
+                                                        </div>
+                                                        <div>
+                                                            <label id="interior_pictures_label">อัพโหลดรูปเอกสารทะเบียนรถยนต์<span>*</span></label>
                                                         </div>
                                                         <div id="registration-preview" class="row row-photoupload"></div>
                                                         <div class="btn-uploadimg" id="registration-upload-button">
