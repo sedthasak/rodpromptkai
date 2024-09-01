@@ -24,47 +24,107 @@ use App\Models\Province;
 use App\Models\District;
 use App\Models\SubDistrict;
 
+use App\Models\LevelModel;
+
 class PackagesAndDealsController extends Controller
 {
     public function getcouponPage(Request $request) 
     {
-        $currentDateTime = now();
-
-        $allcoupon = CouponModel::where('status', 'active')
-                                ->where('expirecoupon', '>=', $currentDateTime)
-                                ->get();
-
         $customerdata = session('customer');
         $customer_id = $customerdata->id;
-
+        $customer_login = Customer::find($customerdata->id);
+        $levels = LevelModel::orderBy('accumulate', 'asc')->get();
+        $customerAccumulate = $customer_login->accumulate;
+        $customer_level = [
+            'accumulate' => $customerAccumulate ? $customerAccumulate : 0,
+            'level' => 'member',
+            'slug' => 'member',
+            'id' => null,
+        ];
+    
+        foreach ($levels as $level) {
+            if ($customerAccumulate >= $level->accumulate) {
+                $customer_level['level'] = $level->name;
+                $customer_level['slug'] = $level->slug;
+                $customer_level['id'] = $level->id;
+            } else {
+                break;
+            }
+        }
+    
+        $currentDateTime = now();
+    
+        $allcoupon = CouponModel::where('status', 'active')
+                                ->whereNull('level_member')
+                                ->where(function ($query) use ($currentDateTime) {
+                                    $query->where(function ($query) use ($currentDateTime) {
+                                        $query->where('have_expire', 1)
+                                              ->where('expirecoupon', '>=', $currentDateTime);
+                                    })->orWhere('have_expire', 0);
+                                })
+                                ->get();
+    
+        $levelCoupons = CouponModel::where('status', 'active')
+                                   ->where('level_member', $customer_level['id'])
+                                   ->where(function ($query) use ($currentDateTime) {
+                                       $query->where(function ($query) use ($currentDateTime) {
+                                           $query->where('have_expire', 1)
+                                                 ->where('expirecoupon', '>=', $currentDateTime);
+                                       })->orWhere('have_expire', 0);
+                                   })
+                                   ->get();
+    
         foreach ($allcoupon as $coupon) {
             $coupon->usage = 'normal';
-            //check limit
-            if($coupon->limit){
+    
+            if ($coupon->limit) {
                 $couponUsageCount = CouponUse::where('coupons_id', $coupon->id)->count();
                 if ($couponUsageCount >= $coupon->limit) {
                     $coupon->usage = 'gone';
                 }
             }
-            // Check if the coupon was used by this customer via OrderModel relationship
+    
             $couponUsedByCustomer = CouponUse::where('coupons_id', $coupon->id)
-                    ->whereHas('order', function ($query) use ($customer_id) {
-                        $query->where('customer_id', $customer_id);
-                    })
-                    ->exists();
+                                             ->whereHas('order', function ($query) use ($customer_id) {
+                                                 $query->where('customer_id', $customer_id);
+                                             })
+                                             ->exists();
             if ($couponUsedByCustomer) {
-            $coupon->usage = 'used';
+                $coupon->usage = 'used';
             }
-            
-
         }
-        // dd($allcoupon);
+    
+        foreach ($levelCoupons as $coupon) {
+            $coupon->usage = 'normal';
+    
+            if ($coupon->limit) {
+                $couponUsageCount = CouponUse::where('coupons_id', $coupon->id)->count();
+                if ($couponUsageCount >= $coupon->limit) {
+                    $coupon->usage = 'gone';
+                }
+            }
+    
+            $couponUsedByCustomer = CouponUse::where('coupons_id', $coupon->id)
+                                             ->whereHas('order', function ($query) use ($customer_id) {
+                                                 $query->where('customer_id', $customer_id);
+                                             })
+                                             ->exists();
+            if ($couponUsedByCustomer) {
+                $coupon->usage = 'used';
+            }
+        }
+    
         return view('frontend.getcoupon', [
             "page" => 'getcoupon',
             "allcoupon" => $allcoupon,
+            "levelCoupons" => $levelCoupons,
         ]);
     }
-
+    
+    
+    
+    
+    
 
 
 

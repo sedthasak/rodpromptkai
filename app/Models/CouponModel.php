@@ -15,6 +15,7 @@ class CouponModel extends Model
         'name',
         'code',
         'rate',
+        'have_expire',
         'limit_rate',
         'expirecoupon',
         'description',
