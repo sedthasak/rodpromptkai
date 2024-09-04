@@ -100,8 +100,8 @@
                                 <div class="mt-3">
                                     <label for="status" class="form-label">สถานะ</label>
                                     <select name="status" id="status" class="form-control w-full">
-                                        <option value="active" {{ old('status', $coupon->status) == 'active' ? 'selected' : '' }}>Active</option>
-                                        <option value="inactive" {{ old('status', $coupon->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                        <option value="0" {{ old('status', $coupon->status) == '0' ? 'selected' : '' }}>Active</option>
+                                        <option value="1" {{ old('status', $coupon->status) == '1' ? 'selected' : '' }}>Inactive</option>
                                     </select>
                                 </div>
                             </div>
