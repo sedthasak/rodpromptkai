@@ -12,6 +12,18 @@
             <a href="{{route('BN_news')}}" class="transition duration-200 border inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary mr-2 shadow-md">ย้อนกลับ</a>    
         </div>
     </div>
+
+    <!-- Display Validation Errors -->
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form method="post" action="{{ route('BN_news_add_action') }}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" required />
@@ -22,27 +34,77 @@
                         <div class="sm:grid grid-cols-1 gap-1">
                             <div>
                                 <label for="title" class="form-label">ชื่อ</label>
-                                <input type="text" class="form-control w-full" id="title" name="title" autocomplete="on" required/>
+                                <input type="text" class="form-control w-full" id="title" name="title" value="{{ old('title') }}" autocomplete="on" required/>
+                                @error('title')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div>
+                                <label for="slug" class="form-label">สลัก (สำหรับสร้างลิ้งก์)</label>
+                                <input type="text" class="form-control w-full" id="slug" name="slug" value="{{ old('slug') }}" required/>
+                                @error('slug')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div>
                                 <label for="feature" class="form-label">รูปภาพหน้าปก</label>
                                 <input type="file" class="form-control w-full" id="feature" name="feature" autocomplete="off" required/>
+                                @error('feature')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div>
                                 <label for="excerpt" class="form-label">คำอธิบาย</label>
-                                <input type="text" class="form-control w-full" id="excerpt" name="excerpt"  autocomplete="on" required/>
+                                <input type="text" class="form-control w-full" id="excerpt" name="excerpt" value="{{ old('excerpt') }}" autocomplete="on" required/>
+                                @error('excerpt')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
                             <div>
                                 <label for="content" class="form-label">เนื้อหา</label>
-                                <textarea class="form-control" id="content" placeholder="Enter the Description" rows="5" name="content"></textarea>
+                                <textarea class="form-control" id="content" placeholder="Enter the Description" rows="5" name="content">{{ old('content') }}</textarea>
+                                @error('content')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
+                        <!-- New meta fields -->
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="meta_title" class="form-label">Meta Title</label>
+                                <input type="text" class="form-control w-full" id="meta_title" name="meta_title" value="{{ old('meta_title') }}" autocomplete="off" />
+                                @error('meta_title')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="meta_keyword" class="form-label">Meta Keyword</label>
+                                <input type="text" class="form-control w-full" id="meta_keyword" name="meta_keyword" value="{{ old('meta_keyword') }}" autocomplete="off" />
+                                @error('meta_keyword')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="sm:grid grid-cols-1 gap-1 mt-5">
+                            <div class="">
+                                <label for="meta_description" class="form-label">Meta Description</label>
+                                <input type="text" class="form-control w-full" id="meta_description" name="meta_description" value="{{ old('meta_description') }}" autocomplete="off" />
+                                @error('meta_description')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- End of new meta fields -->
                     </div>
                     <div class="text-right mt-5">
                         <button type="submit" class="btn btn-primary w-24">บันทึก</button>

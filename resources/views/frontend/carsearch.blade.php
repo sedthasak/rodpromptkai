@@ -319,7 +319,7 @@ $arr_gear = array(
                                             @endphp
 
                                             <div class="col-6 col-xl-4 col-itemcar">
-                                                <a href="car-detail.php" class="item-car">
+                                                <a href="{{ route('cardetailPage', ['slug' => $car->slug]) }}" class="item-car">
                                                     <figure>
                                                         <div class="cover-car">
                                                             <img src="{{ $feature }}" alt="">

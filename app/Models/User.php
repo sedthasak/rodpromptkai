@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(carsModel::class, 'user_id');
     }
+
+    public function news()
+    {
+        return $this->hasMany(newsModel::class, 'user_id');
+    }
 }

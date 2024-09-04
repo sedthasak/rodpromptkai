@@ -301,6 +301,7 @@ Route::get('/phpinfo', function () {
 Route::get('/news', [FrontendPageController::class, 'newsPage'])->name('newsPage');
 Route::get('/news-detail/{news_id}', [FrontendPageController::class, 'newsdetailPage'])->name('newsdetailPage');
 Route::get('/car', [FrontendPageController::class, 'carPage'])->name('carPage');
+Route::get('/empty', [FrontendPageController::class, 'emptyPage'])->name('emptyPage');
 
 Route::get('/car-detail/{slug}', [FrontendPageController::class, 'cardetailPage'])->name('cardetailPage');
 

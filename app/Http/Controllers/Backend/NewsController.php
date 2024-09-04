@@ -30,37 +30,112 @@ class NewsController extends Controller
             'default_pagename' => 'เพิ่มข่าวใหม่',
         ]);
     }
+    public function BN_news_add_action(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'slug' => ['required', 'regex:/[a-zA-Z]/'], // Ensure slug contains at least one English alphabet letter
+            'title' => 'required|string|max:255',
+            'excerpt' => 'required|string|max:255',
+            'content' => 'required|string',
+            'feature' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_keyword' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:255',
+        ], [
+            'slug.regex' => 'The slug must contain at least one English alphabet letter.',
+        ]);
+    
+        $news = new newsModel;
+        $news->user_id = $request->user_id;
+        $news->title = $request->title;
+        $news->excerpt = $request->excerpt;
+        $news->content = $request->content;
+    
+        // Set the meta fields
+        $news->meta_title = $request->meta_title;
+        $news->meta_keyword = $request->meta_keyword;
+        $news->meta_description = $request->meta_description;
+    
+        // Generate or set the slug
+        if ($request->filled('slug')) {
+            $news->slug = $news->generateUniqueSlugFromRequest($request->slug);
+        } else {
+            $news->slug = $news->generateUniqueSlug();
+        }
+    
+        // Process and save the featured image
+        if ($request->hasFile('feature')) {
+            $uploadedFile = $request->file('feature');
+            $destinationPath = public_path('/uploads/news-feature');
+            $filename = $uploadedFile->getClientOriginalName();
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    
+            // Generate unique filename
+            $newFileName = 'feature-' . time() . '-' . uniqid() . '.' . $ext;
+    
+            // Move the uploaded file to the destination path
+            $uploadedFile->move($destinationPath, $newFileName);
+    
+            // Check if the file is JPEG or PNG to convert to WebP
+            if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
+                // Convert to WebP format using Intervention Image
+                $webpFileName = 'feature-' . time() . '-' . uniqid() . '.webp';
+                $webpPath = $destinationPath . '/' . $webpFileName;
+    
+                // Open original image using Intervention Image
+                $image = Image::make($destinationPath . '/' . $newFileName);
+    
+                // Save image as WebP
+                $image->encode('webp')->save($webpPath);
+    
+                // Optionally delete the original uploaded image
+                // unlink($destinationPath . '/' . $newFileName);
+    
+                // Store the WebP file path in the database
+                $news->feature = 'uploads/news-feature/' . $webpFileName;
+            } else {
+                // Fallback to storing the original image path if not JPEG or PNG
+                $news->feature = 'uploads/news-feature/' . $newFileName;
+            }
+        }
+    
+        $news->save();
+    
+        return redirect(route('BN_news'))->with('success', 'สร้างสำเร็จ !!!');
+    }
     public function uploadImage(Request $request)
     {
         // Validate the incoming request with the 'upload' file input
         $request->validate([
             'upload' => 'required|file|mimes:jpeg,png,gif|max:2048' // Adjust file types and size as needed
         ]);
-
+    
+        // Get the uploaded file
         $uploadedFile = $request->file('upload'); // 'upload' is the default name for file input in CKEditor
-
+    
         if ($uploadedFile->isValid()) {
             // Generate unique filename for WebP
             $webpFileName = time() . '-' . uniqid() . '.webp';
-
+    
             // Define the destination path for WebP
             $destinationPath = public_path('/uploads/news-content');
             $webpPath = $destinationPath . '/' . $webpFileName;
-
+    
             // Open and resize the uploaded image and save as WebP
             $image = Image::make($uploadedFile);
             $image->encode('webp')->save($webpPath);
-
+    
             // Get the file URL for CKEditor response
             $fileUrl = asset('uploads/news-content/' . $webpFileName);
-
+    
             // Return response to CKEditor
             return response()->json([
                 'uploaded' => true,
                 'url' => $fileUrl
             ]);
         }
-
+    
         // Handle error if file upload fails
         return response()->json([
             'uploaded' => false,
@@ -71,54 +146,90 @@ class NewsController extends Controller
     }
     
     
-    public function BN_news_add_action(Request $request)
+
+    public function BN_news_edit(Request $request, $id)
     {
-        $news = new newsModel;
-        $news->user_id = $request->user_id;
-        $news->title = $request->title;
-        $news->excerpt = $request->excerpt;
-        $news->content = $request->content;
-
-        // Process and save the featured image
+        $mynews = newsModel::find($id);
+        return view('backend/news-edit', [ 
+            'default_pagename' => 'แก้ไขข่าว',
+            'mynews' => $mynews,
+        ]);
+    }
+    public function BN_news_edit_action(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'excerpt' => 'required|string|max:255',
+            'content' => 'required|string',
+            'feature' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_keyword' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:255',
+        ]);
+    
+        // Find the news item by ID
+        $news = newsModel::find($request->news_id);
+    
+        // Handle the feature image upload
         if ($request->hasFile('feature')) {
-            $uploadedFile = $request->file('feature');
+            // Delete the old feature image if it exists
+            if (isset($news->feature)) {
+                $oldPath = public_path($news->feature);
+                if (File::exists($oldPath)) {
+                    File::delete($oldPath);
+                }
+            }
+    
+            // Upload the new feature image
+            $file = $request->file('feature');
             $destinationPath = public_path('/uploads/news-feature');
-            $filename = $uploadedFile->getClientOriginalName();
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-
-            // Generate unique filename
-            $newFileName = 'feature-' . time() . '-' . uniqid() . '.' . $ext;
-
-            // Move the uploaded file to the destination path
-            $uploadedFile->move($destinationPath, $newFileName);
-
+            $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $filename);
+    
             // Check if the file is JPEG or PNG to convert to WebP
-            if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
+            if (in_array($file->getClientOriginalExtension(), ['jpeg', 'jpg', 'png'])) {
                 // Convert to WebP format using Intervention Image
-                $webpFileName = 'feature-' . time() . '-' . uniqid() . '.webp';
+                $webpFileName = time() . '-' . uniqid() . '.webp';
                 $webpPath = $destinationPath . '/' . $webpFileName;
-
+    
                 // Open original image using Intervention Image
-                $image = Image::make($destinationPath . '/' . $newFileName);
-
+                $image = Image::make($destinationPath . '/' . $filename);
+    
                 // Save image as WebP
                 $image->encode('webp')->save($webpPath);
-
+    
                 // Optionally delete the original uploaded image
-                // unlink($destinationPath . '/' . $newFileName);
-
+                // unlink($destinationPath . '/' . $filename);
+    
                 // Store the WebP file path in the database
                 $news->feature = 'uploads/news-feature/' . $webpFileName;
             } else {
                 // Fallback to storing the original image path if not JPEG or PNG
-                $news->feature = 'uploads/news-feature/' . $newFileName;
+                $news->feature = 'uploads/news-feature/' . $filename;
             }
         }
-
-        $news->save();
-
-        return redirect(route('BN_news'))->with('success', 'สร้างสำเร็จ !!!');
+    
+        // Update the news fields
+        $news->user_id = $request->user_id;
+        $news->title = $request->title;
+        $news->excerpt = $request->excerpt;
+        $news->content = $request->content;
+    
+        // Update meta fields
+        $news->meta_title = $request->meta_title;
+        $news->meta_keyword = $request->meta_keyword;
+        $news->meta_description = $request->meta_description;
+    
+        // Save the updated news item
+        $news->update();
+    
+        return redirect()->back()->with('success', 'แก้ไขสำเร็จ !!!');
     }
+    
+    
+    
+    
 
 
 
@@ -205,14 +316,23 @@ class NewsController extends Controller
     }
     
     
-    public function BN_news_edit(Request $request, $id)
-    {
-        $mynews = newsModel::find($id);
-        return view('backend/news-edit', [ 
-            'default_pagename' => 'แก้ไขข่าว',
-            'mynews' => $mynews,
-        ]);
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function BN_newsFetch()
     {
         $query = newsModel::all()->sort();
@@ -261,56 +381,6 @@ class NewsController extends Controller
     
 
     
-    public function BN_news_edit_action(Request $request)
-    {
-        // dd($request);
-        $news = newsModel::find($request->news_id);
-
-        if($request->hasFile('feature')){
-
-            if(isset($Customer->feature)){
-                $oldPath = public_path($Customer->feature);
-                if(File::exists($oldPath)){
-                    File::delete($oldPath);
-                }
-            }
-
-            $file = $request->file('feature');
-            $destinationPath = public_path('/uploads/news-feature');
-            $filename = $file->getClientOriginalName();
-
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $newfilenam = time().'-'.uniqid().'.'.$ext;
-            $file->move($destinationPath, $newfilenam);
-            $filepath = 'uploads/news-feature/'.$newfilenam;
-
-            $news->feature = $filepath;
-        }
-
-
-        $news->user_id = $request->user_id;
-        $news->title = $request->title;
-        $news->excerpt = $request->excerpt;
-        $news->content = $request->content;
-
-        $news->update();
-
-        // if(isset($Customer->id)){
-        //     $usersavelog = auth()->user();
-        //     $idsavelog = auth()->user()->id; 
-        //     $emailsavelog = auth()->user()->email;
-        //     $para = array(
-        //         'part' => 'backend',
-        //         'user' => $idsavelog,
-        //         'ref' => $categories->id,
-        //         'remark' => 'User '.$idsavelog.' Create new Category!',
-        //         'event' => 'create category',
-        //     );
-        //     $result = (new LogsSaveController)->create_log($para);
-        // }
-        return redirect()->back()->with('success', 'แก้ไขสำเร็จ !!!');
-
-    }
     public function BN_news_store(Request $request, newsModelDataTable $dataTable): RedirectResponse
     {
         $validated = $request->validate([

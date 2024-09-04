@@ -70,8 +70,10 @@ class ViewDataServiceProvider extends ServiceProvider
                 ['value' => 50000000, 'label' => '50 ล้านบาท'],
             ];
             $allprovince = provincesModel::all();
+            $brandforsearch = brandsModel::orderBy("sort_no", "ASC")->get();
             $view->with('allprovince', $allprovince);
             $view->with('priceOptions', $priceOptions);
+            $view->with('brandforsearch', $brandforsearch);
 
 
             $customerdata = session('customer');

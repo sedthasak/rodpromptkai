@@ -1,3 +1,8 @@
+<?php
+// echo "<pre>";
+// print_r($brand);
+// echo "</pre>";
+?>
 <div class="carsearch-popup">
     <div class="carsearch-menu carsearch-lv1">
         <div class="carsearch-top">
@@ -6,8 +11,8 @@
         </div>
         <input type="text" class="car-inputsearch" placeholder="ค้นหา..." id="brandtext" onkeyup="brandsearch(event);">
         <ul class="carsearch-ul">   
-            @if (isset($brand))
-                @foreach ($brand as $rows)
+            @if (isset($brandforsearch))
+                @foreach ($brandforsearch as $rows)
                 <li><button  class="kk" type="button" rel="{{$rows->title}}" onclick="brand2({{$rows->id}}, '{{$rows->title}}')"> {{$rows->title}}</button></li>
                 @endforeach
             @endif
@@ -58,6 +63,7 @@
     var brand_id, model_id, generation_id, submodel_id;
     function brandsearch(){
         var id1 = "";
+        console.log(id1);
         if ($("#brandtext").val(event.target.value).length > 0 ) {
             id1 = $("#brandtext").val();
         }

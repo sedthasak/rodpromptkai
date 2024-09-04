@@ -33,6 +33,15 @@ use Intervention\Image\Facades\Image;
 
 class FrontendPageController extends Controller
 {
+
+    public function emptyPage(Request $request)
+    {
+        return view('frontend.empty', [
+            // 'mynews' => $mynews,
+        ]);
+    }
+
+
     public function logoutone_session() {
         session()->forget('customer_session');
         session()->flush();
