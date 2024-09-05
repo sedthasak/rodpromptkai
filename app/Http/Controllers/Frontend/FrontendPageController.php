@@ -728,20 +728,25 @@ class FrontendPageController extends Controller
             'remainingPosts' => $remainingPosts,
         ]);
     }
-    public function newsdetailPage(Request $request, $news_id)
+
+    public function newsdetailPage(Request $request, $slug)
     {
-        $mynews = newsModel::find($news_id);
+        // Find the news item by slug
+        $mynews = newsModel::where('slug', $slug)->firstOrFail();
+    
+        // Get other news items, excluding the current one
         $othernews = newsModel::query()
-        ->orderBy('id', 'desc')
-        ->where("id", "<>", $news_id)
-        ->take(5)
-        ->get();
-        
+            ->where('slug', '<>', $slug)
+            ->orderBy('id', 'desc')
+            ->take(5)
+            ->get();
+            
         return view('frontend/news-detail', [
             'mynews' => $mynews,
             'othernews' => $othernews,
         ]);
     }
+    
 
     public function profilePage(Request $request) 
     {
