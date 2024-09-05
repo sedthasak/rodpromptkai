@@ -1942,8 +1942,10 @@ class FrontendPageController extends Controller
         ]);
     }
     
-    public function carPage()
-    {
+    public function carPage(){
+
+        return redirect()->route('indexPage');
+        
         $brand = brandsModel::orderBy("sort_no", "ASC")->get();
 
         $qrycar = carsModel::leftJoin('brands', 'cars.brand_id', 'brands.id')
@@ -2689,6 +2691,9 @@ class FrontendPageController extends Controller
     }
 
     public function searchcategory($category_id) {
+
+        return redirect()->route('indexPage');
+
         $cars = carsModel::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
         ->leftJoin('models', 'cars.model_id', '=', 'models.id')
         ->leftJoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
