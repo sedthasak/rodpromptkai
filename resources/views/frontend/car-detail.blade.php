@@ -20,9 +20,9 @@ $arr_gear = array(
 // echo "<pre>";
 // print_r($customerdata);
 // echo "</pre>";
-echo "<pre>";
-print_r($cars->type);
-echo "</pre>";
+// echo "<pre>";
+// print_r($cars->type);
+// echo "</pre>";
 ?>
 
 {{-- @if($cars->status == 'approved') --}}
@@ -460,7 +460,7 @@ echo "</pre>";
                     </div>
                 </div>
                 <div class="col-12 col-lg-5 photo-average">
-                    <figure><img src="{{asset($cars->feature)}}" alt=""></figure>
+                    <figure><img src="{{ ($cars->feature)?asset('storage/' . $cars->feature):asset('public/uploads/default-car.jpg') }}" alt=""></figure>
                 </div>
             </div>
         </div>
