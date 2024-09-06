@@ -410,7 +410,7 @@ $arr_gear = array(
             </div>
             <div class="row">
                 <div class="col-12 col-xl-6 home-news-lg">
-                    <a href="{{ route('newsdetailPage', ['news_id' => $news[0]->id]) }}" class="home-itemnews">
+                    <a href="{{ route('newsdetailPage', ['slug' => $news[0]->slug]) }}" class="home-itemnews">
                         <figure>
                             <div class="cover-news">
                                 <img src="{{ $news[0]->feature ? asset($news[0]->feature) : asset('public/uploads/default-car.jpg') }}" alt="">
@@ -426,7 +426,7 @@ $arr_gear = array(
                     <div class="row">
                         @foreach($news->skip(1) as $newsres)
                         <div class="col-6">
-                            <a href="{{ route('newsdetailPage', ['news_id' => $newsres->id]) }}" class="home-itemnews">
+                            <a href="{{ route('newsdetailPage', ['slug' => $newsres->slug]) }}" class="home-itemnews">
                                 <figure>
                                     <div class="cover-news">
                                         <img src="{{ $newsres->feature ? asset($newsres->feature) : asset('public/uploads/default-car.jpg') }}" alt="">
