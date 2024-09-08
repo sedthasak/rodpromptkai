@@ -100,7 +100,6 @@ a{
             figure{
                 @include img-cover($w:1187, $h:591);
                 margin-bottom: 0;
-                background-color: #000;
             }
         }
         .owl-dots{

@@ -21,9 +21,34 @@ use App\Models\Customer;
 use App\Models\provincesModel;
 use App\Models\VipPackageModel;
 use App\Models\OrderModel;
+use App\Models\carsModel;
 
 class CustomersController extends Controller
 {
+    public function BN_customers_detail(Request $request, $id)
+    {
+        // Fetch the customer based on the passed id
+        $Customer = Customer::find($id);
+    
+        // Build the query, filtering by customer_id
+        $query = carsModel::with(['customer', 'brand', 'model', 'generation', 'subModel'])
+            ->where('customer_id', '=', $id) // Filter by customer_id
+            ->orderBy('id', 'desc');
+    
+        // Paginate the results
+        $resultPerPage = 24;
+        $cars = $query->paginate($resultPerPage);
+    
+        // Return the view with both Customer and cars data
+        return view('backend/customer-detail', [ 
+            'default_pagename' => 'ลูกค้า',
+            'Customer' => $Customer,
+            'cars' => $cars,  // Pass the paginated cars to the view
+        ]);
+    }
+    
+
+
     public function BN_customers_register_vip_action(Request $request)
     {
         $request->validate([
@@ -113,14 +138,7 @@ class CustomersController extends Controller
             'query' => $query,
         ]);
     }
-    public function BN_customers_detail(Request $request, $id)
-    {
-        $Customer = Customer::find($request->id);
-        return view('backend/customer-detail', [ 
-            'default_pagename' => 'ลูกค้า',
-            'Customer' => $Customer,
-        ]);
-    }
+    
     public function BN_customersFetch()
     {
         $queryy = Customer::all()->sortDesc();

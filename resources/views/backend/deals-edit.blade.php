@@ -74,16 +74,21 @@
                             @enderror
                         </div>
 
-                        <!-- Image Background -->
+                        <!-- Background Image -->
                         <div class="col-span-2 sm:col-span-1">
                             <label for="image_background" class="form-label">Background Image</label>
                             <input type="file" id="image_background" name="image_background" class="form-control" />
                             @if($query->image_background)
                                 @php
-                                    // Strip the 'public/' prefix from the image path
                                     $imagePath = str_replace('public/', '', $query->image_background);
                                 @endphp
                                 <img src="{{ asset('storage/' . $imagePath) }}" alt="Background Image" class="mt-2" style="max-width: 200px;">
+                                <div class="mt-2">
+                                    <label for="remove_background_image">
+                                        <input type="checkbox" name="remove_background_image" id="remove_background_image" value="1">
+                                        Remove Background Image
+                                    </label>
+                                </div>
                             @endif
                             @error('image_background')
                                 <div class="text-danger">{{ $message }}</div>
@@ -96,10 +101,15 @@
                             <input type="file" id="topleft" name="topleft" class="form-control" />
                             @if($query->topleft)
                                 @php
-                                    // Strip the 'public/' prefix from the image path
                                     $topLeftPath = str_replace('public/', '', $query->topleft);
                                 @endphp
                                 <img src="{{ asset('storage/' . $topLeftPath) }}" alt="Top Left Image" class="mt-2" style="max-width: 200px;">
+                                <div class="mt-2">
+                                    <label for="remove_topleft_image">
+                                        <input type="checkbox" name="remove_topleft_image" id="remove_topleft_image" value="1">
+                                        Remove Top Left Image
+                                    </label>
+                                </div>
                             @endif
                             @error('topleft')
                                 <div class="text-danger">{{ $message }}</div>
@@ -112,15 +122,21 @@
                             <input type="file" id="bottomright" name="bottomright" class="form-control" />
                             @if($query->bottomright)
                                 @php
-                                    // Strip the 'public/' prefix from the image path
                                     $bottomRightPath = str_replace('public/', '', $query->bottomright);
                                 @endphp
                                 <img src="{{ asset('storage/' . $bottomRightPath) }}" alt="Bottom Right Image" class="mt-2" style="max-width: 200px;">
+                                <div class="mt-2">
+                                    <label for="remove_bottomright_image">
+                                        <input type="checkbox" name="remove_bottomright_image" id="remove_bottomright_image" value="1">
+                                        Remove Bottom Right Image
+                                    </label>
+                                </div>
                             @endif
                             @error('bottomright')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
 
                         <!-- Expiry Date -->
                         <div class="col-span-2 sm:col-span-1">
@@ -130,6 +146,17 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <!-- Text1 to Text6 Fields -->
+                        @for ($i = 1; $i <= 6; $i++)
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="text{{ $i }}" class="form-label">Text {{ $i }}</label>
+                                <input type="text" id="text{{ $i }}" name="text{{ $i }}" class="form-control w-full" value="{{ old('text' . $i, $query->{'text' . $i}) }}" />
+                                @error('text{{ $i }}')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        @endfor
 
 
 

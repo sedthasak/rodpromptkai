@@ -29,46 +29,68 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PostsController extends Controller
 {
+    public function BN_posts_detail(Request $request, $id)
+    {
+        $postcar = carsModel::with(['customer', 'brand', 'model', 'generation', 'subModel', 'user'])->findOrFail($id);
+        $gallery = galleryModel::where('cars_id', $id)->get();
+        $arr_cate = [];
+        if (is_array(json_decode($postcar->category)) && count(json_decode($postcar->category)) > 0) {
+            foreach (json_decode($postcar->category) as $categoryId) {
+                $arr_cate[] = categoriesModel::find($categoryId);
+            }
+        }
+    
+        $interior = $gallery->where('type', 'interior');
+        $exterior = $gallery->where('type', 'exterior');
+    
+        return view('backend/post-detail', [
+            'default_pagename' => 'รายละเอียดโพสท์ลงขายรถ',
+            'postcar' => $postcar,
+            'customer' => $postcar->customer,
+            'brands' => $postcar->brand,
+            'models' => $postcar->model,
+            'generations' => $postcar->generation,
+            'sub_models' => $postcar->subModel,
+            'users' => $postcar->user,
+            'gallery' => $gallery,
+            'interior' => $interior,
+            'exterior' => $exterior,
+            'categories' => $arr_cate,
+        ]);
+    }
+    
     public function BN_posts(Request $request)
     {
-        $query = carsModel::query()
-            ->leftjoin('customer', 'cars.customer_id', '=', 'customer.id')
-            ->leftjoin('brands', 'cars.brand_id', '=', 'brands.id')
-            ->leftjoin('models', 'cars.model_id', '=', 'models.id')
-            ->leftjoin('generations', 'cars.generations_id', '=', 'generations.id')
-            ->leftjoin('sub_models', 'cars.sub_models_id', '=', 'sub_models.id')
-            ->select('cars.*', 'customer.firstname', 'customer.lastname', 'customer.sp_role', 'brands.title as brands_title', 'models.model as model_name', 
-                'generations.generations as generations_name', 'sub_models.sub_models as sub_models_name')
+        $query = carsModel::with(['customer', 'brand', 'model', 'generation', 'subModel'])
             ->orderBy('id', 'desc');
-
+    
         if ($request->filled('status')) {
             $status = $request->input('status');
-            $query->where('cars.status', '=', $status);
+            $query->where('status', '=', $status);
         }
-
+    
         if ($request->filled('type')) {
             $type = $request->input('type');
-            $query->where('cars.type', '=', $type);
+            $query->where('type', '=', $type);
         }
-
+    
         if ($request->filled('keyword')) {
             $keyword = $request->input('keyword');
-            $query->where(function ($query) use ($keyword) {
-                $query->where('customer.firstname', 'LIKE', '%' . $keyword . '%')
-                    ->orWhere('customer.lastname', 'LIKE', '%' . $keyword . '%');
+            $query->whereHas('customer', function ($query) use ($keyword) {
+                $query->where('firstname', 'LIKE', '%' . $keyword . '%')
+                      ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');
             });
         }
-
+    
         $resultPerPage = 24;
         $query = $query->paginate($resultPerPage);
-
-
-
+        // dd($query);
         return view('backend/post', [ 
             'default_pagename' => 'โพสท์ลงขายรถ',
             'query' => $query,
         ]);
     }
+    
     public function BN_posts_add(Request $request)
     {
         $provinces = provincesModel::all();
@@ -287,59 +309,7 @@ class PostsController extends Controller
         }
     }
 
-    public function BN_posts_detail(Request $request, $id)
-    {
-        // $postcar = brandsModel::find($id);
-        // $postcar = modelsModel::find($id);
-        // $postcar = generationsModel::find($id);
-        // $postcar = sub_modelsModel::find($id);
-        // $postcar = Customer::find($id);
-        // $postcar = galleryModel::find($id);
-        // galleryModel
-        $postcar = carsModel::find($id);
-        $customer = DB::table('customer')->where('id', $postcar->customer_id)->first();
-        $gallery = DB::table('gallery')->where('cars_id', $id)->get();
-        $brands = DB::table('brands')->where('id', $postcar->brand_id)->first();
-        $models = DB::table('models')->where('id', $postcar->model_id)->first();
-        $generations = DB::table('generations')->where('id', $postcar->generations_id)->first();
-        $sub_models = DB::table('sub_models')->where('id', $postcar->sub_models_id)->first();
-        $users = DB::table('users')->where('id', $postcar->user_id)->first();
 
-        $arr_cate = [];
-        if(is_array(json_decode($postcar->category)) && (count(json_decode($postcar->category))>0)){
-            foreach((json_decode($postcar->category)) as $keycatedecde => $catego){
-                $arr_cate[] = categoriesModel::find($catego);
-            }
-        }
-            
-
-        $interior = [];
-        $exterior = [];
-        foreach($gallery as $gal){
-            if($gal->type=='interior'){
-                $interior[] = $gal;
-            }
-            if($gal->type=='exterior'){
-                $exterior[] = $gal;
-            }
-        }
-
-            
-        return view('backend/post-detail', [ 
-            'default_pagename' => 'รายละเอียดโพสท์ลงขายรถ',
-            'postcar' => $postcar,
-            'customer' => $customer,
-            'brands' => $brands,
-            'models' => $models,
-            'generations' => $generations,
-            'sub_models' => $sub_models,
-            'users' => $users,
-            'gallery' => $gallery,
-            'interior' => $interior,
-            'exterior' => $exterior,
-            'categories' => $arr_cate,
-        ]);
-    }
 
 
 
