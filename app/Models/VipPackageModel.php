@@ -18,5 +18,11 @@ class VipPackageModel extends Model
         'label_save',
         'label_bottom',
         'limit',
+        'text1',
+        'text2',
+        'text3',
+        'text4',
+        'text5',
+        'text6',
     ];
 }

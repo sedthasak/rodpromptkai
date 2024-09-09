@@ -41,7 +41,7 @@
                     <th class="text-center whitespace-nowrap"></th>
                 </tr>
             </thead>
-            <tbody>
+            <!-- <tbody>
                 @foreach($coupons as $key => $coupon)
                     <tr class="intro-x">
                         <td class="text-center">{{ ($coupons->currentPage() - 1) * $coupons->perPage() + $key + 1 }}</td>
@@ -74,7 +74,94 @@
                         </td>
                     </tr>
                 @endforeach
+            </tbody> -->
+            <tbody>
+                @foreach($coupons as $key => $coupon)
+                    <tr class="intro-x">
+                        <td class="text-center">{{ ($coupons->currentPage() - 1) * $coupons->perPage() + $key + 1 }}</td>
+
+                        <!-- Coupon Name -->
+                        <td><div class="font-medium whitespace-nowrap">{{ $coupon->name }}</div></td>
+
+                        <!-- Coupon Code -->
+                        <td><div class="font-medium whitespace-nowrap">{{ $coupon->code }}</div></td>
+
+                        <!-- Discount Rate: Display as percentage without decimals -->
+                        <td><div class="font-medium whitespace-nowrap">{{ intval($coupon->rate) }}%</div></td>
+
+                        <!-- Limit Rate: Show number or infinity icon if limit rate is not set -->
+                        <td>
+                            <div class="font-medium whitespace-nowrap">
+                                @if($coupon->limit_rate && $coupon->limit_rate != 0)
+                                    {{ intval($coupon->limit_rate) }}
+                                @else
+                                    <i data-lucide="infinity" class="w-4 h-4"></i>
+                                @endif
+                            </div>
+                        </td>
+
+                        <!-- Expiration Date: Show infinity icon if no expiry, otherwise formatted date -->
+                        <td>
+                            <div class="font-medium whitespace-nowrap">
+                                @if($coupon->expirecoupon)
+                                    {{ date('d/m/y', strtotime($coupon->expirecoupon)) }}
+                                @else
+                                    <i data-lucide="infinity" class="w-4 h-4"></i>
+                                @endif
+                            </div>
+                        </td>
+
+                        <!-- Limit: Show infinity icon if no limit, otherwise display the number -->
+                        <td>
+                            <div class="font-medium whitespace-nowrap">
+                                @if($coupon->limit && $coupon->limit != 0)
+                                    {{ $coupon->limit }}
+                                @else
+                                    <i data-lucide="infinity" class="w-4 h-4"></i>
+                                @endif
+                            </div>
+                        </td>
+
+                        <!-- Description -->
+                        <td><div class="font-medium whitespace-nowrap">{{ $coupon->description }}</div></td>
+
+                        <!-- Level Member: Show 'ไม่จำกัด' if no level, otherwise show level name -->
+                        <td>
+                            <div class="font-medium whitespace-nowrap">
+                                {{ $coupon->level ? $coupon->level->name : 'ไม่จำกัด' }}
+                            </div>
+                        </td>
+
+                        <!-- Status: Show a green or red solid circle without text -->
+                        <td>
+                            <div class="font-medium whitespace-nowrap">
+                                @if($coupon->status === 'active')
+                                    <i data-lucide="circle" class="text-green-500 w-5 h-5" style="fill: green;"></i>
+                                @else
+                                    <i data-lucide="circle" class="text-red-500 w-5 h-5" style="fill: red;"></i>
+                                @endif
+                            </div>
+                        </td>
+
+                        <!-- Action Buttons -->
+                        <td class="table-report__action w-56">
+                            <div class="flex justify-center items-center">
+                                <a class="flex items-center text-success mr-3" href="{{ route('BN_discounts_detail', ['id' => $coupon->id]) }}">
+                                    <i data-lucide="Eye" data-tw-merge data-placement="top" title="See Detail" class="tooltip w-4 h-4 mr-1"></i>
+                                </a>
+                                <a class="flex items-center" href="{{ route('BN_discounts_edit', ['id' => $coupon->id]) }}">
+                                    <i data-lucide="Edit" data-tw-merge data-placement="top" title="Edit" class="tooltip  w-4 h-4 mr-1"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
+
+
+
+
+
         </table>
     </div>
 

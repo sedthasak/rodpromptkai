@@ -357,4 +357,46 @@ class BrandsController extends Controller
             return redirect()->back()->with('error', 'Please select file to update');
         }
     }
+
+
+    // public function uploadImage(Request $request)
+    // {
+    //     // Validate the incoming request with the 'upload' file input
+    //     $request->validate([
+    //         'upload' => 'required|file|mimes:jpeg,png,gif|max:2048' // Adjust file types and size as needed
+    //     ]);
+    
+    //     // Get the uploaded file
+    //     $uploadedFile = $request->file('upload'); // 'upload' is the default name for file input in CKEditor
+    
+    //     if ($uploadedFile->isValid()) {
+    //         // Generate unique filename for WebP
+    //         $webpFileName = time() . '-' . uniqid() . '.webp';
+    
+    //         // Define the destination path for WebP
+    //         $destinationPath = public_path('/uploads/brand-content');
+    //         $webpPath = $destinationPath . '/' . $webpFileName;
+    
+    //         // Open and resize the uploaded image and save as WebP
+    //         $image = Image::make($uploadedFile);
+    //         $image->encode('webp')->save($webpPath);
+    
+    //         // Get the file URL for CKEditor response
+    //         $fileUrl = asset('uploads/brand-content/' . $webpFileName);
+    
+    //         // Return response to CKEditor
+    //         return response()->json([
+    //             'uploaded' => true,
+    //             'url' => $fileUrl
+    //         ]);
+    //     }
+    
+    //     // Handle error if file upload fails
+    //     return response()->json([
+    //         'uploaded' => false,
+    //         'error' => [
+    //             'message' => 'File upload failed.'
+    //         ]
+    //     ]);
+    // }
 }

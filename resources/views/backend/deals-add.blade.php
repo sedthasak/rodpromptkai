@@ -145,20 +145,6 @@
                             </div>
                         </div>
 
-                        <!-- Text Fields (text1 - text6) -->
-                        <div class="grid grid-cols-12 gap-6">
-                            @for ($i = 1; $i <= 6; $i++)
-                                <div class="col-span-12 xl:col-span-6">
-                                    <div class="mt-3">
-                                        <label for="text{{ $i }}" class="form-label">Text {{ $i }}</label>
-                                        <input type="text" id="text{{ $i }}" name="text{{ $i }}" class="form-control w-full" value="{{ old('text' . $i) }}" />
-                                        @error('text{{ $i }}')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            @endfor
-                        </div>
 
                         <div class="text-right mt-5">
                             <button type="submit" class="btn btn-primary w-24">Save</button>

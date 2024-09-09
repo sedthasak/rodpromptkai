@@ -16,7 +16,10 @@ $arr_gear = array(
         <div class="owl-bannerslide owl-carousel owl-theme">
             @foreach($slide as $sld)
                 <div class="items">
-                    <figure><img src="{{ asset($sld->image) }}" alt=""></figure>
+                    <a href="{{ asset($sld->link) }}" target="_blank">
+                        <figure><img src="{{ asset($sld->image) }}" alt=""></figure>
+                    </a>
+                    
                 </div>
             @endforeach
         </div>

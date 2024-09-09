@@ -51,7 +51,7 @@ class PackagesController extends Controller
     public function BN_packages_edit_action(Request $request)
     {
         $type = strtolower($request->input('type'));
-
+    
         if ($type === 'dealer') {
             // Validate the request data for updating a dealer package
             $request->validate([
@@ -59,23 +59,35 @@ class PackagesController extends Controller
                 'name' => 'required|string',
                 'price' => 'required|numeric',
                 'limit' => 'required|numeric',
-                // Add validation rules for other fields as needed
+                'old_price' => 'nullable|numeric',
+                'label_save' => 'nullable|numeric',
+                'label_bottom' => 'nullable|string',
+                'text1' => 'nullable|string',
+                'text2' => 'nullable|string',
+                'text3' => 'nullable|string',
+                'text4' => 'nullable|string',
+                'text5' => 'nullable|string',
+                'text6' => 'nullable|string',
             ]);
-
+    
             // Find the package and update its attributes
             $package = PackageDealerModel::findOrFail($request->input('id'));
             $package->name = $request->input('name');
             $package->price = $request->input('price');
             $package->limit = $request->input('limit');
-
             $package->old_price = $request->input('old_price');
             $package->label_save = $request->input('label_save');
             $package->label_bottom = $request->input('label_bottom');
-            // Update other attributes as needed
-
+            $package->text1 = $request->input('text1');
+            $package->text2 = $request->input('text2');
+            $package->text3 = $request->input('text3');
+            $package->text4 = $request->input('text4');
+            $package->text5 = $request->input('text5');
+            $package->text6 = $request->input('text6');
+    
             // Save the updated package
             $package->save();
-
+    
         } elseif ($type === 'vip') {
             // Validate the request data for updating a VIP package
             $request->validate([
@@ -83,26 +95,43 @@ class PackagesController extends Controller
                 'name' => 'required|string',
                 'price' => 'required|numeric',
                 'limit' => 'required|numeric',
-                // Add validation rules for other fields as needed
+                'old_price' => 'nullable|numeric',
+                'label_save' => 'nullable|numeric',
+                'label_bottom' => 'nullable|string',
+                'text1' => 'nullable|string',
+                'text2' => 'nullable|string',
+                'text3' => 'nullable|string',
+                'text4' => 'nullable|string',
+                'text5' => 'nullable|string',
+                'text6' => 'nullable|string',
             ]);
-
+    
             // Find the package and update its attributes
             $package = VipPackageModel::findOrFail($request->input('id'));
             $package->name = $request->input('name');
             $package->price = $request->input('price');
             $package->limit = $request->input('limit');
-            // Update other attributes as needed
-
+            $package->old_price = $request->input('old_price');
+            $package->label_save = $request->input('label_save');
+            $package->label_bottom = $request->input('label_bottom');
+            $package->text1 = $request->input('text1');
+            $package->text2 = $request->input('text2');
+            $package->text3 = $request->input('text3');
+            $package->text4 = $request->input('text4');
+            $package->text5 = $request->input('text5');
+            $package->text6 = $request->input('text6');
+    
             // Save the updated package
             $package->save();
-
+    
         } else {
             abort(404); // Handle invalid package type
         }
-
+    
         // Redirect back to the package list page or any other appropriate page
         return redirect()->route('BN_packages')->with('success', 'แก้ไขแพ็คเกจสำเร็จ');
     }
+    
 
     public function BN_packages_detail_dealer($id)
     {

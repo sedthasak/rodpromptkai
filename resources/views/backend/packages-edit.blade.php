@@ -29,25 +29,49 @@
                     <input id="price" type="number" name="price" class="form-control" value="{{ $package->price }}" required>
                 </div>
 
-
                 <div class="col-span-12 sm:col-span-6">
-                    <label for="price" class="form-label">ราคาฆ่าทิ้ง</label>
-                    <input id="price" type="number" name="old_price" class="form-control" value="{{ $package->old_price }}" placeholder="" >
+                    <label for="old_price" class="form-label">ราคาฆ่าทิ้ง</label>
+                    <input id="old_price" type="number" name="old_price" class="form-control" value="{{ $package->old_price }}" placeholder="">
                 </div>
                 <div class="col-span-12 sm:col-span-6">
-                    <label for="price" class="form-label">โชว์เปอร์เซ็นพิเศษ</label>
-                    <input id="price" type="number" name="label_save" class="form-control" value="{{ $package->label_save }}" placeholder="ประหยัด %" >
+                    <label for="label_save" class="form-label">โชว์เปอร์เซ็นพิเศษ</label>
+                    <input id="label_save" type="number" name="label_save" class="form-control" value="{{ $package->label_save }}" placeholder="ประหยัด %">
                 </div>
                 <div class="col-span-12 sm:col-span-6">
-                    <label for="price" class="form-label">ข้อความพิเศษ</label>
-                    <input id="text" type="text" name="label_bottom" class="form-control" value="{{ $package->label_bottom }}" placeholder="" >
+                    <label for="label_bottom" class="form-label">ข้อความพิเศษ</label>
+                    <input id="label_bottom" type="text" name="label_bottom" class="form-control" value="{{ $package->label_bottom }}" placeholder="">
                 </div>
 
                 <div class="col-span-12 sm:col-span-6">
                     <label for="limit" class="form-label">ลิมิต</label>
                     <input id="limit" type="number" name="limit" class="form-control" value="{{ $package->limit }}" required>
                 </div>
-                <!-- Add more fields as per your package schema -->
+
+                <!-- New fields for text1 to text6 -->
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text1" class="form-label">ข้อความเพิ่มเติม 1</label>
+                    <input id="text1" type="text" name="text1" class="form-control" value="{{ $package->text1 }}" placeholder="ข้อความเพิ่มเติม 1">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text2" class="form-label">ข้อความเพิ่มเติม 2</label>
+                    <input id="text2" type="text" name="text2" class="form-control" value="{{ $package->text2 }}" placeholder="ข้อความเพิ่มเติม 2">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text3" class="form-label">ข้อความเพิ่มเติม 3</label>
+                    <input id="text3" type="text" name="text3" class="form-control" value="{{ $package->text3 }}" placeholder="ข้อความเพิ่มเติม 3">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text4" class="form-label">ข้อความเพิ่มเติม 4</label>
+                    <input id="text4" type="text" name="text4" class="form-control" value="{{ $package->text4 }}" placeholder="ข้อความเพิ่มเติม 4">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text5" class="form-label">ข้อความเพิ่มเติม 5</label>
+                    <input id="text5" type="text" name="text5" class="form-control" value="{{ $package->text5 }}" placeholder="ข้อความเพิ่มเติม 5">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text6" class="form-label">ข้อความเพิ่มเติม 6</label>
+                    <input id="text6" type="text" name="text6" class="form-control" value="{{ $package->text6 }}" placeholder="ข้อความเพิ่มเติม 6">
+                </div>
             </div>
 
             <div class="text-right mt-5">

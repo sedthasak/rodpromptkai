@@ -5,11 +5,6 @@
 @endsection
 
 @section('subcontent')
-<?php
-// echo "<pre>";
-// print_r($page_name);
-// echo "</pre>";
-?>
     <div class="intro-y mt-8 flex flex-col items-center sm:flex-row">
         <h2 class="mr-auto text-lg font-medium">{{$default_pagename}}</h2>
         <div class="mt-4 flex w-full sm:mt-0 sm:w-auto">
@@ -21,84 +16,70 @@
         <input type="hidden" name="id" value="{{$brands->id}}" />
         <input type="hidden" name="user_id" value="{{auth()->user()->id}}" />
         <div class="grid grid-cols-12 gap-6 mt-5">
-            <!-- <div class="intro-y col-span-12 lg:col-span-3"></div> -->
             <div class="intro-y col-span-12 lg:col-span-12">
-                <!-- BEGIN: Form Layout -->
                 <div class="intro-y box p-5">
-                    
                     <div class="mt-3">
                         <div class="sm:grid grid-cols-1 gap-1">
-                            <div class="">
-                                <label for="" class="form-label">ชื่อยี่ห้อ</label>
+                            <div>
+                                <label for="title" class="form-label">ชื่อยี่ห้อ</label>
                                 <input type="text" class="form-control w-full" name="title" autocomplete="off" value="{{$brands->title}}" />
                             </div>
                         </div>
                         
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">โลโก้</label>
-                                <input type="file" class="form-control w-full" id="" name="feature"  autocomplete="off" />
+                            <div>
+                                <label for="feature" class="form-label">โลโก้</label>
+                                <input type="file" class="form-control w-full" id="feature" name="feature" autocomplete="off" />
                             </div>
                         </div>
                         @if(isset($brands->feature))
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">โลโก้ปัจจุบัน</label>
+                            <div>
+                                <label for="current_logo" class="form-label">โลโก้ปัจจุบัน</label>
                                 <image width="150" src="{{asset($brands->feature)}}">
                             </div>
                         </div>
                         @endif
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">คำโปรย</label>
-                                <input type="text" class="form-control w-full" id="" name="excerpt"  autocomplete="off" value="{{$brands->excerpt}}" />
+                            <div>
+                                <label for="excerpt" class="form-label">คำโปรย</label>
+                                <input type="text" class="form-control w-full" id="excerpt" name="excerpt" autocomplete="off" value="{{$brands->excerpt}}" />
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">ข่าว</label>
+                            <div>
+                                <label for="content" class="form-label">ข่าว</label>
                                 <textarea class="form-control" id="content" rows="5" name="content">{{$brands->content}}</textarea>
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">meta_title</label>
-                                <input type="text" class="form-control w-full" id="" name="meta_title" value="{{$brands->meta_title}}"  autocomplete="off" />
+                            <div>
+                                <label for="meta_title" class="form-label">meta_title</label>
+                                <input type="text" class="form-control w-full" id="meta_title" name="meta_title" value="{{$brands->meta_title}}"  autocomplete="off" />
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">meta_keyword</label>
-                                <input type="text" class="form-control w-full" id="" name="meta_keyword" value="{{$brands->meta_keyword}}"  autocomplete="off" />
+                            <div>
+                                <label for="meta_keyword" class="form-label">meta_keyword</label>
+                                <input type="text" class="form-control w-full" id="meta_keyword" name="meta_keyword" value="{{$brands->meta_keyword}}"  autocomplete="off" />
                             </div>
                         </div>
                         <div class="sm:grid grid-cols-1 gap-1 mt-5">
-                            <div class="">
-                                <label for="" class="form-label">meta_description</label>
-                                <input type="text" class="form-control w-full" id="" name="meta_description" value="{{$brands->meta_description}}"  autocomplete="off" />
+                            <div>
+                                <label for="meta_description" class="form-label">meta_description</label>
+                                <input type="text" class="form-control w-full" id="meta_description" name="meta_description" value="{{$brands->meta_description}}"  autocomplete="off" />
                             </div>
                         </div>
-                        
                     </div>
 
-
-                    <!-- <div class="text-right mt-5">
-                        <a href="#" class="btn btn-danger w-24 mr-auto ">ลบ</a>
-                        <button type="submit" class="btn btn-primary w-24">บันทึก</button>
-                    </div> -->
                     <div class="mt-4 flex justify-end">
                         <div class="btn-delete-brand btn btn-danger mr-auto w-24" onclick="confirmDelete({{ $brands->id }})">ลบ</div>
                         <button type="submit" class="btn btn-primary w-24 mr-2">บันทึก</button>
                     </div>
                 </div>
-                <!-- END: Form Layout -->
             </div>
         </div>
     </form>
-
-
-
-
 @endsection
 
 @section('script')
@@ -115,16 +96,64 @@
             cancelButtonText: 'ยกเลิก'
         }).then((result) => {
             if (result.isConfirmed) {
-                // If confirmed, redirect to delete route
                 window.location.href = '/backend/car/brands-delete/' + id;
             }
         });
     }
-    
+
     ClassicEditor
-        .create( document.querySelector( '#content' ) )
-        .catch( error => {
-            console.error( error );
-        } );
+        .create(document.querySelector('#content'), {
+            toolbar: {
+                items: [
+                    'undo', 'redo', '|', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                    '|', 'fontColor', 'fontBackgroundColor', 'fontSize', '|', 'insertTable', '|', 'mediaEmbed', '|',
+                    'imageUpload', '|', 'fullscreen'
+                ],
+                shouldNotGroupWhenFull: true
+            },
+            image: {
+                toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side'],
+                styles: ['alignLeft', 'alignCenter', 'alignRight']
+            },
+            fileTools: {
+                uploadUrl: '{{ route("upload.image") }}',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }
+        })
+        .then(editor => {
+            console.log('Editor initialized', editor);
+            editor.model.document.on('change:data', () => {
+                document.getElementById('content').value = editor.getData();
+            });
+
+            editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
+                return {
+                    upload: function() {
+                        return loader.file
+                            .then(file => new Promise((resolve, reject) => {
+                                const formData = new FormData();
+                                formData.append('upload', file);
+
+                                fetch('{{ route("upload.image") }}', {
+                                    method: 'POST',
+                                    body: formData,
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => resolve({ default: data.url }))
+                                .catch(error => reject(error.message));
+                            }));
+                    },
+                    abort: function() {
+                        console.log('Upload aborted');
+                    }
+                };
+            };
+        })
+        .catch(error => console.error(error));
 </script>
 @endsection

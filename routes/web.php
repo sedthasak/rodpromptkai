@@ -491,6 +491,8 @@ Route::middleware('auth')->group(function() {
                 Route::get('fetch', [NewsController::class, 'BN_newsFetch'])->name('BN_newsFetch');
                 Route::get('index', [NewsController::class, 'BN_newsIndex'])->name('BN_newsIndex');
                 Route::post('store', [NewsController::class, 'BN_news_store'])->name('BN_news_store');
+
+                Route::delete('delete/{id}', [NewsController::class, 'BN_news_delete'])->name('BN_news_delete');
             });
 
             Route::prefix('users')->group(function () {

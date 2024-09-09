@@ -147,18 +147,6 @@
                             @enderror
                         </div>
 
-                        <!-- Text1 to Text6 Fields -->
-                        @for ($i = 1; $i <= 6; $i++)
-                            <div class="col-span-2 sm:col-span-1">
-                                <label for="text{{ $i }}" class="form-label">Text {{ $i }}</label>
-                                <input type="text" id="text{{ $i }}" name="text{{ $i }}" class="form-control w-full" value="{{ old('text' . $i, $query->{'text' . $i}) }}" />
-                                @error('text{{ $i }}')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        @endfor
-
-
 
                         <div class="col-span-2">
                             <div class="text-right mt-5">

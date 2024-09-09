@@ -25,6 +25,7 @@
                 </div>
             </div>
             <div class="row">
+                <!-- Package 1 -->
                 <div class="col-12 col-md-4 item-box-package">
                     <div class="box-package">
                         <h4>{{$pack1->name}}</h4>
@@ -69,9 +70,45 @@
                             <div class="box-package-spec-list">
                                 <div><img src="{{asset('frontend/images2/icon-package04.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
+                            
+                            <!-- New fields text1 to text6 -->
+                            @if($pack1->text1)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text1}}
+                            </div>
+                            @endif
+                            @if($pack1->text2)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text2}}
+                            </div>
+                            @endif
+                            @if($pack1->text3)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text3}}
+                            </div>
+                            @endif
+                            @if($pack1->text4)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text4}}
+                            </div>
+                            @endif
+                            @if($pack1->text5)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text5}}
+                            </div>
+                            @endif
+                            @if($pack1->text6)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text6}}
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
+
+                <!-- Repeat the same for pack2 and pack3, adding the text1 to text6 fields if available -->
+
+                <!-- Package 2 -->
                 <div class="col-12 col-md-4 item-box-package package-reccommend">
                     <div class="tag-reccommend"><img src="{{asset('frontend/images2/tag-reccommend.svg')}}" alt=""></div>
                     <div class="box-package">
@@ -90,7 +127,7 @@
                         @if($pack2->label_bottom)
                         <div class="box-package-note">{{$pack2->label_bottom}}</div>
                         @endif
-                        
+
                         <form action="{{ route('cartPage') }}" method="POST">
                             @csrf
                             <input type="hidden" name="package_id" value="{{$pack2->id}}">
@@ -114,9 +151,43 @@
                             <div class="box-package-spec-list">
                                 <div><img src="{{asset('frontend/images2/icon-package04.svg')}}" class="svg" alt=""></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
+
+                            <!-- New fields text1 to text6 for pack2 -->
+                            @if($pack2->text1)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text1}}
+                            </div>
+                            @endif
+                            @if($pack2->text2)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text2}}
+                            </div>
+                            @endif
+                            @if($pack2->text3)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text3}}
+                            </div>
+                            @endif
+                            @if($pack2->text4)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text4}}
+                            </div>
+                            @endif
+                            @if($pack2->text5)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text5}}
+                            </div>
+                            @endif
+                            @if($pack2->text6)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text6}}
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
+
+                <!-- Package 3 -->
                 <div class="col-12 col-md-4 item-box-package">
                     <div class="box-package">
                         <h4>{{$pack3->name}}</h4>
@@ -134,7 +205,7 @@
                         @if($pack3->label_bottom)
                         <div class="box-package-note">{{$pack3->label_bottom}}</div>
                         @endif
-                        
+
                         <form action="{{ route('cartPage') }}" method="POST">
                             @csrf
                             <input type="hidden" name="package_id" value="{{$pack3->id}}">
@@ -158,6 +229,38 @@
                             <div class="box-package-spec-list">
                                 <div><img src="{{asset('frontend/images2/icon-package04.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
+
+                            <!-- New fields text1 to text6 for pack3 -->
+                            @if($pack3->text1)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text1}}
+                            </div>
+                            @endif
+                            @if($pack3->text2)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text2}}
+                            </div>
+                            @endif
+                            @if($pack3->text3)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text3}}
+                            </div>
+                            @endif
+                            @if($pack3->text4)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text4}}
+                            </div>
+                            @endif
+                            @if($pack3->text5)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text5}}
+                            </div>
+                            @endif
+                            @if($pack3->text6)
+                            <div class="box-package-spec-list">
+                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text6}}
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

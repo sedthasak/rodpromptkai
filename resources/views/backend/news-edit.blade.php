@@ -127,7 +127,7 @@
                 .create(document.querySelector('#content'), {
                     toolbar: {
                         items: [
-                            'undo', 'redo', '|', 'heading', '|', 'bold', 'italic', 'link', 
+                            'undo', 'redo', '|', 'heading', '|', 'bold', 'italic', 'link',
                             'bulletedList', 'numberedList', '|', 'alignment', '|',
                             'fontColor', 'fontBackgroundColor', '|', 'fontSize', '|',
                             'insertTable', '|', 'mediaEmbed', '|', 'codeBlock', '|',
@@ -145,13 +145,47 @@
                         styles: [
                             'alignLeft', 'alignCenter', 'alignRight'
                         ]
-                    },
-                    simpleUpload: {
-                        uploadUrl: '{{ route("upload.image") }}',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
                     }
+                })
+                .then(editor => {
+                    // Custom upload adapter
+                    editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
+                        return {
+                            upload: function() {
+                                return loader.file
+                                    .then(file => new Promise((resolve, reject) => {
+                                        const formData = new FormData();
+                                        formData.append('upload', file);
+
+                                        // Send AJAX request
+                                        fetch('{{ route("upload.image") }}', {
+                                            method: 'POST',
+                                            body: formData,
+                                            headers: {
+                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                            }
+                                        })
+                                        .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('Cannot upload file: ' + file.name);
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            resolve({
+                                                default: data.url
+                                            });
+                                        })
+                                        .catch(error => {
+                                            reject(error.message);
+                                        });
+                                    }));
+                            },
+                            abort: function() {
+                                console.log('Upload aborted');
+                            }
+                        };
+                    };
                 })
                 .catch(error => {
                     console.error(error);

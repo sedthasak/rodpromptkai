@@ -21,9 +21,10 @@ class DealsController extends Controller
             'query' => $deal,
         ]);
     }
+
+    
     public function BN_deals_edit_action(Request $request)
     {
-        // dd($request);
         // Validate the incoming request data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -37,12 +38,6 @@ class DealsController extends Controller
             'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'expire' => 'nullable|date',
-            'text1' => 'nullable|string|max:255',
-            'text2' => 'nullable|string|max:255',
-            'text3' => 'nullable|string|max:255',
-            'text4' => 'nullable|string|max:255',
-            'text5' => 'nullable|string|max:255',
-            'text6' => 'nullable|string|max:255',
         ]);
     
         if ($validator->fails()) {
@@ -56,55 +51,67 @@ class DealsController extends Controller
         // Find the existing deal
         $deal = DealModel::findOrFail($request->input('id'));
     
-        $uploadPath = 'public/uploads/deal';
+        $uploadPath = 'uploads/deal'; // This path is relative to 'storage/app/public'
     
         // Handle image removal
         if ($request->has('remove_background_image') && $deal->image_background) {
-            Storage::delete($uploadPath . '/' . $deal->image_background);
+            Storage::disk('public')->delete($deal->image_background);
             $deal->image_background = null;
         }
     
         if ($request->has('remove_topleft_image') && $deal->topleft) {
-            Storage::delete($uploadPath . '/' . $deal->topleft);
+            Storage::disk('public')->delete($deal->topleft);
             $deal->topleft = null;
         }
     
         if ($request->has('remove_bottomright_image') && $deal->bottomright) {
-            Storage::delete($uploadPath . '/' . $deal->bottomright);
+            Storage::disk('public')->delete($deal->bottomright);
             $deal->bottomright = null;
         }
     
         // Handle new image uploads
         if ($request->hasFile('image_background')) {
             if ($deal->image_background) {
-                Storage::delete($uploadPath . '/' . $deal->image_background);
+                Storage::disk('public')->delete($deal->image_background);
             }
             $imageName = 'image_background_' . Str::random(10) . '.' . $request->file('image_background')->getClientOriginalExtension();
-            $deal->image_background = $request->file('image_background')->storeAs($uploadPath, $imageName);
+            $deal->image_background = $request->file('image_background')->storeAs($uploadPath, $imageName, 'public');
         }
     
         if ($request->hasFile('topleft')) {
             if ($deal->topleft) {
-                Storage::delete($uploadPath . '/' . $deal->topleft);
+                Storage::disk('public')->delete($deal->topleft);
             }
             $imageName = 'topleft_' . Str::random(10) . '.' . $request->file('topleft')->getClientOriginalExtension();
-            $deal->topleft = $request->file('topleft')->storeAs($uploadPath, $imageName);
+            $deal->topleft = $request->file('topleft')->storeAs($uploadPath, $imageName, 'public');
         }
     
         if ($request->hasFile('bottomright')) {
             if ($deal->bottomright) {
-                Storage::delete($uploadPath . '/' . $deal->bottomright);
+                Storage::disk('public')->delete($deal->bottomright);
             }
             $imageName = 'bottomright_' . Str::random(10) . '.' . $request->file('bottomright')->getClientOriginalExtension();
-            $deal->bottomright = $request->file('bottomright')->storeAs($uploadPath, $imageName);
+            $deal->bottomright = $request->file('bottomright')->storeAs($uploadPath, $imageName, 'public');
         }
     
-        // Update the other fields
-        $deal->fill($request->except('_token', 'remove_background_image', 'remove_topleft_image', 'remove_bottomright_image'));
+        // Exclude the image fields from the fill method to avoid overwriting them with the uploaded file objects
+        $deal->fill($request->except([
+            '_token',
+            'remove_background_image',
+            'remove_topleft_image',
+            'remove_bottomright_image',
+            'image_background',  // Exclude image fields
+            'topleft',
+            'bottomright'
+        ]));
+    
         $deal->save();
     
         return redirect()->route('BN_deals')->with('success', 'Deal updated successfully!');
     }
+    
+    
+    
     
     
 
@@ -118,6 +125,7 @@ class DealsController extends Controller
     }
     public function BN_deals_add_action(Request $request)
     {
+        // Validate the incoming request data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'border' => 'required|string|max:7',
@@ -130,12 +138,6 @@ class DealsController extends Controller
             'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'expire' => 'nullable|date',
-            'text1' => 'nullable|string|max:255',
-            'text2' => 'nullable|string|max:255',
-            'text3' => 'nullable|string|max:255',
-            'text4' => 'nullable|string|max:255',
-            'text5' => 'nullable|string|max:255',
-            'text6' => 'nullable|string|max:255',
         ]);
     
         if ($validator->fails()) {
@@ -147,29 +149,31 @@ class DealsController extends Controller
         }
     
         $data = $request->all();
-        $uploadPath = 'public/uploads/deal';
+        $uploadPath = 'uploads/deal'; // Path relative to 'storage/app/public'
     
-        // Handle image uploads
+        // Handle image uploads and save to 'public' disk
         if ($request->hasFile('image_background')) {
             $imageName = 'image_background_' . Str::random(10) . '.' . $request->file('image_background')->getClientOriginalExtension();
-            $data['image_background'] = $request->file('image_background')->storeAs($uploadPath, $imageName);
+            $data['image_background'] = $request->file('image_background')->storeAs($uploadPath, $imageName, 'public');
         }
     
         if ($request->hasFile('topleft')) {
             $imageName = 'topleft_' . Str::random(10) . '.' . $request->file('topleft')->getClientOriginalExtension();
-            $data['topleft'] = $request->file('topleft')->storeAs($uploadPath, $imageName);
+            $data['topleft'] = $request->file('topleft')->storeAs($uploadPath, $imageName, 'public');
         }
     
         if ($request->hasFile('bottomright')) {
             $imageName = 'bottomright_' . Str::random(10) . '.' . $request->file('bottomright')->getClientOriginalExtension();
-            $data['bottomright'] = $request->file('bottomright')->storeAs($uploadPath, $imageName);
+            $data['bottomright'] = $request->file('bottomright')->storeAs($uploadPath, $imageName, 'public');
         }
     
         // Create a new deal
+        // dd($data);
         DealModel::create($data);
     
         return redirect()->route('BN_deals')->with('success', 'Deal created successfully!');
     }
+    
     
 
 

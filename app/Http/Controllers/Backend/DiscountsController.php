@@ -25,7 +25,6 @@ class DiscountsController extends Controller
     {
         Log::info('Entering BN_discounts_add_action');
     
-        // Validate the request
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255|unique:coupons,code',
@@ -35,24 +34,26 @@ class DiscountsController extends Controller
             'expire' => 'nullable|date|required_if:have_expire,1',
             'description' => 'nullable|string',
             'limit' => 'nullable|integer|min:0',
-            'level_member' => 'nullable|string',
+            'level_member' => 'nullable|integer|exists:levels,id',
         ]);
     
         try {
             Log::info('Validation passed');
     
-            $coupon = new CouponModel($validated);
+            $coupon = new CouponModel();
+            $coupon->fill($validated);
             $coupon->status = 'active';
             $coupon->expirecoupon = $validated['expire'];
             $coupon->save();
     
             Log::info('Coupon saved successfully');
             return redirect(route('BN_discounts'))->with('success', 'สร้างคูปองสำเร็จ !!!');
-        } catch (QueryException $e) {
+        } catch (\Exception $e) {
             Log::error('Error saving coupon: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'การบันทึกข้อมูลล้มเหลว !!!');
         }
     }
+    
     
     
     
@@ -102,30 +103,29 @@ class DiscountsController extends Controller
             'code' => 'required|string|max:255|unique:coupons,code,' . $request->id,
             'rate' => 'required|numeric|min:0|max:100',
             'limit_rate' => 'nullable|numeric|min:0',
-            'have_expire' => 'required|boolean', // Validating have_expire as a boolean
-            'expire' => 'nullable|date|required_if:have_expire,1', // Ensure expire date is required if have_expire is 1
+            'have_expire' => 'required|boolean',
+            'expire' => 'nullable|date|required_if:have_expire,1',
             'description' => 'nullable|string',
             'limit' => 'nullable|integer|min:0',
-            'level_member' => 'nullable|string',
-            'status' => 'required|in:active,expire,หมด',
+            'level_member' => 'nullable|integer|exists:levels,id',
+            'status' => 'required|in:active,inactive',
         ]);
     
         try {
             Log::info('Validation passed');
     
             $coupon = CouponModel::findOrFail($validated['id']);
-    
-            $coupon->name = $validated['name'];
-            $coupon->code = $validated['code'];
-            $coupon->rate = $validated['rate'];
-            $coupon->limit_rate = $validated['limit_rate'];
-            $coupon->expirecoupon = $validated['expire'];  // Map 'expire' to 'expirecoupon'
-            $coupon->description = $validated['description'];
-            $coupon->limit = $validated['limit'];
-            $coupon->level_member = $validated['level_member'];
-            $coupon->status = $validated['status'];
-    
-            $coupon->save();
+            $coupon->update([
+                'name' => $validated['name'],
+                'code' => $validated['code'],
+                'rate' => $validated['rate'],
+                'limit_rate' => $validated['limit_rate'],
+                'expirecoupon' => $validated['expire'],
+                'description' => $validated['description'],
+                'limit' => $validated['limit'],
+                'level_member' => $validated['level_member'],
+                'status' => $validated['status'],
+            ]);
     
             Log::info('Coupon updated successfully');
             return redirect(route('BN_discounts'))->with('success', 'แก้ไขข้อมูลสำเร็จ !!!');
@@ -134,6 +134,7 @@ class DiscountsController extends Controller
             return redirect()->back()->withInput()->with('error', 'เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' . $e->getMessage());
         }
     }
+    
     
     public function BN_discounts_detail(Request $request, $id)
     {
