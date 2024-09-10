@@ -116,6 +116,19 @@
                             @enderror
                         </div>
 
+                        <!-- Top Left Position -->
+                        <div class="col-span-2 sm:col-span-1">
+                            <label for="topleft_position" class="form-label">Top Left Position</label>
+                            <select id="topleft_position" name="topleft_position" class="form-control w-full">
+                                <option value="1" {{ old('topleft_position', $query->topleft_position) == 1 ? 'selected' : '' }}>Aligned Top (default)</option>
+                                <option value="2" {{ old('topleft_position', $query->topleft_position) == 2 ? 'selected' : '' }}>Aligned Left</option>
+                                <option value="3" {{ old('topleft_position', $query->topleft_position) == 3 ? 'selected' : '' }}>Aligned Top Left</option>
+                            </select>
+                            @error('topleft_position')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <!-- Bottom Right Image -->
                         <div class="col-span-2 sm:col-span-1">
                             <label for="bottomright" class="form-label">Bottom Right Image</label>
@@ -137,7 +150,6 @@
                             @enderror
                         </div>
 
-
                         <!-- Expiry Date -->
                         <div class="col-span-2 sm:col-span-1">
                             <label for="expire" class="form-label">Expiry Date</label>
@@ -147,12 +159,13 @@
                             @enderror
                         </div>
 
-
+                        <!-- Submit Button -->
                         <div class="col-span-2">
                             <div class="text-right mt-5">
                                 <button type="submit" class="btn btn-primary w-24">Update</button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

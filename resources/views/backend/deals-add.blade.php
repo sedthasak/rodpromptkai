@@ -107,12 +107,31 @@
                                     @enderror
                                 </div>
                             </div>
+                            
+                        </div>
+
+                        
+                        <div class="grid grid-cols-12 gap-6">
                             <!-- Top Left Image -->
                             <div class="col-span-12 xl:col-span-6">
                                 <div class="mt-3">
                                     <label for="topleft" class="form-label">Top Left Image</label>
                                     <input type="file" id="topleft" name="topleft" class="form-control" />
                                     @error('topleft')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- Select for Top Left Position -->
+                            <div class="col-span-12 xl:col-span-6">
+                                <div class="mt-3">
+                                    <label for="topleft_position" class="form-label">Top Left Position</label>
+                                    <select id="topleft_position" name="topleft_position" class="form-control w-full">
+                                        <option value="1" {{ old('topleft_position', 1) == 1 ? 'selected' : '' }}>Aligned Top (default)</option>
+                                        <option value="2" {{ old('topleft_position') == 2 ? 'selected' : '' }}>Aligned Left</option>
+                                        <option value="3" {{ old('topleft_position') == 3 ? 'selected' : '' }}>Aligned Top Left</option>
+                                    </select>
+                                    @error('topleft_position')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -145,10 +164,11 @@
                             </div>
                         </div>
 
-
+                        <!-- Submit Button -->
                         <div class="text-right mt-5">
                             <button type="submit" class="btn btn-primary w-24">Save</button>
                         </div>
+
                     </div>
                 </div>
             </div>

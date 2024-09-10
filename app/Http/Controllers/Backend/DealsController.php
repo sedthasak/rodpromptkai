@@ -38,14 +38,15 @@ class DealsController extends Controller
             'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'expire' => 'nullable|date',
+            'topleft_position' => 'nullable|in:1,2,3', // Validation for topleft_position
         ]);
     
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
             return redirect()->back()
-                            ->withErrors($validator)
-                            ->withInput()
-                            ->with('error', implode(' ', $errors));
+                             ->withErrors($validator)
+                             ->withInput()
+                             ->with('error', implode(' ', $errors));
         }
     
         // Find the existing deal
@@ -94,6 +95,9 @@ class DealsController extends Controller
             $deal->bottomright = $request->file('bottomright')->storeAs($uploadPath, $imageName, 'public');
         }
     
+        // Set the default value for topleft_position if not provided, default to 1
+        $deal->topleft_position = $request->input('topleft_position', 1);
+    
         // Exclude the image fields from the fill method to avoid overwriting them with the uploaded file objects
         $deal->fill($request->except([
             '_token',
@@ -105,10 +109,12 @@ class DealsController extends Controller
             'bottomright'
         ]));
     
+        // Save the updated deal
         $deal->save();
     
         return redirect()->route('BN_deals')->with('success', 'Deal updated successfully!');
     }
+    
     
     
     
@@ -133,19 +139,20 @@ class DealsController extends Controller
             'font1' => 'required|string|max:7',
             'font2' => 'required|string|max:7',
             'font3' => 'required|string|max:7',
-            'font4' => 'nullable|string|max:7', 
+            'font4' => 'nullable|string|max:7',
             'image_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'topleft' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bottomright' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'expire' => 'nullable|date',
+            'topleft_position' => 'nullable|in:1,2,3', // Validation for topleft_position
         ]);
     
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
             return redirect()->back()
-                            ->withErrors($validator)
-                            ->withInput()
-                            ->with('error', implode(' ', $errors));
+                             ->withErrors($validator)
+                             ->withInput()
+                             ->with('error', implode(' ', $errors));
         }
     
         $data = $request->all();
@@ -167,12 +174,15 @@ class DealsController extends Controller
             $data['bottomright'] = $request->file('bottomright')->storeAs($uploadPath, $imageName, 'public');
         }
     
+        // Set the default value for topleft_position if not provided, default to 1
+        $data['topleft_position'] = $request->input('topleft_position', 1);
+    
         // Create a new deal
-        // dd($data);
         DealModel::create($data);
     
         return redirect()->route('BN_deals')->with('success', 'Deal created successfully!');
     }
+    
     
     
 

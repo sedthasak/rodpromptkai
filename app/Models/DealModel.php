@@ -23,6 +23,7 @@ class DealModel extends Model
         'font3',
         'font4',
         'topleft',
+        'topleft_position',
         'bottomright',
         'expire',
         'bigbrand',
