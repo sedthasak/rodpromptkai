@@ -285,7 +285,7 @@ class SearchController extends Controller
         // Apply additional filters from query parameters
         // EV filter
         if ($request->has('ev') && $request->query('ev') === 'yes') {
-            $query->where('ev', '!=', 1);
+            $query->where('ev', '==', 1);
         }
 
         // Price filter

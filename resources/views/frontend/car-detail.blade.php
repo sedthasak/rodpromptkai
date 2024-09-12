@@ -472,7 +472,7 @@ $arr_gear = array(
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> รถพร้อมขายแนะนำ</div>
+                    <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> รถที่ใกล้เคียงกับ Budget ของคุณ</div>
                 </div>
             </div>
             <div class="row">

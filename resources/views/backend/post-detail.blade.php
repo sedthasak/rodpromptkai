@@ -208,7 +208,7 @@ $arrsprole = [
                 <div class="flex-1 px-5">
                     <div class="font-medium text-center lg:text-left lg:mt-5">เล่มรถ</div>
                     
-                        <img alt="Licenseplate" data-action="zoom" class="rounded-md" width="100" height="60" src="{{ asset($postcar->licenseplate) }}">
+                        <img alt="Licenseplate" data-action="zoom" class="rounded-md" width="100" height="60" src="{{ asset('storage/' . $postcar->licenseplate) }}">
                     
                 </div>
             </div>

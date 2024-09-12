@@ -24,6 +24,8 @@ use App\Models\newsModel;
 use App\Models\noticeModel;
 
 use App\Models\Province;
+
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 // use File;
@@ -608,6 +610,12 @@ class FrontendPageController extends Controller
         // Fetch latest news
         $news = newsModel::orderBy('id', 'desc')->take(5)->get();
 
+        $topCarsByClickcount = carsModel::orderBy('clickcount', 'desc')->limit(6)->get();
+
+        $carCountLast7Days = carsModel::where('status', 'approved')
+        ->whereBetween('approvedate', [Carbon::now()->subDays(7)->timestamp, Carbon::now()->timestamp])
+        ->count();
+
         return view('frontend/index-page', [
             'layout' => 'side-menu',
             'categories' => $categories,
@@ -618,7 +626,9 @@ class FrontendPageController extends Controller
             'slide' => $decde,
             'setFooterModel' => $setFooterModel,
             'news' => $news,
-            'province' => $province
+            'province' => $province,
+            'topCarsByClickcount' => $topCarsByClickcount,
+            'carCountLast7Days' => $carCountLast7Days,
         ]);
     }
 
