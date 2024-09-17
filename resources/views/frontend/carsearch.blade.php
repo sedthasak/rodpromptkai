@@ -88,18 +88,15 @@ $arr_gear = array(
 <section class="row">
     <div class="col-12 banner-slidecar">
         <div class="owl-bannercar owl-carousel owl-theme">
+            @foreach($slide as $sli)
             <div class="items">
-                <figure><img src="{{asset('frontend/images/banner-car.jpg')}}" alt=""></figure>
+                <a href="{{ asset($sli->link) }}" target="_blank">
+                    <figure><img src="{{ asset($sli->image) }}" alt=""></figure>
+                </a>
             </div>
-            <div class="items">
-                <figure><img src="{{asset('frontend/images/banner-car.jpg')}}" alt=""></figure>
-            </div>
-            <div class="items">
-                <figure><img src="{{asset('frontend/images/banner-car.jpg')}}" alt=""></figure>
-            </div>
-            <div class="items">
-                <figure><img src="{{asset('frontend/images/banner-car.jpg')}}" alt=""></figure>
-            </div>
+            @endforeach
+            
+
         </div>
     </div>
 </section>

@@ -27,7 +27,7 @@
                     @foreach($notice as $keycont => $notice_show)
                     @php 
                     $url = '#';
-                    if($notice_show->resource=='contacts_back'){$url = route('customercontactPage');}
+                    if($notice_show->type=='contact'){$url = route('customercontactPage');}
                     elseif($notice_show->resource=='cars'){$url = route('profileeditcarinfoPage');}
                     @endphp 
                     <a href="{{$url}}" class="item-noti">

@@ -76,7 +76,7 @@ $usesearchbox  = 'off';
                                                 </div>
                                             </div>
                                             <div class="col-3 col-md-2 col-xl-2">
-                                                <div class="customer-date">{{ date('d/m/Y', strtotime($contact->created_at)) }}</div>
+                                                <div class="customer-date">{{ date('d/m/Y h:i:s', strtotime($contact->created_at)) }}</div>
                                             </div>
                                             <div class="col-9 col-md-5 col-xl-4 text-end">
                                                 <button class="mycar-reserve contact-already {{ $resve_state }}" 

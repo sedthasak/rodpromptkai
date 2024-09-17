@@ -454,9 +454,17 @@ class FrontendPageController extends Controller
         $contact->update(['status' => $newValue]);
 
         // Check and update the noticeModel status if necessary
-        $notices = $contact->notices()->where('status', '!=', 'read')->get();
+        // $notices = $contact->notices()->where('status', '!=', 'read')->get();
+        // foreach ($notices as $notice) {
+        //     $notice->update(['status' => 'read']);
+        // }
+        
+        // Check and toggle the noticeModel status if necessary
+        $notices = $contact->notices()->get();
         foreach ($notices as $notice) {
-            $notice->update(['status' => 'read']);
+            $currentNoticeStatus = $notice->status;
+            $newNoticeStatus = $currentNoticeStatus == 'create' ? 'read' : 'create';
+            $notice->update(['status' => $newNoticeStatus]);
         }
 
         return response()->json(['status' => 'success', 'newValue' => $newValue]);
@@ -498,33 +506,38 @@ class FrontendPageController extends Controller
             return redirect()->back()->with('error', 'ผิดพลาด !');
         }
 
-        $contactsData = [
-            'status' => 'create',
-            'cars_id' => $request->cars_id,
-            'name' => $request->name,
-            'tel' => $request->tel,
-            'time' => $request->time,
-            'remark' => $request->remark,
-            'customer_id' => $request->customer_id ?? null,
-        ];
+        $thiscar = carsModel::find($request->cars_id);
 
-        $contacts = contacts_backModel::create($contactsData);
-
-        if ($contacts->exists) {
-            $noticeData = [
+        if($thiscar->customer_id){
+            $contactsData = [
                 'status' => 'create',
-                'type' => 'contact',
-                'contacts_back_id' => $contacts->id,
-                'customer_id' => $request->customer_id ?? null,
-                'title' => 'มีลูกค้ารอติดต่อกลับ',
-                'detail' => 'ชื่อลูกค้า: ' . $request->name,
-                'reference' => $contacts->id,
+                'cars_id' => $request->cars_id,
+                'name' => $request->name,
+                'tel' => $request->tel,
+                'time' => $request->time,
+                'remark' => $request->remark,
+                'customer_id' => $thiscar->customer_id ?? null,
             ];
 
-            noticeModel::create($noticeData);
+            $contacts = contacts_backModel::create($contactsData);
 
-            return redirect()->back()->with('success', 'ส่งข้อมูลสำเร็จ !');
+            if ($contacts->exists) {
+                $noticeData = [
+                    'status' => 'create',
+                    'type' => 'contact',
+                    'contacts_back_id' => $contacts->id,
+                    'customer_id' => $thiscar->customer_id ?? null,
+                    'title' => 'มีลูกค้ารอติดต่อกลับ',
+                    'detail' => 'ชื่อลูกค้า: ' . $request->name,
+                    'reference' => $contacts->id,
+                ];
+
+                noticeModel::create($noticeData);
+
+                return redirect()->back()->with('success', 'ส่งข้อมูลสำเร็จ !');
+            }
         }
+            
 
         return redirect()->back()->with('error', 'ผิดพลาด !');
     }

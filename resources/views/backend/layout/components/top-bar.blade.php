@@ -72,11 +72,12 @@
     </div> -->
     <!-- END: Search -->
     <!-- BEGIN: Notifications -->
-    <!-- <div class="intro-x dropdown mr-auto sm:mr-6">
-        <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button" aria-expanded="false" data-tw-toggle="dropdown">
+    <div class="intro-x mr-auto sm:mr-6">
+        <div class="dropdown-toggle cursor-pointer {{ $notification ? 'notification notification--bullet' : '' }}" role="button">
             <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i>
         </div>
-        <div class="notification-content pt-2 dropdown-menu">
+
+        <!-- <div class="notification-content pt-2 dropdown-menu">
             <div class="notification-content__box dropdown-content">
                 <div class="notification-content__title">Notifications</div>
                 @foreach (array_slice($fakers, 0, 5) as $key => $faker)
@@ -95,8 +96,8 @@
                     </div>
                 @endforeach
             </div>
-        </div>
-    </div> -->
+        </div> -->
+    </div>
     <!-- END: Notifications -->
     <!-- BEGIN: Account Menu -->
     <div class="intro-x dropdown w-8 h-8">

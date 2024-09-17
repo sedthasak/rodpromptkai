@@ -145,12 +145,12 @@ body {
     </style>
 </head>
 <body>
-    <?php
-// $sess = session()->all();
-// echo "<pre>";
-// print_r($sess);
-// echo "</pre>";
-    ?>
+<?php
+$arr_gear = array(
+    'auto' => 'เกียร์อัตโนมัติ',
+    'manual' => 'เกียร์ธรรมดา',
+);
+?>
 <div class="container">
 	<div class="row wrap-errorpage">
 		<div class="col-12 col-lg-8 order-errorpage-2">
@@ -182,138 +182,23 @@ body {
                 </div>
             </div>
             <div class="row">
+
+
+                @foreach($lastPosts as $lastPost)
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="car-detail.php" class="item-recentlist">
                         <figure>
                             <div class="cover-recentlist"><img src="images/67_1.jpeg" alt=""></div>
                             <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
+                                <div class="price-recentlist">{{ number_format($lastPost->price, 0, '.', ',') }}.-</div>
+                                <span>{{$lastPost->yearregis??$lastPost->modelyear}}</span>
                             </figcaption>
                         </figure>
                     </a>
                 </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="car-detail.php" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/CAR202306290015_Mercedes-Benz_GLA250_20230629_102211629_WATERMARK.png" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="car-detail.php" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/14_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="#" class="item-recentlist">
-                        <figure>
-                            <div class="cover-recentlist"><img src="images/94_1.jpeg" alt=""></div>
-                            <figcaption>
-                                <div class="price-recentlist">1,290,000.-</div>
-                                <span>2023</span>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
+                @endforeach
+                
+
             </div>
         </div>
     </div>
@@ -328,19 +213,20 @@ body {
                 </div>
             </div>
             <div class="row">
+                @foreach($randomPosts as $randomPost)
                 <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="car-detail.php" class="item-car">
+                    <a href="{{ route('cardetailPage', ['slug' => $randomPost->slug]) }}" class="item-car">
                         <figure>
                             <div class="cover-car">
-                                <img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt="">
+                                <img src="{{ ($randomPost->feature)?asset('storage/' . $randomPost->feature):asset('public/uploads/default-car.jpg') }}" alt="">
                             </div>
                             <figcaption>
-                                <div class="car-name">2016 Honda CR-V </div>
-                                <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                <div class="car-province">กรุงเทพมหานคร</div>
+                                <div class="car-name">{{ $randomPost->yearregis??$randomPost->modelyear." ".$randomPost->brand->title." ".$randomPost->model->model }}</div>
+                                <div class="car-series">{{ $randomPost->generation->generations." ".$randomPost->subModel->sub_models }}</div>
+                                <div class="car-province">{{ $randomPost->province ?? "-" }}</div>
                                 <div class="row">
                                     <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
+                                        <div class="descpro-car">{{ $randomPost->title }}</div>
                                     </div>
                                     <div class="col-12 col-xl-3 text-end">
                                         <div class="txt-readmore">ดูเพิ่มเติม</div>
@@ -349,109 +235,21 @@ body {
                                 <div class="linecontent"></div>
                                 <div class="row caritem-price">
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
+                                        <div class="txt-gear"><img src="{{ asset('frontend/images/icon-kear.svg') }}" alt=""> {{ $arr_gear[$randomPost->gear] ?? '' }}</div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">599,000.-</div>
+                                        <div class="car-price">{{ number_format($randomPost->price, 0, '.', ',') }}.-</div>
                                     </div>
                                 </div>
                             </figcaption>
                         </figure>
                     </a>
                 </div>
-                <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="car-detail.php" class="item-car">
-                        <figure>
-                            <div class="cover-car">
-                                <img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt="">
-                            </div>
-                            <figcaption>
-                                <div class="car-name">2016 Honda CR-V </div>
-                                <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                <div class="car-province">กรุงเทพมหานคร</div>
-                                <div class="row">
-                                    <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                    </div>
-                                    <div class="col-12 col-xl-3 text-end">
-                                        <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                    </div>
-                                </div>
-                                <div class="linecontent"></div>
-                                <div class="row caritem-price">
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">599,000.-</div>
-                                    </div>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="car-detail.php" class="item-car">
-                        <figure>
-                            <div class="cover-car">
-                                <img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt="">
-                            </div>
-                            <figcaption>
-                                <div class="car-name">2016 Honda CR-V </div>
-                                <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                <div class="car-province">กรุงเทพมหานคร</div>
-                                <div class="row">
-                                    <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                    </div>
-                                    <div class="col-12 col-xl-3 text-end">
-                                        <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                    </div>
-                                </div>
-                                <div class="linecontent"></div>
-                                <div class="row caritem-price">
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">599,000.-</div>
-                                    </div>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
-                <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="car-detail.php" class="item-car">
-                        <figure>
-                            <div class="cover-car">
-                                <img src="images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png" alt="">
-                            </div>
-                            <figcaption>
-                                <div class="car-name">2016 Honda CR-V </div>
-                                <div class="car-series">CR-V 2.0 E (MY12) (MNC)</div>
-                                <div class="car-province">กรุงเทพมหานคร</div>
-                                <div class="row">
-                                    <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">โปรออกรถ 1000 บาท ขับฟรี 15 วัน โปรออกรถ 1000 บาท ขับฟรี 15 วัน</div>
-                                    </div>
-                                    <div class="col-12 col-xl-3 text-end">
-                                        <div class="txt-readmore">ดูเพิ่มเติม</div>
-                                    </div>
-                                </div>
-                                <div class="linecontent"></div>
-                                <div class="row caritem-price">
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="images/icon-kear.svg" alt=""> เกียร์อัตโนมัติ</div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">599,000.-</div>
-                                    </div>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </a>
-                </div>
+                @endforeach
+                
+
+
+
             </div>
             <div class="row">
                 <div class="col-12">

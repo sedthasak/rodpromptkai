@@ -89,6 +89,122 @@ $arrsprole = [
         </div>
     </div>
 
+    <div class="intro-y text-justify leading-relaxed">
+        <div class="intro-y text-justify leading-relaxed">
+            <div class="box">
+                <div class="flex flex-col lg:flex-row border-b border-slate-200/60 dark:border-darkmode-400 px-5 py-5 -mx-5">
+                    <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
+                        {{$postcar->reason??''}}
+                    </div>
+                    <div class="mt-6 lg:mt-0 flex-1 px-5 border-l border-r border-slate-200/60 dark:border-darkmode-400 border-t lg:border-t-0 pt-5 lg:pt-0">
+                        <?php
+                        if(isset($postcar->status) && ($postcar->status == 'created')){
+                        ?>
+                        <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="cursor-pointer alert relative border rounded-md px-5 py-4 bg-warning border-warning text-slate-900 dark:border-warning mb-2 flex items-center"><i data-lucide="alert-circle" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                            รออนุมัติ
+
+                        </div>
+                        <?php
+                        }elseif(isset($postcar->status) && ($postcar->status == 'approved')){
+                        ?>
+                        <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="alert relative border rounded-md px-5 py-4 bg-success border-success text-slate-900 dark:border-success mb-2 flex items-center"><i data-lucide="Check" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                            ออนไลน์
+
+                        </div>
+                        <?php
+                        }elseif(isset($postcar->status) && ($postcar->status == 'rejected')){
+                            ?>
+                            <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="alert relative border rounded-md px-5 py-4 bg-danger border-danger text-slate-900 dark:border-danger mb-2 flex items-center"><i data-lucide="X" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                                รอแก้ไข
+                            </div>
+                            <?php
+                        }elseif(isset($postcar->status) && ($postcar->status == 'deleted')){
+                        ?>
+                        <div role="alert" data-tw-merge data-tw-toggle="modal" data-tw-target="#modal-created" class="alert relative border rounded-md px-5 py-4 bg-danger border-danger text-slate-900 dark:border-danger mb-2 flex items-center"><i data-lucide="X" width="24" height="24" class="stroke-1.5 mr-2 h-6 w-6 mr-2 h-6 w-6"></i>
+                            ถูกลบ
+                        </div>
+                        <?php
+                        }
+                        ?>
+                        <!-- BEGIN: Modal Content -->
+                        <div id="modal-created" class="modal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" style="width: 1000px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3>ปรับสถานะ</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" action="{{route('BN_posts_status_action')}}" id="form_change_status">
+                                        @csrf
+                                            <input type="hidden" name="post_id" value="{{$postcar->id}}" />
+                                            <input type="hidden" name="user_id" value="{{auth()->user()->id}}" />
+                                            <div class="p-5 grid grid-cols-12 gap-4 gap-y-3">
+                                                <div class="col-span-12 sm:col-span-6">
+                                                    <label for="modal-form-6" class="inline-block mb-2"> สถานะ</label>
+                                                    <select name="change_status" id="select_status" class="disabled:bg-slate-100 disabled:cursor-not-allowed disabled:dark:bg-darkmode-800/50 [&amp;[readonly]]:bg-slate-100 [&amp;[readonly]]:cursor-not-allowed [&amp;[readonly]]:dark:bg-darkmode-800/50 transition duration-200 ease-in-out w-full text-sm border-slate-200 shadow-sm rounded-md py-2 px-3 pr-8 focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus:border-primary focus:border-opacity-40 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50">
+                                                        <option value="created" {{($postcar->status == 'created')?'selected':''}} >รออนุมัติ</option>
+                                                        <option value="approved" {{($postcar->status == 'approved')?'selected':''}} >ออนไลน์</option>
+                                                        <option value="rejected" {{($postcar->status == 'rejected')?'selected':''}} >ปฏิเสธ</option>
+                                                        <option value="deleted" {{($postcar->status == 'deleted')?'selected':''}} >ถูกลบ</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-span-12 sm:col-span-6" id="reason_box" style="display:none;">
+                                                    <label data-tw-merge for="modal-form-5" class="inline-block mb-2"> เหตุผล </label>
+                                                    <!-- <input data-tw-merge id="modal-form-5" type="text" placeholder="เหตุผล" class="disabled:bg-slate-100 disabled:cursor-not-allowed dark:disabled:bg-darkmode-800/50 dark:disabled:border-transparent [&amp;[readonly]]:bg-slate-100 [&amp;[readonly]]:cursor-not-allowed [&amp;[readonly]]:dark:bg-darkmode-800/50 [&amp;[readonly]]:dark:border-transparent transition duration-200 ease-in-out w-full text-sm border-slate-200 shadow-sm rounded-md placeholder:text-slate-400/90 focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus:border-primary focus:border-opacity-40 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50 dark:placeholder:text-slate-500/80" /> -->
+                                                    <textarea id="reason" class="form-control" name="reason" placeholder="เหตุผล"></textarea>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="px-5 py-3 text-right border-t border-slate-200/60 dark:border-darkmode-400">
+                                                <button data-tw-merge data-tw-dismiss="modal" type="button" class="transition duration-200 border shadow-sm inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed border-secondary text-slate-500 dark:border-darkmode-100/40 dark:text-slate-300 [&amp;:hover:not(:disabled)]:bg-secondary/20 [&amp;:hover:not(:disabled)]:dark:bg-darkmode-100/10 mr-1 w-20 mr-1 w-20">Cancel</button>
+                                                <button data-tw-merge type="submit" class="transition duration-200 border shadow-sm inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary w-20 w-20">Send</button>
+                                            </div>
+                                        </form>
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <!-- END: Modal Content -->
+                    </div>
+                    
+                    <div class="mt-6 lg:mt-0 flex-1 px-5 border-t lg:border-0 border-slate-200/60 dark:border-darkmode-400 pt-5 lg:pt-0">
+
+                    </div>
+                </div>
+            </div>    
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Postcar Information -->
     <div class="intro-y text-justify leading-relaxed mt-5">
         <div class="box sm:flex">

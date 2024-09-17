@@ -513,18 +513,21 @@ Route::middleware('auth')->group(function() {
             });
 
             Route::prefix('setting')->group(function () {
+                Route::get('slide', [BackendPageController::class, 'BN_slide'])->name('BN_slide');
+                Route::post('slide-update', [BackendPageController::class, 'BN_slideupdate'])->name('BN_slideupdate');
+                Route::post('slide-delete', [BackendPageController::class, 'BN_slidedelete'])->name('BN_slidedelete');
 
                 Route::get('main', [BackendPageController::class, 'BN_setting'])->name('BN_setting');
-                Route::get('slide', [BackendPageController::class, 'BN_slide'])->name('BN_slide');
+                
                 Route::get('setfooter', [BackendPageController::class, 'BN_setfooter'])->name('BN_setfooter');
                 Route::get('termcondition', [BackendPageController::class, 'BN_termcondition'])->name('BN_termcondition');
                 Route::get('privacypolicy', [BackendPageController::class, 'BN_privacypolicy'])->name('BN_privacypolicy');
-                Route::post('slide-update', [BackendPageController::class, 'BN_slideupdate'])->name('BN_slideupdate');
-                Route::post('slide-delete', [BackendPageController::class, 'BN_slidedelete'])->name('BN_slidedelete');
+                
                 Route::post('setfooter-update', [BackendPageController::class, 'BN_setfooterupdate'])->name('BN_setfooterupdate');
                 Route::post('termcondition-update', [BackendPageController::class, 'BN_termcondition_update'])->name('BN_termcondition_update');
                 Route::post('privacypolicy-update', [BackendPageController::class, 'BN_privacypolicy_update'])->name('BN_privacypolicy_update');
 
+                Route::post('/bn-banner-update', [BackendPageController::class, 'BN_bannerUpdate'])->name('BN_bannerUpdate');
 
             });
 

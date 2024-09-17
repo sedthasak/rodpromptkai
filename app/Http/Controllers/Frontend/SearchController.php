@@ -21,6 +21,9 @@ use App\Models\Province;
 use App\Models\temp_carsModel;
 use App\Models\temp_galleryModel;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+
 class SearchController extends Controller
 {
 
@@ -394,6 +397,13 @@ class SearchController extends Controller
         // Convert keywords to a comma-separated string
         $formattedKeywords = implode(', ', $mykeyword['keywordall']);
 
+        $slide = DB::table('setting_option')->where('key_option', 'slide_search')->first();
+        $decde = isset($slide) ? json_decode($slide->value_option) : [];
+
+        $bnner = DB::table('setting_option')->where('key_option', 'banner_search')->first();
+        $decdebnner = isset($bnner) ? json_decode($bnner->value_option) : [];
+
+        // dd($decdebnner);
         return view('frontend.carsearch', [
             'results' => $cars,
             'recommendations' => $recommendations,
@@ -402,7 +412,9 @@ class SearchController extends Controller
             'mykeyword' => $formattedKeywords,
             'countcar' => $countcar,
             'searchFailed' => $searchFailed,
-            'paginatedCars' => $paginatedCars, // Add this line
+            'paginatedCars' => $paginatedCars,
+            'slide' => $decde,
+            'banner' => $decdebnner,
         ]);
         
     }

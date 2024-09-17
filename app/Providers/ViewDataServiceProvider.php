@@ -21,7 +21,9 @@ use App\Models\PackageDealerModel;
 use App\Models\VipPackageModel;
 use App\Models\MyDeal;
 use App\Models\categoriesModel;
+use App\Models\contactsModel;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -74,6 +76,36 @@ class ViewDataServiceProvider extends ServiceProvider
             $view->with('allprovince', $allprovince);
             $view->with('priceOptions', $priceOptions);
             $view->with('brandforsearch', $brandforsearch);
+
+            $randomPosts = carsModel::with([
+                'customer:id,firstname,lastname,sp_role,province,place,map,google_map,phone,line',
+                'brand:id,title',
+                'model:id,model',
+                'generation:id,generations',
+                'subModel:id,sub_models'
+            ])
+            ->where('status', 'approved') // New condition to filter by status
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
+            $lastPosts = carsModel::with([
+                'customer:id,firstname,lastname,sp_role,province,place,map,google_map,phone,line',
+                'brand:id,title',
+                'model:id,model',
+                'generation:id,generations',
+                'subModel:id,sub_models'
+            ])
+            ->where('status', 'approved') // New condition to filter by status
+            ->orderBy('created_at', 'desc')
+            ->take(12)
+            ->get();
+            $view->with('randomPosts', $randomPosts);
+            $view->with('lastPosts', $lastPosts);
+
+
+
+            $notification = contactsModel::whereDate('created_at', Carbon::today())->exists();
+            $view->with('notification', $notification);
 
 
             $customerdata = session('customer');

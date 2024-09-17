@@ -1,7 +1,7 @@
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
-    <title>รถพร้อมขาย - Package</title>
+    <title>Package - รถพร้อมขาย</title>
 @endsection
 
 @section('content')
@@ -74,32 +74,32 @@
                             <!-- New fields text1 to text6 -->
                             @if($pack1->text1)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text1}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text1}}
                             </div>
                             @endif
                             @if($pack1->text2)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text2}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text2}}
                             </div>
                             @endif
                             @if($pack1->text3)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text3}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text3}}
                             </div>
                             @endif
                             @if($pack1->text4)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text4}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text4}}
                             </div>
                             @endif
                             @if($pack1->text5)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text5}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text5}}
                             </div>
                             @endif
                             @if($pack1->text6)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack1->text6}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text6}}
                             </div>
                             @endif
                         </div>
@@ -155,32 +155,32 @@
                             <!-- New fields text1 to text6 for pack2 -->
                             @if($pack2->text1)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text1}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text1}}
                             </div>
                             @endif
                             @if($pack2->text2)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text2}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text2}}
                             </div>
                             @endif
                             @if($pack2->text3)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text3}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text3}}
                             </div>
                             @endif
                             @if($pack2->text4)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text4}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text4}}
                             </div>
                             @endif
                             @if($pack2->text5)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text5}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text5}}
                             </div>
                             @endif
                             @if($pack2->text6)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack2->text6}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text6}}
                             </div>
                             @endif
                         </div>
@@ -233,32 +233,32 @@
                             <!-- New fields text1 to text6 for pack3 -->
                             @if($pack3->text1)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text1}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text1}}
                             </div>
                             @endif
                             @if($pack3->text2)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text2}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text2}}
                             </div>
                             @endif
                             @if($pack3->text3)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text3}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text3}}
                             </div>
                             @endif
                             @if($pack3->text4)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text4}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text4}}
                             </div>
                             @endif
                             @if($pack3->text5)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text5}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text5}}
                             </div>
                             @endif
                             @if($pack3->text6)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> {{$pack3->text6}}
+                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text6}}
                             </div>
                             @endif
                         </div>
