@@ -28,6 +28,13 @@ use App\Models\LevelModel;
 
 class PackagesAndDealsController extends Controller
 {
+
+    public function packagecontactPage(Request $request)
+    {
+        return view('frontend.package-contact', [
+            "page" => 'getcoupon',
+        ]);
+    }
     public function getcouponPage(Request $request) 
     {
         $customerdata = session('customer');

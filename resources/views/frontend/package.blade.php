@@ -15,7 +15,7 @@
                         <h2 class="title-pricing">Pricing</h2>
                         <div class="tab-menu-pricing">
                             <div class="btn-menu-pricing active">ประสิทธิภาพการทำงานมาตรฐาน</div>
-                            <a href="package-contact.php" class="btn-menu-pricing">ประสิทธิภาพสูง</a>
+                            <a href="{{route('packagecontactPage')}}" class="btn-menu-pricing">ประสิทธิภาพสูง</a>
                         </div>
                         <div class="sub-topic-pricing">
                             <h3>ประสิทธิภาพการทำงานมาตรฐาน</h3>

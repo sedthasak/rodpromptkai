@@ -24,7 +24,7 @@
                         $feature1_news = ($firstTwoPosts[1]->feature)?asset($firstTwoPosts[1]->feature):asset('public/uploads/default-car.jpg');
                         @endphp
 
-                        <a href="{{route('newsdetailPage', ['news_id' => $firstTwoPosts[0]->id])}}" class="row news-latest">
+                        <a href="{{ route('newsdetailPage', ['slug' => $firstTwoPosts[0]->slug]) }}" class="row news-latest">
                             <div class="col-12 col-md-7">
                                 <figure><img src="{{$feature0_news}}" alt=""></figure>
                             </div>
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="{{route('newsdetailPage', ['news_id' => $firstTwoPosts[1]->id])}}" class="row news-latest">
+                        <a href="{{ route('newsdetailPage', ['slug' => $firstTwoPosts[1]->slug]) }}" class="row news-latest">
                             <div class="col-12 col-md-7">
                                 <figure><img src="{{$feature1_news}}" alt=""></figure>
                             </div>
@@ -64,7 +64,7 @@
                     @endphp
                     
                     <div class="col-6 col-md-4 col-lg-3 item-allnews">
-                        <a href="{{route('newsdetailPage', ['news_id' => $newsres->id])}}" class="home-itemnews">
+                        <a href="{{ route('newsdetailPage', ['slug' => $newsres->slug]) }}" class="home-itemnews">
                             <figure>
                                 <div class="cover-news">
                                     <img src="{{$feature_news}}" alt="">

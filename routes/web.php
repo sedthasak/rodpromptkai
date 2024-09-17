@@ -248,6 +248,9 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/cart', 'cartPage')->name('cartPage');
         Route::post('/cart-action', 'cartactionPage')->name('cartactionPage');
         Route::post('/apply-coupon', 'applyCouponAction')->name('applyCouponAction');
+
+
+        Route::get('/package-contact', 'packagecontactPage')->name('packagecontactPage');
     });
 
 
