@@ -190,8 +190,10 @@
         @include('frontend.layouts.inc-carsearch-new-moremenu')
 
     </div>
-    <a href="{{ asset($banner->link) }}" target="_blank" class="banner-adv">
-        <!-- <img src="{{ asset('frontend/images/bannera.jpg') }}" alt=""> -->
-        <img src="{{ asset($banner->image) }}" alt="">
-    </a>
+    @if(isset($banner))
+        <a href="{{ asset($banner->link) }}" target="_blank" class="banner-adv">
+            <img src="{{ asset($banner->image) }}" alt="">
+        </a>
+    @endif
+
 </div>

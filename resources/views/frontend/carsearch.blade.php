@@ -85,6 +85,7 @@ $arr_gear = array(
 // print_r(count($results));
 // echo "</pre>";
 ?>
+@if($slide->isNotEmpty())
 <section class="row">
     <div class="col-12 banner-slidecar">
         <div class="owl-bannercar owl-carousel owl-theme">
@@ -95,11 +96,11 @@ $arr_gear = array(
                 </a>
             </div>
             @endforeach
-            
-
         </div>
     </div>
 </section>
+@endif
+
 
 <section class="row">
     <div class="col-12 wrap-carpage">
