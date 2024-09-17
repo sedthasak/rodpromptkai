@@ -85,21 +85,26 @@ $arr_gear = array(
 // print_r(count($results));
 // echo "</pre>";
 ?>
-@if($slide->isNotEmpty())
+@if(!empty($slide) && count($slide) > 0)
 <section class="row">
     <div class="col-12 banner-slidecar">
         <div class="owl-bannercar owl-carousel owl-theme">
             @foreach($slide as $sli)
-            <div class="items">
-                <a href="{{ asset($sli->link) }}" target="_blank">
-                    <figure><img src="{{ asset($sli->image) }}" alt=""></figure>
-                </a>
-            </div>
+                @if(isset($sli['link'], $sli['image']))
+                <div class="items">
+                    <a href="{{ asset($sli['link']) }}" target="_blank">
+                        <figure><img src="{{ asset($sli['image']) }}" alt=""></figure>
+                    </a>
+                </div>
+                @endif
             @endforeach
         </div>
     </div>
 </section>
 @endif
+
+
+
 
 
 <section class="row">
