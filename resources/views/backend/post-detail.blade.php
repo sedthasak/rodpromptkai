@@ -180,31 +180,6 @@ $arrsprole = [
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Postcar Information -->
     <div class="intro-y text-justify leading-relaxed mt-5">
         <div class="box sm:flex">
@@ -354,14 +329,34 @@ $arrsprole = [
 
 @section('script')
 <script>
-    // Show or hide the reason box based on the status selected
-    $("#select_status").on("change", function() {
-        var status = $(this).val();
-        if (status === 'rejected') {
+    $("#select_status").on( "change", function() {
+        var _status = $("#select_status").val();
+        if(_status[0] == 'rejected'){
             $('#reason_box').show();
-        } else {
+        }else{
+
             $('#reason_box').hide();
         }
-    });
+        console.log(_status);
+    } );
+
+</script>
+<script>
+    // Show or hide the reason box based on the status selected
+    // $("#select_status").on("change", function() {
+    //     var status = $(this).val();
+    //     if (status === 'rejected') {
+    //         $('#reason_box').show();
+    //     } else {
+    //         $('#reason_box').hide();
+    //     }
+    // });
 </script>
 @endsection
+
+
+
+
+
+
+

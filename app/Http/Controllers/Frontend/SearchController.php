@@ -191,6 +191,8 @@ class SearchController extends Controller
         $parameterstitle = [];
         $searchFailed = false;
 
+        $brandforshow = '';
+
         // Initial category search
         if ($kw1 && !$searchFailed) {
             $category = categoriesModel::where('name', $kw1)->first();
@@ -208,6 +210,7 @@ class SearchController extends Controller
                 $query->where('brand_id', $brand->id);
                 $parameters['brand'] = $brand->title;
                 $parameterstitle['brand'] = $brand->meta_title ?? $brand->title;
+                $brandforshow = $brand->content??'';
             } else {
                 $searchFailed = true;
             }
@@ -288,7 +291,7 @@ class SearchController extends Controller
         // Apply additional filters from query parameters
         // EV filter
         if ($request->has('ev') && $request->query('ev') === 'yes') {
-            $query->where('ev', '==', 1);
+            $query->where('ev', '1');
         }
 
         // Price filter
@@ -415,6 +418,7 @@ class SearchController extends Controller
             'paginatedCars' => $paginatedCars,
             'slide' => $decde,
             'banner' => $decdebnner,
+            'brandforshow' => $brandforshow??'',
         ]);
         
     }

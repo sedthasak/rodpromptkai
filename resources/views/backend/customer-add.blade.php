@@ -47,9 +47,10 @@
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">โรล</label>
-                                    <select name="sp_role" id="sp_role" data-search="true" class=" w-full" required >
-                                        <option value="home" selected>ลูกค้าทั่วไป</option>
+                                    <select name="role" id="role" data-search="true" class=" w-full" required >
+                                        <option value="normal" selected>ลูกค้าทั่วไป</option>
                                         <option value="dealer">ดีลเลอร์</option>
+                                        <option value="vip">วีไอพี</option>
                                     </select>
                                 </div>
                                 

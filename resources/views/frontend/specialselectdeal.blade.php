@@ -24,6 +24,12 @@ $arr_gear = array(
     'auto' => 'เกียร์อัตโนมัติ',
     'manual' => 'เกียร์ธรรมดา',
 );
+$arr_tag = array(
+    '1' => 'tag-top',
+    '2' => 'tag-top-left',
+    '3' => 'tag-top-left2',
+    '4' => 'tag-top-left3',
+);
 ?>
 
 @php
@@ -86,7 +92,7 @@ $arr_gear = array(
                                     <div class="deal-nametype">{{ $deal->name }}</div>
                                     <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
                                         @if($topleftPath)
-                                            <div class="tag-top-left"><img src="{{ $topleftPath }}" alt=""></div>
+                                            <div class="{{$arr_tag[$deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
                                         @endif
 
                                         @if($deal->bigbrand == 1)

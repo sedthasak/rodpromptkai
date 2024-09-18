@@ -167,7 +167,7 @@
                     <figure>
                         <div class="cover-car"><img src="{{$profilecar_imgcarshis}}" alt=""></div>
                         <figcaption>
-                            <div class="car-name">{{$carshis->modelyear." ".$carshis->brands_title." ".$carshis->model_name}} </div>
+                            <div class="car-name">{{$carshis->yearregis??$carshis->modelyear." ".$carshis->brands_title." ".$carshis->model_name}} </div>
                             <div class="car-series">{{$carshis->generations_name." ".$carshis->sub_models_name}}</div>
                             <div class="car-province">@if(!empty($carshis->customer_proveince)){{$carshis->customer_proveince}}@else{{"-"}}@endif</div>
                             <div class="car-price">{{number_format($carshis->price, 0, '.', ',')}}.-</div>

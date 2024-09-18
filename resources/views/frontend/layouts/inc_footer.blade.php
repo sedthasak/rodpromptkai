@@ -19,8 +19,8 @@
                     </div>
                     <div class="row footer-cc">
                         <div class="col-12 col-md-8">
-                            <a href="#">นโยบายความเป็นส่วนตัว</a> <span>|</span>
-                            <a href="#">ข้อกำหนดและเงื่อนไขการใช้งานเว็บไซต์</a>
+                            <a target="_blank" href="{{route('privacypolicyPage')}}">นโยบายความเป็นส่วนตัว</a> <span>|</span>
+                            <a target="_blank" href="{{route('termconditionPage')}}">ข้อกำหนดและเงื่อนไขการใช้งานเว็บไซต์</a>
                         </div>
                         <div class="col-12 col-md-4 text-end">
                         Copyright © 2023 RodPromptkai

@@ -77,6 +77,7 @@
 
             return isValid;
         }
+        
         document.getElementById('submit-button').addEventListener('click', function() {
             if (validateRequiredFields()) {
                 var invoiceFormType = $('input[name="invoiceform"]:checked').val();
@@ -135,6 +136,7 @@
                 $('.w_invoice1, .w_invoice2').hide();
             }
         });
+        
         $('.box_type_form input').click(function () {
             var box_type_form = $('.box_type_form').find('input:checked').attr('rel');
             if ($('.' + box_type_form).is(":hidden")) {
@@ -144,6 +146,7 @@
                 $('.w_people, .w_office').hide();
             }
         });
+        
         $('.box-branch-type input').click(function () {
             var box_branch = $('.box-branch-type').find('input:checked').attr('rel');
             if ($('.' + box_branch).is(":hidden")) {
@@ -153,6 +156,8 @@
                 $('.w_headoffice, .w_officebranch').hide();
             }
         });
+        
+        // Updated box-donate click event
         $('.box-donate input').click(function () {
             var box_donate = $('.box-donate').find('input:checked').attr('rel');
             if ($('.' + box_donate).is(":hidden")) {
@@ -161,14 +166,17 @@
             } else {
                 $('.w_donate, .w_notdonate').hide();
             }
+
+            // Check if "notdonate" is selected
+            if (box_donate === 'w_notdonate') {
+                // Reset donation to default option
+                $('select[name="donation"]').val('');
+                $('#donate_input').val(0);
+                $('#donate_info').hide();
+                updateDisplayedPrices(); // Refresh prices to reflect donation reset
+            }
         });
-    });
-</script>
 
-
-
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
         function updateDisplayedPrices() {
             var price = parseFloat(document.getElementById('price').value) || 0;
             var priceNotVat = parseFloat(document.getElementById('price_not_vat').value) || 0;
@@ -184,17 +192,17 @@
             document.getElementById('total').value = total;
 
             // Update displayed price information
-            document.getElementById('price_not_vat_show').textContent = '฿' + priceNotVat.toFixed(2);
-            document.getElementById('vat_show').textContent = '฿' + vat.toFixed(2);
-            document.getElementById('price_show').textContent = '฿' + price.toFixed(2);
-            document.getElementById('discount_amount').textContent = '฿' + discount.toFixed(2);
-            document.getElementById('total_show').textContent = '฿' + total.toFixed(2);
+            document.getElementById('price_not_vat_show').textContent = '฿' + priceNotVat.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            document.getElementById('vat_show').textContent = '฿' + vat.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            document.getElementById('price_show').textContent = '฿' + price.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            document.getElementById('discount_amount').textContent = '฿' + discount.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            document.getElementById('total_show').textContent = '฿' + total.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
             // Show or hide donation info
             if (donateInput > 0) {
                 document.getElementById('donate_info').style.display = 'block';
-                document.getElementById('donate_amount').textContent = '฿' + donateInput.toFixed(2);
-                document.getElementById('total_before').textContent = '฿' + totalResult.toFixed(2);
+                document.getElementById('donate_amount').textContent = '฿' + donateInput.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('total_before').textContent = '฿' + totalResult.toLocaleString('en-US', { minimumFractionDigits: 2 });
             } else {
                 document.getElementById('donate_info').style.display = 'none';
             }
@@ -221,8 +229,8 @@
 
             document.getElementById('total_result').value = totalResult;
             document.getElementById('total').value = totalPrice;
-            document.getElementById('discount_amount').textContent = '฿' + discountAmount.toFixed(2);
-            document.getElementById('total_show').textContent = '฿' + totalPrice.toFixed(2);
+            document.getElementById('discount_amount').textContent = '฿' + discountAmount.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            document.getElementById('total_show').textContent = '฿' + totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
             // Update coupon fields
             document.getElementById('coupons_id').value = data.id;
@@ -279,7 +287,7 @@
             var totalPrice = originalPrice + donateInput;
 
             document.getElementById('total').value = totalPrice;
-            document.getElementById('total_show').textContent = '฿' + totalPrice.toFixed(2);
+            document.getElementById('total_show').textContent = '฿' + totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
             updateDisplayedPrices(); // Refresh prices to reflect coupon cancellation
 
@@ -342,8 +350,8 @@
 
                 document.getElementById('total_result').value = totalResult;
                 document.getElementById('total').value = totalPrice;
-                document.getElementById('discount_amount').textContent = '฿' + discountAmount.toFixed(2);
-                document.getElementById('total_show').textContent = '฿' + totalPrice.toFixed(2);
+                document.getElementById('discount_amount').textContent = '฿' + discountAmount.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('total_show').textContent = '฿' + totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
                 // Update displayed price information
                 updateDisplayedPrices();
@@ -355,37 +363,19 @@
             var donateInput = document.getElementById('donate_input');
             var selectedValue = this.value;
 
-            if (selectedValue === '0') {
+            if (selectedValue === '0' || selectedValue === '') {
                 donateInput.value = 0;
                 document.getElementById('donate_info').style.display = 'none';
             } else {
                 donateInput.value = selectedValue;
                 document.getElementById('donate_info').style.display = 'block';
-                document.getElementById('donate_amount').textContent = '฿' + selectedValue;
+                document.getElementById('donate_amount').textContent = '฿' + parseFloat(selectedValue).toLocaleString('en-US', { minimumFractionDigits: 2 });
             }
 
             updateDisplayedPrices(); // Refresh prices to reflect donation changes
         });
     });
 
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
     $(document).ready(function() {
         // Function to update districts based on selected province
         function updateDistricts(provinceSelector, districtSelector) {

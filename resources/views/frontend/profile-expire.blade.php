@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="mycar-detail-mb">
                                     <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}">
-                                        <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
+                                        <div class="mycar-name">{{$cars->yearregis??$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
                                         <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
                                         <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
                                     </a>
@@ -59,7 +59,7 @@
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <a href="{{route('cardetailPage', ['slug' => $cars->slug])}}">
-                                                <div class="mycar-name">{{$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
+                                                <div class="mycar-name">{{$cars->yearregis??$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
                                                 <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
                                                 <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
                                             </a>

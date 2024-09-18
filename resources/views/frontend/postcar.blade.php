@@ -93,7 +93,7 @@ $dealerDisabled = ($dealerRoute == '') ? 'disabled' : '';
                         </a>
 
                     </div>
-                    <div class="txt-postcontact">สอบถามข้อมูลเพิ่มเติม ติดต่อ 02-123-4567</div>
+                    <div class="txt-postcontact">สอบถามข้อมูลเพิ่มเติม ติดต่อ 098-969-1120</div>
                 </div>
             </div>
         </div>

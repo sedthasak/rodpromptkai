@@ -130,6 +130,7 @@
                                         <option value="1" {{ old('topleft_position', 1) == 1 ? 'selected' : '' }}>Aligned Top (default)</option>
                                         <option value="2" {{ old('topleft_position') == 2 ? 'selected' : '' }}>Aligned Left</option>
                                         <option value="3" {{ old('topleft_position') == 3 ? 'selected' : '' }}>Aligned Top Left</option>
+                                        <option value="4" {{ old('topleft_position') == 4 ? 'selected' : '' }}>Aligned Left 2</option>
                                     </select>
                                     @error('topleft_position')
                                         <div class="text-danger">{{ $message }}</div>

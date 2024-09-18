@@ -107,7 +107,7 @@ class NewsController extends Controller
     public function uploadImage(Request $request)
     {
         $request->validate([
-            'upload' => 'required|mimes:jpeg,jpg,png,gif|max:2048', // Adjust file types and size as needed
+            'upload' => 'required|mimes:jpeg,jpg,png,gif,webp|max:20480', // Adjust file types and size as needed
         ]);
     
         if ($request->file('upload')->isValid()) {
@@ -300,6 +300,7 @@ class NewsController extends Controller
     }
     public function BN_news_delete($id)
     {
+        // dd($id);
         $news = newsModel::findOrFail($id);
         
         // Optionally, delete the associated image

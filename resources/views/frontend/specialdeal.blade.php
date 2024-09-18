@@ -19,7 +19,13 @@
 @include('frontend.layouts.inc_profile')	
 <?php
 $usesearchbox  = 'off';
-$default_feature = asset('frontend/deal-example.webp');
+$default_feature = asset('uploads/car-1.webp');
+$arr_tag = array(
+    '1' => 'tag-top',
+    '2' => 'tag-top-left',
+    '3' => 'tag-top-left2',
+    '4' => 'tag-top-left3',
+);
 // echo "<pre>";
 // print_r($customer_deal);
 // echo "</pre>";
@@ -81,10 +87,10 @@ $default_feature = asset('frontend/deal-example.webp');
                                             @php
                                                 $topleftPath = str_replace('public/uploads/deal/', '', $deal->topleft);
                                             @endphp
-                                            <div class="tag-top-left"><img src="{{ asset('storage/uploads/deal/' . $topleftPath) }}" alt=""></div>
+                                            <div class="{{$arr_tag[$deal->topleft_position]}}"><img src="{{ asset('storage/uploads/deal/' . $topleftPath) }}" alt=""></div>
                                         @endif
 
-
+                                        
                                         <figure>
                                             <div class="cover-car">
                                                 <div class="box-timeout">

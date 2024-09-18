@@ -51,11 +51,14 @@
                                 </div>
                                 <div class="mt-3">
                                     <label for="" class="form-label">โรล</label>
-                                    <select name="sp_role" id="sp_role" data-search="true" class=" w-full" required >
-                                        <option value="home" {{($Customer->sp_role == 'home')?'selected':''}} >ลูกค้าทั่วไป</option>
-                                        <option value="dealer" {{($Customer->sp_role == 'dealer')?'selected':''}} >ดีลเลอร์</option>
+                                    <select name="role" id="role" data-search="true" class=" w-full" required >
+                                        <option value="home" {{($Customer->role == 'normal')?'selected':''}} >ลูกค้าทั่วไป</option>
+                                        <option value="dealer" {{($Customer->role == 'dealer')?'selected':''}} >ดีลเลอร์</option>
+                                        <option value="vip" {{($Customer->role == 'vip')?'selected':''}} >วีไอพี</option>
                                     </select>
                                 </div>
+                                
+                                
                                 
          
 
@@ -89,6 +92,16 @@
                                     <label for="" class="form-label">Google Map</label>
                                     <input type="text" class="form-control w-full" value="{{$Customer->google_map}}" name="google_map" autocomplete="off" />
                                 </div>
+                                @if($Customer->role == 'vip')
+                                    <div class="mt-3">
+                                        <label for="bigbrand" class="form-label">บิ๊กแบรนด์</label>
+                                        <select name="bigbrand" id="bigbrand" data-search="true" class="w-full" required>
+                                            <option value="0" {{$Customer->bigbrand == '0' ? 'selected' : ''}}>ไม่</option>
+                                            <option value="1" {{$Customer->bigbrand == '1' ? 'selected' : ''}}>ใช่</option>
+                                        </select>
+                                    </div>
+                                @endif
+
                                 
 
                             </div>

@@ -106,7 +106,7 @@
                 // Create a form to send the DELETE request
                 var form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '/news/delete/' + id;
+                form.action = '/backend/news/delete/' + id;
 
                 // Add CSRF token input
                 var csrfInput = document.createElement('input');

@@ -277,7 +277,7 @@ class PostsController extends Controller
                         <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"><?php echo $arrrole[$res->sp_role] ?></div>
                     </td>
                     <td>
-                        <a href="" class="font-medium whitespace-nowrap"><?php echo $res->modelyear." ".$res->brands_title." ".$res->model_name ?></a>
+                        <a href="" class="font-medium whitespace-nowrap"><?php echo $res->yearregis??$res->modelyear." ".$res->brands_title." ".$res->model_name ?></a>
                         <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"><?php echo $res->generations_name." ".$res->sub_models_name ?></div>
                     </td>
                     <td class="text-center"><?php echo  number_format($res->price, 2, '.', ',') ?> ฿</td>

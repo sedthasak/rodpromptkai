@@ -76,8 +76,16 @@
                                 <div class="font-medium whitespace-nowrap">{{$res->email}}</div>
                             </td>
                             <td>
-                                <div class="font-medium whitespace-nowrap">{{$res->role}}</div>
+                                <div class="font-medium whitespace-nowrap">
+                                    {{$res->role}}
+                                    @if($res->role === 'dealer' && $res->dealerpack)
+                                        ({{$res->dealerpack}})
+                                    @elseif($res->role === 'vip' && $res->vippack)
+                                        ({{$res->vippack}})
+                                    @endif
+                                </div>
                             </td>
+
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     

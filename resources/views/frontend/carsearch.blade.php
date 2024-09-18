@@ -74,6 +74,12 @@
 @section('content')
 
 <?php
+$arr_tag = array(
+    '1' => 'tag-top',
+    '2' => 'tag-top-left',
+    '3' => 'tag-top-left2',
+    '4' => 'tag-top-left3',
+);
 $arr_gear = array(
     'auto' => 'เกียร์อัตโนมัติ',
     'manual' => 'เกียร์ธรรมดา',
@@ -90,10 +96,10 @@ $arr_gear = array(
     <div class="col-12 banner-slidecar">
         <div class="owl-bannercar owl-carousel owl-theme">
             @foreach($slide as $sli)
-                @if(isset($sli['link'], $sli['image']))
+                @if(isset($sli->link) && isset($sli->image))
                 <div class="items">
-                    <a href="{{ asset($sli['link']) }}" target="_blank">
-                        <figure><img src="{{ asset($sli['image']) }}" alt=""></figure>
+                    <a href="{{ asset($sli->link) }}" target="_blank">
+                        <figure><img src="{{ asset($sli->image) }}" alt=""></figure>
                     </a>
                 </div>
                 @endif
@@ -102,6 +108,7 @@ $arr_gear = array(
     </div>
 </section>
 @endif
+
 
 
 
@@ -225,10 +232,10 @@ $arr_gear = array(
                                                 $discountPercentage = $oldPrice > 0 ? floor((($oldPrice - $newPrice) / $oldPrice) * 100) : 0;
 
                                                 $border = $car->myDeal->deal->border ?? '#000000';
-                                                $imagePath = $car->myDeal->deal->image_background ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->image_background)) : null;
+                                                $imagePath = $car->myDeal->deal->image_background ? asset('storage/' . str_replace('public/', '', $car->myDeal->deal->image_background)) : null;
                                                 $background = $car->myDeal->deal->background ?? '#BC0000';
-                                                $topleftPath = $car->myDeal->deal->topleft ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->topleft)) : null;
-                                                $bottomrightPath = $car->myDeal->deal->bottomright ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->bottomright)) : null;
+                                                $topleftPath = $car->myDeal->deal->topleft ? asset('storage/' . str_replace('public/', '', $car->myDeal->deal->topleft)) : null;
+                                                $bottomrightPath = $car->myDeal->deal->bottomright ? asset('storage/' . str_replace('public/', '', $car->myDeal->deal->bottomright)) : null;
                                                 $font1 = $car->myDeal->deal->font1 ?? '#FFFFFF';
                                                 $font2 = $car->myDeal->deal->font2 ?? '#FFDADA';
                                                 $font3 = $car->myDeal->deal->font3 ?? '#FFFFFF';
@@ -238,9 +245,9 @@ $arr_gear = array(
                                             @endphp
 
                                             <div class="col-6 col-xl-4 col-itemcar">
-                                                <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
+                                                <a href="{{ route('cardetailPage', ['slug' => $car->slug]) }}" class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
                                                     @if($topleftPath)
-                                                        <div class="tag-top-left"><img src="{{ $topleftPath }}" alt=""></div>
+                                                        <div class="{{$arr_tag[$car->myDeal->deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
                                                     @endif
                                                     <figure>
                                                         <div class="cover-car">
@@ -307,7 +314,7 @@ $arr_gear = array(
                                                             </div>
                                                         </figcaption>
                                                     </figure>
-                                                </div>
+                                                </a>
                                             </div>
 
                                         @else
@@ -404,7 +411,14 @@ $arr_gear = array(
                                 <button>คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
                             </form>
                         </div>
+
                     </div>
+                    <br>
+                    <div class="box-car-article" style="width: 100%; height: auto; overflow: visible; padding: 25px; line-height: 1.5; text-align: justify;">
+                        {!! $brandforshow ?? '' !!}
+                    </div>
+
+
 
 
                     @else
@@ -917,7 +931,13 @@ $arr_gear = array(
 
     });
 </script>
-
+<script>
+    // Ensure images are responsive within the box
+    document.querySelectorAll('.box-car-article img').forEach(img => {
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+    });
+</script>
 
 @endsection
 

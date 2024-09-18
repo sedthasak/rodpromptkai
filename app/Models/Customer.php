@@ -19,7 +19,7 @@ class Customer extends Model
         'role',
         'customer_quota',
         'dealerpack',
-        'dealerpack_quota',  // New field added
+        'dealerpack_quota',
         'dealerpack_regis',
         'dealerpack_expire',
         'vippack',

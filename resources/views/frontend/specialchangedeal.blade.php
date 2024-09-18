@@ -27,6 +27,12 @@ $arr_gear = array(
     'auto' => 'เกียร์อัตโนมัติ',
     'manual' => 'เกียร์ธรรมดา',
 );
+$arr_tag = array(
+    '1' => 'tag-top',
+    '2' => 'tag-top-left',
+    '3' => 'tag-top-left2',
+    '4' => 'tag-top-left3',
+);
 // echo "<pre>";
 // print_r($results);
 // echo "</pre>";
@@ -93,7 +99,7 @@ $arr_gear = array(
                             <div class="col-12 col-xl-4 item-changedeal col-itemcar">
                                 <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
                                     @if($topleftPath)
-                                        <div class="tag-top-left"><img src="{{ $topleftPath }}" alt=""></div>
+                                        <div class="{{$arr_tag[$car->myDeal->deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
                                     @endif
 
                                     <figure>

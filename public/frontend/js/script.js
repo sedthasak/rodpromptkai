@@ -517,7 +517,7 @@ $(document).ready(function(){
         var optionindex = $(this).index();
         var optiontext = $(this).text();
         var maximuntext = $('.price-select-input.price-maximum').val();
-        $('.price-select-option.price-maximum li').removeClass('disabled-option').eq(optionindex).prevAll('li').addClass('disabled-option');
+        // $('.price-select-option.price-maximum li').removeClass('disabled-option').eq(optionindex).prevAll('li').addClass('disabled-option');
         $('.price-select-input.price-minimum').val(optiontext);
         $( '.price-select-option.price-minimum' ).fadeOut();
         $('.price-select-input.price-maximum').focus();
@@ -529,7 +529,7 @@ $(document).ready(function(){
         var optionindex = $(this).index();
         var optiontext = $(this).text();
         var minimumtext = $('.price-select-input.price-minimum').val();
-        $('.price-select-option.price-minimum li').removeClass('disabled-option').eq(optionindex).nextAll('li').addClass('disabled-option');
+        // $('.price-select-option.price-minimum li').removeClass('disabled-option').eq(optionindex).nextAll('li').addClass('disabled-option');
         $('.price-select-input.price-maximum').val(optiontext) ;
         $( '.price-select-option.price-maximum' ).fadeOut();
         $('.price-select-dropdown').fadeOut();
@@ -570,7 +570,7 @@ $(document).ready(function(){
     });
     
     $(".year-select-input.year-minimum").keyup(function(event){
-        $('.year-select-option.year-minimum li').removeClass('disabled-option');
+        // $('.year-select-option.year-minimum li').removeClass('disabled-option');
         // Retrieve the input field text and reset the count to zero
         var filter = $(this).val(), count = 0;
         //$("#no-count").text('');
@@ -605,7 +605,7 @@ $(document).ready(function(){
     });
 
     $(".year-select-input.year-maximum").keyup(function(event){
-        $('.year-select-option.year-maximum li').removeClass('disabled-option');
+        // $('.year-select-option.year-maximum li').removeClass('disabled-option');
         // Retrieve the input field text and reset the count to zero
         var filter = $(this).val(), count = 0;
         //$("#no-count").text('');

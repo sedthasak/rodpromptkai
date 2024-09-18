@@ -73,9 +73,18 @@
     <!-- END: Search -->
     <!-- BEGIN: Notifications -->
     <div class="intro-x mr-auto sm:mr-6">
-        <div class="dropdown-toggle cursor-pointer {{ $notification ? 'notification notification--bullet' : '' }}" role="button">
+        <!-- <div class=" cursor-pointer {{ $notification ? 'notification notification--bullet' : '' }}" role="button">
+            <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i>
+        </div> -->
+        <div class="cursor-pointer {{ $notification ? 'notification notification--bullet' : '' }}" role="button"
+            @if($notification)
+                onclick="window.location.href='{{ route('BN_contacts') }}'"
+            @endif
+        >
             <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i>
         </div>
+
+
 
         <!-- <div class="notification-content pt-2 dropdown-menu">
             <div class="notification-content__box dropdown-content">

@@ -230,7 +230,7 @@ $arr_gear = array(
                             <figure>
                                 <div class="cover-car"><img src="{{ ($car1->feature)?asset('storage/' . $car1->feature):asset('public/uploads/default-car.jpg') }}" alt=""></div>
                                 <figcaption>
-                                    <div class="car-name">{{ $car1->modelyear." ".$car1->brand->title." ".$car1->model->model }}</div>
+                                    <div class="car-name">{{ $car1->yearregis??$car1->modelyear." ".$car1->brand->title." ".$car1->model->model }}</div>
                                     <div class="car-series">{{ $car1->generation->generations." ".$car1->subModel->sub_models }}</div>
                                     <div class="car-province">{{ $car1->province ?? "-" }}</div>
                                     <div class="row">
@@ -369,7 +369,7 @@ $arr_gear = array(
                                         <img src="{{ ($post6post->feature)?asset('storage/' . $post6post->feature):asset('public/uploads/default-car.jpg') }}" alt="">
                                     </div>
                                     <figcaption>
-                                        <div class="car-name">{{ $post6post->modelyear." ".$post6post->brand->title." ".$post6post->model->model }}</div>
+                                        <div class="car-name">{{ $post6post->yearregis??$post6post->modelyear." ".$post6post->brand->title." ".$post6post->model->model }}</div>
                                         <div class="car-series">{{ $post6post->generation->generations." ".$post6post->subModel->sub_models }}</div>
                                         <div class="car-province">{{ $post6post->province ?? "-" }}</div>
                                         <div class="row">

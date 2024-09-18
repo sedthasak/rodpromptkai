@@ -56,17 +56,34 @@ class CustomersController extends Controller
             'vip' => 'required|exists:package_vips,id',
             'accept_payment' => 'accepted'
         ]);
-
+    
+        $customer = Customer::find($request->id);
         $vipPackage = VipPackageModel::find($request->vip);
-
+    
+        // Check if the customer is already a VIP and validate conditions
+        if ($customer->role === 'vip') {
+            $canRegister = false;
+    
+            // Check if the current VIP package has expired
+            if ($customer->vippack_expire && now()->greaterThan($customer->vippack_expire)) {
+                $canRegister = true; // Allow registration as the current package has expired
+            } elseif ($vipPackage->id > $customer->vippack) {
+                $canRegister = true; // Allow registration for a higher tier package
+            }
+    
+            if (!$canRegister) {
+                return redirect()->back()->with('error', 'You can only register for a higher tier VIP package or renew after expiry.');
+            }
+        }
+    
+        // Generate order details
         $orderNumber = 'VIP-' . strtoupper(uniqid());
-
-        $inputPrice = $vipPackage->price;
-        $vat = $inputPrice * 0.07; // 7% VAT
-        $netPrice = $inputPrice - $vat;
-        $total = $inputPrice;
-
-        $order = OrderModel::create([
+        $vat = $vipPackage->price * 0.07; // 7% VAT
+        $netPrice = $vipPackage->price - $vat;
+        $total = $vipPackage->price;
+    
+        // Create the order
+        OrderModel::create([
             'status' => 'success',
             'order_number' => $orderNumber,
             'customer_id' => $request->id,
@@ -81,19 +98,30 @@ class CustomersController extends Controller
             'payment_date' => now(),
             'payment_status' => 'success',
         ]);
-
-        $customer = Customer::find($request->id);
-        $customer->vippack = $vipPackage->id;
-        $customer->vippack_quota = $vipPackage->limit;
-        $customer->vippack_regis = now();
-        $customer->vippack_expire = now()->addYear();
-
-        $customer->accumulate = $customer->accumulate + $total;
-        $customer->save();
-
+    
+        // Update customer details including resetting dealer fields
+        $customer->update([
+            'vippack' => $vipPackage->id,
+            'vippack_quota' => $vipPackage->limit,
+            'vippack_regis' => now(),
+            'vippack_expire' => now()->addYear(),
+            'role' => 'vip',
+            'accumulate' => $customer->accumulate + $total,
+            // Reset dealer fields
+            'dealerpack' => null,
+            'dealerpack_quota' => null,
+            'dealerpack_regis' => null,
+            'dealerpack_expire' => null
+        ]);
+    
         return redirect()->route('BN_customers_detail', ['id' => $customer->id])
                         ->with('success', 'VIP package registered successfully!');
     }
+    
+    
+    
+    
+
 
 
 
@@ -247,7 +275,8 @@ class CustomersController extends Controller
             $Customer->map = $filepath;
         }
 
-        $Customer->sp_role = $request->sp_role;
+        $Customer->sp_role = 'home';
+        $Customer->role = $request->role;
         $Customer->phone = $request->phone;
         $Customer->firstname = $request->firstname;
         $Customer->lastname = $request->lastname;
@@ -352,7 +381,9 @@ class CustomersController extends Controller
             $Customer->map = $filepath;
         }
 
-        $Customer->sp_role = $request->sp_role;
+        $Customer->sp_role = 'home';
+        $Customer->role = $request->role;
+        $Customer->bigbrand = $request->bigbrand;
         $Customer->phone = $request->phone;
         $Customer->firstname = $request->firstname;
         $Customer->lastname = $request->lastname;

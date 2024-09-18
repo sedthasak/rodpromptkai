@@ -272,7 +272,7 @@ $arr_gear = array(
                             <figure>
                                 <div class="cover-car"><img src="{{$profilecar_img}}" alt=""></div>
                                 <figcaption>
-                                    <div class="car-name">{{$car1->modelyear." ".$car1->brands_title." ".$car1->model_name}} </div>
+                                    <div class="car-name">{{$car1->yearregis??$car1->modelyear." ".$car1->brands_title." ".$car1->model_name}} </div>
                                     <div class="car-series">{{$car1->generations_name." ".$car1->sub_models_name}}</div>
                                     <div class="car-province">@if(!empty($car1->customer_proveince)){{$car1->customer_proveince}}@else{{"-"}}@endif</div>
                                     <div class="row">
@@ -418,7 +418,7 @@ $arr_gear = array(
                                         <img src="{{$post6post_img}}" alt="">
                                     </div>
                                     <figcaption>
-                                        <div class="car-name">{{$post6post->modelyear." ".$post6post->brands_title." ".$post6post->model_name}} </div>
+                                        <div class="car-name">{{$post6post->yearregis??$post6post->modelyear." ".$post6post->brands_title." ".$post6post->model_name}} </div>
                                         <div class="car-series">{{$post6post->generations_name." ".$post6post->sub_models_name}}</div>
                                         <div class="car-province">@if(isset($post6post->customer_proveince)){{$post6post->customer_proveince}}@else{{"-"}}@endif</div>
                                         <div class="row">

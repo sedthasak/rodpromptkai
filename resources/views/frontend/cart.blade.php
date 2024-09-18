@@ -197,7 +197,7 @@ $customerdata = session('customer');
                                                     <div class="box-package-contact">
                                                         <label>สาขา <span>*</span></label> <br>
                                                         <div class="box-branch-type md-radio md-radio-inline">
-                                                            <input id="headoffice" type="radio" name="branch" rel="w_headoffice">
+                                                            <input id="headoffice" type="radio" name="corporation_branch" rel="w_headoffice">
                                                             <label for="headoffice">สำนักงานใหญ่</label>
                                                         </div>
                                                         <div class="box-branch-type md-radio md-radio-inline">
@@ -362,10 +362,10 @@ $customerdata = session('customer');
                                             <label>ยอดเงินที่ต้องการบริจาค</label>
                                             <select name="donation">
                                                 <option value="">กรุณาเลือก</option>
-                                                <option value="5">5 บาท</option>
-                                                <option value="10">10 บาท</option>
-                                                <option value="15">15 บาท</option>
                                                 <option value="20">20 บาท</option>
+                                                <option value="50">50 บาท</option>
+                                                <option value="100">100 บาท</option>
+                                                <option value="300">300 บาท</option>
                                             </select>
                                         </div>
                                     </div>
