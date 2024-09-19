@@ -91,5 +91,9 @@ class OrderModel extends Model
     {
         return $this->hasMany(CouponUse::class, 'orders_id');
     }
+    public function customer()
+    {
+        return $this->hasOne(Customer::class, 'order_id');
+    }
 
 }

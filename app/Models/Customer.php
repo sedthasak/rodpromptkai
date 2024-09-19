@@ -26,6 +26,7 @@ class Customer extends Model
         'vippack_quota',     // New field added
         'vippack_regis',
         'vippack_expire',
+        'order_id',
         'accumulate',
         'username',
         'email',
@@ -54,6 +55,10 @@ class Customer extends Model
     public function myDeals()
     {
         return $this->hasMany(MyDeal::class, 'customer_id');
+    }
+    public function order()
+    {
+        return $this->belongsTo(OrderModel::class, 'order_id');
     }
 
     /**

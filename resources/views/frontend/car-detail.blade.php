@@ -319,7 +319,7 @@ $arr_gear = array(
                         <span class="less">ซ่อนรายละเอียด <img src="{{asset('frontend/images/icon-arrow-blue.svg')}}" alt=""></span>
                     </button>
 
-                    <!-- <div class="recent-carlist">
+                    <div class="recent-carlist">
                         <h2 class="topic-cardesc"><i class="bi bi-circle-fill"></i> รถ S560e โฉมF48 ปี21-ปัจจุบัน ทั้งหมด</h2>
                         <div class="row">
                             <div class="col-6 col-lg-3 mb-recentlist">
@@ -368,7 +368,7 @@ $arr_gear = array(
                                 </a>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -476,7 +476,7 @@ $arr_gear = array(
                 </div>
             </div>
             <div class="row">
-                @foreach($allcars as $allcar)
+                @foreach($similarPriceCars as $allcar)
                 <div class="col-6 col-lg-3 mb-recentlist">
                     <a href="{{route('cardetailPage', ['slug' => $allcar->slug])}}" class="item-recentlist">
                         <figure>

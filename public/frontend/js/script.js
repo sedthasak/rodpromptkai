@@ -517,7 +517,7 @@ $(document).ready(function(){
         var optionindex = $(this).index();
         var optiontext = $(this).text();
         var maximuntext = $('.price-select-input.price-maximum').val();
-        // $('.price-select-option.price-maximum li').removeClass('disabled-option').eq(optionindex).prevAll('li').addClass('disabled-option');
+        $('.price-select-option.price-maximum li').removeClass('disabled-option').eq(optionindex).prevAll('li').addClass('disabled-option');
         $('.price-select-input.price-minimum').val(optiontext);
         $( '.price-select-option.price-minimum' ).fadeOut();
         $('.price-select-input.price-maximum').focus();
@@ -529,7 +529,7 @@ $(document).ready(function(){
         var optionindex = $(this).index();
         var optiontext = $(this).text();
         var minimumtext = $('.price-select-input.price-minimum').val();
-        // $('.price-select-option.price-minimum li').removeClass('disabled-option').eq(optionindex).nextAll('li').addClass('disabled-option');
+        $('.price-select-option.price-minimum li').removeClass('disabled-option').eq(optionindex).nextAll('li').addClass('disabled-option');
         $('.price-select-input.price-maximum').val(optiontext) ;
         $( '.price-select-option.price-maximum' ).fadeOut();
         $('.price-select-dropdown').fadeOut();
@@ -638,7 +638,7 @@ $(document).ready(function(){
         var optionindex = $(this).index();
         var optiontext = $(this).text();
         var maximuntext = $('.year-select-input.year-maximum').val();
-        $('.year-select-option.year-maximum li').removeClass('disabled-option').eq(optionindex).prevAll('li').addClass('disabled-option');
+        // $('.year-select-option.year-maximum li').removeClass('disabled-option').eq(optionindex).prevAll('li').addClass('disabled-option');
         $('.year-select-input.year-minimum').val(optiontext);
         $( '.year-select-option.year-minimum' ).fadeOut();
         $('.year-select-input.year-maximum').focus();
@@ -654,7 +654,7 @@ $(document).ready(function(){
         var optionindex = $(this).index();
         var optiontext = $(this).text();
         var minimumtext = $('.year-select-input.year-minimum').val();
-        $('.year-select-option.year-minimum li').removeClass('disabled-option').eq(optionindex).nextAll('li').addClass('disabled-option');
+        // $('.year-select-option.year-minimum li').removeClass('disabled-option').eq(optionindex).nextAll('li').addClass('disabled-option');
         $('.year-select-input.year-maximum').val(optiontext) ;
         $( '.year-select-option.year-maximum' ).fadeOut();
         $('.year-select-dropdown').fadeOut();

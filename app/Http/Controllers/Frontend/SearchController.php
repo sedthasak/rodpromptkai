@@ -17,6 +17,7 @@ use App\Models\modelsModel;
 use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 use App\Models\Province;
+use App\Models\setFooterModel;
 
 use App\Models\temp_carsModel;
 use App\Models\temp_galleryModel;
@@ -405,7 +406,7 @@ class SearchController extends Controller
 
         $bnner = DB::table('setting_option')->where('key_option', 'banner_search')->first();
         $decdebnner = isset($bnner) ? json_decode($bnner->value_option) : [];
-
+        $setFooterModel = setFooterModel::all();
         // dd($decdebnner);
         return view('frontend.carsearch', [
             'results' => $cars,
@@ -418,6 +419,7 @@ class SearchController extends Controller
             'paginatedCars' => $paginatedCars,
             'slide' => $decde,
             'banner' => $decdebnner,
+            'setFooterModel' => $setFooterModel,
             'brandforshow' => $brandforshow??'',
         ]);
         

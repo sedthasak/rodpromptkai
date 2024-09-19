@@ -29,6 +29,13 @@ use App\Models\LevelModel;
 class PackagesAndDealsController extends Controller
 {
 
+    public function yourpackagePage(Request $request)
+    {
+        return view('frontend.yourpackage', [
+            "page" => 'yourpackage',
+        ]);
+    }
+
     public function packagecontactPage(Request $request)
     {
         return view('frontend.package-contact', [

@@ -623,7 +623,11 @@ class FrontendPageController extends Controller
         // Fetch latest news
         $news = newsModel::orderBy('id', 'desc')->take(5)->get();
 
-        $topCarsByClickcount = carsModel::orderBy('clickcount', 'desc')->limit(6)->get();
+        $topCarsByClickcount = carsModel::where('status', 'approved') // Add this condition
+            ->orderBy('clickcount', 'desc')
+            ->limit(6)
+            ->get();
+
 
         $carCountLast7Days = carsModel::where('status', 'approved')
         ->whereBetween('approvedate', [Carbon::now()->subDays(7)->timestamp, Carbon::now()->timestamp])
@@ -1636,6 +1640,10 @@ class FrontendPageController extends Controller
         if (!$post) {
             return abort(404, 'Car not found');
         }
+        // Check if the status is not 'approved'
+        if ($post->status != 'approved') {
+            return redirect()->route('indexPage');
+        }
 
         // Fetch related cars and details
         $allcars = DB::table('cars')
@@ -1719,6 +1727,52 @@ class FrontendPageController extends Controller
             ->orderBy('modelyear', 'DESC')
             ->get();
 
+        // Search for cars within the price range of ±100,000
+        $priceRange = 100000;
+        $minPrice = $post->price - $priceRange;
+        $maxPrice = $post->price + $priceRange;
+
+        $similarPriceCars = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal']) // Eager load relationships
+            ->where('status', 'approved')
+            ->whereBetween('price', [$minPrice, $maxPrice])
+            ->where('id', '!=', $post->id) // Exclude the current car
+            ->inRandomOrder() // Randomize the order
+            ->take(12)
+            ->get();
+
+        $limit = 4;
+        $additionalPriceRange = 30000;
+        
+        // First query: Get cars with the same 'brand_id', 'model_id', 'generations_id', 'sub_models_id'
+        $sameSpecsCars = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal'])
+            ->where('status', 'approved')
+            ->where('id', '!=', $post->id) // Exclude the current car
+            ->where('brand_id', $post->brand_id)
+            ->where('model_id', $post->model_id)
+            ->where('generations_id', $post->generations_id)
+            ->where('sub_models_id', $post->sub_models_id)
+            ->take($limit)
+            ->get();
+        
+        // If found cars are less than 4, fill the rest with cars within the price range of ±30,000
+        if ($sameSpecsCars->count() < $limit) {
+            $additionalCarsNeeded = $limit - $sameSpecsCars->count();
+            $minAdditionalPrice = $post->price - $additionalPriceRange;
+            $maxAdditionalPrice = $post->price + $additionalPriceRange;
+        
+            $additionalCars = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal'])
+                ->where('status', 'approved')
+                ->whereBetween('price', [$minAdditionalPrice, $maxAdditionalPrice])
+                ->where('id', '!=', $post->id) // Exclude the current car
+                ->whereNotIn('id', $sameSpecsCars->pluck('id')) // Exclude already found cars
+                ->take($additionalCarsNeeded)
+                ->get();
+        
+            // Merge the additional cars with the same specs cars
+            $sameSpecsCars = $sameSpecsCars->merge($additionalCars);
+        }
+
+
         return view('frontend/car-detail', [
             'cars' => $mycars,
             'allcars' => $allcars,
@@ -1726,7 +1780,9 @@ class FrontendPageController extends Controller
             'interior' => $interior,
             'exterior' => $exterior,
             'gallery' => $gallery,
-            'yearprice' => $qryyearprice
+            'yearprice' => $qryyearprice,
+            'similarPriceCars' => $similarPriceCars,
+            'relatedCars' => $sameSpecsCars,
         ]);
     }
 

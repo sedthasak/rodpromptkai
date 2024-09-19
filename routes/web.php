@@ -228,6 +228,8 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/profile-member/{level}', 'profilememberPage')->name('profilememberPage');
     });
     Route::controller(PackagesAndDealsController::class)->group(function() {
+        Route::get('/your-package', 'yourpackagePage')->name('yourpackagePage');
+
         Route::get('/getcoupon', 'getcouponPage')->name('getcouponPage');
 
         Route::post('/adddealgroup-action', 'adddealgroupaction')->name('adddealgroupaction');

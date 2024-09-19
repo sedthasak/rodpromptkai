@@ -135,6 +135,7 @@
                             <button type="submit" class="btn-default btn-red" 
                                     @if(($customer_role['role'] == 'dealer' && $customer_role['dealerpack'] >= $pack2->id) || $customer_role['role'] == 'vip')
                                     disabled
+                                    style="background-color: #333;olor: #fff;" 
                                     @endif
                                     >ซื้อเลย</button>
                         </form>
@@ -213,6 +214,7 @@
                             <button type="submit" class="btn-default btn-red" 
                                     @if(($customer_role['role'] == 'dealer' && $customer_role['dealerpack'] >= $pack3->id) || $customer_role['role'] == 'vip')
                                     disabled
+                                    style="background-color: #333;olor: #fff;" 
                                     @endif
                                     >ซื้อเลย</button>
                         </form>

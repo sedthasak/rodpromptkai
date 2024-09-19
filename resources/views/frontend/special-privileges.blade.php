@@ -12,7 +12,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-2 col-md-3">
-                        <a href="#" class="btn-tiers-back"><img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt=""><span>ย้อนกลับ</span></a>
+                        <a href="{{url()->previous()}}" class="btn-tiers-back"><img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt=""><span>ย้อนกลับ</span></a>
                     </div>
                     <div class="col-10 col-md-9">
                         <div class="wrap-btntiers">

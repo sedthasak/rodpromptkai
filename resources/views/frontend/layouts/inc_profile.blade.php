@@ -98,19 +98,39 @@ $line = $customerdata->line??'-';
                         <!-- เพิ่มใหม่ -->
                         <div>
                         @if ($customer_level['slug'] === 'member')
-                            <div class="level-member user_member">Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow"></div>
+                            <div class="level-member user_member" 
+                                style="cursor: pointer;" 
+                                onclick="window.open('{{ route('specialprivilegesPage') }}', '_blank');">Member 
+                                <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow">
+                            </div>
                         @elseif ($customer_level['slug'] === 'silver')
-                            <div class="level-member user_silver">Silver Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow"></div>
+                            <div class="level-member user_silver" 
+                                style="cursor: pointer;" 
+                                onclick="window.open('{{ route('specialprivilegesPage') }}', '_blank');">Silver Member 
+                                <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow">
+                            </div>
                         @elseif ($customer_level['slug'] === 'gold')
-                            <div class="level-member user_gold">Gold Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow"></div>
+                            <div class="level-member user_gold" 
+                                style="cursor: pointer;" 
+                                onclick="window.open('{{ route('specialprivilegesPage') }}', '_blank');">Gold Member 
+                                <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow">
+                            </div>
                         @elseif ($customer_level['slug'] === 'platinum')
-                            <div class="level-member user_platinum">
+                            <div class="level-member user_platinum" 
+                                style="cursor: pointer;" 
+                                onclick="window.open('{{ route('specialprivilegesPage') }}', '_blank');">
                                 <img src="{{ asset('frontend/images2/icon-platinum.svg') }}" class="icon-platinum" alt="">
                                 Platinum Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow">
                             </div>
                         @else
-                            <div class="level-member user_member">Member <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow"></div>
+                            <div class="level-member user_member" 
+                                style="cursor: pointer;" 
+                                onclick="window.open('{{ route('specialprivilegesPage') }}', '_blank');">Member 
+                                <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow">
+                            </div>
                         @endif
+
+
 
                             
                             

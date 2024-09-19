@@ -42,7 +42,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                        
                         @foreach($carfromstatus2['created'] as $keycarsModel => $cars)
                         @php
-                        $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
+                        $profilecar_img = ($cars->feature)?asset('storage/' . $cars->feature):asset('public/uploads/default-car.jpg');
                         @endphp
                         <div class="item-mycar">
                             <div class="item-mycar-cover">

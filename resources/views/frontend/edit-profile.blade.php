@@ -109,7 +109,7 @@ $line = $Customer->line??'';
                                                 </div>
                                                 <div class="col-12 col-xl-6 boxfrm-profile">
                                                     <label>Google Map</label>
-                                                    <input type="text" name="google_map" class="form-control"v alue="{{$place}}">
+                                                    <input type="text" name="google_map" class="form-control" value="{{$google_map}}">
                                                 </div>
                                                 <div class="col-12 col-xl-6 boxfrm-profile">
                                                     <img width="250px" src="{{$map}}" />
