@@ -85,7 +85,8 @@ $arr_tag = array(
                                         @endif">
                                         @if($deal->topleft)
                                             @php
-                                                $topleftPath = str_replace('public/uploads/deal/', '', $deal->topleft);
+                                                $topleftPath = $deal->topleft ? asset('storage/' . str_replace('public/', '', $deal->topleft)) : null;
+
                                             @endphp
                                             <div class="{{$arr_tag[$deal->topleft_position]}}"><img src="{{ asset('storage/uploads/deal/' . $topleftPath) }}" alt=""></div>
                                         @endif
@@ -97,7 +98,7 @@ $arr_tag = array(
                                                     <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก 3 วัน 18 ชม.</div>
                                                     @if($deal->bottomright)
                                                         @php
-                                                            $bottomrightPath = str_replace('public/uploads/deal/', '', $deal->bottomright);
+                                                            $bottomrightPath = $deal->bottomright ? asset('storage/' . str_replace('public/', '', $deal->bottomright)) : null;
                                                         @endphp
                                                         <div class="tag-bottom-right"><img src="{{ asset('storage/uploads/deal/' . $bottomrightPath) }}" alt=""></div>
                                                     @endif
