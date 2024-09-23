@@ -187,6 +187,7 @@ class SearchController extends Controller
     public function carsearchPage(Request $request, $kw1 = null, $kw2 = null, $kw3 = null, $kw4 = null, $kw5 = null)
     {
         $query = carsModel::query();
+        $query->where('status', 'approved');
         $brand = $model = $generation = $sub_model = $province = $category = null;
         $parameters = [];
         $parameterstitle = [];

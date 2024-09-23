@@ -88,17 +88,24 @@ $arr_tag = array(
                             $border = $car->myDeal->deal->border ?? '#000000';
                             $imagePath = $car->myDeal->deal->image_background ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->image_background)) : null;
                             $background = $car->myDeal->deal->background ?? null;
-                            $topleftPath = $car->myDeal->deal->topleft ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->topleft)) : null;
-                            $bottomrightPath = $car->myDeal->deal->bottomright ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->bottomright)) : null;
+                            
+
                             $font1 = $car->myDeal->deal->font1 ?? '#FFFFFF';
                             $font2 = $car->myDeal->deal->font2 ?? '#FFDADA';
                             $font3 = $car->myDeal->deal->font3 ?? '#FFFFFF';
                             $font4 = $car->myDeal->deal->font4 ?? '#FFE500';
+                            $topleftPath = '';
+                            $bottomrightPath = '';
+
+                            $topleftPath = $car->myDeal && $car->myDeal->deal && $car->myDeal->deal->topleft ? asset('storage/' . str_replace('public/', '', $car->myDeal->deal->topleft)) : null;
+                            $bottomrightPath = $car->myDeal && $car->myDeal->deal && $car->myDeal->deal->bottomright ? asset('storage/' . str_replace('public/', '', $car->myDeal->deal->bottomright)) : null;
+
+
                             @endphp
 
                             <div class="col-12 col-xl-4 item-changedeal col-itemcar">
                                 <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
-                                    @if($topleftPath)
+                                    @if($car->myDeal && $car->myDeal->deal && $car->myDeal->deal->topleft)
                                         <div class="{{$arr_tag[$car->myDeal->deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
                                     @endif
 
@@ -106,7 +113,7 @@ $arr_tag = array(
                                         <div class="cover-car">
                                             <div class="box-timeout">
                                                 <div class="txt-timeout"><i class="bi bi-clock"></i> เหลืออีก {{ $car->remaining_time }}</div>
-                                                @if($bottomrightPath)
+                                                @if($car->myDeal && $car->myDeal->deal && $car->myDeal->deal->bottomright)
                                                     <div class="tag-bottom-right"><img src="{{ $bottomrightPath }}" alt=""></div>
                                                 @endif
                                             </div>
