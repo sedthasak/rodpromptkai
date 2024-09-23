@@ -88,7 +88,7 @@ $arr_tag = array(
                                                 $topleftPath = $deal->topleft ? asset('storage/' . str_replace('public/', '', $deal->topleft)) : null;
 
                                             @endphp
-                                            <div class="{{$arr_tag[$deal->topleft_position]}}"><img src="{{ asset('storage/uploads/deal/' . $topleftPath) }}" alt=""></div>
+                                            <div class="{{$arr_tag[$deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
                                         @endif
 
                                         
@@ -100,7 +100,7 @@ $arr_tag = array(
                                                         @php
                                                             $bottomrightPath = $deal->bottomright ? asset('storage/' . str_replace('public/', '', $deal->bottomright)) : null;
                                                         @endphp
-                                                        <div class="tag-bottom-right"><img src="{{ asset('storage/uploads/deal/' . $bottomrightPath) }}" alt=""></div>
+                                                        <div class="tag-bottom-right"><img src="{{ $bottomrightPath }}" alt=""></div>
                                                     @endif
                                                 </div>
                                                 <img src="{{$default_feature}}" alt="">
