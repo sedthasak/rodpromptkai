@@ -251,13 +251,13 @@
                             <div class="col-12 text-center">
                                 <h1>ลงขายรถยนต์</h1>
                                 <div class="box-iconstep">
-                                    <div><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step2-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step2-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step3.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step3.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></a>
                                 </div>
                             </div>
                         </div>
@@ -329,13 +329,13 @@
                             <div class="col-12 text-center">
                                 <h1>ลงขายรถยนต์</h1>
                                 <div class="box-iconstep">
-                                    <div><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step2-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step2-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step3-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step3-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></a>
                                 </div>
                             </div>
                         </div>

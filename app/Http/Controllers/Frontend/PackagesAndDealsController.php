@@ -193,6 +193,8 @@ class PackagesAndDealsController extends Controller
 
     public function adddealgroupaction(Request $request)
     {
+
+        // dd($request);
         $deal = DealModel::latest('id')->firstOrFail();
         $mydealcount = MyDeal::whereNull('cars_id')->count();
         $carIds = explode(',', $request->car_ids);

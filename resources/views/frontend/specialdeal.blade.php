@@ -103,7 +103,11 @@ $arr_tag = array(
                                                         <div class="tag-bottom-right"><img src="{{ $bottomrightPath }}" alt=""></div>
                                                     @endif
                                                 </div>
-                                                <img src="{{$default_feature}}" alt="">
+                                                @php
+                                                    $random_number = rand(1, 6);
+                                                    $random_feature = asset('uploads/car-' . $random_number . '.webp');
+                                                @endphp
+                                                <img src="{{$random_feature}}" alt="">
                                             </div>
                                             <figcaption>
                                                 <div class="grid-desccar">

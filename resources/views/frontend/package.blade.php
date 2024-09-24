@@ -59,47 +59,47 @@
                         </form>
                         <div class="box-package-spec">
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> ลงขายได้สูงสุด {{$pack1->limit}} คัน
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> ลงขายได้สูงสุด {{$pack1->limit}} คัน
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package03.svg')}}" alt="" class="svg"></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package02.svg')}}" alt="" class="svg"></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package04.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
                             
                             <!-- New fields text1 to text6 -->
                             @if($pack1->text1)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text1}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text1}}
                             </div>
                             @endif
                             @if($pack1->text2)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text2}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text2}}
                             </div>
                             @endif
                             @if($pack1->text3)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text3}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text3}}
                             </div>
                             @endif
                             @if($pack1->text4)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text4}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text4}}
                             </div>
                             @endif
                             @if($pack1->text5)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text5}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text5}}
                             </div>
                             @endif
                             @if($pack1->text6)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text6}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text6}}
                             </div>
                             @endif
                         </div>
@@ -141,47 +141,47 @@
                         </form>
                         <div class="box-package-spec">
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" class="svg" alt=""></div> ลงขายได้สูงสุด {{$pack2->limit}} คัน
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> ลงขายได้สูงสุด {{$pack2->limit}} คัน
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package03.svg')}}" class="svg" alt=""></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package02.svg')}}" class="svg" alt=""></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package04.svg')}}" class="svg" alt=""></div> อายุที่โพสต์สูงสุด 4 เดือน
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
 
                             <!-- New fields text1 to text6 for pack2 -->
                             @if($pack2->text1)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text1}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text1}}
                             </div>
                             @endif
                             @if($pack2->text2)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text2}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text2}}
                             </div>
                             @endif
                             @if($pack2->text3)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text3}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text3}}
                             </div>
                             @endif
                             @if($pack2->text4)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text4}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text4}}
                             </div>
                             @endif
                             @if($pack2->text5)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text5}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text5}}
                             </div>
                             @endif
                             @if($pack2->text6)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text6}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text6}}
                             </div>
                             @endif
                         </div>
@@ -220,47 +220,47 @@
                         </form>
                         <div class="box-package-spec">
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package01.svg')}}" alt="" class="svg"></div> ลงขายได้สูงสุด {{$pack3->limit}} คัน
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> ลงขายได้สูงสุด {{$pack3->limit}} คัน
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package03.svg')}}" alt="" class="svg"></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package02.svg')}}" alt="" class="svg"></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
                             </div>
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icon-package04.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
 
                             <!-- New fields text1 to text6 for pack3 -->
                             @if($pack3->text1)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text1}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text1}}
                             </div>
                             @endif
                             @if($pack3->text2)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text2}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text2}}
                             </div>
                             @endif
                             @if($pack3->text3)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text3}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text3}}
                             </div>
                             @endif
                             @if($pack3->text4)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text4}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text4}}
                             </div>
                             @endif
                             @if($pack3->text5)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text5}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text5}}
                             </div>
                             @endif
                             @if($pack3->text6)
                             <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text6}}
+                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text6}}
                             </div>
                             @endif
                         </div>

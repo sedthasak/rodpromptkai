@@ -13,108 +13,37 @@
         // Add comma as thousand separators
         input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
-    document.addEventListener('DOMContentLoaded', function () {
-        ClassicEditor
-            .create(document.querySelector('#car_detail'))
-            .then(editor => {
-                var buttons = document.querySelectorAll('.clckads');
-                if (buttons) {
-                    buttons.forEach(button => {
-                        button.addEventListener('click', function () {
-                            var buttonText = button.getAttribute('data-text');
-                            var editorInstance = editor;
 
-                            if (editorInstance) {
-                                var currentContent = editorInstance.getData();
-                                var newText = currentContent + buttonText;
-                                editorInstance.setData(newText);
-                            } else {
-                                console.error('CKEditor instance not found.');
-                            }
-                        });
-                    });
-                } else {
-                    console.error('Buttons with class "clckads" not found.');
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    });
-
-    // CKEditor default configuration
-    ClassicEditor.defaultConfig = {
-        toolbar: {
-            items: [
-                'undo',
-                'redo',
-                '|',
-                'heading',
-                '|',
-                'bold',
-                'italic',
-                'link',
-                'bulletedList',
-                'numberedList',
-                '|',
-                'insertTable',
-                '|',
-                'mediaEmbed',
-                '|',
-                'imageTextAlternative',
-                'imageStyle:inline',
-                'imageStyle:block',
-                'imageStyle:side',
-            ],
-            shouldNotGroupWhenFull: true
-        },
-        language: 'en',
-        image: {
-            toolbar: [
-                'imageTextAlternative',
-                'imageStyle:inline',
-                'imageStyle:block',
-                'imageStyle:side'
-            ],
-            styles: [
-                'alignLeft', 'alignCenter', 'alignRight'
-            ]
-        },
-        table: {
-            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-        },
-    };
     $(document).ready(function() {
-        // console.log("dddd");
         $(".select2s").select2();
         $(document).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
         });
 
-        $(".clckads").on( "click", function() {
-            var oldtext = $("#car_detail").val();
-            var thistext = $(this).text();
-            var newtext = oldtext+thistext;
-            add_text(newtext);
-        } );
-        function add_text(newtext){ 
-            document.getElementById("car_detail").value = newtext;
+        // Handle buttons that append text to the textarea
+        var buttons = document.querySelectorAll('.clckads');
+        var carDetailTextarea = document.querySelector('#car_detail');
+        if (buttons && carDetailTextarea) {
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    var buttonText = button.getAttribute('data-text');
+                    carDetailTextarea.value += buttonText; // Append text to the textarea
+                });
+            });
         }
-        
 
-        $("#generations").on( "change", function() {
+        $("#generations").on("change", function() {
             var generations_id = $(this).val();
-            if(generations_id){
+            if (generations_id) {
                 $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectGenerations')}}",
                     type: "post",
-                    data: { 
-                        generations_id: generations_id, 
+                    data: {
+                        generations_id: generations_id,
                         _token: '{{csrf_token()}}'
                     },
-                    success: function (response) {
-                        // console.log(response);
+                    success: function(response) {
                         $('#wait').hide();
                         $('#sub_models').html(response);
                     },
@@ -126,12 +55,11 @@
                 $.ajax({
                     url: "{{route('carpostSelectGenerationsYear')}}",
                     type: "post",
-                    data: { 
-                        generations_id: generations_id, 
+                    data: {
+                        generations_id: generations_id,
                         _token: '{{csrf_token()}}'
                     },
-                    success: function (response) {
-                        // console.log(response);
+                    success: function(response) {
                         $('#wait').hide();
                         $('#years').html(response);
                     },
@@ -141,21 +69,20 @@
                     }
                 });
             }
-        } );
+        });
 
-        $("#models").on( "change", function() {
+        $("#models").on("change", function() {
             var models_id = $(this).val();
-            if(models_id){
+            if (models_id) {
                 $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectModel')}}",
                     type: "post",
-                    data: { 
-                        models_id: models_id, 
+                    data: {
+                        models_id: models_id,
                         _token: '{{csrf_token()}}'
                     },
-                    success: function (response) {
-                        // console.log(response);
+                    success: function(response) {
                         $('#wait').hide();
                         $('#generations').html(response);
                     },
@@ -165,21 +92,20 @@
                     }
                 });
             }
-        } );
+        });
 
-        $("#brands").on( "change", function() {
+        $("#brands").on("change", function() {
             var brands_id = $(this).val();
-            if(brands_id){
+            if (brands_id) {
                 $('#wait').show();
                 $.ajax({
                     url: "{{route('carpostSelectBrand')}}",
                     type: "post",
-                    data: { 
-                        brands_id: brands_id, 
+                    data: {
+                        brands_id: brands_id,
                         _token: '{{csrf_token()}}'
                     },
-                    success: function (response) {
-                        // console.log(response);
+                    success: function(response) {
                         $('#wait').hide();
                         $('#models').html(response);
                     },
@@ -189,14 +115,14 @@
                     }
                 });
             }
-        } );
-    }); 
-    document.addEventListener('DOMContentLoaded', function () {
+        });
+
+        // Color selection with other color input
         const colorSelect = document.getElementById('color_select');
         const otherColorInput = document.getElementById('other_color_input');
 
         if (colorSelect && otherColorInput) {
-            colorSelect.addEventListener('change', function () {
+            colorSelect.addEventListener('change', function() {
                 if (colorSelect.value === '99999999') {
                     otherColorInput.setAttribute('required', 'required');
                 } else {
@@ -204,11 +130,10 @@
                 }
             });
         }
-    });
-    document.addEventListener('DOMContentLoaded', function () {
+
+        // Steps navigation and validation
         const steps = document.querySelectorAll('.step');
         let currentStep = 0;
-
 
         function showStep(step) {
             steps.forEach((el, index) => {
@@ -219,13 +144,13 @@
         function validateStep(step) {
             const inputs = steps[step].querySelectorAll('input[required], textarea[required], select[required]');
             const emptyFields = [];
-            
+
             inputs.forEach(input => {
                 if (input.value.trim() === '') {
                     emptyFields.push(input.previousElementSibling.textContent);
                 }
             });
-            
+
             if (emptyFields.length > 0) {
                 Swal.fire({
                     icon: 'warning',
@@ -261,8 +186,8 @@
 
         showStep(currentStep);
     });
-</script>
-<script>
+
+    // Image upload and sorting functionality
     document.addEventListener('DOMContentLoaded', function () {
         const uploadExteriorInput = document.getElementById('upload-exterior-input');
         const uploadExteriorButton = document.getElementById('exterior-upload-button');
@@ -507,7 +432,5 @@
                 console.error('Form element with ID "carpostForm" not found.');
             }
         });
-
-
     });
 </script>

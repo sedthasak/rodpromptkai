@@ -75,13 +75,13 @@
                             <div class="col-12 text-center">
                                 <h1>ลงขายรถยนต์</h1>
                                 <div class="box-iconstep">
-                                    <div><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step2.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step2.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step3.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step3.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></a>
                                 </div>
                             </div>
                         </div>
@@ -253,13 +253,13 @@
                             <div class="col-12 text-center">
                                 <h1>ลงขายรถยนต์</h1>
                                 <div class="box-iconstep">
-                                    <div><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step2-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step2-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step3.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step3.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></a>
                                 </div>
                             </div>
                         </div>
@@ -284,7 +284,8 @@
                                             <div class="col-12 frm-step">
                                                 <label id="detail_label">รายละเอียดรถ<span>*</span></label>
                                                 <!-- <img src="{{asset('frontend/images/editor.jpg')}}" style="width: 100%" alt=""> -->
-                                                <textarea aria-labelledby="detail_label" class="form-control" id="car_detail"  rows="10" name="detail" required>{{$mycars->detail??''}}</textarea>
+                                                 
+                                                <textarea aria-labelledby="detail_label" class="form-control" id="car_detail" rows="10" name="detail" required>{{$mycars->detail??''}}</textarea>
                                                 <div class="box-introtext">
                                                     <div class="topic-introtext">ข้อความแนะนำ</div>
                                                     <div class="btn-introtext">
@@ -329,13 +330,14 @@
                             <div class="col-12 text-center">
                                 <h1>ลงขายรถยนต์</h1>
                                 <div class="box-iconstep">
-                                    <div><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></div>
+                                    
+                                    <a><img src="{{ asset('frontend/images/icon-step1-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step2-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step2-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step3-active.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step3-active.svg') }}" alt=""></a>
                                     <div><img src="{{ asset('frontend/images/step-arrow.svg') }}" alt=""></div>
-                                    <div><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></div>
+                                    <a><img src="{{ asset('frontend/images/icon-step4.svg') }}" alt=""></a>
                                 </div>
                             </div>
                         </div>
