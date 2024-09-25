@@ -31,6 +31,7 @@ class PackagesAndDealsController extends Controller
 
     public function yourpackagePage(Request $request)
     {
+        
         return view('frontend.yourpackage', [
             "page" => 'yourpackage',
         ]);
@@ -193,32 +194,47 @@ class PackagesAndDealsController extends Controller
 
     public function adddealgroupaction(Request $request)
     {
-
-        // dd($request);
+        $request->validate([
+            'car_ids' => 'required|string'
+        ]);
+    
+        $carIds = explode(',', $request->car_ids);
+    
+        if (empty($carIds)) {
+            return redirect()->back()->with('error', 'ไม่พบข้อมูลรถที่เลือก !');
+        }
+    
         $deal = DealModel::latest('id')->firstOrFail();
         $mydealcount = MyDeal::whereNull('cars_id')->count();
-        $carIds = explode(',', $request->car_ids);
-
-        // Check if mydealcount is greater than or equal to the number of car IDs
+    
         if ($mydealcount < count($carIds)) {
             return redirect()->back()->with('error', 'จำนวนดีลไม่เพียงพอสำหรับรถที่เลือก !');
         }
+    
         foreach ($carIds as $carId) {
             $car = carsModel::findOrFail($carId);
             $mydeal = MyDeal::whereNull('cars_id')->orderBy('deal_expire', 'asc')->firstOrFail();
-
+    
+            // Check if the customer_id of the car and myDeal are the same
+            if ($car->customer_id !== $mydeal->customer_id) {
+                return redirect()->back()->with('error', 'ไม่สามารถทำรายการได้: ข้อมูลไม่ถูกต้อง !');
+            }
+    
             $mydeal->update([
                 'deals_id' => $deal->id,
                 'cars_id' => $car->id,
             ]);
+    
             $car->update([
                 'mydeals' => $mydeal->id,
                 'updated_at' => now(),
             ]);
         }
-
+    
         return redirect()->route('specialchangedealPage')->with('success', 'ใส่รูปแบบดีลสำเร็จ !');
     }
+    
+    
 
 
 
@@ -614,7 +630,8 @@ class PackagesAndDealsController extends Controller
                     'dealerpack' => $thispackage->id,
                     'dealerpack_regis' => now(),
                     'dealerpack_expire' => now()->addMonths(4),
-                    'accumulate' => $customer->accumulate + $thispackage->price
+                    'accumulate' => $customer->accumulate + $thispackage->price,
+                    'order_id' => $order->id,
                 ]);
             }
         }

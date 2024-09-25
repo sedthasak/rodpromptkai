@@ -32,7 +32,7 @@
     <div class="box-menudeal">
         <ul>
             <li class="hide-mpack">
-                <a class="btn-yourpack">แพ็คเกจของคุณ 
+                <a href="{{route('yourpackagePage')}}" class="btn-yourpack">แพ็คเกจของคุณ 
                     <span><img src="{{asset('frontend/images/icon-chev-white.svg')}}" alt=""></span>
                 </a>
             </li>

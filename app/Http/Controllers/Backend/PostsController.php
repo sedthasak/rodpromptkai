@@ -501,7 +501,7 @@ class PostsController extends Controller
         // $cars->customer_id = $request->customer_id;
         if(isset($request->change_status) && $request->change_status=='approved'){  
             $cars->approvedate = time();
-            $cars->expiredate = strtotime("+90 days", time());
+            $cars->expiredate = strtotime("+120 days", time());
         }
         if(isset($request->change_status) && $request->change_status=='rejected'){
 

@@ -22,6 +22,7 @@ use App\Models\VipPackageModel;
 use App\Models\MyDeal;
 use App\Models\categoriesModel;
 use App\Models\contactsModel;
+use App\Models\OrderModel;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -170,6 +171,12 @@ class ViewDataServiceProvider extends ServiceProvider
                 $customer_login = Customer::find($customerdata->id);
                 $customerId = $customer_login->id;
                 $customer_role = $customer_login->role;
+
+                $customer_last_order = '';
+                if($customer_login->order_id){
+                    $customer_last_order = OrderModel::find($customer_login->order_id);
+                }
+                
                 $customer_role = [
                     'role' => $customer_login->role,
                     'customer_quota' => $customer_login->customer_quota,
@@ -182,6 +189,8 @@ class ViewDataServiceProvider extends ServiceProvider
                     'vippack_regis' => $customer_login->vippack_regis,
                     'vippack_expire' => $customer_login->vippack_expire,
                     'pack' => '',
+                    'order_id' => $customer_login->order_id??'',
+                    'last_order' => $customer_last_order ,
                 ];
                 
                 // Determine the package ID to fetch

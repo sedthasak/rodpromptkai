@@ -82,8 +82,8 @@ class CustomersController extends Controller
         $netPrice = $vipPackage->price - $vat;
         $total = $vipPackage->price;
     
-        // Create the order
-        OrderModel::create([
+        // Create the order and get the created order instance
+        $order = OrderModel::create([
             'status' => 'success',
             'order_number' => $orderNumber,
             'customer_id' => $request->id,
@@ -107,6 +107,7 @@ class CustomersController extends Controller
             'vippack_expire' => now()->addYear(),
             'role' => 'vip',
             'accumulate' => $customer->accumulate + $total,
+            'order_id' => $order->id,  // Save the order ID
             // Reset dealer fields
             'dealerpack' => null,
             'dealerpack_quota' => null,
@@ -117,6 +118,7 @@ class CustomersController extends Controller
         return redirect()->route('BN_customers_detail', ['id' => $customer->id])
                         ->with('success', 'VIP package registered successfully!');
     }
+    
     
     
     

@@ -91,7 +91,7 @@
                                             {{ $car->modelyear . ' ' . ($car->brand->title ?? 'N/A') . ' ' . ($car->model->model ?? 'N/A') }}
                                         </div>
                                         <div class="mycar-type">
-                                            {{ ($car->generation->generation ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}
+                                            {{ ($car->generation->generations ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}
                                         </div>
                                         <div class="mycar-type">
                                             {{ number_format($car->price, 0, '.', ',') }} บาท

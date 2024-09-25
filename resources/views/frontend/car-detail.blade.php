@@ -320,47 +320,28 @@ $arr_gear = array(
                     </button>
 
                     <div class="recent-carlist">
-                        <h2 class="topic-cardesc"><i class="bi bi-circle-fill"></i> รถ S560e โฉมF48 ปี21-ปัจจุบัน ทั้งหมด</h2>
+                        <h2 class="topic-cardesc"><i class="bi bi-circle-fill"></i> รถ {{$cars->brands_title}} {{$cars->model_name." ".$cars->sub_models_name}} ทั้งหมด</h2>
                         <div class="row">
+                            @foreach($sameBrandModelCars as $sameBrandModelCar)
                             <div class="col-6 col-lg-3 mb-recentlist">
-                                <a href="car-detail.php" class="item-recentlist">
+                                <a href="{{route('cardetailPage', ['slug' => $sameBrandModelCar->slug])}}" class="item-recentlist">
                                     <figure>
-                                        <div class="cover-recentlist"><img src="{{asset('frontend/images/67_1.jpeg')}}" alt=""></div>
+                                        <div class="cover-recentlist"><img src="{{asset('storage/' . $sameBrandModelCar->feature)}}" alt=""></div>
                                         <figcaption>
-                                            <div class="price-recentlist">1,290,000.-</div>
-                                            <span>2023</span>
+                                            <div class="price-recentlist">{{number_format($sameBrandModelCar->price, 0, '.', ',')}}.-</div>
+                                            <span>{{$sameBrandModelCar->yearregis??$sameBrandModelCar->modelyear}}</span>
                                         </figcaption>
                                     </figure>
                                 </a>
                             </div>
+                            @endforeach
+
                             <div class="col-6 col-lg-3 mb-recentlist">
-                                <a href="car-detail.php" class="item-recentlist">
-                                    <figure>
-                                        <div class="cover-recentlist"><img src="{{asset('frontend/images/CAR202306290015_Mercedes-Benz_GLA250_20230629_102211629_WATERMARK.png')}}" alt=""></div>
-                                        <figcaption>
-                                            <div class="price-recentlist">1,290,000.-</div>
-                                            <span>2023</span>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="col-6 col-lg-3 mb-recentlist">
-                                <a href="car-detail.php" class="item-recentlist">
-                                    <figure>
-                                        <div class="cover-recentlist"><img src="{{asset('frontend/images/14_1.jpeg')}}" alt=""></div>
-                                        <figcaption>
-                                            <div class="price-recentlist">1,290,000.-</div>
-                                            <span>2023</span>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="col-6 col-lg-3 mb-recentlist">
-                                <a href="car.php" class="item-recentlist">
-                                    <div class="recent-clickall">+55</div>
+                                <a href="{{ route('carsearchPage', ['kw1' => $cars->brands_title, 'kw2' => $cars->model_name, 'kw3' => $cars->generations_name, 'kw4' => $cars->sub_models_name]) }}" class="item-recentlist">
+                                    <div class="recent-clickall">+{{$sameBrandModelCount}}</div>
                                     <figure>
                                         <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
-                                        <figcaption>
+                                        <figcaption hidden>
                                             <div class="price-recentlist">1,290,000.-</div>
                                             <span>2023</span>
                                         </figcaption>
@@ -505,23 +486,23 @@ $arr_gear = array(
                 </div>
             </div>
             <div class="row">
-                @foreach($allcars2 as $allcar2)
+                @foreach($relatedCars as $relatedCar)
                 @php
-                $profilecar2_img = ($allcar2->feature)?asset('storage/' . $allcar2->feature):asset('public/uploads/default-car.jpg');
+                $profilecar2_img = ($relatedCar->feature)?asset('storage/' . $relatedCar->feature):asset('public/uploads/default-car.jpg');
                 @endphp
                 <div class="col-6 col-lg-3 col-itemcar mb-recentlist">
-                    <a href="{{route('cardetailPage', ['slug' => $allcar2->slug])}}" class="item-car">
+                    <a href="{{route('cardetailPage', ['slug' => $relatedCar->slug])}}" class="item-car">
                         <figure>
                             <div class="cover-car">
                                 <img src="{{$profilecar2_img}}" alt="">
                             </div>
                             <figcaption>
-                                <div class="car-name">{{$allcar2->yearregis??$allcar2->modelyear." ".$allcar2->brands_title." ".$allcar2->model_name}} </div>
-                                <div class="car-series">{{$allcar2->generations_name." ".$allcar2->sub_models_name}}</div>
-                                <div class="car-province">@if(isset($allcar2->customer_proveince)){{$allcar2->customer_proveince}}@else{{"-"}}@endif</div>
+                                <div class="car-name">{{$relatedCar->yearregis??$relatedCar->modelyear." ".$relatedCar->brand->title." ".$relatedCar->model->model}} </div>
+                                <div class="car-series">{{$relatedCar->generation->generations." ".$relatedCar->subModel->sub_models}}</div>
+                                <div class="car-province">@if(isset($relatedCar->customer_proveince)){{$relatedCar->customer_proveince}}@else{{"-"}}@endif</div>
                                 <div class="row">
                                     <div class="col-12 col-xl-9">
-                                        <div class="descpro-car">{{$allcar2->title}}</div>
+                                        <div class="descpro-car">{{$relatedCar->title}}</div>
                                     </div>
                                     <div class="col-12 col-xl-3 text-end">
                                         <div class="txt-readmore">ดูเพิ่มเติม</div>
@@ -530,10 +511,10 @@ $arr_gear = array(
                                 <div class="linecontent"></div>
                                 <div class="row caritem-price">
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$allcar2->gear]}}</div>
+                                        <div class="txt-gear"><img src="{{asset('frontend/images/icon-kear.svg')}}" alt=""> {{$arr_gear[$relatedCar->gear]}}</div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6 text-end">
-                                        <div class="car-price">{{number_format($allcar2->price, 0, '.', ',')}}.-</div>
+                                        <div class="car-price">{{number_format($relatedCar->price, 0, '.', ',')}}.-</div>
                                     </div>
                                 </div>
                             </figcaption>

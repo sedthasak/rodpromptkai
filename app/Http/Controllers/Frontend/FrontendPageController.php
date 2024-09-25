@@ -1771,6 +1771,28 @@ class FrontendPageController extends Controller
             // Merge the additional cars with the same specs cars
             $sameSpecsCars = $sameSpecsCars->merge($additionalCars);
         }
+        // Create a new variable for cars with the same brand_id, model_id, generations_id, and sub_models_id, excluding this post
+
+        $sameBrandModelCars = [];
+        // First variable: Count of cars with the same brand_id, model_id, generations_id, and sub_models_id, excluding this post
+        $sameBrandModelCount = carsModel::where('status', 'approved')
+        ->where('brand_id', $post->brand_id)
+        ->where('model_id', $post->model_id)
+        ->where('generations_id', $post->generations_id)
+        ->where('sub_models_id', $post->sub_models_id)
+        ->count();  // Count the number of cars
+
+        // Second variable: Get cars with the same brand_id, model_id, generations_id, and sub_models_id, excluding this post, limit to 3
+        $sameBrandModelCars = carsModel::where('status', 'approved')
+        ->where('id', '!=', $post->id)  // Exclude the current post
+        ->where('brand_id', $post->brand_id)
+        ->where('model_id', $post->model_id)
+        ->where('generations_id', $post->generations_id)
+        ->where('sub_models_id', $post->sub_models_id)
+        ->take(3)  // Limit the result to 3 cars
+        ->get();  // Fetch the cars
+
+
 
 
         return view('frontend/car-detail', [
@@ -1783,6 +1805,8 @@ class FrontendPageController extends Controller
             'yearprice' => $qryyearprice,
             'similarPriceCars' => $similarPriceCars,
             'relatedCars' => $sameSpecsCars,
+            'sameBrandModelCars' => $sameBrandModelCars,
+            'sameBrandModelCount' => $sameBrandModelCount,
         ]);
     }
 

@@ -77,9 +77,9 @@ $arr_tag = array(
                                     <div class="item-car" style="border: 2px solid {{ $deal->border ?? '#000000' }}; 
                                         @if($deal->image_background) 
                                             @php
-                                                $imagePathbg = str_replace('public/uploads/deal/', '', $deal->image_background);
+                                                $imagePathbg = $deal->image_background ? asset('storage/' . str_replace('public/', '', $deal->image_background)) : null;
                                             @endphp
-                                            background-image: url('{{ asset('storage/uploads/deal/' . $imagePathbg) }}');
+                                            background-image: url('{{ $imagePathbg }}');
                                         @elseif($deal->background) 
                                             background-color: {{ $deal->background }};
                                         @endif">

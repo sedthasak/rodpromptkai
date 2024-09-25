@@ -78,7 +78,7 @@ $arr_tag = array(
                                     $isSelected = $deal->id == $car->mydeal->deals_id;
 
                                     $border = $deal->border ?? '#000000';
-                                    $imagePath = $deal->image_background ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $deal->image_background)) : null;
+                                    $imagePath = $deal->image_background ? asset('storage/' . str_replace('public/', '', $deal->image_background)) : null;
                                     $background = $deal->background ?? null;
                                     $topleftPath = $deal->topleft ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $deal->topleft)) : null;
                                     $bottomrightPath = $deal->bottomright ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $deal->bottomright)) : null;
@@ -86,6 +86,9 @@ $arr_tag = array(
                                     $font2 = $deal->font2 ?? '#FFDADA';
                                     $font3 = $deal->font3 ?? '#FFFFFF';
                                     $font4 = $deal->font4 ?? '#FFE500';
+                                    $topleftPath = $deal->topleft ? asset('storage/' . str_replace('public/', '', $deal->topleft)) : null;
+                                    $bottomrightPath = $car->myDeal && $car->myDeal->deal && $car->myDeal->deal->bottomright ? asset('storage/' . str_replace('public/', '', $car->myDeal->deal->bottomright)) : null;
+
                                 @endphp
 
                                 <div class="col-6 col-xl-4 item-changedeal col-itemcar">

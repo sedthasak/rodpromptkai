@@ -76,21 +76,21 @@
 $usestatus = 'approved';
 $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png');
 // $data = session()->all();
-echo "<pre>";
-print_r($customer_role);
-echo "</pre>";
+// echo "<pre>";
+// print_r($customer_role);
+// echo "</pre>";
 // echo "<pre>";
 // print_r($customer_login);
 // echo "</pre>";
 // echo "<pre>";
 // print_r($customer_level);
 // echo "</pre>";
-echo "<pre>";
-print_r($customer_post);
-echo "</pre>";
-echo "<pre>";
-print_r($customer_deal);
-echo "</pre>";
+// echo "<pre>";
+// print_r($customer_post);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($customer_deal);
+// echo "</pre>";
 ?>
 @php
     $usestatus = $usestatus ?? 'approved';
@@ -116,41 +116,66 @@ echo "</pre>";
                         <div class="wraptopic-pageprofile">
                             <div class="topic-profilepage"><i class="bi bi-circle-fill"></i> แพ็คเกจของคุณ</div>
                         </div>
+
+                        @if(empty($customer_role['order_id']))
                         <div class="wrap-desc-yourpack">
                             <div class="row">
                                 <div class="col-12 col-md-9">
                                     <div class="note-notdeal">คุณยังไม่มีโควต้าสำหรับลงขายธุรกิจ คลิก เพื่อซื้อแพคเกจลงขายธุรกิจ</div>
                                 </div>
                                 <div class="col-12 col-md-3 text-end">
-                                @include('frontend.layouts.inc_btn_adddeal')
+                                    <a d href="{{route('packagePage')}}" class="btn-default btn-red">ซื้อเลย <img src="{{ asset('frontend/images2/iconcart.svg') }}" alt=""></a>
                                 </div>
                             </div>
                         </div>
-
+                        @else
                         <div class="wrap-yourpack">
                             <div class="row">
                                 <div class="col-12 col-md-3">
-                                    <div class="wrap-yourpack-name">ชื่อแพ็คเกจ</div>
+                                    <div class="wrap-yourpack-name">({{strtoupper($customer_role['role'])}}) {{$customer_role['pack']}}</div>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <div class="wrap-yourpack-date">วันที่สั่งซื้อ: 09/04/2024  |  19:29 <span>ราคา :  ฿ 12,500</span></div>
+                                    <div class="wrap-yourpack-date">
+                                        @if($customer_role['role'] == 'dealer')
+                                        วันที่สั่งซื้อ: {{ \Carbon\Carbon::parse($customer_role['dealerpack_regis'])->format('d/m/Y') }} | {{ \Carbon\Carbon::parse($customer_role['dealerpack_regis'])->format('H:i') }} 
+                                        @elseif($customer_role['role'] == 'vip')
+                                        วันที่สั่งซื้อ: {{ \Carbon\Carbon::parse($customer_role['vippack_regis'])->format('d/m/Y') }} | {{ \Carbon\Carbon::parse($customer_role['vippack_regis'])->format('H:i') }} 
+                                        @endif
+                                        <span>ราคา : ฿ {{ number_format($customer_role['last_order']->total, 0) }}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="wrap-yourpack-detail">
                                 <div class="wrap-yourpack-detail-list">
                                     <div>สถานะปัจจุบัน</div>
-                                    <div><span>รถบ้าน</span></div>
+                                    <div><span>{{$customer_role['role']}}</span></div>
                                 </div>
                                 <div class="wrap-yourpack-detail-list">
                                     <div>Slot ลงขาย</div>
-                                    <div><span>3/3 คัน</span></div>
+                                    <div><span>{{$customer_post['dealer']}}
+                                    /
+                                    @if ($customer_role['role'] == 'dealer')
+                                        {{$customer_role['dealerpack_quota']}}
+                                    @elseif ($customer_role['role'] == 'vip')
+                                        {{$customer_role['vippack_quota']}}
+                                    @endif
+                                     คัน</span></div>
                                 </div>
                                 <div class="wrap-yourpack-detail-list">
                                     <div>สัญญาหมดอายุ</div>
-                                    <div><span>-</span></div>
+                                    @if($customer_role['role'] == 'dealer')
+                                    <div><span>{{ \Carbon\Carbon::parse($customer_role['dealerpack_expire'])->format('d/m/Y H:i') }}</span></div>
+                                    @elseif($customer_role['role'] == 'vip')
+                                    <div><span>{{ \Carbon\Carbon::parse($customer_role['vippack_expire'])->format('d/m/Y H:i') }}</span></div>
+                                    @endif
+                                    
                                 </div>
                             </div>
                         </div>
+                        @endif
+                        
+
+                        
                         
 
 

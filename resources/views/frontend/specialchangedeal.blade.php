@@ -38,7 +38,7 @@ $arr_tag = array(
 // echo "</pre>";
 // foreach($results as $resultsss){
 //     echo "<pre>";
-//     print_r($resultsss->myDeal->deal);
+//     print_r($resultsss);
 //     echo "</pre>";
 // }
 ?>
@@ -86,7 +86,7 @@ $arr_tag = array(
                             $isSelected = $car->myDeal->deal->id == $car->mydeal->deals_id;
 
                             $border = $car->myDeal->deal->border ?? '#000000';
-                            $imagePath = $car->myDeal->deal->image_background ? asset('storage/uploads/deal/' . str_replace('public/uploads/deal/', '', $car->myDeal->deal->image_background)) : null;
+                            $imagePath = $car->myDeal && $car->myDeal->deal && $car->myDeal->deal->image_background ? asset('storage/' . str_replace('public/', '', $car->myDeal->deal->image_background)) : null;
                             $background = $car->myDeal->deal->background ?? null;
                             
 
@@ -104,6 +104,7 @@ $arr_tag = array(
                             @endphp
 
                             <div class="col-12 col-xl-4 item-changedeal col-itemcar">
+                                <div class="deal-nametype">{{ $car->myDeal->deal->name??'' }}</div>
                                 <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
                                     @if($car->myDeal && $car->myDeal->deal && $car->myDeal->deal->topleft)
                                         <div class="{{$arr_tag[$car->myDeal->deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
