@@ -198,6 +198,9 @@ class PackagesAndDealsController extends Controller
             'car_ids' => 'required|string'
         ]);
     
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+    
         $carIds = explode(',', $request->car_ids);
     
         if (empty($carIds)) {
@@ -205,7 +208,9 @@ class PackagesAndDealsController extends Controller
         }
     
         $deal = DealModel::latest('id')->firstOrFail();
-        $mydealcount = MyDeal::whereNull('cars_id')->count();
+        $mydealcount = MyDeal::whereNull('cars_id')
+                              ->where('customer_id', $customer_id) // Added condition for customer_id
+                              ->count();
     
         if ($mydealcount < count($carIds)) {
             return redirect()->back()->with('error', 'จำนวนดีลไม่เพียงพอสำหรับรถที่เลือก !');
@@ -213,9 +218,12 @@ class PackagesAndDealsController extends Controller
     
         foreach ($carIds as $carId) {
             $car = carsModel::findOrFail($carId);
-            $mydeal = MyDeal::whereNull('cars_id')->orderBy('deal_expire', 'asc')->firstOrFail();
+            $mydeal = MyDeal::whereNull('cars_id')
+                            ->where('customer_id', $customer_id) // Added condition for customer_id
+                            ->orderBy('deal_expire', 'asc')
+                            ->firstOrFail();
     
-            // Check if the customer_id of the car and myDeal are the same
+            // dd($car->customer_id, $mydeal->customer_id);
             if ($car->customer_id !== $mydeal->customer_id) {
                 return redirect()->back()->with('error', 'ไม่สามารถทำรายการได้: ข้อมูลไม่ถูกต้อง !');
             }
@@ -233,6 +241,7 @@ class PackagesAndDealsController extends Controller
     
         return redirect()->route('specialchangedealPage')->with('success', 'ใส่รูปแบบดีลสำเร็จ !');
     }
+    
     
     
 

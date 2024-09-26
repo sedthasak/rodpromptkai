@@ -183,13 +183,15 @@ $arr_gear = array(
                             <div class="row">
                                 <div class="col-4 col-md-4">
                                     <div class="item-filter">
-                                        <!-- <div><img src="{{asset('frontend/images/icon-filter.svg')}}" alt=""> <span class="filter-hidetxt">เรียงตาม</span></div>
+                                        <div><img src="{{asset('frontend/images/icon-filter.svg')}}" alt=""> <span class="filter-hidetxt">เรียงตาม</span></div>
+
                                         <div>
-                                            <select class="form-select" name="orderby">
-                                                <option value="new">ปีล่าสุด</option>
-                                                <option value="old">ปีที่เก่ากว่า</option>
+                                            <select class="form-select" id="orderby" name="orderby">
+                                                <option value="desc" {{ request('orderby', 'desc') == 'desc' ? 'selected' : '' }}>ปีล่าสุด</option>
+                                                <option value="asc" {{ request('orderby', 'desc') == 'asc' ? 'selected' : '' }}>ปีเก่าไปใหม่</option>
                                             </select>
-                                        </div> -->
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="col-8 col-md-8 text-end">
@@ -609,6 +611,7 @@ $arr_gear = array(
 
             // Fetch data from the correct box (desktop or mobile)
             var isEVChecked = isMobile ? $('input[name="ev_mobile"]').is(':checked') : $('input[name="ev"]').is(':checked');
+            var orderby = $('#orderby').val();
             const brandId = brand_id;
             const modelId = model_id;
             const generationId = generation_id;
@@ -762,6 +765,9 @@ $arr_gear = array(
                 }
 
                 // Add other filters to the query string if they are present
+                if (orderby) {
+                    queryParams.push('orderby=' + encodeURIComponent(orderby));
+                }
                 if (isEVChecked) {
                     queryParams.push('ev=yes');
                 }

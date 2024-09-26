@@ -338,7 +338,7 @@ class PostController extends Controller
             $cars->status = 'approved';
             $cars->adddate = time();
             $cars->approvedate = time();
-            $cars->expiredate = strtotime("+90 days", time());
+            $cars->expiredate = strtotime("+120 days", time());
         } else {
             $cars->status = 'created';
             $cars->adddate = time();
@@ -740,7 +740,7 @@ class PostController extends Controller
             $cars->status = 'approved';
             $cars->adddate = time();
             $cars->approvedate = time();
-            $cars->expiredate = strtotime("+90 days", time());
+            $cars->expiredate = strtotime("+120 days", time());
         }else{
             $cars->status = 'created';
             $cars->adddate = time();
