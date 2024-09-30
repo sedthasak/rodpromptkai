@@ -499,7 +499,7 @@ $arr_gear = array(
                             <figcaption>
                                 <div class="car-name">{{$relatedCar->yearregis??$relatedCar->modelyear." ".$relatedCar->brand->title." ".$relatedCar->model->model}} </div>
                                 <div class="car-series">{{$relatedCar->generation->generations." ".$relatedCar->subModel->sub_models}}</div>
-                                <div class="car-province">@if(isset($relatedCar->customer_proveince)){{$relatedCar->customer_proveince}}@else{{"-"}}@endif</div>
+                                <div class="car-province">{{ $relatedCar->province ?? "-" }}</div>
                                 <div class="row">
                                     <div class="col-12 col-xl-9">
                                         <div class="descpro-car">{{$relatedCar->title}}</div>

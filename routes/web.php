@@ -47,6 +47,9 @@ use App\Http\Controllers\Frontend\SearchController;
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 
+
+// Route::get('/delete-cars-images', [SearchController::class, 'deleteCarsAndImages']);
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });

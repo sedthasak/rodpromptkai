@@ -35,7 +35,7 @@
                 <div class="cover-car"><img src="{{$profilecar_imgcarshis}}" alt=""></div>
                 <figcaption>
                     <div class="car-name">{{ $carshis->modelyear . ' ' . ($carshis->brand->title ?? 'N/A') . ' ' . ($carshis->model->model ?? 'N/A') }}</div>
-                    <div class="car-series">{{ ($carshis->generation->generation ?? 'N/A') . ' ' . ($carshis->subModel->sub_models ?? 'N/A') }}</div>
+                    <div class="car-series">{{ ($carshis->generation->generations ?? 'N/A') . ' ' . ($carshis->subModel->sub_models ?? 'N/A') }}</div>
                     <div class="car-province">{{$carshis->province}}</div>
                     <div class="car-price">{{ number_format($newPrice, 0, '.', ',') }}.-</div>
                     @if($oldPrice > 0)

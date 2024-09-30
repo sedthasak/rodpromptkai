@@ -408,10 +408,10 @@ $arr_gear = array(
                                 <div>
                                     @csrf
                                     <input type="hidden" name="customer_id" value="{{ session('customer')->id ?? '' }}">
-                                    <input type="text" class="form-control" placeholder="ชื่อ - นามสกุล">
-                                    <input type="text" class="form-control" placeholder="เบอร์โทรติดต่อ">
-                                    <input type="text" class="form-control" placeholder="Line ID">
-                                    <input type="text" class="form-control" placeholder="รุ่นรถที่ต้องการ">
+                                    <input type="text" class="form-control" name="name" placeholder="ชื่อ - นามสกุล">
+                                    <input type="text" class="form-control" name="tel" placeholder="เบอร์โทรติดต่อ">
+                                    <input type="text" class="form-control" name="line" placeholder="Line ID">
+                                    <input type="text" class="form-control" name="messages" placeholder="รุ่นรถที่ต้องการ">
                                 </div>
                                 <button type="submit">คลิกเลย <i class="bi bi-chat-text-fill"></i></button>
                             </form>
