@@ -110,7 +110,7 @@ $arrtype = array(
                             <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{$arrrole[$res->customer->sp_role]}}</div>
                         </td>
                         <td>
-                            <a href="" class="font-medium whitespace-nowrap">{{$res->yearregis??$res->modelyear." ".$res->brand->title." ".$res->model->model}}</a>
+                            <a href="" class="font-medium whitespace-nowrap">{{ $res->yearregis??$res->modelyear }} {{ $res->brand->title}} {{ $res->model->model }}</a>
                             <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{$res->generation->generations." ".$res->subModel->sub_models}}</div>
                         </td>
                         <td class="text-center">{{number_format($res->price, 2, '.', ',')}} ฿</td>

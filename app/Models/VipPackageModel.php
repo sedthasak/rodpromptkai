@@ -24,5 +24,11 @@ class VipPackageModel extends Model
         'text4',
         'text5',
         'text6',
+        'text7',
+        'text8',
+        'text9',
+        'text10',
+        'text11',
+        'text12',
     ];
 }

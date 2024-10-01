@@ -369,7 +369,7 @@ $arr_gear = array(
                                         <img src="{{ ($post6post->feature)?asset('storage/' . $post6post->feature):asset('public/uploads/default-car.jpg') }}" alt="">
                                     </div>
                                     <figcaption>
-                                        <div class="car-name">{{ $post6post->yearregis??$post6post->modelyear." ".$post6post->brand->title." ".$post6post->model->model }}</div>
+                                        <div class="car-name">{{ $post6post->yearregis??$post6post->modelyear }} {{ $post6post->brand->title}} {{ $post6post->model->model }}</div>
                                         <div class="car-series">{{ $post6post->generation->generations." ".$post6post->subModel->sub_models }}</div>
                                         <div class="car-province">{{ $post6post->province ?? "-" }}</div>
                                         <div class="row">

@@ -1,11 +1,12 @@
 @extends('../frontend/layouts/layout')
 
 @section('subhead')
-    <title>รถพร้อมขาย - profile</title>
+    <title>รถพร้อมขาย - สิทธิพิเศษตามระดับ</title>
 @endsection
 
 @section('content')
 
+{{-- Section ด้านบนใช้โค้ดที่คุณให้มา --}}
 <section class="row">
     <div class="col-12 wrap-seetier wrap-seetier-card">
         <div class="menu-seetiers">
@@ -31,6 +32,7 @@
                         <div class="seetiers-topic-gold">ตามระดับสมาชิกของคุณ</div>
                         <div class="box-detail-tiers box-detail-tiers-card">
                             <div class="row row-cardmember">
+                                {{-- แสดงระดับสมาชิกทั้งหมด --}}
                                 @foreach ($levels as $index => $level)
                                     @php
                                         $activeClass = $customer_level['slug'] == $level->slug ? 'member-active' : ($index < array_search($customer_level['slug'], array_column($levels->toArray(), 'slug')) ? 'member-past' : '');
@@ -52,14 +54,17 @@
     </div>
 </section>
 
+{{-- Section ด้านล่างที่จะแสดงตารางสิทธิพิเศษตามระดับ --}}
 <section class="row bg-blue">
     <div class="col-12">
         <div class="list-special-member">
             <div class="row">
                 <div class="col-12">
+                    {{-- ตารางการแสดงระดับสมาชิก --}}
                     <div class="member-boxpad">
                         <div class="row">
-                            <div class="col-4"><h3>ระดับสมาชิก</h3></div>
+                            {{-- แสดงคอลัมน์หัวข้อสิทธิพิเศษ --}}
+                            <div class="col-4"><h3>สิทธิพิเศษ</h3></div>
                             @foreach ($levels as $level)
                                 <div class="col-2 card-colpad text-center">
                                     <div class="tab-member tab-member-lv{{ $level->id }}">{{ $level->name }}</div>
@@ -67,59 +72,38 @@
                             @endforeach
                         </div>
                     </div>
+
                     <div class="member-boxpad bgwhite-member">
-                        <div class="row">
-                            <div class="col-4"><h4>ยอดสั่งซื้อ</h4></div>
-                            @foreach ($levels as $index => $level)
-                                <div class="col-2 card-colpad text-center">
-                                    <div class="txt-point point-lv{{ $level->id }}">
-                                        @if ($index == 0)
-                                            0 - {{ $levels[$index + 1]->accumulate - 1 }}
-                                        @elseif ($index == count($levels) - 1)
-                                            {{ $level->accumulate }}+
-                                        @else
-                                            {{ $level->accumulate }} - {{ $levels[$index + 1]->accumulate - 1 }}
-                                        @endif
-                                    </div>
+                        {{-- แสดงสิทธิพิเศษตามหัวข้อที่จัดเรียงไว้ --}}
+                        @foreach ($allTexts as $text)
+                            <div class="special-list">
+                                <div class="row">
+                                    {{-- คอลัมน์ชื่อสิทธิพิเศษ --}}
+                                    <div class="col-4"><h5>{{ $text }}</h5></div>
+                                    {{-- วนลูปแสดงระดับสมาชิก --}}
+                                    @foreach ($levels as $level)
+                                        <div class="col-2 card-colpad text-center">
+                                            <div class="txt-point point-lv{{ $level->id }}">
+                                                @php
+                                                    // ตรวจสอบว่า Level นี้มีสิทธิพิเศษนั้นหรือไม่
+                                                    $hasPrivilege = false;
+                                                    for ($i = 1; $i <= 12; $i++) {
+                                                        if ($level->{'text' . $i} === $text) {
+                                                            $hasPrivilege = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                @endphp
+                                                {{-- แสดงผลเครื่องหมายเช็คหรือไม่เช็คตามเงื่อนไข --}}
+                                                @if ($hasPrivilege)
+                                                    <img src="{{ asset('frontend/images2/icon-checklist.svg') }}" class="svg" alt="">
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
-                            @endforeach
-
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="bg-topic-special"><span>สิทธิพิเศษ</span></div> 
                             </div>
-                        </div>
-                        <div class="special-list">
-                            <div class="row">
-                                <div class="col-4"><h5>โค้ดส่วนลด</h5></div>
-                                @foreach ($levels as $level)
-                                    <div class="col-2 card-colpad text-center">
-                                        <div class="txt-point point-lv{{ $level->id }}">
-                                            @if ($level->coupon)
-                                                <img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt="">
-                                            @else
-                                                <img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg not-special" alt="">
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="special-list">
-                            <div class="row">
-                                <div class="col-4"><h5>Movie & Popcorn</h5></div>
-                                @foreach ($levels as $level)
-                                    <div class="col-2 card-colpad text-center">
-                                        <div class="txt-point point-lv{{ $level->id }} {{ $level->id < 2 ? 'not-special' : '' }}">
-                                            <img src="{{asset('frontend/images2/icon-checklist.svg')}}" class="svg" alt="">
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -131,6 +115,6 @@
 
 @section('script')
 <script>
-
+    // JavaScript (ถ้ามีการใช้งานเพิ่มเติม)
 </script>
 @endsection

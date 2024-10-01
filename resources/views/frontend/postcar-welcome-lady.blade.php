@@ -5,7 +5,18 @@
 @endsection
 
 @section('content')
+<?php
 
+$normalPosts = $customer_post['normal'];
+$customer_quota = $customer_role['customer_quota'];
+
+// ตรวจสอบว่า normalPosts มากกว่าหรือเท่ากับ customer_quota หรือไม่
+if ($normalPosts >= $customer_quota) {
+    // Redirect ไปที่เส้นทาง packagePage
+    echo "<script>window.location = '" . route('packagePage') . "';</script>";
+    exit;
+}
+?>
 
 <section class="row">
     <div class="col-12 wrap-postcar">

@@ -62,6 +62,7 @@ class LevelMemberController extends Controller
     }
     public function BN_levels_edit_action(Request $request)
     {
+        // Validate input data
         $request->validate([
             'id' => 'required|exists:levels,id',
             'name' => 'required|string|max:255',
@@ -71,26 +72,45 @@ class LevelMemberController extends Controller
                 'min:' . $this->getMinAccumulate($request->id), // Validate against lower level accumulate
                 'max:' . $this->getMaxAccumulate($request->id), // Validate against upper level accumulate
             ],
-            // Add validation rules for other fields as needed
+            // Add validation for the new text fields
+            'text1' => 'nullable|string|max:255',
+            'text2' => 'nullable|string|max:255',
+            'text3' => 'nullable|string|max:255',
+            'text4' => 'nullable|string|max:255',
+            'text5' => 'nullable|string|max:255',
+            'text6' => 'nullable|string|max:255',
+            'text7' => 'nullable|string|max:255',
+            'text8' => 'nullable|string|max:255',
+            'text9' => 'nullable|string|max:255',
+            'text10' => 'nullable|string|max:255',
+            'text11' => 'nullable|string|max:255',
+            'text12' => 'nullable|string|max:255',
         ]);
-
+    
         try {
             // Find the level by ID
             $level = LevelModel::findOrFail($request->id);
-
+    
             // Update the level with the validated data
             $level->name = $request->name;
             $level->accumulate = $request->accumulate;
-
+    
+            // Update text fields dynamically
+            for ($i = 1; $i <= 12; $i++) {
+                $field = 'text' . $i;
+                $level->$field = $request->$field;
+            }
+    
             // Save the updated level
             $level->save();
-
+    
             return redirect()->route('BN_levels')->with('success', 'แก้ไขระดับยูสเซอร์สำเร็จ !!!');
         } catch (\Exception $e) {
             Log::error('Error updating level: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'การแก้ไขระดับยูสเซอร์ล้มเหลว !!!');
         }
     }
+    
 
     /**
      * Get the minimum accumulate value based on the level ID.

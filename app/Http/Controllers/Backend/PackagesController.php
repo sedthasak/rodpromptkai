@@ -68,6 +68,12 @@ class PackagesController extends Controller
                 'text4' => 'nullable|string',
                 'text5' => 'nullable|string',
                 'text6' => 'nullable|string',
+                'text7' => 'nullable|string',
+                'text8' => 'nullable|string',
+                'text9' => 'nullable|string',
+                'text10' => 'nullable|string',
+                'text11' => 'nullable|string',
+                'text12' => 'nullable|string',
             ]);
     
             // Find the package and update its attributes
@@ -84,6 +90,12 @@ class PackagesController extends Controller
             $package->text4 = $request->input('text4');
             $package->text5 = $request->input('text5');
             $package->text6 = $request->input('text6');
+            $package->text7 = $request->input('text7');
+            $package->text8 = $request->input('text8');
+            $package->text9 = $request->input('text9');
+            $package->text10 = $request->input('text10');
+            $package->text11 = $request->input('text11');
+            $package->text12 = $request->input('text12');
     
             // Save the updated package
             $package->save();
@@ -104,6 +116,12 @@ class PackagesController extends Controller
                 'text4' => 'nullable|string',
                 'text5' => 'nullable|string',
                 'text6' => 'nullable|string',
+                'text7' => 'nullable|string',
+                'text8' => 'nullable|string',
+                'text9' => 'nullable|string',
+                'text10' => 'nullable|string',
+                'text11' => 'nullable|string',
+                'text12' => 'nullable|string',
             ]);
     
             // Find the package and update its attributes
@@ -120,6 +138,12 @@ class PackagesController extends Controller
             $package->text4 = $request->input('text4');
             $package->text5 = $request->input('text5');
             $package->text6 = $request->input('text6');
+            $package->text7 = $request->input('text7');
+            $package->text8 = $request->input('text8');
+            $package->text9 = $request->input('text9');
+            $package->text10 = $request->input('text10');
+            $package->text11 = $request->input('text11');
+            $package->text12 = $request->input('text12');
     
             // Save the updated package
             $package->save();

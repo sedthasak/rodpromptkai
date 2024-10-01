@@ -72,6 +72,31 @@
                     <label for="text6" class="form-label">ข้อความเพิ่มเติม 6</label>
                     <input id="text6" type="text" name="text6" class="form-control" value="{{ $package->text6 }}" placeholder="ข้อความเพิ่มเติม 6">
                 </div>
+
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text7" class="form-label">ข้อความเพิ่มเติม 7</label>
+                    <input id="text7" type="text" name="text7" class="form-control" value="{{ $package->text7 }}" placeholder="ข้อความเพิ่มเติม 7">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text8" class="form-label">ข้อความเพิ่มเติม 8</label>
+                    <input id="text8" type="text" name="text8" class="form-control" value="{{ $package->text8 }}" placeholder="ข้อความเพิ่มเติม 8">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text9" class="form-label">ข้อความเพิ่มเติม 9</label>
+                    <input id="text9" type="text" name="text9" class="form-control" value="{{ $package->text9 }}" placeholder="ข้อความเพิ่มเติม 9">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text10" class="form-label">ข้อความเพิ่มเติม 10</label>
+                    <input id="text10" type="text" name="text10" class="form-control" value="{{ $package->text10 }}" placeholder="ข้อความเพิ่มเติม 10">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text11" class="form-label">ข้อความเพิ่มเติม 11</label>
+                    <input id="text11" type="text" name="text11" class="form-control" value="{{ $package->text11 }}" placeholder="ข้อความเพิ่มเติม 11">
+                </div>
+                <div class="col-span-12 sm:col-span-6">
+                    <label for="text12" class="form-label">ข้อความเพิ่มเติม 12</label>
+                    <input id="text12" type="text" name="text12" class="form-control" value="{{ $package->text12 }}" placeholder="ข้อความเพิ่มเติม 12">
+                </div>
             </div>
 
             <div class="text-right mt-5">

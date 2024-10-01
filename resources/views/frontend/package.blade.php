@@ -53,7 +53,7 @@
                             <button type="submit" class="btn-default btn-red" 
                                     @if(($customer_role['role'] == 'dealer' && $customer_role['dealerpack'] >= $pack1->id) || $customer_role['role'] == 'vip')
                                     disabled 
-                                    style="background-color: #333;olor: #fff;" 
+                                    style="background-color: #333;color: #fff;" 
                                     @endif
                                     >ซื้อเลย</button>
                         </form>
@@ -71,42 +71,20 @@
                                 <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
                             
-                            <!-- New fields text1 to text6 -->
-                            @if($pack1->text1)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text1}}
-                            </div>
-                            @endif
-                            @if($pack1->text2)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text2}}
-                            </div>
-                            @endif
-                            @if($pack1->text3)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text3}}
-                            </div>
-                            @endif
-                            @if($pack1->text4)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text4}}
-                            </div>
-                            @endif
-                            @if($pack1->text5)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text5}}
-                            </div>
-                            @endif
-                            @if($pack1->text6)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->text6}}
-                            </div>
-                            @endif
+                            <!-- New fields text1 to text12 -->
+                            @for ($i = 1; $i <= 12; $i++)
+                                @php $field = 'text' . $i; @endphp
+                                @if($pack1->$field)
+                                <div class="box-package-spec-list">
+                                    <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack1->$field}}
+                                </div>
+                                @endif
+                            @endfor
                         </div>
                     </div>
                 </div>
 
-                <!-- Repeat the same for pack2 and pack3, adding the text1 to text6 fields if available -->
+                <!-- Repeat the same for pack2 and pack3 with the new fields text1 to text12 -->
 
                 <!-- Package 2 -->
                 <div class="col-12 col-md-4 item-box-package package-reccommend">
@@ -135,7 +113,7 @@
                             <button type="submit" class="btn-default btn-red" 
                                     @if(($customer_role['role'] == 'dealer' && $customer_role['dealerpack'] >= $pack2->id) || $customer_role['role'] == 'vip')
                                     disabled
-                                    style="background-color: #333;olor: #fff;" 
+                                    style="background-color: #333;color: #fff;" 
                                     @endif
                                     >ซื้อเลย</button>
                         </form>
@@ -153,37 +131,15 @@
                                 <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
 
-                            <!-- New fields text1 to text6 for pack2 -->
-                            @if($pack2->text1)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text1}}
-                            </div>
-                            @endif
-                            @if($pack2->text2)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text2}}
-                            </div>
-                            @endif
-                            @if($pack2->text3)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text3}}
-                            </div>
-                            @endif
-                            @if($pack2->text4)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text4}}
-                            </div>
-                            @endif
-                            @if($pack2->text5)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text5}}
-                            </div>
-                            @endif
-                            @if($pack2->text6)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->text6}}
-                            </div>
-                            @endif
+                            <!-- New fields text1 to text12 for pack2 -->
+                            @for ($i = 1; $i <= 12; $i++)
+                                @php $field = 'text' . $i; @endphp
+                                @if($pack2->$field)
+                                <div class="box-package-spec-list">
+                                    <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack2->$field}}
+                                </div>
+                                @endif
+                            @endfor
                         </div>
                     </div>
                 </div>
@@ -214,7 +170,7 @@
                             <button type="submit" class="btn-default btn-red" 
                                     @if(($customer_role['role'] == 'dealer' && $customer_role['dealerpack'] >= $pack3->id) || $customer_role['role'] == 'vip')
                                     disabled
-                                    style="background-color: #333;olor: #fff;" 
+                                    style="background-color: #333;color: #fff;" 
                                     @endif
                                     >ซื้อเลย</button>
                         </form>
@@ -232,37 +188,15 @@
                                 <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
                             </div>
 
-                            <!-- New fields text1 to text6 for pack3 -->
-                            @if($pack3->text1)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text1}}
-                            </div>
-                            @endif
-                            @if($pack3->text2)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text2}}
-                            </div>
-                            @endif
-                            @if($pack3->text3)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text3}}
-                            </div>
-                            @endif
-                            @if($pack3->text4)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text4}}
-                            </div>
-                            @endif
-                            @if($pack3->text5)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text5}}
-                            </div>
-                            @endif
-                            @if($pack3->text6)
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->text6}}
-                            </div>
-                            @endif
+                            <!-- New fields text1 to text12 for pack3 -->
+                            @for ($i = 1; $i <= 12; $i++)
+                                @php $field = 'text' . $i; @endphp
+                                @if($pack3->$field)
+                                <div class="box-package-spec-list">
+                                    <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> {{$pack3->$field}}
+                                </div>
+                                @endif
+                            @endfor
                         </div>
                     </div>
                 </div>

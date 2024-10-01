@@ -34,6 +34,14 @@
                     <label for="accumulate" class="form-label">ค่าสะสม</label>
                     <input type="text" id="accumulate" name="accumulate" class="form-control" value="{{ old('accumulate', $level->accumulate) }}" required>
                 </div>
+
+                {{-- Add input fields for text1 through text12 --}}
+                @for ($i = 1; $i <= 12; $i++)
+                    <div class="col-span-12 sm:col-span-6">
+                        <label for="text{{ $i }}" class="form-label">สิทธิพิเศษ {{ $i }}</label>
+                        <input id="text{{ $i }}" type="text" name="text{{ $i }}" class="form-control" value="{{ old('text' . $i, $level->{'text' . $i}) }}" placeholder="สิทธิพิเศษ {{ $i }}">
+                    </div>
+                @endfor
             </div>
 
             <div class="text-right mt-5">

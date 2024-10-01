@@ -633,6 +633,8 @@ class FrontendPageController extends Controller
         ->whereBetween('approvedate', [Carbon::now()->subDays(7)->timestamp, Carbon::now()->timestamp])
         ->count();
 
+        // dd($allcars6);
+
         return view('frontend/index-page', [
             'layout' => 'side-menu',
             'categories' => $categories,
