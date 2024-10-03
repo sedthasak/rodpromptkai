@@ -250,6 +250,10 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
 
 @section('script')
 <script>
+    $( ".box-menuprofile > ul > li:nth-child(1) > a" ).addClass( "here" );
+    $( ".menu-mycar > ul > li:nth-child(1) > a" ).addClass( "here" );
+</script>
+<script>
     var selectedBrandId = null;
     var selectedModelId = null;
 
@@ -387,13 +391,6 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
     });
 </script>
 
-
-
-
-<script>
-    $( ".box-menuprofile > ul > li:nth-child(1) > a" ).addClass( "here" );
-    $( ".menu-mycar > ul > li:nth-child(1) > a" ).addClass( "here" );
-</script>
 <script>
 
     $(document).ready(function(){
