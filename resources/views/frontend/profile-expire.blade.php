@@ -66,15 +66,10 @@
             line-height: 30px; /* Adjusted line height */
         }
     }
-
 </style>
 <?php
 $usestatus = 'expired';
 $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_101922704_WATERMARK.png');
-// $data = session()->all();
-// echo "<pre>";
-// print_r($carcontact);
-// echo "</pre>";
 ?>
 @php
     $usestatus = $usestatus ?? 'approved';
@@ -90,7 +85,6 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
     }
     $brandData = $customerCars['brands'] ?? [];
 @endphp
-
 <section class="row">
     <div class="col-12 page-profile">
         <div class="container">
@@ -104,39 +98,39 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         </div>
                         @include('frontend.layouts.inc_menu-mycar')
 
-                        <div class="note-expire">ต่ออายุประกาศ</div>
+                        <!-- Conditional display of the note -->
+                        @if($results->count() > 0)
+                            <div class="note-expire">ต่ออายุประกาศ</div>
+                        @else
+                            <div class="note-expire">คุณไม่มีประกาศที่หมดอายุ</div>
+                        @endif
 
-                        <!-- Loop through the expired cars from the paginated results -->
-                        @foreach($results as $cars)
-                            @php
-                            $profilecar_img = ($cars->feature) ? asset('storage/' . $cars->feature) : asset('public/uploads/default-car.jpg');
-                            @endphp
+                        <!-- Form to submit selected cars -->
+                        @if($results->count() > 0)
+                            <form id="renew-post-form" method="POST" action="{{ route('carpostrenewactionPage') }}">
+                                @csrf
 
-                            <div class="boxcar-expire">
-                                <div class="login-checkbox">
-                                    <label class="list-checkbox">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="item-mycar">
-                                    <div class="item-mycar-cover">
-                                        <figure>
-                                            <img src="{{ $profilecar_img }}" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="mycar-detail-mb">
-                                        <div class="mycar-name">
-                                            {{ $cars->yearregis ?? $cars->modelyear }} {{ $cars->brand->title ?? 'N/A' }} {{ $cars->model->model ?? 'N/A' }}
+                                <!-- Loop through the expired cars from the paginated results -->
+                                @foreach($results as $cars)
+                                    @php
+                                    $profilecar_img = ($cars->feature) ? asset('storage/' . $cars->feature) : asset('public/uploads/default-car.jpg');
+                                    @endphp
+
+                                    <div class="boxcar-expire">
+                                        <div class="login-checkbox">
+                                            <label class="list-checkbox">
+                                                <!-- Checkbox to select cars -->
+                                                <input type="checkbox" name="selected_cars[]" value="{{ $cars->id }}" class="car-checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
                                         </div>
-                                        <div class="mycar-type">
-                                            {{ $cars->generation->generations ?? 'N/A' }} {{ $cars->subModel->sub_models ?? 'N/A' }}
-                                        </div>
-                                        <div class="mycar-idcar">{{ $cars->vehicle_code }}</div>
-                                    </div>
-                                    <div class="item-mycar-detail">
-                                        <div class="row">
-                                            <div class="col-12 col-md-6">
+                                        <div class="item-mycar">
+                                            <div class="item-mycar-cover">
+                                                <figure>
+                                                    <img src="{{ $profilecar_img }}" alt="">
+                                                </figure>
+                                            </div>
+                                            <div class="mycar-detail-mb">
                                                 <div class="mycar-name">
                                                     {{ $cars->yearregis ?? $cars->modelyear }} {{ $cars->brand->title ?? 'N/A' }} {{ $cars->model->model ?? 'N/A' }}
                                                 </div>
@@ -145,44 +139,59 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                                 </div>
                                                 <div class="mycar-idcar">{{ $cars->vehicle_code }}</div>
                                             </div>
-                                            <div class="col-12 col-md-6 text-end">
-                                                <div class="mycar-post">วันที่ลงขาย :  {{ date('d/m/Y', strtotime($cars->created_at)) }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="mycar-boxline">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="mycar-boxprice">
-                                                        <div class="mycar-price">{{ number_format($cars->price, 0, '.', ',') }}.-</div>
+                                            <div class="item-mycar-detail">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="mycar-name">
+                                                            {{ $cars->yearregis ?? $cars->modelyear }} {{ $cars->brand->title ?? 'N/A' }} {{ $cars->model->model ?? 'N/A' }}
+                                                        </div>
+                                                        <div class="mycar-type">
+                                                            {{ $cars->generation->generations ?? 'N/A' }} {{ $cars->subModel->sub_models ?? 'N/A' }}
+                                                        </div>
+                                                        <div class="mycar-idcar">{{ $cars->vehicle_code }}</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 text-end">
+                                                        <div class="mycar-post">วันที่ลงขาย :  {{ date('d/m/Y', strtotime($cars->created_at)) }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="mycar-boxline">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="mycar-boxprice">
+                                                                <div class="mycar-price">{{ number_format($cars->price, 0, '.', ',') }}.-</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="item-mycar-button">
+                                                <a href="{{ route('carpostbrowseedit', ['id' => $cars->id]) }}" class="btn-mycar btn-mycar-edit">
+                                                    <i class="bi bi-pencil-square"></i> แก้ไข
+                                                </a>
+                                                <button type="button" class="btn-mycar btn-mycar-delete button-delete" data-carsid="{{ $cars->id }}">
+                                                    <i class="bi bi-trash3-fill"></i> ลบ
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="item-mycar-button">
-                                        <a href="{{ route('carpostbrowseedit', ['id' => $cars->id]) }}" class="btn-mycar btn-mycar-edit">
-                                            <i class="bi bi-pencil-square"></i> แก้ไข
-                                        </a>
-                                        <button class="btn-mycar btn-mycar-delete button-delete">
-                                            <i class="bi bi-trash3-fill"></i> ลบ
-                                        </button>
+                                @endforeach
+
+                                <!-- Select all and renew button section -->
+                                <div class="expire-selectall">
+                                    <div class="login-checkbox">
+                                        <label class="list-checkbox">
+                                            <span class="txt-itemcar">เลือกทั้งหมด</span>
+                                            <input type="checkbox" id="select-all-checkbox">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <span class="txt-itemcar">รวม (<span id="selected-count">0</span> รายการ)</span>
+                                        <button type="button" id="renew-selected-button">ต่ออายุ</button>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-
-                        <!-- <div class="expire-selectall">
-                            <div class="login-checkbox">
-                                <label class="list-checkbox"><span class="txt-itemcar">เลือกทั้งหมด (5)</span>
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div>
-                                <span class="txt-itemcar">รวม (0 รายการ)</span>
-                                <button>ต่ออายุ</button>
-                            </div>
-                        </div> -->
+                            </form>
+                        @endif
 
                         <!-- Pagination Links -->
                         <div class="pagination-wrapper">
@@ -205,156 +214,57 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
     $( ".box-menuprofile > ul > li:nth-child(4) > a" ).addClass( "here" );
     $( ".menu-mycar > ul > li:nth-child(4) > a" ).addClass( "here" );
 
-    $(document).ready(function(){
-        $(".btn-confirm-edit-carprice").on("click", function () {
-            $(this).closest("form").submit();
-        });
+    // Script for select all checkbox
+    document.getElementById('select-all-checkbox').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.car-checkbox');
+        const selectAll = this.checked;
+        checkboxes.forEach(checkbox => checkbox.checked = selectAll);
+        updateSelectedCount();
     });
-</script>
-<script>
-    var selectedBrandId = null;
-    var selectedModelId = null;
 
-    function filterBrands() {
-        var input = document.getElementById('search-input').value.toLowerCase();
-        var brandList = document.getElementById('brand-list');
-        var buttons = brandList.getElementsByClassName('list-mycarsearch');
-
-        for (var i = 0; i < buttons.length; i++) {
-            var brandTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
-            if (brandTitle.indexOf(input) > -1) {
-                buttons[i].style.display = '';
-            } else {
-                buttons[i].style.display = 'none';
-            }
-        }
-    }
-
-    function filterModels() {
-        var input = document.getElementById('model-search-input').value.toLowerCase();
-        var modelList = document.getElementById('model-list');
-        var buttons = modelList.getElementsByClassName('list-mycarsearch');
-
-        for (var i = 0; i < buttons.length; i++) {
-            var modelTitle = buttons[i].getElementsByTagName('div')[0].innerText.toLowerCase();
-            if (modelTitle.indexOf(input) > -1) {
-                buttons[i].style.display = '';
-            } else {
-                buttons[i].style.display = 'none';
-            }
-        }
-    }
-
-    document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
-        button.addEventListener('click', function() {
-            selectedBrandId = this.getAttribute('data-brand-id');
-            var modelList = document.getElementById('model-list');
-            modelList.innerHTML = '';
-
-            document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(btn) {
-                btn.classList.remove('active');
-            });
-            this.classList.add('active');
-
-            var brandData = @json($brandData);
-            if (brandData[selectedBrandId]) {
-                var models = brandData[selectedBrandId].models;
-                for (var modelId in models) {
-                    if (models.hasOwnProperty(modelId)) {
-                        var model = models[modelId];
-                        var modelButton = document.createElement('button');
-                        modelButton.className = 'list-mycarsearch';
-                        modelButton.setAttribute('data-model-id', modelId);
-                        modelButton.innerHTML = '<div>' + model.modelname + '</div><div class="num-mycarsearch">(' + model.car_count_model + ')</div>';
-                        modelButton.addEventListener('click', function() {
-                            selectedModelId = this.getAttribute('data-model-id');
-                            document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(btn) {
-                                btn.classList.remove('active');
-                            });
-                            this.classList.add('active');
-                            window.location.href = `{{ route('profileexpirePage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
-                        });
-                        modelList.appendChild(modelButton);
-                    }
-                }
-            }
+    // Script to update the selected count display
+    document.querySelectorAll('.car-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateSelectedCount();
         });
     });
 
-    document.getElementById('search-button').addEventListener('click', function() {
-        var keyword = document.getElementById('car-id-input').value;
-        var url = new URL(window.location.href);
+    function updateSelectedCount() {
+        const selectedCount = document.querySelectorAll('.car-checkbox:checked').length;
+        document.getElementById('selected-count').textContent = selectedCount;
+    }
 
-        url.searchParams.delete('brand_id');
-        url.searchParams.delete('model_id');
-        url.searchParams.set('keyword', keyword);
-
-        window.location.href = url.toString();
-    });
-
-    document.getElementById('reset-button').addEventListener('click', function() {
-        var url = new URL(window.location.href);
-        url.search = '';
-        window.location.href = url.toString();
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        var urlParams = new URLSearchParams(window.location.search);
-        var brandId = urlParams.get('brand_id');
-        var modelId = urlParams.get('model_id');
-
-        if (brandId) {
-            document.querySelectorAll('#brand-list .list-mycarsearch').forEach(function(button) {
-                if (button.getAttribute('data-brand-id') === brandId) {
-                    button.classList.add('active');
-                    selectedBrandId = brandId;
-
-                    var brandData = @json($brandData);
-                    if (brandData[selectedBrandId]) {
-                        var models = brandData[selectedBrandId].models;
-                        var modelList = document.getElementById('model-list');
-                        modelList.innerHTML = '';
-
-                        for (var modelId in models) {
-                            if (models.hasOwnProperty(modelId)) {
-                                var model = models[modelId];
-                                var modelButton = document.createElement('button');
-                                modelButton.className = 'list-mycarsearch';
-                                modelButton.setAttribute('data-model-id', modelId);
-                                modelButton.innerHTML = '<div>' + model.modelname + '</div><div class="num-mycarsearch">(' + model.car_count_model + ')</div>';
-                                modelButton.addEventListener('click', function() {
-                                    selectedModelId = this.getAttribute('data-model-id');
-                                    document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(btn) {
-                                        btn.classList.remove('active');
-                                    });
-                                    this.classList.add('active');
-                                    window.location.href = `{{ route('profileexpirePage') }}?brand_id=${selectedBrandId}&model_id=${selectedModelId}`;
-                                });
-                                modelList.appendChild(modelButton);
-                            }
-                        }
-
-                        if (modelId) {
-                            document.querySelectorAll('#model-list .list-mycarsearch').forEach(function(button) {
-                                if (button.getAttribute('data-model-id') === modelId) {
-                                    button.classList.add('active');
-                                    selectedModelId = modelId;
-                                }
-                            });
-                        }
-                    }
+    document.getElementById('renew-selected-button').addEventListener('click', function() {
+        const selectedCount = document.querySelectorAll('.car-checkbox:checked').length;
+        if (selectedCount > 0) {
+            Swal.fire({
+                title: 'ยืนยันการต่ออายุ?',
+                text: `คุณต้องการต่ออายุประกาศสำหรับ ${selectedCount} รายการหรือไม่?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('renew-post-form').submit();
                 }
+            });
+        } else {
+            Swal.fire({
+                title: 'ไม่สามารถดำเนินการได้',
+                text: 'กรุณาเลือกประกาศที่ต้องการต่ออายุ',
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
             });
         }
     });
-</script>
-<script>
+
+    // Handle delete button click event
     document.querySelectorAll('.btn-mycar-delete').forEach(button => {
         button.addEventListener('click', function () {
-            var postId = this.getAttribute('data-carsid');
-
-            $('#wait').show();
-
+            const postId = this.getAttribute('data-carsid');
             Swal.fire({
                 title: 'ต้องการจะลบหรือไม่ ?',
                 text: 'หากลบแล้ว ข้อมูลจะหายไปทั้งหมด',
@@ -365,37 +275,21 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                 confirmButtonText: 'ตกลง',
                 cancelButtonText: 'ยกเลิก'
             }).then((result) => {
-
-                $('#wait').hide();
-
                 if (result.isConfirmed) {
                     $('#wait').show();
-                    axios.post('{{ route("carpostdeleteactionPage") }}', {
-                        id: postId
-                    })
+                    axios.post('{{ route("carpostdeleteactionPage") }}', { id: postId })
                     .then((response) => {
                         $('#wait').hide();
-                        Swal.fire({
-                            title: 'สำเร็จ !',
-                            text: response.data.message,
-                            icon: 'success'
-                        }).then(() => {
-                            location.reload();
-                        });
+                        Swal.fire('สำเร็จ!', response.data.message, 'success')
+                        .then(() => location.reload());
                     })
                     .catch((error) => {
                         $('#wait').hide();
-                        Swal.fire(
-                            'ล้มเหลว!',
-                            'ไม่สามารถทำตามที่ร้องขอได้ !!!',
-                            'error'
-                        );
+                        Swal.fire('ล้มเหลว!', 'ไม่สามารถทำตามที่ร้องขอได้ !!!', 'error');
                     });
                 }
             });
         });
     });
-
-
 </script>
 @endsection

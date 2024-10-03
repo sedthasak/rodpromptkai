@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
 use Image;
+use Carbon\Carbon;
 use App\Models\TestCreate;
 use App\Models\TestCreateUpload;
 use App\Jobs\ProcessFileUpload;
@@ -98,6 +99,16 @@ class PostController extends Controller
         }
 
         $cars->update();
+
+
+
+        $chknotice = noticeModel::where('cars_id', $cars->id)->first();
+        if ($chknotice) {
+            $chknotice->status = 'read';
+            $chknotice->save();
+        }
+ 
+
 
         $cars2 = carsModel::find($cars->id);
         $strtotime = strtotime($cars2->created_at);
@@ -890,6 +901,80 @@ class PostController extends Controller
 
     
 
+
+    
+    public function carpostrenewactionPage(Request $request)
+    {
+        $request->validate([
+            'selected_cars' => 'required|array',
+            'selected_cars.*' => 'exists:cars,id',
+        ]);
+
+        
+    
+        $customerdata = session('customer');
+        $customer_id = $customerdata->id;
+    
+        $customer = Customer::find($customer_id);
+    
+        $selectedCarIds = $request->input('selected_cars');
+    
+        $now = Carbon::now();
+    
+        $status = 'approved';
+        $approvedate = $now->timestamp;
+        $expiredate = $now->addMonths(4)->timestamp;
+    
+        $postHomeIds = carsModel::whereIn('id', $selectedCarIds)
+                                ->where('customer_id', $customer_id)
+                                ->whereIn('type', ['home', 'lady'])
+                                ->pluck('id')
+                                ->toArray();
+    
+        $postDealerIds = carsModel::whereIn('id', $selectedCarIds)
+                                  ->where('customer_id', $customer_id)
+                                  ->where('type', 'dealer')
+                                  ->pluck('id')
+                                  ->toArray();
+    
+        $normalQuota = $customer->customer_quota;
+        $dealerQuota = 0;
+        if ($customer->role == 'dealer') {
+            $dealerQuota = $customer->dealerpack_quota;
+        } elseif ($customer->role == 'vip') {
+            $dealerQuota = $customer->vippack_quota;
+        }
+    
+        $approvedDealerPostsCount = carsModel::where('customer_id', $customer_id)
+                                             ->where('type', 'dealer')
+                                             ->where('status', 'approved')
+                                             ->count();
+    
+        $newDealerPostsCount = $approvedDealerPostsCount + count($postDealerIds);
+    
+        // dd($normalQuota, $dealerQuota, $postHomeIds, $postDealerIds, $approvedDealerPostsCount, $newDealerPostsCount);
+        if ($newDealerPostsCount > $dealerQuota) {
+            return redirect()->back()->with('error', 'ไม่สามารถต่ออายุได้ กรุณาอัพเกรดแพ็คเกจเพื่อต่ออายุ !');
+        }
+    
+        carsModel::whereIn('id', $postHomeIds)->update([
+            'status' => $status,
+            'approvedate' => $approvedate,
+            'expiredate' => $expiredate,
+            'created_at' => $now,
+            'updated_at' => $now,
+        ]);
+    
+        carsModel::whereIn('id', $postDealerIds)->update([
+            'status' => $status,
+            'approvedate' => $approvedate,
+            'expiredate' => $expiredate,
+            'created_at' => $now,
+            'updated_at' => $now,
+        ]);
+    
+        return redirect()->back()->with('success', 'ต่ออายุสำเร็จ !');
+    }
     
 
     public function updateClickCount(Request $request, CarsModel $car)

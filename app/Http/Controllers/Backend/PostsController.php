@@ -509,12 +509,12 @@ class PostsController extends Controller
             if($carcar){
 
                 $notice = new noticeModel;
-                $notice->customer_id = $carcar->customer_id;
+                $notice->type = 'car';
                 $notice->status = 'create';
+                $notice->cars_id = $request->post_id;
+                $notice->customer_id = $carcar->customer_id;
                 $notice->title = 'กรุณาแก้ไขรายละเอียดรถยนต์';
                 $notice->detail = $request->reason;
-                $notice->resource = 'cars';
-                $notice->resource_id = $request->post_id;
                 $notice->save();
             }   
         }

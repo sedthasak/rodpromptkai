@@ -28,7 +28,7 @@
                     @php 
                     $url = '#';
                     if($notice_show->type=='contact'){$url = route('customercontactPage');}
-                    elseif($notice_show->resource=='cars'){$url = route('profileeditcarinfoPage');}
+                    elseif($notice_show->type=='car'){$url = route('profileeditcarinfoPage');}
                     @endphp 
                     <a href="{{$url}}" class="item-noti">
                         <div class="row">

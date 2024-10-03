@@ -156,7 +156,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                     <a href="{{ route('carpostbrowseedit', ['id' => $cars->id]) }}" class="btn-mycar btn-mycar-edit">
                                         <i class="bi bi-pencil-square"></i> แก้ไข
                                     </a>
-                                    <button class="btn-mycar btn-mycar-delete button-delete">
+                                    <button type="button" class="btn-mycar btn-mycar-delete button-delete" data-carsid="{{ $cars->id }}">
                                         <i class="bi bi-trash3-fill"></i> ลบ
                                     </button>
                                 </div>
