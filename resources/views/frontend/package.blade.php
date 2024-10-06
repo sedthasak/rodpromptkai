@@ -58,18 +58,6 @@
                                     >ซื้อเลย</button>
                         </form>
                         <div class="box-package-spec">
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> ลงขายได้สูงสุด {{$pack1->limit}} คัน
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
-                            </div>
                             
                             <!-- New fields text1 to text12 -->
                             @for ($i = 1; $i <= 12; $i++)
@@ -118,18 +106,6 @@
                                     >ซื้อเลย</button>
                         </form>
                         <div class="box-package-spec">
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> ลงขายได้สูงสุด {{$pack2->limit}} คัน
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" class="svg" alt=""></div> อายุที่โพสต์สูงสุด 4 เดือน
-                            </div>
 
                             <!-- New fields text1 to text12 for pack2 -->
                             @for ($i = 1; $i <= 12; $i++)
@@ -175,18 +151,7 @@
                                     >ซื้อเลย</button>
                         </form>
                         <div class="box-package-spec">
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> ลงขายได้สูงสุด {{$pack3->limit}} คัน
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> เมื่อลงขายแล้ว คันโควต้าสามารถลงใหม่ได้
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> มีระยะเวลาใช้งาน 4 เดือนเต็ม (สัญญา)
-                            </div>
-                            <div class="box-package-spec-list">
-                                <div><img src="{{asset('frontend/images2/Icons-check.svg')}}" alt="" class="svg"></div> อายุที่โพสต์สูงสุด 4 เดือน
-                            </div>
+
 
                             <!-- New fields text1 to text12 for pack3 -->
                             @for ($i = 1; $i <= 12; $i++)

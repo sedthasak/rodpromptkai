@@ -104,7 +104,7 @@ $arr_gear = array(
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="desc-cardetail">
-                        <h1>{{$car->yearregis??$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</h1>
+                        <h1>{{$cars->yearregis??$cars->modelyear}} {{$cars->brands_title}} {{$cars->model_name}}</h1>
                         <div class="car-spectype">
                             <div class="car-type01">{{$cars->model_name." ".$cars->sub_models_name}}</div>
                             <span>|</span>

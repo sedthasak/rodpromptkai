@@ -28,7 +28,7 @@
 
                         <!-- Border Color -->
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="border" class="form-label">Border Color</label>
+                            <label for="border" class="form-label">Frame Color</label>
                             <input type="color" id="border" name="border" class="form-control w-full" value="{{ old('border', $query->border) }}" />
                             @error('border')
                                 <div class="text-danger">{{ $message }}</div>
@@ -46,28 +46,28 @@
 
                         <!-- Font Colors -->
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="font1" class="form-label">Font Color 1</label>
+                            <label for="font1" class="form-label">Font Color code (line 1&4)</label>
                             <input type="color" id="font1" name="font1" class="form-control w-full" value="{{ old('font1', $query->font1) }}" />
                             @error('font1')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="font2" class="form-label">Font Color 2</label>
+                            <label for="font2" class="form-label">Font Color code (line 2&3)</label>
                             <input type="color" id="font2" name="font2" class="form-control w-full" value="{{ old('font2', $query->font2) }}" />
                             @error('font2')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="font3" class="form-label">Font Color 3</label>
+                            <label for="font3" class="form-label">Font Color code (Gear)</label>
                             <input type="color" id="font3" name="font3" class="form-control w-full" value="{{ old('font3', $query->font3) }}" />
                             @error('font3')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="font4" class="form-label">Font Color 4</label>
+                            <label for="font4" class="form-label">Font Color code (Price)</label>
                             <input type="color" id="font4" name="font4" class="form-control w-full" value="{{ old('font4', $query->font4) }}" />
                             @error('font4')
                                 <div class="text-danger">{{ $message }}</div>
