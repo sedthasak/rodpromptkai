@@ -78,5 +78,9 @@
                 @endif
             </li>
 
+            <li>
+                <a href="#">ประวัติการทำธุรกรรม  <span><img src="{{asset('frontend/images/icon-chev-grey.svg')}}" alt=""></span></a>
+            </li>
+
         </ul>
     </div>

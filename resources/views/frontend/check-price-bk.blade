@@ -18,21 +18,30 @@
                             @php
                                 $generation = "";
                                 $count = 0;
-                                $total = count($yearprice);
+                                $total = 0;
+                                $topprice = 0;
                             @endphp
 
                             @if (isset($yearprice))
-                                @foreach ($yearprice as $index => $rows)
-                                    <!-- Check if the generation has changed or if this is the first item -->
-                                    @if ($generation != $rows->generation_name)
-                                        <!-- Close the previous wrap-average div if not the first item -->
-                                        @if ($count > 0)
-                                            </div> <!-- .average-bar -->
-                                            </div> <!-- .box-average -->
-                                            </div> <!-- .wrap-average -->
-                                        @endif
+                                @php
+                                    $total = count($yearprice);
+                                    foreach ($yearprice as $rows) {
+                                        if ($rows->max_price > $topprice) {
+                                            $topprice = $rows->max_price;
+                                        }
+                                    }
+                                @endphp
 
-                                        <!-- Start a new wrap-average div for the new generation -->
+                                @foreach ($yearprice as $index => $rows)
+                                    <!-- When generation changes, close the previous wrap-average if not the first one -->
+                                    @if ($generation != $rows->generation_name && $count > 0)
+                                        </div> <!-- .average-bar -->
+                                        </div> <!-- .box-average -->
+                                        </div> <!-- .wrap-average -->
+                                    @endif
+
+                                    <!-- If generation is different, open a new wrap-average and box-average container -->
+                                    @if ($generation != $rows->generation_name)
                                         <div class="wrap-average">
                                             <div class="box-average">
                                                 <div class="row">
@@ -43,10 +52,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="average-bar">
                                                 @php
                                                     $generation = $rows->generation_name;
+                                                    $count = 0;
                                                 @endphp
+                                                <div class="average-bar">
                                     @endif
 
                                     <!-- Render items in average bar -->
@@ -55,15 +65,15 @@
                                             Avg <div>{{ number_format(round($rows->avg_price / 1000000, 2), 2) . 'M' }}</div>
                                         </a>
                                         <a href="{{ route('carsearchPage', ['kw1' => $brandrow->title, 'kw2' => $modelrow->model, 'cashtype' => 'cash', 'min_price' => $rows->max_price, 'max_price' => $rows->max_price]) }}" class="avgprice">{{ number_format(round($rows->max_price / 1000000, 2), 2) . 'M' }}</a>
-                                        <div class="animated-progress"> <span data-progress="{{ ceil((100 / $rows->max_price) * $rows->avg_price) }}" style="height: {{ ceil((100 / $rows->max_price) * $rows->avg_price) }}%;"></span></div>
+                                        <div class="animated-progress"> <span data-progress="{{ ceil((100 / $topprice) * $rows->avg_price) }}"></span></div>
                                         <a href="{{ route('carsearchPage', ['kw1' => $brandrow->title, 'kw2' => $modelrow->model, 'cashtype' => 'cash', 'min_price' => $rows->min_price, 'max_price' => $rows->min_price]) }}" class="avgprice">{{ number_format(round($rows->min_price / 1000000, 2), 2) . 'M' }}</a>
                                         <div class="txt-seeyear">{{ $rows->modelyear }}</div>
                                     </div>
 
                                     @php $count++; @endphp
 
-                                    <!-- If this is the last item, close the open divs -->
-                                    @if (($index + 1) == $total)
+                                    <!-- Close wrap-average if this is the last item or if generation changes in the next item -->
+                                    @if (($index + 1) == $total || ($generation != $yearprice[$index + 1]->generation_name))
                                         </div> <!-- .average-bar -->
                                         </div> <!-- .box-average -->
                                         </div> <!-- .wrap-average -->

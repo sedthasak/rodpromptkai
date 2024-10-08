@@ -114,6 +114,9 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         $resve_state = ($car->reserve==1)?'active':'';
                         @endphp
                         <div class="item-mycar">
+                            @if ($car->myDeal)
+                            <div class="boxdeal-nametype">{{$car->myDeal->deal->name??''}}</div>
+                            @endif
                             <div class="item-mycar-cover">
                                 <a href="{{route('cardetailPage', ['slug' => $car->slug])}}" target="_blank"><figure><img src="{{$profilecar_img}}" alt=""></figure></a>
                             </div>

@@ -32,7 +32,7 @@
 
                         @foreach($mycars as $keycarsModel => $cars)
                         @php
-                        $profilecar_img = ($cars->feature)?asset($cars->feature):asset('public/uploads/default-car.jpg');
+                        $profilecar_img = ($cars->feature)?asset('storage/' . $cars->feature):asset('public/uploads/default-car.jpg');
                         $resve_state = ($cars->reserve==1)?'active':'';
                         @endphp
 

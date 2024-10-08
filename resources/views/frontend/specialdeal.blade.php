@@ -90,8 +90,8 @@ $arr_tag = array(
                                             @endphp
                                             <div class="{{$arr_tag[$deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
                                         @endif
-
                                         
+                                        <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div>
                                         <figure>
                                             <div class="cover-car">
                                                 <div class="box-timeout">

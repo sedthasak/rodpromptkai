@@ -350,6 +350,11 @@ Route::middleware('auth')->group(function() {
 
         Route::prefix('backend')->group(function () {
 
+            Route::prefix('orders')->group(function () {
+                Route::get('', [OrdersController::class, 'BN_orders'])->name('BN_orders');
+                Route::get('/{id}', [OrdersController::class, 'BN_order_detail'])->name('BN_order_detail'); // Add this line
+            });
+
             Route::prefix('deals')->group(function () {
                 Route::get('', [DealsController::class, 'BN_deals'])->name('BN_deals');
                 Route::get('/add', [DealsController::class, 'BN_deals_add'])->name('BN_deals_add');
@@ -387,10 +392,7 @@ Route::middleware('auth')->group(function() {
             });
             
             
-            Route::prefix('orders')->group(function () {
-
-                Route::get('', [BackendPageController::class, 'BN_orders'])->name('BN_orders');
-            });
+            
             
             Route::prefix('customers')->group(function () {
 
@@ -401,6 +403,8 @@ Route::middleware('auth')->group(function() {
                 Route::get('/edit/{id}', [CustomersController::class, 'BN_customers_edit'])->name('BN_customers_edit');
                 Route::post('/edit-action', [CustomersController::class, 'BN_customers_edit_action'])->name('BN_customers_edit_action');
                 Route::get('/detail/{id}', [CustomersController::class, 'BN_customers_detail'])->name('BN_customers_detail');
+                Route::get('/detail/package/{id}', [CustomersController::class, 'BN_customers_detail_package'])->name('BN_customers_detail_package');
+                Route::get('/detail/deal/{id}', [CustomersController::class, 'BN_customers_detail_deal'])->name('BN_customers_detail_deal');
 
                 Route::get('/register-vip/{id}', [CustomersController::class, 'BN_customers_register_vip'])->name('BN_customers_register_vip');
                 Route::post('/register-vip-action', [CustomersController::class, 'BN_customers_register_vip_action'])->name('BN_customers_register_vip_action');

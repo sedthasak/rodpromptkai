@@ -1927,7 +1927,7 @@ class FrontendPageController extends Controller
         ->where('brand_id', $post->brand_id)
         ->where('model_id', $post->model_id)
         ->where('generations_id', $post->generations_id)
-        ->where('sub_models_id', $post->sub_models_id)
+        // ->where('sub_models_id', $post->sub_models_id)
         ->count();  // Count the number of cars
 
         // Second variable: Get cars with the same brand_id, model_id, generations_id, and sub_models_id, excluding this post, limit to 3
@@ -1936,7 +1936,7 @@ class FrontendPageController extends Controller
         ->where('brand_id', $post->brand_id)
         ->where('model_id', $post->model_id)
         ->where('generations_id', $post->generations_id)
-        ->where('sub_models_id', $post->sub_models_id)
+        // ->where('sub_models_id', $post->sub_models_id)
         ->take(3)  // Limit the result to 3 cars
         ->get();  // Fetch the cars
 
@@ -3006,7 +3006,7 @@ class FrontendPageController extends Controller
         $province = provincesModel::orderBy("name_th", "ASC")->get();
 
         $setFooterModel = setFooterModel::all();
-
+        // dd($qrybrandrow, $qrymodelrow);
         return view('frontend/check-price', [
             "yearprice" => $qryyearprice,
             "brand" => $qrybrand,

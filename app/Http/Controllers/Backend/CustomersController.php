@@ -25,6 +25,43 @@ use App\Models\carsModel;
 
 class CustomersController extends Controller
 {
+    // Show customer detail page for packages (VIP)
+    public function BN_customers_detail_package(Request $request, $id)
+    {
+        // Fetch the customer based on the passed ID
+        $Customer = Customer::find($id);
+
+        // Get orders of type 'package' and 'vip'
+        $orders = OrderModel::where('customer_id', $id)
+            ->whereIn('type', ['package', 'vip'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('backend/customer-detail-package', [
+            'default_pagename' => 'ประวัติการสั่งซื้อแพ็คเกจ',
+            'Customer' => $Customer,
+            'orders' => $orders
+        ]);
+    }
+
+    // Show customer detail page for deals
+    public function BN_customers_detail_deal(Request $request, $id)
+    {
+        // Fetch the customer based on the passed ID
+        $Customer = Customer::find($id);
+
+        // Get orders of type 'deal'
+        $orders = OrderModel::where('customer_id', $id)
+            ->where('type', 'deal')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('backend/customer-detail-deal', [
+            'default_pagename' => 'ประวัติการสั่งซื้อดีล',
+            'Customer' => $Customer,
+            'orders' => $orders
+        ]);
+    }
     public function BN_customers_detail(Request $request, $id)
     {
         // Fetch the customer based on the passed id
@@ -39,13 +76,22 @@ class CustomersController extends Controller
         $resultPerPage = 24;
         $cars = $query->paginate($resultPerPage);
     
+        // Define the $arrtype array
+        $arrtype = [
+            'home' => 'รถบ้าน',
+            'dealer' => 'ดีลเลอร์',
+            'lady' => 'รถผู้หญิง',
+        ];
+    
         // Return the view with both Customer and cars data
         return view('backend/customer-detail', [ 
             'default_pagename' => 'ลูกค้า',
             'Customer' => $Customer,
             'cars' => $cars,  // Pass the paginated cars to the view
+            'arrtype' => $arrtype  // Pass the $arrtype array to the view
         ]);
     }
+    
     
 
 

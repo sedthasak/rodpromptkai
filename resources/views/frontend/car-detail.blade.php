@@ -26,6 +26,10 @@ $arr_gear = array(
 ?>
 
 {{-- @if($cars->status == 'approved') --}}
+@php
+$profilecar_img = ($cars->feature)?asset('storage/' . $cars->feature):asset('public/uploads/default-car.jpg');
+$resve_state = ($cars->reserve==1)?'active':'';
+@endphp
 <section class="row">
     <div class="col-12 wrap-pagecardetail wrap-page wow fadeInDown">
         <div class="container">
@@ -337,10 +341,14 @@ $arr_gear = array(
                             @endforeach
 
                             <div class="col-6 col-lg-3 mb-recentlist">
-                                <a href="{{ route('carsearchPage', ['kw1' => $cars->brands_title, 'kw2' => $cars->model_name, 'kw3' => $cars->generations_name, 'kw4' => $cars->sub_models_name]) }}" class="item-recentlist">
-                                    <div class="recent-clickall">+{{$sameBrandModelCount}}</div>
+                                <a href="{{ route('carsearchPage', ['kw1' => $cars->brands_title, 'kw2' => $cars->model_name, 'kw3' => $cars->generations_name]) }}" class="item-recentlist">
+                                    <!-- <div class="recent-clickall">+{{$sameBrandModelCount - 3}}</div> -->
+                                    <div class="recent-clickall">
+                                        +{{ $sameBrandModelCount < 1 ? 1 : $sameBrandModelCount }}
+                                    </div>
+
                                     <figure>
-                                        <div class="cover-recentlist"><img src="{{asset('frontend/images/94_1.jpeg')}}" alt=""></div>
+                                        <div class="cover-recentlist"><img src="{{$profilecar_img}}" alt=""></div>
                                         <figcaption hidden>
                                             <div class="price-recentlist">1,290,000.-</div>
                                             <span>2023</span>

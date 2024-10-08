@@ -988,22 +988,34 @@ class PostController extends Controller
     public function carpostdeleteactionPage(Request $request)
     {
         $postId = $request->input('id');
-
-        // Assuming you have a 'carsModel' model
+    
+        // Find the car using the provided ID
         $car = carsModel::find($postId);
-
+    
         if (!$car) {
             // Car not found
             return response()->json(['error' => 'Car not found'], 404);
         }
-
-        // Delete the car
+    
+        // Update the status to 'read' in contacts_backModel for all contacts related to the car
+        $contacts = contacts_backModel::where('cars_id', $postId)->get();
+        foreach ($contacts as $contact) {
+            $contact->status = 'read';
+            $contact->save();
+            noticeModel::where('contacts_back_id', $contact->id)
+                ->update(['status' => 'contact']);
+        }
+        noticeModel::where('cars_id', $postId)
+            ->update(['status' => 'read']);
+    
+        // Update the car's status to 'deleted'
         $car->status = 'deleted';
         $car->update();
-
+    
         // Return a success response
         return response()->json(['message' => 'ลบสำเร็จ']);
     }
+    
 
     
     
