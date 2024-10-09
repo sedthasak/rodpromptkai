@@ -7,7 +7,7 @@
 @section('content')
 <?php
 $arr = [];
-$arr['admin'] = array('devider','dashboard','customers','posts','car','cat','tag','news','users','contacts','setting','logs','dev', 'discounts', 'packages', 'deals', 'orders', 'levels',);
+$arr['admin'] = array('devider','dashboard','customers','posts','car','cat','tag','news','users','contacts','contactsvip','setting','logs','dev', 'discounts', 'packages', 'deals', 'orders', 'levels',);
 $arr['manager'] = array('devider','dashboard','customers','posts','car','cat','tag','news','contacts','logs',);
 $arr['assistance'] = array('devider','dashboard','customers','posts','car','cat','tag',);
 $arr['editor'] = array('devider','dashboard','news',);

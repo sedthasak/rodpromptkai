@@ -333,7 +333,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
             var postId = this.getAttribute('data-carsid');
 
             $('#wait').show();
-
+            console.log(postId);
             Swal.fire({
                 title: 'ต้องการจะลบหรือไม่ ?',
                 text: 'หากลบแล้ว ข้อมูลจะหายไปทั้งหมด',

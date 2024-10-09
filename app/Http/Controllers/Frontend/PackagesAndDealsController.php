@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 use App\Models\PackageDealerModel;
 use App\Models\VipPackageModel;
+use App\Models\ContactsVipModel;
 use App\Models\DealModel;
 use App\Models\OrderModel;
 use App\Models\CouponModel;
@@ -28,6 +29,30 @@ use App\Models\LevelModel;
 
 class PackagesAndDealsController extends Controller
 {
+    public function packagepremiumdetailPage(Request $request, $id)
+    {
+        // Fetch the package detail based on the ID
+        $packageDetail = VipPackageModel::findOrFail($id);
+    
+        // Fetch all deals from DealModel (you can filter based on your logic)
+        $alldeals = DealModel::orderBy('id', 'desc')->get();
+    
+        return view('frontend.package-premium-detail', [
+            'page' => 'package premium',
+            'packageDetail' => $packageDetail,
+            'alldeals' => $alldeals,
+        ]);
+    }
+    public function packagepremiumPage(Request $request)
+    {
+        // Fetch all VIP packages from the database
+        $vipPackages = VipPackageModel::all();
+
+        return view('frontend.package-premium', [
+            'page' => 'package premium',
+            'vipPackages' => $vipPackages,
+        ]);
+    }
 
     public function yourpackagePage(Request $request)
     {
@@ -40,8 +65,29 @@ class PackagesAndDealsController extends Controller
     public function packagecontactPage(Request $request)
     {
         return view('frontend.package-contact', [
-            "page" => 'getcoupon',
+            "page" => 'package contact',
         ]);
+    }
+    public function submitPackageContact(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'line' => 'nullable|string|max:50',
+            'business_name' => 'nullable|string|max:255',
+        ]);
+
+        // Create a new record in the contacts_vip table
+        ContactsVipModel::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'line' => $request->line,
+            'business_name' => $request->business_name,
+        ]);
+
+        // Return a response with a success message
+        return response()->json(['success' => 'Data saved successfully!']);
     }
     public function getcouponPage(Request $request) 
     {
@@ -481,14 +527,6 @@ class PackagesAndDealsController extends Controller
 
     public function specialdealPage(Request $request) 
     {
-        // $cars = carsModel::whereNull('slug')->get();
-
-        // foreach ($cars as $car) {
-        //     // Generate unique slug with the post ID and save
-        //     $car->slug = $car->generateUniqueSlug($car->id);
-        //     $car->save();
-        // }
-        // dd($pv);
         $alldeals = DealModel::orderBy('id', 'desc')->get();
         return view('frontend.specialdeal', [
             'page' => 'special-deal',
@@ -573,7 +611,7 @@ class PackagesAndDealsController extends Controller
         // Prepare order data
         $data = [
             'status' => 'pending',
-            'order_number' => 'ORD-' . uniqid(),
+            'order_number' => 'DLR-' . uniqid(),
             'customer_id' => $request->customer_id,
             'type' => $request->type,
             'price' => $request->price,

@@ -956,6 +956,7 @@ class FrontendPageController extends Controller
         $modelId = $request->input('profile_model_id');
         $vehicleCode = $request->input('profile_vehicle_code');
         $customerFilterId = $request->input('profile_customer_id') ?? $customer_id;
+        $filterMonth = $request->input('filter_month'); // New: Month filter parameter
     
         // Start building the query for cars with 'soldout' status
         $query = carsModel::with(['brand', 'model', 'generation', 'subModel', 'user', 'customer', 'myDeal', 'contacts'])
@@ -978,15 +979,36 @@ class FrontendPageController extends Controller
             $query->where('vehicle_code', 'like', '%' . $vehicleCode . '%');
         }
     
+        // Apply month filter using the 'solddate' field if available
+        if ($filterMonth) {
+            $date = \Carbon\Carbon::createFromFormat('Y-m', $filterMonth);
+            $query->whereYear('solddate', $date->year)
+                  ->whereMonth('solddate', $date->month);
+        }
+    
         // Get the filtered results and paginate them, 24 items per page
         $results = $query->paginate(24);
     
-        // Return the view with the paginated results
+        // Get available months for filtering (current month and two years back)
+        $startMonth = now()->startOfMonth();
+        $endMonth = now()->subYears(2)->startOfMonth();
+        $months = [];
+    
+        while ($startMonth >= $endMonth) {
+            $months[] = $startMonth->format('Y-m');
+            $startMonth->subMonth();
+        }
+    
+        // Return the view with the paginated results and available months
         return view('frontend.profile-soldout', [
             'page' => 'profile-soldout',
             'results' => $results,
+            'months' => $months,
+            'filterMonth' => $filterMonth, // Pass the selected filter month
         ]);
     }
+    
+    
     
        
         

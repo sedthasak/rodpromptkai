@@ -407,22 +407,43 @@ class SearchController extends Controller
         $countcar = $searchFailed ? 0 : $carsQuery->count();
     
         // First, paginate the query
-        $paginatedCars = $searchFailed ? collect() : $carsQuery->orderBy('modelyear', $validOrderBy)
-            ->orderBy('updated_at', $validOrderBy)
-            ->paginate(40);
+        // $paginatedCars = $searchFailed ? collect() : $carsQuery->orderBy('modelyear', $validOrderBy)
+        //     ->orderBy('updated_at', $validOrderBy)
+        //     ->paginate(40);
     
         // Then, group the paginated items by modelyear
-        $cars = $paginatedCars->getCollection()->groupBy('modelyear');
+        // $cars = $paginatedCars->getCollection()->groupBy('modelyear');
     
         // Calculate remaining time for each car
-        foreach ($cars as $modelyear => $carsByYear) {
-            foreach ($carsByYear as $car) {
-                if ($car->myDeal && $car->myDeal->deal) {
-                    $car->remaining_time = $this->calculateRemainingTime($car->myDeal->deal_expire);
-                } else {
-                    $car->remaining_time = null;
-                }
+        // foreach ($cars as $modelyear => $carsByYear) {
+        //     foreach ($carsByYear as $car) {
+        //         if ($car->myDeal && $car->myDeal->deal) {
+        //             $car->remaining_time = $this->calculateRemainingTime($car->myDeal->deal_expire);
+        //         } else {
+        //             $car->remaining_time = null;
+        //         }
+        //     }
+        // }
+
+        // First, paginate the query
+        $paginatedCars = $searchFailed ? collect() : $carsQuery->orderBy('modelyear', $validOrderBy)
+        ->orderBy('updated_at', $validOrderBy)
+        ->paginate(40);
+
+        // Modify grouping logic: check if 'yearregis' exists, otherwise group by 'modelyear'
+        $cars = $paginatedCars->getCollection()->groupBy(function($car) {
+        return $car->yearregis ?: $car->modelyear; // Use 'yearregis' if available, otherwise use 'modelyear'
+        });
+
+        // Calculate remaining time for each car
+        foreach ($cars as $year => $carsByYear) {
+        foreach ($carsByYear as $car) {
+            if ($car->myDeal && $car->myDeal->deal) {
+                $car->remaining_time = $this->calculateRemainingTime($car->myDeal->deal_expire);
+            } else {
+                $car->remaining_time = null;
             }
+        }
         }
     
         // Fetch recommendations

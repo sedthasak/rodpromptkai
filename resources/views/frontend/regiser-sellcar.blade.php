@@ -402,7 +402,7 @@
                                                     <input type="file" id="upload-interior-input" accept="image/*" multiple style="display: none;">
                                                 </div>
 
-                                                @if($formtype == 'home')
+                                                @if($formtype == 'home' || $formtype == 'lady')
                                                     <!-- Registration Image Section -->
                                                     <div class="box-uploadphoto">
                                                         <div class="topic-uploadphoto">

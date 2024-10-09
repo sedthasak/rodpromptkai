@@ -19,10 +19,21 @@ use App\Models\generationsModel;
 use App\Models\sub_modelsModel;
 use App\Models\setFooterModel;
 use App\Models\setting_optionModel;
+use App\Models\carsModel;
+use App\Models\galleryModel;
 
 
 class BackendPageController extends Controller
 {
+
+
+
+    public function BN_dev()
+    {
+        return view('backend/dev', [ 
+            'default_pagename' => 'Development',
+        ]);
+    }
 
     // public function BN_slide()
     // {
@@ -296,7 +307,10 @@ class BackendPageController extends Controller
 
 
 
+    public function deleteAdminRemovedCars(Request $request)
+    {
 
+    }
 
 
 
@@ -802,12 +816,7 @@ class BackendPageController extends Controller
     }
     
     
-    public function BN_dev()
-    {
-        return view('backend/dev', [ 
-            'default_pagename' => 'Development',
-        ]);
-    }
+
     
 
     public function backendDashboard()

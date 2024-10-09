@@ -343,6 +343,12 @@
         const submitButton = document.getElementById('submitBtn');
         const loadingBox = document.getElementById('wait');
 
+        /*****************************/
+        /*****************************/
+        
+        /*****************************/
+        /*****************************/
+
         if (submitButton) {
             submitButton.addEventListener('click', function (event) {
                 event.preventDefault();

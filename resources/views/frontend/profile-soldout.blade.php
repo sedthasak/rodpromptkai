@@ -103,7 +103,22 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                         </div>
                         
                         @include('frontend.layouts.inc_menu-mycar')
-
+                        <div class="row carsold-select">
+                            <div class="col-6">
+                                <h2>รถที่ขายแล้ว</h2>
+                            </div>
+                            <div class="col-6 text-end">
+                                <div class="txt-select-month">ช่วงเวลา</div>
+                                <select class="form-select" id="filter-month" onchange="filterByMonth()">
+                                    <option value="">เลือกเดือน</option>
+                                    @foreach ($months as $month)
+                                        <option value="{{ $month }}" {{ $filterMonth == $month ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::createFromFormat('Y-m', $month)->locale('th')->isoFormat('MMMM YYYY') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <!-- Loop through the created cars from the paginated results -->
                         @foreach($results as $cars)
                             @php
@@ -135,9 +150,11 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                             </div>
                                             <div class="mycar-idcar">{{ $cars->vehicle_code }}</div>
                                         </div>
+    
                                         <div class="col-12 col-md-6 text-end">
-                                            <div class="mycar-post">วันที่ลงขาย :  {{ date('d/m/Y', strtotime($cars->created_at)) }}</div>
+                                            <div class="mycar-post">วันที่ขายได้ : {{ date('d/m/Y', strtotime($cars->solddate)) }}</div>
                                         </div>
+
                                     </div>
                                     <div class="mycar-boxline">
                                         <div class="row">
@@ -169,6 +186,14 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
 @endsection
 
 @section('script')
+<script>
+    function filterByMonth() {
+        var selectedMonth = document.getElementById('filter-month').value;
+        var url = new URL(window.location.href);
+        url.searchParams.set('filter_month', selectedMonth);
+        window.location.href = url.toString();
+    }
+</script>
 <script>
     $( ".box-menuprofile > ul > li:nth-child(5) > a" ).addClass( "here" );
     $( ".menu-mycar > ul > li:nth-child(5) > a" ).addClass( "here" );

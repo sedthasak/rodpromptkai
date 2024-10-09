@@ -584,8 +584,10 @@ class ViewDataServiceProvider extends ServiceProvider
                         // Fetch the related posts/cars based on the history in the order of the IDs in $history_ids
                         if (is_array($history_ids) && !empty($history_ids)) {
                             $history_post = carsModel::whereIn('id', $history_ids)
+                                ->where('status', 'approved') // Add the condition for status
                                 ->orderByRaw('FIELD(id, ' . implode(',', $history_ids) . ')')
                                 ->get();
+
                         }
                     }
                 }

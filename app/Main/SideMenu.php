@@ -98,6 +98,12 @@ class SideMenu
                 'params' => [],
                 'title' => 'ติดต่อ'
             ],
+            'contactsvip' => [
+                'icon' => 'Phone Forwarded',
+                'route_name' => 'BN_contactsvip',
+                'params' => [],
+                'title' => 'ติดต่อ วีไอพี'
+            ],
 
 
             'discounts' => [

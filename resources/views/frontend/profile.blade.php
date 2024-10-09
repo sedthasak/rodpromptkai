@@ -122,7 +122,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                             </div>
                             <div class="mycar-detail-mb">
                                 <a href="{{route('cardetailPage', ['slug' => $car->slug])}}">
-                                    <div class="mycar-name">{{ $car->modelyear . ' ' . ($car->brand->title ?? 'N/A') . ' ' . ($car->model->model ?? 'N/A') }}</div>
+                                    <div class="mycar-name">{{$car->yearregis??$car->modelyear}} {{$car->brand->title}} {{$car->model->model}}</div>
                                     <div class="mycar-type">{{ ($car->generation->generations ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}</div>
                                     <div class="mycar-idcar">{{$car->vehicle_code}}</div>
                                 </a>
@@ -131,7 +131,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <a href="{{route('cardetailPage', ['slug' => $car->slug])}}">
-                                            <div class="mycar-name">{{ $car->modelyear . ' ' . ($car->brand->title ?? 'N/A') . ' ' . ($car->model->model ?? 'N/A') }}</div>
+                                            <div class="mycar-name">{{$car->yearregis??$car->modelyear}} {{$car->brand->title}} {{$car->model->model}}</div>
                                             <div class="mycar-type">{{ ($car->generation->generations ?? 'N/A') . ' ' . ($car->subModel->sub_models ?? 'N/A') }}</div>
                                             <div class="mycar-idcar">{{$car->vehicle_code}}</div>
                                         </a>

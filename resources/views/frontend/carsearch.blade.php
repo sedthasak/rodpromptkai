@@ -160,24 +160,9 @@ $arr_gear = array(
                         <div class="txt-numresult">ทั้งหมด <span>{{$countcar}}</span> รายการ</div>
                         <div class="btn-boxfilter" hidden>
                             <button>F48 ปี16-ปัจจุบัน</button>
-                            <button>E84 ปี09-16</button>
-                            <button>F48 ปี16-ปัจจุบัน</button>
-                            <button>E84 ปี09-16</button>
                         </div>
                         <div class="btn-boxfilter" hidden>
                             <button>2023</button>
-                            <button>2022</button>
-                            <button>2021</button>
-                            <button>2020</button>
-                            <button>2019</button>
-                            <button>2018</button>
-                            <button>2017</button>
-                            <button>2016</button>
-                            <button>2015</button>
-                            <button>2014</button>
-                            <button>2013</button>
-                            <button>2012</button>
-                            <button>2011</button>
                         </div>
                         <div class="box-filteritem">
                             <div class="row">
@@ -268,7 +253,7 @@ $arr_gear = array(
                                                         <figcaption>
                                                             <div class="grid-desccar">
                                                                 <div class="car-name" style="color: {{ $font1 }}">
-                                                                    {{ $car->modelyear }} 
+                                                                    {{ $car->yearregis??$car->modelyear }} 
                                                                     {{ $car->brand ? $car->brand->title : 'N/A' }} 
                                                                     {{ $car->model ? $car->model->model : 'N/A' }}
                                                                 </div>
@@ -336,6 +321,9 @@ $arr_gear = array(
 
                                             <div class="col-6 col-xl-4 col-itemcar">
                                                 <a href="{{ route('cardetailPage', ['slug' => $car->slug]) }}" class="item-car">
+                                                    @if($car->customer->bigbrand == 1)
+                                                        <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div>
+                                                    @endif
                                                     <figure>
                                                         <div class="cover-car">
                                                             <img src="{{ $feature }}" alt="">
@@ -343,7 +331,7 @@ $arr_gear = array(
                                                         <figcaption>
                                                             <div class="grid-desccar">
                                                                 <div class="car-name">
-                                                                    {{ $car->modelyear }} 
+                                                                    {{ $car->yearregis??$car->modelyear }} 
                                                                     {{ $car->brand ? $car->brand->title : 'N/A' }} 
                                                                     {{ $car->model ? $car->model->model : 'N/A' }}
                                                                 </div>
@@ -400,7 +388,7 @@ $arr_gear = array(
                         @endforeach
                         <!-- Pagination Links -->
                         <div class="pagination-wrapper">
-                            {{ $paginatedCars->onEachSide(1)->links('pagination::bootstrap-4') }}
+                            {{ $paginatedCars->appends(request()->query())->onEachSide(1)->links('pagination::bootstrap-4') }}
                         </div>
 
                         <div class="box-frmhelpcar">
@@ -507,6 +495,44 @@ $arr_gear = array(
 
 @endsection
 @section('script')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the cashtype parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const cashtype = urlParams.get('cashtype');
+
+        // Select the dropdown element
+        const selShowCash = document.getElementById('sel_showcash');
+
+        // Set the selected option based on the cashtype parameter
+        if (cashtype) {
+            selShowCash.value = cashtype;
+        }
+
+        // Show or hide elements based on the selected option
+        togglePriceDisplay(selShowCash.value);
+
+        // Add an event listener to the dropdown to handle changes
+        selShowCash.addEventListener('change', function () {
+            togglePriceDisplay(this.value);
+        });
+
+        // Function to toggle the display of price elements
+        function togglePriceDisplay(value) {
+            const carPriceCash = document.querySelector('.caritem-price');
+            const carPriceFinance = document.querySelector('.caritem-price-finance');
+
+            if (value === 'finance') {
+                carPriceCash.style.display = 'none';
+                carPriceFinance.style.display = 'flex';
+            } else {
+                carPriceCash.style.display = 'flex';
+                carPriceFinance.style.display = 'none';
+            }
+        }
+    });
+</script>
+
 <script>
     $(document).ready(function() {
         // Listen for change events on the orderby select box

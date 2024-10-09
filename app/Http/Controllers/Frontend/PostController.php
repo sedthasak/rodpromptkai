@@ -17,6 +17,7 @@ use App\Models\modelsModel;
 use App\Models\carsModel;
 use App\Models\galleryModel;
 use App\Models\noticeModel;
+use App\Models\contacts_backModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -52,6 +53,7 @@ class PostController extends Controller
         $cars->generations_id = $request->generations;
         $cars->sub_models_id = $request->sub_models;
         $cars->modelyear = $request->years;
+        $cars->yearregis = $request->yearregis;
         $cars->color = ($request->color == '9999999999') ? $request->other_color : $request->color;
         $cars->mileage = $request->mileage;
         $cars->gear = $request->gear == "auto" ? "auto" : "manual";
@@ -135,8 +137,6 @@ class PostController extends Controller
 
         return redirect()->route('carpostregistersuccessPage');
     }
-
-    // Process exterior and interior images
     private function processImages($paths, $type, $postId, $copyAsFeature = false)
     {
         foreach ($paths as $index => $path) {
@@ -202,7 +202,6 @@ class PostController extends Controller
             ]);
         }
     }
-
     public function carpostbrowseedit($id)
     {
         $provinces = provincesModel::all();
@@ -224,7 +223,6 @@ class PostController extends Controller
             'restImages' => $restImages,
         ]);
     }
-    // Copy images to the 'rest' folder without changing their names
     private function copyImagesToRest($images, $registrationImage)
     {
         $exteriorImages = [];
@@ -286,8 +284,6 @@ class PostController extends Controller
 
         return response()->json(['path' => str_replace('public/', '', $webpPath)]);
     }
-
-
     private function convertToWebP($path)
     {
         $image = Image::make(storage_path('app/' . $path));
@@ -306,11 +302,6 @@ class PostController extends Controller
 
         return $newPath;
     }
-
-
-
-
-
     public function carpostbrowsesubmit(Request $request)
     {
         $request->validate([
@@ -374,7 +365,6 @@ class PostController extends Controller
         $cars->slug = $cars->generateUniqueSlug($cars->id);
         $cars->save();
 
-        // Move and rename files, and clone the first exterior image as feature
         $this->moveAndRenameFiles($request->image_paths, $cars->id, 'exterior', true);
         if ($request->has('interior_paths')) {
             $this->moveAndRenameFiles($request->interior_paths, $cars->id, 'interior');
@@ -385,10 +375,6 @@ class PostController extends Controller
 
         return redirect()->route('carpostregistersuccessPage');
     }
-
-
-
-
     public function moveAndRenameFiles($paths, $postId, $type, $copyAsFeature = false)
     {
         try {
@@ -461,8 +447,6 @@ class PostController extends Controller
 
         return $paths;
     }
-
-
     public function carpostdeleteimage(Request $request)
     {
         $request->validate([
@@ -492,15 +476,11 @@ class PostController extends Controller
     {
         $provinces = provincesModel::all();
         $brands = brandsModel::orderBy("sort_no", "ASC")->get();
-        // $models = modelsModel::all();
-        // $query = DB::table('generations')->where('id', 1)->first();
-
 
         return view('frontend/carpost-register', [
             'provinces' => $provinces,
             'brands' => $brands,
-            // 'query' => $query,
-            // 'a' => 'test',
+
         ]);
     }
 
@@ -515,267 +495,224 @@ class PostController extends Controller
 
 
 
-    // private function convertToWebP($path)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // public function carpostregistereditubmitPage(Request $request) 
     // {
-    //     // Generate a new filename with .webp extension
-    //     $newPath = str_replace('.' . pathinfo($path, PATHINFO_EXTENSION), '.webp', $path);
+    //     ini_set('post_max_size', '500M');
+    //     ini_set('upload_max_filesize', '500M');
+    //     ini_set('memory_limit', '500M');
 
-    //     // Convert the image to WebP format using Intervention Image
-    //     $image = Image::make(storage_path('app/' . $path));
-    //     $image->save(storage_path('app/' . $newPath), 80, 'webp');
 
-    //     // Return the path to the converted WebP image
-    //     return $newPath;
-    // }
-    // public function generateUniqueSlug()
-    // {
-    //     // Get the related brand and model names
-    //     $brandName = $this->brand ? $this->brand->title : '';
-    //     $modelName = $this->model ? $this->model->model : '';
-        
-    //     // Create the slug base using year, brand, model, and title
-    //     $baseSlug = trim("{$this->yearregis} {$brandName} {$modelName} {$this->title}");
-        
-    //     // Generate the initial slug
-    //     $slug = Str::slug($baseSlug, '-');
-        
-    //     // Ensure uniqueness
-    //     $originalSlug = $slug;
-    //     $count = 1;
+    //     $cars = carsModel::find($request->post_id);
 
-    //     while (carsModel::where('slug', $slug)->exists()) {
-    //         $slug = $originalSlug . '-' . $count++;
+    //     $cars->type = $request->type;
+    //     $cars->customer_id = $request->customer_id;
+    //     $cars->brand_id = $request->brands;
+    //     $cars->model_id = $request->models;
+    //     $cars->generations_id = $request->generations;
+    //     $cars->sub_models_id = $request->sub_models;
+    //     $cars->modelyear = $request->years;
+    //     $cars->mileage = $request->mileage;
+    //     $cars->yearregis = $request->yearregis;
+    //     if ($request->gear == "auto") {
+    //         $cars->gear = "auto";
+    //     }
+    //     else {
+    //         $cars->gear = "manual";
+    //     }
+    //     if ($request->gashas == "1") {
+    //         $cars->gas = "รถน้ำมัน / hybrid";
+    //         $cars->ev = "0";
+    //     }
+    //     else if ($request->gashas == "2") {
+    //         $cars->gas = "รถไฟฟ้า EV 100%";
+    //         $cars->ev = "1";
+    //     }
+    //     else {
+    //         $cars->gas = "รถติดแก๊ส";
+    //         $cars->ev = "0";
+    //     }
+    //     $cars->vehicle_code = $request->vehicle_code;
+    //     $cars->title = $request->title;
+    //     $cars->detail = $request->detail;
+    //     $cars->price = str_replace(",", "", $request->price);
+    //     $cars->licenseplate = $request->licenseplate;
+    //     if ($request->has('warranty_1')) {
+    //         $cars->warranty_1 = 1;
+    //     }
+    //     else {
+    //         $cars->warranty_1 = 0;
+    //     }
+    //     if ($request->has('warranty_2')) {
+    //         $cars->warranty_2 = 1;
+    //     }
+    //     else {
+    //         $cars->warranty_2 = 0;
+    //     }
+    //     if ($request->has('warranty_3')) {
+    //         $cars->warranty_3 = 1;
+    //     }
+    //     else {
+    //         $cars->warranty_3 = 0;
+    //     }
+    //     $cars->warranty_2_input = $request->warranty_2_input;
+
+    //     if($request->status == 'approved'){
+    //         $cars->status = 'approved';
+    //     }elseif($request->status == 'rejected'){
+    //         $cars->status = 'created';
     //     }
 
-    //     return $slug;
-    // }
+    //     $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
+    //     $cars->province = $request->province;
+    //     $cars->update();
 
 
+    //     $cars2 = carsModel::find($cars->id);
+    //     $strtotime = strtotime($cars2->created_at);
 
+    //     $cars2->ref_code = $strtotime.$cars2->customer_id;
+    //     $cars2->update();
 
+    //     $resourceId = $request->post_id;
+    //     NoticeModel::where('resource', 'cars')
+    //         ->where('resource_id', $resourceId)
+    //         ->update(['status' => 'read']);
 
+    //     $genname = $request->input('genname');
+    //     $qrygallery = galleryModel::where("pre_id", $genname)->orderBy("id", "ASC")->first();
+    //     carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
+    //     galleryModel::where("pre_id", $genname)->update(["cars_id" => $cars->id, "pre_id" => null]);
 
+    //     return redirect(route('carpostregistersuccessPage'));
 
+    // }  
+    // public function carpostregisterSubmitPage(Request $request) 
+    // {
+    //     ini_set('post_max_size', '500M');
+    //     ini_set('upload_max_filesize', '500M');
+    //     ini_set('memory_limit', '500M');
+    //     $cars = new carsModel;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function carpostregistereditubmitPage(Request $request) {
-        ini_set('post_max_size', '500M');
-        ini_set('upload_max_filesize', '500M');
-        ini_set('memory_limit', '500M');
-
-        // dd($request);
-
-        $cars = carsModel::find($request->post_id);
-
-        $cars->type = $request->type;
-        $cars->customer_id = $request->customer_id;
-        $cars->brand_id = $request->brands;
-        $cars->model_id = $request->models;
-        $cars->generations_id = $request->generations;
-        $cars->sub_models_id = $request->sub_models;
-        $cars->modelyear = $request->years;
-        $cars->mileage = $request->mileage;
-        $cars->yearregis = $request->yearregis;
-        if ($request->gear == "auto") {
-            $cars->gear = "auto";
-        }
-        else {
-            $cars->gear = "manual";
-        }
-        if ($request->gashas == "1") {
-            $cars->gas = "รถน้ำมัน / hybrid";
-            $cars->ev = "0";
-        }
-        else if ($request->gashas == "2") {
-            $cars->gas = "รถไฟฟ้า EV 100%";
-            $cars->ev = "1";
-        }
-        else {
-            $cars->gas = "รถติดแก๊ส";
-            $cars->ev = "0";
-        }
-        $cars->vehicle_code = $request->vehicle_code;
-        $cars->title = $request->title;
-        $cars->detail = $request->detail;
-        $cars->price = str_replace(",", "", $request->price);
-        $cars->licenseplate = $request->licenseplate;
-        if ($request->has('warranty_1')) {
-            $cars->warranty_1 = 1;
-        }
-        else {
-            $cars->warranty_1 = 0;
-        }
-        if ($request->has('warranty_2')) {
-            $cars->warranty_2 = 1;
-        }
-        else {
-            $cars->warranty_2 = 0;
-        }
-        if ($request->has('warranty_3')) {
-            $cars->warranty_3 = 1;
-        }
-        else {
-            $cars->warranty_3 = 0;
-        }
-        $cars->warranty_2_input = $request->warranty_2_input;
-
-        if($request->status == 'approved'){
-            $cars->status = 'approved';
-        }elseif($request->status == 'rejected'){
-            $cars->status = 'created';
-        }
-
-        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
-        $cars->province = $request->province;
-        $cars->update();
-
-
-        $cars2 = carsModel::find($cars->id);
-        $strtotime = strtotime($cars2->created_at);
-
-        $cars2->ref_code = $strtotime.$cars2->customer_id;
-        $cars2->update();
-
-        $resourceId = $request->post_id;
-        NoticeModel::where('resource', 'cars')
-            ->where('resource_id', $resourceId)
-            ->update(['status' => 'read']);
-
-        // update cars.feature
-        $genname = $request->input('genname');
-        $qrygallery = galleryModel::where("pre_id", $genname)->orderBy("id", "ASC")->first();
-        carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
-        // update gallery set cars_id
-        galleryModel::where("pre_id", $genname)->update(["cars_id" => $cars->id, "pre_id" => null]);
-
-        return redirect(route('carpostregistersuccessPage'));
-
-    }  
-    public function carpostregisterSubmitPage(Request $request) {
-        ini_set('post_max_size', '500M');
-        ini_set('upload_max_filesize', '500M');
-        ini_set('memory_limit', '500M');
-        // dd($request);
-        $cars = new carsModel;
-
-        $cars->type = $request->type;
-        $cars->customer_id = $request->customer_id;
-        $cars->brand_id = $request->brands;
-        $cars->model_id = $request->models;
-        $cars->generations_id = $request->generations;
-        $cars->sub_models_id = $request->sub_models;
-        $cars->modelyear = $request->years;
-        $cars->mileage = $request->mileage;
-        if ($request->gear == "auto") {
-            $cars->gear = "auto";
-        }
-        else {
-            $cars->gear = "manual";
-        }
-        if ($request->gashas == "1") {
-            $cars->gas = "รถน้ำมัน / hybrid";
-            $cars->ev = "0";
-        }
-        else if ($request->gashas == "2") {
-            $cars->gas = "รถไฟฟ้า EV 100%";
-            $cars->ev = "1";
-        }
-        else {
-            $cars->gas = "รถติดแก๊ส";
-            $cars->ev = "0";
-        }
-        $cars->vehicle_code = $request->vehicle_code;
-        $cars->title = $request->title;
-        $cars->detail = $request->detail;
-        $cars->price = str_replace(",", "", $request->price);
+    //     $cars->type = $request->type;
+    //     $cars->customer_id = $request->customer_id;
+    //     $cars->brand_id = $request->brands;
+    //     $cars->model_id = $request->models;
+    //     $cars->generations_id = $request->generations;
+    //     $cars->sub_models_id = $request->sub_models;
+    //     $cars->modelyear = $request->years;
+    //     $cars->mileage = $request->mileage;
+    //     if ($request->gear == "auto") {
+    //         $cars->gear = "auto";
+    //     }
+    //     else {
+    //         $cars->gear = "manual";
+    //     }
+    //     if ($request->gashas == "1") {
+    //         $cars->gas = "รถน้ำมัน / hybrid";
+    //         $cars->ev = "0";
+    //     }
+    //     else if ($request->gashas == "2") {
+    //         $cars->gas = "รถไฟฟ้า EV 100%";
+    //         $cars->ev = "1";
+    //     }
+    //     else {
+    //         $cars->gas = "รถติดแก๊ส";
+    //         $cars->ev = "0";
+    //     }
+    //     $cars->vehicle_code = $request->vehicle_code;
+    //     $cars->title = $request->title;
+    //     $cars->detail = $request->detail;
+    //     $cars->price = str_replace(",", "", $request->price);
         
-        if ($request->has('warranty_1')) {
-            $cars->warranty_1 = 1;
-        }
-        else {
-            $cars->warranty_1 = 0;
-        }
-        if ($request->has('warranty_2')) {
-            $cars->warranty_2 = 1;
-        }
-        else {
-            $cars->warranty_2 = 0;
-        }
-        if ($request->has('warranty_3')) {
-            $cars->warranty_3 = 1;
-        }
-        else {
-            $cars->warranty_3 = 0;
-        }
-        $cars->warranty_2_input = $request->warranty_2_input;
+    //     if ($request->has('warranty_1')) {
+    //         $cars->warranty_1 = 1;
+    //     }
+    //     else {
+    //         $cars->warranty_1 = 0;
+    //     }
+    //     if ($request->has('warranty_2')) {
+    //         $cars->warranty_2 = 1;
+    //     }
+    //     else {
+    //         $cars->warranty_2 = 0;
+    //     }
+    //     if ($request->has('warranty_3')) {
+    //         $cars->warranty_3 = 1;
+    //     }
+    //     else {
+    //         $cars->warranty_3 = 0;
+    //     }
+    //     $cars->warranty_2_input = $request->warranty_2_input;
 
-        if($request->customer_type == 'dealer'){
-            $cars->status = 'approved';
-            $cars->adddate = time();
-            $cars->approvedate = time();
-            $cars->expiredate = strtotime("+120 days", time());
-        }else{
-            $cars->status = 'created';
-            $cars->adddate = time();
-        }
-        $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
-        $cars->province = $request->province;
-        $cars->save();
+    //     if($request->customer_type == 'dealer'){
+    //         $cars->status = 'approved';
+    //         $cars->adddate = time();
+    //         $cars->approvedate = time();
+    //         $cars->expiredate = strtotime("+120 days", time());
+    //     }else{
+    //         $cars->status = 'created';
+    //         $cars->adddate = time();
+    //     }
+    //     $cars->color = ($request->color=='9999999999')?$request->other_color:$request->color;
+    //     $cars->province = $request->province;
+    //     $cars->save();
 
 
-        // update cars.feature
-        $genname = $request->input('genname');
-        $qrygallery = galleryModel::where("pre_id", $genname)->orderBy("id", "ASC")->first();
-        carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
-        // update gallery set cars_id
-        galleryModel::where("pre_id", $genname)->update(["cars_id" => $cars->id, "pre_id" => null]);
+    //     $genname = $request->input('genname');
+    //     $qrygallery = galleryModel::where("pre_id", $genname)->orderBy("id", "ASC")->first();
+    //     carsModel::where("id", $cars->id)->update(["feature" => $qrygallery->gallery]);
+    //     galleryModel::where("pre_id", $genname)->update(["cars_id" => $cars->id, "pre_id" => null]);
 
-        $cars2 = carsModel::find($cars->id);
-        $strtotime = strtotime($cars2->created_at);
+    //     $cars2 = carsModel::find($cars->id);
+    //     $strtotime = strtotime($cars2->created_at);
 
-        $cars2->ref_code = $strtotime.$cars2->customer_id;
-        $cars2->update();
+    //     $cars2->ref_code = $strtotime.$cars2->customer_id;
+    //     $cars2->update();
 
-        return redirect(route('carpostregistersuccessPage'));
-    }
+    //     return redirect(route('carpostregistersuccessPage'));
+    // }
 
 
 

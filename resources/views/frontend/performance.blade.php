@@ -53,14 +53,14 @@
                                 <figure><img src="{{$profilecar_img}}" alt=""></figure>
                             </div>
                             <div class="mycar-detail-mb">
-                                <div class="mycar-name">{{$cars->yearregis??$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
+                                <div class="mycar-name">{{$cars->modelyear??$cars->modelyear}} {{$cars->brands_title}} {{$cars->model_name}}</div>
                                 <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
                                 <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
                             </div>
                             <div class="item-mycar-detail-check item-mycar-detail">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
-                                        <div class="mycar-name">{{$cars->modelyear??$cars->modelyear." ".$cars->brands_title." ".$cars->model_name}}</div>
+                                        <div class="mycar-name">{{$cars->modelyear??$cars->modelyear}} {{$cars->brands_title}} {{$cars->model_name}}</div>
                                         <div class="mycar-type">{{$cars->generations_name." ".$cars->sub_models_name}}</div>
                                         <div class="mycar-idcar">{{$cars->vehicle_code}}</div>
                                     </div>
