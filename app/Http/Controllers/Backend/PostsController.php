@@ -61,35 +61,78 @@ class PostsController extends Controller
     
     public function BN_posts(Request $request)
     {
+        // Get all columns of the `carsModel` table
+        $columns = \Schema::getColumnListing((new carsModel)->getTable());
+
+        // Start the query with relationships loaded
         $query = carsModel::with(['customer', 'brand', 'model', 'generation', 'subModel'])
             ->orderBy('id', 'desc');
-    
+
+        // Filter by status if provided
         if ($request->filled('status')) {
             $status = $request->input('status');
             $query->where('status', '=', $status);
         }
-    
+
+        // Filter by type if provided
         if ($request->filled('type')) {
             $type = $request->input('type');
             $query->where('type', '=', $type);
         }
-    
+
+        // Search by keyword in all fields
         if ($request->filled('keyword')) {
             $keyword = $request->input('keyword');
-            $query->whereHas('customer', function ($query) use ($keyword) {
-                $query->where('firstname', 'LIKE', '%' . $keyword . '%')
-                      ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');
+
+            // Add keyword search condition for all fields
+            $query->where(function ($query) use ($keyword, $columns) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $keyword . '%');
+                }
             });
         }
-    
+
+        // Define results per page and paginate
         $resultPerPage = 24;
         $query = $query->paginate($resultPerPage);
-        // dd($query);
-        return view('backend/post', [ 
+
+        // Return the view with the results
+        return view('backend/post', [
             'default_pagename' => 'โพสท์ลงขายรถ',
             'query' => $query,
         ]);
     }
+
+    // public function BN_posts(Request $request)
+    // {
+    //     $query = carsModel::with(['customer', 'brand', 'model', 'generation', 'subModel'])
+    //         ->orderBy('id', 'desc');
+    //     if ($request->filled('status')) {
+    //         $status = $request->input('status');
+    //         $query->where('status', '=', $status);
+    //     }
+    //     if ($request->filled('type')) {
+    //         $type = $request->input('type');
+    //         $query->where('type', '=', $type);
+    //     }
+    //     if ($request->filled('keyword')) {
+    //         $keyword = $request->input('keyword');
+    //         $query->where(function ($query) use ($keyword) {
+    //             $query->whereHas('customer', function ($query) use ($keyword) {
+    //                 $query->where('firstname', 'LIKE', '%' . $keyword . '%')
+    //                       ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');
+    //             })
+    //             ->orWhere('slug', 'LIKE', '%' . $keyword . '%'); // Search in slug field
+    //         });
+    //     }
+    //     $resultPerPage = 24;
+    //     $query = $query->paginate($resultPerPage);
+    //     return view('backend/post', [
+    //         'default_pagename' => 'โพสท์ลงขายรถ',
+    //         'query' => $query,
+    //     ]);
+    // }
+    
     
     public function BN_posts_add(Request $request)
     {

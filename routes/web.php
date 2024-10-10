@@ -193,7 +193,7 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/search-performance', 'searchperformance')->name('searchperformance');
         Route::get('/search-performanceviewpost', 'searchperformanceviewpost')->name('searchperformanceviewpost');
         Route::get('/search-performanceview', 'searchperformanceview')->name('searchperformanceview');
-        Route::get('/check-price', 'checkpricePage')->name('checkpricePage');
+        // Route::get('/check-price', 'checkpricePage')->name('checkpricePage');
         Route::get('/customer-contact', 'customercontactPage')->name('customercontactPage');
         Route::get('/update-carprice', 'updatecarpricePage')->name('updatecarpricePage');
 
@@ -334,7 +334,7 @@ Route::get('/search2',  [FrontendPageController::class, 'search2']);
 Route::get('/brandev', [FrontendPageController::class, 'brandev'])->name('brandev');
 Route::get('/brandnotev', [FrontendPageController::class, 'brandnotev'])->name('brandnotev');
 Route::get('/search-category/{id}', [FrontendPageController::class, 'searchcategory'])->name('searchcategory');
-Route::get('/check-price/{brand_id}/{model_id}', [FrontendPageController::class, 'checkprice'])->name('checkprice');
+Route::get('/check-price/{brand}/{model}', [FrontendPageController::class, 'checkprice'])->name('checkprice');
 Route::get('/search-price/{brand_id}/{model_id}/{generation_id}/{price}', [FrontendPageController::class, 'searchprice'])->name('searchprice');
 Route::get('/search-price2/{brand_id}/{model_id}/{generation_id}/{price}/{modelyear}', [FrontendPageController::class, 'searchprice2'])->name('searchprice2');
 Route::get('/carpost-register', function(){

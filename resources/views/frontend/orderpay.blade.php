@@ -16,7 +16,7 @@
                         <div class="topic-imgcar"><img src="{{asset('frontend/images/Isolation_Mode.svg')}}" alt=""></div>
                         <p>ชำระเงิน</p>
                         <h1>Order : {{$myorder->order_number}}</h1>
-                        <h1>ยอดชำระ : {{$myorder->total}} ฿</h1>
+                        <h1>ยอดชำระ : {{ number_format($myorder->total, 0, '.', ',') }} ฿</h1>
                         <form method="post" action="{{route('orderpayaction')}}" >
                         @csrf
                             <input type="hidden" name="order_id" value="{{$myorder->id}}" />

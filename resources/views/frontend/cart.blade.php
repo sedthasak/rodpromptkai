@@ -205,7 +205,7 @@ $customerdata = session('customer');
                                                             <label for="officebranch">สาขา</label>
                                                         </div>
                                                         <div class="w_officebranch office_branch">
-                                                            <input type="text" name="corporation_branchid" placeholder="กรอกรหัสสาขา">
+                                                            <input type="text" name="corporation_branchid" value="-" placeholder="กรอกรหัสสาขา">
                                                         </div>
                                                     </div>
                                                 </div>

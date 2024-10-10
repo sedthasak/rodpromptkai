@@ -190,6 +190,8 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                             </div>
                         </div>
 
+
+
                         <div style="display: none;" id="edit-carprice{{$car->id}}" class="box-edit-carprice">
                             <div class="frm-edit-carprice">
                                 <div class="text-center">
@@ -197,7 +199,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                     <div class="txt-editprices2">ท่านสามารถแก้ไขราคาขายได้ 2 ครั้งเท่านั้น</div>
                                 </div>
                                 <form method="post" action="{{ route('updatepricePage') }}">
-                                @csrf
+                                    @csrf
                                     <input type="hidden" name="id" value="{{$car->id}}" />
                                     <div class="row">
                                         <div class="col-4 col-md-3">
@@ -212,8 +214,8 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                             <label>ราคาใหม่</label>
                                         </div>
                                         <div class="col-8 col-md-9">
-                                            <input type="number" name="newprice" class="form-control">
-                                            <div>จำนวนครั้งที่ท่านสามารถแก้ไขได้  @if(isset($car->edit_price)){{2 - $car->edit_price}}/2 @else 2/2 @endif</div>
+                                            <input oninput="formatNumber(this)" type="text" name="newprice" class="form-control" id="newprice{{$car->id}}">
+                                            <div>จำนวนครั้งที่ท่านสามารถแก้ไขได้ @if(isset($car->edit_price)){{2 - $car->edit_price}}/2 @else 2/2 @endif</div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -395,8 +397,35 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
 </script>
 
 <script>
+    function formatNumber(input) {
+        const value = input.value.replace(/\D/g, '');
+        input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 
     $(document).ready(function(){
+        // $('input[name="newprice"]').on('input', function() {
+        //     let value = $(this).val().replace(/,/g, ''); // Remove commas
+        //     if (!isNaN(value) && value !== '') {
+        //         value = parseInt(value).toLocaleString('en'); // Format number with commas
+        //         $(this).val(value); // Set the formatted value back to the input
+        //     }
+        // });
+
+        // $('.btn-confirm-edit-carprice').on('click', function(event) {
+        //     const newPriceInput = $(this).closest('form').find('input[name="newprice"]');
+        //     let rawValue = newPriceInput.val().replace(/,/g, ''); // Remove commas from the value
+
+        //     if (!isNaN(rawValue) && rawValue !== '') {
+        //         newPriceInput.val(rawValue); // Set the raw value (without commas) to the input before form submission
+        //     } else {
+        //         event.preventDefault(); // Prevent form submission if the value is not a valid number
+        //         alert('กรุณากรอกราคาใหม่ที่ถูกต้อง');
+        //     }
+
+        //     $(this).closest('form').submit(); // Submit the form if the value is valid
+        // });
+
+        
         $(".btn-confirm-edit-carprice").on("click", function () {
             $(this).closest("form").submit();
         });
@@ -544,55 +573,6 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
     });
 
 
-    
-
-
-
-
-
-    // $(document).on('click', '.button-delete', function(e) {
-    //     Swal.fire({
-    //     title: 'ยืนยันการลบข้อมูล',
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#C60D0D',
-    //     cancelButtonColor: '#666',
-    //     confirmButtonText: 'ยืนยัน',
-    //     cancelButtonText: 'ยกเลิก',
-    //     denyButtonText: 'ยกเลิก'
-    //     }).then((result) => {
-    //     if (result.isConfirmed) {
-    //         Swal.fire({
-    //             title: 'ลบข้อมูลสำเร็จ',
-    //             icon: 'success',
-    //             confirmButtonText: 'ตกลง',
-    //             confirmButtonColor: '#C60D0D',
-    //         })
-    //     }
-    //     })
-    // });
-    
-    // $(document).on('click', '.button-delete', function(e) {
-    //     Swal.fire({
-    //     title: 'ยืนยันการลบข้อมูล',
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#C60D0D',
-    //     cancelButtonColor: '#666',
-    //     confirmButtonText: 'ยืนยัน',
-    //     cancelButtonText: 'ยกเลิก',
-    //     denyButtonText: 'ยกเลิก'
-    //     }).then((result) => {
-    //     if (result.isConfirmed) {
-    //         Swal.fire({
-    //             title: 'ลบข้อมูลสำเร็จ',
-    //             icon: 'success',
-    //             confirmButtonText: 'ตกลง',
-    //             confirmButtonColor: '#C60D0D',
-    //         })
-    //     }
-    //     })
-    // });
 </script>
 
 

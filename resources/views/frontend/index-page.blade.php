@@ -221,7 +221,7 @@ $arr_gear = array(
             <div class="row">
                 <div class="col-12 box-topichome">
                     <h3 class="topic-home"><i class="bi bi-circle-fill"></i> รถที่ถูกค้นหามากที่สุด</h3>
-                    <a href="{{ route('carPage') }}" class="btn-red">ดูทั้งหมด</a>
+                    <a href="{{ route('carsearchPage') }}" class="btn-red">ดูทั้งหมด</a>
                 </div>
                 <div class="col-12">
                     <div class="owl-bestsearch owl-carousel owl-theme">
@@ -356,7 +356,7 @@ $arr_gear = array(
                     <div class="row">
                         <div class="col-12 box-topichome">
                             <h3 class="topic-home"><i class="bi bi-circle-fill"></i> รถมาใหม่</h3>
-                            <a href="#" class="btn-red">ดูทั้งหมด</a>
+                            <a href="{{ route('carsearchPage') }}" class="btn-red">ดูทั้งหมด</a>
                         </div>
                     </div>
                     <div class="row row-itemcar">

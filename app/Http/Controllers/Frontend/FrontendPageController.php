@@ -428,21 +428,31 @@ class FrontendPageController extends Controller
 
     public function updatepricePage(Request $request)
     {
+        // Retrieve post ID and new price from request
         $postId = $request->id;
-        $newprice = $request->newprice;
-        if($postId && $newprice){
+        // Remove commas from the newprice input and convert it to an integer
+        $newprice = str_replace(',', '', $request->newprice);
+    
+        if ($postId && is_numeric($newprice)) {
+            // Find the car model by ID
             $carsModel = carsModel::find($postId);
-
+    
+            // Check if the car exists and if the price edit limit has not been exceeded
             if ($carsModel && $carsModel->edit_price < 2) {
-
                 $oldValue = $carsModel->edit_price;
+                // Increment the edit_price counter
                 $carsModel->edit_price = $oldValue + 1;
-                $carsModel->price = $newprice;
+                // Update the price with the new value (ensure it's numeric)
+                $carsModel->price = (int) $newprice;
                 $carsModel->save();
+    
+                return redirect()->back()->with('success', 'บันทึกสำเร็จ !');
             }
         }
-        return redirect()->back()->with('success', 'บันทึกสำเร็จ !');
+        // Return an error message if the operation could not be completed
+        return redirect()->back()->with('error', 'ไม่สามารถบันทึกการเปลี่ยนแปลงได้');
     }
+    
     public function updatecontackbackPage(Request $request)
     {
         $postId = $request->id;
@@ -2164,8 +2174,9 @@ class FrontendPageController extends Controller
         ]);
     }
     
-    public function checkpricePage()
+    public function checkpricePage(Request $request)
     {
+        dd($request);
         return view('frontend/check-price', [
 
         ]);
@@ -3011,32 +3022,44 @@ class FrontendPageController extends Controller
         ]);
     }
 
-    public function checkprice($brand_id, $model_id) {
-        $qrybrandrow = brandsModel::where("id", $brand_id)->first();
-        $qrymodelrow = modelsModel::where("id", $model_id)->first();
-
-        $qryyearprice = carsModel::select('cars.modelyear', 'generations.generations as generation_name', 'cars.generations_id')
-        ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id')
-        ->where('cars.brand_id', $brand_id)
-        ->where('cars.model_id', $model_id)
-        ->groupBy('cars.generations_id', 'cars.modelyear', 'generations.generations')
-        ->orderByDesc('cars.modelyear')
-        ->selectRaw('MAX(cars.price) as max_price, MIN(cars.price) as min_price, AVG(cars.price) as avg_price')
-        ->get();
-
-        $qrybrand = brandsModel::orderBy("sort_no")->get();
-        $province = provincesModel::orderBy("name_th", "ASC")->get();
-
-        $setFooterModel = setFooterModel::all();
-        // dd($qrybrandrow, $qrymodelrow);
-        return view('frontend/check-price', [
-            "yearprice" => $qryyearprice,
-            "brand" => $qrybrand,
-            "brandrow" => $qrybrandrow,
-            "modelrow" => $qrymodelrow,
-            'setFooterModel' => $setFooterModel
-        ]);
+    public function checkprice(Request $request, $brand, $model) 
+    {
+        // Debug with dd if needed
+        // dd($brand, $model);
+    
+        // Redirect to the indexPage route
+        return redirect()->route('indexPage');
     }
+    
+    // public function checkprice(Request $request, $brand_id, $model_id) 
+    // {
+
+    //     dd($request);
+    //     $qrybrandrow = brandsModel::where("id", $brand_id)->first();
+    //     $qrymodelrow = modelsModel::where("id", $model_id)->first();
+
+    //     $qryyearprice = carsModel::select('cars.modelyear', 'generations.generations as generation_name', 'cars.generations_id')
+    //     ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id')
+    //     ->where('cars.brand_id', $brand_id)
+    //     ->where('cars.model_id', $model_id)
+    //     ->groupBy('cars.generations_id', 'cars.modelyear', 'generations.generations')
+    //     ->orderByDesc('cars.modelyear')
+    //     ->selectRaw('MAX(cars.price) as max_price, MIN(cars.price) as min_price, AVG(cars.price) as avg_price')
+    //     ->get();
+
+    //     $qrybrand = brandsModel::orderBy("sort_no")->get();
+    //     $province = provincesModel::orderBy("name_th", "ASC")->get();
+
+    //     $setFooterModel = setFooterModel::all();
+    //     // dd($qrybrandrow, $qrymodelrow);
+    //     return view('frontend/check-price', [
+    //         "yearprice" => $qryyearprice,
+    //         "brand" => $qrybrand,
+    //         "brandrow" => $qrybrandrow,
+    //         "modelrow" => $qrymodelrow,
+    //         'setFooterModel' => $setFooterModel
+    //     ]);
+    // }
 
 
     public function searchprice($brand_id, $model_id, $generation_id, $price) {
