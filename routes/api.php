@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Frontend\SmsController;
+use App\Http\Controllers\Frontend\PaySolutionsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,3 +25,14 @@ Route::get('/sendsms', [\App\Http\Controllers\Frontend\SmsController::class, 'se
 
 Route::get('/callback', [\App\Http\Controllers\Frontend\SmsController::class, 'callbackAction']);
 Route::get('/notify', [\App\Http\Controllers\Frontend\SmsController::class, 'notifyAction']);
+
+// Route::post('/payment-return', [PaySolutionsController::class, 'paymentreturn']);
+// Route::post('/payment-postback', [PaySolutionsController::class, 'paymentpostback']);
+// Route::post('/payment-postback', [PaySolutionsController::class, 'paymentpostback'])
+//     ->withoutMiddleware('auth:sanctum');
+// Route::post('/payment-postback', [PaySolutionsController::class, 'paymentpostback'])
+//     ->middleware('throttle:none');
+
+
+
+

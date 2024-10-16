@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\PageController;
@@ -34,6 +35,8 @@ use App\Http\Controllers\Frontend\PackagesAndDealsController;
 use App\Http\Controllers\Frontend\PaymentAndCheckoutController;
 use App\Http\Controllers\Frontend\SearchController;
 
+
+use App\Http\Controllers\PaySolutionsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +47,33 @@ use App\Http\Controllers\Frontend\SearchController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('/payment/form', function () {
+    return view('payment.form');
+})->name('payment.form');
+
+Route::post('/create-payment', [PaySolutionsController::class, 'createPayment'])->name('payment.create');
+
+Route::get('/payment/success', [PaySolutionsController::class, 'paymentSuccess'])->name('payment.success');
+
+Route::get('/payment/fail', [PaySolutionsController::class, 'paymentFail'])->name('payment.fail');
+
+
+
+
+
+Route::post('/create-secure-link', [PaySolutionsController::class, 'createSecureLink'])->name('secure.link');
+// Display the payment form
+// Route::get('/payment', [PaySolutionsController::class, 'showForm'])->name('payment.form');
+// Handle the payment submission
+// Route::post('/payment', [PaySolutionsController::class, 'handlePayment'])->name('payment.submit');
+
+
+
+
+
+
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 
@@ -79,8 +109,12 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 
 Route::controller(FrontendPageController::class)->group(function() {
         
-
 });
+// Route::post('/create-payment', [PaySolutionsController::class, 'createPayment']);
+// Route::get('/create-payment', function () {
+//     return view('frontend.create-payment');
+// });
+
 
 Route::middleware('sessionlogin')->group(function() {
 
