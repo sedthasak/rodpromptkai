@@ -599,6 +599,9 @@ class FrontendPageController extends Controller
 
     public function indexPage(Request $request)
     {
+        // $API_KEY = env('PAYSOLUTIONS_API_KEY');
+        // $MERCHANT_ID = env('PAYSOLUTIONS_MERCHANT_ID');
+        // dd($API_KEY, $MERCHANT_ID);
         $categories = categoriesModel::all();
         
         // Fetch cars with relationships using Eloquent and eager loading

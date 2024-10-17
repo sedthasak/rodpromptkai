@@ -31,35 +31,7 @@ $customerName = 'Kongphop Kamsaikaeo';
                             <input type="hidden" name="customerName" id="customerName" value="{{ $customerName }}" required>
                             <button type="submit" class="btn-postcar"><img src="{{asset('frontend/images/icon-car.svg')}}" alt=""> Create QR Payment</button>
                         </form>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <form method="post" action="https://payment.paysolutions.asia/epaylink/payment.aspx">
-                            Customer E-mail:
-                            <input type="text" name="customeremail" value="customer@email.com">
-                            <br> Product Detail:
-                            <input type="text" name="productdetail" value="product detail">
-                            <br>
-                            <!-- refno unique number 12 digit -->
-                            Reference No.:
-                            <input type="text" name="refno" value="123456789012">
-                            <br>
-                            <!-- merchantid 8 digit -->
-                            Merchant ID:
-                            <input type="text" name="merchantid" value="12345678">
-                            <br>
-                            <!-- currency code -->
-                            Currency Code:
-                            <input type="text" name="cc" value="00">
-                            <br> Total:
-                            <input type="text" name="total" value="1">
-                            <br> Lang:
-                            <input type="text" name="lang" value="TH">
-                            <br>
-                            <br>
-                            <input type="submit" name="Submit" value="Comfirm Order">
-                        </form>
+
 
 
 

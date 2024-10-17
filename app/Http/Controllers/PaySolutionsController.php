@@ -9,18 +9,27 @@ class PaySolutionsController extends Controller
 {
     public function createPayment(Request $request)
     {
-        $merchantId = '02948897';
-        $authKey = 'Bearer AEZUUuvd';
-        $apiUrl = 'https://apis.paysolutions.asia/redirect';
+        $merchantId = env('PAYSOLUTIONS_MERCHANT_ID');
+        // $merchantId = 12948897;
+        $authKey = 'Bearer ' . env('PAYSOLUTIONS_API_KEY');
+        // $apiUrl = 'https://apis.paysolutions.asia/redirect';
+        // $apiUrl = 'https://payment.paysolutions.asia/epaylink/payment.aspx';
+        $apiUrl = 'https://apis.paysolutions.asia/tep/api/v2/promptpay';
+        $total = 12.12;
+        $referenceNo = 123456789012;
 
         $payload = [
-            'merchantid' => $merchantId,
-            'orderid' => 'INV' . time(),
-            'channel' => 'promptpay',  // Default to PromptPay
-            'amount' => '100.00',
-            'currency' => 'THB',
-            'redirectsuccess' => url('/payment/success'),
-            'redirectfail' => url('/payment/fail'),
+            'merchantID' => $merchantId,
+            'productDetail' => 'productDetail',
+            'customerEmail' => 'kk.supernova00@gmail.com',
+            'customerName' => 'Kongphop Kamsaikaeo',
+            'referenceNo' => $referenceNo,
+            'total' => $total,
+            // 'orderid' => 'INV' . time(),
+            // 'channel' => 'promptpay',  // Default to PromptPay
+            // 'currency' => 'THB',
+            // 'redirectsuccess' => url('/payment/success'),
+            // 'redirectfail' => url('/payment/fail'),
         ];
 
         // dd($merchantId, $authKey, $apiUrl, $payload);
@@ -30,13 +39,23 @@ class PaySolutionsController extends Controller
             'Accept' => 'application/json',
         ])->post($apiUrl, $payload);
 
+        dd($response);
         if ($response->successful()) {
-            return redirect($response->json('paymentUrl'));
+            dd('successful');
+            return redirect($response->json('paymentUrl'));         
         } else {
+            dd('not successful');
             return back()->withErrors($response->json('message', 'Failed to create payment link'));
         }
     }
 
+    public function paymentform()
+    {
+        // $API_KEY = env('PAYSOLUTIONS_API_KEY');
+        // $MERCHANT_ID = env('PAYSOLUTIONS_MERCHANT_ID');
+        // dd($API_KEY, $MERCHANT_ID);
+        return view('payment.form');
+    }
     public function paymentSuccess()
     {
         return view('payment.success');

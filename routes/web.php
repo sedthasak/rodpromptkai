@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\DarkModeController;
@@ -48,15 +49,9 @@ use App\Http\Controllers\PaySolutionsController;
 |
 */
 
-
-Route::get('/payment/form', function () {
-    return view('payment.form');
-})->name('payment.form');
-
+Route::get('/payment/form', [PaySolutionsController::class, 'paymentform'])->name('payment.form');
 Route::post('/create-payment', [PaySolutionsController::class, 'createPayment'])->name('payment.create');
-
 Route::get('/payment/success', [PaySolutionsController::class, 'paymentSuccess'])->name('payment.success');
-
 Route::get('/payment/fail', [PaySolutionsController::class, 'paymentFail'])->name('payment.fail');
 
 
@@ -76,6 +71,33 @@ Route::post('/create-secure-link', [PaySolutionsController::class, 'createSecure
 
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
+
+
+// check if the SQL file exists
+
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return "cache is cleared";
+});
+Route::get('/clear-route', function() {
+    Artisan::call('route:clear');
+    return "route is cleared";
+});
+Route::get('/clear-config', function() {
+    Artisan::call('config:clear');
+    return "config is cleared";
+});
+Route::get('/clear-view', function() {
+    Artisan::call('view:clear');
+    return "view is cleared";
+});
+Route::get('/clear-all', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    return "All is cleared";
+});
 
 
 // Route::get('/delete-cars-images', [SearchController::class, 'deleteCarsAndImages']);
