@@ -716,7 +716,7 @@ class PackagesAndDealsController extends Controller
             }
         }
 
-        return redirect()->route('orderpayPage', ['order' => $order->id]);
+        return redirect()->route('payment.form', ['order' => $order->id]);
     }
     public function orderpayaction(Request $request)
     {

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\Customer;
 use App\Models\MyDeal;
 use App\Models\CouponUse;
 
@@ -17,7 +17,7 @@ class OrderModel extends Model
     protected $fillable = [
         'status',
         'order_number',
-        'customer_id',
+        'customer_id', // This should reference the customer placing the order
         'type',
         'amount', // Add the amount field here
         'package_dealers_id',
@@ -82,18 +82,22 @@ class OrderModel extends Model
         'donate' => 'boolean',
         'payment_date' => 'datetime',
     ];
+
     // Relationship with MyDeal
     public function myDeals()
     {
         return $this->hasMany(MyDeal::class, 'orders_id');
     }
+
+    // Relationship with CouponUse
     public function couponUses()
     {
         return $this->hasMany(CouponUse::class, 'orders_id');
     }
+
+    // Relationship with Customer (an order belongs to a customer)
     public function customer()
     {
-        return $this->hasOne(Customer::class, 'order_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
-
 }

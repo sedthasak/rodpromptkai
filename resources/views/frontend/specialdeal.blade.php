@@ -27,7 +27,7 @@ $arr_tag = array(
     '4' => 'tag-top-left3',
 );
 // echo "<pre>";
-// print_r($customer_deal);
+// print_r($customer_login);
 // echo "</pre>";
 ?>
 @php
@@ -91,10 +91,9 @@ $arr_tag = array(
                                             <div class="{{$arr_tag[$deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
                                         @endif
                                         
-                                        <!-- <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div> -->
-                                        <!-- @if($car->customer->bigbrand == 1) -->
-                                            <!-- <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div> -->
-                                        <!-- @endif -->
+                                        @if($customer_login->bigbrand == 1)
+                                            <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div>
+                                        @endif
                                         <figure>
                                             <div class="cover-car">
                                                 <div class="box-timeout">

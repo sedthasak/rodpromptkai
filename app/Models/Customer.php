@@ -23,7 +23,7 @@ class Customer extends Model
         'dealerpack_regis',
         'dealerpack_expire',
         'vippack',
-        'vippack_quota',     // New field added
+        'vippack_quota',
         'vippack_regis',
         'vippack_expire',
         'order_id',
@@ -47,18 +47,22 @@ class Customer extends Model
         'updated_at'
     ];
 
+    // Relationship with cars
     public function cars()
     {
         return $this->hasMany(carsModel::class, 'customer_id');
     }
 
+    // Relationship with MyDeal
     public function myDeals()
     {
         return $this->hasMany(MyDeal::class, 'customer_id');
     }
-    public function order()
+
+    // Relationship with orders (a customer can have many orders)
+    public function orders()
     {
-        return $this->belongsTo(OrderModel::class, 'order_id');
+        return $this->hasMany(OrderModel::class, 'customer_id');
     }
 
     /**

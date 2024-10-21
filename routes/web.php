@@ -48,11 +48,19 @@ use App\Http\Controllers\PaySolutionsController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/payment/form', [PaySolutionsController::class, 'paymentform'])->name('payment.form');
+Route::get('/payment/form/{order}', [PaySolutionsController::class, 'paymentform'])->name('payment.form');
 Route::post('/create-payment', [PaySolutionsController::class, 'createPayment'])->name('payment.create');
 Route::get('/payment/success', [PaySolutionsController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/payment/fail', [PaySolutionsController::class, 'paymentFail'])->name('payment.fail');
+Route::get('/payment/result', [PaySolutionsController::class, 'paymentResult'])->name('payment.result');
+// This route will handle the return after payment
+Route::get('/payment/return', [PaySolutionsController::class, 'handleReturn'])->name('payment.return');
+// This route will handle the callback from the payment gateway
+Route::get('/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
+Route::get('/payment/callback', [PaySolutionsController::class, 'handlecallback'])->name('payment.callback');
+
+
+
 
 
 

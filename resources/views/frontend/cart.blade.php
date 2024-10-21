@@ -63,13 +63,15 @@ $customerdata = session('customer');
                                             <div class="col-6">
                                                 <div class="table-list-cartdeal">
                                                     <div>ดีลพิเศษ</div>
-                                                    (ราคาคันละ 500 บ.)
+                                                    @php $percar = 1  @endphp
+                                                    (ราคาคันละ {{$percar}} บ.)
+                                                    
                                                 </div>
                                             </div>
                                             <div class="col-3 text-center">
                                                 <input type="number" id="deal_amount" name="amount" value="{{$amount}}">
                                             </div>
-                                            <div class="col-3 text-end">{{$amount * 500}}</div>
+                                            <div class="col-3 text-end">{{$amount * $percar}}</div>
                                         </div>
                                     </div>
                                     
@@ -485,14 +487,14 @@ $customerdata = session('customer');
                                 <input type="hidden" name="customer_id" value="{{$customerdata->id}}" />
                                 <input type="hidden" name="type" value="{{$type}}" />
                                 <input type="hidden" name="deal_id" value="{{$amount}}" />
-                                <input type="hidden" name="price" id="price" value="{{ $amount * 500 }}" />
-                                <input type="hidden" name="price_not_vat" id="price_not_vat" value="{{ ($amount * 500) - (($amount * 500) * 0.07) }}" />
-                                <input type="hidden" name="vat" id="vat" value="{{ ($amount * 500) * 0.07 }}" />
+                                <input type="hidden" name="price" id="price" value="{{ $amount * $percar }}" />
+                                <input type="hidden" name="price_not_vat" id="price_not_vat" value="{{ ($amount * $percar) - (($amount * $percar) * 0.07) }}" />
+                                <input type="hidden" name="vat" id="vat" value="{{ ($amount * $percar) * 0.07 }}" />
                                 <input type="hidden" name="discount" id="discount" value="0" />
                                 <input type="hidden" name="net_price" id="net_price" value="0" />
-                                <input type="hidden" name="total_result" id="total_result" value="{{ $amount * 500 }}" />
+                                <input type="hidden" name="total_result" id="total_result" value="{{ $amount * $percar }}" />
                                 <input type="hidden" name="donate_input" id="donate_input" value="0" />
-                                <input type="hidden" name="total" id="total" value="{{ $amount * 500 }}" />
+                                <input type="hidden" name="total" id="total" value="{{ $amount * $percar }}" />
 
                                 <input type="hidden" name="coupons_id" id="coupons_id" value="" />
                                 <input type="hidden" name="coupons_rate" id="coupons_rate" value="" />
@@ -502,16 +504,16 @@ $customerdata = session('customer');
                                 <div class="cartright-box cartright-price">
                                     <div class="row">
                                         <div class="col-8">ราคา Deal</div>
-                                        <div class="col-4 text-end"><span class="txt-cart-price" id="price_not_vat_show">฿{{ number_format(($amount * 500) - (($amount * 500) * 0.07), 2) }}</span></div>
+                                        <div class="col-4 text-end"><span class="txt-cart-price" id="price_not_vat_show">฿{{ number_format(($amount * $percar) - (($amount * $percar) * 0.07), 2) }}</span></div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-8">Vat 7%</div>
-                                        <div class="col-4 text-end"><span class="txt-cart-price" id="vat_show">฿{{ number_format(($amount * 500) * 0.07, 2) }}</span></div>
+                                        <div class="col-4 text-end"><span class="txt-cart-price" id="vat_show">฿{{ number_format(($amount * $percar) * 0.07, 2) }}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-8">ราคา Deal รวม Vat</div>
-                                        <div class="col-4 text-end"><span class="txt-cart-price" id="price_show">฿{{ number_format($amount * 500, 2) }}</span></div>
+                                        <div class="col-4 text-end"><span class="txt-cart-price" id="price_show">฿{{ number_format($amount * $percar, 2) }}</span></div>
                                     </div>
 
                                     <div class="row" id="discount_info" style="display: none;">
@@ -558,7 +560,7 @@ $customerdata = session('customer');
                                             <div class="txt-total-vat">ยอดรวม Vat 7%</div>
                                         </div>
                                         <div class="col-7 text-end">
-                                            <span class="txt-totalprice" id="total_show">฿{{ number_format($amount * 500, 2) }}</span>
+                                            <span class="txt-totalprice" id="total_show">฿{{ number_format($amount * $percar, 2) }}</span>
                                         </div>
                                     </div>
                                     <div class="code-error error-invoiceform"></div>
