@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\OrderModel;
+use Illuminate\Support\Facades\{Hash, DB, Log};
 
 class PaySolutionsController extends Controller
 {
@@ -14,7 +15,7 @@ class PaySolutionsController extends Controller
         // app()->instance('middleware.disable', true);
     
         // Log the request and respond
-        \Log::info('Payment Callback Data:', $request->all());
+        Log::info('Payment Callback Data:', $request->all());
     
         return response()->json([
             'status' => 'success',
@@ -26,7 +27,7 @@ class PaySolutionsController extends Controller
     public function handleReturn(Request $request)
     {
         // Optionally, you can log the request for debugging
-        \Log::info('Return URL request', $request->all());
+        Log::info('Return URL request', $request->all());
 
         // Retrieve the necessary data from the request (if provided by the gateway)
         $status = $request->input('status'); // For example, 'success' or 'fail'
@@ -43,12 +44,13 @@ class PaySolutionsController extends Controller
     public function handlePostBack(Request $request)
     {
         // Log the Post Back request for debugging purposes
-        \Log::info('Post Back URL request', $request->all());
+        Log::info('Post Back URL request', $request->all());
     
-        // Validate the incoming data from the payment gateway
+        // Validate the incoming data from the payment gateway (via GET query parameters)
         $validatedData = $request->validate([
             'referenceNo' => 'required|string|max:12', // The order reference number
             'status' => 'required|string', // Payment status: 'success' or 'failed'
+            // You can add additional validation for other parameters, e.g., 'amount', 'currency'
         ]);
     
         // Find the order by referenceNo (which maps to the order_number in your database)
@@ -71,52 +73,160 @@ class PaySolutionsController extends Controller
             return response()->json(['message' => 'Order status updated successfully'], 200);
         } else {
             // Log the error if order is not found
-            \Log::error('Order not found for referenceNo: ' . $validatedData['referenceNo']);
+            Log::error('Order not found for referenceNo: ' . $validatedData['referenceNo']);
     
             // Return a response indicating the order was not found
             return response()->json(['message' => 'Order not found'], 404);
         }
     }
     
+    
+
+    // public function createPayment(Request $request)
+    // {
+    //     // Validate incoming form data
+    //     $validatedData = $request->validate([
+    //         'order_id' => 'required|integer|exists:orders,id', // Validate that the order_id exists in the orders table
+    //         'paymentChannel' => 'nullable|string', // Payment channel (optional), default will be set to 'PromptPay'
+    //     ]);
+
+    //     try {
+    //         // Fetch the order and related customer details using Eloquent relationships
+    //         $order = OrderModel::with('customer')->findOrFail($validatedData['order_id']);
+
+    //         // Check if the order status is pending before proceeding
+    //         if ($order->status !== 'pending') {
+    //             return redirect()->route('profilePage')->with('error', 'This order cannot be processed because it is not pending.');
+    //         }
+
+    //         // Check if the customer exists for the order
+    //         if (!$order->customer) {
+    //             return redirect()->route('profilePage')->with('error', 'Customer information not found for this order.');
+    //         }
+
+    //         // Use order details and customer details for payment
+    //         $total = $order->total;
+    //         $referenceNo = $order->order_number; // Use the order number as the reference
+    //         $email = $order->customer->email;
+    //         $customerName = $order->customer->firstname . ' ' . $order->customer->lastname;
+
+    //         // Set the default payment channel to 'PromptPay' if none is provided
+    //         $paymentChannel = $validatedData['paymentChannel'] ?? 'full';
+
+    //         // Load environment variables for the payment API
+    //         $MERCHANT_ID = env('PAYSOLUTIONS_MERCHANT_ID');
+    //         $AUTH_KEY = env('PAYSOLUTIONS_AUTH_KEY');
+    //         $authKey = 'Bearer ' . $AUTH_KEY;
+
+    //         // API URL
+    //         // $apiUrl = 'https://apis.paysolutions.asia/tep/api/v2/payment';
+    //         $apiUrl = 'https://payments.paysolutions.asia/payment ';
+
+    //         // Payload for the API request
+    //         $payload = [
+    //             'merchantid' => $MERCHANT_ID,
+    //             'refno' => $referenceNo,
+    //             'customeremail' => $email,
+    //             'productdetail' => 'Payment for Order ' . $referenceNo,
+    //             'total' => $total,
+    //             'cc' => '00', // For Thai Baht
+    //             'channel' => $paymentChannel, // Use default or provided payment channel
+                
+    //             // 'customerName' => $customerName,
+    //             // 'returnURL' => route('payment.callback'), // URL to redirect after successful payment
+    //             // 'cancelURL' => route('payment.cancel'),  // URL for payment cancellation
+    //         ];
+
+    //         // Log request payload for debugging
+    //         Log::info('Payment request payload', $payload);
+    //         // dd($payload, $apiUrl, $MERCHANT_ID, $authKey);
+    //         // Send API request with headers and payload
+    //         $response = Http::withHeaders([
+    //             'Authorization' => $authKey,
+    //             'Accept' => 'application/json',
+    //         ])->post($apiUrl, $payload);
+
+    //         dd($response);
+    //         // Handle successful response
+    //         if ($response->successful()) {
+    //             $responseData = $response->json();
+    //             Log::info('Payment response', $responseData);
+
+    //             // Check for necessary keys in the response
+    //             if (isset($responseData['data']['orderNo']) && isset($responseData['data']['image'])) {
+    //                 // Pass data to the result view and show the QR code image for payment
+    //                 return view('payment.result', [
+    //                     'orderNo' => $responseData['data']['orderNo'],
+    //                     'qrCodeImage' => $responseData['data']['image'], // QR code image for payment (if using PromptPay)
+    //                     'total' => $total,
+    //                     'referenceNo' => $referenceNo,
+    //                 ]);
+    //             } else {
+    //                 // If response is incomplete, show failure message in result view
+    //                 return view('payment.result', [
+    //                     'message' => 'Incomplete payment data in response.',
+    //                     'orderNo' => $referenceNo,
+    //                     'total' => $total,
+    //                     'referenceNo' => $referenceNo,
+    //                     'qrCodeImage' => null,
+    //                 ]);
+    //             }
+    //         } else {
+    //             Log::error('Payment creation failed', [
+    //                 'response' => $response->json(),
+    //             ]);
+
+    //             // Handle failure in the result view
+    //             return view('payment.result', [
+    //                 'message' => 'Failed to create payment link. Please try again.',
+    //                 'orderNo' => $referenceNo,
+    //                 'total' => $total,
+    //                 'referenceNo' => $referenceNo,
+    //                 'qrCodeImage' => null,
+    //             ]);
+    //         }
+    //     } catch (\Exception $e) {
+    //         Log::error('Payment creation error', [
+    //             'error' => $e->getMessage(),
+    //         ]);
+
+    //         // Return failure in the result view with error message
+    //         return view('payment.result', [
+    //             'message' => 'An error occurred while creating the payment. Please try again later.',
+    //             'orderNo' => $order->order_number,
+    //             'total' => $order->total,
+    //             'referenceNo' => $order->order_number,
+    //             'qrCodeImage' => null,
+    //         ]);
+    //     }
+    // }
+
+
 
 
 
     public function createPayment(Request $request)
     {
-        // Validate incoming form data
         $validatedData = $request->validate([
             'order_id' => 'required|integer|exists:orders,id', // Validate that the order_id exists in the orders table
         ]);
     
         try {
-            // Fetch the order and related customer details using Eloquent relationships
             $order = OrderModel::with('customer')->findOrFail($validatedData['order_id']);
-    
-            // Check if the order status is pending before proceeding
             if ($order->status !== 'pending') {
                 return redirect()->route('profilePage')->with('error', 'This order cannot be processed because it is not pending.');
             }
-    
-            // Check if the customer exists for the order
             if (!$order->customer) {
                 return redirect()->route('profilePage')->with('error', 'Customer information not found for this order.');
             }
-    
-            // Use order details and customer details for payment
             $total = $order->total;
             $referenceNo = $order->order_number; // Use the order number as the reference
             $email = $order->customer->email;
             $customerName = $order->customer->firstname . ' ' . $order->customer->lastname;
-    
-            // Load environment variables for the payment API
             $MERCHANT_ID = env('PAYSOLUTIONS_MERCHANT_ID');
             $AUTH_KEY = env('PAYSOLUTIONS_AUTH_KEY');
             $authKey = 'Bearer ' . $AUTH_KEY;
-    
-            // API URL
             $apiUrl = 'https://apis.paysolutions.asia/tep/api/v2/promptpaynew';
-    
-            // Payload for the API request
             $payload = [
                 'merchantID' => $MERCHANT_ID,
                 'productDetail' => 'Order ' . $referenceNo,
@@ -125,24 +235,15 @@ class PaySolutionsController extends Controller
                 'referenceNo' => $referenceNo,
                 'total' => $total,
             ];
-    
-            // Log request payload for debugging
-            \Log::info('Payment request payload', $payload);
-    
-            // Send API request with headers and payload
+            Log::info('Payment request payload', $payload);
             $response = Http::withHeaders([
                 'Authorization' => $authKey,
                 'Accept' => 'application/json',
             ])->post($apiUrl, $payload);
-    
-            // Handle successful response
             if ($response->successful()) {
                 $responseData = $response->json();
-                \Log::info('Payment response', $responseData);
-    
-                // Check for necessary keys in the response
+                Log::info('Payment response', $responseData);
                 if (isset($responseData['data']['orderNo']) && isset($responseData['data']['image'])) {
-                    // Pass data to the result view and show the QR code image for payment
                     return view('payment.result', [
                         'orderNo' => $responseData['data']['orderNo'],
                         'qrCodeImage' => $responseData['data']['image'],
@@ -150,7 +251,6 @@ class PaySolutionsController extends Controller
                         'referenceNo' => $referenceNo,
                     ]);
                 } else {
-                    // If response is incomplete, show failure message in result view
                     return view('payment.result', [
                         'message' => 'Incomplete payment data in response.',
                         'orderNo' => $referenceNo, // Show the order ID for tracking
@@ -160,11 +260,9 @@ class PaySolutionsController extends Controller
                     ]);
                 }
             } else {
-                \Log::error('Payment creation failed', [
+                Log::error('Payment creation failed', [
                     'response' => $response->json(),
                 ]);
-    
-                // Handle failure in the result view
                 return view('payment.result', [
                     'message' => 'Failed to create payment link. Please try again.',
                     'orderNo' => $referenceNo,
@@ -174,11 +272,9 @@ class PaySolutionsController extends Controller
                 ]);
             }
         } catch (\Exception $e) {
-            \Log::error('Payment creation error', [
+            Log::error('Payment creation error', [
                 'error' => $e->getMessage(),
             ]);
-    
-            // Return failure in the result view with error message
             return view('payment.result', [
                 'message' => 'An error occurred while creating the payment. Please try again later.',
                 'orderNo' => $order->order_number,
