@@ -9,20 +9,106 @@ use Illuminate\Support\Facades\{Hash, DB, Log};
 
 class PaySolutionsController extends Controller
 {
-    public function handlecallback(Request $request)
+    
+    public function handlePostBacktest(Request $request)
     {
-        // Temporarily disable CSRF protection
-        // app()->instance('middleware.disable', true);
+        // Log the request data for debugging
+        Log::info('Postback request received', $request->query());
     
-        // Log the request and respond
-        Log::info('Payment Callback Data:', $request->all());
+        // Check if the required query parameters are present
+        if ($request->has(['order_id', 'amount', 'status', 'transaction_id'])) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Postback received successfully',
+                'data' => $request->query()
+            ]);
+        }
     
+        // Return an error response if required fields are missing
         return response()->json([
-            'status' => 'success',
-            'message' => 'Payment callback received',
-            'data' => $request->all()
-        ]);
+            'success' => false,
+            'message' => 'Invalid postback data',
+        ], 400);
     }
+    
+    
+
+    public function handlePostBack(Request $request)
+    {
+        // Log the Post Back request for debugging
+        Log::info('Post Back request received', ['data' => $request->all()]);
+
+        // Handle both GET and POST requests (in case the payment gateway sends GET requests)
+        if ($request->isMethod('get')) {
+            Log::warning('Received GET request, expected POST request');
+        }
+
+        // Validate incoming data from the payment gateway
+        $validatedData = $request->validate([
+            'referenceNo' => 'required|string|max:12',
+            'status' => 'required|string',
+        ]);
+
+        // Find the order by reference number
+        $order = OrderModel::where('order_number', $validatedData['referenceNo'])->first();
+
+        if ($order) {
+            // Update order status based on the payment status
+            $order->status = $validatedData['status'] === 'success' ? 'paid' : 'failed';
+            $order->save();
+
+            // Log the successful order update
+            Log::info('Order updated successfully', ['order_id' => $order->id, 'status' => $order->status]);
+
+            // Return a JSON response
+            return response()->json(['message' => 'Order status updated successfully'], 200);
+        } else {
+            // Log the error if the order is not found
+            Log::error('Order not found for referenceNo: ' . $validatedData['referenceNo']);
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+    }
+
+
+
+    // public function handlePostBack(Request $request)
+    // {
+    //     // Log the Post Back request for debugging purposes
+    //     Log::info('Post Back URL request', $request->all());
+    
+    //     // Validate the incoming data from the payment gateway (via GET query parameters)
+    //     $validatedData = $request->validate([
+    //         'referenceNo' => 'required|string|max:12', // The order reference number
+    //         'status' => 'required|string', // Payment status: 'success' or 'failed'
+    //         // You can add additional validation for other parameters, e.g., 'amount', 'currency'
+    //     ]);
+    
+    //     // Find the order by referenceNo (which maps to the order_number in your database)
+    //     $order = OrderModel::where('order_number', $validatedData['referenceNo'])->first();
+    
+    //     if ($order) {
+    //         // Check the payment status and update the order accordingly
+    //         if ($validatedData['status'] === 'success') {
+    //             // Mark the order as paid
+    //             $order->status = 'paid';
+    //         } else {
+    //             // Handle payment failure
+    //             $order->status = 'failed';
+    //         }
+    
+    //         // Save the updated order
+    //         $order->save();
+    
+    //         // Return a JSON response to acknowledge receipt of the postback
+    //         return response()->json(['message' => 'Order status updated successfully'], 200);
+    //     } else {
+    //         // Log the error if order is not found
+    //         Log::error('Order not found for referenceNo: ' . $validatedData['referenceNo']);
+    
+    //         // Return a response indicating the order was not found
+    //         return response()->json(['message' => 'Order not found'], 404);
+    //     }
+    // }
     
     public function handleReturn(Request $request)
     {
@@ -41,165 +127,74 @@ class PaySolutionsController extends Controller
             return view('payment.fail', ['message' => 'Payment failed, please try again.']);
         }
     }
-    public function handlePostBack(Request $request)
-    {
-        // Log the Post Back request for debugging purposes
-        Log::info('Post Back URL request', $request->all());
     
-        // Validate the incoming data from the payment gateway (via GET query parameters)
-        $validatedData = $request->validate([
-            'referenceNo' => 'required|string|max:12', // The order reference number
-            'status' => 'required|string', // Payment status: 'success' or 'failed'
-            // You can add additional validation for other parameters, e.g., 'amount', 'currency'
-        ]);
-    
-        // Find the order by referenceNo (which maps to the order_number in your database)
-        $order = OrderModel::where('order_number', $validatedData['referenceNo'])->first();
-    
-        if ($order) {
-            // Check the payment status and update the order accordingly
-            if ($validatedData['status'] === 'success') {
-                // Mark the order as paid
-                $order->status = 'paid';
-            } else {
-                // Handle payment failure
-                $order->status = 'failed';
-            }
-    
-            // Save the updated order
-            $order->save();
-    
-            // Return a JSON response to acknowledge receipt of the postback
-            return response()->json(['message' => 'Order status updated successfully'], 200);
-        } else {
-            // Log the error if order is not found
-            Log::error('Order not found for referenceNo: ' . $validatedData['referenceNo']);
-    
-            // Return a response indicating the order was not found
-            return response()->json(['message' => 'Order not found'], 404);
-        }
-    }
-    
-    
+
+
+
+
 
     // public function createPayment(Request $request)
     // {
-    //     // Validate incoming form data
     //     $validatedData = $request->validate([
     //         'order_id' => 'required|integer|exists:orders,id', // Validate that the order_id exists in the orders table
-    //         'paymentChannel' => 'nullable|string', // Payment channel (optional), default will be set to 'PromptPay'
     //     ]);
 
     //     try {
-    //         // Fetch the order and related customer details using Eloquent relationships
     //         $order = OrderModel::with('customer')->findOrFail($validatedData['order_id']);
-
-    //         // Check if the order status is pending before proceeding
+            
     //         if ($order->status !== 'pending') {
     //             return redirect()->route('profilePage')->with('error', 'This order cannot be processed because it is not pending.');
     //         }
 
-    //         // Check if the customer exists for the order
     //         if (!$order->customer) {
     //             return redirect()->route('profilePage')->with('error', 'Customer information not found for this order.');
     //         }
 
-    //         // Use order details and customer details for payment
+    //         // Prepare data for the Paysolutions API request
     //         $total = $order->total;
     //         $referenceNo = $order->order_number; // Use the order number as the reference
-    //         $email = $order->customer->email;
+    //         $customerEmail = $order->customer->email;
     //         $customerName = $order->customer->firstname . ' ' . $order->customer->lastname;
+    //         $merchantID = env('PAYSOLUTIONS_MERCHANT_ID');
+    //         $currencyCode = '00';  // Default currency code for THB (Baht)
+    //         $lang = 'TH';           // Default language
+    //         $channel = 'promptpay';  // Default payment channel
 
-    //         // Set the default payment channel to 'PromptPay' if none is provided
-    //         $paymentChannel = $validatedData['paymentChannel'] ?? 'full';
-
-    //         // Load environment variables for the payment API
-    //         $MERCHANT_ID = env('PAYSOLUTIONS_MERCHANT_ID');
-    //         $AUTH_KEY = env('PAYSOLUTIONS_AUTH_KEY');
-    //         $authKey = 'Bearer ' . $AUTH_KEY;
-
-    //         // API URL
-    //         // $apiUrl = 'https://apis.paysolutions.asia/tep/api/v2/payment';
-    //         $apiUrl = 'https://payments.paysolutions.asia/payment ';
-
-    //         // Payload for the API request
+    //         // Build payload to send to Paysolutions API
     //         $payload = [
-    //             'merchantid' => $MERCHANT_ID,
-    //             'refno' => $referenceNo,
-    //             'customeremail' => $email,
-    //             'productdetail' => 'Payment for Order ' . $referenceNo,
-    //             'total' => $total,
-    //             'cc' => '00', // For Thai Baht
-    //             'channel' => $paymentChannel, // Use default or provided payment channel
-                
-    //             // 'customerName' => $customerName,
-    //             // 'returnURL' => route('payment.callback'), // URL to redirect after successful payment
-    //             // 'cancelURL' => route('payment.cancel'),  // URL for payment cancellation
+    //             'customeremail'  => $customerEmail,
+    //             'productdetail'  => 'Order ' . $referenceNo,
+    //             'refno'          => $referenceNo,
+    //             'merchantid'     => $merchantID,
+    //             'cc'             => $currencyCode,
+    //             'total'          => $total,
+    //             'lang'           => $lang,
+    //             'channel'        => $channel,
     //         ];
 
-    //         // Log request payload for debugging
-    //         Log::info('Payment request payload', $payload);
-    //         // dd($payload, $apiUrl, $MERCHANT_ID, $authKey);
-    //         // Send API request with headers and payload
-    //         $response = Http::withHeaders([
-    //             'Authorization' => $authKey,
-    //             'Accept' => 'application/json',
-    //         ])->post($apiUrl, $payload);
+    //         dd($response, $payload);
+    //         // Send the request to Paysolutions API
+    //         $response = Http::post('https://payments.paysolutions.asia/payment', $payload);
 
     //         dd($response);
-    //         // Handle successful response
+
     //         if ($response->successful()) {
-    //             $responseData = $response->json();
-    //             Log::info('Payment response', $responseData);
-
-    //             // Check for necessary keys in the response
-    //             if (isset($responseData['data']['orderNo']) && isset($responseData['data']['image'])) {
-    //                 // Pass data to the result view and show the QR code image for payment
-    //                 return view('payment.result', [
-    //                     'orderNo' => $responseData['data']['orderNo'],
-    //                     'qrCodeImage' => $responseData['data']['image'], // QR code image for payment (if using PromptPay)
-    //                     'total' => $total,
-    //                     'referenceNo' => $referenceNo,
-    //                 ]);
-    //             } else {
-    //                 // If response is incomplete, show failure message in result view
-    //                 return view('payment.result', [
-    //                     'message' => 'Incomplete payment data in response.',
-    //                     'orderNo' => $referenceNo,
-    //                     'total' => $total,
-    //                     'referenceNo' => $referenceNo,
-    //                     'qrCodeImage' => null,
-    //                 ]);
-    //             }
+    //             // Handle successful response
+    //             return redirect()->route('profilePage')->with('success', 'Payment request sent successfully.');
     //         } else {
-    //             Log::error('Payment creation failed', [
-    //                 'response' => $response->json(),
-    //             ]);
-
-    //             // Handle failure in the result view
-    //             return view('payment.result', [
-    //                 'message' => 'Failed to create payment link. Please try again.',
-    //                 'orderNo' => $referenceNo,
-    //                 'total' => $total,
-    //                 'referenceNo' => $referenceNo,
-    //                 'qrCodeImage' => null,
-    //             ]);
+    //             // Log error response and handle failure
+    //             Log::error('Payment request failed', ['response' => $response->json()]);
+    //             return redirect()->route('profilePage')->with('error', 'Failed to create payment link. Please try again.');
     //         }
+
     //     } catch (\Exception $e) {
     //         Log::error('Payment creation error', [
     //             'error' => $e->getMessage(),
     //         ]);
-
-    //         // Return failure in the result view with error message
-    //         return view('payment.result', [
-    //             'message' => 'An error occurred while creating the payment. Please try again later.',
-    //             'orderNo' => $order->order_number,
-    //             'total' => $order->total,
-    //             'referenceNo' => $order->order_number,
-    //             'qrCodeImage' => null,
-    //         ]);
+    //         return redirect()->route('profilePage')->with('error', 'An error occurred while creating the payment. Please try again later.');
     //     }
     // }
+
 
 
 
@@ -284,10 +279,6 @@ class PaySolutionsController extends Controller
             ]);
         }
     }
-    
-    
-    
-    
     
     public function paymentform(Request $request, $order)
     {

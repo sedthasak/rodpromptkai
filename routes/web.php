@@ -56,10 +56,11 @@ Route::get('/payment/result', [PaySolutionsController::class, 'paymentResult'])-
 // This route will handle the return after payment
 Route::get('/payment/return', [PaySolutionsController::class, 'handleReturn'])->name('payment.return');
 // This route will handle the callback from the payment gateway
-Route::get('/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
+// Route::get('/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
+Route::match(['get', 'post'], '/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
 
-Route::get('/payment/callback', [PaySolutionsController::class, 'handlecallback'])->name('payment.callback');
 
+Route::get('/payment/postbacktest', [PaySolutionsController::class, 'handlePostBacktest'])->name('payment.postbacktest');
 
 
 
