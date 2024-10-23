@@ -62,6 +62,8 @@ Route::match(['get', 'post'], '/payment/postback', [PaySolutionsController::clas
 
 Route::get('/payment/postbacktest', [PaySolutionsController::class, 'handlePostBacktest'])->name('payment.postbacktest');
 
+Route::post('/payment/back', [PaySolutionsController::class, 'handleBack'])->name('payment.back');
+
 
 
 

@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\{Hash, DB, Log};
 
 class PaySolutionsController extends Controller
 {
+    public function handleBack(Request $request)
+    {
+        Log::info('Request method: ' . $request->method());
+        Log::info('Request data: ', $request->all());
+        
+        return response()->json([
+            'message' => 'Payment processed successfully',
+            'data' => $request->all()
+        ]);
+    }
+
     
     public function handlePostBacktest(Request $request)
     {
