@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Frontend\SmsController;
-use App\Http\Controllers\Frontend\PaySolutionsController;
+use App\Http\Controllers\PaySolutionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +33,13 @@ Route::get('/notify', [\App\Http\Controllers\Frontend\SmsController::class, 'not
 // Route::post('/payment-postback', [PaySolutionsController::class, 'paymentpostback'])
 //     ->middleware('throttle:none');
 
+// Route::post('/payment/back', [PaySolutionsController::class, 'handleBack'])->name('payment.back');
 
-
+Route::post('/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
+// Route::post('/payment/postback', function (Request $request) {
+//     return response()->json(['message' => 'POST request works!!!!!!!!!!!!!!!!!!!!!']);
+// });
+Route::post('/test-post', function (Request $request) {
+    return response()->json(['message' => 'POST request works']);
+});
 

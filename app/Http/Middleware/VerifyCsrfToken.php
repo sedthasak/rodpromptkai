@@ -13,8 +13,12 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        'payment/postback',
+        'api/payment/postback',
         'payment/callback',
         'payment/postbacktest',
         'payment/back',
+        'test-post',
+        'api/test-post',
     ];
 }

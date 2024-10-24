@@ -57,12 +57,18 @@ Route::get('/payment/result', [PaySolutionsController::class, 'paymentResult'])-
 Route::get('/payment/return', [PaySolutionsController::class, 'handleReturn'])->name('payment.return');
 // This route will handle the callback from the payment gateway
 // Route::get('/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
-Route::match(['get', 'post'], '/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
+// Route::match(['get', 'post'], '/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
 
 
-Route::get('/payment/postbacktest', [PaySolutionsController::class, 'handlePostBacktest'])->name('payment.postbacktest');
+// Route::post('/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
 
+Route::post('/payment/postbacktest', [PaySolutionsController::class, 'handlePostBacktest'])->name('payment.postbacktest');
 Route::post('/payment/back', [PaySolutionsController::class, 'handleBack'])->name('payment.back');
+
+// Route::post('/test-post', function (Request $request) {
+//     return response()->json(['message' => 'POST request works']);
+// });
+
 
 
 
