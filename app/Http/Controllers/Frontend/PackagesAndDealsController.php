@@ -536,22 +536,36 @@ class PackagesAndDealsController extends Controller
 
 
 
-
     public function applyCouponAction(Request $request)
     {
         $code = $request->input('code');
         $coupon = CouponModel::where('code', $code)
             ->where('status', 'active')
             ->first();
-
+    
         if ($coupon) {
-            if ($coupon->expirecoupon->isFuture()) {
+            // Check expiration if coupon has an expiration date and `have_expire` is set to 1
+            if ($coupon->have_expire && $coupon->expirecoupon && $coupon->expirecoupon->isFuture()) {
                 $limit = $coupon->limit;
-                $usedCount = CouponUse::where('coupons_id', $coupon->id)
-                    ->count();
+                $usedCount = CouponUse::where('coupons_id', $coupon->id)->count();
+    
+                // Check if the coupon usage has reached its limit
                 if ($limit !== null && $usedCount >= $limit) {
                     return response()->json(['success' => false, 'message' => 'คูปองนี้ใช้เกินจำนวนที่กำหนดแล้ว']);
                 }
+    
+                // Coupon is valid
+                return response()->json([
+                    'success' => true,
+                    'id' => $coupon->id,
+                    'rate' => $coupon->rate,
+                    'code' => $coupon->code,
+                    'name' => $coupon->name,
+                    'limit_rate' => $coupon->limit_rate,
+                ]);
+    
+            } elseif (!$coupon->have_expire) {
+                // If coupon does not expire (`have_expire` = 0), it's valid
                 return response()->json([
                     'success' => true,
                     'id' => $coupon->id,
@@ -567,6 +581,37 @@ class PackagesAndDealsController extends Controller
             return response()->json(['success' => false, 'message' => 'ไม่พบคูปอง']);
         }
     }
+    
+    // public function applyCouponAction(Request $request)
+    // {
+    //     $code = $request->input('code');
+    //     $coupon = CouponModel::where('code', $code)
+    //         ->where('status', 'active')
+    //         ->first();
+
+    //     if ($coupon) {
+    //         if ($coupon->expirecoupon->isFuture()) {
+    //             $limit = $coupon->limit;
+    //             $usedCount = CouponUse::where('coupons_id', $coupon->id)
+    //                 ->count();
+    //             if ($limit !== null && $usedCount >= $limit) {
+    //                 return response()->json(['success' => false, 'message' => 'คูปองนี้ใช้เกินจำนวนที่กำหนดแล้ว']);
+    //             }
+    //             return response()->json([
+    //                 'success' => true,
+    //                 'id' => $coupon->id,
+    //                 'rate' => $coupon->rate,
+    //                 'code' => $coupon->code,
+    //                 'name' => $coupon->name,
+    //                 'limit_rate' => $coupon->limit_rate,
+    //             ]);
+    //         } else {
+    //             return response()->json(['success' => false, 'message' => 'คูปองนี้หมดอายุแล้ว']);
+    //         }
+    //     } else {
+    //         return response()->json(['success' => false, 'message' => 'ไม่พบคูปอง']);
+    //     }
+    // }
     public function cartPage(Request $request) 
     {
         $pvs = Province::orderBy('name_th', 'asc')->get();
