@@ -48,40 +48,6 @@ use App\Http\Controllers\PaySolutionsController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/payment/form/{order}', [PaySolutionsController::class, 'paymentform'])->name('payment.form');
-Route::post('/create-payment', [PaySolutionsController::class, 'createPayment'])->name('payment.create');
-Route::get('/payment/success', [PaySolutionsController::class, 'paymentSuccess'])->name('payment.success');
-Route::get('/payment/fail', [PaySolutionsController::class, 'paymentFail'])->name('payment.fail');
-Route::get('/payment/result', [PaySolutionsController::class, 'paymentResult'])->name('payment.result');
-// This route will handle the return after payment
-Route::get('/payment/return', [PaySolutionsController::class, 'handleReturn'])->name('payment.return');
-// This route will handle the callback from the payment gateway
-// Route::get('/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
-// Route::match(['get', 'post'], '/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
-
-
-// Route::post('/payment/postback', [PaySolutionsController::class, 'handlePostBack'])->name('payment.postback');
-
-Route::post('/payment/postbacktest', [PaySolutionsController::class, 'handlePostBacktest'])->name('payment.postbacktest');
-Route::post('/payment/back', [PaySolutionsController::class, 'handleBack'])->name('payment.back');
-
-// Route::post('/test-post', function (Request $request) {
-//     return response()->json(['message' => 'POST request works']);
-// });
-
-
-
-
-
-
-
-
-Route::post('/create-secure-link', [PaySolutionsController::class, 'createSecureLink'])->name('secure.link');
-// Display the payment form
-// Route::get('/payment', [PaySolutionsController::class, 'showForm'])->name('payment.form');
-// Handle the payment submission
-// Route::post('/payment', [PaySolutionsController::class, 'handlePayment'])->name('payment.submit');
-
 
 
 
@@ -157,6 +123,8 @@ Route::controller(FrontendPageController::class)->group(function() {
 
 
 Route::middleware('sessionlogin')->group(function() {
+
+    
 
     Route::controller(PostController::class)->group(function() {
 
@@ -333,26 +301,50 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/orderpay/{order}', 'orderpayPage')->name('orderpayPage');
         Route::post('/orderpay-action', 'orderpayaction')->name('orderpayaction');
         Route::post('/cart', 'cartPage')->name('cartPage');
-        Route::post('/cart-action', 'cartactionPage')->name('cartactionPage');
+        
         Route::post('/apply-coupon', 'applyCouponAction')->name('applyCouponAction');
 
 
-        
     });
-
-
-
-    
-
-    
-    
-    
-    
-    // Route::controller(PaymentAndCheckoutController::class)->group(function() {
-        
-    // });
     
 });
+
+
+
+Route::controller(PaySolutionsController::class)->group(function() {
+
+    Route::get('/payment/form/{order}', 'paymentform')->name('payment.form');
+    Route::post('/create-payment', 'createPayment')->name('payment.create');
+    Route::get('/payment/success', 'paymentSuccess')->name('payment.success');
+    Route::get('/payment/fail', 'paymentFail')->name('payment.fail');
+    Route::get('/payment/result', 'paymentResult')->name('payment.result');
+    Route::get('/payment/return', 'handleReturn')->name('payment.return');
+    Route::post('/payment/postbacktest',  'handlePostBacktest')->name('payment.postbacktest');
+    Route::post('/payment/back', 'handleBack')->name('payment.back');
+    Route::post('/create-secure-link', 'createSecureLink')->name('secure.link');
+
+    Route::post('/cart-action', 'cartactionPage')->name('cartactionPage');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::controller(SearchController::class)->group(function() {
     Route::get('/testdev', 'testdev')->name('testdev');
     Route::get('/convertcar', 'convertcar')->name('convertcar'); // New route for AJAX

@@ -117,8 +117,6 @@ class OrdersController extends Controller
 
     public function BN_orders(Request $request)
     {
-        // dd(class_exists(PDF::class));
-
         // Retrieve filter parameters
         $keyword = $request->input('keyword');
         $status = $request->input('status');
@@ -128,9 +126,10 @@ class OrdersController extends Controller
         $statuses = OrderModel::select('status')->distinct()->get();
         $types = OrderModel::select('type')->distinct()->get();
     
-        // Filter orders based on search and select filters
-        $orders = OrderModel::query();
+        // Initialize query with relationships
+        $orders = OrderModel::with(['customer', 'myDeals', 'couponUses']);
     
+        // Apply filters based on search and select filters
         if ($keyword) {
             $orders->where(function ($query) use ($keyword) {
                 $query->where('individual_name', 'LIKE', '%' . $keyword . '%')
@@ -147,6 +146,7 @@ class OrdersController extends Controller
             $orders->where('type', $type);
         }
     
+        // Retrieve paginated result set with ordering
         $orders = $orders->orderBy('created_at', 'desc')->paginate(20);
     
         return view('backend.orders', [
@@ -156,6 +156,7 @@ class OrdersController extends Controller
             'types' => $types,
         ]);
     }
+    
     
 
     // Method to show the order detail page

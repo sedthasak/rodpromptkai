@@ -40,7 +40,7 @@
             <thead>
                 <tr>
                     <th class="whitespace-nowrap">Order Number</th>
-                    <th class="text-center whitespace-nowrap">Customer Name</th>
+                    <th class="text-center whitespace-nowrap">Customer</th>
                     <th class="text-center whitespace-nowrap">Type</th>
                     <th class="text-center whitespace-nowrap">Status</th>
                     <th class="text-center whitespace-nowrap">Total Price</th>
@@ -83,6 +83,14 @@
                                 $classset = 'bg-warning';
                                 $nameset = 'รอดำเนินการ';
                                 break;
+                            case 'fail':
+                                $classset = 'bg-danger';
+                                $nameset = 'ชำระล้มเหลว';
+                                break;
+                            case 'paid':
+                                $classset = 'bg-success';
+                                $nameset = 'ชำระเงินแล้ว';
+                                break;
                             default:
                                 $classset = 'bg-gray-400';
                                 $nameset = 'ไม่ทราบสถานะ';
@@ -92,7 +100,11 @@
 
                     <tr class="intro-x">
                         <td>{{ $order->order_number }}</td>
-                        <td class="text-center">{{ $order->individual_name ?? 'N/A' }}</td>
+                        <td class="text-center">
+                            {{ $order->customer->firstname ?? 'N/A' }} {{ $order->customer->lastname ?? '' }}
+                            <br>
+                            {{ $order->customer->email ?? 'N/A' }}
+                        </td>
                         <td class="text-center">{{ ucfirst($order->type) }}</td>
                         <td class="text-center">
                             <span class="cursor-pointer rounded-full px-2 py-1 text-xs font-medium text-white {{ $classset }}"> {{ $nameset }} </span>
