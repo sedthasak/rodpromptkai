@@ -91,9 +91,10 @@ $arr_tag = array(
                                             <div class="{{$arr_tag[$deal->topleft_position]}}"><img src="{{ $topleftPath }}" alt=""></div>
                                         @endif
                                         
-                                        @if($customer_login->bigbrand == 1)
+                                        @if($customer_login->bigbrand == 1 && $customer_login->role == 'vip')
                                             <div class="logo-bigbrand"><img src="{{ asset('frontend/images2/logo-bigbrand.svg') }}" alt=""></div>
                                         @endif
+
                                         <figure>
                                             <div class="cover-car">
                                                 <div class="box-timeout">

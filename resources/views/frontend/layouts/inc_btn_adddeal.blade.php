@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-4 col-sm-6">
                     <div class="popupdeal-input">
-                        <input type="text" name="amount" id="deal-amount" required>
+                        <input type="number" name="amount" id="deal-amount" required>
                     </div>
                 </div>
                 <div class="col-2">

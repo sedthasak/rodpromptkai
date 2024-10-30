@@ -273,17 +273,16 @@ Route::middleware('sessionlogin')->group(function() {
     });
     Route::controller(PackagesAndDealsController::class)->group(function() {
 
+        Route::get('/order-history', 'orderhistoryPage')->name('orderhistoryPage');
+        Route::get('/your-package', 'yourpackagePage')->name('yourpackagePage');
+        Route::get('/getcoupon', 'getcouponPage')->name('getcouponPage');
+
         Route::get('/package-premium', 'packagepremiumPage')->name('packagepremiumPage');
         Route::get('/package-premium-detail', 'packagepremiumdetailPage')->name('packagepremiumdetailPage');
         Route::get('/package-premium-detail/{id}', 'packagepremiumdetailPage')->name('packagepremiumdetailPage');
         Route::get('/package-contact', 'packagecontactPage')->name('packagecontactPage');
         Route::post('/package-contact-submit', 'submitPackageContact')->name('submitPackageContact');
 
-
-
-        Route::get('/your-package', 'yourpackagePage')->name('yourpackagePage');
-
-        Route::get('/getcoupon', 'getcouponPage')->name('getcouponPage');
 
         Route::post('/adddealgroup-action', 'adddealgroupaction')->name('adddealgroupaction');
         Route::post('/updateMyDeal', 'updateMyDeal')->name('updateMyDeal');
@@ -303,8 +302,6 @@ Route::middleware('sessionlogin')->group(function() {
         Route::post('/cart', 'cartPage')->name('cartPage');
         
         Route::post('/apply-coupon', 'applyCouponAction')->name('applyCouponAction');
-
-
     });
     
 });

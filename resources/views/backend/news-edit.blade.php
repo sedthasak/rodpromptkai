@@ -145,6 +145,32 @@
                         styles: [
                             'alignLeft', 'alignCenter', 'alignRight'
                         ]
+                    },
+                    // image: {
+                    //     styles: {
+                    //         options: [
+                    //             { name: 'alignLeft', icon: 'left', title: 'Align left', className: 'image-left' },
+                    //             { name: 'alignCenter', icon: 'center', title: 'Align center', className: 'image-center' },
+                    //             { name: 'alignRight', icon: 'right', title: 'Align right', className: 'image-right' }
+                    //         ]
+                    //     }
+                    // },
+                    // image: {
+                    //     toolbar: [
+                    //         'imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side'
+                    //     ],
+                    //     styles: [
+                    //         {
+                    //             name: 'alignCenter',
+                    //             value: 'center',
+                    //             class: 'alignCenter',
+                    //             style: 'display: block; margin: 0 auto;' // Apply inline style for centering
+                    //         }
+                    //     ]
+                    // },
+                    alignment: {
+                        options: [ 'left', 'center', 'right' ],
+                        isInline: true // Ensures alignment uses inline styles
                     }
                 })
                 .then(editor => {

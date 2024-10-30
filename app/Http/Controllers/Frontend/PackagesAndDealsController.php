@@ -29,6 +29,39 @@ use App\Models\LevelModel;
 
 class PackagesAndDealsController extends Controller
 {
+
+    public function orderhistoryPage(Request $request)
+    {
+        $thiscustomer = session('customer');
+        $customerOrders = OrderModel::where('customer_id', $thiscustomer->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(24); // Use pagination directly here
+    
+        // Add related package or VIP data for each order item
+        $customerOrders->getCollection()->transform(function ($order) {
+            if ($order->type === 'package') {
+                $order->package_name = PackageDealerModel::find($order->package_dealers_id)->name ?? 'N/A';
+            } elseif ($order->type === 'vip') {
+                $order->package_name = VipPackageModel::find($order->package_vip_id)->name ?? 'N/A';
+            }
+            return $order;
+        });
+    
+        $Levels = LevelModel::all();
+    
+        return view('frontend.orderhistory', [
+            "page" => 'orderhistory',
+            'customerOrders' => $customerOrders,
+            'thiscustomer' => $thiscustomer,
+            'Levels' => $Levels,
+        ]);
+    }
+    
+    
+    
+    
+
+
     public function packagepremiumdetailPage(Request $request, $id)
     {
         // Fetch the package detail based on the ID

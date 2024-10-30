@@ -225,7 +225,7 @@ class ViewDataServiceProvider extends ServiceProvider
                     }
                 }
                 $customer_post = carsModel::where('customer_id', $customer_login->id)
-                    ->whereIn('status', ['approved', 'created', 'rejected']) // Add this line
+                    ->whereIn('status', ['approved', 'created', 'rejected', 'deleted', 'expired']) // Add this line
                     ->select(DB::raw("
                         SUM(CASE WHEN type IN ('home', 'lady') THEN 1 ELSE 0 END) as normal,
                         SUM(CASE WHEN type = 'dealer' THEN 1 ELSE 0 END) as dealer
@@ -618,6 +618,9 @@ class ViewDataServiceProvider extends ServiceProvider
                 $view->with('customer_post', $customer_post);
                 $view->with('customer_deal', $customer_deal);
                 $view->with('customer_cars', $structuredCars);
+
+                // session(['customer_login' => $customer_login]);
+
                 
                 /**************************************************************/
                 /******************************KONG****************************/

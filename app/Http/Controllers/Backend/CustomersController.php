@@ -131,6 +131,7 @@ class CustomersController extends Controller
         // Create the order and get the created order instance
         $order = OrderModel::create([
             'status' => 'success',
+            'package_vip_id' => $vipPackage->id,
             'order_number' => $orderNumber,
             'customer_id' => $request->id,
             'type' => 'vip',

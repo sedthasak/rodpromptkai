@@ -103,10 +103,10 @@ $line = $customerdata->line??'-';
                                 onclick="window.open('{{ route('specialprivilegesPage') }}', '_blank');">Member 
                                 <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow">
                             </div>
-                        @elseif ($customer_level['slug'] === 'silver')
+                        @elseif ($customer_level['slug'] === 'classic')
                             <div class="level-member user_silver" 
                                 style="cursor: pointer;" 
-                                onclick="window.open('{{ route('specialprivilegesPage') }}', '_blank');">Silver Member 
+                                onclick="window.open('{{ route('specialprivilegesPage') }}', '_blank');">Classic Member 
                                 <img src="{{ asset('frontend/images/icon-chev-white.svg') }}" alt="" class="member-arrow">
                             </div>
                         @elseif ($customer_level['slug'] === 'gold')

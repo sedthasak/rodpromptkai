@@ -28,7 +28,7 @@ $customerdata = session('customer');
 
                             <div class="wrap-order-detail">
                                 @if($type == 'package')
-                                <div class="topic-cart"><i class="bi bi-circle-fill"></i> รายการสั่งซื้อแพคเกจ</div>
+                                <div class="topic-cart"><i class="bi bi-circle-fill"></i> รายการสั่งซื้อแพ็คเกจ/div>
 
                                 <div class="bg-orderdetail">
                                     <div class="topic-orderdetail">{{$item->name}}</div>
@@ -82,7 +82,7 @@ $customerdata = session('customer');
 
 
                                 <div class="login-checkbox">
-                                    <label class="list-checkbox"> &nbsp ฉันยอมรับหากชำระเงินแล้วจะไม่สามาถขอคืนเงินหรือยกเลิกในภายหลัง
+                                    <label class="list-checkbox"> &nbsp ฉันยอมรับหากชำระเงินแล้วจะไม่สามารถขอคืนเงินหรือยกเลิกในภายหลัง
                                         <input type="checkbox" name="accept" value="1" checked="checked">
                                         <span class="checkmark"></span>
                                     </label>
@@ -411,7 +411,7 @@ $customerdata = session('customer');
 
                                 <div class="cartright-box cartright-price">
                                     <div class="row">
-                                        <div class="col-8">ราคาแพคเกจ</div>
+                                        <div class="col-8">ราคาแพ็คเกจ</div>
                                         <div class="col-4 text-end"><span class="txt-cart-price" id="price_not_vat_show">฿{{ number_format($item->price - ($item->price * 0.07), 2) }}</span></div>
                                     </div>
 
@@ -420,7 +420,7 @@ $customerdata = session('customer');
                                         <div class="col-4 text-end"><span class="txt-cart-price" id="vat_show">฿{{ number_format($item->price * 0.07, 2) }}</span></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-8">ราคาแพคเกจรวม Vat</div>
+                                        <div class="col-8">ราคาแพ็คเกจรวม Vat</div>
                                         <div class="col-4 text-end"><span class="txt-cart-price" id="price_show">฿{{ number_format($item->price, 2) }}</span></div>
                                     </div>
 

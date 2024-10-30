@@ -221,7 +221,8 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                                     <div class="row">
                                         <div class="col-12 text-center">
                                             <div class="frm-step-button">
-                                                <div class="btn-step btn-nextstep btn-confirm-edit-carprice">ยืนยันการแก้ไข</div>
+                                                {{-- <button type="submit" class="btn-step btn-nextstep btn-confirm-edit-carprice ">ยืนยันการแก้ไข</button> --}}
+                                                <button type="submit" class="btn-step btn-nextstep ">ยืนยันการแก้ไข</button>
                                             </div>
                                         </div>
                                     </div>
@@ -424,9 +425,15 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
 
         //     $(this).closest('form').submit(); // Submit the form if the value is valid
         // });
+        $('[data-fancybox]').fancybox({
+            clickSlide: false, // Prevent grabbing mode on click
+            clickOutside: false // Optionally prevent outside clicks as well
+        });
 
         
         $(".btn-confirm-edit-carprice").on("click", function () {
+            console.log("btn-confirm-edit-carprice");
+            event.stopPropagation();
             $(this).closest("form").submit();
         });
     });

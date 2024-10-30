@@ -103,7 +103,7 @@ $arr_tag = array(
 
                             @endphp
 
-                            <div class="col-12 col-xl-4 item-changedeal col-itemcar">
+                            <div class=" col-12 col-xl-4 item-changedeal col-itemcar " style="padding-bottom: 4em;">
                                 <div class="deal-nametype">{{ $car->myDeal->deal->name??'' }}</div>
                                 <div class="item-car" style="border: 2px solid {{ $border }}; background-image: url('{{ $imagePath }}'); background-color: {{ $background }}">
                                     @if($car->myDeal && $car->myDeal->deal && $car->myDeal->deal->topleft)
@@ -158,6 +158,8 @@ $arr_tag = array(
                                             </div>
                                         </figcaption>
                                     </figure>
+
+                                    
                                 </div>
                                 <div class="adddeal-desc">
                                     <a href="{{route('specialselectdealPage', ['car' => $car->id])}}" class="btn-changedeal deal-selectcar">เปลี่ยนรูปแบบ</a>

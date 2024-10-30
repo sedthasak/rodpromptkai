@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Customer;
 use App\Models\MyDeal;
 use App\Models\CouponUse;
+use App\Models\VipPackageModel;
 
 class OrderModel extends Model
 {
@@ -21,6 +22,7 @@ class OrderModel extends Model
         'type',
         'amount', // Add the amount field here
         'package_dealers_id',
+        'package_vip_id',
         'price',
         'vat',
         'coupons_id',
@@ -100,4 +102,9 @@ class OrderModel extends Model
     {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
+    public function vipPackage()
+    {
+        return $this->belongsTo(VipPackageModel::class, 'package_vip_id');
+    }
+
 }
