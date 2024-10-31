@@ -11,10 +11,27 @@
     <meta property="og:locale" content="th_TH">
     <!-- <meta name="description" content="{{ strip_tags($mynews->excerpt) }}">
     <meta name="keywords" content="{{ $mynews->meta_keyword }}"> -->
+
 @endsection
 
 @section('content')
+<style>
+.content-editor figure.image {
+    display: flex;
+    justify-content: center;
+}
 
+.content-editor figure.image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.content-editor  img.news-feature {
+    width: 100%!important;
+    max-width: 100%;
+    height: auto;
+}
+</style>
 <section class="row">
     <div class="col-12 wrap-page wow fadeInDown">
         <div class="container">
@@ -34,7 +51,7 @@
                         @php
                         $myfeature_news = $mynews->feature ? asset($mynews->feature) : asset('uploads/default-car.jpg');
                         @endphp
-                        <img src="{{ $myfeature_news }}" alt="{{ $mynews->title }}" style="width: 100%;" loading="lazy">
+                        <img src="{{ $myfeature_news }}" alt="{{ $mynews->title }}" class="news-feature"  loading="lazy">
                         {!! $mynews->content !!}
                     </div>
                 </div>

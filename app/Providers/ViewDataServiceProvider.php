@@ -224,11 +224,23 @@ class ViewDataServiceProvider extends ServiceProvider
                         break; // Exit loop as soon as we find the correct level
                     }
                 }
+                // $customer_post = carsModel::where('customer_id', $customer_login->id)
+                //     ->whereIn('status', ['approved', 'created', 'rejected', 'deleted', 'expired']) // Add this line
+                //     ->select(DB::raw("
+                //         SUM(CASE WHEN type IN ('home', 'lady') THEN 1 ELSE 0 END) as normal,
+                //         SUM(CASE WHEN type = 'dealer' THEN 1 ELSE 0 END) as dealer
+                //     "))
+                //     ->first();
+
+                // $customer_post = [
+                //     'normal' => $customer_post->normal,
+                //     'dealer' => $customer_post->dealer
+                // ];
+
                 $customer_post = carsModel::where('customer_id', $customer_login->id)
-                    ->whereIn('status', ['approved', 'created', 'rejected', 'deleted', 'expired']) // Add this line
                     ->select(DB::raw("
-                        SUM(CASE WHEN type IN ('home', 'lady') THEN 1 ELSE 0 END) as normal,
-                        SUM(CASE WHEN type = 'dealer' THEN 1 ELSE 0 END) as dealer
+                        SUM(CASE WHEN type IN ('home', 'lady') AND status IN ('approved', 'created', 'rejected', 'deleted', 'expired') THEN 1 ELSE 0 END) as normal,
+                        SUM(CASE WHEN type = 'dealer' AND status = 'approved' THEN 1 ELSE 0 END) as dealer
                     "))
                     ->first();
 
@@ -236,6 +248,7 @@ class ViewDataServiceProvider extends ServiceProvider
                     'normal' => $customer_post->normal,
                     'dealer' => $customer_post->dealer
                 ];
+
 
                 
                 $getdeal = MyDeal::where('customer_id', $customer_login->id)->count();

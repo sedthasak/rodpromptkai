@@ -63,7 +63,7 @@ $customerdata = session('customer');
                                             <div class="col-6">
                                                 <div class="table-list-cartdeal">
                                                     <div>ดีลพิเศษ</div>
-                                                    @php $percar = 1  @endphp
+                                                    @php $percar = 500  @endphp
                                                     (ราคาคันละ {{$percar}} บ.)
                                                     
                                                 </div>

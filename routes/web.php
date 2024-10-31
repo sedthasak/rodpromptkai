@@ -300,6 +300,9 @@ Route::middleware('sessionlogin')->group(function() {
         Route::get('/orderpay/{order}', 'orderpayPage')->name('orderpayPage');
         Route::post('/orderpay-action', 'orderpayaction')->name('orderpayaction');
         Route::post('/cart', 'cartPage')->name('cartPage');
+        Route::get('/cart', function () {
+            return redirect()->route('indexPage'); // Or redirect to a different page, e.g., the home page.
+        });
         
         Route::post('/apply-coupon', 'applyCouponAction')->name('applyCouponAction');
     });

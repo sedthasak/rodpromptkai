@@ -18,9 +18,9 @@ $line = $customerdata->line??'-';
 // echo "<pre>";
 // print_r($image);
 // echo "</pre>";
-// echo "<pre>";
-// print_r($customer_role);
-// echo "</pre>";
+echo "<pre>";
+print_r($customer_post);
+echo "</pre>";
 
 
 ?>

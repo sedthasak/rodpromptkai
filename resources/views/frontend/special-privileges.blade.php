@@ -74,29 +74,49 @@
                     </div>
 
                     <div class="member-boxpad bgwhite-member">
-                        {{-- แสดงสิทธิพิเศษตามหัวข้อที่จัดเรียงไว้ --}}
+                        {{-- Row for displaying accumulated purchase values per level --}}
+                        <div class="row">
+                            <div class="col-4"><h4>ยอดสั่งซื้อ</h4></div>
+                            @foreach ($levels as $level)
+                                <div class="col-2 card-colpad text-center">
+                                    <div class="txt-point point-lv{{ $level->id }}">
+                                        {{ number_format($level->accumulate) }}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Section title for special privileges --}}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="bg-topic-special"><span>สิทธิพิเศษ</span></div>
+                            </div>
+                        </div>
+
+                        {{-- Loop through each privilege and display check marks per level --}}
                         @foreach ($allTexts as $text)
                             <div class="special-list">
                                 <div class="row">
-                                    {{-- คอลัมน์ชื่อสิทธิพิเศษ --}}
-                                    <div class="col-4"><h5>{{ $text }}</h5></div>
-                                    {{-- วนลูปแสดงระดับสมาชิก --}}
+                                    {{-- Display privilege name --}}
+                                    <div class="col-4">
+                                        <h5>{{ $text }}</h5>
+                                    </div>
+                                    
+                                    {{-- Check if each level has this privilege --}}
                                     @foreach ($levels as $level)
+                                        @php
+                                            // Determine if this privilege exists for the current level
+                                            $hasPrivilege = collect(range(1, 12))->contains(function ($i) use ($level, $text) {
+                                                return $level->{'text' . $i} === $text;
+                                            });
+                                        @endphp
                                         <div class="col-2 card-colpad text-center">
-                                            <div class="txt-point point-lv{{ $level->id }}">
-                                                @php
-                                                    // ตรวจสอบว่า Level นี้มีสิทธิพิเศษนั้นหรือไม่
-                                                    $hasPrivilege = false;
-                                                    for ($i = 1; $i <= 12; $i++) {
-                                                        if ($level->{'text' . $i} === $text) {
-                                                            $hasPrivilege = true;
-                                                            break;
-                                                        }
-                                                    }
-                                                @endphp
-                                                {{-- แสดงผลเครื่องหมายเช็คหรือไม่เช็คตามเงื่อนไข --}}
+                                            <div class="txt-point point-lv{{ $level->id }} {{ $hasPrivilege ? '' : 'not-special' }}">
+                                                {{-- Display checkmark if privilege is available, otherwise show empty div --}}
                                                 @if ($hasPrivilege)
-                                                    <img src="{{ asset('frontend/images2/icon-checklist.svg') }}" class="svg" alt="">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="15" viewBox="0 0 19 15" fill="none" class="svg replaced-svg">
+                                                        <path d="M7.25 14.25C6.6875 14.25 6.125 14.025 5.675 13.575L1.175 9.075C0.275 8.175 0.275 6.825 1.175 5.925C2.075 5.025 3.5375 5.025 4.325 5.925L7.25 8.85L14.675 1.425C15.575 0.525 16.925 0.525 17.825 1.425C18.725 2.325 18.725 3.675 17.825 4.575L8.825 13.575C8.375 14.025 7.8125 14.25 7.25 14.25Z"></path>
+                                                    </svg>
                                                 @endif
                                             </div>
                                         </div>
@@ -105,6 +125,8 @@
                             </div>
                         @endforeach
                     </div>
+
+                    
                 </div>
             </div>
         </div>
