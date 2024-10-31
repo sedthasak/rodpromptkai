@@ -264,7 +264,7 @@ $arr_gear = array(
                                                                 <div class="car-province" style="color: {{ $font2 }}">{{ $car->province }}</div>
                                                                 <div class="row">
                                                                     <div class="col-12 col-md-8">
-                                                                        <div class="descpro-car" style="color: {{ $font1 }}">{{ strip_tags($car->detail) }}</div>
+                                                                        <div class="descpro-car" style="color: {{ $font1 }}">{{ strip_tags($car->title) }}</div>
                                                                     </div>
                                                                     <div class="col-12 col-md-4 text-end">
                                                                         <div class="txt-readmore" style="color: {{ $font1 }}">ดูเพิ่มเติม</div>
@@ -342,7 +342,7 @@ $arr_gear = array(
                                                                 <div class="car-province">{{ $car->province }}</div>
                                                                 <div class="row">
                                                                     <div class="col-12 col-md-8">
-                                                                        <div class="descpro-car">{{ strip_tags($car->detail) }}</div>
+                                                                        <div class="descpro-car">{{ strip_tags($car->title) }}</div>
                                                                     </div>
                                                                     <div class="col-12 col-md-4 text-end">
                                                                         <div class="txt-readmore">ดูเพิ่มเติม</div>
