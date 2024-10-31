@@ -55,7 +55,7 @@ $customerdata = session('customer');
                                         <div class="row">
                                             <div class="col-6">รายการ</div>
                                             <div class="col-3 text-center">จำนวน</div>
-                                            <div class="col-3 text-end">ราคา</div>
+                                            {{-- <div class="col-3 text-end">ราคา</div> --}}
                                         </div>
                                     </div>
                                     <div class="list-cartdeal">
@@ -71,7 +71,7 @@ $customerdata = session('customer');
                                             <div class="col-3 text-center">
                                                 <input type="number" id="deal_amount" name="amount" value="{{$amount}}">
                                             </div>
-                                            <div class="col-3 text-end">{{$amount * $percar}}</div>
+                                            {{-- <div class="col-3 text-end">{{$amount * $percar}}</div> --}}
                                         </div>
                                     </div>
                                     

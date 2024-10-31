@@ -308,7 +308,7 @@
 
         handleImageUpload(uploadExteriorInput, uploadExteriorButton, exteriorPreviewContainer, exteriorUploadingSpan, 'exterior');
         handleImageUpload(uploadInteriorInput, uploadInteriorButton, interiorPreviewContainer, interiorUploadingSpan, 'interior');
-        if (formType === 'home') {
+        if (formType === 'home' || formType === 'lady') {
             handleImageUpload(uploadRegistrationInput, registrationUploadButton, registrationPreviewContainer, registrationUploadingSpan, 'registration', true);
         }
 
@@ -357,7 +357,7 @@
                 const interiorImageCount = interiorPreviewContainer.children.length;
                 const isExteriorValid = exteriorImageCount >= 3 && exteriorImageCount <= 15;
                 const isInteriorValid = interiorImageCount >= 3 && interiorImageCount <= 15;
-                const isRegistrationEmpty = formType === 'home' && registrationPreviewContainer.children.length === 0;
+                const isRegistrationEmpty = (formType === 'home' || formType === 'lady') && registrationPreviewContainer.children.length === 0;
 
                 const registrationInput = document.getElementById('upload-registration-input');
                 const isRegistrationRequired = registrationInput && registrationInput.hasAttribute('required');

@@ -617,7 +617,9 @@ class FrontendPageController extends Controller
         ->get();
 
         // Count all cars
-        $allcarcount = carsModel::count();
+        // $allcarcount = carsModel::count();
+        $allcarcount = carsModel::where('status', 'approved')->count();
+
 
         // Get the first 6 approved cars
         $allcars6 = $cars->take(6);
@@ -2177,13 +2179,13 @@ class FrontendPageController extends Controller
         ]);
     }
     
-    public function checkpricePage(Request $request)
-    {
-        dd($request);
-        return view('frontend/check-price', [
+    // public function checkpricePage(Request $request)
+    // {
+    //     dd($request);
+    //     return view('frontend/check-price', [
 
-        ]);
-    }
+    //     ]);
+    // }
     
     
     
@@ -3025,44 +3027,88 @@ class FrontendPageController extends Controller
         ]);
     }
 
-    public function checkprice(Request $request, $brand, $model) 
+    public function checkprice(Request $request, $brand, $model)
     {
-        // Debug with dd if needed
-        // dd($brand, $model);
+        // Retrieve the brand and model from the database based on the input parameters
+        $brandData = brandsModel::where('title', $brand)->first();
+        $modelData = modelsModel::where('model', $model)->where('brand_id', $brandData->id)->first();
     
-        // Redirect to the indexPage route
-        return redirect()->route('indexPage');
+        // Check if brand and model exist
+        if (!$brandData || !$modelData) {
+            return response()->json(['error' => 'Brand or model not found'], 404);
+        }
+    
+        // Get all generations for the specific model
+        $generations = generationsModel::where('models_id', $modelData->id)->get();
+    
+        // Initialize the array structure
+        $result = [
+            'brand' => $brandData->title,
+            'model' => $modelData->model,
+            'generation' => [],
+        ];
+    
+        // Loop through each generation to get car records and calculate the required values
+        foreach ($generations as $generation) {
+            // Get all car records for the current generation with status 'approved'
+            $cars = carsModel::where('generations_id', $generation->id)
+                             ->where('status', 'approved') // Filter by status 'approved'
+                             ->get();
+    
+            // Check if any cars are found for the current generation with status 'approved'
+            if ($cars->isEmpty()) {
+                // Skip the generation if no cars are found with status 'approved'
+                continue;
+            }
+    
+            // Group the car records by model year
+            $carsByYear = $cars->groupBy('modelyear');
+    
+            // Prepare the generation data array
+            $generationData = [
+                'generation_name' => $generation->generations,
+                'modelyear' => []
+            ];
+    
+            // Loop through each model year and calculate min, max, and average prices
+            foreach ($carsByYear as $modelyear => $carGroup) {
+                // Extract individual prices and IDs for each car in this model year
+                $prices = [];
+                foreach ($carGroup as $car) {
+                    $prices[] = [
+                        'price' => $car->price,
+                        'id' => $car->id,
+                    ];
+                }
+    
+                // Extract only the prices to perform calculations
+                $priceValues = array_column($prices, 'price');
+                $minPrice = min($priceValues);
+                $maxPrice = max($priceValues);
+                $avgPrice = round(array_sum($priceValues) / count($priceValues), 2); // Average price rounded to 2 decimals
+    
+                // Add the data to the generation's modelyear array, including individual prices and IDs
+                $generationData['modelyear'][$modelyear] = [
+                    'min' => $minPrice,
+                    'max' => $maxPrice,
+                    'avg' => $avgPrice,
+                    'prices' => $prices, // Include the array of prices and IDs
+                ];
+            }
+    
+            // Add the generation data to the result
+            $result['generation'][$generation->generations] = $generationData;
+        }
+    
+        // Display the result for debugging
+        // dd($result);
+    
+        // Return the view and pass the formatted result data
+        return view('frontend.check-price', compact('result'));
     }
     
-    // public function checkprice(Request $request, $brand_id, $model_id) 
-    // {
-
-    //     dd($request);
-    //     $qrybrandrow = brandsModel::where("id", $brand_id)->first();
-    //     $qrymodelrow = modelsModel::where("id", $model_id)->first();
-
-    //     $qryyearprice = carsModel::select('cars.modelyear', 'generations.generations as generation_name', 'cars.generations_id')
-    //     ->leftJoin('generations', 'cars.generations_id', '=', 'generations.id')
-    //     ->where('cars.brand_id', $brand_id)
-    //     ->where('cars.model_id', $model_id)
-    //     ->groupBy('cars.generations_id', 'cars.modelyear', 'generations.generations')
-    //     ->orderByDesc('cars.modelyear')
-    //     ->selectRaw('MAX(cars.price) as max_price, MIN(cars.price) as min_price, AVG(cars.price) as avg_price')
-    //     ->get();
-
-    //     $qrybrand = brandsModel::orderBy("sort_no")->get();
-    //     $province = provincesModel::orderBy("name_th", "ASC")->get();
-
-    //     $setFooterModel = setFooterModel::all();
-    //     // dd($qrybrandrow, $qrymodelrow);
-    //     return view('frontend/check-price', [
-    //         "yearprice" => $qryyearprice,
-    //         "brand" => $qrybrand,
-    //         "brandrow" => $qrybrandrow,
-    //         "modelrow" => $qrymodelrow,
-    //         'setFooterModel' => $setFooterModel
-    //     ]);
-    // }
+    
+ 
 
 
     public function searchprice($brand_id, $model_id, $generation_id, $price) {
