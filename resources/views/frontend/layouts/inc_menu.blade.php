@@ -65,13 +65,14 @@ $customerdata = session('customer');
                             <li><a href="{{route('carsearchPage')}}"><i class="bi bi-car-front"></i> ดูรถพร้อมขาย</a></li>
                             <!-- <li><a href="{{route('carsearchPage')}}"><i class="bi bi-car-front"></i> ค้นหารถ</a></li> -->
                             <!-- <li><a href="{{route('carPage')}}"><i class="bi bi-stars"></i> รถใหม่</a></li> -->
-                            <li class="hassub">
+                            <li><a href="{{route('newsPage')}}"><i class="bi bi-car-front"></i> ข่าวรถ</a></li>
+                            {{-- <li class="hassub">
                                 <a><i class="bi bi-newspaper"></i> ข่าวรถ</a>
                                 <ul class="submenu">
                                     <li><a href="{{route('newsPage')}}">ข่าวยานยนต์</a></li>
                                     <li><a href="{{route('updatecarpricePage')}}">อัพเดทราคารถยนต์</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             <!-- <li><a href="#"><i class="bi bi-line"></i> ติดต่อเรา</a></li> -->
                             <li class="m-logout"><a href="/clearsessioncustomer"><i class="bi bi-box-arrow-right"></i> ออกจากระบบ</a></li>
                         </ul>

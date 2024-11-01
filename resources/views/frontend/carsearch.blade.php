@@ -157,7 +157,7 @@ $arr_gear = array(
                     @if($countcar > 0)
                     <div class="wrap-allitem-car">
                         <div class="topic-cardesc"><i class="bi bi-circle-fill"></i> ดูรถพร้อมขาย</div>
-                        <div class="txt-numresult">ทั้งหมด <span>{{$countcar}}</span> รายการ</div>
+                        <div class="txt-numresult">ทั้งหมด <span>{{number_format($countcar)}}</span> รายการ</div>
                         <div class="btn-boxfilter" hidden>
                             <button>F48 ปี16-ปัจจุบัน</button>
                         </div>

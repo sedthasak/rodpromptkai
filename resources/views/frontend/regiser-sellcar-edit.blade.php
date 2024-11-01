@@ -182,8 +182,8 @@
                                                 </select>
                                             </div>
                                             <div class="col-12 col-md-6 frm-step">
-                                                <label>เลขไมล์<span>*</span></label>
-                                                <input type="text" name="mileage" class="form-control" required value="{{$mycars->mileage??''}}">
+                                                <label id="mileage_label">เลขไมล์<span>*</span></label>
+                                                <input aria-labelledby="mileage_label" type="text" class="form-control" name="mileage" id="mileage" value="{{$mycars->mileage??''}}" required oninput="formatNumber(this)">
                                             </div>
                                             <div class="col-12 col-lg-6 frm-step">
                                                 <label>เกียร์<span>*</span></label>
