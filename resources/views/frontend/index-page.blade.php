@@ -344,10 +344,10 @@ $arr_gear = array(
                                 </div>
                                 <div class="box-itemnum">
                                     <div class="item-num">
-                                        จำนวนรถมาใหม่ <div class="txt-num">{{$carCountLast7Days}}</div>
+                                        จำนวนรถมาใหม่ <div class="txt-num">{{number_format($carCountLast7Days)}}</div>
                                     </div>
                                     <div class="item-num">
-                                        จำนวนรถทั้งหมด <div class="txt-num">{{ $allcarcount }}</div>
+                                        จำนวนรถทั้งหมด <div class="txt-num">{{ number_format($allcarcount) }}</div>
                                     </div>
                                 </div>
                             </div>
