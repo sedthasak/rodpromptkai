@@ -2179,16 +2179,7 @@ class FrontendPageController extends Controller
         ]);
     }
     
-    // public function checkpricePage(Request $request)
-    // {
-    //     dd($request);
-    //     return view('frontend/check-price', [
 
-    //     ]);
-    // }
-    
-    
-    
     
     
     
@@ -3095,11 +3086,12 @@ class FrontendPageController extends Controller
                     'prices' => $prices, // Include the array of prices and IDs
                 ];
             }
-    
+            ksort($generationData['modelyear']);
             // Add the generation data to the result
             $result['generation'][$generation->generations] = $generationData;
         }
     
+        
         // Display the result for debugging
         // dd($result);
     

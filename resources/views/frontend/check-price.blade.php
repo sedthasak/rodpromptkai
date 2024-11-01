@@ -40,10 +40,10 @@
                                             <div class="average-bar">
                                                 @foreach($generation['modelyear'] as $year => $values)
                                                     <div class="item-bar">
-                                                        <a href="{{ route('carsearchPage', ['kw1' => $result['brand'], 'kw2' => $result['model'], 'kw3' => $generation['generation_name']]) }}" class="box-avgprice">
+                                                        <a href="{{ route('carsearchPage', ['kw1' => $result['brand'], 'kw2' => $result['model'], 'kw3' => $generation['generation_name'], 'min_year' => $year, 'max_year' => $year]) }}" class="box-avgprice">
                                                             Avg <div>{{ is_numeric($values['avg']) ? formatPrice($values['avg']) : 'N/A' }}</div>
                                                         </a>
-                                                        <a href="{{ route('carsearchPage', ['kw1' => $result['brand'], 'kw2' => $result['model'], 'cashtype' => 'cash', 'min_price' => $values['max'], 'max_price' => $values['max']]) }}" class="avgprice">{{ is_numeric($values['max']) ? formatPrice($values['max']) : 'N/A' }}</a>
+                                                        <a href="{{ route('carsearchPage', ['kw1' => $result['brand'], 'kw2' => $result['model'], 'kw3' => $generation['generation_name'], 'cashtype' => 'cash', 'min_price' => $values['max'], 'max_price' => $values['max'], 'min_year' => $year, 'max_year' => $year]) }}" class="avgprice">{{ is_numeric($values['max']) ? formatPrice($values['max']) : 'N/A' }}</a>
                                                         <div class="animated-progress">
                                                             @php
                                                                 // Check if max and avg are numeric and calculate progress
@@ -53,7 +53,7 @@
                                                             @endphp
                                                             <span data-progress="{{ $progress }}" style="height: {{ $progress }}%;"></span>
                                                         </div>
-                                                        <a href="{{ route('carsearchPage', ['kw1' => $result['brand'], 'kw2' => $result['model'], 'cashtype' => 'cash', 'min_price' => $values['min'], 'max_price' => $values['min']]) }}" class="avgprice">{{ is_numeric($values['min']) ? formatPrice($values['min']) : 'N/A' }}</a>
+                                                        <a href="{{ route('carsearchPage', ['kw1' => $result['brand'], 'kw2' => $result['model'], 'kw3' => $generation['generation_name'], 'cashtype' => 'cash', 'min_price' => $values['min'], 'max_price' => $values['min'], 'min_year' => $year, 'max_year' => $year]) }}" class="avgprice">{{ is_numeric($values['min']) ? formatPrice($values['min']) : 'N/A' }}</a>
                                                         <div class="txt-seeyear">{{ $year }}</div>
                                                     </div>
                                                 @endforeach
