@@ -186,9 +186,9 @@ $arr_gear = array(
 
                 @foreach($lastPosts as $lastPost)
                 <div class="col-6 col-lg-3 mb-recentlist">
-                    <a href="car-detail.php" class="item-recentlist">
+                    <a href="{{ route('cardetailPage', ['slug' => $lastPost->slug]) }}" class="item-recentlist">
                         <figure>
-                            <div class="cover-recentlist"><img src="images/67_1.jpeg" alt=""></div>
+                            <div class="cover-recentlist"><img src="{{ ($lastPost->feature)?asset('storage/' . $lastPost->feature):asset('public/uploads/default-car.jpg') }}" alt=""></div>
                             <figcaption>
                                 <div class="price-recentlist">{{ number_format($lastPost->price, 0, '.', ',') }}.-</div>
                                 <span>{{$lastPost->yearregis??$lastPost->modelyear}}</span>

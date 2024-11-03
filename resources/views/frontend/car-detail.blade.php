@@ -506,7 +506,11 @@ $resve_state = ($cars->reserve==1)?'active':'';
                             </div>
                             <figcaption>
                                 <div class="car-name">{{$relatedCar->yearregis??$relatedCar->modelyear." ".$relatedCar->brand->title." ".$relatedCar->model->model}} </div>
-                                <div class="car-series">{{$relatedCar->generation->generations." ".$relatedCar->subModel->sub_models}}</div>
+                                <div class="car-series">
+                                    {{ ($relatedCar->generation && $relatedCar->generation->generations ? $relatedCar->generation->generations : '') . 
+                                       ($relatedCar->subModel && $relatedCar->subModel->sub_models ? " " . $relatedCar->subModel->sub_models : '') }}
+                                </div>
+                                
                                 <div class="car-province">{{ $relatedCar->province ?? "-" }}</div>
                                 <div class="row">
                                     <div class="col-12 col-xl-9">
