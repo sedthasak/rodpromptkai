@@ -84,7 +84,7 @@ a{
 
 .owl-carousel{
     &.owl-bannerslide{
-        .owl-item{ 
+        .owl-item{
             overflow: hidden;
             img{
                 display: block;
@@ -8916,9 +8916,6 @@ a{
         .container{
             z-index: 1;
             position: relative;
-        }
-        .item-car{
-            height: calc(100% - 20px);
         }
     }
     .numbers{

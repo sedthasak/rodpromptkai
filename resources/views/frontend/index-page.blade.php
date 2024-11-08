@@ -202,7 +202,7 @@ $arr_gear = array(
             <a data-fancybox data-src="#help-carsearch" href="javascript:;">คลิกเลย <i class="bi bi-chat-text-fill"></i></a>
         </div>
     </div>
-    <div class="col-12 col-lg-8 col-xl-9 bg-carslide">
+    <div class="col-12 col-xl-9 bg-carslide">
         <div class="box-carslide">
             <div class="owl-carslide owl-carousel owl-theme">
                 @foreach($categories as $cate)
