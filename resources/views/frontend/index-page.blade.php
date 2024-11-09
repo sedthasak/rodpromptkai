@@ -420,7 +420,7 @@ $arr_gear = array(
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">{{ $news[0]->title }}</div>
-                                <div class="news-date"><i class="bi bi-calendar3"></i> {{ $news[0]->created_at->format('d M Y H:i') }}</div>
+                                <div class="news-date"><i class="bi bi-calendar3"></i> {{ $news[0]->created_at->format('d M Y') }}</div>
                             </figcaption>
                         </figure>
                     </a>
@@ -436,7 +436,7 @@ $arr_gear = array(
                                     </div>
                                     <figcaption>
                                         <div class="item-topicnews">{{ $newsres->title }}</div>
-                                        <div class="news-date"><i class="bi bi-calendar3"></i> {{ $newsres->created_at->format('d M Y H:i') }}</div>
+                                        <div class="news-date"><i class="bi bi-calendar3"></i> {{ $newsres->created_at->format('d M Y') }}</div>
                                     </figcaption>
                                 </figure>
                             </a>

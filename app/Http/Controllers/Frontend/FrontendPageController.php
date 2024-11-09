@@ -3020,13 +3020,20 @@ class FrontendPageController extends Controller
 
     public function checkprice(Request $request, $brand, $model)
     {
-        // Retrieve the brand and model from the database based on the input parameters
+        // Retrieve the brand from the database based on the input parameter
         $brandData = brandsModel::where('title', $brand)->first();
+    
+        // Check if the brand exists, if not, redirect to the 404 page
+        if (!$brandData) {
+            abort(404, 'Brand not found');
+        }
+    
+        // Retrieve the model associated with the brand
         $modelData = modelsModel::where('model', $model)->where('brand_id', $brandData->id)->first();
     
-        // Check if brand and model exist
-        if (!$brandData || !$modelData) {
-            return response()->json(['error' => 'Brand or model not found'], 404);
+        // Check if the model exists, if not, redirect to the 404 page
+        if (!$modelData) {
+            abort(404, 'Model not found');
         }
     
         // Get all generations for the specific model
@@ -3091,13 +3098,12 @@ class FrontendPageController extends Controller
             $result['generation'][$generation->generations] = $generationData;
         }
     
-        
-        // Display the result for debugging
-        // dd($result);
-    
         // Return the view and pass the formatted result data
         return view('frontend.check-price', compact('result'));
     }
+    
+
+    
     
     
  

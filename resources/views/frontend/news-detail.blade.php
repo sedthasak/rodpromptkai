@@ -39,7 +39,7 @@
                 <div class="col-12 news-detail">
                     <h1>{{ $mynews->title }}</h1>
                     <div class="news-boxshare">
-                        <div class="news-date"><i class="bi bi-calendar3"></i> {{ date('d M Y H:i', strtotime($mynews->created_at)) }}</div>
+                        <div class="news-date"><i class="bi bi-calendar3"></i> {{ date('d M Y', strtotime($mynews->created_at)) }}</div>
                         <div class="news-share">
                             <span><img src="{{ asset('frontend/images/icon-share.svg') }}" alt="Share"> แชร์</span>
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank"><img src="{{ asset('frontend/images/facebook.svg') }}" alt="Share on Facebook"></a>
@@ -84,7 +84,7 @@
                                     </div>
                                     <figcaption>
                                         <div class="item-topicnews">{{ $newsres->title }}</div>
-                                        <div class="news-date"><i class="bi bi-calendar3"></i> {{ date('d M Y H:i', strtotime($newsres->created_at)) }}</div>
+                                        <div class="news-date"><i class="bi bi-calendar3"></i> {{ date('d M Y', strtotime($newsres->created_at)) }}</div>
                                     </figcaption>
                                 </figure>
                             </a>
