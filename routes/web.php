@@ -158,7 +158,7 @@ Route::middleware('sessionlogin')->group(function() {
 
 
         Route::post('/carpost-delete', 'carpostdeleteactionPage')->name('carpostdeleteactionPage');
-        Route::post('/update-click-count/{car}', 'updateClickCount')->name('updaupdateClickCountteClickCount');
+        Route::post('/update-click-count/{car}', 'updateClickCount')->name('updateClickCount');
         Route::post('/carpost-renew', 'carpostrenewactionPage')->name('carpostrenewactionPage');
    
 
