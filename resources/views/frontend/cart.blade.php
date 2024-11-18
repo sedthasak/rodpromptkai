@@ -28,7 +28,7 @@ $customerdata = session('customer');
 
                             <div class="wrap-order-detail">
                                 @if($type == 'package')
-                                <div class="topic-cart"><i class="bi bi-circle-fill"></i> รายการสั่งซื้อแพ็คเกจ/div>
+                                <div class="topic-cart"><i class="bi bi-circle-fill"></i> รายการสั่งซื้อแพ็คเกจ</div>
 
                                 <div class="bg-orderdetail">
                                     <div class="topic-orderdetail">{{$item->name}}</div>
