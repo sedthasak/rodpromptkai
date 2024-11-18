@@ -385,7 +385,7 @@ $resve_state = ($cars->reserve==1)?'active':'';
                                 </div>
                             </div>
                             <div class="col-3 text-end">
-                                <a href="{{url('/check-price').'/'.$cars->brand_id.'/'.$cars->model_id}}" class="average-viewall">ดูทั้งหมด</a>
+                                <a href="{{url('/check-price').'/'.$cars->brands_title.'/'.$cars->model_name}}" class="average-viewall">ดูทั้งหมด</a>
                             </div>
                         </div>
                         <div class="average-bar">

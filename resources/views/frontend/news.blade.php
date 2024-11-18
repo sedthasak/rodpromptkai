@@ -31,7 +31,7 @@
                             <div class="col-12 col-md-5">
                                 <div class="desc-latestnews">
                                     <h2>{{$firstTwoPosts[0]->title}}</h2>
-                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($firstTwoPosts[0]->created_at))}}</div>
+                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y', strtotime($firstTwoPosts[0]->created_at))}}</div>
                                     <div class="news-shortdesc">{{$firstTwoPosts[0]->excerpt}}</div>
                                     <div class="btn-red">อ่านต่อ</div>
                                 </div>
@@ -44,7 +44,7 @@
                             <div class="col-12 col-md-5">
                                 <div class="desc-latestnews">
                                     <h2>{{$firstTwoPosts[1]->title}}</h2>
-                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($firstTwoPosts[1]->created_at))}}</div>
+                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y', strtotime($firstTwoPosts[1]->created_at))}}</div>
                                     <div class="news-shortdesc">{{$firstTwoPosts[1]->excerpt}}</div>
                                     <div class="btn-red">อ่านต่อ</div>
                                 </div>
@@ -71,7 +71,7 @@
                                 </div>
                                 <figcaption>
                                     <div class="item-topicnews">{{$newsres->title}}</div>
-                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y H:i', strtotime($newsres->created_at))}}</div>
+                                    <div class="news-date"><i class="bi bi-calendar3"></i> {{date('d M Y', strtotime($newsres->created_at))}}</div>
                                 </figcaption>
                             </figure>
                         </a>

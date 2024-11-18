@@ -202,7 +202,7 @@ $arr_gear = array(
             <a data-fancybox data-src="#help-carsearch" href="javascript:;">คลิกเลย <i class="bi bi-chat-text-fill"></i></a>
         </div>
     </div>
-    <div class="col-12 col-lg-8 col-xl-9 bg-carslide">
+    <div class="col-12 col-xl-9 bg-carslide">
         <div class="box-carslide">
             <div class="owl-carslide owl-carousel owl-theme">
                 @foreach($categories as $cate)
@@ -420,7 +420,7 @@ $arr_gear = array(
                             </div>
                             <figcaption>
                                 <div class="item-topicnews">{{ $news[0]->title }}</div>
-                                <div class="news-date"><i class="bi bi-calendar3"></i> {{ $news[0]->created_at->format('d M Y H:i') }}</div>
+                                <div class="news-date"><i class="bi bi-calendar3"></i> {{ $news[0]->created_at->format('d M Y') }}</div>
                             </figcaption>
                         </figure>
                     </a>
@@ -436,7 +436,7 @@ $arr_gear = array(
                                     </div>
                                     <figcaption>
                                         <div class="item-topicnews">{{ $newsres->title }}</div>
-                                        <div class="news-date"><i class="bi bi-calendar3"></i> {{ $newsres->created_at->format('d M Y H:i') }}</div>
+                                        <div class="news-date"><i class="bi bi-calendar3"></i> {{ $newsres->created_at->format('d M Y') }}</div>
                                     </figcaption>
                                 </figure>
                             </a>
