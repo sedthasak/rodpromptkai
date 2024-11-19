@@ -225,7 +225,7 @@ $arr_gear = array(
                 </div>
                 <div class="col-12">
                     <div class="owl-bestsearch owl-carousel owl-theme">
-                        @foreach($topCarsByClickcount as $car1)
+                        @foreach($topCarsByviewcount as $car1)
                         <a href="{{ route('cardetailPage', ['slug' => $car1->slug]) }}" class="item-car">
                             <figure>
                                 <div class="cover-car"><img src="{{ ($car1->feature)?asset('storage/' . $car1->feature):asset('public/uploads/default-car.jpg') }}" alt=""></div>

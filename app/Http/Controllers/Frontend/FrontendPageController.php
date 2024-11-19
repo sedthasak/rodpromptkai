@@ -640,8 +640,8 @@ class FrontendPageController extends Controller
         // Fetch latest news
         $news = newsModel::orderBy('id', 'desc')->take(5)->get();
 
-        $topCarsByClickcount = carsModel::where('status', 'approved') // Add this condition
-            ->orderBy('clickcount', 'desc')
+        $topCarsByviewcount = carsModel::where('status', 'approved') // Add this condition
+            ->orderBy('viewcount', 'desc')
             ->limit(6)
             ->get();
 
@@ -663,7 +663,7 @@ class FrontendPageController extends Controller
             'setFooterModel' => $setFooterModel,
             'news' => $news,
             'province' => $province,
-            'topCarsByClickcount' => $topCarsByClickcount,
+            'topCarsByviewcount' => $topCarsByviewcount,
             'carCountLast7Days' => $carCountLast7Days,
         ]);
     }
