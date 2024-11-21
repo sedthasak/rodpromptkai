@@ -236,7 +236,7 @@ $default_image = asset('frontend/images/CAR202304060018_BMW_X5_20230406_10192270
                             {{ $results->links('pagination::bootstrap-4') }}
                         </div> -->
                         <div class="pagination-wrapper">
-                            {{ $results->onEachSide(1)->links() }}
+                            {{ $results->appends(request()->query())->onEachSide(1)->links() }}
                         </div>
 
                         
